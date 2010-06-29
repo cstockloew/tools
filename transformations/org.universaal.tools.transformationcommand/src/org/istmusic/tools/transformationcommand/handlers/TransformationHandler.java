@@ -53,7 +53,9 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	String transformationFileName;
 	String thisBundleName;
 	
-	
+	/**
+	 * Finally, I am subversive
+	 */
 	public void setFileAndBundleName(String theTransformationFile, String theBundle) {
 		transformationFileName = theTransformationFile;
 		thisBundleName = theBundle;		
