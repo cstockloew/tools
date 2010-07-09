@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.universaal.tools.profilefeature_0.0.1.jar" id="org.universaal.tools.profilefeature" version="0.0.1">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.transformationfeature_0.0.1.jar" id="org.universaal.tools.transformationfeature" version="0.0.1">
+      <category name="universaal_tools"/>
+   </feature>
+   <category-def name="universaal_tools" label="universAAL tools">
+      <description>
+         Tools for developt using the universAAL platform
+      </description>
+   </category-def>
+</site>
