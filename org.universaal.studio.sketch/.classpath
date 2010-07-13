@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.osgi_3.6.0.v20100517.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.osgi.source_3.6.0.v20100517.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.commands_3.6.0.I20100512-1500.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.commands.source_3.6.0.I20100512-1500.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.equinox.common_3.6.0.v20100503.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.equinox.common.source_3.6.0.v20100503.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.equinox.registry_3.5.0.v20100503.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.equinox.registry.source_3.5.0.v20100503.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.runtime_3.6.0.v20100505.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.runtime.source_3.6.0.v20100505.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.text_3.5.0.v20100601-1300.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.text.source_3.5.0.v20100601-1300.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.swt.cocoa.macosx.x86_64_3.6.0.v3650b.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.swt.cocoa.macosx.x86_64.source_3.6.0.v3650b.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.jface_3.6.0.I20100601-0800.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.jface.source_3.6.0.I20100601-0800.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.jface.text_3.6.0.v20100526-0800.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.jface.text.source_3.6.0.v20100526-0800.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.ui.workbench_3.6.0.I20100603-1100.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.ui.workbench.source_3.6.0.I20100603-1100.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/com.ibm.icu_4.2.1.v20100412.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/com.ibm.icu.source_4.2.1.v20100412.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.ui.forms_3.5.0.v20100427.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.ui.forms.source_3.5.0.v20100427.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.databinding_1.3.100.I20100601-0800.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.databinding.source_1.3.100.I20100601-0800.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.databinding.beans_1.2.100.I20100601-0800.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.databinding.beans.source_1.2.100.I20100601-0800.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.databinding.observable_1.3.0.I20100601-0800.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.databinding.observable.source_1.3.0.I20100601-0800.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.databinding.property_1.3.0.I20100601-0800.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.core.databinding.property.source_1.3.0.I20100601-0800.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.jface.databinding_1.4.0.I20100601-0800.jar" sourcepath="/Applications/eclipse 3.6 modelling/plugins/org.eclipse.jface.databinding.source_1.4.0.I20100601-0800.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
