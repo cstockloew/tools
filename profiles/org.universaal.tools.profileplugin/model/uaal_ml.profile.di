@@ -17,4 +17,5 @@
     </sashModel>
   </di:SashWindowsMngr>
   <history:ControledResource/>
+  <history:ControledResource/>
 </xmi:XMI>

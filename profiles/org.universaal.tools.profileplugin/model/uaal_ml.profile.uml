@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Profile xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_gK1MYX8BEd-caYhVY1wSWQ" name="profile" metaclassReference="_khcnUH8BEd-caYhVY1wSWQ">
   <eAnnotations xmi:id="_tY_20H8BEd-caYhVY1wSWQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_hjSFgNbDEd-9jOJZUDPiqQ" name="profile" nsURI="http:///schemas/profile/_hjQ3YNbDEd-9jOJZUDPiqQ/1" nsPrefix="profile">
+      <eAnnotations xmi:id="_hjT6sdbDEd-9jOJZUDPiqQ" source="PapyrusVersion">
+        <details xmi:id="_hjT6stbDEd-9jOJZUDPiqQ" key="Version" value="0.0.2"/>
+        <details xmi:id="_hjT6s9bDEd-9jOJZUDPiqQ" key="Comment" value=""/>
+        <details xmi:id="_hjT6tNbDEd-9jOJZUDPiqQ" key="Copyright" value=""/>
+        <details xmi:id="_hjT6tdbDEd-9jOJZUDPiqQ" key="Date" value="2010-10-13"/>
+        <details xmi:id="_hjT6ttbDEd-9jOJZUDPiqQ" key="Author" value="stalew"/>
+      </eAnnotations>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_hjSFgdbDEd-9jOJZUDPiqQ" name="uaal_Service">
+        <eAnnotations xmi:id="_hjSFgtbDEd-9jOJZUDPiqQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_lKGiwH8BEd-caYhVY1wSWQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_hjSFg9bDEd-9jOJZUDPiqQ" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
     <contents xmi:type="ecore:EPackage" xmi:id="_tY_20X8BEd-caYhVY1wSWQ" name="profile" nsURI="http:///schemas/profile/_tY-BoH8BEd-caYhVY1wSWQ/0" nsPrefix="profile">
       <eAnnotations xmi:id="_tZBsAX8BEd-caYhVY1wSWQ" source="PapyrusVersion">
         <details xmi:id="_tZBsAn8BEd-caYhVY1wSWQ" key="Version" value="0.0.1"/>
@@ -24,6 +39,9 @@
     <ownedAttribute xmi:id="_pRi5QH8BEd-caYhVY1wSWQ" name="base_Class" association="_pRjgUH8BEd-caYhVY1wSWQ">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
     </ownedAttribute>
+    <icon xmi:id="EAttribute-_icon.0" location="../icons/full/ovr16/EAttribute.gif"/>
+    <icon xmi:id="EClass-_icon.0" location="../icons/full/ovr16/EClass.gif"/>
+    <icon xmi:id="EReference-_icon.0" location="../icons/full/ovr16/EReference.gif"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_pRjgUH8BEd-caYhVY1wSWQ" name="Extension_uaal_Service" memberEnd="_pRjgUX8BEd-caYhVY1wSWQ _pRi5QH8BEd-caYhVY1wSWQ">
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_pRjgUX8BEd-caYhVY1wSWQ" name="extension_uaal_Service" type="_lKGiwH8BEd-caYhVY1wSWQ" aggregation="composite" association="_pRjgUH8BEd-caYhVY1wSWQ"/>

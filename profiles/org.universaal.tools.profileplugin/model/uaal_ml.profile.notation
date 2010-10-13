@@ -21,15 +21,15 @@
     <element xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_kiaQoH8BEd-caYhVY1wSWQ" x="460" y="170"/>
   </children>
-  <children xmi:type="notation:Shape" xmi:id="_lKOekH8BEd-caYhVY1wSWQ" type="1026" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_lKPFoH8BEd-caYhVY1wSWQ" source="ShadowFigure">
-      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_lKPFoX8BEd-caYhVY1wSWQ" key="ShadowFigure_Value" value="false"/>
-    </eAnnotations>
-    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_lKPFon8BEd-caYhVY1wSWQ" source="displayNameLabelIcon">
-      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_lKPFo38BEd-caYhVY1wSWQ" key="displayNameLabelIcon_value" value="false"/>
-    </eAnnotations>
+  <children xmi:type="notation:Shape" xmi:id="_lKOekH8BEd-caYhVY1wSWQ" type="1026" fontName="Lucida Grande" fontHeight="11" transparency="0" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_lKPFpH8BEd-caYhVY1wSWQ" source="QualifiedName">
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_lKPFpX8BEd-caYhVY1wSWQ" key="QualifiedNameDepth" value="1000"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_H366kNbDEd-9jOJZUDPiqQ" source="displayNameLabelIcon">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_H366kdbDEd-9jOJZUDPiqQ" key="displayNameLabelIcon_value" value="true"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ISogoNbDEd-9jOJZUDPiqQ" source="ShadowFigure">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ISogodbDEd-9jOJZUDPiqQ" key="ShadowFigure_Value" value="true"/>
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_lKPFpn8BEd-caYhVY1wSWQ" type="1034"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_lKQ60H8BEd-caYhVY1wSWQ" type="1071">
