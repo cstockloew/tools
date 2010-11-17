@@ -16,5 +16,40 @@
             project="true">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="universAAL"
+            id="org.universaal.tools.newwizard.plugin.command">
+      </category>
+      <command
+            name="Create a new Project"
+            categoryId="org.universaal.tools.newwizard.plugin.command"
+            id="org.universaal.tools.newwizard.plugin.command.startNewWizard">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.universaal.tools.newwizard.plugin.command.startNewWizard"
+            class="org.universaal.tools.newwizard.plugin.commands.NewProjectCommandHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="universAAL"
+               mnemonic="P"
+               id="org.universaal.tools.newwizard.plugin.menu">
+            <command
+                  commandId="org.universaal.tools.newwizard.plugin.command.startNewWizard"
+                  mnemonic="N"
+                  id="org.universaal.tools.newwizard.plugin.menu.new">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension >
 
 </plugin>
