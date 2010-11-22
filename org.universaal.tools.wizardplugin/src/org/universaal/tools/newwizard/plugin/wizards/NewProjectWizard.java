@@ -35,11 +35,13 @@ import org.maven.ide.eclipse.project.ProjectImportConfiguration;
  */
 
 public class NewProjectWizard extends Wizard implements INewWizard {
+	//These are the folders for a maven project.
 	private static final ProjectFolder JAVA = new ProjectFolder("src/main/java", "target/classes");
 	private static final ProjectFolder JAVA_TEST = new ProjectFolder("src/test/java", "target/test-classes");
 	private static final ProjectFolder RESOURCES = new ProjectFolder("src/main/resources", "target/classes");
 	private static final ProjectFolder RESOURCES_TEST = new ProjectFolder("src/test/resources",
 	"target/test-classes");
+	
 	private static final ProjectFolder[] JAR_DIRS = {JAVA, JAVA_TEST, RESOURCES, RESOURCES_TEST};
 	private NewProjectWizardPage1 page1;
 	private NewProjectWizardPage2 page2;
@@ -48,6 +50,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 
 	public NewProjectWizard() {
+		//Some details about the wizard...
 		super();
 		setNeedsProgressMonitor(true);
 		ImageDescriptor image =
@@ -73,11 +76,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	 * using wizard as execution context.
 	 */
 	public boolean performFinish() {
+		//These instructions build up the model of the maven project
 		final Model model = new Model();
 		model.setModelVersion("4.0.0");
 		model.setGroupId(page1.getMavenGroupId().getText());
 		model.setArtifactId(page1.getMavenArtifactId().getText());
 		model.setVersion(page1.getMavenVersion().getText());
+		//This is the rest of the info coming from the wizard
 		final String pack=page2.getPackaging().getText();
 		final boolean[] checks={false,false,false,false,false,false};
 		checks[0]=page2.getCpublisher().getSelection();
@@ -87,6 +92,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		checks[4]=page2.getScallee().getSelection();
 		checks[5]=page2.getScaller().getSelection();
 
+		//I use deprecated methods because I haven´t found the new way to create a new project
+		//TODO: Use the latest methods
 		final String projectName = configuration.getProjectName(model);
 		IStatus nameStatus = configuration.validateProjectName(model);
 		if(!nameStatus.isOK()) {
@@ -99,6 +106,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		final IWorkspaceRoot root = workspace.getRoot();
 		final IProject project = configuration.getProject(root, model);
 
+		//If there is already a pom there we cannot create the project
 		boolean pomExists = (root.getLocation().append(project.getName())).append(IMavenConstants.POM_FILE_NAME).toFile().exists();
 		if ( pomExists ) {
 			MessageDialog.openError(getShell(), "wizard.project.job.failed2", "wizard.project.error.pomAlreadyExists");
@@ -108,10 +116,12 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		final Job job,job2;
 		final MavenPlugin plugin = MavenPlugin.getDefault();
 
+		//This job creates a blank maven project with the POM as defined in the wizard
 		job = new WorkspaceJob(Messages.getString("wizard.project.job.creatingProject", projectName)) {
 			public IStatus runInWorkspace(IProgressMonitor monitor) {
 				setProperty(IProgressConstants.ACTION_PROPERTY, new OpenMavenConsoleAction());
 				try {
+					//Here we use the maven plugin to create and shape the project
 					plugin.getProjectConfigurationManager().createSimpleProject(project, location, model, getFolders(), //
 							configuration, monitor);
 					return Status.OK_STATUS;
@@ -123,10 +133,12 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			}
 		};
 		
+		//This job modifies the newly created blank maven project to be uaal(PERSONA)-compliant
 		job2 = new WorkspaceJob("wizard.project.job.second") {
 			public IStatus runInWorkspace(IProgressMonitor monitor) {
 				setProperty(IProgressConstants.ACTION_PROPERTY, new OpenMavenConsoleAction());
 				try {
+					//Set the name of the package
 					IFolder src=project.getFolder(JAVA.getPath());
 					String[] folders=pack.replace(".", "#").split("#");
 					for(int i=0;i<folders.length;i++){
@@ -134,7 +146,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 						packFold.create(true, true, monitor);
 						src=packFold;
 					}
-					
+					//create the selected files
 					IFile f1=src.getFile("Activator.java");
 					f1.create(customizeFileStream("Activator.java",pack,checks), true, monitor);
 					if(checks[0]){
@@ -161,8 +173,10 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 					}
 					IFile pom=project.getFile("pom.xml");
 					if(pom.exists()){
+						//Modify the pom to be uaal(PERSONA)-compliant
 						pom.setContents(customizePomStream(pack,pom.getContents()), true, true, monitor);
 					}else{
+						//TODO: If there is no pom -> fail. Set some message here...
 						System.out.println(">>>>>>>>>>>>>>NO POM!!!!!!!!!");
 					}
 					return Status.OK_STATUS;
@@ -173,7 +187,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				}
 			}
 		};
-
+		//Listener in case job fails
 		job.addJobChangeListener(new JobChangeAdapter() {
 			public void done(IJobChangeEvent event) {
 				final IStatus result = event.getResult();
@@ -187,7 +201,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				}
 			}
 		});
-		
+		//Listener in case job fails
 		job2.addJobChangeListener(new JobChangeAdapter() {
 			public void done(IJobChangeEvent event) {
 				final IStatus result = event.getResult();
@@ -205,6 +219,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		ProjectListener listener = new ProjectListener();
 		workspace.addResourceChangeListener(listener, IResourceChangeEvent.POST_CHANGE);
 		try {
+			//Execute the first job (create maven)
 			job.setRule(plugin.getProjectConfigurationManager().getRule());
 			job.schedule();
 
@@ -216,7 +231,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 					// ignore
 				}
 			}
-			
+			//Execute the second job (modify to uaal)
 			job2.setRule(plugin.getProjectConfigurationManager().getRule());
 			job2.schedule();
 
@@ -234,9 +249,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		return true;
 	}
 	
-
+	/**
+	 * This method parses a newly created Activator file to make it init, start and stop
+	 * as appropriate the rest of uaal-specific files. It also adapts package name to all files.
+	 */
 	private InputStream customizeFileStream(String filename, String packname, boolean[]checks) {
 		try {
+			//TODO: Modify if necessary the rest of files, not only Activator.
 			BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("files/"+filename)));
 			StringBuilder output = new StringBuilder();
 			String line;
@@ -275,6 +294,10 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		}
 	}
 	
+	/**
+	 * This method parses the blank pom template and adds dependencies and 
+	 * configurations for the project to be uaal-compliant
+	 */
 	private InputStream customizePomStream(String packname,InputStream instream) {
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
@@ -362,6 +385,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		}
 	}
 	
+	//Returns the maven default folders
 	public String[] getFolders() {
 		  ProjectFolder[] mavenDirectories = JAR_DIRS;
 		  String[] directories = new String[mavenDirectories.length];
@@ -371,6 +395,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		  return directories;
 	}
 	
+	//Class for folder representation
 	final static class ProjectFolder {
 	    /** Folder path */
 	    private String path = null;
