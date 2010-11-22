@@ -12,9 +12,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * The "New" wizard page allows setting the container for the new file as well
- * as the file name. The page will only accept file name without the extension
- * OR with the extension that matches the expected one (mpe).
+ * The first wizard page allows setting the details for the project, represented
+ * by the basic data for the maven POM, the name of the project and the
+ * description.
  */
 
 public class NewProjectWizardPage1 extends WizardPage {
@@ -26,7 +26,7 @@ public class NewProjectWizardPage1 extends WizardPage {
 	private Text description;
 
 	/**
-	 * Constructor for SampleNewWizardPage.
+	 * Constructor for NewProjectWizardPage1.
 	 * 
 	 * @param pageName
 	 */
@@ -45,7 +45,7 @@ public class NewProjectWizardPage1 extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 2;
 		layout.verticalSpacing = 9;
-		
+		//Group Id
 		Label label1 = new Label(container, SWT.NULL);
 		label1.setText(Messages.getString("Page1.1")); //$NON-NLS-1$
 		groupId = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -56,7 +56,7 @@ public class NewProjectWizardPage1 extends WizardPage {
 				validate();
 			}
 		});
-		
+		//Artifact Id
 		Label label2 = new Label(container, SWT.NULL);
 		label2.setText(Messages.getString("Page1.2")); //$NON-NLS-1$
 		artifactId = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -67,7 +67,7 @@ public class NewProjectWizardPage1 extends WizardPage {
 				validate();
 			}
 		});
-		
+		//Version
 		Label label3 = new Label(container, SWT.NULL);
 		label3.setText(Messages.getString("Page1.3")); //$NON-NLS-1$
 		version = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -78,7 +78,7 @@ public class NewProjectWizardPage1 extends WizardPage {
 				validate();
 			}
 		});
-		
+		//Name
 		Label label4 = new Label(container, SWT.NULL);
 		label4.setText(Messages.getString("Page1.4")); //$NON-NLS-1$
 		name = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -86,10 +86,10 @@ public class NewProjectWizardPage1 extends WizardPage {
 		name.setLayoutData(gd4);
 		name.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				//TODO
+				//TODO: Need to validate the name?
 			}
 		});
-		
+		//Description
 		Label label5 = new Label(container, SWT.NULL);
 		label5.setText(Messages.getString("Page1.5")); //$NON-NLS-1$
 		description = new Text(container, SWT.V_SCROLL | SWT.BORDER | SWT.WRAP );
@@ -98,7 +98,7 @@ public class NewProjectWizardPage1 extends WizardPage {
 		description.setLayoutData(gd5);
 		description.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				//TODO
+				//TODO: Need to validate description?
 			}
 		});
 		
@@ -107,6 +107,7 @@ public class NewProjectWizardPage1 extends WizardPage {
 	}
 	
 	void validate() {
+		//These must not be empty
 	    if(groupId.getText().trim().length() == 0) {
 	      setErrorMessage(Messages.getString("Page1.6")); //$NON-NLS-1$
 	      setPageComplete(false);

@@ -14,7 +14,9 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
 
 public class NewProjectCommandHandler extends AbstractHandler {
 
+	//Executed when command is called
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		//Get the wizard by its name
 		IWizardDescriptor descriptor = PlatformUI
 				.getWorkbench()
 				.getNewWizardRegistry()
@@ -22,6 +24,7 @@ public class NewProjectCommandHandler extends AbstractHandler {
 						"org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard");
 
 		try {
+			//Get the current (the main) window and start the wizard
 			IWorkbenchWindow window = HandlerUtil
 			.getActiveWorkbenchWindowChecked(event);
 			if (descriptor != null) {
@@ -30,7 +33,6 @@ public class NewProjectCommandHandler extends AbstractHandler {
 				wd.setTitle(wizard.getWindowTitle()); 
 				wd.open();
 			} else {
-				
 				MessageDialog.openInformation(window.getShell(), "New Project",
 						"Could not find the New Project Wizard");
 			}
