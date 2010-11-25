@@ -63,22 +63,26 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	 * within eclipse workspace.
 	 */
 	private String getSelectedProjectPath(){
-		String projectPath="";
-		IWorkbench workbench= PlatformUI.getWorkbench();
-		IWorkbenchWindow window= workbench.getActiveWorkbenchWindow();		
-		TreeSelection selection=(TreeSelection)window.getActivePage().getSelection();
-		if(selection.getPaths().length!=0){
-			TreePath path=selection.getPaths()[0];		
-			Object sel=path.getSegment(0);	
-			if(sel instanceof org.eclipse.core.internal.resources.Project){
-				org.eclipse.core.internal.resources.Project project =(org.eclipse.core.internal.resources.Project)sel;			
-				projectPath=project.getLocation().toString();
-			}		
-			projectPath=projectPath.replace("file:/", "");
-			//System.out.println("Path to project: "+projectPath);
-			return projectPath;
-		}
-		else{
+		try{
+			String projectPath="";
+			IWorkbench workbench= PlatformUI.getWorkbench();
+			IWorkbenchWindow window= workbench.getActiveWorkbenchWindow();		
+			TreeSelection selection=(TreeSelection)window.getActivePage().getSelection();
+			if(selection.getPaths().length!=0){
+				TreePath path=selection.getPaths()[0];		
+				Object sel=path.getSegment(0);	
+				if(sel instanceof org.eclipse.core.internal.resources.Project){
+					org.eclipse.core.internal.resources.Project project =(org.eclipse.core.internal.resources.Project)sel;			
+					projectPath=project.getLocation().toString();
+				}		
+				projectPath=projectPath.replace("file:/", "");
+				//System.out.println("Path to project: "+projectPath);
+				return projectPath;
+			}
+			else{
+				return "";
+			}
+		}catch(Exception ex){
 			return "";
 		}
 	}
@@ -121,7 +125,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 						"BuildServiceApplication",
 				"Service/Application successfully builded");
 				//TODO implement creation of launch configuration file and execution of bundle
-				//CreateConfigurationFile f=new CreateConfigurationFile();
+				CreateConfigurationFile f=new CreateConfigurationFile();
 
 			}
 			else{
