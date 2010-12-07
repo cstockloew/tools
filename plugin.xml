@@ -15,15 +15,43 @@
                   name="sampleGroup">
             </separator>
          </menu>
+                  <action
+               label="&amp;Debug Persona Service"
+               icon="icons/sample.gif"
+               class="org.universaal.tools.buildserviceapplication.actions.DebugAction"
+               tooltip="Debug Persona Service"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.DebugAction"   
+               enablesFor="1">
+				<selection class="org.eclipse.core.resources.IProject">
+				</selection>
+         </action>
+         <action
+               label="&amp;Run Persona Service"
+               icon="icons/sample.gif"
+               class="org.universaal.tools.buildserviceapplication.actions.RunAction"
+               tooltip="Run Persona Service"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.RunAction"   
+               enablesFor="1">
+				<selection class="org.eclipse.core.resources.IProject">
+				</selection>
+         </action>
          <action
                label="&amp;Build Persona Service"
                icon="icons/sample.gif"
                class="org.universaal.tools.buildserviceapplication.actions.SampleAction"
-               tooltip="Hello, Eclipse world"
+               tooltip="Build Persona Service"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.SampleAction">
+               id="org.universaal.tools.buildserviceapplication.actions.SampleAction"
+               enablesFor="1">
+				<selection class="org.eclipse.core.resources.IProject">
+				</selection>
          </action>
+         
          
       </actionSet>
 

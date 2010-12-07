@@ -3,6 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BuildServiceApplication
 Bundle-SymbolicName: org.universaal.tools.buildPlugin;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: org.universaal.tools.buildPlugin,
+ mavenLibs/aspectjtools-1.5.0.jar
 Bundle-Activator: org.universaal.tools.buildserviceapplication.Activator
 Bundle-Vendor: CERTH-ITI
 Require-Bundle: org.eclipse.ui,
@@ -19,8 +21,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.pde.ui;bundle-version="3.6.1",
  org.eclipse.equinox.launcher;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- mavenLibs/aspectjtools-1.5.0.jar
 Import-Package: org.eclipse.core.internal.resources
-
+Bundle-ActivationPolicy: lazy
