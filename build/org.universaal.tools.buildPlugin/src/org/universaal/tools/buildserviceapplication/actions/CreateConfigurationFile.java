@@ -89,6 +89,8 @@ public class CreateConfigurationFile {
 	public boolean createFile() {
 		String pathToAddConf = Platform.getLocation()
 				+ "\\.metadata\\.plugins\\org.eclipse.debug.core\\.launches\\";
+		File dir=new File(pathToAddConf);
+		dir.mkdirs();
 		File launchFile=new File(pathToAddConf+artifactId+".launch");
 		if(launchFile.exists()){
 			launchFile.delete();
