@@ -13,6 +13,7 @@ import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.IDebugModelPresentation;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
@@ -50,6 +51,7 @@ public class ConfigurationLauncher extends Action{
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 	}
 
