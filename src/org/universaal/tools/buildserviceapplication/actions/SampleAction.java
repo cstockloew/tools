@@ -106,8 +106,9 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public void run(IAction action) {
 		try {
-			System.out.println(Platform.getLocation());
+			//System.out.println(Platform.getLocation());
 			String selectedProject = getSelectedProjectPath();
+			String projectName=selectedProject.split("/")[selectedProject.split("/").length-1];
 			if (!selectedProject.equals("")) {
 				File workingDir = new File(selectedProject);
 				MavenCli cli = new MavenCli();
@@ -122,18 +123,18 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 				request.setGoals(goals);
 				final String userSettings = MavenCli.DEFAULT_USER_SETTINGS_FILE
 						.getAbsolutePath().trim();
-				System.out.println(userSettings);
+				//System.out.println(userSettings);
 				request.setLocalRepositoryPath(new File(userSettings));
 				setUpMavenBuild();
 				MavenExecutionResult installResult = install(selectedProject);
 				if (installResult.hasExceptions()) {
 					MessageDialog.openInformation(window.getShell(),
 							"BuildServiceApplication",
-							"Service/Application building failed");
+							"Building of project \""+projectName+"\" failed.");
 				} else {
 					MessageDialog.openInformation(null,
 							"BuildServiceApplication",
-							"Service/Application successfully builded");
+							"Building of project \""+projectName+"\" succeeded.");
 					// create launch configuration file
 					CreateConfigurationFile confFile = new CreateConfigurationFile();
 					if (confFile.createFile()) {
@@ -146,7 +147,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 						MessageDialog
 								.openInformation(null,
 										"BuildServiceApplication",
-										"An error occured while creating launch configuration.");
+										"An error occured while creating launch configuration for project "+projectName+".");
 					}
 				}
 			} else {

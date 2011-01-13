@@ -168,7 +168,7 @@ public class CreateConfigurationFile {
 			out.write("<listEntry value=\"http://apache.prosite.de/felix/org.apache.felix.upnp.basedriver-0.8.0.jar@2@update\"/>\n");
 			out.write("<listEntry value=\"wrap:mvn:org.osgi/osgi_R4_compendium/1.0@2@update\"/>\n");
 			out.write("<listEntry value=\"mvn:org.apache.felix/org.apache.felix.log/0.9.0-SNAPSHOT@2@update\"/>\n");
-			out.write("<listEntry value=\"mvn:bundleHome/bundleHeating@6\"/>\n");
+			out.write("<listEntry value=\"mvn:"+groupId+"/"+artifactId+"@6\"/>\n");
 			out.write("</listAttribute>\n");
 			out.write("<stringAttribute key=\"osgi_framework_id\" value=\"--platform=felix --version=1.4.0\"/>\n");
 			out.write("<stringAttribute key=\"pde.version\" value=\"3.3\"/>\n");
