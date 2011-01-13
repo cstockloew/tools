@@ -16,10 +16,10 @@
             </separator>
          </menu>
                   <action
-               label="&amp;Debug Persona Service"
+               label="&amp;Debug universAAL Service"
                icon="icons/sample.gif"
                class="org.universaal.tools.buildserviceapplication.actions.DebugAction"
-               tooltip="Debug Persona Service"
+               tooltip="Debug universAAL Service"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
                id="org.universaal.tools.buildserviceapplication.actions.DebugAction"   
@@ -28,10 +28,10 @@
 				</selection>
          </action>
          <action
-               label="&amp;Run Persona Service"
+               label="&amp;Run universAAL Service"
                icon="icons/sample.gif"
                class="org.universaal.tools.buildserviceapplication.actions.RunAction"
-               tooltip="Run Persona Service"
+               tooltip="Run universAAL Service"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
                id="org.universaal.tools.buildserviceapplication.actions.RunAction"   
@@ -40,10 +40,10 @@
 				</selection>
          </action>
          <action
-               label="&amp;Build Persona Service"
+               label="&amp;Build universAAL Service"
                icon="icons/sample.gif"
                class="org.universaal.tools.buildserviceapplication.actions.SampleAction"
-               tooltip="Build Persona Service"
+               tooltip="Build universAAL Service"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
                id="org.universaal.tools.buildserviceapplication.actions.SampleAction"
