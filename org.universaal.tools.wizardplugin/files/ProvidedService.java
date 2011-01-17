@@ -1,6 +1,6 @@
 /*TAG:PACKAGE*/
 
-import org.persona.middleware.service.profile.ServiceProfile;
+import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import java.util.Hashtable;
 
 public class ProvidedService {

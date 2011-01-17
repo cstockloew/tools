@@ -174,7 +174,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 					IFile pom=project.getFile("pom.xml");
 					if(pom.exists()){
 						//Modify the pom to be uaal(PERSONA)-compliant
-						pom.setContents(customizePomStream(pack,pom.getContents()), true, true, monitor);
+						pom.setContents(customizePomStream(pack,pom.getContents(),checks), true, true, monitor);
 					}else{
 						//TODO: If there is no pom -> fail. Set some message here...
 						System.out.println(">>>>>>>>>>>>>>NO POM!!!!!!!!!");
@@ -297,8 +297,9 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	/**
 	 * This method parses the blank pom template and adds dependencies and 
 	 * configurations for the project to be uaal-compliant
+	 * @param checks 
 	 */
-	private InputStream customizePomStream(String packname,InputStream instream) {
+	private InputStream customizePomStream(String packname,InputStream instream, boolean[] checks) {
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
 			StringBuilder output = new StringBuilder();
@@ -312,17 +313,33 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 							"			<artifactId>org.osgi.core</artifactId>\n"+
 							"			<version>1.0.1</version>\n"+
 							"		</dependency>\n"+
-							"		<dependency>\n"+
-							"			<groupId>org.aal-persona.middleware</groupId>\n"+
-							"			<artifactId>middleware.upper</artifactId>\n"+
-							"			<version>0.3.0-SNAPSHOT</version>\n"+
-							"		</dependency>\n"+
-							"		<dependency>\n"+
-							"			<groupId>org.aal-persona.middleware</groupId>\n"+
-							"			<artifactId>sodapop.osgi</artifactId>\n"+
-							"			<version>0.3.0-SNAPSHOT</version>\n"+
-							"		</dependency>\n"+
-					"	</dependencies>\n");
+							"		<dependency>\n" +
+							"			<groupId>org.universAAL.middleware</groupId>\n" +
+							"			<artifactId>mw.data.representation</artifactId>\n" +
+							"			<version>0.3.0-SNAPSHOT</version>\n" +
+							"		</dependency>\n");
+					if(checks[0]||checks[1]){
+						output.append("		<dependency>\n"+
+								"			<groupId>org.universAAL.middleware</groupId>\n"+
+								"			<artifactId>mw.bus.context</artifactId>\n"+
+								"			<version>0.3.0-SNAPSHOT</version>\n"+
+								"		</dependency>\n");
+					}
+					if(checks[2]||checks[3]){
+						output.append("		<dependency>\n"+
+								"			<groupId>org.universAAL.middleware</groupId>\n"+
+								"			<artifactId>mw.bus.io</artifactId>\n"+
+								"			<version>0.3.0-SNAPSHOT</version>\n"+
+								"		</dependency>\n");
+					}
+					if(checks[4]||checks[5]){
+						output.append("		<dependency>\n"+
+								"			<groupId>org.universAAL.middleware</groupId>\n"+
+								"			<artifactId>mw.bus.service</artifactId>\n"+
+								"			<version>0.3.0-SNAPSHOT</version>\n"+
+								"		</dependency>\n");
+					}
+					output.append("	</dependencies>\n");
 					output.append("    <build>\n"+
 							"		<plugins>\n"+
 							"			<plugin>\n"+

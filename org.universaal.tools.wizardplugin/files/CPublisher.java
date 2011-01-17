@@ -1,8 +1,8 @@
 /*TAG:PACKAGE*/
 
 import org.osgi.framework.BundleContext;
-import org.persona.middleware.context.ContextPublisher;
-import org.persona.ontology.context.ContextProvider;
+import org.universAAL.middleware.context.ContextPublisher;
+import org.universAAL.middleware.context.owl.ContextProvider;
 
 public class CPublisher extends ContextPublisher{
 

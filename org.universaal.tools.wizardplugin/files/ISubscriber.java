@@ -1,8 +1,8 @@
 /*TAG:PACKAGE*/
 
 import org.osgi.framework.BundleContext;
-import org.persona.middleware.input.InputEvent;
-import org.persona.middleware.input.InputSubscriber;
+import org.universAAL.middleware.input.InputEvent;
+import org.universAAL.middleware.input.InputSubscriber;
 
 public class ISubscriber extends InputSubscriber{
 

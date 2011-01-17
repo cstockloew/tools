@@ -1,9 +1,9 @@
 /*TAG:PACKAGE*/
 
 import org.osgi.framework.BundleContext;
-import org.persona.middleware.context.ContextEvent;
-import org.persona.middleware.context.ContextEventPattern;
-import org.persona.middleware.context.ContextSubscriber;
+import org.universAAL.middleware.context.ContextEvent;
+import org.universAAL.middleware.context.ContextEventPattern;
+import org.universAAL.middleware.context.ContextSubscriber;
 
 public class CSubscriber extends ContextSubscriber{
 
