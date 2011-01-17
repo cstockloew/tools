@@ -1,7 +1,7 @@
 /*TAG:PACKAGE*/
 
 import org.osgi.framework.BundleContext;
-import org.persona.middleware.output.OutputPublisher;
+import org.universAAL.middleware.output.OutputPublisher;
 
 public class OPublisher extends OutputPublisher{
 

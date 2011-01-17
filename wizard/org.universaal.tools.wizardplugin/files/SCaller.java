@@ -1,8 +1,8 @@
 /*TAG:PACKAGE*/
 
 import org.osgi.framework.BundleContext;
-import org.persona.middleware.service.ServiceCaller;
-import org.persona.middleware.service.ServiceResponse;
+import org.universAAL.middleware.service.ServiceCaller;
+import org.universAAL.middleware.service.ServiceResponse;
 
 public class SCaller extends ServiceCaller{
 

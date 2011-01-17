@@ -1,10 +1,10 @@
 /*TAG:PACKAGE*/
 
 import org.osgi.framework.BundleContext;
-import org.persona.middleware.service.ServiceCall;
-import org.persona.middleware.service.ServiceCallee;
-import org.persona.middleware.service.ServiceResponse;
-import org.persona.middleware.service.profile.ServiceProfile;
+import org.universAAL.middleware.service.ServiceCall;
+import org.universAAL.middleware.service.ServiceCallee;
+import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 
 public class SCallee extends ServiceCallee{
 
