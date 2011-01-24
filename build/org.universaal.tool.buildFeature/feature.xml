@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.universaal.tool.buildFeature"
+      id="org.universaal.tools.buildFeature"
       label="universaal Build Feature"
       version="0.0.1">
 
