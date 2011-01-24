@@ -70,7 +70,7 @@ public class DebugAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		if (SampleAction.buildedProjects.contains(SampleAction
+		if (BuildAction.buildedProjects.contains(BuildAction
 				.getSelectedProjectPath())) {
 			try {
 				ConfigurationLauncher launcher = new ConfigurationLauncher(CreateConfigurationFile.artifactId);
