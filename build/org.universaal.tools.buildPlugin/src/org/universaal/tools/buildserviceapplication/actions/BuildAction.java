@@ -53,7 +53,7 @@ import org.apache.maven.settings.building.SettingsBuildingRequest;
  * 
  * @see IWorkbenchWindowActionDelegate
  */
-public class SampleAction implements IWorkbenchWindowActionDelegate {
+public class BuildAction implements IWorkbenchWindowActionDelegate {
 	private IWorkbenchWindow window;
 
 	Text artifactFileNameText;
@@ -68,7 +68,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * The constructor.
 	 */
-	public SampleAction() {
+	public BuildAction() {
 	}
 
 	/**

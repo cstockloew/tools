@@ -42,11 +42,11 @@
          <action
                label="&amp;Build universAAL Service"
                icon="icons/sample.gif"
-               class="org.universaal.tools.buildserviceapplication.actions.SampleAction"
+               class="org.universaal.tools.buildserviceapplication.actions.BuildAction"
                tooltip="Build universAAL Service"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.SampleAction"
+               id="org.universaal.tools.buildserviceapplication.actions.BuildAction"
                enablesFor="1">
 				<selection class="org.eclipse.core.resources.IProject">
 				</selection>
