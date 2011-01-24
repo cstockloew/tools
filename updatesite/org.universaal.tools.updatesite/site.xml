@@ -9,6 +9,9 @@
    <feature url="features/org.universaal.tools.newwizard.feature_0.0.1.jar" id="org.universaal.tools.newwizard.feature" version="0.0.1">
       <category name="universaal_tools"/>
    </feature>
+   <feature url="features/org.universaal.tools.buildFeature_0.0.1.jar" id="org.universaal.tools.buildFeature" version="0.0.1">
+      <category name="universaal_tools"/>
+   </feature>
    <category-def name="universaal_tools" label="universAAL tools">
       <description>
          Tools for developt using the universAAL platform
