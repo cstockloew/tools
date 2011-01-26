@@ -4,11 +4,11 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            name="PERSONA"
+            name="universAAL"
             id="org.universaal.tools.newwizard.plugin">
       </category>
       <wizard
-            name="PERSONA Template Project"
+            name="universAAL Template Project"
             icon="icons/pers3mini.gif"
             category="org.universaal.tools.newwizard.plugin"
             class="org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard"
