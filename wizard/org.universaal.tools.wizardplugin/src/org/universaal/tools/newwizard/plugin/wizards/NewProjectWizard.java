@@ -380,7 +380,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 							"		<repository>\n" +
 							"			<id>uaal</id>\n" +
 							"			<name>universAAL Repositories</name>\n" +
-							"			<url>http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/releases/</url>\n" +
+							"			<url>http://ala.isti.cnr.it:8080/nexus/content/repositories/releases/</url>\n" +
 							"			<snapshots>\n" +
 							"				<enabled>false</enabled>\n" +
 							"			</snapshots>\n" +
@@ -388,7 +388,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 							"		<repository>\n" +
 							"			<id>uaal-snapshots</id>\n" +
 							"			<name>universAAL Snapshot Repositories</name>\n" +
-							"			<url>http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/snapshots/</url>\n" +
+							"			<url>http://ala.isti.cnr.it:8080/nexus/content/repositories/snapshots/</url>\n" +
 							"			<releases>\n" +
 							"				<enabled>false</enabled>\n" +
 							"			</releases>\n" +
