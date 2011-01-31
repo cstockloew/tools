@@ -357,7 +357,44 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 							"			</plugin>\n"+
 							"		</plugins>\n"+
 					"	</build>\n");
-					output.append("</project>");
+					output.append("	<repositories>\n"+
+							"		<repository\n>" +
+							"			<id>central</id>\n" +
+							"			<name>Central Maven Repository</name>\n" +
+							"			<url>http://repo1.maven.org/maven2</url>\n" +
+							"			<snapshots>\n" +
+							"				<enabled>false</enabled>\n" +
+							"			</snapshots>\n" +
+							"		</repository>\n" +
+							"		<repository>\n" +
+							"			<id>apache-snapshots</id>\n" +
+							"			<name>Apache Snapshots</name>\n" +
+							"			<url>http://people.apache.org/repo/m2-snapshot-repository</url>\n" +
+							"			<releases>\n" +
+							"				<enabled>false</enabled>\n" +
+							"			</releases>\n" +
+							"			<snapshots>\n" +
+							"				<updatePolicy>daily</updatePolicy>\n" +
+							"			</snapshots>\n" +
+							"		</repository>\n" +
+							"		<repository>\n" +
+							"			<id>uaal</id>\n" +
+							"			<name>universAAL Repositories</name>\n" +
+							"			<url>http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/releases/</url>\n" +
+							"			<snapshots>\n" +
+							"				<enabled>false</enabled>\n" +
+							"			</snapshots>\n" +
+							"		</repository>\n" +
+							"		<repository>\n" +
+							"			<id>uaal-snapshots</id>\n" +
+							"			<name>universAAL Snapshot Repositories</name>\n" +
+							"			<url>http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/snapshots/</url>\n" +
+							"			<releases>\n" +
+							"				<enabled>false</enabled>\n" +
+							"			</releases>\n" +
+							"		</repository>\n" +
+							"	</repositories>\n");
+					output.append("</project>\n");
 				}else{
 					output.append(line+"\n");
 				}
