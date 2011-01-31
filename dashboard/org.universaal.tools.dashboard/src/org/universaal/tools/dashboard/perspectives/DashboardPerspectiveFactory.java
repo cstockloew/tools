@@ -1,16 +1,16 @@
-package org.universaal.tools.dashboard.perspectives;
+package org.universaal.tools.dashboard.perspective;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 public class DashboardPerspectiveFactory implements IPerspectiveFactory {
-
+	
 	/**
 	 * Just to keep it simple.
 	 */
-	private static final String OVERVIEW_VIEW = "com.sintef.universaal.developmenttools.dashboard.views.OverviewView";
-	private static final String MONITORING_VIEW = "com.sintef.universaal.developmenttools.dashboard.views.MonitoringView";
-	private static final String STATEMACHINE_VIEW = "com.sintef.universaal.developmenttools.dashboard.views.StatemachineView";
+	private static final String OVERVIEW_VIEW = "org.universaal.tools.dashboard.views.OverviewView";
+	private static final String MONITORING_VIEW = "org.universaal.tools.dashboard.views.MonitoringView";
+	private static final String STATEMACHINE_VIEW = "org.universaal.tools.dashboard.views.StatemachineView";
 	
 	/**
 	 * This method creates the initial layout of the perspective. Views are added to the perspective; around the editor, which is obligatory.
@@ -26,5 +26,4 @@ public class DashboardPerspectiveFactory implements IPerspectiveFactory {
 		myLayout.addView(OVERVIEW_VIEW, IPageLayout.LEFT, 0.20f, myLayout.getEditorArea());
 		myLayout.addView(MONITORING_VIEW, IPageLayout.RIGHT, 0.80f, myLayout.getEditorArea());
 	}
-
 }

@@ -2,12 +2,34 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="org.universaal.tools.dashboard.perspectives"
-         name="Dashboard Perspective"
          point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.universaal.tools.dashboard.perspective.DashboardPerspectiveFactory"
+            icon="icons/universaal.ico"
+            id="org.universaal.tools.dashboard.perspective.DashboardPerspectiveFactory"
+            name="universAAL Dashboard">
+      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
+      <view
+            class="org.universaal.tools.dashboard.views.MonitoringView"
+            id="org.universaal.tools.dashboard.views.MonitoringView"
+            name="MonitoringView"
+            restorable="true">
+      </view>
+      <view
+            class="org.universaal.tools.dashboard.views.OverviewView"
+            id="org.universaal.tools.dashboard.views.OverviewView"
+            name="OverviewView"
+            restorable="true">
+      </view>
+      <view
+            class="org.universaal.tools.dashboard.views.StatemachineView"
+            id="org.universaal.tools.dashboard.views.StatemachineView"
+            name="StatemachineView"
+            restorable="true">
+      </view>
    </extension>
 
 </plugin>

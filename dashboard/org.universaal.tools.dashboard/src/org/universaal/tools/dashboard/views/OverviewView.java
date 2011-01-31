@@ -14,6 +14,8 @@ public class OverviewView extends ViewPart {
 	private Button button01;
 	private Button button02;
 
+	
+	//TODO Fix listners
 	private static Listener button01Listener;
 	private static Listener button02Listener;
 	
@@ -29,25 +31,26 @@ public class OverviewView extends ViewPart {
 		button01.setText("First button");
 
 		//TODO make sensible event!
-		button01Listener = new Listener() {
+/*		button01Listener = new Listener() {
 			public void handleEvent(Event event) {
 				
 				}
 				
-			};
+			};*/
 	
 		
-		button01.addListener(SWT.Selection, button01Listener);
+//		button01.addListener(SWT.Selection, button01Listener);
 		
 		button02 = new Button(canvas, SWT.PUSH);
 		button02.setBounds(10, 50, 100, 50);
 		button02.setText("Second button");
 		
-		button02.addListener(SWT.Selection, button02Listener);
+	//	button02.addListener(SWT.Selection, button02Listener);
 		
 	}
 
 	@Override
 	public void setFocus() {}
+
 
 }

@@ -11,12 +11,13 @@ import org.eclipse.ui.part.ViewPart;
 
 public class StatemachineView extends ViewPart {
 
-	private boolean pressed = false;
+private boolean pressed = false;
 	
 	public StatemachineView() {
 		//TODO Auto-generated constructor stub
 	}
 
+	
 	/**
 	 * So far only a little printing.
 	 */
@@ -48,5 +49,6 @@ public class StatemachineView extends ViewPart {
 
 	@Override
 	public void setFocus() {}
+
 
 }

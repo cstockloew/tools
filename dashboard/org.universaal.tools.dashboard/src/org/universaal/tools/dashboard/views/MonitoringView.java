@@ -14,8 +14,9 @@ import org.eclipse.ui.part.ViewPart;
 
 public class MonitoringView extends ViewPart {
 
-	private TableViewer viewer;
+private TableViewer viewer;
 	
+
 	class ViewContentProvider implements IStructuredContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {}
 		
@@ -54,4 +55,5 @@ public class MonitoringView extends ViewPart {
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
+
 }

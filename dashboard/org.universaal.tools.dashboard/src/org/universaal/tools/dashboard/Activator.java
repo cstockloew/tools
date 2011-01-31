@@ -4,15 +4,12 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle.
+ * The activator class controls the plug-in life cycle
  */
-
-//I am pretty sure that we are not to mess about with this one!
-
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.sintef.universaal.developmenttools.dashboard"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.universaal.tools.dashboard"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
