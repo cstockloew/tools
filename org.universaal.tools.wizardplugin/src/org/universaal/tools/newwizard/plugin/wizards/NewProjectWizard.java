@@ -56,7 +56,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		ImageDescriptor image =
             AbstractUIPlugin.
                 imageDescriptorFromPlugin("org.universaal.tools.newwizard.plugin",
-                   "icons/pers.gif");
+                   "icons/uaal64x32.PNG");
         setDefaultPageImageDescriptor(image);
 
 	}
