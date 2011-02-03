@@ -15,6 +15,18 @@
                   name="sampleGroup">
             </separator>
          </menu>
+         <action
+               label="&amp;Upload project to Developer Depot"
+               icon="icons/sample.gif"
+               class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
+               tooltip="Upload project to Developer Depot"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.UploadAction"   
+               enablesFor="1">
+				<selection class="org.eclipse.core.resources.IProject">
+				</selection>
+         </action>
                   <action
                label="&amp;Debug universAAL Service"
                icon="icons/sample.gif"
