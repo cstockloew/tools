@@ -394,6 +394,16 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 							"			</releases>\n" +
 							"		</repository>\n" +
 							"	</repositories>\n");
+					output.append("<distributionManagement>\n" +
+							"   <repository>\n" +
+							"       <id>releases</id>\n" +
+							"       <url>http://ala.isti.cnr.it:8080/nexus/content/repositories/releases</url>\n" +
+							"   </repository>\n" +
+							"   <snapshotRepository>\n" +
+							"        <id>snapshots</id>\n" +
+							"        <url>http://ala.isti.cnr.it:8080/nexus/content/repositories/snapshots</url>\n" +
+							"   </snapshotRepository>\n" +
+							"</distributionManagement>\n");
 					output.append("</project>\n");
 				}else{
 					output.append(line+"\n");
