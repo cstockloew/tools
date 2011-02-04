@@ -10,7 +10,7 @@
             id="org.universaal.tools.buildServiceApplication.actionSet">
          <menu
                label="universAAL"
-               id="sampleMenu">
+               id="org.universaal.tools.build.plugin.menu">
             <separator
                   name="sampleGroup">
             </separator>
@@ -20,48 +20,36 @@
                icon="icons/sample.gif"
                class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
                tooltip="Upload project to Developer Depot"
-               menubarPath="sampleMenu/sampleGroup"
+               menubarPath="org.universaal.tools.build.plugin.menu/sampleGroup"
                toolbarPath="sampleGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.UploadAction"   
-               enablesFor="1">
-				<selection class="org.eclipse.core.resources.IProject">
-				</selection>
+               id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
          </action>
                   <action
                label="&amp;Debug universAAL Service"
                icon="icons/sample.gif"
                class="org.universaal.tools.buildserviceapplication.actions.DebugAction"
                tooltip="Debug universAAL Service"
-               menubarPath="sampleMenu/sampleGroup"
+               menubarPath="org.universaal.tools.build.plugin.menu/sampleGroup"
                toolbarPath="sampleGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.DebugAction"   
-               enablesFor="1">
-				<selection class="org.eclipse.core.resources.IProject">
-				</selection>
+               id="org.universaal.tools.buildserviceapplication.actions.DebugAction" >				
          </action>
          <action
                label="&amp;Run universAAL Service"
                icon="icons/sample.gif"
                class="org.universaal.tools.buildserviceapplication.actions.RunAction"
                tooltip="Run universAAL Service"
-               menubarPath="sampleMenu/sampleGroup"
+               menubarPath="org.universaal.tools.build.plugin.menu/sampleGroup"
                toolbarPath="sampleGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.RunAction"   
-               enablesFor="1">
-				<selection class="org.eclipse.core.resources.IProject">
-				</selection>
+               id="org.universaal.tools.buildserviceapplication.actions.RunAction" >			
          </action>
          <action
                label="&amp;Build universAAL Service"
                icon="icons/sample.gif"
                class="org.universaal.tools.buildserviceapplication.actions.BuildAction"
                tooltip="Build universAAL Service"
-               menubarPath="sampleMenu/sampleGroup"
+               menubarPath="org.universaal.tools.build.plugin.menu/sampleGroup"
                toolbarPath="sampleGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.BuildAction"
-               enablesFor="1">
-				<selection class="org.eclipse.core.resources.IProject">
-				</selection>
+               id="org.universaal.tools.buildserviceapplication.actions.BuildAction">				
          </action>
          
          
