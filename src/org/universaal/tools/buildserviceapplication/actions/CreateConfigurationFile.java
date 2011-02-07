@@ -128,13 +128,13 @@ public class CreateConfigurationFile {
 			out.write("<mapAttribute key=\"org.ops4j.pax.cursor.provisionItems\">\n");
 			out.write("<mapEntry key=\"mvn:org.universAAL.middleware/mw.data.serialization\" value=\"true@true@4@false\"/>\n");
 			out.write("<mapEntry key=\"mvn:org.apache.felix/org.apache.felix.configadmin/1.2.4\" value=\"true@true@2@false\"/>\n");
-			out.write("<mapEntry key=\"mvn:org.universAAL.ontology/ont.phWorld\" value=\"true@true@5@false\"/>\n");
+			//out.write("<mapEntry key=\"mvn:org.universAAL.ontology/ont.phWorld\" value=\"true@true@5@false\"/>\n");
 			out.write("<mapEntry key=\"mvn:org.universAAL.middleware/mw.acl.interfaces\" value=\"true@true@2@false\"/>\n");
 			out.write("<mapEntry key=\"wrap:mvn:jp.go.ipa/jgcl/1.0\" value=\"true@true@2@false\"/>\n");
 			out.write("<mapEntry key=\"mvn:"+groupId+"/"+artifactId+"\" value=\"true@false@6@true\"/>\n");
 			out.write("<mapEntry key=\"mvn:org.universAAL.middleware/mw.bus.model\" value=\"true@true@3@false\"/>\n");
 			out.write("<mapEntry key=\"mvn:org.universAAL.middleware/mw.bus.context\" value=\"true@true@4@false\"/>\n");
-			out.write("<mapEntry key=\"mvn:org.universAAL.ontology/ont.weather\" value=\"true@true@5@true\"/>\n");
+			//out.write("<mapEntry key=\"mvn:org.universAAL.ontology/ont.weather\" value=\"true@true@5@true\"/>\n");
 			out.write("<mapEntry key=\"mvn:org.universAAL.middleware/mw.data.representation\" value=\"true@true@4@false\"/>\n");
 			out.write("<mapEntry key=\"wrap:mvn:org.osgi/osgi_R4_compendium/1.0\" value=\"true@true@2@false\"/>\n");
 			out.write("<mapEntry key=\"mvn:org.universAAL.middleware/mw.bus.service\" value=\"true@true@4@false\"/>\n");
@@ -151,7 +151,7 @@ public class CreateConfigurationFile {
 			out.write("<listEntry value=\"--overwriteSystemBundles=false\"/>\n");
 			out.write("<listEntry value=\"--log=DEBUG\"/>\n");
 			out.write("<listEntry value=\"--profiles=obr\"/>\n");
-			out.write("<listEntry value=\"mvn:org.universAAL.ontology/ont.phWorld@5\"/>\n");
+		//	out.write("<listEntry value=\"mvn:org.universAAL.ontology/ont.phWorld@5\"/>\n");
 			out.write("<listEntry value=\"mvn:org.apache.felix/org.apache.felix.configadmin/1.2.4@2\"/>\n");
 			out.write("<listEntry value=\"mvn:org.universAAL.middleware/mw.acl.interfaces@2\"/>\n");
 			out.write("<listEntry value=\"wrap:mvn:jp.go.ipa/jgcl/1.0@2\"/>\n");
@@ -166,7 +166,7 @@ public class CreateConfigurationFile {
 			out.write("<listEntry value=\"mvn:"+groupId+"/"+artifactId+"@6@nostart@update\"/>\n");
 			out.write("<listEntry value=\"mvn:org.universAAL.middleware/mw.bus.model@3\"/>\n");
 			out.write("<listEntry value=\"mvn:org.universAAL.middleware/mw.data.representation@4\"/>\n");
-			out.write("<listEntry value=\"mvn:org.universAAL.ontology/ont.weather@5@update\"/>\n");
+		//	out.write("<listEntry value=\"mvn:org.universAAL.ontology/ont.weather@5@update\"/>\n");
 			out.write("<listEntry value=\"wrap:mvn:org.osgi/osgi_R4_compendium/1.0@2\"/>\n");
 			out.write("<listEntry value=\"wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.4@2\"/>\n");
 			out.write("</listAttribute>\n");
