@@ -82,6 +82,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		model.setGroupId(page1.getMavenGroupId().getText());
 		model.setArtifactId(page1.getMavenArtifactId().getText());
 		model.setVersion(page1.getMavenVersion().getText());
+		model.setName(page1.getMavenName().getText());
 		//This is the rest of the info coming from the wizard
 		final String pack=page2.getPackaging().getText();
 		final boolean[] checks={false,false,false,false,false,false};
