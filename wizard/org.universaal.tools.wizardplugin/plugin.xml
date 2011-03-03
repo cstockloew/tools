@@ -9,7 +9,7 @@
       </category>
       <wizard
             name="universAAL Template Project"
-            icon="icons/uaal64x32.PNG"
+            icon="icons/uAALmicro.png"
             category="org.universaal.tools.newwizard.plugin"
             class="org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard"
             id="org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard"
