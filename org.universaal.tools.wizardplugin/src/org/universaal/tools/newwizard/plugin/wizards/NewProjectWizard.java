@@ -56,7 +56,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		ImageDescriptor image =
             AbstractUIPlugin.
                 imageDescriptorFromPlugin("org.universaal.tools.newwizard.plugin",
-                   "icons/uaal64x32.PNG");
+                   "icons/ic-uAAL-hdpi.png");
         setDefaultPageImageDescriptor(image);
 
 	}
@@ -83,6 +83,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		model.setArtifactId(page1.getMavenArtifactId().getText());
 		model.setVersion(page1.getMavenVersion().getText());
 		model.setName(page1.getMavenName().getText());
+		model.setDescription(page1.getMavenDescription().getText());
 		//This is the rest of the info coming from the wizard
 		final String pack=page2.getPackaging().getText();
 		final boolean[] checks={false,false,false,false,false,false};
@@ -359,7 +360,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 							"		</plugins>\n"+
 					"	</build>\n");
 					output.append("	<repositories>\n"+
-							"		<repository\n>" +
+							"		<repository>\n" +
 							"			<id>central</id>\n" +
 							"			<name>Central Maven Repository</name>\n" +
 							"			<url>http://repo1.maven.org/maven2</url>\n" +
