@@ -4,9 +4,9 @@ import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.input.InputEvent;
 import org.universAAL.middleware.input.InputSubscriber;
 
-public class ISubscriber extends InputSubscriber{
+public class /*TAG:CLASSNAME*/ extends InputSubscriber{
 
-	protected ISubscriber(BundleContext context) {
+	protected /*TAG:CLASSNAME*/(BundleContext context) {
 		super(context);
 		// TODO Auto-generated constructor stub
 	}

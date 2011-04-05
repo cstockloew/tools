@@ -6,15 +6,15 @@ import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 
-public class SCallee extends ServiceCallee{
+public class /*TAG:CLASSNAME*/ extends ServiceCallee{
 
-	protected SCallee(BundleContext context, ServiceProfile[] realizedServices) {
+	protected /*TAG:CLASSNAME*/(BundleContext context, ServiceProfile[] realizedServices) {
 		super(context, realizedServices);
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected SCallee(BundleContext context) {
-		super(context, ProvidedService.profiles);
+	protected /*TAG:CLASSNAME*/(BundleContext context) {
+		super(context, /*TAG:CLASSNAME*/ProvidedService.profiles);
 		// TODO Auto-generated constructor stub
 	}
 

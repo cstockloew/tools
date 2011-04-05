@@ -3,9 +3,9 @@
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.output.OutputPublisher;
 
-public class OPublisher extends OutputPublisher{
+public class /*TAG:CLASSNAME*/ extends OutputPublisher{
 
-	protected OPublisher(BundleContext context) {
+	protected /*TAG:CLASSNAME*/(BundleContext context) {
 		super(context);
 		// TODO Auto-generated constructor stub
 	}

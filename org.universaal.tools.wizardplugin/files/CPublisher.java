@@ -4,14 +4,14 @@ import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.context.ContextPublisher;
 import org.universAAL.middleware.context.owl.ContextProvider;
 
-public class CPublisher extends ContextPublisher{
+public class /*TAG:CLASSNAME*/ extends ContextPublisher{
 
-	protected CPublisher(BundleContext context, ContextProvider providerInfo) {
+	protected /*TAG:CLASSNAME*/(BundleContext context, ContextProvider providerInfo) {
 		super(context, providerInfo);
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected CPublisher(BundleContext context) {
+	protected /*TAG:CLASSNAME*/(BundleContext context) {
 		super(context, getProviderInfo());
 		// TODO Auto-generated constructor stub
 	}
