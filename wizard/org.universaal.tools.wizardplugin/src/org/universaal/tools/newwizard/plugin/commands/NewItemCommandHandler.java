@@ -12,7 +12,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 
-public class NewProjectCommandHandler extends AbstractHandler {
+public class NewItemCommandHandler extends AbstractHandler {
 
     // Executed when command is called
     public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -21,7 +21,7 @@ public class NewProjectCommandHandler extends AbstractHandler {
 		.getWorkbench()
 		.getNewWizardRegistry()
 		.findWizard(
-			"org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard");
+			"org.universaal.tools.newwizard.plugin.wizards.NewItemWizard");
 
 	try {
 	    // Get the current (the main) window and start the wizard
@@ -33,8 +33,8 @@ public class NewProjectCommandHandler extends AbstractHandler {
 		wd.setTitle(wizard.getWindowTitle());
 		wd.open();
 	    } else {
-		MessageDialog.openInformation(window.getShell(), "New Project",
-			"Could not find the New Project Wizard");
+		MessageDialog.openInformation(window.getShell(), "New Item",
+			"Could not find the New Item Wizard");
 		// TODO Externalize this?
 	    }
 	} catch (CoreException e) {

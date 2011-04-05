@@ -5,15 +5,15 @@ import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 
-public class CSubscriber extends ContextSubscriber{
+public class /*TAG:CLASSNAME*/ extends ContextSubscriber{
 
-	protected CSubscriber(BundleContext context,
+	protected /*TAG:CLASSNAME*/(BundleContext context,
 			ContextEventPattern[] initialSubscriptions) {
 		super(context, initialSubscriptions);
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected CSubscriber(BundleContext context) {
+	protected /*TAG:CLASSNAME*/(BundleContext context) {
 		super(context, getPermanentSubscriptions());
 		// TODO Auto-generated constructor stub
 	}
