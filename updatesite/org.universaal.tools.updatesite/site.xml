@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <feature url="features/org.universaal.tools.buildFeature_0.0.1.jar" id="org.universaal.tools.buildFeature" version="0.0.1">
+      <category name="universaal_tools"/>
+   </feature>
    <feature url="features/org.universaal.tools.profilefeature_0.0.1.jar" id="org.universaal.tools.profilefeature" version="0.0.1">
       <category name="universaal_tools"/>
    </feature>
    <feature url="features/org.universaal.tools.transformationfeature_0.0.1.jar" id="org.universaal.tools.transformationfeature" version="0.0.1">
       <category name="universaal_tools"/>
    </feature>
-   <feature url="features/org.universaal.tools.newwizard.feature_0.0.1.jar" id="org.universaal.tools.newwizard.feature" version="0.0.1">
+   <feature url="features/org.universaal.tools.buildFeature_0.1.0.jar" id="org.universaal.tools.buildFeature" version="0.1.0">
       <category name="universaal_tools"/>
    </feature>
-   <feature url="features/org.universaal.tools.buildFeature_0.0.1.jar" id="org.universaal.tools.buildFeature" version="0.0.1">
+   <feature url="features/org.universaal.tools.newwizard.feature_0.1.0.jar" id="org.universaal.tools.newwizard.feature" version="0.1.0">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.buildFeature_0.1.1.jar" id="org.universaal.tools.buildFeature" version="0.1.1">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.buildFeature_0.1.2.jar" id="org.universaal.tools.buildFeature" version="0.1.2">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.buildFeature_0.1.3.jar" id="org.universaal.tools.buildFeature" version="0.1.3">
       <category name="universaal_tools"/>
    </feature>
    <category-def name="universaal_tools" label="universAAL tools">
