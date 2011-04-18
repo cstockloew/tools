@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BuildServiceApplication
 Bundle-SymbolicName: org.universaal.tools.buildPlugin;singleton:=true
-Bundle-Version: 0.0.1
+Bundle-Version: 0.2.0
 Bundle-ClassPath: org.universaal.tools.buildPlugin,
  mavenLibs/aspectjtools-1.5.0.jar
 Bundle-Activator: org.universaal.tools.buildserviceapplication.Activator

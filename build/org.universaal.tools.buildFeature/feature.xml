@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.buildFeature"
       label="universaal Build Feature"
-      version="0.0.1">
+      version="0.2.0">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
