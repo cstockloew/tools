@@ -62,7 +62,6 @@ public class NewItemWizard extends Wizard implements INewWizard {
      * This method is called when 'Finish' button is pressed in the wizard. We
      * will create an operation and run it using wizard as execution context.
      */
-    @Override
     public boolean performFinish() {
 	// get info from the wizard
 	final String clsname = page.getClasname().getText();
@@ -71,7 +70,6 @@ public class NewItemWizard extends Wizard implements INewWizard {
 
 	// this job performs the creationof the item
 	Job job = new WorkspaceJob("wizard.item.job") { //$NON-NLS-1$
-	    @Override
 	    public IStatus runInWorkspace(IProgressMonitor monitor)
 		    throws CoreException {
 		try {

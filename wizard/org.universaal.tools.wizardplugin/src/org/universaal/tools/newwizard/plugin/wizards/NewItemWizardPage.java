@@ -141,7 +141,6 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	}
 	String clsName = clasname.getText() + ".class"; //$NON-NLS-1$
 	if (clsName.trim().length() != 0) {
-	    @SuppressWarnings("deprecation")
 	    IStatus status = JavaConventions.validateClassFileName(clsName);
 	    // TODO: Use new method to check class naming.
 	    if (!status.isOK()) {
@@ -187,7 +186,6 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	}
     }
 
-    @Override
     protected void handleFieldChanged(String fieldName) {
 	// TODO Auto-generated method stub
 	super.handleFieldChanged(fieldName);
