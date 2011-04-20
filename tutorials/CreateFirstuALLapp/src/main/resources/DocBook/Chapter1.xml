@@ -16,7 +16,7 @@
     	need to have here is not only a good middleware, but also tools that are going to support your work with universAAL. This means to make it 
    		as easy as possible to create new applications that running within the platform system and support you to make them easy to understand
    		and robust to program.</para>
-   		<section>
+   		</section>
    		
     	<db:itemizedlist>
 			<db:listitem>Short overview about scope and basics of universAAL</db:listitem>
