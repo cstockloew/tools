@@ -2,4 +2,16 @@
 	<title>Summary</title>
 		<para>Reflect what we have done during this tutorial. Make a summary about the whole story and point out the basic aspects.
 		Also have look at what really exists currently and what is in plannung.</para>
+		<para>
+			This tutorial describes the steps that have to be followed in order to build a uAAL application 
+			using the universAAL tools.
+			It takes into account that the developer has already successfully installed the development environment
+			and all the corresponding plug-ins.
+			Its main objective is to describe as a brief story of the steps may be followed for a successful creation of
+			uAAL service. 
+		</para>
+		<para>
+		It mentions briefly the uAAL tools that the developer has to use in order to create a uAAL service/applications.
+		This tutorial will be updated with more information during the lifecycle of the project.
+		</para>
 	</chapter>
