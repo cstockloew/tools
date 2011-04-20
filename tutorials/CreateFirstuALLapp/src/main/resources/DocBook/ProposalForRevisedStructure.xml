@@ -1,13 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN"
+                         "http://www.docbook.org/xml/5.0/dtd/docbook.dtd" [
+	<!ENTITY chap1 SYSTEM "Chapter1.xml">
+	<!ENTITY chap2 SYSTEM "Chapter2.xml">
+	<!ENTITY chap3 SYSTEM "Chapter3.xml">
+	<!ENTITY chap4 SYSTEM "Chapter4.xml">
+]>
 
-<book version="4.5" xmlns="http://docbook.org/ns/docbook"
+<book version="5.0" xmlns="http://docbook.org/ns/docbook"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       xmlns:db="http://docbook.org/ns/docbook">
 	<info>
-		<title>Creating a first uAAL application</title>  
+		<title>A guide to universAAL tools</title>
+		<subtitle>As a part of D3.6-A</subtitle>
 		<author>
-			<personname>uAAL consurtium</personname>
+			<personname>uAAL consortium</personname>
 		</author>
 		<db:copyright>
 			<db:holder>universAAL</db:holder>
@@ -15,96 +23,12 @@
     	</db:copyright>
  	</info>
 
-	<chapter id="Chapter1" xmlns:db="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude">
-    	<title>Introduction</title>
-    	<para> Like agreed in the telco I will give in the following an overview about the structure of this tutorial like I have in mind.
-    	Here we have to consider the dependencies to D2.4-A as well as the work already done in the Wiki-pages. In general my suggestion
-    	is not only to describe separated tools and repeat the same captions for everyone. We must embed the usage of the tools in a story
-    	that give a reader the possibility to not only understand how a special tools will works, but also how it is embedded in the content
-    	of the development process of universAAL</para>
-    	<para>In the following I give the main chapters that fits my understanding, as well as the subchapters I propose and some comments about
-    	the possible content. Feel free to add additional comments to all bullets and please give me feedback about your thoughts. Then we can
-    	distribute rest of the work to be done. If I understand right you have only tomorrow left to work on this? If yes, simply do want you
-    	can in this short time and I will add the rest.</para>
-    
-    	<para>The introductions should give a general overview about universAAL and the available tools. I suggest the following points to be
-    	part of this</para>
-   
-    	<db:itemizedlist>
-			<db:listitem>Short overview about scope and basics of universAAL</db:listitem>
-			<db:listitem>Special purposes of this tutorial</db:listitem>
-			<db:listitem>Links to also available recources for information (like D2.4 and Wiki-Pages)</db:listitem>
-		</db:itemizedlist>
-	</chapter>
+	&chap1;
 	
-	<chapter>
-    	<title>Technical Overview</title>
-    	<para>In this chapter we include all the basic techical stuff that is the same for all tools. To this I would count the following:</para>
-    	<db:itemizedlist>
-    		<db:listitem>List of needed soft- and hardware to run this examples</db:listitem>
-			<db:listitem>Links that explain how to install universAAL, Eclipse and plugin-in's for Eclipse,
-						but refer more or less to D2.4 and available tutorials in the web. Here we can also use your part about the installer</db:listitem>	
-			<db:listitem>Detailed install hints to every tool (can also be taken for your previous work</db:listitem>
-			<db:listitem>Spend some word about the basic idea of an uAAL application (as OSGi bundle) and what is about uStore and
-			developer depot</db:listitem>
-		</db:itemizedlist>
-	</chapter>
+	&chap2;
 	
-	<chapter>
-    	<title>Usage of the tools</title>
-    	<para>Here we are going to explain what we want to build using the tools of universAAL and build it up by using them. Some tools
-    	are not developed currently, but I think we should already mention them below and give them a place in the development-process.
-    	Maybe not all tools are important (for example the transformation tools are only in "idea phase" and not design), but for the
-    	most the usage is quite clear and it make sense to give them a place for D3.6-B already.</para>
-    	<section>
-    		<title>What we are going to do</title>
-    		<para>We refer to D2.4 and and give hints to the existing code example of the lighting example. But before we
-    		spend some general word about what should be the goal of the example (we want control lightsources in a distributed
-    		system, therefore we need a server and a client, ....).</para>
-    	</section>
-    	<section>
-    		<title>Build up a new project</title>
-    		<para>Here we can explain the creation of a new project by using the appropriate plugin. We need to build two projects
-    		here, one for the server and one for the client. Still remember to not go into details about server and client,
-    		that has been done in D2.4. Here we only explain why and how we build this projects and give names to them using the tool.</para>
-    	</section>
-    	<section>
-    		<title>Add items</title>
-    		<para>This is the section where we will explain the usage of the Project and Item Wizards. Here we can reuse what we already have
-    		from the wiki and the current version of the tutorial. We need to add a service to control the light-sources to the service project.
-    		So we will use the tool the add the appropriate service and name it according to the existing example from D2.4. We should mention
-    		the basic methods and creation of service-profiles, but since we are currently have no tools that support this step we should once
-    		more refer to the according chapter of 2.4 in the end.</para>
-    	</section>
-    	<section>
-    		<title>Add items</title>
-    		<para>This is the section where we will explain the usage of the Project and Item Wizards. Here we can reuse what we already have
-    		from the wiki and the current version of the tutorial. We need to add a service to control the light-sources to the service project.
-    		So we will use the tool the add the appropriate service and name it according to the existing example from D2.4. We should mention
-    		the basic methods and creation of service-profiles, but since we are currently have no tools that support this step we should once
-    		more refer to the according chapter of 2.4 in the end.</para>
-    	</section>
-    	<section>
-    		<title>Conformance</title>
-    		<para>Explain how we are plaing to integrate the conformance tool, what basic functionality we would like to integrate
-    		and how it can help us now to verify that the created programm in the step before (Server and Client project)is correct.</para>
-    	</section>
-    	<section>
-    		<title>Deployment</title>
-    		<para>Also here we should explain the idea of the deployment tool in a nutshell and spend some word about deployment to 
-    		developer depot and using uStore.</para>
-    	</section>
-    	<section>
-    		<title>Configuration Tool</title>
-    		<para>This tool partially already exists. The basic idea is to extract parameters for application configuration out of
-    		java annotations. The usage of this tool must be also a part of this tutorial. Currently the lighting example have no
-    		parameter for configuration, but we can extend it and add for example the location of the lightsources to make this clear.</para>
-    	</section>
-	</chapter>
+	&chap3;
 	
-	<chapter>
-	<title>Summary</title>
-		<para>Reflect what we have done during this tutorial. Make a summary about the whole story and point out the basic aspects.
-		Also have look at what really exists currently and what is in plannung.</para>
-	</chapter>
+	&chap4;
+	
 </book>

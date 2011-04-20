@@ -1,0 +1,51 @@
+	<chapter>
+    	<title>Usage of the tools</title>
+    	<para>Here we are going to explain what we want to build using the tools of universAAL and build it up by using them. Some tools
+    	are not developed currently, but I think we should already mention them below and give them a place in the development-process.
+    	Maybe not all tools are important (for example the transformation tools are only in "idea phase" and not design), but for the
+    	most the usage is quite clear and it make sense to give them a place for D3.6-B already.</para>
+    	<section>
+    		<title>What we are going to do</title>
+    		<para>We refer to D2.4 and and give hints to the existing code example of the lighting example. But before we
+    		spend some general word about what should be the goal of the example (we want control lightsources in a distributed
+    		system, therefore we need a server and a client, ....).</para>
+    	</section>
+    	<section>
+    		<title>Build up a new project</title>
+    		<para>Here we can explain the creation of a new project by using the appropriate plugin. We need to build two projects
+    		here, one for the server and one for the client. Still remember to not go into details about server and client,
+    		that has been done in D2.4. Here we only explain why and how we build this projects and give names to them using the tool.</para>
+    	</section>
+    	<section>
+    		<title>Add items</title>
+    		<para>This is the section where we will explain the usage of the Project and Item Wizards. Here we can reuse what we already have
+    		from the wiki and the current version of the tutorial. We need to add a service to control the light-sources to the service project.
+    		So we will use the tool the add the appropriate service and name it according to the existing example from D2.4. We should mention
+    		the basic methods and creation of service-profiles, but since we are currently have no tools that support this step we should once
+    		more refer to the according chapter of 2.4 in the end.</para>
+    	</section>
+    	<section>
+    		<title>Add items</title>
+    		<para>This is the section where we will explain the usage of the Project and Item Wizards. Here we can reuse what we already have
+    		from the wiki and the current version of the tutorial. We need to add a service to control the light-sources to the service project.
+    		So we will use the tool the add the appropriate service and name it according to the existing example from D2.4. We should mention
+    		the basic methods and creation of service-profiles, but since we are currently have no tools that support this step we should once
+    		more refer to the according chapter of 2.4 in the end.</para>
+    	</section>
+    	<section>
+    		<title>Conformance</title>
+    		<para>Explain how we are plaing to integrate the conformance tool, what basic functionality we would like to integrate
+    		and how it can help us now to verify that the created programm in the step before (Server and Client project)is correct.</para>
+    	</section>
+    	<section>
+    		<title>Deployment</title>
+    		<para>Also here we should explain the idea of the deployment tool in a nutshell and spend some word about deployment to 
+    		developer depot and using uStore.</para>
+    	</section>
+    	<section>
+    		<title>Configuration Tool</title>
+    		<para>This tool partially already exists. The basic idea is to extract parameters for application configuration out of
+    		java annotations. The usage of this tool must be also a part of this tutorial. Currently the lighting example have no
+    		parameter for configuration, but we can extend it and add for example the location of the lightsources to make this clear.</para>
+    	</section>
+	</chapter>

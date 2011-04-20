@@ -1,0 +1,12 @@
+	<chapter>
+    	<title>Technical Overview</title>
+    	<para>In this chapter we include all the basic techical stuff that is the same for all tools. To this I would count the following:</para>
+    	<db:itemizedlist>
+    		<db:listitem>List of needed soft- and hardware to run this examples</db:listitem>
+			<db:listitem>Links that explain how to install universAAL, Eclipse and plugin-in's for Eclipse,
+						but refer more or less to D2.4 and available tutorials in the web. Here we can also use your part about the installer</db:listitem>	
+			<db:listitem>Detailed install hints to every tool (can also be taken for your previous work</db:listitem>
+			<db:listitem>Spend some word about the basic idea of an uAAL application (as OSGi bundle) and what is about uStore and
+			developer depot</db:listitem>
+		</db:itemizedlist>
+	</chapter>

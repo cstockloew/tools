@@ -1,0 +1,13 @@
+	<chapter>
+    	<title>Introduction</title>
+    	<para>This</para>
+    
+    	<para>The introductions should give a general overview about universAAL and the available tools. I suggest the following points to be
+    	part of this</para>
+   
+    	<db:itemizedlist>
+			<db:listitem>Short overview about scope and basics of universAAL</db:listitem>
+			<db:listitem>Special purposes of this tutorial</db:listitem>
+			<db:listitem>Links to also available recources for information (like D2.4 and Wiki-Pages)</db:listitem>
+		</db:itemizedlist>
+	</chapter>
