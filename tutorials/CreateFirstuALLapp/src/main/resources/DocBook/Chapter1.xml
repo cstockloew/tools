@@ -1,10 +1,23 @@
 	<chapter>
     	<title>Introduction</title>
-    	<para>This</para>
+    	<para>Welcome to the universAAL Tools guide. This document is going to introduce the available tools for the universAAL platform. 
+    	We will start by giving a short overview about the general scope of the platform as well as useful links to more detailed information 
+    	about the platform itself. In this document you will learn how you can use the existing tools to make your life easier during developing 
+    	with universAAL and therefore save time as well as creating more robust programms.</para>
     
-    	<para>The introductions should give a general overview about universAAL and the available tools. I suggest the following points to be
-    	part of this</para>
-   
+    	<section>
+    	<title>The universAAL project</title>
+    	<para>UniversAAL is a by the Europan Commission sponsored project that going to create a reference specification to control open systems 
+    	in area of Ambient Assisted Living. Also a reference implementation of the general concept will be provided an offered under GPL license. 
+    	So feel welcome to join the universAAL community at the <ulink url="http://www.universaal.org/"> universAAL homepage (www.universaal.org)</ulink>
+    	if you want to be a part of our team. Also there are existing </para>
+    	<para>To create a reference of a middleware that is able to handle complex context management, reasoning, user interaction and much more is 
+    	one basic purpose of universAAL. But also the building of a strong community, including external developeres, is within the scope. What we 
+    	need to have here is not only a good middleware, but also tools that are going to support your work with universAAL. This means to make it 
+   		as easy as possible to create new applications that running within the platform system and support you to make them easy to understand
+   		and robust to program.</para>
+   		<section>
+   		
     	<db:itemizedlist>
 			<db:listitem>Short overview about scope and basics of universAAL</db:listitem>
 			<db:listitem>Special purposes of this tutorial</db:listitem>
