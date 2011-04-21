@@ -1,309 +1,208 @@
 	<chapter>
     	<title>Usage of the tools</title>
-    	<para>This chapter will describe the steps that have to be followed in order to build the first uAAL application using
-    		 the uAAL tools. Each of the tool’s role and functionality are also mentioned below.
-    		 The AAL Studio is the required IDE environment for the universAAL service developers.
-    	</para>
-    	<para>	 
-    		 The “Project and Item Wizards” tool is analyzed in order to build a uAAL service/application. It has to be kept in mind that always
-    		 a server-client application has to be built.The whole universAAL network structure is based on four different buses
-    		 which are the Input, Output, Context and Service Bus. A bus is like a network channel with a very specialized purpose. 
-    		 The Service-Bus follows a caller/callee concept. Somebody offers something anywhere and anybody is going to request something.
-    	</para>
-    	<para>
-    		The whole universAAL network structure is based on four different buses which are the Input, Output, Context and Service Bus. 
-    		A bus is like a network channel with a very specialized purpose. The Service-Bus follows a caller/callee concept. Somebody 
-    		offers something anywhere and anybody is going to request something. It has to be kept in mind that always a server-client model 
-    		application has to be built in order to be a uAAL service/application.
-    	</para>
-    	<para>
-    	So, after we have written a service provider in 
-    	<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=support:Quick_Start_Guide_5"> Developer's Handbook Chapter 6</ulink>
-    		the appropriate client has to be created in order to be able to call the provided functionalities.
-			For additional details, it has to be refereed at the following universAAL Developer's Handbook from mediawiki pages:
-		<db:itemizedlist>
-		   	 <db:listitem>
-		   	 	<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=support:Quick_Start_Guide_5"> Chapter 6:</ulink>
-		  	 </db:listitem>
-		  	 <db:listitem>
-		     	<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=support:Developer_Handbook_7"> Chapter 7:</ulink>
-		     </db:listitem>
-		   </db:itemizedlist>
-    	</para>
+    	<para>Now, after we setup the needed environment and got a first impression of universAAL, in this chapter we will have a look at the tools
+    	itself. We going to take the lighting example like presented in DH3 to DH7 as a base to show where our tools could support you during
+    	development. During the process of creating the example we will explain all tools and give additional hints about their installation and
+    	usage. Here we also include tools that are not implemented currently, but already in desgin-phase and will be a part of the next
+    	version of this guide. This give you on side the possibility to get the state-of-the-art on on side and to see the whole picture
+    	and where we want to go in future about the tools on the other.</para>
+    	
     	<section>
-    		<title>What we are going to do</title>
-    		<para>It is highly recommended for the developers to read the uAAL Developers' Handbook from
-    		<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=support:Quick_Start_Guide_0"></ulink>
-    		before starting to create your first uAAL application. The lighting example is the base for understanding the uAAL architecture, 
-    		its components and its concepts in general. 
-			</para>
-			<para>
-			The lighting example shows how to create the server and the client part and how they have to use common language, the ontology.
-    		</para>
+    		<title>The lighting example</title>
+    		<para>The basic idea of the lighting example from the Developer Handbook is to create an universAAL application that is as easy to
+    		understand as possible, but also contains and can represent some basic aspects. The source of the full example can be found at
+    		the GForge server within the SVN of the middleware project in trunk/samples/lighting/. This basic example contains of two bundles,
+    		where one is a server and an other one the client. In this case the server bundle is the one that offers some special services and
+    		the client will create calls for them. What we want to do here is to control light-sources that are connected to the server from a
+    		remote location. Therefore we need several functions within the service provided by the server. These are to get the available
+    		light-sources, get information about a special one and finally control them by turning them on or off. In the following we will
+    		create, run and deploy the needed projects using our tools, but do not fill them with code (therefore again have a look at the DH).</para>
     	</section>
+    	
     	<section>
-    		<title>Build up a new project</title>
-    		<para>The basic environment to build a uAAL application is the AAL Studio. It is assumed the AAL Studio tool has already been 
-    		installed. The guidelines for the installation can be found at:
-	    		<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=support:Quick_Start_Guide_1"></ulink>
-    		Additional information can be also found at:
-    			<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=uaaltools:AAL_Studio_overview_and_installation"></ulink>
-    		</para>
-    	</section>
-    	<section>
-    		<title>Project and Item Wizards</title>
-    		<para>
-	    		One of the tools provided by the AAL Studio tool is the "Project and Item Wizards". It makes it easy to crate new universAAL-compliant projects by providing 
-	    		a skeleton project with all the files you need and initial content to make the project work in universAAL. The item wizards generate
-				new files required or optional to a universAAL project with the proper formatting and template or initial content. It reduces the time of development since without
-				this tool a developer would need to give the project or files the appropriate format to be universAAL-compliant, with the risk of missing
-				some requirement. By using the wizards it is assured to have well-formatted files and project structures. The usage of this tool is not mandatory but recommended.
-				The wizard currently provide setup and configuration options which are useful for typical development projects. Future versions may add
-				further options that also simplify more advanced setup and configuration.
-    		</para>
-    		<para>
-    			The main access to Project and Item Wizards is through the File/New command in Eclipse. Then the proper wizard must be selected. An Eclipse command is available to 
-    			start the wizards from any menu or other plugin.
-    		</para>
-    		<para>
-			This plug-in provides wizards for creating universAAL resources in the Eclipse workspace. They can be either items or new projects. With “items” we refer to new files or other resources inside an existing project in the workspace, such a new XML file that could be necessary for a universAAL project. These new files would be generated with some initial content in order to be properly formatted, as a template, or configured as defined in the parameters passed in the wizard.
-		</para>
-		<para>	
-			On the other hand, the Project wizard would generate a blank new universAAL compliant project in the workspace, ready to develop universAAL applications or components upon. It could be 
-			initially configured as described during the wizard, that is, preset configuration parameters, storage location, initial files, etc.The wizard will take care of generating the project 
-			hierarchy and structure, and all the mandatory files for the project to be universAAL compliant, as well as any additional file that could be defined by the user in the wizard.
-			This "New Project" wizard does always the same: creating a new project in the workspace, based on a very simple set of configurable parameters (Maven information and initial files).
-	  	 
-	  	   <!--  Figures WizardImages 1 -->
-		  <figure>
-		  	<title>Wizard:Artifact information</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/wizard/WizardImg1.jpg"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-		  </figure>
-		  
-		  <!--  Figures WizardImages 2 -->
-		  <figure>
-		  	<title>Wizard:Activator package</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<db:imagedata fileref="media/wizard/WizardImg2.jpg"></db:imagedata> 
-      			</imageobject>
-		      </mediaobject>
-		  </figure>
-		  
-		  
-		  The "New Item" wizard creates specific items on existing projects and therefore their commands could also be placed in specific contextual menus. Currently it can be accessed either from universAAL commands, the File/New menu, or by right clicking a project/folder and selecting New... The Items that can be generated in the current version are the same template files that can be generated when creating a new project.
-		  </para>
-		  
-		  <!--  Figures WizardImages3 -->
-		  <figure>
-		  	<title>Create a new item </title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/wizard/WizardImg3.jpg"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-		  </figure>
+    		<title>Creating new projects</title>
+    		<para>In the following we assume that you have prepared a well running version of eclipse as mentioned in the DH and the previous
+    		chapter. Please prepare a new workspace at an arbitrary location we denote as WORKSPACE in the following. Now we are first going
+    		to create the server-project of the lighting example. Therefore we can use the "Project and Item Wizards". This makes it easy to crate
+    		new universAAL-compliant projects by providing a skeleton project with all the files you need and initial content to make the project
+    		work in universAAL. The item wizards generate new files required or optional to a universAAL project with the proper formatting and
+    		template or initial content. It reduces the time of development since without this tool a developer would need to give the project or
+    		files the appropriate format to be universAAL-compliant, with the risk of missing some requirement. By using the wizards it is assured
+    		to have well-formatted files and project structures. The usage of this tool is not mandatory but recommended. The wizard currently
+    		provide setup and configuration options which are useful for typical development projects. Future versions may add further options
+    		that also simplify more advanced setup and configuration.</para>
+    		<para>Now we are going to create the server-project by using "universAAL -> Create a new Project" from the menu (must be available
+    		after the installation of the AAL Studio plug-in). You should see a dialog like given in <xref linkend="img3"/>.</para>
     		
-    	</section>
-    	<section>
-    		<title>Service/application project build</title>
-    		<para>
-    			As it already mentioned above, the AAL Studio tool automates the process of building a compatible universAAL project, in order to be integrated to uStore, by utilizing Maven
-				artifacts and Maven build mechanism. Project dependencies are resolved automatically in order to reduce incompatibility issues, since projects are build using universAAL 
-				compatible libraries. It also provides automatic uploading of implemented artifacts to local and remote repositories. This tool is highly recommended, since manual build and
-				upload can lead to incompatible to universAAL services.
-    		</para>
-    		
-    		<!-- Begin add my previous tags  -->
-    		<para>
-	 	This plugin provides a safe way for building and running a universAAL service/application within Eclipse workspace.
-		Having based on the prototype skeleton projects by the Project and Items Wizards Tool, the developer implements his application according to universAAL standards. This tool is responsible for building the whole developed Eclipse project using the appropriate libraries and dependencies for making a new universAAL compatible service/application executable. By building such projects, the resulting jar files are deployed to the local or universAAL Maven repositories, in order to be published or reused by other projects/providers. Uploading to remote repositories (uStore) is not implemented yet.
-		Finally, this tool also has the capability to run or debug a new developed universAAL project. This is done by automatically creating an Eclipse launch configuration file that starts up all the universAAL middleware bundles that needed in order to run the new service/application.
-		</para>
-		<para>
-		Service/application developer should select the project that wants to build in the Eclipse workspace in order that the universAAL build, run and debug options become accessible, as in the following figure:
-	 	</para>
-	 	
-	 	<!--  Figures WizardImages3 -->
-		<figure>
-		  	<title>Build,run,debug a uAAL project  </title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/servicebuild/BuilduAALApp.jpg"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-		</figure>
-		<para>
-		Then, the following output should appear after a successful build in the Eclipse console:
-		</para>
-		<figure>
-		  	<title>Successful build</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/servicebuild/Build_Maven_Success.JPG"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-		</figure>
-		
-		<para>along with the following pop-up window.</para>
-		
-		<figure>
-		  	<title>Successful build</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/servicebuild/SucessBuild.jpg"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-		</figure>
-		
-		<para>
-		  Then, the created jar is uploaded automatically to the local repository along with a pom file containing all project dependencies.
-		  When running or debugging a service/application, the Pax-runner plugin will start all the necessary middleware bundles in order to run/debug the service/application. The developer can view all the started bundles by typing
-		  
-		  <figure>
-		  	  <title>Typing ps command</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/servicebuild/ps.JPG"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-		</figure>
-		  in the Eclipse console window. The output of this command should look like:
-		</para>
-		
-		<figure>
-		  	<title>List of installed and active bundles</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/servicebuild/StartLevel.JPG"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-		</figure>
-		
-		<para>
-			where the bundle with ID 2 is the bundle that has been just uploaded. In order to start running it, the developer should enter the following command:
-			<figure>
-			  <title>Start bundle 6</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/servicebuild/start_6.JPG"></imagedata>
-      			</imageobject>
-		      </mediaobject>
+    		<table frame='none' tocentry='0'>
+    			<title>Creation of server project</title>
+				<tgroup cols='2' align='center' colsep='0' rowsep='0'>
+					<tbody>
+						<row frame='none'>
+  							<entry>
+  								<figure id="img3">
+									<title>Create server project</title>
+									<graphic width="150px" align="center" fileref="newmedia/itemswizard/ServerProject.png"/>
+								</figure>
+							</entry>
+  							<entry>
+  								<figure id="img4">
+									<title>Add server classes</title>
+									<graphic width="195px" align="center" fileref="newmedia/itemswizard/ServerClasses.png"/>
+								</figure>
+  							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			
+			<para>Here we already filled out all fields according the server of the lighting-example. The shown field are currently suited to the
+			needs of Maven. The <emphasis>Group-Id</emphasis> denotes a dependency between several projects. The <emphasis>Artifact-Id</emphasis>
+			unique identifies this project. In general you can write here what ever you want, but best practice to use an URI based approach like
+			given in this example. Version of the tools is also a mandatory field, here also the proposed value fits to the actual best practice.
+			In <xref linkend="img3"/> you see the following dialog, again with already filled out fields. According to the server from the
+			lighting example we want to provide a service (done with a Service Callee) and publish context-events about the status of the light-sources
+			(done with Context Publisher). <emphasis>Activator Package</emphasis> is the path to the class that will contain the start-method of the
+			bundle. So now after finish the dialog. The project will be created and we directly going to create the lighting-project straight forward
+			like given before. To make things easier you can see in figure <xref linkend="img5"/> and <xref linkend="img6"/></para>
+			
+			<table frame='none' tocentry='0'>
+    			<title>Creation of client project</title>
+				<tgroup cols='2' align='center' colsep='0' rowsep='0'>
+					<tbody>
+						<row frame='none'>
+  							<entry>
+  								<figure id="img5">
+									<title>Create server project</title>
+									<graphic width="150px" align="center" fileref="newmedia/itemswizard/ClientProject.png"/>
+								</figure>
+							</entry>
+  							<entry>
+  								<figure id="img6">
+									<title>Add server classes</title>
+									<graphic width="175px" align="center" fileref="newmedia/itemswizard/ClientClasses.png"/>
+								</figure>
+  							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			
+			<para>The main differences by creating the client are the changed Artifact-ID and the other added classes. Because here we want
+			to receive context-events and call for services, we are going to create a service-caller and a context-subscriber. If both projects are
+			created properly the should have a structure like shown in <xref linkend="img7"/>. </para>
+			
+			<figure id="img7">
+				<title>Overview about the created projects</title>
+				<graphic width="200px" align="center" fileref="newmedia/itemswizard/ProjectOverview.png"/>
 			</figure>
-			where 6 is the default bundle level for new developed project.
-		</para>
-		
-    		<!-- End add my previous tags -->
+			
+			<para>This is already very similar to the one provided in the original lighting example, except of that we are going to create extra classes
+			for context publishing and service caller. This is not mandatory because there are standard implementations available (<emphasis>
+			DefaultContextPublisher</emphasis> and <emphasis>DefaultServiceCaller</emphasis> like used in the lighting example). The project structure
+			also fits the best practice (source and resource folders for code and testing) and needs of Maven (the pom.xml file).
+			Like you can see within the server there is already created an additional class <emphasis>ProvidedService</emphasis> that must be used
+			for extension of the service-ontology. Also it is possible to add predefined classes after the creation of the project by using the
+			<emphasis>New Item</emphasis> wizard that is available over <emphasis>File/New</emphasis> within the main menu or using right-click at
+			a special project and select <emphasis>New...</emphasis>. By using the dialog like shown in <xref linkend="img7"/> you can currently
+			add the same classes like on creation time of the project.</para>
+			
+			<figure id="img8">
+				<title>Overview about the created projects</title>
+				<graphic width="200px" align="center" fileref="newmedia/itemswizard/AddItem.jpg"/>
+			</figure>
+			
+			<para>How to implement the content of all classes is detailed handled in DH5 to DH7 (you can download it from <emphasis>
+			http://forge.universaal.org/svn/middleware/trunk/samples/lighting</emphasis>). In the following we assume that the project is fully
+			implemented and ready for start.</para>
     	</section>
+    	
     	<section>
-    		<title>Conformance</title>
-    		<para>
-    		The next step after we have create an uAAL application is to validate it whether it is compiant with the uAAL system architecture.
-    		The conformance tools designed and configured in order to claim that the software implementation "complies with the reference architecture and design principles".
-    		The pages on the wiki at
- 
-    		<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=uaaltools:Conformance_tool"></ulink>
- 
-    		will be continuously updated during the life-cycle of the project as soon as new tools will be ready. More information can be found at this link:
-  
-    		<ulink 
-    			url="https://project.sintef.no/eRoomReq/Files/ikt/ICT-20097-ICTAgeing/0_3aa38/%5BuniversAAL%20D3.1-A%5D%20Tools%20for%20design%20and%20development%20-%20Part%20II.docx">
-    		</ulink>
- 
-    		</para>
-    	</section>
-    	<section>
-    		<title>Deployment</title>
-    		<para>
-    			The deployment procedure is provided by two tools:
-    			<db:itemizedlist>
-					<db:listitem>Developer Depot Server</db:listitem>
-					<db:listitem>Developer Depot Client</db:listitem>
-				</db:itemizedlist>
-    		</para>
-    		<para>
-    		The Developer Depot Server will host resources needed for a developer to get started developing using universAAL. This section provides a basic understanding for the 
-    		Developer Depot Server actually planned as part of universAAL tool chain. The Depot aims at providing a powerful archive for developers embracing the universAAL platform. 
-    		With respect to the current project phase, the role of depot is to provide the common repository functionalities such as upload, download, search, removal of deployment 
-    		units. The developer will interact with the Depot either accessing the server directly or by using tools in the AAL Studio that interact with the Depot.
-    		</para>
-    		<para>
-    		The Sonatype Maven Nexus Repository (
-    		<ulink url="http://nexus.sonatype.org"></ulink> 
-    		) open-source edition was choosen to be adopted as initial Developer Depot Server implementation,
-    		and it provides some essential features described in the <ulink url="http://nexus.sonatype.org"></ulink> and 
-    		<ulink url="http://www.sonatype.com/books/nexus-book/reference/ch01s02.html#intro-sect-open-features"></ulink>
-    		In order to setup an efficient resource repository without the adoption of a repository manager (like Nexus), almost two services should be configured:
-    			<db:itemizedlist>
-					<db:listitem>artifact upload service, e.g. SSH or SFTP server</db:listitem>
-					<db:listitem>artifact download service, e.g. HTTP servert</db:listitem>
-				</db:itemizedlist>
-			The configuration of these services not only increases the knowledge requirements for the system administrator, but also the setup and housekeeping cost 
-			of the repository itself. The upload artifact service raises some critical security issues not completely solved with the adoption of SSH or SFTP secure servers,
-			moreover some crucial features have to be provided. As an example: managing the permissions, cluster the permissions into some defined roles, add or remove users 
-			from role, authenticate users against an external server (e.g LDAP). All these aspects can be avoided with the adoption of a repository manager.
-			Developer Depot Server is mainly addressed to AAL application developers, and will provide resources needed to get stated with development of AAL applications.
-    		</para>
-    		<para>
-    		The Developer Depot Server provides hosting for the universAAL middleware and other useful resources for AAL application developers. More generally an AAL application 
-    		is composed of several resources bundled together as artifacts (e.g. maven artifacts). Developer Depot functionality includes:
-    		</para>
-    			<db:itemizedlist>
-					<db:listitem>artifact management: upload, download, removal, search</db:listitem>
-					<db:listitem>repository management: create and set up multiple repository instances</db:listitem>
-					<db:listitem>ease the integration with HTTP standard interface or Maven tool</db:listitem>
-				</db:itemizedlist>
-    		<para>
-    		The prerequsites and the instalaltion guidelines for the Depot Server are descibed in detail at media wiki at
-    		<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=uaaltools:Developer_Depot_Server"></ulink>
-    		</para>
+    		<title>Running the example</title>
+    		<para>So now for testing the example we need two further steps. First is to build it, that means to create a jar-file that represents
+    		a valid bundle that can be included into the runtime environment. As already mentioned above, the AAL Studio tool automates the
+    		process of building a compatible universAAL project, in order to be integrated to uStore, by utilizing Maven artifacts and Maven
+    		build mechanism. By using an appropriate plug-in for maven that is able to create a valid Felix-OSGi-Bundle. Details about this you
+    		can find in DH3 or have a look into the created pom.xml in both projects (have a look for the <emphasis>maven-bundle-plugin</emphasis>).
+    		Our tools will make live easy for you and allows to simply create the needed bundle and install it into the local Maven repository.
+    		Therefore simply call <emphasis>Build universAAL Service</emphasis> to build the currently selected project. If everything is fine
+    		you will find a message like shown in <xref linkend="img9"/> for both projects in the Eclipse console.</para>
     		
-    		<para>
-    		On the other hand, the Developer Depot client is a tool to make it easier for the developer to access and use resources
-    		from the Developer Depot Server directly from the AAL Studio environment.This tool is not be mandatory, but simplify tasks to the developer, and make information more 
-    		readily available for inclusion in the development work compared to acquiring the same resources directly from the Developer Depot Server by other means.
-    		</para>
-    		<para>
-    			Its main responsibility is to make the functionality and resources of the universAAL Developer Depot available from Eclipse. Possible functionality include assistance 
-    			for finding and reusing resources associated with typical use-cases in the domain, and utilizing the reference architecture as a resource in the development.
-    		</para>
-    		<para>
-    			Currently, this tool is not available. The prerequisites and its installation procedure will be defined in the future.
-    		</para>
+    		<figure id="img9">
+				<title>Project build success</title>
+				<graphic align="center" fileref="media/servicebuild/MavenSuccess.png"/>
+			</figure>
+    		
+    		<para>Now we are ready to start example. To start universAAL means to start an instance of the Felix-Runtime environment and load
+    		all needed bundles. This contains the one created by us, but also all bundles that are needed for runtime of the platform. The needed
+    		steps for this could be quite complicated because many bundles have to be load ever startup. Here our tools come up again. Over the main
+    		menu you can also choose "universAAL -> Run universAAL Service". This tool can be used to create a runtime-configuration for the 
+    		Pax-Runner Plug-In and execute it. In <xref linkend="img10"/> you can see a screenshot of the valid configuration for the lighting
+    		example. </para>
+    		
+    		<figure id="img10">
+				<title>A valid run-configuration for universAAL</title>
+				<graphic width="180px" align="center" fileref="newmedia/buildandrun/run.png"/>
+			</figure>
+			
+			<para>Here our projects are highlighted with the two red squares, the other on will be added for you. Currently not both projects will be
+			added two the configuration automatically. But you can do the procedure for the server and add the client per hand like shown in the
+			figure (<emphasis>mvn:</emphasis>+<emphasis>Group-ID</emphasis>+<emphasis>Artefact-ID</emphasis>). After the run has started you
+			will see a lot of text running through the console. When starting is finished you can type "ps" to show all installed bundles. In column
+			state every bundle should be "Active".</para>
     	</section>
+    	
+ 		<section>
+ 			<title>Conformance and Deployment</title>
+ 			<para>After we have created and test the new project (in this case by running it), the next step is now to make conformance testing and
+ 			deploy them to the Developer Depot. For both parts are currently tools in planning and first versions will be available soon. Information
+ 			about state of development are available at the Tool Wikipage.</para>
+ 			<para>The <emphasis>Conformance tool</emphasis> will help you to verify that a project is compliant with the uAAL system architecture. It is designed and
+ 			configured in order to claim that the software implementation "complies with the reference architecture and design principles". This
+ 			is the basis for deploying applications. Only applications that are confirmed by the Conformance tool, can be deployed to the
+ 			Developer Depot by the <emphasis>Developer Depot Client</emphasis> and therefore offered at the uStore. The AAL Studio already contains menu entries for deployment, but currently there
+ 			is no functionality behind this. In further steps AAL Studio will support the whole development process from creation of the projects,
+ 			over running and testing them, up to deploy conformed applications to the Developer Depot.</para>
+ 		</section>
+ 	
     	<section>
     		<title>Configuration Tool</title>
-    		<para>This tool partially already exists. The basic idea is to extract parameters for application configuration out of java annotations.
-    		It is an Eclipse Plug-In, it extracts  self-defined annotations and writes them into a XML configuration file.
-    		Its basic functionallity is to to build up a XML configuration file automatically in a few seconds, searching trough all source files you want it to use. Much more faster 
-    		than doing it by hand.
-    		For example, in the source may be written:
-    		</para>
-    		<figure>
-		  	<title>Annotation example</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/configurationTool/CTannotation.jpg"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-			</figure>
-    		which is mapped to:
-    		<figure>
-		  	<title>XML mapping</title>
-		  	  <mediaobject>
-      			<imageobject>
-      				<imagedata fileref="media/configurationTool/CT2.jpg"></imagedata>
-      			</imageobject>
-		      </mediaobject>
-			</figure>
-			<para>
-				 The installation instructions and other exmaples on how to use annotations within source code are shown at:
-				<ulink url="http://a1gforge.igd.fraunhofer.de/mediawiki/index.php?title=uaaltools:Configuration_Extractor"></ulink>
-			</para>
+    		<para>The basic idea of the <emphasis>Configuration Tool</emphasis> tool is to extract parameters for application configuration out of
+    		java annotations. So this is gone close the gap between application and end-user in terms of configurable parts within a special application.
+    		For example we could extend our lighting application to automatically switch off all lights off between a configurable starting and end-time
+    		in the night. UniversAAL will (currently not) support a generic installation process that read out a special XML-based file that come up
+    		with the new installation. This file is going to provide information about all parameters that have to be given by the user during the
+    		installation. By giving Java-Annotations in the application the Configuration Tool can read out this and create the appropriate
+    		configuration file for the application that now can be provided together with it.</para>
     		
+    		<para>The Configuration Tool is also an Eclipse plug-in and currently only available within the SVN of the tools-project at the GForge:</para>
+    		
+    		<para>http://a1gforge.igd.fraunhofer.de/svn/uaaltools/trunk/configuration_extractor/ConfigurationPlugIn/plugins</para>
+    		
+    		<para>You need to install it manually by copying the jar file into the "\plugins" folder of your Eclipse compilation. Please do not have started Eclipse
+    		during this steps. Also you need to	download JDOM like available at <ulink url="http://www.jdom.org">www.jdom.org</ulink>. Within the
+    		<emphasis>build</emphasis> folder of JDOM you will find the <emphasis>jdom.jar</emphasis>. You need to add it to the buildpath of
+    		the workspace where you want to use the tool. This can be done over the main-menu at <emphasis>Window -> Preferences</emphasis> and
+    		then go to <emphasis>Java -> Build Path -> Classpath Variables</emphasis>. Here you add a new variable by using the <emphasis>new</emphasis> button.</para>
+    		
+    		<para>Below we are giving the example how to add an annotation the the lighting example:</para>
+    		
+    		<literallayout>
+				@ElementL(id="switchoff",type=ElementL.Type.TEXTBOX,label="Switch all lights off at:",
+				          title="Light controll",standardvalue="2pm")
+				@ElementL(id="switchon",type=ElementL.Type.TEXTBOX,label="Switch all lights on at:",
+				          title="Light controll",standardvalue="6pm")
+			</literallayout>
+			
+			<para>Here we say that we need to have two parameters that have a text as input. You can also give a label and a standard value
+			that will be displayed during configuration by the user. An other possibility would be to create list as input like done in the
+			following example:</para>	 
+			
+			<literallayout>
+				@Lst(label="devices",title="choose device",limit=-1,domain="http://www.universaal.org")
+			</literallayout>
+    		 
+    		<para>You can start the wizard for the Configuration Tool by using the main-menu of eclipse at <emphasis>Net4j Examples -> Extract
+    		configuration</emphasis>. Then simply follow the steps on the screen.</para>
     	</section>
 	</chapter>
