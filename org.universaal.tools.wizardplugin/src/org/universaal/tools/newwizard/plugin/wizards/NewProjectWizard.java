@@ -481,7 +481,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				    + "		<repository>\n" //$NON-NLS-1$
 				    + "			<id>uaal</id>\n" //$NON-NLS-1$
 				    + "			<name>universAAL Repositories</name>\n" //$NON-NLS-1$
-				    + "			<url>http://ala.isti.cnr.it:8080/nexus/content/repositories/releases/</url>\n" //$NON-NLS-1$
+				    + "			<url>http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/releases/</url>\n" //$NON-NLS-1$
 				    + "			<snapshots>\n" //$NON-NLS-1$
 				    + "				<enabled>false</enabled>\n" //$NON-NLS-1$
 				    + "			</snapshots>\n" //$NON-NLS-1$
@@ -489,22 +489,11 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				    + "		<repository>\n" //$NON-NLS-1$
 				    + "			<id>uaal-snapshots</id>\n" //$NON-NLS-1$
 				    + "			<name>universAAL Snapshot Repositories</name>\n" //$NON-NLS-1$
-				    + "			<url>http://ala.isti.cnr.it:8080/nexus/content/repositories/snapshots/</url>\n" //$NON-NLS-1$
+				    + "			<url>http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/snapshots/</url>\n" //$NON-NLS-1$
 				    + "			<releases>\n" //$NON-NLS-1$
 				    + "				<enabled>false</enabled>\n" //$NON-NLS-1$
 				    + "			</releases>\n" + "		</repository>\n" //$NON-NLS-1$ //$NON-NLS-2$
 				    + "	</repositories>\n"); //$NON-NLS-1$
-		    output
-			    .append("<distributionManagement>\n" //$NON-NLS-1$
-				    + "   <repository>\n" //$NON-NLS-1$
-				    + "       <id>releases</id>\n" //$NON-NLS-1$
-				    + "       <url>http://ala.isti.cnr.it:8080/nexus/content/repositories/releases</url>\n" //$NON-NLS-1$
-				    + "   </repository>\n" //$NON-NLS-1$
-				    + "   <snapshotRepository>\n" //$NON-NLS-1$
-				    + "        <id>snapshots</id>\n" //$NON-NLS-1$
-				    + "        <url>http://ala.isti.cnr.it:8080/nexus/content/repositories/snapshots</url>\n" //$NON-NLS-1$
-				    + "   </snapshotRepository>\n" //$NON-NLS-1$
-				    + "</distributionManagement>\n"); //$NON-NLS-1$
 		    output.append("</project>\n"); //$NON-NLS-1$
 		} else {
 		    output.append(line + "\n"); //$NON-NLS-1$
