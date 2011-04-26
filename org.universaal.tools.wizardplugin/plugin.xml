@@ -15,6 +15,13 @@
             id="org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard"
             project="true">
       </wizard>
+      <wizard
+            category="org.universaal.tools.newwizard.plugin"
+            class="org.universaal.tools.newwizard.plugin.wizards.NewItemWizard"
+            icon="icons/uAALmicro.png"
+            id="org.universaal.tools.newwizard.plugin.wizards.NewItemWizard"
+            name="Add uAAL file">
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -65,15 +72,5 @@
          </menu>
       </menuContribution>
    </extension >
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <wizard
-            name="Add uAAL file"
-            icon="icons/uAALmicro.png"
-            category="org.universaal.tools.newwizard.plugin"
-            class="org.universaal.tools.newwizard.plugin.wizards.NewItemWizard"
-            id="org.universaal.tools.newwizard.plugin.wizards.NewItemWizard">
-      </wizard>
-   </extension>
 
 </plugin>
