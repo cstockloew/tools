@@ -56,6 +56,11 @@ public class NewItemWizard extends Wizard implements INewWizard {
 	page = new NewItemWizardPage(selection);
 	page.init(selection);
 	addPage(page);
+	page.setPageComplete(false);
+    }
+    
+    public boolean canFinish() {
+	return page.isPageComplete();
     }
 
     /**
@@ -208,7 +213,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 					+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
 					+ "		</dependency>\n"); //$NON-NLS-1$
 		    }
-		    if (!io && (clsnumber == 4 || clsnumber == 5)) {
+		    if (!io && (clsnumber == 4 || clsnumber == 5 || clsnumber == 7 || clsnumber == 8)) {
 			outputnew
 				.append("		<dependency>\n" //$NON-NLS-1$
 					+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
@@ -263,4 +268,5 @@ public class NewItemWizard extends Wizard implements INewWizard {
 	    return null;
 	}
     }
+    
 }

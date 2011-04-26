@@ -84,13 +84,15 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	model.setDescription(page1.getMavenDescription().getText());
 	// This is the rest of the info coming from the wizard
 	final String pack = page2.getPackaging().getText();
-	final boolean[] checks = { false, false, false, false, false, false };
+	final boolean[] checks = { false, false, false, false, false, false, false, false };
 	checks[0] = page2.getCpublisher().getSelection();
 	checks[1] = page2.getCsubscriber().getSelection();
 	checks[2] = page2.getIsubscriber().getSelection();
 	checks[3] = page2.getOpublisher().getSelection();
 	checks[4] = page2.getScallee().getSelection();
 	checks[5] = page2.getScaller().getSelection();
+	checks[6] = page2.getIpublisher().getSelection();
+	checks[7] = page2.getOsubscriber().getSelection();
 
 	// I use deprecated methods because I haven´t found the new way to
 	// create a new project
@@ -194,6 +196,16 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		    if (checks[5]) {
 			IFile f8 = src.getFile("SCaller.java"); //$NON-NLS-1$
 			f8.create(customizeFileStream("SCaller", pack, //$NON-NLS-1$
+				checks), true, monitor);
+		    }
+		    if (checks[6]) {
+			IFile f9 = src.getFile("IPublisher.java"); //$NON-NLS-1$
+			f9.create(customizeFileStream("IPublisher", pack, //$NON-NLS-1$
+				checks), true, monitor);
+		    }
+		    if (checks[7]) {
+			IFile f10 = src.getFile("OSubscriber.java"); //$NON-NLS-1$
+			f10.create(customizeFileStream("OSubscriber", pack, //$NON-NLS-1$
 				checks), true, monitor);
 		    }
 		    IFile pom = project.getFile("pom.xml"); //$NON-NLS-1$
@@ -319,6 +331,10 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		    if (checks[0])
 			output
 				.append("	public static CPublisher cpublisher=null;\n"); //$NON-NLS-1$
+		    if (checks[6])
+			output.append("	public static IPublisher ipublisher=null;\n"); //$NON-NLS-1$
+		    if (checks[7])
+			output.append("	public static OSubscriber osubscriber=null;\n"); //$NON-NLS-1$
 		} else if (line.contains("/*TAG:START*/")) { //$NON-NLS-1$
 		    if (checks[4])
 			output.append("		callee=new SCallee(context);\n"); //$NON-NLS-1$
@@ -334,6 +350,10 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		    if (checks[0])
 			output
 				.append("		cpublisher=new CPublisher(context);\n"); //$NON-NLS-1$
+		    if (checks[6])
+			output.append("		ipublisher=new IPublisher(context);\n"); //$NON-NLS-1$
+		    if (checks[7])
+			output.append("		osubscriber=new OSubscriber(context);\n"); //$NON-NLS-1$
 		} else if (line.contains("/*TAG:STOP*/")) { //$NON-NLS-1$
 		    if (checks[4])
 			output.append("		callee.close();\n"); //$NON-NLS-1$
@@ -347,6 +367,10 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			output.append("		csubscriber.close();\n"); //$NON-NLS-1$
 		    if (checks[0])
 			output.append("		cpublisher.close();\n"); //$NON-NLS-1$
+		    if (checks[6])
+			output.append("		ipublisher.close();\n"); //$NON-NLS-1$
+		    if (checks[7])
+			output.append("		osubscriber.close();\n"); //$NON-NLS-1$
 		} else if (line.contains("/*TAG:CLASSNAME*/")) { //$NON-NLS-1$
 		    line = line.replace("/*TAG:CLASSNAME*/", filename); //$NON-NLS-1$
 		    output.append(line + "\n"); //$NON-NLS-1$
@@ -397,7 +421,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 					+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
 					+ "		</dependency>\n"); //$NON-NLS-1$
 		    }
-		    if (checks[2] || checks[3]) {
+		    if (checks[2] || checks[3] || checks[6] || checks[7]) {
 			output
 				.append("		<dependency>\n" //$NON-NLS-1$
 					+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$

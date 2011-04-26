@@ -11,6 +11,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -31,6 +32,9 @@ public class NewProjectWizardPage2 extends WizardPage {
     private Button scaller;
     private Button isubscriber;
     private Button opublisher;
+    private Button ipublisher;
+    private Button osubscriber;
+    private Combo drop;
     private Text packaging;
 
     /**
@@ -141,7 +145,89 @@ public class NewProjectWizardPage2 extends WizardPage {
 		// TODO: Do we really need to do something here?
 	    }
 	});
+	// IPublisher
+	ipublisher = new Button(container, SWT.CHECK);
+	GridData gd8 = new GridData(GridData.FILL_HORIZONTAL);
+	ipublisher.setLayoutData(gd8);
+	ipublisher.setText(Messages.getString("Page2.11")); //$NON-NLS-1$
+	ipublisher.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+		// TODO: Do we really need to do something here?
+	    }
+	});
+	// OSubscriber
+	osubscriber = new Button(container, SWT.CHECK);
+	GridData gd9 = new GridData(GridData.FILL_HORIZONTAL);
+	osubscriber.setLayoutData(gd9);
+	osubscriber.setText(Messages.getString("Page2.12")); //$NON-NLS-1$
+	osubscriber.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+		// TODO: Do we really need to do something here?
+	    }
+	});
 
+	// Dropdown with template of full project
+	Label label5 = new Label(container, SWT.NULL);
+	label5.setText(Messages.getString("Page2.13")); //$NON-NLS-1$
+	
+	drop = new Combo(container, SWT.READ_ONLY);
+	drop.select(0);
+	GridData gd10 = new GridData(GridData.FILL_HORIZONTAL);
+	drop.setLayoutData(gd10);
+	drop.add(Messages.getString("Page2.14"), 0); //$NON-NLS-1$
+	drop.add(Messages.getString("Page2.15"), 1); //$NON-NLS-1$
+	drop.add(Messages.getString("Page2.16"), 2); //$NON-NLS-1$
+	drop.add(Messages.getString("Page2.17"), 3); //$NON-NLS-1$
+	drop.add(Messages.getString("Page2.18"), 4); //$NON-NLS-1$
+	drop.add(Messages.getString("Page2.19"), 5); //$NON-NLS-1$
+	drop.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+		csubscriber.setSelection(false);
+		cpublisher.setSelection(false);
+		scallee.setSelection(false);
+		scaller.setSelection(false);
+		isubscriber.setSelection(false);
+		opublisher.setSelection(false);
+		ipublisher.setSelection(false);
+		osubscriber.setSelection(false);
+		switch (drop.getSelectionIndex()) {
+		case 0:
+		    csubscriber.setSelection(true);
+		    cpublisher.setSelection(true);
+		    scallee.setSelection(true);
+		    scaller.setSelection(true);
+		    isubscriber.setSelection(true);
+		    opublisher.setSelection(true);
+		    break;
+		case 1:
+		    csubscriber.setSelection(true);
+		    cpublisher.setSelection(true);
+		    scallee.setSelection(true);
+		    scaller.setSelection(true);
+		    break;
+		case 2:
+		    cpublisher.setSelection(true);
+		    break;
+		case 3:
+		    cpublisher.setSelection(true);
+		    scallee.setSelection(true);
+		    break;
+		case 4:
+		    csubscriber.setSelection(true);
+		    cpublisher.setSelection(true);
+		    break;
+		case 5:
+		    ipublisher.setSelection(true);
+		    osubscriber.setSelection(true);
+		    break;
+		default:
+		    break;
+		}
+
+		validateInput();
+	    }
+	});
+	
 	validateInput();
 	setControl(container);
     }
@@ -194,6 +280,14 @@ public class NewProjectWizardPage2 extends WizardPage {
 
     public Button getOpublisher() {
 	return opublisher;
+    }
+    
+    public Button getIpublisher() {
+	return ipublisher;
+    }
+
+    public Button getOsubscriber() {
+	return osubscriber;
     }
 
     public Text getPackaging() {
