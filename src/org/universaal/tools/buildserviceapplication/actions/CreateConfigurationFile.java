@@ -57,7 +57,7 @@ public class CreateConfigurationFile {
 				MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
 				Model model = xpp3Reader.read(reader);
 				List<Dependency> dependencies = model.getDependencies();
-				System.out.println("Project dependencies:\n");
+				
 				for (int i = 0; i < dependencies.size(); i++) {
 					Dependency dependency = dependencies.get(i);
 					if (dependency.getGroupId().equals(
