@@ -26,16 +26,16 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  * 
  * @see IWorkbenchWindowActionDelegate
  */
-public class UploadAction implements IWorkbenchWindowActionDelegate {
-	static private String NEXUS_URL = "http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/";
-	static private String NEXUS_USERNAME = "deployment";
-	static private String NEXUS_PASSWORD = "uaal_49_nexus";
+public class PublishAction implements IWorkbenchWindowActionDelegate {
+	static private String NEXUS_URL = "http://srv-ustore.haifa.il.ibm.com:8081/nexus/content/repositories/";
+	static private String NEXUS_USERNAME = "admin";
+	static private String NEXUS_PASSWORD = "admin123";
 	private IWorkbenchWindow window;
 
 	/**
 	 * The constructor.
 	 */
-	public UploadAction() {
+	public PublishAction() {
 
 	}
 
