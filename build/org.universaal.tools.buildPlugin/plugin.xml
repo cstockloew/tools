@@ -12,43 +12,35 @@
                label="universAAL"
                id="org.universaal.tools.build.plugin.menu">
             <separator
-                  name="sampleGroup">
+                  name="uAALGroup">
             </separator>
          </menu>
          <action
                label="&amp;Upload project to Developer Depot"
-               icon="icons/sample.gif"
+               icon="icons/upload.png"
                class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
                tooltip="Upload project to Developer Depot"
-               menubarPath="org.universaal.tools.build.plugin.menu/sampleGroup"
-               toolbarPath="sampleGroup"
+               menubarPath="org.universaal.tools.build.plugin.menu/uAALGroup"
+               toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
          </action>
-                  <action
-               label="&amp;Debug universAAL Service"
-               icon="icons/sample.gif"
-               class="org.universaal.tools.buildserviceapplication.actions.DebugAction"
-               tooltip="Debug universAAL Service"
-               menubarPath="org.universaal.tools.build.plugin.menu/sampleGroup"
-               toolbarPath="sampleGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.DebugAction" >				
-         </action>
+                  
          <action
                label="&amp;Run universAAL Service"
-               icon="icons/sample.gif"
+               icon="icons/run.png"
                class="org.universaal.tools.buildserviceapplication.actions.RunAction"
                tooltip="Run universAAL Service"
-               menubarPath="org.universaal.tools.build.plugin.menu/sampleGroup"
-               toolbarPath="sampleGroup"
+               menubarPath="org.universaal.tools.build.plugin.menu/uAALGroup"
+               toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.RunAction" >			
          </action>
          <action
                label="&amp;Build universAAL Service"
-               icon="icons/sample.gif"
+               icon="icons/compile.png"
                class="org.universaal.tools.buildserviceapplication.actions.BuildAction"
                tooltip="Build universAAL Service"
-               menubarPath="org.universaal.tools.build.plugin.menu/sampleGroup"
-               toolbarPath="sampleGroup"
+               menubarPath="org.universaal.tools.build.plugin.menu/uAALGroup"
+               toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.BuildAction">				
          </action>
          

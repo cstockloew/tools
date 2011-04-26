@@ -1,49 +1,10 @@
 package org.universaal.tools.buildserviceapplication.actions;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.codehaus.plexus.DefaultPlexusContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationType;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Text;
-import org.apache.maven.DefaultMaven;
-import org.apache.maven.Maven;
-import org.apache.maven.cli.MavenCli;
-import org.apache.maven.execution.DefaultMavenExecutionRequest;
-import org.apache.maven.execution.MavenExecutionRequest;
-import org.apache.maven.execution.MavenExecutionRequestPopulator;
-import org.apache.maven.execution.MavenExecutionResult;
-import org.apache.maven.settings.building.DefaultSettingsBuildingRequest;
-import org.apache.maven.settings.building.SettingsBuilder;
-import org.apache.maven.settings.building.SettingsBuildingRequest;
 
 /**
  * Our sample action implements workbench action delegate. The action proxy will
@@ -70,19 +31,26 @@ public class RunAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		if (BuildAction.buildedProjects.contains(BuildAction
-				.getSelectedProjectPath())) {
-			try {
-				ConfigurationLauncher launcher = new ConfigurationLauncher(CreateConfigurationFile.artifactId);
-				launcher.run();
-			} catch (Exception ex) {
-				ex.printStackTrace();
+		if (!BuildAction.getSelectedProjectPath().equals("")) {
+			if (BuildAction.buildedProjects.contains(BuildAction
+					.getSelectedProjectPath())) {
+				try {
+					ConfigurationLauncher launcher = new ConfigurationLauncher(
+							CreateConfigurationFile.artifactId);
+					launcher.run();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					MessageDialog.openInformation(null,
+							"BuildServiceApplication",
+							"Could not run application");
+				}
+			} else {
 				MessageDialog.openInformation(null, "BuildServiceApplication",
-						"Could not run application");
+						"Please build the project first.");
 			}
 		} else {
 			MessageDialog.openInformation(null, "BuildServiceApplication",
-					"Please build the project first.");
+					"Please select a project in the Project Explorer tab.");
 		}
 	}
 
