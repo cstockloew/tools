@@ -7,8 +7,12 @@ import org.eclipse.jdt.ui.wizards.NewTypeWizardPage; //import org.eclipse.jface.
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -42,11 +46,13 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	IJavaElement jelem = getInitialJavaElement(selection);
 	initContainerPage(jelem);
 	initTypePage(jelem);
-	doStatusUpdate();
+//	doStatusUpdate();
+	validateInput();
 	// IDialogSettings dialogSettings = getDialogSettings();
 	// if (dialogSettings != null) {
 	// IDialogSettings section = dialogSettings.getSection("wizardPage");
 	// }
+	setPageComplete(false);
     }
 
     /**
@@ -92,6 +98,11 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	clasname = new Text(container, SWT.BORDER | SWT.SINGLE);
 	GridData gd0 = new GridData(GridData.FILL_HORIZONTAL);
 	clasname.setLayoutData(gd0);
+	clasname.addPaintListener(new PaintListener() {
+	    public void paintControl(PaintEvent arg0) {
+		validateInput();
+	    }
+	});
 	clasname.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
 		validateInput();
@@ -110,6 +121,8 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	drop.add(Messages.getString("PageI.7"), 4); //$NON-NLS-1$
 	drop.add(Messages.getString("PageI.8"), 5); //$NON-NLS-1$
 	drop.add(Messages.getString("PageI.9"), 6); //$NON-NLS-1$
+	drop.add(Messages.getString("PageI.14"), 7); //$NON-NLS-1$
+	drop.add(Messages.getString("PageI.15"), 8); //$NON-NLS-1$
 	drop.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		validateInput();
@@ -181,6 +194,10 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	    return "OPublisher.java"; //$NON-NLS-1$
 	case 6:
 	    return "SCalleeProvidedService.java"; //$NON-NLS-1$
+	case 7:
+	    return "IPublisher.java"; //$NON-NLS-1$
+	case 8:
+	    return "OSubscriber.java"; //$NON-NLS-1$
 	default:
 	    return null;
 	}
@@ -189,7 +206,7 @@ public class NewItemWizardPage extends NewTypeWizardPage {
     protected void handleFieldChanged(String fieldName) {
 	// TODO Auto-generated method stub
 	super.handleFieldChanged(fieldName);
-	doStatusUpdate();
+//	doStatusUpdate();
 	validateInput();
     }
 
