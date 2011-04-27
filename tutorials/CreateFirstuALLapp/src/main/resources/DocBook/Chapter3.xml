@@ -11,7 +11,7 @@
     		<title>The lighting example</title>
     		<para>The basic idea of the lighting example from the Developer Handbook is to create an universAAL application that is as easy to
     		understand as possible, but also contains and can represent some basic aspects. The source of the full example can be found at
-    		the GForge server within the SVN of the middleware project in trunk/samples/lighting/. This basic example contains of two bundles,
+    		the GForge server within the SVN of the middleware project in "trunk/samples/lighting/". This basic example contains of two bundles,
     		where one is a server and an other one the client. In this case the server bundle is the one that offers some special services and
     		the client will create calls for them. What we want to do here is to control light-sources that are connected to the server from a
     		remote location. Therefore we need several functions within the service provided by the server. These are to get the available
@@ -23,7 +23,7 @@
     		<title>Creating new projects</title>
     		<para>In the following we assume that you have prepared a well running version of eclipse as mentioned in the DH and the previous
     		chapter. Please prepare a new workspace at an arbitrary location we denote as WORKSPACE in the following. Now we are first going
-    		to create the server-project of the lighting example. Therefore we can use the "Project and Item Wizards". This makes it easy to crate
+    		to create the server-project of the lighting example. Therefore we can use the "Project and Item Wizards". This makes it easy to create
     		new universAAL-compliant projects by providing a skeleton project with all the files you need and initial content to make the project
     		work in universAAL. The item wizards generate new files required or optional to a universAAL project with the proper formatting and
     		template or initial content. It reduces the time of development since without this tool a developer would need to give the project or
@@ -32,9 +32,10 @@
     		provide setup and configuration options which are useful for typical development projects. Future versions may add further options
     		that also simplify more advanced setup and configuration.</para>
     		<para>Now we are going to create the server-project by using "universAAL -> Create a new Project" from the menu (must be available
-    		after the installation of the AAL Studio plug-in). You should see a dialog like given in <xref linkend="img3"/>.</para>
+    		after the installation of the AAL Studio plug-in) or "File -> New Project -> universAAL -> universAAL template project". You should
+    		see a dialog like given in <xref linkend="img3"/> at the left.</para>
     		
-    		<table frame='none' tocentry='0'>
+    		<!-- <table frame='none' tocentry='0'>
     			<title>Creation of server project</title>
 				<tgroup cols='2' align='center' colsep='0' rowsep='0'>
 					<tbody>
@@ -42,31 +43,40 @@
   							<entry>
   								<figure id="img3">
 									<title>Create server project</title>
-									<graphic width="150px" align="center" fileref="newmedia/itemswizard/ServerProject.png"/>
+									<graphic width="170px" align="center" fileref="newmedia/itemswizard/ServerProject.png"/>
 								</figure>
 							</entry>
   							<entry>
   								<figure id="img4">
 									<title>Add server classes</title>
-									<graphic width="195px" align="center" fileref="newmedia/itemswizard/ServerClasses.png"/>
+									<graphic width="215px" align="center" fileref="newmedia/itemswizard/ServerClasses.png"/>
 								</figure>
   							</entry>
 						</row>
 					</tbody>
 				</tgroup>
-			</table>
+			</table> -->
 			
-			<para>Here we already filled out all fields according the server of the lighting-example. The shown field are currently suited to the
+			<figure id="img3">
+				<title>Create server project</title>
+				<graphic width="450px" align="center" fileref="newmedia/itemswizard/ServerProject.png"/>
+			</figure>
+			<!--<figure id="img4">
+				<title>Add server classes</title>
+				<graphic width="255px" align="center" fileref="newmedia/itemswizard/ServerClasses.png"/>
+			</figure>-->
+			
+			<para>Here we already filled out all fields according the server of the lighting-example. The shown fields are currently suited to the
 			needs of Maven. The <emphasis>Group-Id</emphasis> denotes a dependency between several projects. The <emphasis>Artifact-Id</emphasis>
-			unique identifies this project. In general you can write here what ever you want, but best practice to use an URI based approach like
-			given in this example. Version of the tools is also a mandatory field, here also the proposed value fits to the actual best practice.
-			In <xref linkend="img3"/> you see the following dialog, again with already filled out fields. According to the server from the
+			unique identifies this project. In general you can write here what ever you want, but best practice is to use an URI based approach like
+			given in this example. Version of the project is also a mandatory field, here also the proposed value fits to the actual best practice.
+			In <xref linkend="img3"/> at the right you see the following dialog, again with already filled out fields. According to the server from the
 			lighting example we want to provide a service (done with a Service Callee) and publish context-events about the status of the light-sources
 			(done with Context Publisher). <emphasis>Activator Package</emphasis> is the path to the class that will contain the start-method of the
 			bundle. So now after finish the dialog. The project will be created and we directly going to create the lighting-project straight forward
 			like given before. To make things easier you can see in figure <xref linkend="img5"/> and <xref linkend="img6"/></para>
 			
-			<table frame='none' tocentry='0'>
+			<!-- <table frame='none' tocentry='0'>
     			<title>Creation of client project</title>
 				<tgroup cols='2' align='center' colsep='0' rowsep='0'>
 					<tbody>
@@ -74,19 +84,28 @@
   							<entry>
   								<figure id="img5">
 									<title>Create server project</title>
-									<graphic width="150px" align="center" fileref="newmedia/itemswizard/ClientProject.png"/>
+									<graphic width="170px" align="center" fileref="newmedia/itemswizard/ClientProject.png"/>
 								</figure>
 							</entry>
   							<entry>
   								<figure id="img6">
 									<title>Add server classes</title>
-									<graphic width="175px" align="center" fileref="newmedia/itemswizard/ClientClasses.png"/>
+									<graphic width="195px" align="center" fileref="newmedia/itemswizard/ClientClasses.png"/>
 								</figure>
   							</entry>
 						</row>
 					</tbody>
 				</tgroup>
-			</table>
+			</table> -->
+			
+			<figure id="img5">
+				<title>Create server project</title>
+				<graphic width="450px" align="center" fileref="newmedia/itemswizard/ClientProject.png"/>
+			</figure>
+  			<!--<figure id="img6">
+				<title>Add server classes</title>
+				<graphic width="235px" align="center" fileref="newmedia/itemswizard/ClientClasses.png"/>
+			</figure>-->
 			
 			<para>The main differences by creating the client are the changed Artifact-ID and the other added classes. Because here we want
 			to receive context-events and call for services, we are going to create a service-caller and a context-subscriber. If both projects are
@@ -94,7 +113,7 @@
 			
 			<figure id="img7">
 				<title>Overview about the created projects</title>
-				<graphic width="200px" align="center" fileref="newmedia/itemswizard/ProjectOverview.png"/>
+				<graphic width="300px" align="center" fileref="newmedia/itemswizard/ProjectOverview.png"/>
 			</figure>
 			
 			<para>This is already very similar to the one provided in the original lighting example, except of that we are going to create extra classes
@@ -126,13 +145,7 @@
     		can find in DH3 or have a look into the created pom.xml in both projects (have a look for the <emphasis>maven-bundle-plugin</emphasis>).
     		Our tools will make live easy for you and allows to simply create the needed bundle and install it into the local Maven repository.
     		Therefore simply call <emphasis>Build universAAL Service</emphasis> to build the currently selected project. If everything is fine
-    		you will find a message like shown in <xref linkend="img9"/> for both projects in the Eclipse console.</para>
-    		
-    		<figure id="img9">
-				<title>Project build success</title>
-				<graphic align="center" fileref="media/servicebuild/MavenSuccess.png"/>
-			</figure>
-    		
+    		you will get an pop-up message that show you the success.</para>    		
     		<para>Now we are ready to start example. To start universAAL means to start an instance of the Felix-Runtime environment and load
     		all needed bundles. This contains the one created by us, but also all bundles that are needed for runtime of the platform. The needed
     		steps for this could be quite complicated because many bundles have to be load ever startup. Here our tools come up again. Over the main
@@ -142,12 +155,12 @@
     		
     		<figure id="img10">
 				<title>A valid run-configuration for universAAL</title>
-				<graphic width="180px" align="center" fileref="newmedia/buildandrun/run.png"/>
+				<graphic width="220px" align="center" fileref="newmedia/buildandrun/run.png"/>
 			</figure>
 			
-			<para>Here our projects are highlighted with the two red squares, the other on will be added for you. Currently not both projects will be
-			added two the configuration automatically. But you can do the procedure for the server and add the client per hand like shown in the
-			figure (<emphasis>mvn:</emphasis>+<emphasis>Group-ID</emphasis>+<emphasis>Artefact-ID</emphasis>). After the run has started you
+			<para>Here our projects are highlighted with the two red squares. Currently not both projects will be added to the configuration
+			automatically. But you can do the procedure for the server and add the client per hand like shown in the figure
+			(<emphasis>mvn:</emphasis>+<emphasis>Group-ID</emphasis>+/+<emphasis>Artefact-ID</emphasis>). After the run has started you
 			will see a lot of text running through the console. When starting is finished you can type "ps" to show all installed bundles. In column
 			state every bundle should be "Active".</para>
     	</section>

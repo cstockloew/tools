@@ -3,31 +3,31 @@
     	<para>Welcome to the universAAL Tools guide. This document is going to introduce the available tools for the universAAL platform. 
     	We will start by giving a short overview about the general scope of the platform as well as useful links to more detailed information 
     	about the platform itself. In this document you will learn how you can use the existing tools to make your life easier during developing 
-    	with universAAL and therefore save time as well as creating more robust programms.</para>
+    	with universAAL and therefore save time as well as creating more robust programm's.</para>
     
     	<section>
     	<title>The universAAL project</title>
     	<para>UniversAAL is a by the Europan Commission sponsored project that going to create a reference specification to control open systems 
-    	in area of Ambient Assisted Living. Also a reference implementation of the general concept will be provided an offered under GPL license. 
-    	So feel welcome to join the universAAL community at the <ulink url="http://www.universaal.org/"> universAAL homepage (www.universaal.org)</ulink>
-    	if you want to be a part of our team. This page is the best one to get first information about the general scope and progress in universAAL.
-    	All projects that are a part of universAAL currently are hosted with a <emphasis>GForge-Server</emphasis> at <ulink url="http://forge.universaal.org">http://forge.universaal.org</ulink>.
+    	in area of Ambient Assisted Living. Also a reference implementation of the general concept will be provided and offered under ASL2.0 license. 
+    	So feel welcome to join the universAAL community at the <ulink url="http://www.universaal.org/"> universAAL homepage</ulink>.
+    	This page is the best one to get first information about the general scope and progress in universAAL. All projects that are a part of universAAL
+    	currently are hosted with a <emphasis>GForge-Server</emphasis> at <ulink url="http://forge.universaal.org">http://forge.universaal.org</ulink>.
     	Here you can register for a new account and get access to all free available sources. The main project for this guide is called
     	"universAAL_Tools" and can be accessed directly from the main page. If you have a valid account at the developer page you can also
     	access the <ulink url="http://forge.universaal.org/mediawiki/index.php?title=uaaltools:Main_Page">Wiki-Pages</ulink> of the tools project.
-    	Here you can get up-to-date information about current development process and further help about special tools.
-    	An other important link is the one to the <emphasis>Developer-Depot</emphasis> at <ulink url="http://depot.universaal.org/">depot.universaal.org/</ulink>. Here
-    	you can find all needed information about current development status in universAAL and will in future get the possibility to upload
-    	application created by you into the integrated Nexus-Server (<ulink url="http://depot.universaal.org/nexus">depot.universaal.org/nexus</ulink>).
+    	Here you can get up-to-date information about current development process and further help about special tools. An other important link is
+    	the one to the <ulink url="http://depot.universaal.org/">Developer-Depot</ulink>.
+    	Here you can find all needed information about current development status in universAAL and will in future get the possibility to upload
+    	application created by you into the integrated <ulink url="http://depot.universaal.org/nexus">Nexus-Server</ulink>.
     	Also here is the central place to get all needed information for developing applications for the universAAL platform.
     	In opposite to the Developer-Depot there exists also a store for Apps called <emphasis>uStore</emphasis>. The idea behind this is that we have three
     	main steps during development. First you write the new application locally and test it out. Second you compile at to a bundle and upload it to
     	the Developer-Depot. At third a service-provider will offer your application in the uStore, maybe in combination with some hardware and 
     	human resources (like installation support, needed sensors, professional care-givers, ...).</para>
-    	<para>For even more detailed information then you can find in the Developer Handbook or this Guide we refer to the Deliverables of the
-    	universAAL project. All about the reference architecture you can find in D1.3 (current version is D1.3-C). More about evaluated requirements,
-    	the stakeholder model and terminology of universAAL you can find in the other Deliverables with 1.X (X in {1,2,4}). Where the developer handbook
-    	is a part of D2.4 you can also get further information from the other deliverables with 2.X. Detailed information about the tools described in
+    	<para>Even more detailed information you can find in the Deliverables of the universAAL project.
+    	All about the reference architecture you can find in D1.3 (current version is D1.3-C). More about evaluated requirements,
+    	the stakeholder model and terminology of universAAL you can find in the Deliverables D1.1, D1.2 and D1.4. Where the developer handbook
+    	is a part of D2.4 you can also get further information from the other deliverables with Workpackage 2. Detailed information about the tools described in
     	this guide you will find in all deliverables with 3.X.</para>
     	</section>
     	
@@ -47,16 +47,15 @@
 		</figure>
    		
    		<para>Currently most tools are concentrated within the <emphasis>AAL Studio</emphasis> that are based on the Eclipse IDE.
-   		Here are functionalities provided that are basic for development with universAAL of provide some kind of convenience.
-   		For example the "Project and Item Wizards" contains possibilites to create new projects and put universAAL based classes into them.
-   		The Developer Depot Client will offer a possibility to upload your application directly from Eclipse into the Developer Depot and Conformance
+   		Here are functionalities provided that are basic for development with universAAL or provide some kind of convenience.
+   		For example the "Project and Item Wizards" contains possibilities to create new projects and put universAAL based classes into them.
+   		The Developer Depot Client will offer a possibility to upload your application directly from Eclipse into the Developer Depot. The Conformance
    		Tools allow to check if you newly created application fits the needs and standards of univerAAL. Managing of Developer Depot and the Eclipse Update
    		Page itself, as well as the uStore are also within the responsibility of the universAAL tools. Finally the <emphasis>Deployment and Personalization tools</emphasis>
    		cover the gap between End-User and Application by providing tools to download, install and configure application according to the special
-   		needs of an AAL-System. Also tools to support changing of reasoning and service composition will be a part of this package. To get
-   		a current state in development of all tools you can have a look into the Tools Wikipage at
-   		<ulink url="http://forge.universaal.org/mediawiki/index.php?title=uaaltools:Main_Page">http://forge.universaal.org/mediawiki/index.php?title=uaaltools:Main_Page</ulink>
-   		(need an account on GForge)</para>
+   		needs of an AAL-System. Also tools that allow also end-user to take control over events in the system and create new services by combining
+   		existing one will be a part of this package. To get	a current state in development of all tools you can have a look into the 
+   		<ulink url="http://forge.universaal.org/mediawiki/index.php?title=uaaltools:Main_Page">Tools Wikipage</ulink> (need an account on GForge)</para>
    		</section>
    		
    		<section>
