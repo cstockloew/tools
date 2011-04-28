@@ -30,6 +30,9 @@
    <feature url="features/org.universaal.tools.newwizard.feature_0.2.0.jar" id="org.universaal.tools.newwizard.feature" version="0.2.0">
       <category name="universaal_tools"/>
    </feature>
+   <feature url="features/org.universaal.tools.newwizard.feature_0.2.1.jar" id="org.universaal.tools.newwizard.feature" version="0.2.1">
+      <category name="universaal_tools"/>
+   </feature>
    <category-def name="universaal_tools" label="universAAL tools">
       <description>
          Tools for development using the universAAL platform
