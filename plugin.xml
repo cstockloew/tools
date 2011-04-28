@@ -9,8 +9,8 @@
             visible="true"
             id="org.universaal.tools.buildServiceApplication.actionSet">
          <menu
-               label="universAAL"
-               id="org.universaal.tools.build.plugin.menu">
+               label="AAL Studio"
+               id="org.universaal.tools.newwizard.plugin.menu">
             <separator
                   name="uAALGroup">
             </separator>
@@ -20,7 +20,7 @@
                icon="icons/publish.png"
                class="org.universaal.tools.buildserviceapplication.actions.PublishAction"
                tooltip="Publish application to uStore"
-               menubarPath="org.universaal.tools.build.plugin.menu/uAALGroup"
+               menubarPath="org.universaal.tools.newwizard.plugin.menu/uAALGroup"
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.PublishAction">			
          </action>
@@ -29,7 +29,7 @@
                icon="icons/upload.png"
                class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
                tooltip="Upload application to Developer Depot"
-               menubarPath="org.universaal.tools.build.plugin.menu/uAALGroup"
+               menubarPath="org.universaal.tools.newwizard.plugin.menu/uAALGroup"
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
          </action>
@@ -39,7 +39,7 @@
                icon="icons/run.png"
                class="org.universaal.tools.buildserviceapplication.actions.RunAction"
                tooltip="Run universAAL application"
-               menubarPath="org.universaal.tools.build.plugin.menu/uAALGroup"
+               menubarPath="org.universaal.tools.newwizard.plugin.menu/uAALGroup"
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.RunAction" >			
          </action>
@@ -48,7 +48,7 @@
                icon="icons/compile.png"
                class="org.universaal.tools.buildserviceapplication.actions.BuildAction"
                tooltip="Build universAAL application"
-               menubarPath="org.universaal.tools.build.plugin.menu/uAALGroup"
+               menubarPath="org.universaal.tools.newwizard.plugin.menu/uAALGroup"
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.BuildAction">				
          </action>
