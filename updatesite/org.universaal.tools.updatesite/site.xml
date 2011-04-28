@@ -39,12 +39,12 @@
    <feature url="features/org.universaal.tools.newwizard.feature_0.3.0.jar" id="org.universaal.tools.newwizard.feature" version="0.3.0">
       <category name="universaal_tools"/>
    </feature>
-   <category-def name="universaal_tools" label="universAAL tools">
+   <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
-         Tools for development using the universAAL platform
+         Tools for development of AAL applications using the universAAL platform
       </description>
    </category-def>
-   <category-def name="universaal_future_tools" label="universAAL upcomming tools">
+   <category-def name="universaal_future_tools" label="AAL Studio upcomming tools">
       <description>
          The tools in this category are still in early development and are currently not complete enough for use during regular development
       </description>
