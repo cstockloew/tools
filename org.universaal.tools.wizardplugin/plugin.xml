@@ -56,7 +56,7 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
-               label="universAAL"
+               label="AAL Studio"
                mnemonic="U"
                id="org.universaal.tools.newwizard.plugin.menu">
             <command
