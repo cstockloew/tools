@@ -1,12 +1,17 @@
 package org.universaal.tools.dashboard.views;
 
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 //import org.eclipse.swt.widgets.Event;
 //import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.part.ViewPart;
+import org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard;
 
 public class OverviewView extends ViewPart {
 
@@ -15,10 +20,9 @@ public class OverviewView extends ViewPart {
 	private Button button02;
 	private Button button03;
 
+	private static Listener listener;
 	
-	//TODO Fix listners
-	//private static Listener button01Listener;
-	//private static Listener button02Listener;
+	private static NewProjectWizard newProjectWizard;
 	
 	public OverviewView() {}
 
@@ -33,7 +37,7 @@ public class OverviewView extends ViewPart {
 		button01.setBounds(10, 10, 125, 50);
 		//TODO tie in with wizard
 		button01.setText("New Project");
-
+		
 		// The developer can select the template for the project
 		//TODO tie in with wizard
 		button02 = new Button(canvas, SWT.PUSH);
@@ -47,20 +51,37 @@ public class OverviewView extends ViewPart {
 		
 		
 		//TODO make sensible event!
-/*		button01Listener = new Listener() {
+		listener = new Listener() {
+
+			@Override
 			public void handleEvent(Event event) {
-				
+				if (event.widget == button01){
+					//TODO open the new project wizard
+					newProjectWizard = new NewProjectWizard();
+					newProjectWizard.init(getViewSite().getWorkbenchWindow().getWorkbench(), null);
+					WizardDialog dialog = new WizardDialog(getViewSite().getWorkbenchWindow().getWorkbench().getActiveWorkbenchWindow().getShell(), newProjectWizard);
+					dialog.create();
+					dialog.open();
+				} else if(event.widget == button02){
+					//TODO do something
+				} else if(event.widget == button03){
+					//TODO do something
 				}
-				
-			};*/
+			}
+			};
 	
-		
-//		button01.addListener(SWT.Selection, button01Listener);
+		/*
+		// Instantiates and initializes the wizard
+	   	NewProjectWizard wizard = new NewProjectWizard();
+	   	wizard.init(part.getSite().getWorkbenchWindow().getWorkbench(),(IStructuredSelection)selection);
+	    
+	   	
+	   	// Instantiates the wizard container with the wizard and opens it
+	    WizardDialog dialog = new WizardDialog(shell, wizard);
+	    dialog.create();
+	    dialog.open();*/
 		
 
-		
-	//	button02.addListener(SWT.Selection, button02Listener);
-		
 	}
 
 	@Override

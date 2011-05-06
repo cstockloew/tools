@@ -31,5 +31,15 @@
             restorable="true">
       </view>
    </extension>
+   <extension
+         id="org.universaal.tools.newwizard.plugin.wizards.NewItemWizard"
+         name="NewProjectWizard"
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="org.universaal.tools.newwizard.plugin"
+            id="org.universaal.tools.newwizard.plugin"
+            name="NewProjectWizard">
+      </wizard>
+   </extension>
 
 </plugin>
