@@ -58,7 +58,7 @@
          <menu
                label="AAL Studio"
                mnemonic="U"
-               id="org.universaal.tools.newwizard.plugin.menu">
+               id="org.universaal.tools.AALStudio.menu">
             <command
                   commandId="org.universaal.tools.newwizard.plugin.command.startNewWizard"
                   mnemonic="P"
