@@ -15,25 +15,23 @@ import org.codehaus.plexus.util.Base64;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 
-
-
-
 public class UploadArtifact {
-	private String NEXUS_URL="";
-	private String NEXUS_USERNAME="";
-	private String NEXUS_PASSWORD="";		
-	private IWorkbenchWindow window;	
+	private String NEXUS_URL = "";
+	private String NEXUS_USERNAME = "";
+	private String NEXUS_PASSWORD = "";
+	private IWorkbenchWindow window;
 	private String repositoryPath = "";
 	private boolean artifactUploaded = true;
 	private boolean isArtifactRelease = true;
-	
-	public UploadArtifact(String nexusUrl, String nexusUserName, String nexusPassword){
-		this.NEXUS_URL=nexusUrl;
-		this.NEXUS_USERNAME=nexusUserName;
-		this.NEXUS_PASSWORD=nexusPassword;
+
+	public UploadArtifact(String nexusUrl, String nexusUserName,
+			String nexusPassword) {
+		this.NEXUS_URL = nexusUrl;
+		this.NEXUS_USERNAME = nexusUserName;
+		this.NEXUS_PASSWORD = nexusPassword;
 	}
-	
-	public void upload(){
+
+	public void upload() {
 		if (!BuildAction.getSelectedProjectPath().equals("")) {
 			if (BuildAction.buildedProjects.contains(BuildAction
 					.getSelectedProjectPath())) {
@@ -92,7 +90,7 @@ public class UploadArtifact {
 					"Please select a project in the Project Explorer tab.");
 		}
 	}
-	
+
 	private void postArtifact() {
 		artifactUploaded = true;
 		String[] tempString = MavenCli.DEFAULT_USER_SETTINGS_FILE
@@ -104,30 +102,23 @@ public class UploadArtifact {
 		try {
 			String webPage = "";
 			if (isArtifactRelease) {
-				webPage = NEXUS_URL+"releases/"
+				webPage = NEXUS_URL + "releases/"
 						+ CreateConfigurationFile.groupId.replace(".", "/")
-						+ "/"
-						+ CreateConfigurationFile.artifactId
-						+ "/"
-						+ CreateConfigurationFile.artifactVersion
-						+ "/"
+						+ "/" + CreateConfigurationFile.artifactId + "/"
+						+ CreateConfigurationFile.artifactVersion + "/"
 						+ BuildAction.artifactFileName;
 			} else {
-				webPage = NEXUS_URL+"snapshots/"
+				webPage = NEXUS_URL + "snapshots/"
 						+ CreateConfigurationFile.groupId.replace(".", "/")
-						+ "/"
-						+ CreateConfigurationFile.artifactId
-						+ "/"
-						+ CreateConfigurationFile.artifactVersion
-						+ "/"
+						+ "/" + CreateConfigurationFile.artifactId + "/"
+						+ CreateConfigurationFile.artifactVersion + "/"
 						+ BuildAction.artifactFileName;
 			}
-		
 
 			String authString = NEXUS_USERNAME + ":" + NEXUS_PASSWORD;
 			byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
 			String authStringEnc = new String(authEncBytes);
-			
+
 			URL url = new URL(webPage);
 			HttpURLConnection urlConnection = (HttpURLConnection) url
 					.openConnection();
@@ -139,22 +130,20 @@ public class UploadArtifact {
 
 			OutputStreamWriter out = new OutputStreamWriter(urlConnection
 					.getOutputStream());
-			
+
 			File file = new File(repositoryPath + "repository/"
 					+ CreateConfigurationFile.groupId.replace(".", "/") + "/"
 					+ CreateConfigurationFile.artifactId + "/"
 					+ CreateConfigurationFile.artifactVersion + "/"
 					+ BuildAction.artifactFileName);
-			try {
-				FileInputStream fis = new FileInputStream(file);
-				char current;
-				while (fis.available() > 0) {
-					current = (char) fis.read();
-					out.write(current);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+
+			FileInputStream fis = new FileInputStream(file);
+			char current;
+			while (fis.available() > 0) {
+				current = (char) fis.read();
+				out.write(current);
 			}
+
 			out.close();
 			InputStream is = urlConnection.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);
@@ -164,7 +153,7 @@ public class UploadArtifact {
 			while ((numCharsRead = isr.read(charArray)) > 0) {
 				sb.append(charArray, 0, numCharsRead);
 			}
-		
+
 		} catch (Exception ex) {
 			artifactUploaded = false;
 			ex.printStackTrace();
@@ -180,48 +169,45 @@ public class UploadArtifact {
 				String webPage = "";
 				if (metadata.getRemoteFilename().endsWith(".pom")) {
 					if (isArtifactRelease) {
-						webPage = NEXUS_URL+"releases/"
-								+ CreateConfigurationFile.groupId.replace(".", "/")
-								+ "/"
-								+ CreateConfigurationFile.artifactId
-								+ "/"
-								+ CreateConfigurationFile.artifactVersion
-								+ "/"
+						webPage = NEXUS_URL
+								+ "releases/"
+								+ CreateConfigurationFile.groupId.replace(".",
+										"/") + "/"
+								+ CreateConfigurationFile.artifactId + "/"
+								+ CreateConfigurationFile.artifactVersion + "/"
 								+ metadata.getRemoteFilename();
 					} else {
-						webPage = NEXUS_URL+"snapshots/"
-								+ CreateConfigurationFile.groupId.replace(".", "/")
-								+ "/"
-								+ CreateConfigurationFile.artifactId
-								+ "/"
-								+ CreateConfigurationFile.artifactVersion
-								+ "/"
+						webPage = NEXUS_URL
+								+ "snapshots/"
+								+ CreateConfigurationFile.groupId.replace(".",
+										"/") + "/"
+								+ CreateConfigurationFile.artifactId + "/"
+								+ CreateConfigurationFile.artifactVersion + "/"
 								+ metadata.getRemoteFilename();
 					}
 				} else {
 					if (isArtifactRelease) {
-						webPage = NEXUS_URL+"releases/"
-								+ CreateConfigurationFile.groupId.replace(".", "/")
-								+ "/"
-								+ CreateConfigurationFile.artifactId
-								+ "/"
+						webPage = NEXUS_URL
+								+ "releases/"
+								+ CreateConfigurationFile.groupId.replace(".",
+										"/") + "/"
+								+ CreateConfigurationFile.artifactId + "/"
 								+ metadata.getRemoteFilename();
 					} else {
-						webPage = NEXUS_URL+"snapshots/"
-								+ CreateConfigurationFile.groupId.replace(".", "/")
-								+ "/"
-								+ CreateConfigurationFile.artifactId
-								+ "/"
+						webPage = NEXUS_URL
+								+ "snapshots/"
+								+ CreateConfigurationFile.groupId.replace(".",
+										"/") + "/"
+								+ CreateConfigurationFile.artifactId + "/"
 								+ metadata.getRemoteFilename();
 					}
 				}
-			
 
 				String authString = NEXUS_USERNAME + ":" + NEXUS_PASSWORD;
 				byte[] authEncBytes = Base64
 						.encodeBase64(authString.getBytes());
 				String authStringEnc = new String(authEncBytes);
-				
+
 				URL url = new URL(webPage);
 				HttpURLConnection urlConnection = (HttpURLConnection) url
 						.openConnection();
@@ -233,31 +219,27 @@ public class UploadArtifact {
 
 				OutputStreamWriter out = new OutputStreamWriter(urlConnection
 						.getOutputStream());
-				File file =null;
+				File file = null;
 				if (metadata.getRemoteFilename().endsWith(".pom")) {
 					file = new File(repositoryPath + "repository/"
-							+ CreateConfigurationFile.groupId.replace(".", "/") + "/"
-							+ CreateConfigurationFile.artifactId + "/"
-							+ CreateConfigurationFile.artifactVersion
-							+ "/"
+							+ CreateConfigurationFile.groupId.replace(".", "/")
+							+ "/" + CreateConfigurationFile.artifactId + "/"
+							+ CreateConfigurationFile.artifactVersion + "/"
 							+ metadata.getRemoteFilename());
+				} else {
+					file = new File(repositoryPath + "repository/"
+							+ CreateConfigurationFile.groupId.replace(".", "/")
+							+ "/" + CreateConfigurationFile.artifactId + "/"
+							+ "maven-metadata-local.xml");
 				}
-				else{
-				file = new File(repositoryPath + "repository/"
-						+ CreateConfigurationFile.groupId.replace(".", "/") + "/"
-						+ CreateConfigurationFile.artifactId + "/"
-						+ "maven-metadata-local.xml");
+
+				FileInputStream fis = new FileInputStream(file);
+				char current;
+				while (fis.available() > 0) {
+					current = (char) fis.read();
+					out.write(current);
 				}
-				try {
-					FileInputStream fis = new FileInputStream(file);
-					char current;
-					while (fis.available() > 0) {
-						current = (char) fis.read();
-						out.write(current);
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+
 				out.close();
 				InputStream is = urlConnection.getInputStream();
 				InputStreamReader isr = new InputStreamReader(is);
@@ -273,7 +255,5 @@ public class UploadArtifact {
 			}
 		}
 	}
-	
-	
-	
+
 }

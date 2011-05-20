@@ -33,19 +33,26 @@ public class DebugAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		if (BuildAction.buildedProjects.contains(BuildAction
-				.getSelectedProjectPath())) {
-			try {
-				ConfigurationLauncher launcher = new ConfigurationLauncher(CreateConfigurationFile.artifactId);
-				launcher.debug();
-			} catch (Exception ex) {
-				ex.printStackTrace();
+		if (!BuildAction.getSelectedProjectPath().equals("")) {
+			if (BuildAction.buildedProjects.contains(BuildAction
+					.getSelectedProjectPath())) {
+				try {
+					ConfigurationLauncher launcher = new ConfigurationLauncher(
+							CreateConfigurationFile.artifactId);
+					launcher.debug();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					MessageDialog.openInformation(null,
+							"BuildServiceApplication",
+							"Could not debug application");
+				}
+			} else {
 				MessageDialog.openInformation(null, "BuildServiceApplication",
-						"Could not run application");
+						"Please build the project first.");
 			}
 		} else {
 			MessageDialog.openInformation(null, "BuildServiceApplication",
-					"Please build the project first.");
+					"Please select a project in the Project Explorer tab.");
 		}
 	}
 
