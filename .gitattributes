@@ -2,6 +2,9 @@
 org.maven.ide.eclipse.feature/.project -text svneol=unset#text/plain
 org.maven.ide.eclipse.feature/build.properties -text svneol=unset#text/plain
 org.maven.ide.eclipse.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tool.wizardfeature/.project -text
+org.universaal.tool.wizardfeature/build.properties -text
+org.universaal.tool.wizardfeature/feature.xml -text
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
