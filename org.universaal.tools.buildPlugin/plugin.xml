@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="org.universaal.tools.buildServiceApplication.actionSet">
+         <menu
+               label="AAL Studio"
+               id="org.universaal.tools.newwizard.plugin.menu">
+            <separator
+                  name="uAALGroup">
+            </separator>
+         </menu>
+         <action
+               label="&amp;Publish universAAL application"
+               icon="icons/publish.png"
+               class="org.universaal.tools.buildserviceapplication.actions.PublishAction"
+               tooltip="Publish application to uStore"
+               menubarPath="org.universaal.tools.newwizard.plugin.menu/uAALGroup"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.PublishAction">			
+         </action>
+         <action
+               label="&amp;Upload application to Developer Depot"
+               icon="icons/upload.png"
+               class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
+               tooltip="Upload application to Developer Depot"
+               menubarPath="org.universaal.tools.newwizard.plugin.menu/uAALGroup"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
+         </action>
+                  
+         <action
+               label="&amp;Run universAAL application"
+               icon="icons/run.png"
+               class="org.universaal.tools.buildserviceapplication.actions.RunAction"
+               tooltip="Run universAAL application"
+               menubarPath="org.universaal.tools.newwizard.plugin.menu/uAALGroup"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.RunAction" >			
+         </action>
+         <action
+               label="&amp;Build universAAL application"
+               icon="icons/compile.png"
+               class="org.universaal.tools.buildserviceapplication.actions.BuildAction"
+               tooltip="Build universAAL application"
+               menubarPath="org.universaal.tools.newwizard.plugin.menu/uAALGroup"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.BuildAction">				
+         </action>
+         
+         
+      </actionSet>
+
+   </extension>
+
+</plugin>
+    
