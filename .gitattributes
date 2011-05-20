@@ -38,6 +38,17 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.classpath -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.project -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.settings/org.eclipse.papyrus.preferences.prefs -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/build.properties -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/uaal_ml.profile.di -text
+org.universaal.tools.profileplugin/model/uaal_ml.profile.notation -text
+org.universaal.tools.profileplugin/model/uaal_ml.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/src/icons/patient_ns16.gif -text
 org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
