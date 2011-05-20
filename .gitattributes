@@ -67,3 +67,6 @@ org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wiza
 org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/NewProjectWizardPage1.java -text
 org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/NewProjectWizardPage2.java -text
 org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/messages.properties -text
+sonar_feature/.project -text svneol=unset#text/plain
+sonar_feature/build.properties -text svneol=unset#text/plain
+sonar_feature/feature.xml -text svneol=unset#text/plain
