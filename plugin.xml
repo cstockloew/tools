@@ -33,7 +33,15 @@
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
          </action>
-                  
+        <action
+               label="&amp;Debug universAAL application"
+               icon="icons/run.png"
+               class="org.universaal.tools.buildserviceapplication.actions.DebugAction"
+               tooltip="Debug universAAL application"
+               menubarPath="org.universaal.tools.AALStudio.menu/uAALGroup"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.DebugAction" >			
+         </action>                  
          <action
                label="&amp;Run universAAL application"
                icon="icons/run.png"

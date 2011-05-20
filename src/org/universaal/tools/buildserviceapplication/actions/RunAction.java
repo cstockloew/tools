@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
+
 /**
  * Our sample action implements workbench action delegate. The action proxy will
  * be created by the workbench and shown in the UI. When the user tries to use
@@ -35,6 +36,19 @@ public class RunAction implements IWorkbenchWindowActionDelegate {
 			if (BuildAction.buildedProjects.contains(BuildAction
 					.getSelectedProjectPath())) {
 				try {
+					
+					
+				
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					ConfigurationLauncher launcher = new ConfigurationLauncher(
 							CreateConfigurationFile.artifactId);
 					launcher.run();
