@@ -38,6 +38,16 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/SmallTest.m2t -text
+org.universaal.tools.transformationcommand/build.properties -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/icons/sample.gif -text
+org.universaal.tools.transformationcommand/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/handlers/TransformToAdaptationModelHandler.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/handlers/TransformationHandler.java -text svneol=unset#text/plain
 org.universaal.tools.wizardplugin/.classpath -text
 org.universaal.tools.wizardplugin/.project -text
 org.universaal.tools.wizardplugin/.settings/org.eclipse.jdt.core.prefs -text
