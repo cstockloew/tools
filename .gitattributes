@@ -48,6 +48,9 @@ org.universaal.tools.transformationcommand/icons/sample.gif -text
 org.universaal.tools.transformationcommand/plugin.xml -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/handlers/TransformToAdaptationModelHandler.java -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/handlers/TransformationHandler.java -text svneol=unset#text/plain
+org.universaal.tools.transformationfeature/.project -text svneol=unset#text/plain
+org.universaal.tools.transformationfeature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.transformationfeature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.updatesite/.project -text svneol=unset#text/plain
 org.universaal.tools.updatesite/artifacts.jar -text
 org.universaal.tools.updatesite/content.jar -text
