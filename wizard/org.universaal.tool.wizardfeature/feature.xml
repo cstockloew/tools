@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.newwizard.feature"
       label="universAAL Project Wizards Feature"
-      version="0.3.0"
+      version="0.3.1"
       provider-name="universAAL">
 
    <description url="http://www.example.com/description">
