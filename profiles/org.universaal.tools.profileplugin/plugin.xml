@@ -4,9 +4,13 @@
    <extension
          point="org.eclipse.papyrus.extensionpoints.uml2.UMLProfile">
        <profile
-            name="uaal_ml"
+            name="AalML"
             path="pathmap://UAAL/uaal_ml.profile.uml">
       </profile>
+       <profile
+             name="SoaML"
+             path="pathmap://UAAL/SoaML.profile.uml">
+       </profile>
    </extension>
    <extension
          point="org.eclipse.emf.ecore.uri_mapping">
