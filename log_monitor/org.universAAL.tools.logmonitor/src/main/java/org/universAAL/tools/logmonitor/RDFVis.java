@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -79,6 +78,11 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 		Node node;
 		
 		/**
+		 * A short interpretation of the resource, if available.
+		 */
+		String shortDescription;
+		
+		/**
 		 * Get the date as a string.
 		 * @return The date as a string.
 		 */
@@ -133,6 +137,7 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 		model.addColumn("Class");
 		model.addColumn("Method");
 		model.addColumn("Message");
+		model.addColumn("Interpretation");
 		table = new JTable(model);
 		//getContentPane().add(table, BorderLayout.WEST);
 		JScrollPane scrollpaneTable = new JScrollPane(table);
@@ -145,7 +150,7 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				scrollpaneTable, scrollpane);
 		getContentPane().add(split, BorderLayout.CENTER);
-		split.setDividerLocation(300);
+		//split.setDividerLocation(300);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1000, 700);
@@ -249,7 +254,9 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 					if (writer != null) {
 						try {
 							writer.write(filename+"\t");
-							writer.write(m.cls + " " + m.method + "\n");
+							writer.write(m.cls + "->" + m.method
+									+ " (Interpretation: "
+									+ m.shortDescription + ")\n");
 							writer.write(m.message + "\n");
 						} catch (IOException e) {
 						}
@@ -283,10 +290,10 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 	 *            The {@link org.universAAL.middleware.rdf.Resource}
 	 */
 	public void addMessage(String cls, String method, String message,
-			Resource r) {
+			Resource r, String shortDescription) {
 
 		Node node = Node.copyFrom(r);
-		addMessage(cls, method, message, node, new Date());
+		addMessage(cls, method, message, node, new Date(), shortDescription);
 	}
 		
 	/**
@@ -304,10 +311,11 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 	 *            The date.
 	 */
 	private void addMessage(String cls, String method, String message,
-			Node node, Date date) {
+			Node node, Date date, String shortDescription) {
 		
 		synchronized (messages) {
 			Message m = new Message();
+			m.shortDescription = shortDescription;
 			m.message = message;
 			m.method = method;
 			m.date = date;
@@ -317,7 +325,7 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 			
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.addRow(
-					new Object[]{m.getDateString(), cls, method, message});
+					new Object[]{m.getDateString(), cls, method, message, shortDescription});
 			
 			//panel.show(node);
 		}
@@ -340,7 +348,7 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 		}
 	}
 
-	// main method for testing
+/*	// main method for testing
 	public static void main(String[] args) {
 		RDFVis frame = new RDFVis();
 		
@@ -370,4 +378,5 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 		Collections.sort(n.children);
 		frame.addMessage("","","sort", n, new Date());
 	}
+*/
 }

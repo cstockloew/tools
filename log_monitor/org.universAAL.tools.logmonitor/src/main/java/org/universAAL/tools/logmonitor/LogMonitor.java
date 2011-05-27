@@ -42,6 +42,6 @@ public class LogMonitor implements LogListener {
 				lst.add((Resource)o);
 		}
 		for (Resource r : lst)
-			vis.addMessage(cls, method, msg, r);
+			vis.addMessage(cls, method, msg, r, ResourceInterpreter.getShortDescription(r));
 	}
 }
