@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collections;
@@ -158,6 +159,8 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 	 */
 	static void saveAll() {
 		if (instance != null) {
+			if (instance.messages.size() == 0)
+				return;
 
 			//File testFile = new File("WriteData2.dat");
 			//System.out.println("testFile=" + testFile.getAbsolutePath());
@@ -172,8 +175,19 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 //			File myDir = chooser.getSelectedFile();
 //			if (myDir == null)
 //				return;
-//			instance.dir = ""+myDir;
+//			instance.dir = ""+myDir+ "\\";
 			String myDir = "";
+			String textFilename = myDir+"LogMonitor_"+instance.messages.
+					get(0).getDateString().replace(':', '-')+".txt";
+			File textFile = new File(textFilename);
+			FileWriter writer = null;
+			try {
+				writer = new FileWriter(textFile ,true);
+			} catch (IOException e1) {
+				System.out.println("Can't open file: "+textFilename);
+				e1.printStackTrace();
+			}
+			
 			
 			synchronized (instance.messages) {
 				String lastFilename = "";
@@ -201,11 +215,16 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 							new Point(0,0));
 					
 					// save
-					String filename = myDir //+ "\\"
-							+ m.getDateString().replace(':', '-') + "_"
-							+ m.cls + "_"
-							+ m.method + "_"
-							+ m.message.replaceAll("[\\\\/:*?\"<>|]", "_");
+					String filename = myDir
+							+ m.getDateString().replace(':', '-') + "_";
+
+					if (m.node != null  &&  m.node.theClass != null)
+						filename += m.node.theClass.getSimpleName();
+					else
+						filename += "null";
+							//+ m.cls + "_"
+							//+ m.method + "_"
+							//+ m.message.replaceAll("[\\\\/:*?\"<>|]", "_");
 					if (filename.equals(lastFilename)) {
 						lastFilename = filename;
 						filename += "_" + i;
@@ -225,8 +244,28 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					
+					// save text entry
+					if (writer != null) {
+						try {
+							writer.write(filename+"\t");
+							writer.write(m.cls + " " + m.method + "\n");
+							writer.write(m.message + "\n");
+						} catch (IOException e) {
+						}
+					}
 				}
 				instance.panel.show(node);
+				
+			}
+			
+			if (writer != null) {
+				try {
+					writer.flush();
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

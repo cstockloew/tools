@@ -34,6 +34,8 @@ public class LogMonitor implements LogListener {
 		String msg = "";
 		LinkedList<Resource> lst = new LinkedList<Resource>();
 		for (int i=0; i<msgPart.length; i++) {
+			if (i>0)
+				msg += " ";
 			Object o = msgPart[i];
 			msg += o;
 			if (o instanceof Resource)
