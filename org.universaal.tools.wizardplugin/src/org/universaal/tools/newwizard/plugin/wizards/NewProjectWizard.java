@@ -447,12 +447,12 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				    + "				<extensions>true</extensions>\n" //$NON-NLS-1$
 				    + "				<configuration>\n" //$NON-NLS-1$
 				    + "					<instructions>\n" //$NON-NLS-1$
-				    + "						<Bundle-Name>${pom.name}</Bundle-Name>\n" //$NON-NLS-1$
+				    + "						<Bundle-Name>${project.name}</Bundle-Name>\n" //$NON-NLS-1$
 				    + "						<Bundle-Activator>" //$NON-NLS-1$
 				    + packname
 				    + ".Activator</Bundle-Activator>\n" //$NON-NLS-1$
-				    + "						<Bundle-Description>${pom.description}</Bundle-Description>\n" //$NON-NLS-1$
-				    + "						<Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>\n" //$NON-NLS-1$
+				    + "						<Bundle-Description>${project.description}</Bundle-Description>\n" //$NON-NLS-1$
+				    + "						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\n" //$NON-NLS-1$
 				    + "					</instructions>\n" //$NON-NLS-1$
 				    + "				</configuration>\n" //$NON-NLS-1$
 				    + "			</plugin>\n" + "		</plugins>\n" //$NON-NLS-1$ //$NON-NLS-2$
