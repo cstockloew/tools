@@ -25,7 +25,6 @@ import org.eclipse.ui.progress.IProgressConstants;
 import org.maven.ide.eclipse.MavenPlugin;
 import org.maven.ide.eclipse.actions.OpenMavenConsoleAction;
 import org.maven.ide.eclipse.core.IMavenConstants;
-import org.maven.ide.eclipse.core.Messages;
 import org.maven.ide.eclipse.project.ProjectImportConfiguration;
 
 /**
@@ -84,7 +83,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	model.setDescription(page1.getMavenDescription().getText());
 	// This is the rest of the info coming from the wizard
 	final String pack = page2.getPackaging().getText();
-	final boolean[] checks = { false, false, false, false, false, false, false, false };
+	final boolean[] checks = { false, false, false, false, false, false,
+		false, false, false, false };
 	checks[0] = page2.getCpublisher().getSelection();
 	checks[1] = page2.getCsubscriber().getSelection();
 	checks[2] = page2.getIsubscriber().getSelection();
@@ -93,6 +93,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	checks[5] = page2.getScaller().getSelection();
 	checks[6] = page2.getIpublisher().getSelection();
 	checks[7] = page2.getOsubscriber().getSelection();
+	checks[8] = page2.getDefCpublisher().getSelection();
+	checks[9] = page2.getDefScaller().getSelection();
 
 	// I use deprecated methods because I haven´t found the new way to
 	// create a new project
@@ -100,7 +102,9 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	final String projectName = configuration.getProjectName(model);
 	IStatus nameStatus = configuration.validateProjectName(model);
 	if (!nameStatus.isOK()) {
-	    MessageDialog.openError(getShell(), org.universaal.tools.newwizard.plugin.wizards.Messages.getString("Project.1"), //$NON-NLS-1$
+	    MessageDialog.openError(getShell(),
+		    org.universaal.tools.newwizard.plugin.wizards.Messages
+			    .getString("Project.1"), //$NON-NLS-1$
 		    nameStatus.getMessage());
 	    return false;
 	}
@@ -114,8 +118,11 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	boolean pomExists = (root.getLocation().append(project.getName()))
 		.append(IMavenConstants.POM_FILE_NAME).toFile().exists();
 	if (pomExists) {
-	    MessageDialog.openError(getShell(), org.universaal.tools.newwizard.plugin.wizards.Messages.getString("Project.2"), //$NON-NLS-1$
-		    org.universaal.tools.newwizard.plugin.wizards.Messages.getString("Project.3")); //$NON-NLS-1$
+	    MessageDialog.openError(getShell(),
+		    org.universaal.tools.newwizard.plugin.wizards.Messages
+			    .getString("Project.2"), //$NON-NLS-1$
+		    org.universaal.tools.newwizard.plugin.wizards.Messages
+			    .getString("Project.3")); //$NON-NLS-1$
 	    return false;
 	}
 
@@ -164,9 +171,11 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		    f1.create(customizeFileStream("Activator", pack, //$NON-NLS-1$
 			    checks), true, monitor);
 		    if (checks[0]) {
-			IFile f2 = src.getFile("CPublisher.java"); //$NON-NLS-1$
-			f2.create(customizeFileStream("CPublisher", pack, //$NON-NLS-1$
-				checks), true, monitor);
+			if (!checks[8]) {
+			    IFile f2 = src.getFile("CPublisher.java"); //$NON-NLS-1$
+			    f2.create(customizeFileStream("CPublisher", pack, //$NON-NLS-1$
+				    checks), true, monitor);
+			}
 		    }
 		    if (checks[1]) {
 			IFile f3 = src.getFile("CSubscriber.java"); //$NON-NLS-1$
@@ -194,9 +203,11 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				checks), true, monitor);
 		    }
 		    if (checks[5]) {
-			IFile f8 = src.getFile("SCaller.java"); //$NON-NLS-1$
-			f8.create(customizeFileStream("SCaller", pack, //$NON-NLS-1$
-				checks), true, monitor);
+			if (!checks[9]) {
+			    IFile f8 = src.getFile("SCaller.java"); //$NON-NLS-1$
+			    f8.create(customizeFileStream("SCaller", pack, //$NON-NLS-1$
+				    checks), true, monitor);
+			}
 		    }
 		    if (checks[6]) {
 			IFile f9 = src.getFile("IPublisher.java"); //$NON-NLS-1$
@@ -233,9 +244,12 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		if (!result.isOK()) {
 		    Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-			    MessageDialog.openError(getShell(), //
-				    org.universaal.tools.newwizard.plugin.wizards.Messages.getString("Project.4"), result //$NON-NLS-1$
-					    .getMessage());
+			    MessageDialog
+				    .openError(
+					    getShell(), //
+					    org.universaal.tools.newwizard.plugin.wizards.Messages
+						    .getString("Project.4"), result //$NON-NLS-1$
+						    .getMessage());
 			}
 		    });
 		}
@@ -248,9 +262,12 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		if (!result.isOK()) {
 		    Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-			    MessageDialog.openError(getShell(), //
-				    org.universaal.tools.newwizard.plugin.wizards.Messages.getString("Project.5"), result //$NON-NLS-1$
-					    .getMessage());
+			    MessageDialog
+				    .openError(
+					    getShell(), //
+					    org.universaal.tools.newwizard.plugin.wizards.Messages
+						    .getString("Project.5"), result //$NON-NLS-1$
+						    .getMessage());
 			}
 		    });
 		}
@@ -297,9 +314,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
      * This method parses a newly created Activator file to make it init, start
      * and stop as appropriate the rest of uaal-specific files. It also adapts
      * package name to all files.
-     * @param filename The name of the file (without extension)
-     * @param packname The name of package
-     * @param checks Collection of checked options to browse all checked classes
+     * 
+     * @param filename
+     *            The name of the file (without extension)
+     * @param packname
+     *            The name of package
+     * @param checks
+     *            Collection of checked options to browse all checked classes
      * @return
      */
     private InputStream customizeFileStream(String filename, String packname,
@@ -308,61 +329,97 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	    // TODO: Modify if necessary the rest of files, not only Activator.
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(
 		    this.getClass().getClassLoader().getResourceAsStream(
-			    "files/" + filename+".java"))); //$NON-NLS-1$ //$NON-NLS-2$
+			    "files/" + filename + ".java"))); //$NON-NLS-1$ //$NON-NLS-2$
 	    StringBuilder output = new StringBuilder();
 	    String line;
 	    while ((line = reader.readLine()) != null) {
 		if (line.contains("/*TAG:PACKAGE*/")) { //$NON-NLS-1$
 		    output.append("package " + packname + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		} else if (line.contains("/*TAG:IMPORT*/")) {
+		    if (checks[8]) {
+			output
+				.append("import org.universAAL.middleware.context.ContextPublisher;\n"); //$NON-NLS-1$
+			output
+				.append("import org.universAAL.middleware.context.DefaultContextPublisher;\n"); //$NON-NLS-1$
+		    }
+		    if (checks[9]) {
+			output
+				.append("import org.universAAL.middleware.service.ServiceCaller;\n"); //$NON-NLS-1$
+			output
+				.append("import org.universAAL.middleware.service.DefaultServiceCaller;\n"); //$NON-NLS-1$
+		    }
 		} else if (line.contains("/*TAG:INIT*/")) { //$NON-NLS-1$
 		    if (checks[4])
-			output.append("	public static SCallee callee=null;\n"); //$NON-NLS-1$
+			output.append("	public static SCallee scallee=null;\n"); //$NON-NLS-1$
 		    if (checks[5])
-			output.append("	public static SCaller caller=null;\n"); //$NON-NLS-1$
+			if (checks[9])
+			    output
+				    .append("	public static ServiceCaller scaller=null;\n"); //$NON-NLS-1$
+			else
+			    output
+				    .append("	public static SCaller scaller=null;\n"); //$NON-NLS-1$
 		    if (checks[2])
 			output
-				.append("	public static ISubscriber input=null;\n"); //$NON-NLS-1$
+				.append("	public static ISubscriber isubscriber=null;\n"); //$NON-NLS-1$
 		    if (checks[3])
 			output
-				.append("	public static OPublisher output=null;\n"); //$NON-NLS-1$
+				.append("	public static OPublisher opublisher=null;\n"); //$NON-NLS-1$
 		    if (checks[1])
 			output
 				.append("	public static CSubscriber csubscriber=null;\n"); //$NON-NLS-1$
 		    if (checks[0])
-			output
-				.append("	public static CPublisher cpublisher=null;\n"); //$NON-NLS-1$
+			if (checks[8])
+			    output
+				    .append("	public static ContextPublisher cpublisher=null;\n"); //$NON-NLS-1$
+			else
+			    output
+				    .append("	public static CPublisher cpublisher=null;\n"); //$NON-NLS-1$
 		    if (checks[6])
-			output.append("	public static IPublisher ipublisher=null;\n"); //$NON-NLS-1$
+			output
+				.append("	public static IPublisher ipublisher=null;\n"); //$NON-NLS-1$
 		    if (checks[7])
-			output.append("	public static OSubscriber osubscriber=null;\n"); //$NON-NLS-1$
+			output
+				.append("	public static OSubscriber osubscriber=null;\n"); //$NON-NLS-1$
 		} else if (line.contains("/*TAG:START*/")) { //$NON-NLS-1$
 		    if (checks[4])
-			output.append("		callee=new SCallee(context);\n"); //$NON-NLS-1$
-		    if (checks[5])
-			output.append("		caller=new SCaller(context);\n"); //$NON-NLS-1$
+			output.append("		scallee=new SCallee(context);\n"); //$NON-NLS-1$
+		    if (checks[5]) {
+			if (checks[9])
+			    output
+				    .append("		scaller=new DefaultServiceCaller(context);\n"); //$NON-NLS-1$
+			else
+			    output.append("		scaller=new SCaller(context);\n"); //$NON-NLS-1$
+		    }
 		    if (checks[2])
-			output.append("		input=new ISubscriber(context);\n"); //$NON-NLS-1$
+			output.append("		isubscriber=new ISubscriber(context);\n"); //$NON-NLS-1$
 		    if (checks[3])
-			output.append("		output=new OPublisher(context);\n"); //$NON-NLS-1$
+			output.append("		opublisher=new OPublisher(context);\n"); //$NON-NLS-1$
 		    if (checks[1])
 			output
 				.append("		csubscriber=new CSubscriber(context);\n"); //$NON-NLS-1$
-		    if (checks[0])
-			output
-				.append("		cpublisher=new CPublisher(context);\n"); //$NON-NLS-1$
+		    if (checks[0]) {
+			if (checks[8])
+			    output
+				    .append("		cpublisher=new DefaultContextPublisher(context,null);\n"); //$NON-NLS-1$
+			else
+			    output
+				    .append("		cpublisher=new CPublisher(context);\n"); //$NON-NLS-1$
+		    }
 		    if (checks[6])
-			output.append("		ipublisher=new IPublisher(context);\n"); //$NON-NLS-1$
+			output
+				.append("		ipublisher=new IPublisher(context);\n"); //$NON-NLS-1$
 		    if (checks[7])
-			output.append("		osubscriber=new OSubscriber(context);\n"); //$NON-NLS-1$
+			output
+				.append("		osubscriber=new OSubscriber(context);\n"); //$NON-NLS-1$
 		} else if (line.contains("/*TAG:STOP*/")) { //$NON-NLS-1$
 		    if (checks[4])
-			output.append("		callee.close();\n"); //$NON-NLS-1$
+			output.append("		scallee.close();\n"); //$NON-NLS-1$
 		    if (checks[5])
-			output.append("		caller.close();\n"); //$NON-NLS-1$
+			output.append("		scaller.close();\n"); //$NON-NLS-1$
 		    if (checks[2])
-			output.append("		input.close();\n"); //$NON-NLS-1$
+			output.append("		isubscriber.close();\n"); //$NON-NLS-1$
 		    if (checks[3])
-			output.append("		output.close();\n"); //$NON-NLS-1$
+			output.append("		opublisher.close();\n"); //$NON-NLS-1$
 		    if (checks[1])
 			output.append("		csubscriber.close();\n"); //$NON-NLS-1$
 		    if (checks[0])
