@@ -34,6 +34,8 @@ public class NewProjectWizardPage2 extends WizardPage {
     private Button opublisher;
     private Button ipublisher;
     private Button osubscriber;
+    private Button defscaller;
+    private Button defcpublisher;
     private Combo drop;
     private Text packaging;
 
@@ -52,22 +54,23 @@ public class NewProjectWizardPage2 extends WizardPage {
      * @see IDialogPage#createControl(Composite)
      */
     public void createControl(Composite parent) {
-	Composite containerP = new Composite(parent, SWT.NULL);
+	Composite containerParent = new Composite(parent, SWT.NULL);
 	GridLayout layoutP = new GridLayout();
-	containerP.setLayout(layoutP);
+	containerParent.setLayout(layoutP);
 	layoutP.numColumns = 1;
 	layoutP.verticalSpacing = 9;
+	
 	// First layout with the name of the package
-	Composite container2 = new Composite(containerP, SWT.NULL);
+	Composite container1 = new Composite(containerParent, SWT.NULL);
 	GridLayout layout2 = new GridLayout();
-	container2.setLayout(layout2);
-	container2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	container1.setLayout(layout2);
+	container1.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	layout2.numColumns = 2;
 	layout2.verticalSpacing = 9;
 	// Name of the package
-	Label label4 = new Label(container2, SWT.NULL);
+	Label label4 = new Label(container1, SWT.NULL);
 	label4.setText(Messages.getString("Page2.2")); //$NON-NLS-1$
-	packaging = new Text(container2, SWT.BORDER | SWT.SINGLE);
+	packaging = new Text(container1, SWT.BORDER | SWT.SINGLE);
 	GridData gd7 = new GridData(GridData.FILL_HORIZONTAL);
 	packaging.setLayoutData(gd7);
 	packaging.addModifyListener(new ModifyListener() {
@@ -75,102 +78,12 @@ public class NewProjectWizardPage2 extends WizardPage {
 		validateInput();
 	    }
 	});
-	// Second layout with the checkboxes of classes
-	Group container = new Group(containerP, SWT.NONE);
-	container.setText(Messages.getString("Page2.3")); //$NON-NLS-1$
-	GridLayout layout = new GridLayout();
-	container.setLayout(layout);
-	container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-		| GridData.HORIZONTAL_ALIGN_CENTER));
-	layout.numColumns = 2;
-	layout.verticalSpacing = 9;
-	// CSubscriber
-	csubscriber = new Button(container, SWT.CHECK);
-	GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
-	csubscriber.setLayoutData(gd1);
-	csubscriber.setText(Messages.getString("Page2.4")); //$NON-NLS-1$
-	csubscriber.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		// TODO: Do we really need to do something here?
-	    }
-	});
-	// CPublisher
-	cpublisher = new Button(container, SWT.CHECK);
-	GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);
-	cpublisher.setLayoutData(gd2);
-	cpublisher.setText(Messages.getString("Page2.5")); //$NON-NLS-1$
-	cpublisher.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		// TODO: Do we really need to do something here?
-	    }
-	});
-
-	// SCallee
-	scallee = new Button(container, SWT.CHECK);
-	GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
-	scallee.setLayoutData(gd3);
-	scallee.setText(Messages.getString("Page2.7")); //$NON-NLS-1$
-	scallee.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		// TODO: Do we really need to do something here?
-	    }
-	});
-	// SCaller
-	scaller = new Button(container, SWT.CHECK);
-	GridData gd4 = new GridData(GridData.FILL_HORIZONTAL);
-	scaller.setLayoutData(gd4);
-	scaller.setText(Messages.getString("Page2.6")); //$NON-NLS-1$
-	scaller.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		// TODO: Do we really need to do something here?
-	    }
-	});
-	// ISubscriber
-	isubscriber = new Button(container, SWT.CHECK);
-	GridData gd5 = new GridData(GridData.FILL_HORIZONTAL);
-	isubscriber.setLayoutData(gd5);
-	isubscriber.setText(Messages.getString("Page2.9")); //$NON-NLS-1$
-	isubscriber.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		// TODO: Do we really need to do something here?
-	    }
-	});
-	// OPublisher
-	opublisher = new Button(container, SWT.CHECK);
-	GridData gd6 = new GridData(GridData.FILL_HORIZONTAL);
-	opublisher.setLayoutData(gd6);
-	opublisher.setText(Messages.getString("Page2.8")); //$NON-NLS-1$
-	opublisher.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		// TODO: Do we really need to do something here?
-	    }
-	});
-	// IPublisher
-	ipublisher = new Button(container, SWT.CHECK);
-	GridData gd8 = new GridData(GridData.FILL_HORIZONTAL);
-	ipublisher.setLayoutData(gd8);
-	ipublisher.setText(Messages.getString("Page2.11")); //$NON-NLS-1$
-	ipublisher.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		// TODO: Do we really need to do something here?
-	    }
-	});
-	// OSubscriber
-	osubscriber = new Button(container, SWT.CHECK);
-	GridData gd9 = new GridData(GridData.FILL_HORIZONTAL);
-	osubscriber.setLayoutData(gd9);
-	osubscriber.setText(Messages.getString("Page2.12")); //$NON-NLS-1$
-	osubscriber.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		// TODO: Do we really need to do something here?
-	    }
-	});
-
+	
 	// Dropdown with template of full project
-	Label label5 = new Label(container, SWT.NULL);
+	Label label5 = new Label(container1, SWT.NULL);
 	label5.setText(Messages.getString("Page2.13")); //$NON-NLS-1$
 	
-	drop = new Combo(container, SWT.READ_ONLY);
+	drop = new Combo(container1, SWT.READ_ONLY);
 	drop.select(0);
 	GridData gd10 = new GridData(GridData.FILL_HORIZONTAL);
 	drop.setLayoutData(gd10);
@@ -190,31 +103,42 @@ public class NewProjectWizardPage2 extends WizardPage {
 		opublisher.setSelection(false);
 		ipublisher.setSelection(false);
 		osubscriber.setSelection(false);
+		defcpublisher.setSelection(false);
+		defscaller.setSelection(false);
+		defcpublisher.setEnabled(false);
+		defscaller.setEnabled(false);
 		switch (drop.getSelectionIndex()) {
 		case 0:
 		    csubscriber.setSelection(true);
 		    cpublisher.setSelection(true);
+		    defcpublisher.setEnabled(true);
 		    scallee.setSelection(true);
 		    scaller.setSelection(true);
+		    defscaller.setEnabled(true);
 		    isubscriber.setSelection(true);
 		    opublisher.setSelection(true);
 		    break;
 		case 1:
 		    csubscriber.setSelection(true);
 		    cpublisher.setSelection(true);
+		    defcpublisher.setEnabled(true);
 		    scallee.setSelection(true);
 		    scaller.setSelection(true);
+		    defscaller.setEnabled(true);
 		    break;
 		case 2:
 		    cpublisher.setSelection(true);
+		    defcpublisher.setEnabled(true);
 		    break;
 		case 3:
 		    cpublisher.setSelection(true);
+		    defcpublisher.setEnabled(true);
 		    scallee.setSelection(true);
 		    break;
 		case 4:
 		    csubscriber.setSelection(true);
 		    cpublisher.setSelection(true);
+		    defcpublisher.setEnabled(true);
 		    break;
 		case 5:
 		    ipublisher.setSelection(true);
@@ -223,20 +147,105 @@ public class NewProjectWizardPage2 extends WizardPage {
 		default:
 		    break;
 		}
-
 		validateInput();
 	    }
 	});
 	
+	// Second layout with the checkboxes of classes
+	Group container2 = new Group(containerParent, SWT.NONE);
+	container2.setText(Messages.getString("Page2.3")); //$NON-NLS-1$
+	GridLayout layout = new GridLayout();
+	container2.setLayout(layout);
+	container2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
+		| GridData.HORIZONTAL_ALIGN_CENTER));
+	layout.numColumns = 3;
+	layout.verticalSpacing = 9;
+	
+	GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
+	
+	// SCallee
+	scallee = new Button(container2, SWT.CHECK);
+	scallee.setLayoutData(gd1);
+	scallee.setText(Messages.getString("Page2.7")); //$NON-NLS-1$
+	// SCaller
+	scaller = new Button(container2, SWT.CHECK);
+	scaller.setLayoutData(gd1);
+	scaller.setText(Messages.getString("Page2.6")); //$NON-NLS-1$
+	scaller.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+		if(defscaller!=null){
+		    if(scaller.getSelection()){
+			defscaller.setEnabled(true);
+		    }else{
+			defscaller.setSelection(false);
+			defscaller.setEnabled(false);
+		    }
+		}
+	    }
+	});
+	// DefaultSCaller
+	defscaller = new Button(container2, SWT.CHECK);
+	defscaller.setLayoutData(gd1);
+	defscaller.setText(Messages.getString("Page2.20")); //$NON-NLS-1$
+	defscaller.setEnabled(false);
+	
+	// CSubscriber
+	csubscriber = new Button(container2, SWT.CHECK);
+	csubscriber.setLayoutData(gd1);
+	csubscriber.setText(Messages.getString("Page2.4")); //$NON-NLS-1$
+	// CPublisher
+	cpublisher = new Button(container2, SWT.CHECK);
+	cpublisher.setLayoutData(gd1);
+	cpublisher.setText(Messages.getString("Page2.5")); //$NON-NLS-1$
+	cpublisher.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+		if(defcpublisher!=null){
+		    if(cpublisher.getSelection()){
+			defcpublisher.setEnabled(true);
+		    }else{
+			defcpublisher.setSelection(false);
+			defcpublisher.setEnabled(false);
+		    }
+		}
+	    }
+	});
+	// DefaultSCaller
+	defcpublisher = new Button(container2, SWT.CHECK);
+	defcpublisher.setLayoutData(gd1);
+	defcpublisher.setText(Messages.getString("Page2.21")); //$NON-NLS-1$
+	defcpublisher.setEnabled(false);
+
+	// OSubscriber
+	osubscriber = new Button(container2, SWT.CHECK);
+	osubscriber.setLayoutData(gd1);
+	osubscriber.setText(Messages.getString("Page2.12")); //$NON-NLS-1$
+	// OPublisher
+	opublisher = new Button(container2, SWT.CHECK);
+	opublisher.setLayoutData(gd1);
+	opublisher.setText(Messages.getString("Page2.8")); //$NON-NLS-1$
+	//Empty placeholder
+	Label empty1 = new Label(container2, SWT.NULL);
+	empty1.setText(" "); //$NON-NLS-1$
+	// ISubscriber
+	isubscriber = new Button(container2, SWT.CHECK);
+	isubscriber.setLayoutData(gd1);
+	isubscriber.setText(Messages.getString("Page2.9")); //$NON-NLS-1$
+	// IPublisher
+	ipublisher = new Button(container2, SWT.CHECK);
+	ipublisher.setLayoutData(gd1);
+	ipublisher.setText(Messages.getString("Page2.11")); //$NON-NLS-1$
+	//Empty placeholder
+	Label empty2 = new Label(container2, SWT.NULL);
+	empty2.setText(" "); //$NON-NLS-1$
+	
 	validateInput();
-	setControl(container);
+	setControl(containerParent);
     }
 
     /**
      * Ensures that package field is set and compliant with Java. Uses
      * deprecated validatePackageName method. Didn´t find the new alternative.
      */
-
     private void validateInput() {
 	String packageName = packaging.getText();
 	if (packageName.trim().length() != 0) {
@@ -288,6 +297,14 @@ public class NewProjectWizardPage2 extends WizardPage {
 
     public Button getOsubscriber() {
 	return osubscriber;
+    }
+    
+    public Button getDefCpublisher() {
+	return defcpublisher;
+    }
+    
+    public Button getDefScaller() {
+	return defscaller;
     }
 
     public Text getPackaging() {

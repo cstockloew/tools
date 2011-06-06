@@ -2,6 +2,7 @@
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+/*TAG:IMPORT*/
 
 public class Activator implements BundleActivator{
 	public static BundleContext context=null;
