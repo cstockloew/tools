@@ -46,6 +46,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 		"org.universaal.tools.newwizard.plugin", //$NON-NLS-1$
 		"icons/ic-uAAL-hdpi.png"); //$NON-NLS-1$
 	setDefaultPageImageDescriptor(image);
+	setWindowTitle(Messages.getString("Item.8"));
     }
 
     public void init(IWorkbench arg0, IStructuredSelection arg1) {

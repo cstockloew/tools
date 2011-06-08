@@ -72,5 +72,8 @@
          </menu>
       </menuContribution>
    </extension >
+   <extension point="org.eclipse.help.contexts">
+      <contexts file="helpdoc.xml"  />
+   </extension>
 
 </plugin>
