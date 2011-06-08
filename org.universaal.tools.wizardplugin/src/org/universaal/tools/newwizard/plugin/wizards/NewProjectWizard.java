@@ -26,6 +26,7 @@ import org.maven.ide.eclipse.MavenPlugin;
 import org.maven.ide.eclipse.actions.OpenMavenConsoleAction;
 import org.maven.ide.eclipse.core.IMavenConstants;
 import org.maven.ide.eclipse.project.ProjectImportConfiguration;
+import org.universaal.tools.newwizard.plugin.Activator;
 
 /**
  * This is a sample new wizard. Its role is to create a new file project
@@ -57,13 +58,14 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		"org.universaal.tools.newwizard.plugin", //$NON-NLS-1$
 		"icons/ic-uAAL-hdpi.png"); //$NON-NLS-1$
 	setDefaultPageImageDescriptor(image);
-
+	setWindowTitle(Messages.getString("Project.6"));
     }
 
     public void addPages() {
 	configuration = new ProjectImportConfiguration();
 	page1 = new NewProjectWizardPage1(selection);
 	page2 = new NewProjectWizardPage2(selection);
+	PlatformUI.getWorkbench().getHelpSystem().setHelp(getShell(), Activator.PLUGIN_ID + ".help_project");
 	addPage(page1);
 	addPage(page2);
     }

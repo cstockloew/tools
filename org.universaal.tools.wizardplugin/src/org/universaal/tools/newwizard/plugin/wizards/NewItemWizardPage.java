@@ -22,6 +22,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
+import org.universaal.tools.newwizard.plugin.Activator;
 
 /**
  * The only wizard page allows setting the basic details for the new item, like
@@ -128,7 +130,8 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 		validateInput();
 	    }
 	});
-
+	//TODO: I don´t know why this doesn´t work with getShell in NewItemWizad.addPages (see Project wizard)
+	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, Activator.PLUGIN_ID + ".help_item");
 	validateInput();
 	setControl(container);
     }
