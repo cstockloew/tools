@@ -7,32 +7,32 @@ import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
-public class BuildProjectListener implements MouseListener {
+public class BuildProjectListener implements MouseListener{
 
 	ViewPart view;
 	
 	public BuildProjectListener(ViewPart view){
 		this.view=view;
 	}
-	
+
 	@Override
 	public void mouseDoubleClick(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void mouseDown(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void mouseUp(MouseEvent arg0) {
-		
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
 		
 		try {
@@ -52,7 +52,6 @@ public class BuildProjectListener implements MouseListener {
 			e.printStackTrace();
 		}
 		
-
 	}
 
 }

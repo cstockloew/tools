@@ -6,19 +6,12 @@
          point="org.eclipse.ui.views">
       <category
             name="UNIVERSAAL"
-            id="Sintef.dashboard">
+            id="org.universaal.tools.dashboard">
       </category>
       <view
-            name="Sample View"
-            icon="icons/sample.gif"
-            category="Sintef.dashboard"
-            class="sintef.dashboard.views.SampleView"
-            id="sintef.dashboard.views.SampleView">
-      </view>
-      <view
-            category="Sintef.dashboard"
-            class="sintef.dashboard.views.DashboardView"
-            id="sintef.dashboard.views.DasboardView"
+            category="org.universaal.tools.dashboard"
+            class="org.universaal.tools.dashboard.views.DashboardView"
+            id="org.universaal.tools.dashboard.views.DashboardView"
             name="UNIVERSAAL Dashboard">
       </view>
    </extension>
@@ -30,7 +23,7 @@
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
                relationship="right"
-               id="sintef.dashboard.views.SampleView">
+               id="org.universaal.tools.dashboard.views.DashboardView">
          </view>
       </perspectiveExtension>
    </extension>
@@ -39,6 +32,30 @@
       <contexts
             file="contexts.xml">
       </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.universaal.tools.dashboard.actionSet"
+            label="Sample Action Set"
+            visible="true">
+         <menu
+               id="sampleMenu"
+               label="Sample &amp;Menu">
+            <separator
+                  name="sampleGroup">
+            </separator>
+         </menu>
+         <action
+               class="org.universaal.tools.dashboard.actions.SampleAction"
+               icon="icons/sample.gif"
+               id="org.universaal.tools.dashboard.actions.SampleAction"
+               label="&amp;Sample Action"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               tooltip="Hello, Eclipse world">
+         </action>
+      </actionSet>
    </extension>
 
 </plugin>

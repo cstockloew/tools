@@ -4,24 +4,23 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
-public class CreateNewItemListener implements SelectionListener{
+public class UploadProjectListener implements SelectionListener {
 	
 	ViewPart view;
-	
-	public CreateNewItemListener(ViewPart view){
+
+	public UploadProjectListener(ViewPart view) {
 		this.view = view;
 	}
 
 	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -42,7 +41,7 @@ public class CreateNewItemListener implements SelectionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
