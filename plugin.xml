@@ -93,6 +93,14 @@
             categoryId="org.universaal.tools.buildserviceapplication.commands"
             id="org.universaal.tools.buildserviceapplication.actions.PublishAction">
       </command>            
-   </extension>  
+   </extension> 
+      <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.universaal.tools.buildserviceapplication.actions.BuildAction"
+            class="org.universaal.tools.buildserviceapplication.handlers.BuildApplicationHandler">
+      </handler>
+      
+   </extension> 
 </plugin>
     
