@@ -60,11 +60,39 @@
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.BuildAction">				
          </action>
-         
-         
       </actionSet>
-
    </extension>
-
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="universAAL"
+            id="org.universaal.tools.buildserviceapplication.commands">
+      </category>
+      <command
+            name="Build application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.BuildAction">
+      </command>
+      <command
+            name="Run application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.RunAction">
+      </command>
+      <command
+            name="Debug application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.DebugAction">
+      </command>
+      <command
+            name="Upload application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.UploadAction">
+      </command>
+      <command
+            name="Publish application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.PublishAction">
+      </command>            
+   </extension>  
 </plugin>
     
