@@ -11,6 +11,18 @@
              name="SoaML"
              path="pathmap://UAAL/SoaML.profile.uml">
        </profile>
+        <profile
+             name="RDF"
+             path="pathmap://TwoUse_Profiles/RDF.profile.uml#_0">
+       </profile>
+        <profile
+             name="OWL"
+             path="pathmap://TwoUse_Profiles/OWL.profile.uml#_4">
+       </profile>
+        <profile
+             name="SWRL"
+             path="pathmap://TwoUse_Profiles/SWRL.profile.uml#_5">
+       </profile>
    </extension>
    <extension
          point="org.eclipse.emf.ecore.uri_mapping">
@@ -18,6 +30,32 @@
             source="pathmap://UAAL/"
             target="platform:/plugin/org.universaal.tools.profileplugin/model/">
       </mapping>
+      
+      <mapping
+       source="pathmap://TwoUse_Profiles/"
+       target="platform:/plugin/org.universaal.tools.profileplugin/model/">
+    </mapping>
+    
    </extension>
 
+ 
+  <extension point="org.eclipse.uml2.uml.dynamic_package">
+    <profile
+       	uri="http:///schemas/RDF/_0R6hACqWEd6tAp0dWJ5sSg/0" 
+    	location="pathmap://TwoUse_Profiles/RDF.profile.uml#_0"/>
+  </extension>
+
+  <extension
+     point="org.eclipse.uml2.uml.dynamic_package">
+    <profile 
+    	uri="http:///schemas/OWL/_V6llIH23Ed6vG7X4YNOLYQ/4" 
+    	location="pathmap://TwoUse_Profiles/OWL.profile.uml#_4"/>
+  </extension>
+  <extension
+     point="org.eclipse.uml2.uml.dynamic_package">
+    <profile 
+    	uri="http:///schemas/SWRLprofile/_fKvyMKeWEd6XOZ-lFJtlZg/5" 
+    	location="pathmap://TwoUse_Profiles/SWRL.profile.uml#_5"/>
+  </extension>
+  
 </plugin>
