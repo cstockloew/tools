@@ -42,7 +42,7 @@ public class UploadArtifact {
 							.split("/").length - 1];
 					if (!selectedProject.equals("")) {
 						isArtifactRelease = true;
-						if (CreateConfigurationFile.artifactVersion
+						if (CreateFelixPropertiesFile.artifactVersion
 								.contains("SNAPSHOT")) {
 							isArtifactRelease = false;
 						}
@@ -103,15 +103,15 @@ public class UploadArtifact {
 			String webPage = "";
 			if (isArtifactRelease) {
 				webPage = NEXUS_URL + "releases/"
-						+ CreateConfigurationFile.groupId.replace(".", "/")
-						+ "/" + CreateConfigurationFile.artifactId + "/"
-						+ CreateConfigurationFile.artifactVersion + "/"
+						+ CreateFelixPropertiesFile.groupId.replace(".", "/")
+						+ "/" + CreateFelixPropertiesFile.artifactId + "/"
+						+ CreateFelixPropertiesFile.artifactVersion + "/"
 						+ BuildAction.artifactFileName;
 			} else {
 				webPage = NEXUS_URL + "snapshots/"
-						+ CreateConfigurationFile.groupId.replace(".", "/")
-						+ "/" + CreateConfigurationFile.artifactId + "/"
-						+ CreateConfigurationFile.artifactVersion + "/"
+						+ CreateFelixPropertiesFile.groupId.replace(".", "/")
+						+ "/" + CreateFelixPropertiesFile.artifactId + "/"
+						+ CreateFelixPropertiesFile.artifactVersion + "/"
 						+ BuildAction.artifactFileName;
 			}
 
@@ -132,9 +132,9 @@ public class UploadArtifact {
 					.getOutputStream());
 
 			File file = new File(repositoryPath + "repository/"
-					+ CreateConfigurationFile.groupId.replace(".", "/") + "/"
-					+ CreateConfigurationFile.artifactId + "/"
-					+ CreateConfigurationFile.artifactVersion + "/"
+					+ CreateFelixPropertiesFile.groupId.replace(".", "/") + "/"
+					+ CreateFelixPropertiesFile.artifactId + "/"
+					+ CreateFelixPropertiesFile.artifactVersion + "/"
 					+ BuildAction.artifactFileName);
 
 			FileInputStream fis = new FileInputStream(file);
@@ -171,34 +171,34 @@ public class UploadArtifact {
 					if (isArtifactRelease) {
 						webPage = NEXUS_URL
 								+ "releases/"
-								+ CreateConfigurationFile.groupId.replace(".",
+								+ CreateFelixPropertiesFile.groupId.replace(".",
 										"/") + "/"
-								+ CreateConfigurationFile.artifactId + "/"
-								+ CreateConfigurationFile.artifactVersion + "/"
+								+ CreateFelixPropertiesFile.artifactId + "/"
+								+ CreateFelixPropertiesFile.artifactVersion + "/"
 								+ metadata.getRemoteFilename();
 					} else {
 						webPage = NEXUS_URL
 								+ "snapshots/"
-								+ CreateConfigurationFile.groupId.replace(".",
+								+ CreateFelixPropertiesFile.groupId.replace(".",
 										"/") + "/"
-								+ CreateConfigurationFile.artifactId + "/"
-								+ CreateConfigurationFile.artifactVersion + "/"
+								+ CreateFelixPropertiesFile.artifactId + "/"
+								+ CreateFelixPropertiesFile.artifactVersion + "/"
 								+ metadata.getRemoteFilename();
 					}
 				} else {
 					if (isArtifactRelease) {
 						webPage = NEXUS_URL
 								+ "releases/"
-								+ CreateConfigurationFile.groupId.replace(".",
+								+ CreateFelixPropertiesFile.groupId.replace(".",
 										"/") + "/"
-								+ CreateConfigurationFile.artifactId + "/"
+								+ CreateFelixPropertiesFile.artifactId + "/"
 								+ metadata.getRemoteFilename();
 					} else {
 						webPage = NEXUS_URL
 								+ "snapshots/"
-								+ CreateConfigurationFile.groupId.replace(".",
+								+ CreateFelixPropertiesFile.groupId.replace(".",
 										"/") + "/"
-								+ CreateConfigurationFile.artifactId + "/"
+								+ CreateFelixPropertiesFile.artifactId + "/"
 								+ metadata.getRemoteFilename();
 					}
 				}
@@ -222,14 +222,14 @@ public class UploadArtifact {
 				File file = null;
 				if (metadata.getRemoteFilename().endsWith(".pom")) {
 					file = new File(repositoryPath + "repository/"
-							+ CreateConfigurationFile.groupId.replace(".", "/")
-							+ "/" + CreateConfigurationFile.artifactId + "/"
-							+ CreateConfigurationFile.artifactVersion + "/"
+							+ CreateFelixPropertiesFile.groupId.replace(".", "/")
+							+ "/" + CreateFelixPropertiesFile.artifactId + "/"
+							+ CreateFelixPropertiesFile.artifactVersion + "/"
 							+ metadata.getRemoteFilename());
 				} else {
 					file = new File(repositoryPath + "repository/"
-							+ CreateConfigurationFile.groupId.replace(".", "/")
-							+ "/" + CreateConfigurationFile.artifactId + "/"
+							+ CreateFelixPropertiesFile.groupId.replace(".", "/")
+							+ "/" + CreateFelixPropertiesFile.artifactId + "/"
 							+ "maven-metadata-local.xml");
 				}
 
