@@ -10,6 +10,13 @@ import java.util.List;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 
 public class CreateConfigurationFile {
@@ -41,6 +48,8 @@ public class CreateConfigurationFile {
 					artifactId=model.getParent().getArtifactId();
 				}
 				reader.close();
+				
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -182,11 +191,13 @@ public class CreateConfigurationFile {
 
 			// Close the output stream
 			out.close();
+			
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
+		
 	}
 
 }
