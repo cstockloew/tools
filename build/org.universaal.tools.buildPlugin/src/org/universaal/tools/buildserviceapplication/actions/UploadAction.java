@@ -1,19 +1,9 @@
 package org.universaal.tools.buildserviceapplication.actions;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Iterator;
-import org.apache.maven.artifact.metadata.ArtifactMetadata;
-import org.apache.maven.cli.MavenCli;
-import org.codehaus.plexus.util.Base64;
+
+
+
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
