@@ -61,6 +61,7 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	 */
 	static public String getSelectedProjectPath() {
 		try {
+			
 			String projectPath = "";
 			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();			
 			TreeSelection selection = (TreeSelection) window.getActivePage()
@@ -71,16 +72,16 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 				if (sel instanceof org.eclipse.core.internal.resources.Project) {					
 					projectPath = ((org.eclipse.core.internal.resources.Project) sel).getLocation().toString();
 					projectPath = projectPath.replace("file:/", "");
+				
 				}
 				else
-					if(sel instanceof JavaProject){						
+					if(sel instanceof JavaProject){					
 						projectPath = ((JavaProject)sel).getResource().getLocationURI().toURL().toString();
 						projectPath = projectPath.replace("file:/", "");
 					}				
 			}
 			return projectPath;
-		} catch (Exception ex) {
-			
+		} catch (Exception ex) {			
 			return "";
 		}
 	}
@@ -120,12 +121,20 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 							"BuildServiceApplication",
 							"Building of project \""+projectName+"\" succeeded.");
 					// create launch configuration file
-					CreateConfigurationFile confFile = new CreateConfigurationFile();
-					if (confFile.createFile()) {
-						buildedProjects.add(selectedProject);						
+				//	CreateConfigurationFile confFile = new CreateConfigurationFile();
+				//	if (confFile.createFile()) {
+					if(true){
+						buildedProjects.add(selectedProject);	
+						
+						//create configurations for launching on Eclipse 3.6
+						CreateFelixPropertiesFile fel=new CreateFelixPropertiesFile();
+						fel.createFile();
+						
+						
 						// refresh the eclipse workspace
 						ResourcesPlugin.getWorkspace().getRoot()
 								.refreshLocal(IResource.DEPTH_INFINITE, null);
+						
 					} else {
 						MessageDialog
 								.openInformation(null,
