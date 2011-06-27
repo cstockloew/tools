@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OWL="http:///schemas/OWL/_oQeyUPuCEd66qf_UVzQXiw/7" xmlns:RDF="http:///schemas/RDF/_0R6hACqWEd6tAp0dWJ5sSg/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OWL/_oQeyUPuCEd66qf_UVzQXiw/7 pathmap://TwoUse_Profiles/OWL.profile.uml#_oQojUPuCEd66qf_UVzQXiw http:///schemas/RDF/_0R6hACqWEd6tAp0dWJ5sSg/0 pathmap://TwoUse_Profiles/RDF.profile.uml#_0R89QCqWEd6tAp0dWJ5sSg">
+  <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA">
+    <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="serviceProfiling">
+      <packagedElement xmi:type="uml:Class" xmi:id="_hI5GcJv-EeCgJ7sXDd2E1w" name="Lighting">
+        <generalization xmi:id="_w92KkKCsEeCPiYRKlVcMuQ" general="_n3kikKCsEeCPiYRKlVcMuQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_B9p9AJv_EeCgJ7sXDd2E1w" name="BlinkableLighting">
+        <generalization xmi:id="_otbZcJv_EeCgJ7sXDd2E1w" general="_hI5GcJv-EeCgJ7sXDd2E1w"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Iso9gJv_EeCgJ7sXDd2E1w" name="Beaming">
+        <generalization xmi:id="_oGSg8Jv_EeCgJ7sXDd2E1w" general="_hI5GcJv-EeCgJ7sXDd2E1w"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_LMWhMJv_EeCgJ7sXDd2E1w" name="BlinkableBeaming">
+        <generalization xmi:id="_pQUEEJv_EeCgJ7sXDd2E1w" general="_Iso9gJv_EeCgJ7sXDd2E1w"/>
+        <generalization xmi:id="_p4gsgJv_EeCgJ7sXDd2E1w" general="_B9p9AJv_EeCgJ7sXDd2E1w"/>
+        <ownedAttribute xmi:id="_CWeN0KCuEeCPiYRKlVcMuQ" name="blinkableBeamingSource" type="_Sg7iEJv_EeCgJ7sXDd2E1w" association="_CWhRIKCuEeCPiYRKlVcMuQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CWeN0aCuEeCPiYRKlVcMuQ" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CWeN0qCuEeCPiYRKlVcMuQ" value="1"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Mv1GIJv_EeCgJ7sXDd2E1w" name="LightSource"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_POvYkJv_EeCgJ7sXDd2E1w" name="BlinkableLightSource">
+        <generalization xmi:id="_s5E6gJv_EeCgJ7sXDd2E1w" general="_Mv1GIJv_EeCgJ7sXDd2E1w"/>
+        <ownedAttribute xmi:id="_WYGygJwAEeCgJ7sXDd2E1w" name="isBlinking">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_QpxMIJv_EeCgJ7sXDd2E1w" name="BeamingSource">
+        <generalization xmi:id="_tXPdMJv_EeCgJ7sXDd2E1w" general="_Mv1GIJv_EeCgJ7sXDd2E1w"/>
+        <ownedAttribute xmi:id="_dQJoYJwAEeCgJ7sXDd2E1w" name="beamingDirection">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_hjuWYJwAEeCgJ7sXDd2E1w" name="targetSurface">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Sg7iEJv_EeCgJ7sXDd2E1w" name="BlinkableBeamingSource">
+        <generalization xmi:id="_rQImwJv_EeCgJ7sXDd2E1w" general="_POvYkJv_EeCgJ7sXDd2E1w"/>
+        <generalization xmi:id="_r7w9sJv_EeCgJ7sXDd2E1w" general="_QpxMIJv_EeCgJ7sXDd2E1w"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_esmNsJv_EeCgJ7sXDd2E1w" name="ElectricLight">
+        <generalization xmi:id="_nlB8EJwBEeCgJ7sXDd2E1w" general="_keY7QJwBEeCgJ7sXDd2E1w"/>
+        <ownedLiteral xmi:id="_h7CfoJv_EeCgJ7sXDd2E1w" name="Carbon_Arc_Lamp"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_fnpgsJv_EeCgJ7sXDd2E1w" name="FlamingLight">
+        <generalization xmi:id="_mTs3EJwBEeCgJ7sXDd2E1w" general="_keY7QJwBEeCgJ7sXDd2E1w"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_gWZdEJv_EeCgJ7sXDd2E1w" name="NaturalLight">
+        <generalization xmi:id="_m7OxIJwBEeCgJ7sXDd2E1w" general="_keY7QJwBEeCgJ7sXDd2E1w"/>
+        <ownedLiteral xmi:id="_ETKUcJwCEeCgJ7sXDd2E1w" name="SUN_SHINE"/>
+        <ownedLiteral xmi:id="_FlKu4JwCEeCgJ7sXDd2E1w" name="MOON_LIGHT"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_zZ1RwJv_EeCgJ7sXDd2E1w" name="A_lighting_controls_lightSource" memberEnd="_zZ1RwZv_EeCgJ7sXDd2E1w _zZ1RxJv_EeCgJ7sXDd2E1w" navigableOwnedEnd="_zZ1RxJv_EeCgJ7sXDd2E1w">
+        <ownedEnd xmi:id="_zZ1RwZv_EeCgJ7sXDd2E1w" name="lighting" type="_hI5GcJv-EeCgJ7sXDd2E1w" association="_zZ1RwJv_EeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zZ1Rwpv_EeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zZ1Rw5v_EeCgJ7sXDd2E1w" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:id="_zZ1RxJv_EeCgJ7sXDd2E1w" name="lightSource" type="_Mv1GIJv_EeCgJ7sXDd2E1w" association="_zZ1RwJv_EeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zZ1RxZv_EeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zZ1Rxpv_EeCgJ7sXDd2E1w" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_VKbpAJwBEeCgJ7sXDd2E1w" name="A_beaming_controls_beamingSource" memberEnd="_VKbpAZwBEeCgJ7sXDd2E1w _VKbpBJwBEeCgJ7sXDd2E1w" navigableOwnedEnd="_VKbpBJwBEeCgJ7sXDd2E1w">
+        <ownedEnd xmi:id="_VKbpAZwBEeCgJ7sXDd2E1w" name="beaming" type="_Iso9gJv_EeCgJ7sXDd2E1w" association="_VKbpAJwBEeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VKbpApwBEeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VKbpA5wBEeCgJ7sXDd2E1w" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:id="_VKbpBJwBEeCgJ7sXDd2E1w" name="beamingSource" type="_QpxMIJv_EeCgJ7sXDd2E1w" association="_VKbpAJwBEeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VKbpBZwBEeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VKbpBpwBEeCgJ7sXDd2E1w" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_boOy4JwBEeCgJ7sXDd2E1w" name="A_blinkableLighting_controls_blinkableLightSource" memberEnd="_boOy4ZwBEeCgJ7sXDd2E1w _boOy5JwBEeCgJ7sXDd2E1w" navigableOwnedEnd="_boOy5JwBEeCgJ7sXDd2E1w">
+        <ownedEnd xmi:id="_boOy4ZwBEeCgJ7sXDd2E1w" name="blinkableLighting" type="_B9p9AJv_EeCgJ7sXDd2E1w" association="_boOy4JwBEeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_boOy4pwBEeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_boOy45wBEeCgJ7sXDd2E1w" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:id="_boOy5JwBEeCgJ7sXDd2E1w" name="blinkableLightSource" type="_POvYkJv_EeCgJ7sXDd2E1w" association="_boOy4JwBEeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_boOy5ZwBEeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_boOy5pwBEeCgJ7sXDd2E1w" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_keY7QJwBEeCgJ7sXDd2E1w" name="LightType"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_r0rzYJwBEeCgJ7sXDd2E1w" name="hasType" memberEnd="_r0rzYZwBEeCgJ7sXDd2E1w _r0rzZJwBEeCgJ7sXDd2E1w" navigableOwnedEnd="_r0rzZJwBEeCgJ7sXDd2E1w">
+        <ownedEnd xmi:id="_r0rzYZwBEeCgJ7sXDd2E1w" name="lightSource" type="_Mv1GIJv_EeCgJ7sXDd2E1w" association="_r0rzYJwBEeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r0rzYpwBEeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r0rzY5wBEeCgJ7sXDd2E1w" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:id="_r0rzZJwBEeCgJ7sXDd2E1w" name="lightType" type="_keY7QJwBEeCgJ7sXDd2E1w" association="_r0rzYJwBEeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r0rzZZwBEeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r0rzZpwBEeCgJ7sXDd2E1w" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_CWhRIKCuEeCPiYRKlVcMuQ" name="A_blinkableBeaming_controls_blinkableBeamingSource" memberEnd="_CWhRIaCuEeCPiYRKlVcMuQ _CWeN0KCuEeCPiYRKlVcMuQ">
+        <ownedEnd xmi:id="_CWhRIaCuEeCPiYRKlVcMuQ" name="blinkableBeaming" type="_LMWhMJv_EeCgJ7sXDd2E1w" association="_CWhRIKCuEeCPiYRKlVcMuQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CWhRIqCuEeCPiYRKlVcMuQ" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CWhRI6CuEeCPiYRKlVcMuQ" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_n3kikKCsEeCPiYRKlVcMuQ" name="service"/>
+    <profileApplication xmi:id="_mvPD4Jv-EeCgJ7sXDd2E1w">
+      <eAnnotations xmi:id="_mvZb8Jv-EeCgJ7sXDd2E1w" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_oQojUPuCEd66qf_UVzQXiw"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://TwoUse_Profiles/OWL.profile.uml#_0"/>
+    </profileApplication>
+    <profileApplication xmi:id="_nAXQIJv-EeCgJ7sXDd2E1w">
+      <eAnnotations xmi:id="_nAX3MJv-EeCgJ7sXDd2E1w" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/RDF.profile.uml#_0R89QCqWEd6tAp0dWJ5sSg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
+    </profileApplication>
+  </uml:Model>
+  <OWL:owlOntology xmi:id="_owtMYJv-EeCgJ7sXDd2E1w" base_Package="_w8IxIM37EdqwVrslYOdUDA"/>
+  <OWL:owlClass xmi:id="_p_LxsJv-EeCgJ7sXDd2E1w" base_Class="_hI5GcJv-EeCgJ7sXDd2E1w"/>
+  <OWL:owlClass xmi:id="_FTA50JwAEeCgJ7sXDd2E1w" base_Class="_Mv1GIJv_EeCgJ7sXDd2E1w"/>
+  <OWL:owlClass xmi:id="_Ft8iUJwAEeCgJ7sXDd2E1w" base_Class="_Iso9gJv_EeCgJ7sXDd2E1w"/>
+  <OWL:owlClass xmi:id="_GFsT8JwAEeCgJ7sXDd2E1w" base_Class="_B9p9AJv_EeCgJ7sXDd2E1w"/>
+  <OWL:owlClass xmi:id="_GdP4UJwAEeCgJ7sXDd2E1w" base_Class="_LMWhMJv_EeCgJ7sXDd2E1w"/>
+  <OWL:owlClass xmi:id="_QnmzgJwAEeCgJ7sXDd2E1w" base_Class="_POvYkJv_EeCgJ7sXDd2E1w"/>
+  <OWL:owlClass xmi:id="_RI_pUJwAEeCgJ7sXDd2E1w" base_Class="_QpxMIJv_EeCgJ7sXDd2E1w"/>
+  <OWL:owlClass xmi:id="_Riu_AJwAEeCgJ7sXDd2E1w" base_Class="_Sg7iEJv_EeCgJ7sXDd2E1w"/>
+  <OWL:datatypeProperty xmi:id="_e10wQJwBEeCgJ7sXDd2E1w"/>
+  <OWL:datatypeProperty xmi:id="_sTCjUJwBEeCgJ7sXDd2E1w" base_Association="_r0rzYJwBEeCgJ7sXDd2E1w"/>
+  <OWL:dataRange xmi:id="_t5RhUJwBEeCgJ7sXDd2E1w" base_Enumeration="_fnpgsJv_EeCgJ7sXDd2E1w"/>
+  <OWL:dataRange xmi:id="_uUrD4JwBEeCgJ7sXDd2E1w" base_Enumeration="_gWZdEJv_EeCgJ7sXDd2E1w"/>
+  <RDF:rdfsDatatype xmi:id="_vz9sYJwBEeCgJ7sXDd2E1w" base_DataType="_esmNsJv_EeCgJ7sXDd2E1w"/>
+  <RDF:rdfsSubClassOf xmi:id="_7izSEJwBEeCgJ7sXDd2E1w" base_Generalization="_nlB8EJwBEeCgJ7sXDd2E1w"/>
+  <RDF:rdfsSubClassOf xmi:id="_8ErQEJwBEeCgJ7sXDd2E1w" base_Generalization="_m7OxIJwBEeCgJ7sXDd2E1w"/>
+  <RDF:rdfsSubClassOf xmi:id="_8o1tEJwBEeCgJ7sXDd2E1w" base_Generalization="_mTs3EJwBEeCgJ7sXDd2E1w"/>
+</xmi:XMI>
