@@ -19,7 +19,10 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CWeN0qCuEeCPiYRKlVcMuQ" value="1"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_Mv1GIJv_EeCgJ7sXDd2E1w" name="LightSource"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Mv1GIJv_EeCgJ7sXDd2E1w" name="LightSource">
+        <generalization xmi:id="_cMm1oKC_EeCPiYRKlVcMuQ" general="_bPoQAKC_EeCPiYRKlVcMuQ"/>
+        <ownedAttribute xmi:id="_Xv8dEKC_EeCPiYRKlVcMuQ" name="Namespace"/>
+      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_POvYkJv_EeCgJ7sXDd2E1w" name="BlinkableLightSource">
         <generalization xmi:id="_s5E6gJv_EeCgJ7sXDd2E1w" general="_Mv1GIJv_EeCgJ7sXDd2E1w"/>
         <ownedAttribute xmi:id="_WYGygJwAEeCgJ7sXDd2E1w" name="isBlinking">
@@ -81,7 +84,9 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_boOy5pwBEeCgJ7sXDd2E1w" value="1"/>
         </ownedEnd>
       </packagedElement>
-      <packagedElement xmi:type="uml:Enumeration" xmi:id="_keY7QJwBEeCgJ7sXDd2E1w" name="LightType"/>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_keY7QJwBEeCgJ7sXDd2E1w" name="LightType">
+        <generalization xmi:id="_jXmKwKDBEeCPiYRKlVcMuQ" general="_gl6GQKDBEeCPiYRKlVcMuQ"/>
+      </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_r0rzYJwBEeCgJ7sXDd2E1w" name="hasType" memberEnd="_r0rzYZwBEeCgJ7sXDd2E1w _r0rzZJwBEeCgJ7sXDd2E1w" navigableOwnedEnd="_r0rzZJwBEeCgJ7sXDd2E1w">
         <ownedEnd xmi:id="_r0rzYZwBEeCgJ7sXDd2E1w" name="lightSource" type="_Mv1GIJv_EeCgJ7sXDd2E1w" association="_r0rzYJwBEeCgJ7sXDd2E1w">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r0rzYpwBEeCgJ7sXDd2E1w" value="1"/>
@@ -99,7 +104,9 @@
         </ownedEnd>
       </packagedElement>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_n3kikKCsEeCPiYRKlVcMuQ" name="service"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_n3kikKCsEeCPiYRKlVcMuQ" name="Service"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_bPoQAKC_EeCPiYRKlVcMuQ" name="Device"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_gl6GQKDBEeCPiYRKlVcMuQ" name="ManagedIndividual"/>
     <profileApplication xmi:id="_mvPD4Jv-EeCgJ7sXDd2E1w">
       <eAnnotations xmi:id="_mvZb8Jv-EeCgJ7sXDd2E1w" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_oQojUPuCEd66qf_UVzQXiw"/>
