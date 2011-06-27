@@ -23,6 +23,12 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
 			component.generateOntologyClass();
 		}
                 
+  		//Generate a java-class for each mCompositeRealization. Port delegation not implemented.
+		p.ownedElement -> forEach( inter:uml.Interface ) { // | component.hasStereotype("owlClass") ){
+			inter.generateOntologyInterface();
+		}
+
+
  
                         //Generate interfaces if any
 //                        p.ownedElement -> forEach( interface:uml.Interface ){
@@ -36,24 +42,35 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
  
   uml.Model::generateActivator() {
     'Generating activator'
-	file( self.package.name.replace("\\.", "/") + '/' + "Activator.java" )
-	
-	
+	file( "Activator.java" )
+//	file( self.package.name.replace("\\.", "/") + '/' + "Activator.java" )
+
+	var pkg:Object;
+	pkg = ontologyClassList.values.first()
+
 '
-package org.universAAL.ontology;
+package '	
+	if (pkg != null) {
+      pkg.package.name
+	}
+	else {	  	
+	  'default'
+	}
+';
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 public class Activator implements BundleActivator {
 
-    static BundleContext context = null;
+  static BundleContext context = null;
 
     public void start(BundleContext context) throws Exception {
-	Activator.context = context;
+      Activator.context = context;
 '
 	ontologyClassList.values()->forEach(component:uml.Class) {
-'		Class.forName("' component.package.name + '.' + component.name '");'
+'      Class.forName(' component.package.name '.' component.name '.class.getName());
+'
 	}
 '    }
 
@@ -70,6 +87,26 @@ public class Activator implements BundleActivator {
     /**
    * Main (entry point)
    */
+
+	
+  uml.Interface::generateOntologyInterface() {
+	file( self.package.name.replace("\\.", "/") + '/' + self.name + ".java" )
+                
+    //Start generating the code
+    'package ' self.package.name ';\n\n'
+    
+    self.genImports()
+    
+	self.genInterfaceDeclaration()
+	    
+    ' {\n'
+  
+    
+    '}\n'    
+  }
+
+
+
   uml.Class::generateOntologyClass () {
 	ontologyClassList.put(self.name, self)
     	
@@ -78,11 +115,80 @@ public class Activator implements BundleActivator {
     //Start generating the code
     'package ' self.package.name ';\n\n'
     
-    //Import music packages.
-    'import org.istmusic.mw.adaptation.configuration.ConfigurableImpl;\n'
-    'import org.istmusic.mw.model.connectable.IConnectable;\n\n'
+    self.genImports()
     
+	self.genClassDeclaration()
+	    
+    ' {\n'
+    
+    self.genStatic()
+    
+    self.genConstructors()
+    
+    '}\n'    
   }
+ 
+  uml.Class::genImports() {
+    'import java.util.Hashtable;\n\n'
+    
+    //Import universAAL packages.
+    'import org.universAAL.middleware.owl.Restriction;\n'
+    'import org.universAAL.middleware.service.owl.Service;\n\n'    
+  }
+
+  uml.Class::genStatic() {
+    '  static {\n'
+    
+    '  }\n'
+  }     
+  
+  
+  uml.Class::genClassDeclaration() {
+    'public ' if (self.isAbstract) {'abstract '} 'class ' self.name
+    if (self.superClass.isEmpty()) {
+      stdout.println("Warning: Class " + self.name + " has no super class")
+    }
+    else {  
+      ' extends '
+      self.superClass.first().name 
+      if (self.superClass.size() > 1) {
+        stdout.println("Warning: Class " + self.name + " is defined to have multiple superclasses. Use interfaces instead - additional superclasses are igonered!")
+      }        
+    }
+    if (!self.interfaceRealization.isEmpty()) {
+      ' implements '
+      var firstInter:Boolean = true;
+      self.interfaceRealization->forEach(inter:uml.Interface) {
+        inter.name
+        if (!firstInter) {','}          
+        firstInter = false;
+      }
+    }
+  }
+
+  uml.Interface::genInterfaceDeclaration() {
+    'public interface ' self.name
+    if (!self.superClass.isEmpty()) {
+      ' extends '
+      self.superClass.first().name 
+      if (self.superClass.size() > 1) {
+        stdout.println("Warning: Class " + self.name + " is defined to have multiple superclasses. Use interfaces instead - additional superclasses are igonered!")
+      }        
+    }
+  }
+ 
+  
+  uml.Class::genConstructors() {
+    '
+  public ' self.name ' () {
+    super();
+  }
+  
+  public ' self.name ' (String uri) {
+    super(uri);
+  }\n'
+  }    
+  
   
   
 }
