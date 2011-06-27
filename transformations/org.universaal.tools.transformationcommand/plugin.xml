@@ -6,19 +6,47 @@
          point="org.eclipse.ui.commands">
       <category
             name="universAAL"
-            id="org.istmusic.tools.transformationcommand.commands.category">
+            id="org.universaal.tools.transformation.category">
       </category>
       <command
             name="List UML classes"
-            categoryId="org.istmusic.tools.transformationcommand.commands.category"
-            id="org.istmusic.tools.transformationcommand.commands.generateAdaptationModelCommand">
+            categoryId="org.universaal.tools.transformation.category"
+            id="org.universaal.tools.transformationcommand.commands.listClasses">
+      </command>
+      <command
+            categoryId="org.universaal.tools.transformation.category"
+            id="org.universaal.tools.transformationcommand.commands.ontUML2Java"
+            name="Transform UML ontology to Java">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            commandId="org.istmusic.tools.transformationcommand.commands.generateAdaptationModelCommand"
+            commandId="org.universaal.tools.transformationcommand.commands.listClasses"
             class="org.istmusic.tools.transformationcommand.handlers.TransformToAdaptationModelHandler">
+         <activeWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="org.eclipse.core.resources.IFile">
+                  </instanceof>
+                  <test
+                        property="org.eclipse.core.resources.extension "
+                        value="uml">
+                  </test>
+               </iterate>
+               <count
+                     value="1">
+               </count>
+            </with>
+         </activeWhen>
+      </handler>
+      <handler
+            commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
+            class="org.istmusic.tools.transformationcommand.handlers.TransformOntUML2Java">
          <activeWhen>
             <with
                   variable="selection">
@@ -45,22 +73,31 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
-               label="universAAL"
-               mnemonic="M"
-               id="org.istmusic.tools.transformationcommand.menus.MUSICMenu">
+               label="AAL Studio"
+               mnemonic="U"
+               id="org.universaal.tools.AALStudio.menu">
             <command
-                  commandId="org.istmusic.tools.transformationcommand.commands.generateAdaptationModelCommand"
+                  commandId="org.universaal.tools.transformationcommand.commands.listClasses"
                   mnemonic="A"
-                  id="org.istmusic.tools.transformationcommand.menus.sampleCommand">
+                  id="org.universaal.tools.transformationcommand.commands.ontUML2JavasampleCommand">
+            </command>
+            <command
+                  commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
+                  id="org.universaal.tools.transformationcommand.menu.ontUML2Java"
+                  style="push">
             </command>
          </menu>
       </menuContribution>
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
          <menu
-               label="universAAL">
+               label="AAL Studio">
             <command
-                  commandId="org.istmusic.tools.transformationcommand.commands.generateAdaptationModelCommand">
+                  commandId="org.universaal.tools.transformationcommand.commands.listClasses">
+            </command>
+            <command
+                  commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
+                  style="push">
             </command>
          </menu>
       </menuContribution>
