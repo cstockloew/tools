@@ -160,7 +160,7 @@ public class DebugAction implements IWorkbenchWindowActionDelegate {
 						// refresh the eclipse workspace
 						ResourcesPlugin.getWorkspace().getRoot()
 								.refreshLocal(IResource.DEPTH_INFINITE, null);
-						config.launch(ILaunchManager.RUN_MODE, null);
+						config.launch(ILaunchManager.DEBUG_MODE, null);
 
 					}
 				} catch (Exception ex) {

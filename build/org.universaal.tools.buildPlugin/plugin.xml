@@ -39,7 +39,7 @@
                tooltip="Debug universAAL application"
                menubarPath="org.universaal.tools.AALStudio.menu/uAALGroup"
                toolbarPath="uAALGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.RunAction" >			
+               id="org.universaal.tools.buildserviceapplication.actions.DebugAction" >			
          </action>        
          <action
                label="&amp;Run universAAL application"
