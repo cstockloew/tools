@@ -104,7 +104,7 @@ public class CreateFelixPropertiesFile {
 			out.write("felix.startlevel.bundle=8\n");
 			out.write("felix.startlevel.framework=8\n");
 			out.write("felix.log.level=8\n");
-			out.write("org.osgi.framework.storage.clean=none\n");
+			out.write("org.osgi.framework.storage.clean=onFirstInit\n");
 			out.write("org.osgi.framework.storage="+Platform.getLocation().toString()+"/.felix/"+artifactId+"\n");
 			out.write("felix.cache.rootdir="+Platform.getLocation().toString()+"/.felix/"+artifactId+"\n");
 			out.write("felix.service.urlhandlers=true\n");
