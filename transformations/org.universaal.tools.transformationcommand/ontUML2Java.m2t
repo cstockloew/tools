@@ -20,6 +20,7 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
   uml.Model::main() {
     
     if (!self.hasStereotype("owlOntology")) {
+      
       StdOut.println("WARNING!!! The model must be stereotyped with owlOntology and default namespace must be set!")  
       StdOut.println("To perform the transformation, add this information to the model")
       return 
@@ -116,7 +117,8 @@ public class Activator implements BundleActivator {
 	self.genInterfaceDeclaration()
 	    
     ' {\n'
-  
+  	
+  	self.genPropertyDeclaration()
     
     '}\n'    
   }
@@ -134,9 +136,13 @@ public class Activator implements BundleActivator {
     self.genImports()
     
 	self.genClassDeclaration()
+	
+
 	    
     ' {\n'
     
+    
+    self.genPropertyDeclaration()
     self.genStatic()
     
     self.genConstructors()
@@ -157,6 +163,11 @@ public class Activator implements BundleActivator {
 
   uml.Class::genStatic() {
     '  static {\n'
+    self.ownedMember->forEach(att : uml.Property) {
+  	    //initializing properties
+	    '    PROP_' att.name.toUpper() '= insert_namespace+formattedName ;\n'
+	}
+  	'\n'
     '    register('self.name'.class);\n'
     '  }\n'
   }     
@@ -171,7 +182,7 @@ public class Activator implements BundleActivator {
       ' extends '
       self.superClass.first().name 
       if (self.superClass.size() > 1) {
-        stdout.println("Warning: Class " + self.name + " is defined to have multiple superclasses. Use interfaces instead - additional superclasses are igonered!")
+        stdout.println("WARNING: Class " + self.name + " is defined to have multiple superclasses. Use interfaces instead - additional superclasses are igonered!")
       }        
     }
     if (!self.interfaceRealization.isEmpty()) {
@@ -186,6 +197,9 @@ public class Activator implements BundleActivator {
     }
   }
 
+
+
+
   uml.Interface::genInterfaceDeclaration() {
     'public interface ' self.name
     if (!self.generalization.isEmpty()) {
@@ -199,6 +213,26 @@ public class Activator implements BundleActivator {
         firstInter = false
       }
     }
+  }
+  
+  uml.Classifier::genPropertyDeclaration() {
+  	//insert default identifier for each owlClass
+  	'  public static final String MY_URI;\n'
+  	self.ownedMember->forEach(att : uml.Property) {
+  	  	
+  	   	
+  	   	//iterate through each property and declare them as static
+	    if (att.type == null) {
+	        stdout.println("WARNING: No type defined for " + att.name  + ". Using string as default")
+	        '  public static final String PROP_' att.name.toUpper() ';\n'
+	    }
+	    else {
+	    	'  public static final PROP_' att.type ' ' att.name.toUpper() ';\n'
+	    	}
+				
+		
+	}
+  '\n'
   }
  
   
