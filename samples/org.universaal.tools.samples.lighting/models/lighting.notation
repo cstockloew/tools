@@ -12,10 +12,6 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_vbEwRaCsEeCPiYRKlVcMuQ" type="5029"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_vbFXUKCsEeCPiYRKlVcMuQ" type="7017">
-      <children xmi:type="notation:Shape" xmi:id="_Y4L5QKFIEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_Y4FLkKFIEeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_Y4L5QaFIEeCPiYRKlVcMuQ"/>
-      </children>
       <children xmi:type="notation:Shape" xmi:id="_r47mUKFIEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
         <element xmi:type="uml:Property" href="lighting.uml#_r404oKFIEeCPiYRKlVcMuQ"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_r47mUaFIEeCPiYRKlVcMuQ"/>
@@ -56,10 +52,6 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_0BrvBaCsEeCPiYRKlVcMuQ" type="5029"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_0BrvBqCsEeCPiYRKlVcMuQ" type="7017">
-      <children xmi:type="notation:Shape" xmi:id="_cgYvAKFIEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_cgSBUKFIEeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_cgYvAaFIEeCPiYRKlVcMuQ"/>
-      </children>
       <children xmi:type="notation:Shape" xmi:id="_mAMRUKFIEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
         <element xmi:type="uml:Property" href="lighting.uml#_mADucKFIEeCPiYRKlVcMuQ"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_mAMRUaFIEeCPiYRKlVcMuQ"/>
@@ -96,10 +88,6 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_2rZjRaCsEeCPiYRKlVcMuQ" type="5029"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_2rZjRqCsEeCPiYRKlVcMuQ" type="7017">
-      <children xmi:type="notation:Shape" xmi:id="_TTSQ0KFJEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_TTLjIKFJEeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_TTSQ0aFJEeCPiYRKlVcMuQ"/>
-      </children>
       <children xmi:type="notation:Shape" xmi:id="_UwvtUKFJEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
         <element xmi:type="uml:Property" href="lighting.uml#_Uwo_oKFJEeCPiYRKlVcMuQ"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_UwvtUaFJEeCPiYRKlVcMuQ"/>
@@ -136,10 +124,6 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_EeKvkKCtEeCPiYRKlVcMuQ" type="5029"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_EeKvkaCtEeCPiYRKlVcMuQ" type="7017">
-      <children xmi:type="notation:Shape" xmi:id="_cSEJsKFJEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_cR9cAKFJEeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_cSEJsaFJEeCPiYRKlVcMuQ"/>
-      </children>
       <children xmi:type="notation:Shape" xmi:id="_dg5UUKFJEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
         <element xmi:type="uml:Property" href="lighting.uml#_dgx_kKFJEeCPiYRKlVcMuQ"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_dg5UUaFJEeCPiYRKlVcMuQ"/>
@@ -176,10 +160,6 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_G44ehaCtEeCPiYRKlVcMuQ" type="5029"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_G44ehqCtEeCPiYRKlVcMuQ" type="7017">
-      <children xmi:type="notation:Shape" xmi:id="_D3ixAKFIEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_D3a1MKFIEeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_D3ixAaFIEeCPiYRKlVcMuQ"/>
-      </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_G44eh6CtEeCPiYRKlVcMuQ"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_G44eiKCtEeCPiYRKlVcMuQ"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_G44eiaCtEeCPiYRKlVcMuQ"/>
@@ -212,10 +192,6 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_IDG19qCtEeCPiYRKlVcMuQ" type="5029"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_IDHdAKCtEeCPiYRKlVcMuQ" type="7017">
-      <children xmi:type="notation:Shape" xmi:id="_XyR_YKC_EeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_Xv8dEKC_EeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_XyR_YaC_EeCPiYRKlVcMuQ"/>
-      </children>
       <children xmi:type="notation:Shape" xmi:id="_PqZJcKFHEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
         <element xmi:type="uml:Property" href="lighting.uml#_PqR0sKFHEeCPiYRKlVcMuQ"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_PqZJcaFHEeCPiYRKlVcMuQ"/>
@@ -235,10 +211,6 @@
       <children xmi:type="notation:Shape" xmi:id="_XLfjYKFHEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
         <element xmi:type="uml:Property" href="lighting.uml#_XLYOoKFHEeCPiYRKlVcMuQ"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_XLfjYaFHEeCPiYRKlVcMuQ"/>
-      </children>
-      <children xmi:type="notation:Shape" xmi:id="_Z7BrwKFHEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_Z65I4KFHEeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_Z7BrwaFHEeCPiYRKlVcMuQ"/>
       </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_IDHdAaCtEeCPiYRKlVcMuQ"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_IDHdAqCtEeCPiYRKlVcMuQ"/>
@@ -279,10 +251,6 @@
       <children xmi:type="notation:Shape" xmi:id="_PMukAKCtEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
         <element xmi:type="uml:Property" href="lighting.uml#_hjuWYJwAEeCgJ7sXDd2E1w"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_PMukAaCtEeCPiYRKlVcMuQ" x="54" y="7"/>
-      </children>
-      <children xmi:type="notation:Shape" xmi:id="_NL9tQKFJEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_NL2_kKFJEeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_NL9tQaFJEeCPiYRKlVcMuQ"/>
       </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_KY4ahaCtEeCPiYRKlVcMuQ"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_KY4ahqCtEeCPiYRKlVcMuQ"/>
@@ -452,10 +420,6 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_4VSgsKFFEeCPiYRKlVcMuQ" type="5029"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_4VSgsaFFEeCPiYRKlVcMuQ" type="7017">
-      <children xmi:type="notation:Shape" xmi:id="_-e9NoKFFEeCPiYRKlVcMuQ" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="lighting.uml#_-e0DsKFFEeCPiYRKlVcMuQ"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_-e9NoaFFEeCPiYRKlVcMuQ"/>
-      </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_4VSgsqFFEeCPiYRKlVcMuQ"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_4VSgs6FFEeCPiYRKlVcMuQ"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_4VSgtKFFEeCPiYRKlVcMuQ"/>
