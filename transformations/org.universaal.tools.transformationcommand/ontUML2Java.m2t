@@ -98,18 +98,17 @@ public class Activator implements BundleActivator {
   uml.Property::toUpperFormat():String {
     var txt:String
     var res:String
-    var copyFrom:Integer
   
     txt = self.name
-    copyFrom = 0
-       	
-  	txt.size()->forEach(index:Integer) {
-  	  if (txt.isUpperCase(index)) {
-  	    res = res + txt.substring(copyFrom, index-1) + "_"
-		copyFrom = index
-  	  }  	  
-  	}
-	res = res + txt.substring(copyFrom, txt.size())
+    res = ""
+
+    txt->forEach(aChar:String) {
+      if (aChar.isUpperCase(0)) {
+        res = res + "_";
+      }
+      res = res + aChar;
+    }  
+
   	return res.toUpper()
   }   
 
@@ -187,7 +186,7 @@ public class Activator implements BundleActivator {
     '  static {\n'
     self.ownedMember->forEach(att : uml.Property) {
   	    //initializing properties
-	    '    PROP_' att.name.toUpper() '= insert_namespace+formattedName ;\n'
+	    '    PROP_' att.toUpperFormat() '= insert_namespace_' att.name '\n'
 	}
   	'\n'
     '    register('self.name'.class);\n'
