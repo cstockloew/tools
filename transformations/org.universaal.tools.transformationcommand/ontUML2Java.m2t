@@ -8,8 +8,8 @@
 texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 
 
-  var ontologyClassList:Hashtable
   var ontologyNamespace:String
+  var ontologyName:String
 
 
  
@@ -26,48 +26,46 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
       return 
     }
     
+    ontologyName = self.name 
+    StdOut.println("Generating Java classes for ontology: " + ontologyName)
     ontologyNamespace = self.getStereotypeValue("owlOntology", "defaultNamespace")
-    StdOut.println("Namespace: "+ontologyNamespace)  
+    StdOut.println("Namespace: "+ontologyNamespace) 
          
-    'Starting the transformation\n' 
   	self.ownedMember -> forEach( p:uml.Package ){         
-                                        
-	  	'Handling classes of package :' p.name '\n' 
+        var ontologyClassList:Hashtable
+ 
+ 	  	StdOut.println("Handling namespace interface of package :" + p.name) 
+   		p.generateNamespaceInterface()
+
+	  	StdOut.println("Handling classes of package :" + p.name) 
   		//Generate a java-class for each class in the ontology
 		p.ownedElement -> forEach( component:uml.Class ) { // | component.hasStereotype("owlClass") ){
+		    ontologyClassList.put(self.name, self)
 			component.generateOntologyClass()
 		}
 
-		'Handling interfaces\n'                
+	  	StdOut.println("Handling interfaces of package :" + p.name) 
   		//Generate a java-class for each interface in the ontology
 		p.ownedElement -> forEach( inter:uml.Interface ) { // | component.hasStereotype("owlClass") ){
 		    'An interface\n'                
 			inter.generateOntologyInterface()
+  		    ontologyClassList.put(self.name, self)
 		}
+
+	  	StdOut.println("Handling activator of package :" + p.name) 
+   		p.generateActivator(ontologyClassList)
                                          
 	}           
-    'Handling activator\n'
-   	self.generateActivator()
   }
  
  
-  uml.Model::generateActivator() {
-    'Generating activator'
-	file( "Activator.java" )
-//	file( self.package.name.replace("\\.", "/") + '/' + "Activator.java" )
-
-	var pkg:Object;
-	pkg = ontologyClassList.values.first()
-
+  uml.Package::generateActivator(ontologyClassList:Hashtable) {
+    StdOut.println('Generating activator')
+    
+	file( self.package.name.replace("\\.", "/") + '/' + "Activator.java" )
+    
 '
-package '	
-	if (pkg != null) {
-      pkg.package.name
-	}
-	else {	  	
-	  'default'
-	}
-';
+package ' self.name ';
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -94,6 +92,27 @@ public class Activator implements BundleActivator {
 '	
 
   }
+  
+  uml.Package::generateNamespaceInterface() {
+    StdOut.println('Generating name space interface')
+    
+	file( self.package.name.replace("\\.", "/") + '/' + ontologyName + "Namespace.java" )
+    
+'
+package ' self.name ';
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+public interface ' ontologyName 'Namespace {
+
+  static final String NAMESPACE = ' ontologyNamespace '#;
+
+}	
+'	
+
+  }  
+  
   
   uml.Property::toUpperFormat():String {
     var txt:String
@@ -147,8 +166,6 @@ public class Activator implements BundleActivator {
 
 
   uml.Class::generateOntologyClass () {
-	ontologyClassList.put(self.name, self)
-    	
 	file( self.package.name.replace("\\.", "/") + '/' + self.name + ".java" )
                 
     //Start generating the code
@@ -186,7 +203,7 @@ public class Activator implements BundleActivator {
     '  static {\n'
     self.ownedMember->forEach(att : uml.Property) {
   	    //initializing properties
-	    '    PROP_' att.toUpperFormat() '= insert_namespace_' att.name '\n'
+	    '    PROP_' att.toUpperFormat() '= ' ontologyNamespace ' + ' att.name '\n'
 	}
   	'\n'
     '    register('self.name'.class);\n'
