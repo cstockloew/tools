@@ -10,6 +10,7 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
 
   var ontologyNamespace:String
   var ontologyName:String
+  var ontologyNamespaceReference:String
 
 
  
@@ -30,6 +31,9 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
     StdOut.println("Generating Java classes for ontology: " + ontologyName)
     ontologyNamespace = self.getStereotypeValue("owlOntology", "defaultNamespace")
     StdOut.println("Namespace: "+ontologyNamespace) 
+    ontologyNamespaceReference =  ontologyName +  'Namespace.NAMESPACE'  
+  
+    
          
   	self.ownedMember -> forEach( p:uml.Package ){         
         var ontologyClassList:Hashtable
@@ -62,7 +66,7 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
   uml.Package::generateActivator(ontologyClassList:Hashtable) {
     StdOut.println('Generating activator')
     
-	file( self.package.name.replace("\\.", "/") + '/' + "Activator.java" )
+	file( self.name.replace("\\.", "/") + '/' + "Activator.java" )
     
 '
 package ' self.name ';
@@ -96,7 +100,7 @@ public class Activator implements BundleActivator {
   uml.Package::generateNamespaceInterface() {
     StdOut.println('Generating name space interface')
     
-	file( self.package.name.replace("\\.", "/") + '/' + ontologyName + "Namespace.java" )
+	file( self.name.replace("\\.", "/") + '/' + ontologyName + "Namespace.java" )
     
 '
 package ' self.name ';
@@ -118,7 +122,7 @@ public interface ' ontologyName 'Namespace {
     var txt:String
     var res:String
   
-    txt = self.name
+    txt = self.name.trim()
     res = ""
 
     txt->forEach(aChar:String) {
@@ -157,8 +161,8 @@ public interface ' ontologyName 'Namespace {
 	self.genInterfaceDeclaration()
 	    
     ' {\n'
-  	
-  	self.genPropertyDeclaration()
+    
+    self.genInterfaceProperties()
     
     '}\n'    
   }
@@ -172,19 +176,13 @@ public interface ' ontologyName 'Namespace {
     'package ' self.package.name ';\n\n'
     
     self.genImports()
-    
-	self.genClassDeclaration()
-	
-
+  	self.genClassDeclaration()
 	    
     ' {\n'
-    
-    
+   
     self.genPropertyDeclaration()
     self.genStatic()
-    
     self.genConstructors()
-    
     self.genGetClassRestrictionsOnProperty()
     self.genGetStandardPropertyURIs();
     
@@ -201,15 +199,33 @@ public interface ' ontologyName 'Namespace {
 
   uml.Class::genStatic() {
     '  static {\n'
+    '    MY_URI = ' ontologyNamespaceReference +  ' "' self.name.trim() '";\n' 
     self.ownedMember->forEach(att : uml.Property) {
   	    //initializing properties
-	    '    PROP_' att.toUpperFormat() '= ' ontologyNamespace ' + ' att.name '\n'
+	    '    PROP_' att.toUpperFormat() ' = ' ontologyName ' + "' att.name.trim() '";\n'
+
 	}
   	'\n'
     '    register('self.name'.class);\n'
     '  }\n'
   }     
   
+  uml.Interface::genInterfaceProperties() {
+     '  public static final String MY_URI = ' ontologyNamespaceReference ' + "' self.name.trim() '";\n' 
+    
+    self.ownedMember->forEach(att : uml.Property) {
+  	   if (att.type == null) {
+	        stdout.println("WARNING: No type defined for " + att.name +  ". Using string as default")
+	        '  public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
+	    }
+	    else {
+	    	'  public static final ' att.type 'PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
+	    	}
+		
+	}
+    '\n'
+  
+  }
   
   uml.Class::genClassDeclaration() {
     'public ' if (self.isAbstract) {'abstract '} 'class ' self.name
@@ -262,10 +278,10 @@ public interface ' ontologyName 'Namespace {
   	   	//iterate through each property and declare them as static
 	    if (att.type == null) {
 	        stdout.println("WARNING: No type defined for " + att.name  + ". Using string as default")
-	        '  public static final String PROP_' att.name.toUpper() ';\n'
+	        '  public static final String PROP_' att.name.trim().toUpper() ';\n'
 	    }
 	    else {
-	    	'  public static final PROP_' att.type ' ' att.name.toUpper() ';\n'
+	    	'  public static final ' att.type 'PROP_'  att.name.trim().toUpper() ';\n'
 	    	}
 				
 		
