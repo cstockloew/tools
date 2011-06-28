@@ -524,7 +524,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Gq8FvqFIEeCPiYRKlVcMuQ"/>
     </children>
     <element xmi:type="uml:Interface" href="lighting.uml#_Gm_Z0KFIEeCPiYRKlVcMuQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Gq63kaFIEeCPiYRKlVcMuQ" x="549" y="459" height="82"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Gq63kaFIEeCPiYRKlVcMuQ" x="531" y="468" height="82"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_fhvxwKFJEeCPiYRKlVcMuQ" type="2012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_fhwY0KFJEeCPiYRKlVcMuQ" source="ShadowFigure">
