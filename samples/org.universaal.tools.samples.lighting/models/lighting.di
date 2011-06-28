@@ -11,9 +11,6 @@
         <children>
           <emfPageIdentifier href="lighting.notation#_5kJj8aCqEeCPiYRKlVcMuQ"/>
         </children>
-        <children>
-          <emfPageIdentifier href="lighting.notation#_5kJj8aCqEeCPiYRKlVcMuQ"/>
-        </children>
       </children>
     </windows>
   </sashModel>
