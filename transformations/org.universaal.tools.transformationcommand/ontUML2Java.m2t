@@ -1,7 +1,7 @@
 /**
- * transformation SmallTest
- * date: 24/5/2010
- * author: null
+ * transformation Ontology UML 2 Java transformation for universAAL
+ * date: 28/6/2011
+ * author: Erlend Stav, StŒle Walderhaug
  * description: 
  */
 
@@ -9,10 +9,22 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
 
 
   var ontologyClassList:Hashtable
-  
-  
+  var ontologyNamespace:String
+
+
+ 
+   /**
+   * Main (entry point)
+   */
+    
   uml.Model::main() {
-     
+    
+    if (!self.hasStereotype("owlOntology")) {
+      StdOut.println("WARNING!!! The model must be stereotyped with owlOntology and default namespace must be set!")  
+      StdOut.println("To perform the transformation, add this information to the model")
+      return 
+    }  
+         
     'Starting the transformation\n' 
   	self.ownedMember -> forEach( p:uml.Package ){         
                                         
@@ -77,11 +89,20 @@ public class Activator implements BundleActivator {
 }	
 '	
   }   
- 
- 
-    /**
-   * Main (entry point)
-   */
+
+  uml.Class::getStereotypeValue(stereotypeName:String, tag:String):String {
+    // Find and return the value of a stereotype    
+   var mySType:uml.Stereotype
+   if (self.hasStereotype(stereotypeName)) {
+     mySType = self.getAppliedStereotype(stereotypeName);
+     return serviceNameSpacePrefix= self.getValue(mySType, tag)
+   }
+   else {
+     StdOut.println("The class "+self.name+" do not have the expected stereotype : " + stereotypeName)
+     return ""
+   }
+  }
+
 
 	
   uml.Interface::generateOntologyInterface() {
