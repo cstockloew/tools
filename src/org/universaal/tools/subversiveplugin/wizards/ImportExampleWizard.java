@@ -14,6 +14,9 @@ import org.eclipse.team.svn.core.utility.ProgressMonitorUtility;
 
 public class ImportExampleWizard extends Wizard {
 
+	public static final String REPOSITORY_URL = "http://forge.universaal.org/svn/uaaltools";
+	public static final String TUTORIALS_FOLDER = "/trunk/tutorials";
+	
 	private ImportExampleWizardPage page;
 	private IRepositoryResource choice;
 	
@@ -30,6 +33,7 @@ public class ImportExampleWizard extends Wizard {
 		project[0] = check.getProject();
 		DisconnectOperation disc = new DisconnectOperation(project, true);
 		
+		//Checks the project out from SVN, then disconnects it from SVN.
 		op.add(check);
 		op.add(disc);
 		ProgressMonitorUtility.doTaskScheduled(op);

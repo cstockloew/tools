@@ -6,7 +6,7 @@ Bundle-Version: 0.3.0
 Bundle-Activator: org.universaal.tools.subversiveplugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.team.svn.core;bundle-version="0.7.9",
- org.eclipse.core.resources;bundle-version="3.6.1"
+ org.eclipse.team.svn.core;bundle-version="0.7",
+ org.eclipse.core.resources;bundle-version="3.6"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
