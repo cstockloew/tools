@@ -29,10 +29,24 @@
                label="AALStudio">
             <command
                   commandId="org.universaal.tools.subversivePlugin.commands.exampleProject"
-                  id="org.universaal.tools.subversivePlugin.menus.sampleCommand">
+                  id="org.universaal.tools.subversivePlugin.commands.exampleProject">
             </command>
          </menu>
       </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.universaal.tools.subversiveplugin.preferences.PreferencePage"
+            id="org.universaal.tools.subversiveplugin.preferences.PreferencePage"
+            name="Import Example Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.universaal.tools.subversiveplugin.preferences.PreferenceInitializer">
+      </initializer>
    </extension>
    
 </plugin>
