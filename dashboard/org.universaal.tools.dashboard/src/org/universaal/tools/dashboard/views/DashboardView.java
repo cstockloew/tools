@@ -29,6 +29,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.universaal.tools.dashboard.buttonlisteners.BuildProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewItemListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewProjectListener;
+import org.universaal.tools.dashboard.buttonlisteners.ImportExampleListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryMouseListener;
 import org.universaal.tools.dashboard.listeners.ProjectNameListener;
@@ -61,6 +62,7 @@ public class DashboardView extends ViewPart {
 	private Label lblProjectNameField;
 	private Label lblTransformArrow;
 	private Label lblTransform;
+	private Button btnImportExample;
 
 	public DashboardView() {
 	}
@@ -336,6 +338,9 @@ public class DashboardView extends ViewPart {
 		
 		Canvas canvas_6 = new Canvas(composite, SWT.BORDER);
 		fd_canvas.left = new FormAttachment(0, 10);
+		
+		btnImportExample = new Button(projectDefCanvas, SWT.NONE);
+		btnImportExample.setText("Import Example");
 		canvas_6.setBackground(SWTResourceManager.getColor(100, 149, 237));
 		GridLayout gl_canvas_6 = new GridLayout(1, false);
 		gl_canvas_6.verticalSpacing = 0;
@@ -474,6 +479,7 @@ public class DashboardView extends ViewPart {
 		btnCreateProject.addSelectionListener(new CreateNewProjectListener(this));
 		btnImportProject.addSelectionListener(new TemporaryListener(this, "Import Project"));
 		btnEditProject.addSelectionListener(new TemporaryListener(this, "Edit Project"));
+		btnImportExample.addSelectionListener(new ImportExampleListener(this));
 		
 		//Java Classes
 		btnCreateClass.addSelectionListener(new CreateNewItemListener(this));
