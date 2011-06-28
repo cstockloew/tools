@@ -167,12 +167,16 @@ public class Activator implements BundleActivator {
 
   uml.Interface::genInterfaceDeclaration() {
     'public interface ' self.name
-    if (!self.superClass.isEmpty()) {
+    if (!self.generalization.isEmpty()) {
       ' extends '
-      self.superClass.first().name 
-      if (self.superClass.size() > 1) {
-        stdout.println("Warning: Class " + self.name + " is defined to have multiple superclasses. Use interfaces instead - additional superclasses are igonered!")
-      }        
+      var firstInter:Boolean 
+      firstInter = true
+
+      self.generalization->forEach(gen : uml.Generalization) {
+        if (!firstInter) {','}          
+        '' gen.general.name ' '
+        firstInter = false
+      }
     }
   }
  
