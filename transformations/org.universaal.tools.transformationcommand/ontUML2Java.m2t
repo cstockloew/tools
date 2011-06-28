@@ -13,29 +13,24 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
   
   uml.Model::main() {
      
-    'Starting the transformation' 
+    'Starting the transformation\n' 
   	self.ownedMember -> forEach( p:uml.Package ){         
-	    p.name
-  	            
                                         
-  		//Generate a java-class for each mCompositeRealization. Port delegation not implemented.
+	  	'Handling classes of package :' p.name '\n' 
+  		//Generate a java-class for each class in the ontology
 		p.ownedElement -> forEach( component:uml.Class ) { // | component.hasStereotype("owlClass") ){
-			component.generateOntologyClass();
+			component.generateOntologyClass()
 		}
-                
-  		//Generate a java-class for each mCompositeRealization. Port delegation not implemented.
+
+		'Handling interfaces\n'                
+  		//Generate a java-class for each interface in the ontology
 		p.ownedElement -> forEach( inter:uml.Interface ) { // | component.hasStereotype("owlClass") ){
-			inter.generateOntologyInterface();
+		    'An interface\n'                
+			inter.generateOntologyInterface()
 		}
-
-
- 
-                        //Generate interfaces if any
-//                        p.ownedElement -> forEach( interface:uml.Interface ){
-//                                interface.generateInterface();                          
-//                        }
                                          
 	}           
+    'Handling activator\n'
    	self.generateActivator()
   }
  
@@ -125,6 +120,9 @@ public class Activator implements BundleActivator {
     
     self.genConstructors()
     
+    self.genGetClassRestrictionsOnProperty()
+    self.genGetStandardPropertyURIs();
+    
     '}\n'    
   }
  
@@ -138,7 +136,7 @@ public class Activator implements BundleActivator {
 
   uml.Class::genStatic() {
     '  static {\n'
-    
+    '    register('self.name'.class);\n'
     '  }\n'
   }     
   
@@ -157,11 +155,12 @@ public class Activator implements BundleActivator {
     }
     if (!self.interfaceRealization.isEmpty()) {
       ' implements '
-      var firstInter:Boolean = true;
-      self.interfaceRealization->forEach(inter:uml.Interface) {
-        inter.name
+      var firstInter:Boolean 
+      firstInter = true
+      self.interfaceRealization->forEach(inter:uml.InterfaceRealization) {
+        '' inter.supplier.first().name ' '
         if (!firstInter) {','}          
-        firstInter = false;
+        firstInter = false
       }
     }
   }
@@ -189,6 +188,45 @@ public class Activator implements BundleActivator {
   }\n'
   }    
   
+  uml.Class::genGetClassRestrictionsOnProperty() {
+'
+  public static Restriction getClassRestrictionsOnProperty(String propURI) {
+    if (propURI == null)
+	    return null;
+	if (PROP_BEAMING_DIRECTION.equals(propURI))
+	    return Restriction.getAllValuesRestrictionWithCardinality(propURI,
+		    Location.MY_URI, 1, 0);
+	if (PROP_TARGET_SURFACE.equals(propURI))
+	    return Restriction.getAllValuesRestrictionWithCardinality(propURI,
+		    Location.MY_URI, 1, 0);\n'
+    if (self.superClass.isEmpty()) {
+      'return null;\n'
+    }
+    else {
+      'return ' self.superClass.first().name '.getClassRestrictionsOnProperty(propURI);\n'	  	  
+    }
+'  }\n\n'
+  }  
   
+ 
+   uml.Class::genGetStandardPropertyURIs() {
+ 	// First, check if there is any property URIs to add. If not, do not generate this method
+ 	
+	// Generate method
+'   
+    public static String[] getStandardPropertyURIs() {
+'      
+//	String[] inherited = Device.getStandardPropertyURIs();
+//	String[] toReturn = new String[inherited.length + 1];
+//	int i = 0;
+//	while (i < inherited.length) {
+//	    toReturn[i] = inherited[i];
+//	    i++;
+//	}
+//	toReturn[i] = PROP_MEASURED_VALUE;
+//	return toReturn;
+'	return null;
+    }\n'    
+   }
   
 }
