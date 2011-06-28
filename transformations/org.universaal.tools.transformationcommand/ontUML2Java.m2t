@@ -24,7 +24,10 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
       StdOut.println("WARNING!!! The model must be stereotyped with owlOntology and default namespace must be set!")  
       StdOut.println("To perform the transformation, add this information to the model")
       return 
-    }  
+    }
+    
+    ontologyNamespace = self.getStereotypeValue("owlOntology", "defaultNamespace")
+    StdOut.println("Namespace: "+ontologyNamespace)  
          
     'Starting the transformation\n' 
   	self.ownedMember -> forEach( p:uml.Package ){         
@@ -89,14 +92,33 @@ public class Activator implements BundleActivator {
 
 }	
 '	
+
+  }
+  
+  uml.Property::toUpperFormat():String {
+    var txt:String
+    var res:String
+    var copyFrom:Integer
+  
+    txt = self.name
+    copyFrom = 0
+       	
+  	txt.size()->forEach(index:Integer) {
+  	  if (txt.isUpperCase(index)) {
+  	    res = res + txt.substring(copyFrom, index-1) + "_"
+		copyFrom = index
+  	  }  	  
+  	}
+	res = res + txt.substring(copyFrom, txt.size())
+  	return res.toUpper()
   }   
 
-  uml.Class::getStereotypeValue(stereotypeName:String, tag:String):String {
+  uml.NamedElement::getStereotypeValue(stereotypeName:String, tag:String):String {
     // Find and return the value of a stereotype    
    var mySType:uml.Stereotype
    if (self.hasStereotype(stereotypeName)) {
      mySType = self.getAppliedStereotype(stereotypeName);
-     return serviceNameSpacePrefix= self.getValue(mySType, tag)
+     return self.getValue(mySType, tag)
    }
    else {
      StdOut.println("The class "+self.name+" do not have the expected stereotype : " + stereotypeName)
