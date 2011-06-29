@@ -109,7 +109,7 @@ import org.osgi.framework.BundleContext;
 
 public interface ' ontologyName 'Namespace {
 
-  static final String NAMESPACE = ' ontologyNamespace '#;
+  static final String NAMESPACE = "' ontologyNamespace '#";
 
 }	
 '	
@@ -190,7 +190,6 @@ public interface ' ontologyName 'Namespace {
     self.genIsWellFormed()
     self.genGetRDFSComment()
     self.genGetRDFSLabel()
-    
    
     self.genPropertyGettersAndSetters()
     
@@ -201,22 +200,24 @@ public interface ' ontologyName 'Namespace {
   uml.Class::genImports() {
     'import java.util.Hashtable;\n\n'
     
-    //Import universAAL packages.
+    // Import universAAL packages. 
+    // Note that generator currently imports a fixed set of classes. This will be improved in the future 
     'import org.universAAL.middleware.owl.Restriction;\n'
-    'import org.universAAL.middleware.service.owl.Service;\n\n'    
+    'import org.universAAL.middleware.service.owl.Service;\n'    
+    'import org.universAAL.ontology.phThing.Device;\n\n'
   }
 
   uml.Class::genStatic() {
     '  static {\n'
-    '    MY_URI = ' ontologyNamespaceReference +  ' "' self.name.trim() '";\n' 
+    '    MY_URI = ' ontologyNamespaceReference '+ "' self.name.trim() '";\n' 
     self.ownedMember->forEach(att : uml.Property) {
   	    //initializing properties
-	    '    PROP_' att.toUpperFormat() ' = ' ontologyName ' + "' att.name.trim() '";\n'
+	    '    PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
 
 	}
 	
 	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
-	  '    PROP_' ass.memberEnd.last().toUpperFormat() ' = ' ontologyName ' + "' ass.memberEnd.last().name.trim() '";\n'
+	  '    PROP_' ass.memberEnd.last().toUpperFormat() ' = ' ontologyNamespaceReference ' + "' ass.memberEnd.last().name.trim() '";\n'
 	
 	}
   	'\n'
@@ -312,19 +313,27 @@ public interface ' ontologyName 'Namespace {
   uml.Class::genGetClassRestrictionsOnProperty() {
 '
   public static Restriction getClassRestrictionsOnProperty(String propURI) {
+'
+    unprotect {
+'
+    // TODO: Restrictions are currently not supported by the transformation scripts
+    // Code entered in this section will not be overwritten by the transformations if
+    // the code is generated again
+          
     if (propURI == null)
 	    return null;
-	if (PROP_BEAMING_DIRECTION.equals(propURI))
-	    return Restriction.getAllValuesRestrictionWithCardinality(propURI,
-		    Location.MY_URI, 1, 0);
-	if (PROP_TARGET_SURFACE.equals(propURI))
-	    return Restriction.getAllValuesRestrictionWithCardinality(propURI,
-		    Location.MY_URI, 1, 0);\n'
-    if (self.superClass.isEmpty()) {
-      'return null;\n'
-    }
-    else {
-      'return ' self.superClass.first().name '.getClassRestrictionsOnProperty(propURI);\n'	  	  
+
+	// Typical code to include is something like:
+	// if (PROP_BEAMING_DIRECTION.equals(propURI))
+	//   return Restriction.getAllValuesRestrictionWithCardinality(propURI,Location.MY_URI, 1, 0);
+'
+      if (self.superClass.isEmpty()) {
+        '    return null;\n'
+      }
+      else {
+        '    return ' self.superClass.first().name '.getClassRestrictionsOnProperty(propURI);\n'	  	  
+      }
+    
     }
 '  }\n\n'
   }  
@@ -335,7 +344,8 @@ public interface ' ontologyName 'Namespace {
  	
 	// Generate method
 '   
-    public static String[] getStandardPropertyURIs() {
+  public static String[] getStandardPropertyURIs() {
+    //TODO: Code generation for this will be added soon...
 '      
 //	String[] inherited = Device.getStandardPropertyURIs();
 //	String[] toReturn = new String[inherited.length + 1];
@@ -347,7 +357,7 @@ public interface ' ontologyName 'Namespace {
 //	toReturn[i] = PROP_MEASURED_VALUE;
 //	return toReturn;
 '	return null;
-    }\n'    
+  }\n'    
    }
 
   uml.Class::genPropertiesForAssociations() {
@@ -363,6 +373,19 @@ public interface ' ontologyName 'Namespace {
    }
 
    uml.Class::genIsWellFormed() {
+'
+  public boolean isWellFormed() {
+	return true '
+	
+  	self.ownedMember->forEach(att : uml.Property) {
+  	    '\n      && props.containsKey(PROP_'att.toUpperFormat()')'
+  	}
+ 	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
+  	    '\n      && props.containsKey(PROP_'ass.memberEnd.last().toUpperFormat()') '
+ 	}  
+    ';
+  }\n'
+       
    }  
 
    uml.Class::genGetRDFSComment() {
@@ -442,11 +465,11 @@ public interface ' ontologyName 'Namespace {
 '
   public boolean is' methodName '() {
 	Boolean b = (Boolean) props.get('propertyLongName');
-	return (b == null) ? false : b.boolValue();
+	return (b == null) ? false : b.booleanValue();
   }		
 
   public void set'methodName'(boolean newPropValue) {
-      props.set('propertyLongName', new Boolean(newPropValue));
+      props.put('propertyLongName', new Boolean(newPropValue));
   }		
 '		
    }
@@ -459,7 +482,7 @@ public interface ' ontologyName 'Namespace {
   }		
 
   public void set'methodName'(int newPropValue) {
-      props.set('propertyLongName', new Integer(newPropValue));
+      props.put('propertyLongName', new Integer(newPropValue));
   }		
 '		
    }
@@ -472,7 +495,7 @@ public interface ' ontologyName 'Namespace {
   }		
 
   public void set'methodName'(long newPropValue) {
-      props.set('propertyLongName', new Long(newPropValue));
+      props.put('propertyLongName', new Long(newPropValue));
   }		
 '		
    }
@@ -480,12 +503,12 @@ public interface ' ontologyName 'Namespace {
    uml.Class::genObjectGetterAndSetter(methodName:String, propertyLongName:String, typeName:String) {
 '
   public 'typeName ' get' methodName '() {
-    return prop.get('propertyLongName');
+    return ('typeName')props.get('propertyLongName');
   }		
 
   public void set'methodName'('typeName' newPropValue) {
     if (newPropValue != null)
-      props.set('propertyLongName', newPropValue);
+      props.put('propertyLongName', newPropValue);
   }		
 '		
    }
