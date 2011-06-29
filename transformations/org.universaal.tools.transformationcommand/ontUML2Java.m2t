@@ -216,7 +216,7 @@ public interface ' ontologyName 'Namespace {
 	}
 	
 	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
-	  '    PROP_' ass.toUpperFormat() ' = ' ontologyName ' + "' ass.name.trim() '";\n'
+	  '    PROP_' ass.memberEnd.last().toUpperFormat() ' = ' ontologyName ' + "' ass.memberEnd.last().name.trim() '";\n'
 	
 	}
   	'\n'
@@ -353,7 +353,7 @@ public interface ' ontologyName 'Namespace {
   uml.Class::genPropertiesForAssociations() {
       //generate 
       self.getAssociations()->forEach(ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim())) {
-      '  public static final String PROP_'  ass.toUpperFormat() ';\n'
+      '  public static final String PROP_'  ass.memberEnd.last().toUpperFormat() ';\n'
       }
 		
 	}
@@ -427,6 +427,13 @@ public interface ' ontologyName 'Namespace {
 		else {
 		  self.genObjectGetterAndSetter(methodName, propLongName, theTypeName)
 		}	
+	}
+ 
+ 	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
+      var methodName:String = ass.memberEnd.last().name.trim().firstToUpper()
+      var propLongName:String = "PROP_" + ass.toUpperFormat()
+      var theTypeName:String = ass.endType.last().name
+	  self.genObjectGetterAndSetter(methodName, propLongName, theTypeName)       	  
 	}
      
    }
