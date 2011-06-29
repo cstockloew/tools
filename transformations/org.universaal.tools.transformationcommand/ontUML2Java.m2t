@@ -184,7 +184,16 @@ public interface ' ontologyName 'Namespace {
     self.genStatic()
     self.genConstructors()
     self.genGetClassRestrictionsOnProperty()
-    self.genGetStandardPropertyURIs();
+    self.genGetStandardPropertyURIs()
+    
+    self.genGetPropSerializationType()
+    self.genIsWellFormed()
+    self.genGetRDFSComment()
+    self.genGetRDFSLabel()
+    
+    self.genPropertiesForAssociations()
+    self.genPropertyGettersAndSetters()
+    
     
     '}\n'    
   }
@@ -341,5 +350,44 @@ public interface ' ontologyName 'Namespace {
 '	return null;
     }\n'    
    }
+
+   uml.Class::genPropertiesForAssociations() {
+   }
+
+
+   uml.Class::genGetPropSerializationType() {
+   }
+
+   uml.Class::genIsWellFormed() {
+   }  
+
+   uml.Class::genGetRDFSComment() {
+'
+    public static String getRDFSComment() {
+'
+	unprotect{
+	'
+      //TODO: enter a description of the class here\'
+	  return "The class of all light sources.";
+'     		
+ 	} 
+      
+'    }'
+
+   }
   
+   uml.Class::genGetRDFSLabel() {
+ '
+    public static String getRDFSLabel() {
+	  return "'self.name.trim()'";
+    }
+'    
+   
+   }
+
+   uml.Class::genPropertyGettersAndSetters() {
+   }
+
+
 }
+
