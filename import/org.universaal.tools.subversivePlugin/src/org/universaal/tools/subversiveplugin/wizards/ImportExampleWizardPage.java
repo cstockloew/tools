@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.sql.Date;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -22,6 +23,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -30,6 +32,7 @@ import org.eclipse.team.svn.core.connector.SVNRevision;
 import org.eclipse.team.svn.core.operation.CompositeOperation;
 import org.eclipse.team.svn.core.operation.remote.GetFileContentOperation;
 import org.eclipse.team.svn.core.operation.remote.management.AddRepositoryLocationOperation;
+import org.eclipse.team.svn.core.operation.remote.management.DiscardRepositoryLocationsOperation;
 import org.eclipse.team.svn.core.operation.remote.management.SaveRepositoryLocationsOperation;
 import org.eclipse.team.svn.core.resource.IRepositoryLocation;
 import org.eclipse.team.svn.core.resource.IRepositoryResource;
@@ -38,8 +41,6 @@ import org.eclipse.team.svn.core.svnstorage.SVNRemoteStorage;
 import org.eclipse.team.svn.core.svnstorage.SVNRepositoryFile;
 import org.eclipse.team.svn.core.svnstorage.SVNRepositoryFolder;
 import org.eclipse.team.svn.core.utility.ProgressMonitorUtility;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.universaal.tools.subversiveplugin.Activator;
@@ -63,12 +64,15 @@ public class ImportExampleWizardPage extends WizardPage {
 	private String folderUrl;
 	
 	private TableColumn nameClm, dateClm, authorClm;
+	
+	private Display display;
 
 	
 	public ImportExampleWizardPage(){
 		super("wizardPage");
 		setTitle("Import UNIVERSAAL Example");
 		setDescription("Please select an example to import.");
+		display = Display.getDefault();
 		
 	}
 	
@@ -81,7 +85,9 @@ public class ImportExampleWizardPage extends WizardPage {
 		
 		tableViewer = new TableViewer(container, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
 		table = tableViewer.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridData gd_table = new GridData(SWT.LEFT, SWT.FILL, true, false, 1, 1);
+		gd_table.heightHint = 89;
+		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
@@ -99,22 +105,31 @@ public class ImportExampleWizardPage extends WizardPage {
 		
 		tableViewer.setContentProvider(new ViewContentProvider());
 		tableViewer.setLabelProvider(new ViewLabelProvider());
-		tableViewer.setInput(this);
+		tableViewer.setInput(container);
 		tableViewer.addSelectionChangedListener(new ChoiceListener());
 		
 		lblDetails = new Label(container, SWT.NONE);
 		lblDetails.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 		lblDetails.setText("Details for the selected example:");
 		
-		detailsBox = new StyledText(container, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP);
-		detailsBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		detailsBox = new StyledText(container, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL);
+		GridData gd_detailsBox = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+		gd_detailsBox.heightHint = 140;
+		detailsBox.setLayoutData(gd_detailsBox);
+		
 	
 	}
 	
 	public void loadPreferenceValues(){
 		IPreferenceStore pref = Activator.getDefault().getPreferenceStore();
 		repositoryUrl = pref.getString(PreferenceConstants.P_URL);
-		folderUrl = pref.getString(PreferenceConstants.P_FOLDER);	
+		folderUrl = pref.getString(PreferenceConstants.P_FOLDER);
+		if(repositoryUrl.charAt(repositoryUrl.length()-1) == '/'){
+			repositoryUrl = repositoryUrl.substring(0, repositoryUrl.length()-2);
+		}
+		if(folderUrl.charAt(0) != '/'){
+			folderUrl = "/"+folderUrl;
+		}
 	}
 
 	class ViewContentProvider implements IStructuredContentProvider {
@@ -124,11 +139,13 @@ public class ImportExampleWizardPage extends WizardPage {
 		public ViewContentProvider(){
 			locs = SVNRemoteStorage.instance().getRepositoryLocations();
 			
+			//Check to see if the Repositorylocation already exists.
 			for(int i=0; i<locs.length;i++){
 				if(locs[i].getUrl().equals(repositoryUrl)){
 					createLocation = false;
 				}
 			}
+			//If it does not exist, it is created here.
 			if(createLocation){
 				IRepositoryLocation loc = SVNRemoteStorage.instance().newRepositoryLocation();
 				loc.setUrl(repositoryUrl);
@@ -141,25 +158,43 @@ public class ImportExampleWizardPage extends WizardPage {
 				ProgressMonitorUtility.doTaskScheduledDefault(comOp);			
 			}
 			
-			while(locs.length==0){
+			//Wait for Subversive to finish creating the location, and then
+			//find the relevant folder.
+			boolean finished = false;
+			while(!finished){
 				locs = SVNRemoteStorage.instance().getRepositoryLocations();
-			}
-			
-			for(int i=0;i<locs.length;i++){
-				if(locs[i].getUrl().equals(repositoryUrl)){
-					location = locs[i];
-					fold = new SVNRepositoryFolder(location, 
-							repositoryUrl
-							+folderUrl,
-							SVNRevision.HEAD );
-					break;
+				
+				for(int i=0;i<locs.length;i++){
+					if(locs[i].getUrl().equals(repositoryUrl)){
+						location = locs[i];
+						fold = new SVNRepositoryFolder(location, 
+								repositoryUrl
+								+folderUrl,
+								SVNRevision.HEAD );
+						finished = true;
+						break;
+					}
 				}
 			}
 			
+			//Get a list of the examples contained in the Tutorials-folder. If 
+			//an exception is thrown, the user is alerted, and the repository is 
+			//removed from the list of repositories.
 			try {
 				children = fold.getChildren();
 			} catch (SVNConnectorException e) {
-				// TODO Auto-generated catch block
+				MessageDialog.openError(getShell(), 
+						"SVN Error", 
+						"An error occured during communication with the SVN repository. \n" +
+						"This may be caused by an invalid URL, or an aborted login. \n"+
+						"If you did not abort the login-procedure, " +
+						"please go to Window -> Preferences -> Import Example " +
+						"Preferences, and check the URL.");
+				IRepositoryLocation[] toBeDiscarded = new IRepositoryLocation[1];
+				toBeDiscarded[0] = location;
+				DiscardRepositoryLocationsOperation discard = 
+					new DiscardRepositoryLocationsOperation(toBeDiscarded);
+				discard.run(new NullProgressMonitor());
 				e.printStackTrace();
 			}
 			
@@ -171,7 +206,6 @@ public class ImportExampleWizardPage extends WizardPage {
 		}
 		public Object[] getElements(Object parent) {
 
-			
 			return children;
 		}
 	}
@@ -203,9 +237,10 @@ public class ImportExampleWizardPage extends WizardPage {
 
 		@Override
 		public void selectionChanged(SelectionChangedEvent arg0) {
-			IRepositoryResource res = (IRepositoryResource) tableViewer.getElementAt(tableViewer.getTable().getSelectionIndex());
+			int index = tableViewer.getTable().getSelectionIndex();
+			IRepositoryResource res = (IRepositoryResource) tableViewer.getElementAt(index);
 			((ImportExampleWizard)getWizard()).setResource(res);
-			detailsBox.setText(parseFile(tableViewer.getTable().getSelectionIndex()));
+			new Thread(new ReadmeParser(index)).start();
 		}
 		
 	}
@@ -217,6 +252,41 @@ public class ImportExampleWizardPage extends WizardPage {
 		
 	}
 	
+	//Class that is used in its own thread to fetch the information from the 
+	//readme-file. Uses an asyncExec() to update the UI.
+	private class ReadmeParser implements Runnable{
+		
+		int index;
+		
+		public ReadmeParser(int i){
+			this.index = i;
+		}
+
+		@Override
+		public void run() {
+			String details = parseFile(index);
+			display.asyncExec(new UpdateDetails(details));
+		}
+	}
+	
+	//Used by Readmeparser. Launched in an asyncExec() to update the UI.
+	private class UpdateDetails implements Runnable{
+		
+		private String details;
+		
+		public UpdateDetails(String text){
+			this.details = text;
+		}
+
+		@Override
+		public void run() {
+			detailsBox.setText(details);
+		}
+		
+	}
+	
+	//Finds the readme.txt in the selected project, and returns its contents in
+	//a String.
 	private String parseFile(int i){
 		SVNRepositoryFile file = 
 			new SVNRepositoryFile(location,

@@ -14,7 +14,7 @@ public class ImportExampleHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent arg0) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(arg0);
-		ImportExampleWizard wiz = new ImportExampleWizard();
+		ImportExampleWizard wiz = new ImportExampleWizard(window);
 
 		WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 				wiz);
