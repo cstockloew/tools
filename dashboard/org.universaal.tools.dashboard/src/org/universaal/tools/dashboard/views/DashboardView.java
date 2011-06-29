@@ -1,15 +1,7 @@
 package org.universaal.tools.dashboard.views;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.internal.core.PackageFragment;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.FormAttachment;
@@ -22,19 +14,20 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.universaal.tools.dashboard.buttonlisteners.BuildProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewItemListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewProjectListener;
+import org.universaal.tools.dashboard.buttonlisteners.DebugProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.ImportExampleListener;
+import org.universaal.tools.dashboard.buttonlisteners.PublishProjectListener;
+import org.universaal.tools.dashboard.buttonlisteners.RunProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryMouseListener;
+import org.universaal.tools.dashboard.buttonlisteners.UploadProjectListener;
 import org.universaal.tools.dashboard.listeners.ProjectNameListener;
-
-import swing2swt.layout.FlowLayout;
 
 public class DashboardView extends ViewPart {
 
@@ -48,7 +41,7 @@ public class DashboardView extends ViewPart {
 	private Button btnTestConformance;
 	private Button btnRun;
 	private Button btnDebug;
-	private Button btnPublishOpenSource;
+	private Button btnUploadOpenSource;
 	private Button btnPublishUstore;
 	private Button btnCreate;
 	private Button btnEdit;
@@ -280,12 +273,12 @@ public class DashboardView extends ViewPart {
 		btnPublishUstore.setLayoutData(gd_btnPublishUstore);
 		btnPublishUstore.setText("Publish to uStore");
 		
-		btnPublishOpenSource = new Button(publishableCanvas, SWT.NONE);
-		btnPublishOpenSource.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnUploadOpenSource = new Button(publishableCanvas, SWT.NONE);
+		btnUploadOpenSource.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
 		GridData gd_btnPublishOpenSource = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_btnPublishOpenSource.widthHint = 85;
-		btnPublishOpenSource.setLayoutData(gd_btnPublishOpenSource);
-		btnPublishOpenSource.setText("Publish open source");
+		btnUploadOpenSource.setLayoutData(gd_btnPublishOpenSource);
+		btnUploadOpenSource.setText("Upload open source");
 		
 		Canvas applDescCanvas = new Canvas(composite, SWT.BORDER);
 		applDescCanvas.setBackground(SWTResourceManager.getColor(173, 216, 230));
@@ -488,12 +481,12 @@ public class DashboardView extends ViewPart {
 		
 		//Application Binary
 		btnTestConformance.addSelectionListener(new TemporaryListener(this, "Test Conformance"));
-		btnRun.addSelectionListener(new TemporaryListener(this, "Run program"));
-		btnDebug.addSelectionListener(new TemporaryListener(this, "Debug"));
+		btnRun.addSelectionListener(new RunProjectListener(this));
+		btnDebug.addSelectionListener(new DebugProjectListener(this));
 		
 		//Publishable Application
-		btnPublishOpenSource.addSelectionListener(new TemporaryListener(this, "Publish Open Source"));
-		btnPublishUstore.addSelectionListener(new TemporaryListener(this, "Publis uStore"));
+		btnUploadOpenSource.addSelectionListener(new UploadProjectListener(this));
+		btnPublishUstore.addSelectionListener(new PublishProjectListener(this));
 		
 		//Application Design
 		btnCreate.addSelectionListener(new TemporaryListener(this, "Create"));

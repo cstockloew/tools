@@ -27,7 +27,7 @@ public class PublishProjectListener implements SelectionListener {
 	public void widgetSelected(SelectionEvent arg0) {
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
 		try {
-			handlerService.executeCommand("org.universaal.tools.newwizard.plugin.command.startNewItemWizard", null);
+			handlerService.executeCommand("org.universaal.tools.buildserviceapplication.actions.PublishAction", null);
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
