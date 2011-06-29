@@ -51,7 +51,6 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
 	  	StdOut.println("Handling interfaces of package :" + p.name) 
   		//Generate a java-class for each interface in the ontology
 		p.ownedElement -> forEach( inter:uml.Interface ) { // | component.hasStereotype("owlClass") ){
-		    'An interface\n'                
 			inter.generateOntologyInterface()
   		    ontologyClassList.put(self.name, self)
 		}
@@ -282,18 +281,12 @@ public interface ' ontologyName 'Namespace {
   	//insert default identifier for each owlClass
   	'  public static final String MY_URI;\n'
   	self.ownedMember->forEach(att : uml.Property) {
-  	  	
   	   	
   	   	//iterate through each property and declare them as static
 	    if (att.type == null) {
 	        stdout.println("WARNING: No type defined for " + att.name  + ". Using string as default")
-	        '  public static final String PROP_' att.name.trim().toUpper() ';\n'
 	    }
-	    else {
-	    	'  public static final ' att.type 'PROP_'  att.name.trim().toUpper() ';\n'
-	    	}
-				
-		
+        '  public static final String PROP_' att.toUpperFormat() ';\n'
 	}
   '\n'
   }
@@ -363,29 +356,120 @@ public interface ' ontologyName 'Namespace {
 
    uml.Class::genGetRDFSComment() {
 '
-    public static String getRDFSComment() {
+  public static String getRDFSComment() {
 '
-	unprotect{
-	'
-      //TODO: enter a description of the class here\'
-	  return "The class of all light sources.";
-'     		
- 	} 
+    if (self.ownedComment.isEmpty()) {
+      self.genGetRDFSCommentDefault()
+    }
+    else {
+     '    return "' self.ownedComment.first().body '";\n'
+    } 
       
-'    }'
+'  }'
 
    }
   
+   uml.Class::genGetRDFSCommentDefault() {
+	 unprotect{
+'
+    //TODO: enter a description of the class here\'
+	return "Description of class 'self.name'";
+'     		
+ 	}
+   }
+  
+  
    uml.Class::genGetRDFSLabel() {
  '
-    public static String getRDFSLabel() {
-	  return "'self.name.trim()'";
-    }
+  public static String getRDFSLabel() {
+    return "'self.name.trim()'";
+  }
 '    
    
    }
 
+
+
+   // Methods for generating getters and setters for properties
+
    uml.Class::genPropertyGettersAndSetters() {
+     
+   	//iterate through each property and generate getter and setter methods 
+  	self.ownedMember->forEach(att : uml.Property) {
+		var theTypeName:String = "String"	
+		var methodName:String = att.name.trim().firstToUpper()
+		var propLongName:String = "PROP_" + att.toUpperFormat()
+		
+		if (att.type != null) {
+		  theTypeName = att.type.name
+		}
+
+		if (theTypeName == "Boolean") {
+		  self.genBooleanGetterAndSetter(methodName, propLongName)
+    	}  		  
+		else if (theTypeName == "UnlimitedNatural") {
+		  self.genLongGetterAndSetter(methodName, propLongName)
+		}
+   	    else if (theTypeName == "Integer") {
+		  self.genIntGetterAndSetter(methodName, propLongName)
+		}		
+		else {
+		  self.genObjectGetterAndSetter(methodName, propLongName, theTypeName)
+		}	
+	}
+     
+   }
+
+   uml.Class::genBooleanGetterAndSetter(methodName:String, propertyLongName:String) {
+'
+  public boolean is' methodName '() {
+	Boolean b = (Boolean) props.get('propertyLongName');
+	return (b == null) ? false : b.boolValue();
+  }		
+
+  public void set'methodName'(boolean newPropValue) {
+      props.set('propertyLongName', new Boolean(newPropValue));
+  }		
+'		
+   }
+   
+   uml.Class::genIntGetterAndSetter(methodName:String, propertyLongName:String) {
+'
+  public int get' methodName '() {
+	Integer i = (Integer) props.get('propertyLongName');
+	return (i == null) ? 0 : i.intValue();
+  }		
+
+  public void set'methodName'(int newPropValue) {
+      props.set('propertyLongName', new Integer(newPropValue));
+  }		
+'		
+   }
+
+   uml.Class::genLongGetterAndSetter(methodName:String, propertyLongName:String) {
+'
+  public long get' methodName '() {
+	Long l = (Long) props.get('propertyLongName');
+	return (l == null) ? 0 : l.longValue();
+  }		
+
+  public void set'methodName'(long newPropValue) {
+      props.set('propertyLongName', new Long(newPropValue));
+  }		
+'		
+   }
+
+   uml.Class::genObjectGetterAndSetter(methodName:String, propertyLongName:String, typeName:String) {
+'
+  public 'typeName ' get' methodName '() {
+    return prop.get('propertyLongName');
+  }		
+
+  public void set'methodName'('typeName' newPropValue) {
+    if (newPropValue != null)
+      props.set('propertyLongName', newPropValue);
+  }		
+'		
    }
 
 
