@@ -37,8 +37,7 @@ public class UploadArtifact {
 				try {
 					String selectedProject = BuildAction
 							.getSelectedProjectPath();
-					String projectName = selectedProject.split("/")[selectedProject
-							.split("/").length - 1];
+					String projectName = BuildAction.getSelectedProjectName();
 					if (!selectedProject.equals("")) {
 						isArtifactRelease = true;
 						if (CreateFelixPropertiesFile.artifactVersion
@@ -92,12 +91,8 @@ public class UploadArtifact {
 
 	private void postArtifact() {
 		artifactUploaded = true;
-		String[] tempString = MavenCli.DEFAULT_USER_SETTINGS_FILE
-				.getAbsolutePath().trim().replace("\\", "/").split("/");
-		repositoryPath = "";
-		for (int i = 0; i < tempString.length - 1; i++) {
-			repositoryPath = repositoryPath + tempString[i] + "\\";
-		}
+	
+		repositoryPath=MavenCli.userMavenConfigurationHome.getAbsolutePath();
 		try {
 			String webPage = "";
 			if (isArtifactRelease) {
@@ -130,10 +125,16 @@ public class UploadArtifact {
 			OutputStreamWriter out = new OutputStreamWriter(urlConnection
 					.getOutputStream());
 
-			File file = new File(repositoryPath + "repository/"
-					+ CreateFelixPropertiesFile.groupId.replace(".", "/") + "/"
-					+ CreateFelixPropertiesFile.artifactId + "/"
-					+ CreateFelixPropertiesFile.artifactVersion + "/"
+			File file = new File(repositoryPath 
+					+File.separator
+					+"repository"
+					+File.separator
+					+ CreateFelixPropertiesFile.groupId.replace(".", File.separator) 
+					+ File.separator
+					+ CreateFelixPropertiesFile.artifactId 
+					+ File.separator
+					+ CreateFelixPropertiesFile.artifactVersion 
+					+ File.separator
 					+ BuildAction.artifactFileName);
 
 			FileInputStream fis = new FileInputStream(file);
@@ -220,15 +221,26 @@ public class UploadArtifact {
 						.getOutputStream());
 				File file = null;
 				if (metadata.getRemoteFilename().endsWith(".pom")) {
-					file = new File(repositoryPath + "repository/"
-							+ CreateFelixPropertiesFile.groupId.replace(".", "/")
-							+ "/" + CreateFelixPropertiesFile.artifactId + "/"
-							+ CreateFelixPropertiesFile.artifactVersion + "/"
+					file = new File(repositoryPath 
+							+File.separator
+							+ "repository"
+							+File.separator
+							+ CreateFelixPropertiesFile.groupId.replace(".", File.separator)
+							+ File.separator
+							+ CreateFelixPropertiesFile.artifactId 
+							+ File.separator
+							+ CreateFelixPropertiesFile.artifactVersion 
+							+ File.separator
 							+ metadata.getRemoteFilename());
 				} else {
-					file = new File(repositoryPath + "repository/"
-							+ CreateFelixPropertiesFile.groupId.replace(".", "/")
-							+ "/" + CreateFelixPropertiesFile.artifactId + "/"
+					file = new File(repositoryPath 
+							+File.separator
+							+ "repository"
+							+File.separator
+							+ CreateFelixPropertiesFile.groupId.replace(".", File.separator)
+							+ File.separator
+							+ CreateFelixPropertiesFile.artifactId 
+							+ File.separator
 							+ "maven-metadata-local.xml");
 				}
 

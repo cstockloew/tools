@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  * @see IWorkbenchWindowActionDelegate
  */
 public class UploadAction implements IWorkbenchWindowActionDelegate {
-	static private String NEXUS_URL = "http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/";
+	static private String NEXUS_URL = "http://depot.universaal.org/maven-repo/";
 	static private String NEXUS_USERNAME = "deployment";
 	static private String NEXUS_PASSWORD = "uaal_49_nexus";
 	private IWorkbenchWindow window;
