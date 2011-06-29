@@ -53,7 +53,11 @@ public class DebugAction implements IWorkbenchWindowActionDelegate {
 			if (BuildAction.buildedProjects.contains(BuildAction
 					.getSelectedProjectPath())) {
 				try {
+					// create configurations for launching on Eclipse 3.6
+					CreateFelixPropertiesFile fel = new CreateFelixPropertiesFile();
+					fel.createFile();
 
+					
 					if (checkIfFelixJarsExistInLocalRepo()) {
 
 						ILaunchManager manager = DebugPlugin.getDefault()
@@ -182,7 +186,13 @@ public class DebugAction implements IWorkbenchWindowActionDelegate {
 	private boolean checkIfFelixJarsExistInLocalRepo() {
 		File felixFile = new File(
 				MavenCli.userMavenConfigurationHome.getAbsolutePath()
-						+ "\\repository\\org\\apache\\felix\\org.apache.felix.main\\3.2.2\\org.apache.felix.main-3.2.2.jar");
+						+ File.separator+"repository"
+						+File.separator+"org"
+						+File.separator+"apache" 
+						+File.separator+"felix"
+						+File.separator+"org.apache.felix.main"
+						+File.separator+"3.2.2"
+						+File.separator+"org.apache.felix.main-3.2.2.jar");
 		if (!felixFile.exists()) {
 			MessageDialog
 					.openInformation(null, "BuildServiceApplication",
@@ -191,7 +201,14 @@ public class DebugAction implements IWorkbenchWindowActionDelegate {
 		}
 		File mvnFile = new File(
 				MavenCli.userMavenConfigurationHome.getAbsolutePath()
-						+ "\\repository\\org\\ops4j\\pax\\url\\pax-url-mvn\\1.3.3\\pax-url-mvn-1.3.3.jar");
+						+ File.separator+"repository"
+						+File.separator+"org"
+						+File.separator+"ops4j"
+						+File.separator+"pax"
+						+File.separator+"url"
+						+File.separator+"pax-url-mvn"
+						+File.separator+"1.3.3"
+						+File.separator+"pax-url-mvn-1.3.3.jar");
 		if (!mvnFile.exists()) {
 			MessageDialog
 					.openInformation(null, "BuildServiceApplication",
@@ -200,7 +217,15 @@ public class DebugAction implements IWorkbenchWindowActionDelegate {
 		}
 		File wrapFile = new File(
 				MavenCli.userMavenConfigurationHome.getAbsolutePath()
-						+ "\\repository\\org\\ops4j\\pax\\url\\pax-url-wrap\\1.3.3\\pax-url-wrap-1.3.3.jar");
+				+ File.separator+"repository"
+				+File.separator+"org"
+				+File.separator+"ops4j"
+				+File.separator+"pax"
+				+File.separator+"url"
+				+File.separator+"pax-url-wrap"
+				+File.separator+"1.3.3"
+				+File.separator+"pax-url-wrap-1.3.3.jar");
+				
 		if (!wrapFile.exists()) {
 			MessageDialog
 					.openInformation(null, "BuildServiceApplication",

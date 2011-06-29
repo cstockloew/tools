@@ -1,6 +1,5 @@
 package org.universaal.tools.buildserviceapplication.actions;
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,17 +17,28 @@ import org.apache.maven.settings.building.DefaultSettingsBuildingRequest;
 import org.apache.maven.settings.building.SettingsBuilder;
 import org.apache.maven.settings.building.SettingsBuildingRequest;
 import org.codehaus.plexus.DefaultPlexusContainer;
+import org.eclipse.core.internal.resources.Folder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.internal.core.CompilationUnit;
 import org.eclipse.jdt.internal.core.JavaProject;
+import org.eclipse.jdt.internal.core.PackageFragment;
+import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Our sample action implements workbench action delegate. The action proxy will
@@ -39,14 +49,15 @@ import org.eclipse.ui.PlatformUI;
  * @see IWorkbenchWindowActionDelegate
  */
 public class BuildAction implements IWorkbenchWindowActionDelegate {
-	private IWorkbenchWindow window;
+	private static IWorkbenchWindow window;
 	private static MavenExecutionRequestPopulator populator;
 	private static DefaultPlexusContainer container;
-	private static Maven maven;	
+	private static Maven maven;
 	static public List<String> buildedProjects = new ArrayList<String>();
 	private SettingsBuilder settingsBuilder;
-	static public String artifactFileName="";
-	static public Collection<ArtifactMetadata> artifactMetadata=null;
+	static public String artifactFileName = "";
+	static public Collection<ArtifactMetadata> artifactMetadata = null;
+	private MavenExecutionResult installResult = null;
 
 	/**
 	 * The constructor.
@@ -54,32 +65,126 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	public BuildAction() {
 	}
 
+	static IResource extractSelection(ISelection sel) {
+		if (!(sel instanceof IStructuredSelection))
+			return null;
+		IStructuredSelection ss = (IStructuredSelection) sel;
+		if (ss.getFirstElement() instanceof IProject) {
+			IProject element = (IProject) ss.getFirstElement();
+			if (element instanceof IResource)
+				return (IResource) element;
+			if (!(element instanceof IAdaptable))
+				return null;
+			IAdaptable adaptable = (IAdaptable) element;
+			Object adapter = adaptable.getAdapter(IResource.class);
+			return (IResource) adapter;
+		} else if (ss.getFirstElement() instanceof JavaProject) {
+			JavaProject element = (JavaProject) ss.getFirstElement();
+			if (element instanceof IResource)
+				return (IResource) element;
+			if (!(element instanceof IAdaptable))
+				return null;
+			IAdaptable adaptable = (IAdaptable) element;
+			Object adapter = adaptable.getAdapter(IResource.class);
+			return (IResource) adapter;
+		} else if (ss.getFirstElement() instanceof PackageFragmentRoot) {
+			PackageFragmentRoot root = (PackageFragmentRoot) ss
+					.getFirstElement();
+			IJavaProject element = root.getJavaProject();
+			if (element instanceof IResource)
+				return (IResource) element;
+			if (!(element instanceof IAdaptable))
+				return null;
+			IAdaptable adaptable = (IAdaptable) element;
+			Object adapter = adaptable.getAdapter(IResource.class);
+			return (IResource) adapter;
+		} else if (ss.getFirstElement() instanceof CompilationUnit) {
+			CompilationUnit root = (CompilationUnit) ss.getFirstElement();
+			IJavaProject element = root.getJavaProject();
+			if (element instanceof IResource)
+				return (IResource) element;
+			if (!(element instanceof IAdaptable))
+				return null;
+			IAdaptable adaptable = (IAdaptable) element;
+			Object adapter = adaptable.getAdapter(IResource.class);
+			return (IResource) adapter;
+		} else if (ss.getFirstElement() instanceof org.eclipse.core.internal.resources.File) {
+			org.eclipse.core.internal.resources.File root = (org.eclipse.core.internal.resources.File) ss
+					.getFirstElement();
+			IProject element = root.getProject();
+			if (element instanceof IResource)
+				return (IResource) element;
+			if (!(element instanceof IAdaptable))
+				return null;
+			IAdaptable adaptable = (IAdaptable) element;
+			Object adapter = adaptable.getAdapter(IResource.class);
+			return (IResource) adapter;
+		} else if (ss.getFirstElement() instanceof org.eclipse.jdt.internal.ui.packageview.ClassPathContainer) {
+			org.eclipse.jdt.internal.ui.packageview.ClassPathContainer root = (org.eclipse.jdt.internal.ui.packageview.ClassPathContainer) ss
+					.getFirstElement();
+			IJavaProject element = root.getJavaProject();
+			if (element instanceof IResource)
+				return (IResource) element;
+			if (!(element instanceof IAdaptable))
+				return null;
+			IAdaptable adaptable = (IAdaptable) element;
+			Object adapter = adaptable.getAdapter(IResource.class);
+			return (IResource) adapter;
+		} else if (ss.getFirstElement() instanceof PackageFragment) {
+			PackageFragment root = (PackageFragment) ss.getFirstElement();
+			IJavaProject element = root.getJavaProject();
+			if (element instanceof IResource)
+				return (IResource) element;
+			if (!(element instanceof IAdaptable))
+				return null;
+			IAdaptable adaptable = (IAdaptable) element;
+			Object adapter = adaptable.getAdapter(IResource.class);
+			return (IResource) adapter;
+		} else if (ss.getFirstElement() instanceof Folder) {
+			Folder root = (Folder) ss.getFirstElement();
+			IProject element = root.getProject();
+			if (element instanceof IResource)
+				return (IResource) element;
+			if (!(element instanceof IAdaptable))
+				return null;
+			IAdaptable adaptable = (IAdaptable) element;
+			Object adapter = adaptable.getAdapter(IResource.class);
+			return (IResource) adapter;
+		}
+		try {
+			JavaProject element = (JavaProject) ss.getFirstElement();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
 	/**
 	 * Returns the root path of the selected project within eclipse workspace.
 	 */
 	static public String getSelectedProjectPath() {
 		try {
-			
-			String projectPath = "";
-			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();			
-			TreeSelection selection = (TreeSelection) window.getActivePage()
-					.getSelection();
-			if (selection.getPaths().length != 0) {
-				TreePath path = selection.getPaths()[0];
-				Object sel = path.getSegment(0);
-				if (sel instanceof org.eclipse.core.internal.resources.Project) {					
-					projectPath = ((org.eclipse.core.internal.resources.Project) sel).getLocation().toString();
-					projectPath = projectPath.replace("file:/", "");
-				
-				}
-				else
-					if(sel instanceof JavaProject){					
-						projectPath = ((JavaProject)sel).getResource().getLocationURI().toURL().toString();
-						projectPath = projectPath.replace("file:/", "");
-					}				
-			}
-			return projectPath;
-		} catch (Exception ex) {			
+			IWorkbenchPage page = window.getActivePage();
+			ISelection selection = page
+					.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
+			IResource res = extractSelection(selection);
+
+			IProject iproject = res.getProject();
+			return iproject.getLocation().toOSString();
+		} catch (Exception ex) {
+			return "";
+		}
+	}
+
+	static public String getSelectedProjectName() {
+		try {
+			IWorkbenchPage page = window.getActivePage();
+			ISelection selection = page
+					.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
+			IResource res = extractSelection(selection);
+			IProject iproject = res.getProject();
+			return iproject.getName();
+		} catch (Exception ex) {
 			return "";
 		}
 	}
@@ -92,54 +197,39 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public void run(IAction action) {
 		try {
-			//System.out.println(Platform.getLocation());
-			String selectedProject = getSelectedProjectPath();
-			String projectName=selectedProject.split("/")[selectedProject.split("/").length-1];
+			final String selectedProject = getSelectedProjectPath();
 			if (!selectedProject.equals("")) {
 
 				setUpMavenBuild();
-				MavenExecutionResult installResult = install(selectedProject);
-				artifactFileName=installResult.getProject().getArtifact().getFile().getName();
-				artifactMetadata=installResult.getProject().getArtifact().getMetadataList();
-				Iterator<ArtifactMetadata> it=artifactMetadata.iterator();
-				while(it.hasNext()){
-					ArtifactMetadata metadata=it.next();
-					metadata.getRemoteFilename();					
+				installResult = install(selectedProject);
+				artifactFileName = installResult.getProject().getArtifact()
+						.getFile().getName();
+				artifactMetadata = installResult.getProject().getArtifact()
+						.getMetadataList();
+				Iterator<ArtifactMetadata> it = artifactMetadata.iterator();
+				while (it.hasNext()) {
+					ArtifactMetadata metadata = it.next();
+					metadata.getRemoteFilename();
 				}
 				if (installResult.hasExceptions()) {
-					String exceptions="Errors found:\n";
-					for(int i=0;i<installResult.getExceptions().size();i++){
-						exceptions=exceptions+installResult.getExceptions().get(i).getMessage()+"\n\n";
+					String exceptions = "Errors found:\n";
+					for (int i = 0; i < installResult.getExceptions().size(); i++) {
+						exceptions = exceptions
+								+ installResult.getExceptions().get(i)
+										.getMessage() + "\n\n";
 					}
 					MessageDialog.openInformation(window.getShell(),
-							"BuildServiceApplication",
-							"Building of project \""+projectName+"\" failed.\n\n"+exceptions);
+							"BuildServiceApplication", "Building of project \""
+									+ getSelectedProjectName()
+									+ "\" failed.\n\n" + exceptions);
 				} else {
-					MessageDialog.openInformation(null,
-							"BuildServiceApplication",
-							"Building of project \""+projectName+"\" succeeded.");
-					// create launch configuration file
-				//	CreateConfigurationFile confFile = new CreateConfigurationFile();
-				//	if (confFile.createFile()) {
-					if(true){
-						buildedProjects.add(selectedProject);	
-						
-						//create configurations for launching on Eclipse 3.6
-						CreateFelixPropertiesFile fel=new CreateFelixPropertiesFile();
-						fel.createFile();
-						
-						
-						// refresh the eclipse workspace
-						ResourcesPlugin.getWorkspace().getRoot()
-								.refreshLocal(IResource.DEPTH_INFINITE, null);
-						
-					} else {
-						MessageDialog
-								.openInformation(null,
-										"BuildServiceApplication",
-										"An error occured while creating launch configuration for project "+projectName+".");
-					}
+					MessageDialog.openInformation(window.getShell(),
+							"BuildServiceApplication", "Building of project \""
+									+ getSelectedProjectName()
+									+ "\" succeeded.");
+					buildedProjects.add(selectedProject);
 				}
+
 			} else {
 				MessageDialog.openInformation(null, "BuildServiceApplication",
 						"Please select a project in the Project Explorer tab.");
@@ -159,8 +249,7 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 		try {
 			container = new DefaultPlexusContainer();
 			maven = container.lookup(Maven.class);
-			populator = container
-					.lookup(MavenExecutionRequestPopulator.class);
+			populator = container.lookup(MavenExecutionRequestPopulator.class);
 			settingsBuilder = container.lookup(SettingsBuilder.class);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -229,18 +318,17 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	public void init(IWorkbenchWindow window) {
 		this.window = window;
 	}
-	
-	
-	static public MavenExecutionRequestPopulator getMavenPopulator(){
+
+	static public MavenExecutionRequestPopulator getMavenPopulator() {
 		return populator;
 	}
-	static public DefaultPlexusContainer getMavenPlexusContainer(){
+
+	static public DefaultPlexusContainer getMavenPlexusContainer() {
 		return container;
 	}
-	static public Maven getMaven(){
+
+	static public Maven getMaven() {
 		return maven;
 	}
-	
-	
 
 }

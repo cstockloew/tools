@@ -25,7 +25,7 @@ public class CreateFelixPropertiesFile {
 	private void getBundleProperties() {
 		try {
 			Reader reader = new FileReader(BuildAction.getSelectedProjectPath()
-					+ "/pom.xml");
+					+ File.separator+"pom.xml");
 			MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
 			Model model = xpp3Reader.read(reader);
 			groupId = model.getGroupId();
@@ -48,16 +48,12 @@ public class CreateFelixPropertiesFile {
 	}
 
 	public boolean createFile() {
-
-		// add Felix jar to project classPath
-		// addFelixToClassPath();
-
 		List<Dependency> pomDependencies = new ArrayList<Dependency>();
 		List<Dependency> ontologyDependencies = new ArrayList<Dependency>();
 		try {
 			// Path to your local Maven repository
 			Reader reader = new FileReader(BuildAction.getSelectedProjectPath()
-					+ "/pom.xml");
+					+ File.separator+"pom.xml");
 			try {
 				MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
 				Model model = xpp3Reader.read(reader);
@@ -82,19 +78,19 @@ public class CreateFelixPropertiesFile {
 
 		// path to add properties: ./conf
 		File conf = new File(Platform.getLocation().toString()
-				+ "/.felix/conf/"+artifactId);
+				+ File.separator+".felix"+File.separator+"conf"+File.separator+artifactId);
 		conf.mkdirs();
 
 		String pathToAddConf = conf.getAbsolutePath();
 		// File dir = new File(pathToAddConf);
 		// dir.mkdirs();
-		File launchFile = new File(pathToAddConf + "/config.properties");
+		File launchFile = new File(pathToAddConf + File.separator+"config.properties");
 		if (launchFile.exists()) {
 			launchFile.delete();
 		}
 		try {
 			FileWriter fstream = new FileWriter(pathToAddConf
-					+ "/config.properties");
+					+ File.separator+"config.properties");
 			BufferedWriter out = new BufferedWriter(fstream);
 
 			out.write("##############################\n");
