@@ -117,7 +117,7 @@ public interface ' ontologyName 'Namespace {
   }  
   
   
-  uml.Property::toUpperFormat():String {
+  uml.Classifier::toUpperFormat():String {
     var txt:String
     var res:String
   
@@ -180,6 +180,7 @@ public interface ' ontologyName 'Namespace {
     ' {\n'
    
     self.genPropertyDeclaration()
+    self.genPropertiesForAssociations()
     self.genStatic()
     self.genConstructors()
     self.genGetClassRestrictionsOnProperty()
@@ -190,7 +191,7 @@ public interface ' ontologyName 'Namespace {
     self.genGetRDFSComment()
     self.genGetRDFSLabel()
     
-    self.genPropertiesForAssociations()
+   
     self.genPropertyGettersAndSetters()
     
     
@@ -212,6 +213,11 @@ public interface ' ontologyName 'Namespace {
   	    //initializing properties
 	    '    PROP_' att.toUpperFormat() ' = ' ontologyName ' + "' att.name.trim() '";\n'
 
+	}
+	
+	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
+	  '    PROP_' ass.toUpperFormat() ' = ' ontologyName ' + "' ass.name.trim() '";\n'
+	
 	}
   	'\n'
     '    register('self.name'.class);\n'
@@ -344,8 +350,13 @@ public interface ' ontologyName 'Namespace {
     }\n'    
    }
 
-   uml.Class::genPropertiesForAssociations() {
-   }
+  uml.Class::genPropertiesForAssociations() {
+      //generate 
+      self.getAssociations()->forEach(ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim())) {
+      '  public static final String PROP_'  ass.toUpperFormat() ';\n'
+      }
+		
+	}
 
 
    uml.Class::genGetPropSerializationType() {
