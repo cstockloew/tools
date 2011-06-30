@@ -44,7 +44,7 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
 	  	StdOut.println("Handling classes of package :" + p.name) 
   		//Generate a java-class for each class in the ontology
 		p.ownedElement -> forEach( component:uml.Class ) { // | component.hasStereotype("owlClass") ){
-		    ontologyClassList.put(self.name, self)
+		    ontologyClassList.put(component.name, component)
 			component.generateOntologyClass()
 		}
 
