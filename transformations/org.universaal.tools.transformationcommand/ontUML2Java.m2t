@@ -99,10 +99,10 @@ public class Activator implements BundleActivator {
   uml.Package::generateNamespaceInterface() {
     StdOut.println('Generating name space interface')
     
-	file( self.name.replace("\\.", "/") + '/' + ontologyName + "Namespace.java" )
+	file( self.name.replace("\\.", "/") + '/owl/' + ontologyName + "Namespace.java" )
     
 '
-package ' self.name ';
+package ' self.name '.owl;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -150,10 +150,10 @@ public interface ' ontologyName 'Namespace {
 
 	
   uml.Interface::generateOntologyInterface() {
-	file( self.package.name.replace("\\.", "/") + '/' + self.name + ".java" )
+	file( self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
                 
     //Start generating the code
-    'package ' self.package.name ';\n\n'
+    'package ' self.package.name '.owl;\n\n'
     
     self.genImports()
     
@@ -169,10 +169,10 @@ public interface ' ontologyName 'Namespace {
 
 
   uml.Class::generateOntologyClass () {
-	file( self.package.name.replace("\\.", "/") + '/' + self.name + ".java" )
+	file( self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
                 
     //Start generating the code
-    'package ' self.package.name ';\n\n'
+    'package ' self.package.name '.owl;\n\n'
     
     self.genImports()
   	self.genClassDeclaration()
