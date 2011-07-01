@@ -77,6 +77,9 @@
                label="AAL Studio"
                mnemonic="U"
                id="org.universaal.tools.AALStudio.menu">
+            <separator
+                  name="org.universaal.tools.transformationcommand.separator1">
+            </separator>
             <command
                   commandId="org.universaal.tools.transformationcommand.commands.listClasses"
                   mnemonic="A"
