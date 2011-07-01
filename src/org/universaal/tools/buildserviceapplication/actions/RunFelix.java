@@ -109,13 +109,8 @@ public class RunFelix {
 								.newArchiveRuntimeClasspathEntry(toolsPath3);
 						toolsEntry3
 								.setClasspathProperty(IRuntimeClasspathEntry.USER_CLASSES);
-						IPath toolsPath4 = new Path(
-								"D:\\org.apache.felix.fileinstall-3.1.10.jar");
-						IRuntimeClasspathEntry toolsEntry4 = JavaRuntime
-								.newArchiveRuntimeClasspathEntry(toolsPath4);
-						toolsEntry4
-								.setClasspathProperty(IRuntimeClasspathEntry.USER_CLASSES);
-
+						
+						
 						IPath systemLibsPath = new Path(
 								JavaRuntime.JRE_CONTAINER);
 						IRuntimeClasspathEntry systemLibsEntry = JavaRuntime
@@ -126,7 +121,7 @@ public class RunFelix {
 						classpath.add(toolsEntry.getMemento());
 						classpath.add(toolsEntry2.getMemento());
 						classpath.add(toolsEntry3.getMemento());
-						classpath.add(toolsEntry4.getMemento());
+						
 						classpath.add(systemLibsEntry.getMemento());
 						// wc.setAttribute("org.eclipse.jdt.launching.ATTR_CLASSPATH",
 						// classpath);
