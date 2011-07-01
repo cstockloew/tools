@@ -1,0 +1,47 @@
+package org.universaal.tools.dashboard.buttonlisteners;
+
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.part.ViewPart;
+
+public class UploadProjectListener implements SelectionListener {
+	
+	ViewPart view;
+
+	public UploadProjectListener(ViewPart view) {
+		this.view = view;
+	}
+
+	@Override
+	public void widgetDefaultSelected(SelectionEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void widgetSelected(SelectionEvent arg0) {
+		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
+		try {
+			handlerService.executeCommand("org.universaal.tools.buildserviceapplication.actions.UploadAction", null);
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotDefinedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotEnabledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotHandledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}
