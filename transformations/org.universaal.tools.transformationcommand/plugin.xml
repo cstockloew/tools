@@ -125,5 +125,25 @@
          </with>
       </definition>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.universaal.tools.AALStudio"
+            class="org.istmusic.tools.transformationcommand.preferences.Uml2JavaPreferencePage"
+            id="org.universaal.tools.transformationcommand.uml2java"
+            name="Transform UML2Java">
+      </page>
+      <page
+            class="org.istmusic.tools.transformationcommand.preferences.PreferencePageRoot"
+            id="org.universaal.tools.AALStudio"
+            name="AAL Studio">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.istmusic.tools.transformationcommand.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>

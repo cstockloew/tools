@@ -1,47 +1,42 @@
 package org.istmusic.tools.transformationcommand.handlers;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Iterator;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-
-import java.io.IOException;
-import java.net.URL;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.Iterator;
-
-
-import org.osgi.framework.Bundle;
-
-import org.eclipse.core.runtime.Plugin;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.mofscript.MOFScriptModel.MOFScriptSpecification;
 import org.eclipse.mofscript.parser.MofScriptParseError;
 import org.eclipse.mofscript.parser.ParserUtil;
 import org.eclipse.mofscript.runtime.ExecutionManager;
 import org.eclipse.mofscript.runtime.ExecutionMessageListener;
 import org.eclipse.mofscript.runtime.MofScriptExecutionException;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.istmusic.tools.transformationcommand.activator.Activator;
+import org.istmusic.tools.transformationcommand.preferences.PreferenceConstants;
 
 
 /**
@@ -53,13 +48,17 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	String transformationFileName;
 	String thisBundleName;
 	
+	
 	/**
 	 * Finally, I am subversive
 	 */
 	public void setFileAndBundleName(String theTransformationFile, String theBundle) {
 		transformationFileName = theTransformationFile;
-		thisBundleName = theBundle;		
+		thisBundleName = theBundle;	
+		
 	}	
+	
+	
 
 	/**
 	 * the command has been executed, so extract extract the needed information
@@ -171,10 +170,13 @@ public abstract class TransformationHandler extends AbstractHandler implements E
         System.out.println("Adding source model");
         
         // set the source model for the execution manager   
-        execMgr.addSourceModel(sourceModel);       
-        // sets the root output directory, if any is desired (e.g. "c:/temp")
+        execMgr.addSourceModel(sourceModel);
         
-        execMgr.setRootDirectory("c:/temp/");
+        // sets the root output directory, if any is desired (e.g. "c:/temp")
+        IProject project = inputFile.getProject();
+        execMgr.setRootDirectory(findDirectory(project));
+
+        
         // if true, files are not generated to the file system, but populated into a filemodel
         // which can be fetched afterwards. Value false will result in standard file generation
         execMgr.setUseFileModel(false);
@@ -187,9 +189,13 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
             execMgr.executeTransformation();           
             System.out.println("Completed transformation");
+            //New code
+            project.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
         } catch (MofScriptExecutionException mex) {
             mex.printStackTrace();
-        }   		
+        } catch (CoreException e){
+        	e.printStackTrace();
+        }
 	}
 
 	@Override
@@ -197,4 +203,25 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		// Ignore messages from MOFscript for now
         System.out.println(arg1);		
 	}
+	
+	/**
+	 * Reads preferences and finds the correct directory to save files to.
+	 * @param inputFile
+	 * @return
+	 */
+	private String findDirectory(IProject project){
+		if(getAbsolutePathBooleanFromPreferences()){
+			return getDirectoryFromPreferences();
+		}else{
+			String result = project.getLocation() + 
+					(getDirectoryFromPreferences().charAt(0)=='/' ? "" : "/")+ 
+					getDirectoryFromPreferences();
+			System.out.println("Returning " + result);
+			return result;
+		}
+
+	}
+	
+	protected abstract String getDirectoryFromPreferences();
+	protected abstract boolean getAbsolutePathBooleanFromPreferences();
 }
