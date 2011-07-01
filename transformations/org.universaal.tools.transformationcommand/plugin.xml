@@ -15,6 +15,7 @@
       </command>
       <command
             categoryId="org.universaal.tools.transformation.category"
+            defaultHandler="org.istmusic.tools.transformationcommand.handlers.TransformOntUML2Java"
             id="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             name="Transform UML ontology to Java">
       </command>
