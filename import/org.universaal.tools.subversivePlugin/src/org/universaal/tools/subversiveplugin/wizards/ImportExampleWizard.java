@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.team.svn.core.connector.ISVNConnector;
@@ -27,12 +28,18 @@ public class ImportExampleWizard extends Wizard {
 	
 	public ImportExampleWizard(IWorkbenchWindow inputWindow){
 		this.window = inputWindow;
+		TrayDialog.setDialogHelpAvailable(false);
 	}
 	
 	//Must override this to return true in order to get a progressbar.
 	@Override
 	public boolean needsProgressMonitor() {
 		return true;
+	}
+	
+	@Override
+	public boolean isHelpAvailable(){
+		return false;
 	}
 	
 	@Override
@@ -99,7 +106,7 @@ public class ImportExampleWizard extends Wizard {
 				if(arg0.isCanceled()){
 					job.cancel();
 				}
-				Thread.sleep(100);
+//				Thread.sleep(100);
 			}
 			arg0.done();
 			

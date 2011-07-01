@@ -205,7 +205,7 @@ public class ImportExampleWizardPage extends WizardPage {
 		public void dispose() {
 		}
 		public Object[] getElements(Object parent) {
-
+			
 			return children;
 		}
 	}
@@ -240,6 +240,7 @@ public class ImportExampleWizardPage extends WizardPage {
 			int index = tableViewer.getTable().getSelectionIndex();
 			IRepositoryResource res = (IRepositoryResource) tableViewer.getElementAt(index);
 			((ImportExampleWizard)getWizard()).setResource(res);
+			detailsBox.setText("Loading details...");
 			new Thread(new ReadmeParser(index)).start();
 		}
 		

@@ -37,9 +37,10 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
+            category="org.universaal.tools.AALStudio"
             class="org.universaal.tools.subversiveplugin.preferences.PreferencePage"
             id="org.universaal.tools.subversiveplugin.preferences.PreferencePage"
-            name="Import Example Preferences">
+            name="Import Example">
       </page>
    </extension>
    <extension
