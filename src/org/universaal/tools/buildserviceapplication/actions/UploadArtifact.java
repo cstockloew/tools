@@ -2,14 +2,18 @@ package org.universaal.tools.buildserviceapplication.actions;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
 import org.apache.maven.artifact.metadata.ArtifactMetadata;
 import org.apache.maven.cli.MavenCli;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.Base64;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -22,6 +26,9 @@ public class UploadArtifact {
 	private String repositoryPath = "";
 	private boolean artifactUploaded = true;
 	private boolean isArtifactRelease = true;
+	static public String groupId = "";
+	static public String artifactId = "";
+	static public String artifactVersion = "";
 
 	public UploadArtifact(String nexusUrl, String nexusUserName,
 			String nexusPassword) {
@@ -40,7 +47,7 @@ public class UploadArtifact {
 					String projectName = BuildAction.getSelectedProjectName();
 					if (!selectedProject.equals("")) {
 						isArtifactRelease = true;
-						if (CreateFelixPropertiesFile.artifactVersion
+						if (artifactVersion
 								.contains("SNAPSHOT")) {
 							isArtifactRelease = false;
 						}
@@ -75,7 +82,7 @@ public class UploadArtifact {
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
-					MessageDialog.openInformation(window.getShell(),
+					MessageDialog.openInformation(null,
 							"BuildServiceApplication",
 							"Application uploading failed");
 				}
@@ -89,23 +96,50 @@ public class UploadArtifact {
 		}
 	}
 
+	
+	private void getBundleProperties() {
+		try {
+			Reader reader = new FileReader(BuildAction.getSelectedProjectPath()
+					+ File.separator+"pom.xml");
+			MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
+			Model model = xpp3Reader.read(reader);
+			groupId = model.getGroupId();
+			artifactId = model.getArtifactId();
+			artifactVersion = model.getVersion();
+
+			// if groupId is null then search within its parent
+			if (groupId == null && model.getParent() != null) {
+				groupId = model.getParent().getGroupId();
+			}
+			// if artifactId is null then search within its parent
+			if (artifactId == null && model.getParent() != null) {
+				artifactId = model.getParent().getArtifactId();
+			}
+			reader.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private void postArtifact() {
 		artifactUploaded = true;
-	
+		getBundleProperties();
 		repositoryPath=MavenCli.userMavenConfigurationHome.getAbsolutePath();
 		try {
 			String webPage = "";
 			if (isArtifactRelease) {
 				webPage = NEXUS_URL + "releases/"
-						+ CreateFelixPropertiesFile.groupId.replace(".", "/")
-						+ "/" + CreateFelixPropertiesFile.artifactId + "/"
-						+ CreateFelixPropertiesFile.artifactVersion + "/"
+						+ groupId.replace(".", "/")
+						+ "/" + artifactId + "/"
+						+ artifactVersion + "/"
 						+ BuildAction.artifactFileName;
 			} else {
 				webPage = NEXUS_URL + "snapshots/"
-						+ CreateFelixPropertiesFile.groupId.replace(".", "/")
-						+ "/" + CreateFelixPropertiesFile.artifactId + "/"
-						+ CreateFelixPropertiesFile.artifactVersion + "/"
+						+ groupId.replace(".", "/")
+						+ "/" + artifactId + "/"
+						+ artifactVersion + "/"
 						+ BuildAction.artifactFileName;
 			}
 
@@ -129,11 +163,11 @@ public class UploadArtifact {
 					+File.separator
 					+"repository"
 					+File.separator
-					+ CreateFelixPropertiesFile.groupId.replace(".", File.separator) 
+					+ groupId.replace(".", File.separator) 
 					+ File.separator
-					+ CreateFelixPropertiesFile.artifactId 
+					+ artifactId 
 					+ File.separator
-					+ CreateFelixPropertiesFile.artifactVersion 
+					+ artifactVersion 
 					+ File.separator
 					+ BuildAction.artifactFileName);
 
@@ -171,34 +205,34 @@ public class UploadArtifact {
 					if (isArtifactRelease) {
 						webPage = NEXUS_URL
 								+ "releases/"
-								+ CreateFelixPropertiesFile.groupId.replace(".",
+								+ groupId.replace(".",
 										"/") + "/"
-								+ CreateFelixPropertiesFile.artifactId + "/"
-								+ CreateFelixPropertiesFile.artifactVersion + "/"
+								+ artifactId + "/"
+								+ artifactVersion + "/"
 								+ metadata.getRemoteFilename();
 					} else {
 						webPage = NEXUS_URL
 								+ "snapshots/"
-								+ CreateFelixPropertiesFile.groupId.replace(".",
+								+ groupId.replace(".",
 										"/") + "/"
-								+ CreateFelixPropertiesFile.artifactId + "/"
-								+ CreateFelixPropertiesFile.artifactVersion + "/"
+								+ artifactId + "/"
+								+ artifactVersion + "/"
 								+ metadata.getRemoteFilename();
 					}
 				} else {
 					if (isArtifactRelease) {
 						webPage = NEXUS_URL
 								+ "releases/"
-								+ CreateFelixPropertiesFile.groupId.replace(".",
+								+ groupId.replace(".",
 										"/") + "/"
-								+ CreateFelixPropertiesFile.artifactId + "/"
+								+ artifactId + "/"
 								+ metadata.getRemoteFilename();
 					} else {
 						webPage = NEXUS_URL
 								+ "snapshots/"
-								+ CreateFelixPropertiesFile.groupId.replace(".",
+								+ groupId.replace(".",
 										"/") + "/"
-								+ CreateFelixPropertiesFile.artifactId + "/"
+								+ artifactId + "/"
 								+ metadata.getRemoteFilename();
 					}
 				}
@@ -225,11 +259,11 @@ public class UploadArtifact {
 							+File.separator
 							+ "repository"
 							+File.separator
-							+ CreateFelixPropertiesFile.groupId.replace(".", File.separator)
+							+ groupId.replace(".", File.separator)
 							+ File.separator
-							+ CreateFelixPropertiesFile.artifactId 
+							+ artifactId 
 							+ File.separator
-							+ CreateFelixPropertiesFile.artifactVersion 
+							+ artifactVersion 
 							+ File.separator
 							+ metadata.getRemoteFilename());
 				} else {
@@ -237,9 +271,9 @@ public class UploadArtifact {
 							+File.separator
 							+ "repository"
 							+File.separator
-							+ CreateFelixPropertiesFile.groupId.replace(".", File.separator)
+							+ groupId.replace(".", File.separator)
 							+ File.separator
-							+ CreateFelixPropertiesFile.artifactId 
+							+ artifactId 
 							+ File.separator
 							+ "maven-metadata-local.xml");
 				}

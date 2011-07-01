@@ -50,11 +50,11 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  */
 public class BuildAction implements IWorkbenchWindowActionDelegate {
 	private static IWorkbenchWindow window;
-	private static MavenExecutionRequestPopulator populator;
-	private static DefaultPlexusContainer container;
-	private static Maven maven;
+	public static MavenExecutionRequestPopulator populator;
+	public static DefaultPlexusContainer container;
+	public static Maven maven;
 	static public List<String> buildedProjects = new ArrayList<String>();
-	private SettingsBuilder settingsBuilder;
+	static public SettingsBuilder settingsBuilder;
 	static public String artifactFileName = "";
 	static public Collection<ArtifactMetadata> artifactMetadata = null;
 	private MavenExecutionResult installResult = null;
@@ -331,4 +331,8 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 		return maven;
 	}
 
+	
+	static public SettingsBuilder getSettingsBuilder() {
+		return settingsBuilder;
+	}
 }
