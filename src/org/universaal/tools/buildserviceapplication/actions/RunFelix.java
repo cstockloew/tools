@@ -86,15 +86,43 @@ public class RunFelix {
 
 						IPath toolsPath = new Path(
 								MavenCli.userMavenConfigurationHome
-										.getAbsolutePath()
-										+ "\\repository\\org\\apache\\felix\\org.apache.felix.main\\3.2.2\\org.apache.felix.main-3.2.2.jar");
+										.getAbsolutePath()+
+										File.separator+
+										"repository"+
+										File.separator+
+										"org"+
+										File.separator+
+										"apache"+
+										File.separator+
+										"felix"+
+										File.separator+
+										"org.apache.felix.main"+
+										File.separator+
+										"3.2.2"+
+										File.separator+
+										"org.apache.felix.main-3.2.2.jar");
 						IRuntimeClasspathEntry toolsEntry = JavaRuntime
 								.newArchiveRuntimeClasspathEntry(toolsPath);
 
 						IPath toolsPath2 = new Path(
 								MavenCli.userMavenConfigurationHome
 										.getAbsolutePath()
-										+ "\\repository\\org\\ops4j\\pax\\url\\pax-url-mvn\\1.3.3\\pax-url-mvn-1.3.3.jar");
+										+ File.separator+
+										"repository"+
+										File.separator+
+										"org"+
+										File.separator+
+										"ops4j"+
+										File.separator+
+										"pax"+
+										File.separator+
+										"url"+
+										File.separator+
+										"pax-url-mvn"+
+										File.separator+
+										"1.3.3"+
+										File.separator+
+										"pax-url-mvn-1.3.3.jar");
 						IRuntimeClasspathEntry toolsEntry2 = JavaRuntime
 								.newArchiveRuntimeClasspathEntry(toolsPath2);
 						toolsEntry2
@@ -103,7 +131,22 @@ public class RunFelix {
 						IPath toolsPath3 = new Path(
 								MavenCli.userMavenConfigurationHome
 										.getAbsolutePath()
-										+ "\\repository\\org\\ops4j\\pax\\url\\pax-url-wrap\\1.3.3\\pax-url-wrap-1.3.3.jar");
+										+ File.separator+
+										"repository"+
+										File.separator+
+										"org"+
+										File.separator+
+										"ops4j"+
+										File.separator+
+										"pax"+
+										File.separator+
+										"url"+
+										File.separator+
+										"pax-url-wrap"+
+										File.separator+
+										"1.3.3"+
+										File.separator+
+										"pax-url-wrap-1.3.3.jar");
 
 						IRuntimeClasspathEntry toolsEntry3 = JavaRuntime
 								.newArchiveRuntimeClasspathEntry(toolsPath3);
@@ -130,8 +173,21 @@ public class RunFelix {
 
 						IPath toolsPath5 = new Path(
 								MavenCli.userMavenConfigurationHome
-										.getAbsolutePath()
-										+ "\\repository\\org\\apache\\felix\\org.apache.felix.main\\3.2.2\\org.apache.felix.main-3.2.2.jar");
+								.getAbsolutePath()+
+								File.separator+
+								"repository"+
+								File.separator+
+								"org"+
+								File.separator+
+								"apache"+
+								File.separator+
+								"felix"+
+								File.separator+
+								"org.apache.felix.main"+
+								File.separator+
+								"3.2.2"+
+								File.separator+
+								"org.apache.felix.main-3.2.2.jar");
 						IRuntimeClasspathEntry toolsEntry5 = JavaRuntime
 								.newArchiveRuntimeClasspathEntry(toolsPath5);
 
