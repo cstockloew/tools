@@ -80,6 +80,23 @@ org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/pla
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/SmallTest.m2t -text
+org.universaal.tools.transformationcommand/build.properties -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/icons/sample.gif -text
+org.universaal.tools.transformationcommand/ontUML2Java.m2t -text
+org.universaal.tools.transformationcommand/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/activator/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/handlers/TransformOntUML2Java.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/handlers/TransformToAdaptationModelHandler.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/handlers/TransformationHandler.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/preferences/PreferenceConstants.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/preferences/PreferencePageRoot.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/istmusic/tools/transformationcommand/preferences/Uml2JavaPreferencePage.java -text svneol=unset#text/plain
 org.universaal.tools.updatesite/.project -text svneol=unset#text/plain
 org.universaal.tools.updatesite/artifacts.jar -text
 org.universaal.tools.updatesite/content.jar -text
