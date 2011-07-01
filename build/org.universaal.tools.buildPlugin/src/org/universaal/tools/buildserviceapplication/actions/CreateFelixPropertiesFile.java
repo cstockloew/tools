@@ -110,9 +110,11 @@ public class CreateFelixPropertiesFile {
 			out.write("# Client bundles to install\n");
 			out.write("##############################\n");
 			out.write("felix.auto.start.1=\\\n");
+		//	out.write("\"mvn:org.apache.felix/felix\" \\\n");
 			out.write("\"mvn:org.apache.felix/org.apache.felix.shell\" \\\n");
 			out.write("\"mvn:org.apache.felix/org.apache.felix.shell.tui\"\n");
 			out.write("felix.auto.start.2=\\\n");
+	//		out.write("\"file:/D:/org.apache.felix.fileinstall-3.1.10.jar\" \\\n");
 			out.write("\"mvn:org.apache.felix/org.apache.felix.configadmin\" \\\n");
 			out.write("\"mvn:org.universaal.middleware/mw.acl.interfaces/0.3.0-SNAPSHOT\" \\\n");
 			out.write("\"wrap:mvn:jp.go.ipa/jgcl/1.0\" \\\n");
@@ -186,9 +188,9 @@ public class CreateFelixPropertiesFile {
 			out.write("cyberdomo.ssdp.mx=5\n");
 			out.write("cyberdomo.ssdp.buffersize=2048\n");
 			out.write("cyberdomo.ssdp.port=13531\n");
-			out.write("felix.fileinstall.poll=15000\n");
+			out.write("felix.fileinstall.poll=1000\n");
 			out.write("felix.fileinstall.dir=${workspace_loc}/rundir/test/cache\n");
-
+			out.write("felix.fileinstall.bundles.new.start=true\n");
 			// Close the output stream
 			out.close();
 
