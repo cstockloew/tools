@@ -15,7 +15,6 @@
       </command>
       <command
             categoryId="org.universaal.tools.transformation.category"
-            defaultHandler="org.istmusic.tools.transformationcommand.handlers.TransformOntUML2Java"
             id="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             name="Transform UML ontology to Java">
       </command>
@@ -77,9 +76,6 @@
                label="AAL Studio"
                mnemonic="U"
                id="org.universaal.tools.AALStudio.menu">
-            <separator
-                  name="org.universaal.tools.transformationcommand.separator1">
-            </separator>
             <command
                   commandId="org.universaal.tools.transformationcommand.commands.listClasses"
                   mnemonic="A"

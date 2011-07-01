@@ -81,7 +81,7 @@ public class Activator implements BundleActivator {
       Activator.context = context;
 '
 	ontologyClassList.values()->forEach(component:uml.Class) {
-'      Class.forName(' component.package.name '.' component.name '.class.getName());
+'      Class.forName(' component.package.name '.owl.' component.name '.class.getName());
 '
 	}
 '    }
