@@ -40,6 +40,9 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/PublishApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/RunApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/UploadApplicationHandler.java -text
+org.universaal.tools.dashboard.feature/.project -text svneol=unset#text/plain
+org.universaal.tools.dashboard.feature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.dashboard.feature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.classpath -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.project -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
