@@ -5,3 +5,36 @@ org.maven.ide.eclipse.feature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.wizardplugin/.classpath -text
+org.universaal.tools.wizardplugin/.project -text
+org.universaal.tools.wizardplugin/.settings/org.eclipse.jdt.core.prefs -text
+org.universaal.tools.wizardplugin/META-INF/MANIFEST.MF -text
+org.universaal.tools.wizardplugin/build.properties -text
+org.universaal.tools.wizardplugin/files/Activator.java -text
+org.universaal.tools.wizardplugin/files/CPublisher.java -text
+org.universaal.tools.wizardplugin/files/CSubscriber.java -text
+org.universaal.tools.wizardplugin/files/IPublisher.java -text
+org.universaal.tools.wizardplugin/files/ISubscriber.java -text
+org.universaal.tools.wizardplugin/files/OPublisher.java -text
+org.universaal.tools.wizardplugin/files/OSubscriber.java -text
+org.universaal.tools.wizardplugin/files/SCallee.java -text
+org.universaal.tools.wizardplugin/files/SCalleeProvidedService.java -text
+org.universaal.tools.wizardplugin/files/SCaller.java -text
+org.universaal.tools.wizardplugin/helpdoc.xml -text
+org.universaal.tools.wizardplugin/icons/PERSONA_logo150.jpg -text
+org.universaal.tools.wizardplugin/icons/ic-uAAL-hdpi.png -text
+org.universaal.tools.wizardplugin/icons/pers.gif -text
+org.universaal.tools.wizardplugin/icons/pers3mini.gif -text
+org.universaal.tools.wizardplugin/icons/uAALmicro.png -text
+org.universaal.tools.wizardplugin/icons/uaal64x32.PNG -text
+org.universaal.tools.wizardplugin/plugin.xml -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/Activator.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/commands/NewItemCommandHandler.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/commands/NewProjectCommandHandler.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/Messages.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/NewItemWizard.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/NewItemWizardPage.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/NewProjectWizard.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/NewProjectWizardPage1.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/NewProjectWizardPage2.java -text
+org.universaal.tools.wizardplugin/src/org/universaal/tools/newwizard/plugin/wizards/messages.properties -text
