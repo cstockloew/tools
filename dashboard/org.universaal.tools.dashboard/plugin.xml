@@ -5,14 +5,14 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            name="UNIVERSAAL"
+            name="AAL Studio"
             id="org.universaal.tools.dashboard">
       </category>
       <view
             category="org.universaal.tools.dashboard"
             class="org.universaal.tools.dashboard.views.DashboardView"
             id="org.universaal.tools.dashboard.views.DashboardView"
-            name="UNIVERSAAL Dashboard">
+            name="Dashboard">
       </view>
    </extension>
    <extension

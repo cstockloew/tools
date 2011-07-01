@@ -26,6 +26,7 @@ import org.universaal.tools.dashboard.buttonlisteners.PublishProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.RunProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryMouseListener;
+import org.universaal.tools.dashboard.buttonlisteners.TransformListener;
 import org.universaal.tools.dashboard.buttonlisteners.UploadProjectListener;
 import org.universaal.tools.dashboard.listeners.ProjectNameListener;
 
@@ -88,26 +89,26 @@ public class DashboardView extends ViewPart {
 		gd_lblProjectDefinition.widthHint = 71;
 		lblProjectDefinition.setLayoutData(gd_lblProjectDefinition);
 		lblProjectDefinition.setText("Project Definition");
-		lblProjectDefinition.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+		lblProjectDefinition.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
 		lblProjectDefinition.setBackground(SWTResourceManager.getColor(173, 216, 230));
 		new Label(projectDefCanvas, SWT.NONE);
 		
 		btnCreateProject = new Button(projectDefCanvas, SWT.NONE);
-		btnCreateProject.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnCreateProject.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		GridData gd_button = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_button.widthHint = 64;
 		btnCreateProject.setLayoutData(gd_button);
 		btnCreateProject.setText("Create");
 		
 		btnImportProject = new Button(projectDefCanvas, SWT.NONE);
-		btnImportProject.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnImportProject.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		GridData gd_button_1 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_button_1.widthHint = 59;
 		btnImportProject.setLayoutData(gd_button_1);
 		btnImportProject.setText("Import");
 		
 		btnEditProject = new Button(projectDefCanvas, SWT.NONE);
-		btnEditProject.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnEditProject.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		GridData gd_button_2 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_button_2.widthHint = 53;
 		btnEditProject.setLayoutData(gd_button_2);
@@ -136,26 +137,26 @@ public class DashboardView extends ViewPart {
 		gd_lblJavaClasses.widthHint = 62;
 		lblJavaClasses.setLayoutData(gd_lblJavaClasses);
 		lblJavaClasses.setText("Java Classes");
-		lblJavaClasses.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+		lblJavaClasses.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
 		lblJavaClasses.setBackground(SWTResourceManager.getColor(173, 216, 230));
 		new Label(javaClassesCanvas, SWT.NONE);
 		
 		btnCreateClass = new Button(javaClassesCanvas, SWT.NONE);
-		btnCreateClass.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnCreateClass.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		GridData gd_button_3 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_button_3.widthHint = 65;
 		btnCreateClass.setLayoutData(gd_button_3);
 		btnCreateClass.setText("Create");
 		
 		btnImportClass = new Button(javaClassesCanvas, SWT.NONE);
-		btnImportClass.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnImportClass.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		GridData gd_button_4 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_button_4.widthHint = 26;
 		btnImportClass.setLayoutData(gd_button_4);
 		btnImportClass.setText("Import");
 		
 		btnEditClass = new Button(javaClassesCanvas, SWT.NONE);
-		btnEditClass.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnEditClass.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		GridData gd_button_5 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_button_5.widthHint = 63;
 		btnEditClass.setLayoutData(gd_button_5);
@@ -190,36 +191,36 @@ public class DashboardView extends ViewPart {
 		
 		lblBuild = new Label(btnBuildProject, SWT.CENTER);
 		lblBuild.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		lblBuild.setFont(SWTResourceManager.getFont("Arial", 9, SWT.BOLD));
+		lblBuild.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
 		lblBuild.setText("Build");
 		applicationBinCanvas.setLayoutData(fd_canvas_2);
 		
 		Label lblApplicationBinary = new Label(applicationBinCanvas, SWT.WRAP);
 		GridData gd_lblApplicationBinary = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_lblApplicationBinary.widthHint = 79;
+		gd_lblApplicationBinary.widthHint = 123;
 		lblApplicationBinary.setLayoutData(gd_lblApplicationBinary);
 		lblApplicationBinary.setText("Application Binary");
-		lblApplicationBinary.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+		lblApplicationBinary.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
 		lblApplicationBinary.setBackground(SWTResourceManager.getColor(173, 216, 230));
 		new Label(applicationBinCanvas, SWT.NONE);
 		
 		btnTestConformance = new Button(applicationBinCanvas, SWT.NONE);
-		btnTestConformance.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		GridData gd_button_6 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		btnTestConformance.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
+		GridData gd_button_6 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_button_6.widthHint = 112;
 		btnTestConformance.setLayoutData(gd_button_6);
 		btnTestConformance.setText("Test \r\nconformance");
 		
 		btnRun = new Button(applicationBinCanvas, SWT.NONE);
-		btnRun.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		GridData gd_btnRun = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		btnRun.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
+		GridData gd_btnRun = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_btnRun.widthHint = 81;
 		btnRun.setLayoutData(gd_btnRun);
 		btnRun.setText("Run");
 		
 		btnDebug = new Button(applicationBinCanvas, SWT.NONE);
-		btnDebug.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
-		GridData gd_btnDebug = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		btnDebug.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
+		GridData gd_btnDebug = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_btnDebug.widthHint = 71;
 		btnDebug.setLayoutData(gd_btnDebug);
 		btnDebug.setText("Debug");
@@ -243,7 +244,7 @@ public class DashboardView extends ViewPart {
 		lblCombine = new Label(btnCombineProject, SWT.NONE);
 		lblCombine.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblCombine.setText("Combine");
-		lblCombine.setFont(SWTResourceManager.getFont("Arial", 9, SWT.BOLD));
+		lblCombine.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
 		
 		Canvas publishableCanvas = new Canvas(composite, SWT.BORDER);
 		publishableCanvas.setBackground(SWTResourceManager.getColor(173, 216, 230));
@@ -262,19 +263,19 @@ public class DashboardView extends ViewPart {
 		gd_lblPublishableApplication.widthHint = 85;
 		lblPublishableApplication.setLayoutData(gd_lblPublishableApplication);
 		lblPublishableApplication.setText("Publishable application");
-		lblPublishableApplication.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+		lblPublishableApplication.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
 		lblPublishableApplication.setBackground(SWTResourceManager.getColor(173, 216, 230));
 		new Label(publishableCanvas, SWT.NONE);
 		
 		btnPublishUstore = new Button(publishableCanvas, SWT.NONE);
-		btnPublishUstore.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnPublishUstore.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		GridData gd_btnPublishUstore = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnPublishUstore.widthHint = 126;
 		btnPublishUstore.setLayoutData(gd_btnPublishUstore);
 		btnPublishUstore.setText("Publish to uStore");
 		
 		btnUploadOpenSource = new Button(publishableCanvas, SWT.NONE);
-		btnUploadOpenSource.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnUploadOpenSource.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		GridData gd_btnPublishOpenSource = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_btnPublishOpenSource.widthHint = 85;
 		btnUploadOpenSource.setLayoutData(gd_btnPublishOpenSource);
@@ -294,7 +295,7 @@ public class DashboardView extends ViewPart {
 		gd_lblApplicationDescription.widthHint = 111;
 		lblApplicationDescription.setLayoutData(gd_lblApplicationDescription);
 		lblApplicationDescription.setText("Application Description");
-		lblApplicationDescription.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+		lblApplicationDescription.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
 		lblApplicationDescription.setBackground(SWTResourceManager.getColor(173, 216, 230));
 		
 		Canvas confParCanvas = new Canvas(composite, SWT.BORDER);
@@ -311,7 +312,7 @@ public class DashboardView extends ViewPart {
 		gd_lblConfigurationParameters.widthHint = 85;
 		lblConfigurationParameters.setLayoutData(gd_lblConfigurationParameters);
 		lblConfigurationParameters.setText("Configuration Parameters");
-		lblConfigurationParameters.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+		lblConfigurationParameters.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
 		lblConfigurationParameters.setBackground(SWTResourceManager.getColor(173, 216, 230));
 		
 		Label label_11 = new Label(composite, SWT.NONE);
@@ -333,29 +334,30 @@ public class DashboardView extends ViewPart {
 		fd_canvas.left = new FormAttachment(0, 10);
 		
 		btnImportExample = new Button(projectDefCanvas, SWT.NONE);
+		btnImportExample.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		btnImportExample.setText("Import Example");
-		canvas_6.setBackground(SWTResourceManager.getColor(100, 149, 237));
+		canvas_6.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		GridLayout gl_canvas_6 = new GridLayout(1, false);
 		gl_canvas_6.verticalSpacing = 0;
 		canvas_6.setLayout(gl_canvas_6);
 		FormData fd_canvas_6 = new FormData();
 		fd_canvas_6.top = new FormAttachment(0, 10);
-		fd_canvas_6.left = new FormAttachment(0, 400);
+		fd_canvas_6.left = new FormAttachment(0, 405);
 		canvas_6.setLayoutData(fd_canvas_6);
 		
 		Label label_13 = new Label(canvas_6, SWT.CENTER);
-		label_13.setImage(SWTResourceManager.getImage("C:\\Users\\Adrian\\Pictures\\Icons\\universaals.jpg"));
+		label_13.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/universaals.jpg"));
 		GridData gd_label_13 = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		gd_label_13.widthHint = 231;
+		gd_label_13.widthHint = 271;
 		gd_label_13.heightHint = 48;
 		label_13.setLayoutData(gd_label_13);
 		label_13.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		label_13.setBackground(SWTResourceManager.getColor(100, 149, 237));
+		label_13.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		label_13.setAlignment(SWT.LEFT);
 		
 		Composite composite_1 = new Composite(canvas_6, SWT.NONE);
 		composite_1.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		composite_1.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		GridLayout gl_composite_3 = new GridLayout(2, false);
 		gl_composite_3.marginHeight = 0;
 		composite_1.setLayout(gl_composite_3);
@@ -368,18 +370,18 @@ public class DashboardView extends ViewPart {
 		GridData gd_lblProjectName = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblProjectName.heightHint = 22;
 		lblProjectName.setLayoutData(gd_lblProjectName);
-		lblProjectName.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
-		lblProjectName.setBackground(SWTResourceManager.getColor(100, 149, 237));
+		lblProjectName.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
+		lblProjectName.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		lblProjectName.setText("Project Name: ");
 		
 		lblProjectNameField = new Label(composite_1, SWT.WRAP);
-		lblProjectNameField.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
+		lblProjectNameField.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false, 1, 1));
 		lblProjectNameField.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		lblProjectNameField.setText("no project selected");
-		lblProjectNameField.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblProjectNameField.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		
 		Composite composite_2 = new Composite(canvas_6, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		composite_2.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		GridLayout gl_composite_4 = new GridLayout(2, false);
 		gl_composite_4.marginHeight = 0;
 		composite_2.setLayout(gl_composite_4);
@@ -390,12 +392,13 @@ public class DashboardView extends ViewPart {
 		
 		Label lblProjectProgress = new Label(composite_2, SWT.NONE);
 		lblProjectProgress.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
-		lblProjectProgress.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblProjectProgress.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		lblProjectProgress.setText("Project Progress:");
 		
 		lblProjectProgressField = new Label(composite_2, SWT.NONE);
+		lblProjectProgressField.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		lblProjectProgressField.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		lblProjectProgressField.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblProjectProgressField.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		
 		Composite transformCanvas = new Composite(composite, SWT.NONE);
 		GridLayout gl_transformCanvas = new GridLayout(1, false);
@@ -421,19 +424,19 @@ public class DashboardView extends ViewPart {
 		
 		Label lblApplicationDesign = new Label(canvas_1, SWT.WRAP);
 		lblApplicationDesign.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		lblApplicationDesign.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+		lblApplicationDesign.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
 		GridData gd_lblApplicationDesign = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblApplicationDesign.widthHint = 79;
 		lblApplicationDesign.setLayoutData(gd_lblApplicationDesign);
 		lblApplicationDesign.setText("Application Design");
 		
 		btnCreate = new Button(canvas_1, SWT.NONE);
-		btnCreate.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnCreate.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		btnCreate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		btnCreate.setText("Create");
 		
 		btnEdit = new Button(canvas_1, SWT.NONE);
-		btnEdit.setFont(SWTResourceManager.getFont("Arial", 9, SWT.NORMAL));
+		btnEdit.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		btnEdit.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		btnEdit.setText("Edit");
 		
@@ -448,7 +451,7 @@ public class DashboardView extends ViewPart {
 		GridData gd_lblTransform = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblTransform.widthHint = 67;
 		lblTransform.setLayoutData(gd_lblTransform);
-		lblTransform.setFont(SWTResourceManager.getFont("Arial", 9, SWT.BOLD));
+		lblTransform.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
 		lblTransform.setText("Transform");
 		
 		scrolledComposite.setContent(composite);
@@ -497,8 +500,8 @@ public class DashboardView extends ViewPart {
 		lblCombine.addMouseListener(new TemporaryMouseListener(this, "Combine Project"));
 		lblCombineArrow.addMouseListener(new TemporaryMouseListener(this, "Combine Project"));
 		lblBuildArrow.addMouseListener(new BuildProjectListener(this));
-		lblTransformArrow.addMouseListener(new TemporaryMouseListener(this, "Transform"));
-		lblTransform.addMouseListener(new TemporaryMouseListener(this, "Transform"));
+		lblTransformArrow.addMouseListener(new TransformListener(this));
+		lblTransform.addMouseListener(new TransformListener(this));
 	}
 
 	/**
