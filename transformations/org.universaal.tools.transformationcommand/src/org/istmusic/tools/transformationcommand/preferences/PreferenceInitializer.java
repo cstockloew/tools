@@ -10,9 +10,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer  {
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_UML2JAVA_PATH, 
-				"c:/testing/absolute");
+				"/src/main/java");
 		store.setDefault(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN, 
-				true);
+				false);
 		
 	}
 
