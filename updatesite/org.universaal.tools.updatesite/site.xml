@@ -78,6 +78,9 @@
    <feature url="features/org.universaal.tools.depotclient.feature_0.2.0.jar" id="org.universaal.tools.depotclient.feature" version="0.2.0">
       <category name="universaal_future_tools"/>
    </feature>
+   <feature url="features/org.universaal.tools.transformationfeature_0.2.1.jar" id="org.universaal.tools.transformationfeature" version="0.2.1">
+      <category name="universaal_future_tools"/>
+   </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
          Tools for development of AAL applications using the universAAL platform

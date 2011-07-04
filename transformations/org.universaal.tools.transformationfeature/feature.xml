@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.transformationfeature"
       label="universAAL Transformations"
-      version="0.2.0"
+      version="0.2.1"
       provider-name="universAAL">
 
    <description url="http://www.universaal.org/">

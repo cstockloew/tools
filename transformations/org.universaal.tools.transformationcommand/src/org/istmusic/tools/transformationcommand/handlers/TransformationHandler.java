@@ -182,6 +182,10 @@ public abstract class TransformationHandler extends AbstractHandler implements E
         execMgr.setUseFileModel(false);
         // Turns on/off system logging
         execMgr.setUseLog(false);
+        
+        
+        execMgr.setBlockCommentTag("//");
+        
         // Adds an output listener for the transformation execution.
         execMgr.getExecutionStack().addOutputMessageListener(this);   
         try {
