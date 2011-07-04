@@ -1,5 +1,6 @@
 package org.universaal.tools.buildserviceapplication.actions;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -15,8 +16,18 @@ import org.apache.maven.cli.MavenCli;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.Base64;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.progress.IProgressConstants;
 
 public class UploadArtifact {
 	private String NEXUS_URL = "";
@@ -29,6 +40,7 @@ public class UploadArtifact {
 	static public String groupId = "";
 	static public String artifactId = "";
 	static public String artifactVersion = "";
+	private Shell activeShell = null;
 
 	public UploadArtifact(String nexusUrl, String nexusUserName,
 			String nexusPassword) {
@@ -38,42 +50,74 @@ public class UploadArtifact {
 	}
 
 	public void upload() {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				activeShell = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getShell();
+			}
+		});
 		if (!BuildAction.getSelectedProjectPath().equals("")) {
 			if (BuildAction.buildedProjects.contains(BuildAction
 					.getSelectedProjectPath())) {
+
 				try {
 					String selectedProject = BuildAction
 							.getSelectedProjectPath();
-					String projectName = BuildAction.getSelectedProjectName();
+					final String projectName = BuildAction
+							.getSelectedProjectName();
 					if (!selectedProject.equals("")) {
 						isArtifactRelease = true;
-						if (artifactVersion
-								.contains("SNAPSHOT")) {
+						if (artifactVersion.contains("SNAPSHOT")) {
 							isArtifactRelease = false;
 						}
-						postArtifact();
-						if (artifactUploaded) {
-							postMetadata();
-							if (!artifactUploaded) {
-								MessageDialog.openInformation(
-										window.getShell(),
-										"BuildServiceApplication",
-										"Uploading of application \""
-												+ projectName + "\" failed.");
-							} else {
-								MessageDialog
-										.openInformation(null,
-												"BuildServiceApplication",
-												"Uploading of application \""
-														+ projectName
-														+ "\" succeeded.");
+						Job job = new Job("AAL Studio") {
+							protected IStatus run(IProgressMonitor monitor) {
+								monitor.beginTask("Uploading application \""+projectName+"\"...", 50);
+								setProperty(IProgressConstants.KEEP_PROPERTY,
+										Boolean.FALSE);
+								try {
+									postArtifact();
+									if (artifactUploaded) {
+										postMetadata();
+										if (!artifactUploaded) {
+											return Status.CANCEL_STATUS;
+										} else {
+											return Status.OK_STATUS;
+										}
+									} else {
+										return Status.CANCEL_STATUS;
+									}
+								} catch (Exception ex) {
+									return Status.CANCEL_STATUS;
+								}
 							}
-						} else {
-							MessageDialog.openInformation(window.getShell(),
-									"BuildServiceApplication",
-									"Uploading of application \"" + projectName
-											+ "\" failed.");
-						}
+						};
+
+						job.setUser(true);
+						job.schedule();
+						job.addJobChangeListener(new JobChangeAdapter() {
+							public void done(final IJobChangeEvent event) {
+								Display.getDefault().syncExec(new Runnable() {
+									public void run() {
+										if (event.getResult().isOK())
+											MessageDialog.openInformation(
+													activeShell,
+													"BuildServiceApplication",
+													"Uploading of application \""
+															+ projectName
+															+ "\" succeeded.");
+										else
+											MessageDialog.openInformation(
+													activeShell,
+													"BuildServiceApplication",
+													"Uploading of application \""
+															+ projectName
+															+ "\" failed.");
+									}
+								});
+
+							}
+						});
 					} else {
 						MessageDialog
 								.openInformation(null,
@@ -96,11 +140,10 @@ public class UploadArtifact {
 		}
 	}
 
-	
 	private void getBundleProperties() {
 		try {
 			Reader reader = new FileReader(BuildAction.getSelectedProjectPath()
-					+ File.separator+"pom.xml");
+					+ File.separator + "pom.xml");
 			MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
 			Model model = xpp3Reader.read(reader);
 			groupId = model.getGroupId();
@@ -121,25 +164,20 @@ public class UploadArtifact {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	private void postArtifact() {
 		artifactUploaded = true;
 		getBundleProperties();
-		repositoryPath=MavenCli.userMavenConfigurationHome.getAbsolutePath();
+		repositoryPath = MavenCli.userMavenConfigurationHome.getAbsolutePath();
 		try {
 			String webPage = "";
 			if (isArtifactRelease) {
-				webPage = NEXUS_URL + "releases/"
-						+ groupId.replace(".", "/")
-						+ "/" + artifactId + "/"
-						+ artifactVersion + "/"
+				webPage = NEXUS_URL + "releases/" + groupId.replace(".", "/")
+						+ "/" + artifactId + "/" + artifactVersion + "/"
 						+ BuildAction.artifactFileName;
 			} else {
-				webPage = NEXUS_URL + "snapshots/"
-						+ groupId.replace(".", "/")
-						+ "/" + artifactId + "/"
-						+ artifactVersion + "/"
+				webPage = NEXUS_URL + "snapshots/" + groupId.replace(".", "/")
+						+ "/" + artifactId + "/" + artifactVersion + "/"
 						+ BuildAction.artifactFileName;
 			}
 
@@ -156,19 +194,13 @@ public class UploadArtifact {
 			urlConnection.setDoOutput(true);
 			urlConnection.setRequestMethod("PUT");
 
-			OutputStreamWriter out = new OutputStreamWriter(urlConnection
-					.getOutputStream());
+			OutputStreamWriter out = new OutputStreamWriter(
+					urlConnection.getOutputStream());
 
-			File file = new File(repositoryPath 
-					+File.separator
-					+"repository"
-					+File.separator
-					+ groupId.replace(".", File.separator) 
-					+ File.separator
-					+ artifactId 
-					+ File.separator
-					+ artifactVersion 
-					+ File.separator
+			File file = new File(repositoryPath + File.separator + "repository"
+					+ File.separator + groupId.replace(".", File.separator)
+					+ File.separator + artifactId + File.separator
+					+ artifactVersion + File.separator
 					+ BuildAction.artifactFileName);
 
 			FileInputStream fis = new FileInputStream(file);
@@ -203,37 +235,25 @@ public class UploadArtifact {
 				String webPage = "";
 				if (metadata.getRemoteFilename().endsWith(".pom")) {
 					if (isArtifactRelease) {
-						webPage = NEXUS_URL
-								+ "releases/"
-								+ groupId.replace(".",
-										"/") + "/"
-								+ artifactId + "/"
-								+ artifactVersion + "/"
+						webPage = NEXUS_URL + "releases/"
+								+ groupId.replace(".", "/") + "/" + artifactId
+								+ "/" + artifactVersion + "/"
 								+ metadata.getRemoteFilename();
 					} else {
-						webPage = NEXUS_URL
-								+ "snapshots/"
-								+ groupId.replace(".",
-										"/") + "/"
-								+ artifactId + "/"
-								+ artifactVersion + "/"
+						webPage = NEXUS_URL + "snapshots/"
+								+ groupId.replace(".", "/") + "/" + artifactId
+								+ "/" + artifactVersion + "/"
 								+ metadata.getRemoteFilename();
 					}
 				} else {
 					if (isArtifactRelease) {
-						webPage = NEXUS_URL
-								+ "releases/"
-								+ groupId.replace(".",
-										"/") + "/"
-								+ artifactId + "/"
-								+ metadata.getRemoteFilename();
+						webPage = NEXUS_URL + "releases/"
+								+ groupId.replace(".", "/") + "/" + artifactId
+								+ "/" + metadata.getRemoteFilename();
 					} else {
-						webPage = NEXUS_URL
-								+ "snapshots/"
-								+ groupId.replace(".",
-										"/") + "/"
-								+ artifactId + "/"
-								+ metadata.getRemoteFilename();
+						webPage = NEXUS_URL + "snapshots/"
+								+ groupId.replace(".", "/") + "/" + artifactId
+								+ "/" + metadata.getRemoteFilename();
 					}
 				}
 
@@ -251,30 +271,21 @@ public class UploadArtifact {
 				urlConnection.setDoOutput(true);
 				urlConnection.setRequestMethod("PUT");
 
-				OutputStreamWriter out = new OutputStreamWriter(urlConnection
-						.getOutputStream());
+				OutputStreamWriter out = new OutputStreamWriter(
+						urlConnection.getOutputStream());
 				File file = null;
 				if (metadata.getRemoteFilename().endsWith(".pom")) {
-					file = new File(repositoryPath 
-							+File.separator
-							+ "repository"
-							+File.separator
+					file = new File(repositoryPath + File.separator
+							+ "repository" + File.separator
 							+ groupId.replace(".", File.separator)
-							+ File.separator
-							+ artifactId 
-							+ File.separator
-							+ artifactVersion 
-							+ File.separator
+							+ File.separator + artifactId + File.separator
+							+ artifactVersion + File.separator
 							+ metadata.getRemoteFilename());
 				} else {
-					file = new File(repositoryPath 
-							+File.separator
-							+ "repository"
-							+File.separator
+					file = new File(repositoryPath + File.separator
+							+ "repository" + File.separator
 							+ groupId.replace(".", File.separator)
-							+ File.separator
-							+ artifactId 
-							+ File.separator
+							+ File.separator + artifactId + File.separator
 							+ "maven-metadata-local.xml");
 				}
 
