@@ -25,7 +25,9 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.core.CompilationUnit;
 import org.eclipse.jdt.internal.core.JavaProject;
@@ -35,10 +37,14 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.progress.IProgressConstants;
 
 /**
  * Our sample action implements workbench action delegate. The action proxy will
@@ -49,7 +55,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  * @see IWorkbenchWindowActionDelegate
  */
 public class BuildAction implements IWorkbenchWindowActionDelegate {
-	private static IWorkbenchWindow window;
+	public static IWorkbenchWindow window;
 	public static MavenExecutionRequestPopulator populator;
 	public static DefaultPlexusContainer container;
 	public static Maven maven;
@@ -58,6 +64,7 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	static public String artifactFileName = "";
 	static public Collection<ArtifactMetadata> artifactMetadata = null;
 	private MavenExecutionResult installResult = null;
+	private Shell activeShell = null;
 
 	/**
 	 * The constructor.
@@ -199,36 +206,72 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 		try {
 			final String selectedProject = getSelectedProjectPath();
 			if (!selectedProject.equals("")) {
-
-				setUpMavenBuild();
-				installResult = install(selectedProject);
-				artifactFileName = installResult.getProject().getArtifact()
-						.getFile().getName();
-				artifactMetadata = installResult.getProject().getArtifact()
-						.getMetadataList();
-				Iterator<ArtifactMetadata> it = artifactMetadata.iterator();
-				while (it.hasNext()) {
-					ArtifactMetadata metadata = it.next();
-					metadata.getRemoteFilename();
-				}
-				if (installResult.hasExceptions()) {
-					String exceptions = "Errors found:\n";
-					for (int i = 0; i < installResult.getExceptions().size(); i++) {
-						exceptions = exceptions
-								+ installResult.getExceptions().get(i)
-										.getMessage() + "\n\n";
+				PlatformUI.getWorkbench().getDisplay()
+						.asyncExec(new Runnable() {
+							public void run() {
+								activeShell = PlatformUI.getWorkbench()
+										.getActiveWorkbenchWindow().getShell();
+							}
+						});
+				final String projectName = getSelectedProjectName();
+				Job job = new Job("AAL Studio") {
+					protected IStatus run(IProgressMonitor monitor) {
+						try {
+							monitor.beginTask("Building application \""+projectName+"\"...", 50);
+							setProperty(IProgressConstants.KEEP_PROPERTY,
+									Boolean.FALSE);
+							setUpMavenBuild();
+							installResult = install(selectedProject);
+							artifactFileName = installResult.getProject()
+									.getArtifact().getFile().getName();
+							artifactMetadata = installResult.getProject()
+									.getArtifact().getMetadataList();
+							if (installResult.hasExceptions()) {
+								return Status.CANCEL_STATUS;
+							} else {
+								return Status.OK_STATUS;
+							}
+						} catch (Exception ex) {
+							return Status.CANCEL_STATUS;
+						}
 					}
-					MessageDialog.openInformation(window.getShell(),
-							"BuildServiceApplication", "Building of project \""
-									+ getSelectedProjectName()
-									+ "\" failed.\n\n" + exceptions);
-				} else {
-					MessageDialog.openInformation(window.getShell(),
-							"BuildServiceApplication", "Building of project \""
-									+ getSelectedProjectName()
-									+ "\" succeeded.");
-					buildedProjects.add(selectedProject);
-				}
+				};
+				job.setUser(true);
+				job.schedule();
+				job.addJobChangeListener(new JobChangeAdapter() {
+					public void done(final IJobChangeEvent event) {
+						Display.getDefault().syncExec(new Runnable() {
+							public void run() {
+								if (event.getResult().isOK()) {
+									MessageDialog.openInformation(
+											activeShell,
+											"BuildServiceApplication",
+											"Building of application \""
+													+ getSelectedProjectName()
+													+ "\" succeeded.");
+									buildedProjects.add(selectedProject);
+								} else {
+									String exceptions = "Errors found:\n";
+									for (int i = 0; i < installResult
+											.getExceptions().size(); i++) {
+										exceptions = exceptions
+												+ installResult.getExceptions()
+														.get(i).getMessage()
+												+ "\n\n";
+									}
+									MessageDialog.openInformation(
+											activeShell,
+											"BuildServiceApplication",
+											"Building of project \""
+													+ getSelectedProjectName()
+													+ "\" failed.\n\n"
+													+ exceptions);
+								}
+							}
+						});
+
+					}
+				});
 
 			} else {
 				MessageDialog.openInformation(null, "BuildServiceApplication",
@@ -331,7 +374,6 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 		return maven;
 	}
 
-	
 	static public SettingsBuilder getSettingsBuilder() {
 		return settingsBuilder;
 	}
