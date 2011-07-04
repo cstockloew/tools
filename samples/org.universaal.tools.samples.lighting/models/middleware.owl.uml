@@ -17,7 +17,10 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_7clzYKFGEeCPiYRKlVcMuQ" name="ManagedIndividual">
     <generalization xmi:id="_YyMpMKFMEeCPiYRKlVcMuQ" general="_Xh6tEKFMEeCPiYRKlVcMuQ"/>
-    <ownedAttribute xmi:id="_b7DQgKFMEeCPiYRKlVcMuQ" name="OWL_NAMESPACE"/>
+    <ownedAttribute xmi:id="_b7DQgKFMEeCPiYRKlVcMuQ" name="OWL_NAMESPACE">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_1ZwRwKYpEeCn49vC5eMr5A"/>
+    </ownedAttribute>
     <ownedAttribute xmi:id="_enu5MKFMEeCPiYRKlVcMuQ" name="TYPE_OWL_INDIVIDUAL"/>
     <ownedAttribute xmi:id="_ge85gKFMEeCPiYRKlVcMuQ" name="TYPE_OWL_THING"/>
     <ownedAttribute xmi:id="_kcUuAKFMEeCPiYRKlVcMuQ" name="MY_URI"/>
