@@ -310,54 +310,101 @@ public interface ' ontologyName 'Namespace {
   }\n'
   }    
   
+  
+  
   uml.Class::genGetClassRestrictionsOnProperty() {
 '
   public static Restriction getClassRestrictionsOnProperty(String propURI) {
-'
-    unprotect {
-'
-    // TODO: Restrictions are currently not supported by the transformation scripts
-    // Code entered in this section will not be overwritten by the transformations if
-    // the code is generated again
-          
-    if (propURI == null)
-	    return null;
 
-	// Typical code to include is something like:
-	// if (PROP_BEAMING_DIRECTION.equals(propURI))
-	//   return Restriction.getAllValuesRestrictionWithCardinality(propURI,Location.MY_URI, 1, 0);
-'
-      if (self.superClass.isEmpty()) {
-        '    return null;\n'
-      }
-      else {
-        '    return ' self.superClass.first().name '.getClassRestrictionsOnProperty(propURI);\n'	  	  
-      }
-    
+'    
+    unprotect {
+
+'    //Add any maunual modifications within this block
+'    
     }
+
+'
+    if (propURI == null) {
+	  return null;
+    }
+'
+	self.ownedMember->forEach(prop : uml.Property) {
+	  '    else if (PROP_' prop.toUpperFormat() '.equals(propURI)) {\n'
+	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
+      '        'self.getURIExpressionForType(prop.type.name.trim())', ' prop.upper ', ' prop.lower ');\n'
+      '    }\n'
+	}	
+
+	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
+	  '    else if (PROP_' ass.memberEnd.last().toUpperFormat() '.equals(propURI)) {\n'
+	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
+      '        'self.getURIExpressionForType(ass.endType.last().name.trim())', ' ass.memberEnd.last().upper ', ' ass.memberEnd.last().lower ');\n'
+      '    }\n'
+	}	
+
+     
+    if (self.superClass.isEmpty()) {
+      '    return null;\n'
+    }
+    else {
+      '    return ' self.superClass.first().name '.getClassRestrictionsOnProperty(propURI);\n'	  	  
+    }
+    
 '  }\n\n'
   }  
   
+  uml.Class::getURIExpressionForType(typeName : String):String {
+    if (typeName == null) {
+      typeName = "String"
+    }
+    if ((typeName == "Boolean") || (typeName == "Integer") || (typeName == "String")) {
+      return "TypeMapper.getDatatypeURI(" + typeName + ".class)"
+    }
+    else if (typeName == "UnlimitedNatural") {
+      return "TypeMapper.getDatatypeURI(Long.class)"    
+    }
+    return typeName+".MY_URI"    
+  }
+
+  
  
    uml.Class::genGetStandardPropertyURIs() {
- 	// First, check if there is any property URIs to add. If not, do not generate this method
+ 	// First, find the number of properties URIs to add
+ 	var numberOfProperties:Integer = self.getAssociations().size()
+	var props:List = self.ownedMember->select(prop : uml.Property)
+ 	numberOfProperties = numberOfProperties + props.size()
+ 	
+ 	if (numberOfProperties == 0) {
+ 	  // Do not generate method if there are no properties to add
+ 	  return
+ 	}
  	
 	// Generate method
-'   
-  public static String[] getStandardPropertyURIs() {
-    //TODO: Code generation for this will be added soon...
-'      
-//	String[] inherited = Device.getStandardPropertyURIs();
-//	String[] toReturn = new String[inherited.length + 1];
-//	int i = 0;
-//	while (i < inherited.length) {
-//	    toReturn[i] = inherited[i];
-//	    i++;
-//	}
-//	toReturn[i] = PROP_MEASURED_VALUE;
-//	return toReturn;
-'	return null;
-  }\n'    
+    '\n  public static String[] getStandardPropertyURIs() {\n'
+    if (self.superClass.isEmpty()) {
+      '    // First, create an array large enough to hold all my properties \n'
+	  '    String[] toReturn = new String['numberOfProperties'];\n\n'
+      '    // Next, copy each of my property URIs into the array \n'
+	  '    int index = 0;\n'
+    }
+    else {
+      '    // First, retrieve inherited properties and copy into an array large enough to hold inherited + own \n'
+      '    String[] inherited = 'self.superClass.first().name'.getStandardPropertyURIs();\n'
+	  '    String[] toReturn = new String[inherited.length + 'numberOfProperties'];\n'
+	  '    System.arraycopy(inherited, 0, toReturn, 0, inherited.length);\n\n'
+      '    // Next, copy each of my own property URIs into the array \n'
+	  '    int index = inherited.length;\n'
+    }
+	props->forEach(prop : uml.Property) {
+	  '    toReturn[index++] = PROP_' prop.toUpperFormat() ';\n'
+	}	
+
+	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
+	  '    PROP_' ass.memberEnd.last().toUpperFormat() ';\n'	
+	}
+
+    '    return toReturn;\n'
+    '  }\n'    
    }
 
   uml.Class::genPropertiesForAssociations() {
@@ -396,7 +443,7 @@ public interface ' ontologyName 'Namespace {
       self.genGetRDFSCommentDefault()
     }
     else {
-     '    return "' self.ownedComment.first().body '";\n'
+     '    return "' self.ownedComment.first().body.trim() '";\n'
     } 
       
 '  }'
