@@ -1,0 +1,30 @@
+	<chapter>
+		<title>Summary</title>
+		<para>So finally lets have a look back over all we have done in this guide. We have learned some general stuff about universAAL. If we want to
+		developing universAAL application there are several sources that can give us information or we need during development process:</para>
+		
+		<itemizedlist>
+			<title></title>
+			<listitem><para>The <ulink url="http://www.universaal.org/">universAAL Homepage</ulink></para></listitem>
+			<listitem><para>The main page if you are going to now details about the universAAL platform or want to participate at programming the
+				platform is the GForage available at <ulink url="http://forge.universaal.org">http://forge.universaal.org</ulink></para></listitem>
+			<listitem><para>Up to date information about the tools you can find in the tools Wiki at
+			<ulink url="http://forge.universaal.org/mediawiki/index.php?title=uaaltools:Main_Page">http://forge.universaal.org/mediawiki/index.php?title=uaaltools:Main_Page</ulink></para></listitem>
+			<listitem><para>The developer depot at <ulink url="http://depot.universaal.org/">depot.universaal.org/</ulink> is the main information
+				point if you are going to develop application for the universAAL platform</para></listitem>
+		</itemizedlist>
+		
+		<para>To get a more detailed start into universAAL platform we strongly recommend to also have a look at the 
+		<ulink url="http://forge.universaal.org/mediawiki/index.php?title=support:Quick_Start_Guide_0">Developer Handbook</ulink>.
+		This gives a deeper view into the middleware, but without be aware of the tools presented in this guide.</para>
+		
+		<para>We have seen how the AAL Suite can be installed an our system and how we can use the first available tools to support the creation
+		of an universAAL application that are based on OSGi-Bundles. Also the tools are able to build and start the new bundles by
+		creating a run-configuration that includes all needed bundles from the universAAL middleware. Conformance and Deployment will also be
+		a part of the supported steps in the development process, so you should keep this tools in mind to save work later on. Additional
+		we have done first steps toward a generic user configuration that allows to parse XML-Configuration-Files out of your project by using
+		Java-Annotations.</para>
+		
+		<para>All tools will be under construction in the next time and there will be a lot of changes and improvements during lifetime of
+		universAAL project. So keep yourself up-to-date and make it easier to write distributed applications using universAAL.</para>
+	</chapter>
