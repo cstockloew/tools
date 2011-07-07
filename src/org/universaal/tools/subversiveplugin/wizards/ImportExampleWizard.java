@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.team.svn.core.connector.ISVNConnector;
 import org.eclipse.team.svn.core.operation.CompositeOperation;
@@ -18,13 +19,19 @@ import org.eclipse.team.svn.core.operation.local.management.DisconnectOperation;
 import org.eclipse.team.svn.core.operation.remote.CheckoutAsOperation;
 import org.eclipse.team.svn.core.resource.IRepositoryResource;
 import org.eclipse.team.svn.core.utility.ProgressMonitorUtility;
+import org.eclipse.ui.IImportWizard;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 
-public class ImportExampleWizard extends Wizard {
+public class ImportExampleWizard extends Wizard implements IImportWizard {
 
 	private ImportExampleWizardPage page;
 	private IRepositoryResource choice;
 	private IWorkbenchWindow window;
+	
+	public ImportExampleWizard(){
+		
+	}
 	
 	public ImportExampleWizard(IWorkbenchWindow inputWindow){
 		this.window = inputWindow;
@@ -112,6 +119,12 @@ public class ImportExampleWizard extends Wizard {
 			
 		}
 		
+	}
+
+	@Override
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		this.window = workbench.getActiveWorkbenchWindow();
+		TrayDialog.setDialogHelpAvailable(false);
 	}
 
 }
