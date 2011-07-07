@@ -49,5 +49,18 @@
             class="org.universaal.tools.subversiveplugin.preferences.PreferenceInitializer">
       </initializer>
    </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            category="org.universaal.importexternalproject.import"
+            class="org.universaal.tools.subversiveplugin.wizards.ImportExampleWizard"
+            id="org.universaal.tools.subversivePlugin.wizard"
+            name="Import Example">
+      </wizard>
+      <category
+            id="org.universaal.importexternalproject.import"
+            name="universAAL">
+      </category>
+   </extension>
    
 </plugin>
