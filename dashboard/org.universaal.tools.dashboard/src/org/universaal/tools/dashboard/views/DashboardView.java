@@ -22,6 +22,7 @@ import org.universaal.tools.dashboard.buttonlisteners.CreateNewItemListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.DebugProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.ImportExampleListener;
+import org.universaal.tools.dashboard.buttonlisteners.ImportThirdPartyListener;
 import org.universaal.tools.dashboard.buttonlisteners.PublishProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.RunProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryListener;
@@ -57,6 +58,7 @@ public class DashboardView extends ViewPart {
 	private Label lblTransformArrow;
 	private Label lblTransform;
 	private Button btnImportExample;
+	private Button btnImportThirdpartyApplication;
 
 	public DashboardView() {
 	}
@@ -81,7 +83,7 @@ public class DashboardView extends ViewPart {
 		gl_projectDefCanvas.verticalSpacing = 0;
 		projectDefCanvas.setLayout(gl_projectDefCanvas);
 		FormData fd_canvas = new FormData();
-		fd_canvas.top = new FormAttachment(0, 150);
+		fd_canvas.top = new FormAttachment(0, 175);
 		projectDefCanvas.setLayoutData(fd_canvas);
 		
 		Label lblProjectDefinition = new Label(projectDefCanvas, SWT.WRAP);
@@ -334,21 +336,26 @@ public class DashboardView extends ViewPart {
 		fd_canvas.left = new FormAttachment(0, 10);
 		
 		btnImportExample = new Button(projectDefCanvas, SWT.NONE);
+		btnImportExample.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		btnImportExample.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		btnImportExample.setText("Import Example");
+		
+		btnImportThirdpartyApplication = new Button(projectDefCanvas, SWT.NONE);
+		btnImportThirdpartyApplication.setText("Import Third-party application");
 		canvas_6.setBackground(SWTResourceManager.getColor(30, 144, 255));
 		GridLayout gl_canvas_6 = new GridLayout(1, false);
 		gl_canvas_6.verticalSpacing = 0;
 		canvas_6.setLayout(gl_canvas_6);
 		FormData fd_canvas_6 = new FormData();
+		fd_canvas_6.right = new FormAttachment(0, 750);
 		fd_canvas_6.top = new FormAttachment(0, 10);
-		fd_canvas_6.left = new FormAttachment(0, 405);
+		fd_canvas_6.left = new FormAttachment(0, 333);
 		canvas_6.setLayoutData(fd_canvas_6);
 		
 		Label label_13 = new Label(canvas_6, SWT.CENTER);
 		label_13.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/universaals.jpg"));
-		GridData gd_label_13 = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		gd_label_13.widthHint = 271;
+		GridData gd_label_13 = new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1);
+		gd_label_13.widthHint = 401;
 		gd_label_13.heightHint = 48;
 		label_13.setLayoutData(gd_label_13);
 		label_13.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -375,7 +382,9 @@ public class DashboardView extends ViewPart {
 		lblProjectName.setText("Project Name: ");
 		
 		lblProjectNameField = new Label(composite_1, SWT.WRAP);
-		lblProjectNameField.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false, 1, 1));
+		GridData gd_lblProjectNameField = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+		gd_lblProjectNameField.widthHint = 155;
+		lblProjectNameField.setLayoutData(gd_lblProjectNameField);
 		lblProjectNameField.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
 		lblProjectNameField.setText("no project selected");
 		lblProjectNameField.setBackground(SWTResourceManager.getColor(30, 144, 255));
@@ -476,6 +485,7 @@ public class DashboardView extends ViewPart {
 		btnImportProject.addSelectionListener(new TemporaryListener(this, "Import Project"));
 		btnEditProject.addSelectionListener(new TemporaryListener(this, "Edit Project"));
 		btnImportExample.addSelectionListener(new ImportExampleListener(this));
+		btnImportThirdpartyApplication.addSelectionListener(new ImportThirdPartyListener(this));
 		
 		//Java Classes
 		btnCreateClass.addSelectionListener(new CreateNewItemListener(this));

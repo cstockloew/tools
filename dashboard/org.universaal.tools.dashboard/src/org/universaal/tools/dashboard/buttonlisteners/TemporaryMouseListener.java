@@ -32,7 +32,7 @@ public class TemporaryMouseListener implements MouseListener {
 		MessageDialog.openInformation(
 				view.getSite().getShell(),
 				"Sample View",
-				message);
+				"Function not yet implemented: "+message);
 
 	}
 

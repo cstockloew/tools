@@ -27,7 +27,7 @@ public class TemporaryListener implements SelectionListener {
 		MessageDialog.openInformation(
 				view.getSite().getShell(),
 				"Sample View",
-				message);
+				"Function not yet implemented: "+message);
 		
 	}
 

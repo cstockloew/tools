@@ -4,6 +4,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.handlers.IHandlerService;
@@ -32,7 +33,10 @@ public class ImportExampleListener implements SelectionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotDefinedException e) {
-			// TODO Auto-generated catch block
+			MessageDialog.openInformation(view.getSite().getShell(),
+					"Command not defined.",
+					"This command was not available. " +
+					"Please install AAL Studio Developer Depot Client Plugin.");
 			e.printStackTrace();
 		} catch (NotEnabledException e) {
 			// TODO Auto-generated catch block

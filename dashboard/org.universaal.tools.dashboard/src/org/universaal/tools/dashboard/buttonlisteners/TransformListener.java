@@ -4,6 +4,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.ui.handlers.IHandlerService;
@@ -40,7 +41,10 @@ public class TransformListener implements MouseListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NotDefinedException e1) {
-			// TODO Auto-generated catch block
+			MessageDialog.openError(view.getSite().getShell(),
+					"Command not defined.",
+					"This command was not available. " +
+					"Please install AAL Studio Transform Plugin.");
 			e1.printStackTrace();
 		} catch (NotEnabledException e1) {
 			// TODO Auto-generated catch block
