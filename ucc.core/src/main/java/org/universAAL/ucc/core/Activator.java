@@ -21,7 +21,6 @@ import org.universAAL.middleware.util.Constants;
 import org.universAAL.middleware.util.LogUtils;
 import org.universAAL.middleware.util.ResourceComparator;
 import org.universAAL.ucc.model.api.IModel;
-import org.universAAL.ucc.model.creator.ModelCreator;
 
 /**
  * The uCCCore is the connection to the OSGi Framework and therefore need to have
@@ -33,10 +32,14 @@ import org.universAAL.ucc.model.creator.ModelCreator;
  */
 public class Activator implements BundleActivator {
 	
-	public final static IModel model = ModelCreator.getModel();
+	private static IModel model = null;
 	
 	private static BundleContext context = null;
 	private static MessageContentSerializer contentSerializer = null;
+	
+	public static IModel getModel() {
+		return model;
+	}
 	
 	public static synchronized void testForm() {
 		//if (Constants.debugMode()) {
@@ -71,6 +74,14 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext arg0) throws Exception {
 		context = arg0;
 		Activator.testForm();
+		
+		ServiceReference sr = context.getServiceReference(IModel.class.getName());
+		if (sr == null)
+			return;
+		
+		Activator.model = (IModel) context.getService(sr);
+		
+		Activator.model.getApplicationRegistration().registerApplicaton("testApp");
 	}
 
 	public void stop(BundleContext arg0) throws Exception {

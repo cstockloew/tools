@@ -63,7 +63,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 		
 		if (success) {
 			System.out.println("Bundle installed!");
-			Activator.model.getApplicationRegistration().registerApplicaton(generateAppName(path));
+			Activator.getModel().getApplicationRegistration().registerApplicaton(generateAppName(path));
 			return true;
 		} else
 			System.out.println("Error during install of bundle!");
