@@ -7,7 +7,7 @@ package org.universAAL.ucc.viewapi.interfaces;
  */
 public interface ISubWindow {
 
-	public void close();
+	public boolean close();
 
 	public void initialize();
 

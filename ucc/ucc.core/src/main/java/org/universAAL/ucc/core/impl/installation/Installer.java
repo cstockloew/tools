@@ -1,15 +1,16 @@
-package org.universAAL.ucc.core.installation;
+package org.universAAL.ucc.core.impl.installation;
 
 import java.io.File;
 
 import org.universAAL.ucc.core.Activator;
+import org.universAAL.ucc.core.api.IInstaller;
 
 /**
  * @author Alex
  * @version 1.0
  * @created 11-Jul-2011 15:57:26
  */
-public class Installer extends ApplicationManager {
+public class Installer extends ApplicationManager implements IInstaller {
 
 	public Installer(){
 

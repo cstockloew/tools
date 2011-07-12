@@ -1,6 +1,6 @@
-package org.universAAL.ucc.model.database;
+package org.universAAL.ucc.model.impl;
 
-import org.universAAL.ucc.modelapi.interfaces.IApplicationRegistration;
+import org.universAAL.ucc.model.api.IApplicationRegistration;
 
 public class ApplicationRegistration implements IApplicationRegistration {
 

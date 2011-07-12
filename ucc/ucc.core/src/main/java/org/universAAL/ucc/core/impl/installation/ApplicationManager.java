@@ -1,4 +1,4 @@
-package org.universAAL.ucc.core.installation;
+package org.universAAL.ucc.core.impl.installation;
 
 public class ApplicationManager {
 

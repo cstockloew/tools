@@ -1,4 +1,4 @@
-package org.universAAL.ucc.modelapi.interfaces;
+package org.universAAL.ucc.model.api;
 
 public interface IModel {
 

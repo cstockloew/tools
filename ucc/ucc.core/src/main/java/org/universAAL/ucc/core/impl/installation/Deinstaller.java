@@ -1,6 +1,8 @@
-package org.universAAL.ucc.core.installation;
+package org.universAAL.ucc.core.impl.installation;
 
-public class Deinstaller extends ApplicationManager {
+import org.universAAL.ucc.core.api.IDeinstaller;
+
+public class Deinstaller extends ApplicationManager implements IDeinstaller {
 
 	public boolean deinstallAppication(String appName) {
 		return false;
