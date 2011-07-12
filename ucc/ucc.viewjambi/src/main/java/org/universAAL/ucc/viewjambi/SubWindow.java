@@ -1,6 +1,6 @@
 package org.universAAL.ucc.viewjambi;
 
-import org.universAAL.ucc.viewapi.interfaces.ISubWindow;
+import org.universAAL.ucc.view.api.ISubWindow;
 
 import com.trolltech.qt.gui.QMdiSubWindow;
 

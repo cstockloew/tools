@@ -22,11 +22,6 @@
 			<artifactId>ucc.core</artifactId>
 			<version>0.0.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.universAAL.ucc</groupId>
-			<artifactId>ucc.viewapi</artifactId>
-			<version>0.0.1</version>
-		</dependency>
 	</dependencies>
     <build>
 		<plugins>
@@ -40,6 +35,7 @@
 						<Bundle-Activator>org.universAAL.ucc.viewjambi.Activator</Bundle-Activator>
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Private-Package>org.universAAL.ucc.viewjambi.*</Private-Package>
 						<Include-Resource>
 							lib=lib, {maven-resources}
 						</Include-Resource>				
