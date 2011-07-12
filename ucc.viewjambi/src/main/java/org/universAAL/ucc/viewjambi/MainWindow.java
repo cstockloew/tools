@@ -1,8 +1,8 @@
 package org.universAAL.ucc.viewjambi;
 
 import org.osgi.framework.BundleContext;
-import org.universAAL.ucc.viewapi.interfaces.IMainWindow;
-import org.universAAL.ucc.viewapi.interfaces.ISubWindow;
+import org.universAAL.ucc.view.api.IMainWindow;
+import org.universAAL.ucc.view.api.ISubWindow;
 import org.universAAL.ucc.viewjambi.install.InstallView;
 
 import com.trolltech.qt.gui.*;
