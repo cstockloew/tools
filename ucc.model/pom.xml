@@ -17,6 +17,11 @@
 			<artifactId>mw.data.representation</artifactId>
 			<version>0.3.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.universAAL.ucc</groupId>
+			<artifactId>ucc.core</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 	</dependencies>
     <build>
 		<plugins>
@@ -30,8 +35,7 @@
 						<Bundle-Activator>org.universAAL.ucc.model.Activator</Bundle-Activator>
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Private-Package>org.universAAL.ucc.model.*,org.universAAL.ucc.model.impl.*</Private-Package>
-						<Export-Package>org.universAAL.ucc.model.api.*,org.universAAL.ucc.model.creator.*</Export-Package>
+						<Private-Package>org.universAAL.ucc.model.*</Private-Package>
 					</instructions>
 				</configuration>
 			</plugin>

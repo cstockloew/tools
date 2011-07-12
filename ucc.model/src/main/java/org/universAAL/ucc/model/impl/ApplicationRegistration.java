@@ -6,6 +6,7 @@ public class ApplicationRegistration implements IApplicationRegistration {
 
 	public boolean registerApplicaton(String appName) {
 		// TODO Auto-generated method stub
+		System.out.println(appName);
 		return false;
 	}
 
