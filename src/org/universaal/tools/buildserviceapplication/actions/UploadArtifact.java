@@ -18,11 +18,13 @@ import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.Base64;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -76,9 +78,13 @@ public class UploadArtifact {
 								setProperty(IProgressConstants.KEEP_PROPERTY,
 										Boolean.FALSE);
 								try {
+									URL url = Platform.getBundle("org.universaal.tools.buildPlugin").getEntry("icons/upload.png");
+									setProperty(IProgressConstants.ICON_PROPERTY, ImageDescriptor.createFromURL(url));
 									postArtifact();
+									monitor.worked(25);
 									if (artifactUploaded) {
 										postMetadata();
+										monitor.worked(50);
 										if (!artifactUploaded) {
 											return Status.CANCEL_STATUS;
 										} else {

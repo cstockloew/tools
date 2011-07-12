@@ -1,6 +1,7 @@
 package org.universaal.tools.buildserviceapplication.actions;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.codehaus.plexus.DefaultPlexusContainer;
@@ -24,6 +25,7 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -68,12 +70,17 @@ public class RunFelix {
 						}
 						setProperty(IProgressConstants.KEEP_PROPERTY,
 								Boolean.FALSE);
+						
 						try {
+							URL url = Platform.getBundle("org.universaal.tools.buildPlugin").getEntry("icons/run.png");
+							setProperty(IProgressConstants.ICON_PROPERTY, ImageDescriptor.createFromURL(url));
 							// create configurations for launching on Eclipse
 							// 3.6
 							CreateFelixPropertiesFile fel = new CreateFelixPropertiesFile();
 							fel.createFile();
+							monitor.worked(10);
 							if (checkIfFelixJarsExistInLocalRepo()) {
+								monitor.worked(20);
 								ILaunchConfiguration config = createJavaApplicationLaunchConfiguration();
 
 								// refresh the eclipse workspace
@@ -88,6 +95,7 @@ public class RunFelix {
 									config.launch(ILaunchManager.DEBUG_MODE,
 											null);
 								}
+								monitor.worked(50);
 								return Status.OK_STATUS;
 							} else {
 								return Status.CANCEL_STATUS;

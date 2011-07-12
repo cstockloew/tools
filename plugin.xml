@@ -116,6 +116,6 @@
             class="org.universaal.tools.buildserviceapplication.handlers.PublishApplicationHandler">
       </handler>
    </extension> 
-   
+
 </plugin>
     
