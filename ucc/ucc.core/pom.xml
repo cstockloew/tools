@@ -18,11 +18,6 @@
 			<version>0.3.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.universAAL.ucc</groupId>
-			<artifactId>ucc.model</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.bus.model</artifactId>
 			<version>0.3.0-SNAPSHOT</version>
@@ -46,7 +41,7 @@
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Private-Package>org.universAAL.ucc.core.*,org.universAAL.ucc.core.impl.* </Private-Package>
-						<Export-Package>org.universAAL.ucc.core.api.*</Export-Package>
+						<Export-Package>org.universAAL.ucc.core.api.*,org.universAAL.ucc.model.api.*,org.universAAL.ucc.view.api.*</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
