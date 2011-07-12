@@ -2,8 +2,8 @@ package org.universAAL.ucc.core;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.universAAL.ucc.model.database.Model;
-import org.universAAL.ucc.modelapi.interfaces.IModel;
+import org.universAAL.ucc.model.api.IModel;
+import org.universAAL.ucc.model.creator.ModelCreator;
 
 /**
  * The uCCCore is the connection to the OSGi Framework and therefore need to have
@@ -15,7 +15,7 @@ import org.universAAL.ucc.modelapi.interfaces.IModel;
  */
 public class Activator implements BundleActivator {
 	
-	public final static IModel model = Model.getModel();
+	public final static IModel model = ModelCreator.getModel();
 
 	public Activator(){
 		

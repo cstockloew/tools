@@ -1,13 +1,14 @@
-package org.universAAL.ucc.core.configuration;
+package org.universAAL.ucc.core.impl.configuration;
 
 import org.universAAL.middleware.owl.ManagedIndividual;
+import org.universAAL.ucc.core.api.IConfigurator;
 
 /**
  * @author Alex
  * @version 1.0
  * @created 11-Jul-2011 15:57:26
  */
-public class Configurator {
+public class Configurator implements IConfigurator {
 
 	public Configurator(){
 

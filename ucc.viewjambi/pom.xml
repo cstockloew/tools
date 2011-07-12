@@ -17,6 +17,16 @@
 			<artifactId>mw.data.representation</artifactId>
 			<version>0.3.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.universAAL.ucc</groupId>
+			<artifactId>ucc.core</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.ucc</groupId>
+			<artifactId>ucc.viewapi</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 	</dependencies>
     <build>
 		<plugins>
