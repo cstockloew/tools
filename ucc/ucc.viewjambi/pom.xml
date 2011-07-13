@@ -37,9 +37,16 @@
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Private-Package>org.universAAL.ucc.viewjambi.*</Private-Package>
 						<Include-Resource>
-							lib=lib, {maven-resources}
+							lib=lib, bin=bin, {maven-resources}
 						</Include-Resource>				
-						<Bundle-ClassPath>.,lib/qtjambi-4.5.2_01.jar,{maven-dependencies}</Bundle-ClassPath>
+						<Bundle-ClassPath>.,lib/qtjambi-4.5.2_01.jar,bin,{maven-dependencies}</Bundle-ClassPath>
+						<Bundle-NativeCode>  
+					   		bin/qtjambi.dll;osname=win;processor=x86,
+					   		bin/com_trolltech_qt_core.dll;osname=win;processor=x86,
+					   		bin/com_trolltech_qt_gui.dll;osname=win;processor=x86,
+					   		bin/QtCore4.dll;osname=win;processor=x86,
+					   		bin/QtGui4.dll;osname=win;processor=x86
+					    </Bundle-NativeCode>
 					</instructions>
 				</configuration>
 			</plugin>
