@@ -23,7 +23,7 @@
          point="org.eclipse.ui.handlers">
       <handler
             commandId="org.universaal.tools.transformationcommand.commands.listClasses"
-            class="org.istmusic.tools.transformationcommand.handlers.TransformToAdaptationModelHandler">
+            class="org.universaal.tools.transformationcommand.handlers.TransformExampleHandler">
          <activeWhen>
             <with
                   variable="selection">
@@ -46,7 +46,7 @@
       </handler>
       <handler
             commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
-            class="org.istmusic.tools.transformationcommand.handlers.TransformOntUML2Java">
+            class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java">
          <activeWhen>
             <with
                   variable="selection">
@@ -77,11 +77,6 @@
                mnemonic="U"
                id="org.universaal.tools.AALStudio.menu">
             <command
-                  commandId="org.universaal.tools.transformationcommand.commands.listClasses"
-                  mnemonic="A"
-                  id="org.universaal.tools.transformationcommand.commands.ontUML2JavasampleCommand">
-            </command>
-            <command
                   commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
                   id="org.universaal.tools.transformationcommand.menu.ontUML2Java"
                   style="push">
@@ -92,9 +87,6 @@
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
          <menu
                label="AAL Studio">
-            <command
-                  commandId="org.universaal.tools.transformationcommand.commands.listClasses">
-            </command>
             <command
                   commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
                   style="push">
@@ -129,12 +121,12 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="org.universaal.tools.AALStudio"
-            class="org.istmusic.tools.transformationcommand.preferences.Uml2JavaPreferencePage"
+            class="org.universaal.tools.transformationcommand.preferences.Uml2JavaPreferencePage"
             id="org.universaal.tools.transformationcommand.uml2java"
             name="Transform UML2Java">
       </page>
       <page
-            class="org.istmusic.tools.transformationcommand.preferences.PreferencePageRoot"
+            class="org.universaal.tools.transformationcommand.preferences.PreferencePageRoot"
             id="org.universaal.tools.AALStudio"
             name="AAL Studio">
       </page>
@@ -142,7 +134,7 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="org.istmusic.tools.transformationcommand.preferences.PreferenceInitializer">
+            class="org.universaal.tools.transformationcommand.preferences.PreferenceInitializer">
       </initializer>
    </extension>
 

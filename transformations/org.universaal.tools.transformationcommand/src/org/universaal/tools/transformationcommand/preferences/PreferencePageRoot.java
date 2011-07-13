@@ -1,9 +1,9 @@
-package org.istmusic.tools.transformationcommand.preferences;
+package org.universaal.tools.transformationcommand.preferences;
 
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.istmusic.tools.transformationcommand.activator.Activator;
+import org.universaal.tools.transformationcommand.activator.Activator;
 
 public class PreferencePageRoot
 		extends FieldEditorPreferencePage

@@ -1,4 +1,4 @@
-package org.istmusic.tools.transformationcommand.preferences;
+package org.universaal.tools.transformationcommand.preferences;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -7,7 +7,7 @@ import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.istmusic.tools.transformationcommand.activator.Activator;
+import org.universaal.tools.transformationcommand.activator.Activator;
 
 public class Uml2JavaPreferencePage
 extends FieldEditorPreferencePage

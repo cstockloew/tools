@@ -1,15 +1,15 @@
-package org.istmusic.tools.transformationcommand.handlers;
+package org.universaal.tools.transformationcommand.handlers;
 
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.istmusic.tools.transformationcommand.activator.Activator;
-import org.istmusic.tools.transformationcommand.preferences.PreferenceConstants;
+import org.universaal.tools.transformationcommand.activator.Activator;
+import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
 
-public class TransformToAdaptationModelHandler extends TransformationHandler {
-	static final String TRANSFORMATION_FILENAME = "SmallTest.m2t";
-	static final String THIS_BUNDLE_NAME = "org.istmusic.tools.transformationcommand";
+public class TransformExampleHandler extends TransformationHandler {
+	static final String TRANSFORMATION_FILENAME = "transformations/SmallTest.m2t";
+	static final String THIS_BUNDLE_NAME = Activator.PLUGIN_ID;
 	
 
-	public TransformToAdaptationModelHandler() {
+	public TransformExampleHandler() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		String directory = store.getString(PreferenceConstants.P_UML2JAVA_PATH);
 		boolean absolutePath = store.getBoolean(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN);

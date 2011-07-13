@@ -1,8 +1,8 @@
-package org.istmusic.tools.transformationcommand.preferences;
+package org.universaal.tools.transformationcommand.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.istmusic.tools.transformationcommand.activator.Activator;
+import org.universaal.tools.transformationcommand.activator.Activator;
 
 public class PreferenceInitializer extends AbstractPreferenceInitializer  {
 

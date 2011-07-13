@@ -1,13 +1,12 @@
-package org.istmusic.tools.transformationcommand.handlers;
+package org.universaal.tools.transformationcommand.handlers;
 
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.internal.wizards.preferences.PreferencesContentProvider;
-import org.istmusic.tools.transformationcommand.activator.Activator;
-import org.istmusic.tools.transformationcommand.preferences.PreferenceConstants;
+import org.universaal.tools.transformationcommand.activator.Activator;
+import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
 
 public class TransformOntUML2Java extends TransformationHandler {
-	static final String TRANSFORMATION_FILENAME = "ontUML2Java.m2t";
-	static final String THIS_BUNDLE_NAME = "org.universaal.tools.transformationcommand";
+	static final String TRANSFORMATION_FILENAME = "transformations/ontUML2Java.m2t";
+	static final String THIS_BUNDLE_NAME = Activator.PLUGIN_ID;
 
 	public TransformOntUML2Java() {
 		setFileAndBundleName(TRANSFORMATION_FILENAME, THIS_BUNDLE_NAME);

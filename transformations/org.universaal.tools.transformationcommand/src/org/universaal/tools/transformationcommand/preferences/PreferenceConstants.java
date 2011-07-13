@@ -1,4 +1,4 @@
-package org.istmusic.tools.transformationcommand.preferences;
+package org.universaal.tools.transformationcommand.preferences;
 
 public class PreferenceConstants {
 	
