@@ -6,7 +6,7 @@
 	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/qtjambi-4.5.2_01.jar"/>
+	<classpathentry kind="lib" path="lib/qtjambi-4.5.2_01.jar" sourcepath="D:/Progamme/qtjambi-src-lgpl-4.5.2_01/com/trolltech/qt/internal/NativeLibraryManager.java"/>
 	<classpathentry kind="src" path="Generated JUIC files"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
