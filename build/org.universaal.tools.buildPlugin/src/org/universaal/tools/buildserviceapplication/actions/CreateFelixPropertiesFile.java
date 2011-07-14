@@ -130,7 +130,8 @@ public class CreateFelixPropertiesFile {
 			out.write("\"mvn:org.universaal.middleware/mw.bus.context/0.3.0-SNAPSHOT\" \\\n");
 			out.write("\"mvn:org.universaal.middleware/mw.bus.service/0.3.0-SNAPSHOT\" \\\n");
 			out.write("\"mvn:org.universaal.middleware/mw.data.serialization/0.3.0-SNAPSHOT\" \\\n");
-			out.write("\"mvn:org.universaal.middleware/mw.data.representation/0.3.0-SNAPSHOT\"\n");
+			out.write("\"mvn:org.universaal.middleware/mw.data.representation/0.3.0-SNAPSHOT\" \\\n");
+			out.write("\"mvn:org.universaal.middleware/mw.bus.io/0.3.0-SNAPSHOT\"\n");
 
 			// put ontology artifacts according to project's pom
 			if (ontologyDependencies.size() != 0) {
