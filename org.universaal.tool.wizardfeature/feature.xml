@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.newwizard.feature"
-      label="universAAL Project Wizards Feature"
-      version="0.5.0"
-      provider-name="universAAL">
+      label="AAL Studio Project Wizards"
+      version="0.5.1"
+      provider-name="universAAL"
+      plugin="org.universaal.tools.aalstudio.core">
 
    <description url="http://www.universaal.org/">
       The AAL Studio project and item wizards make it easy to create new universAAL-compliant projects by providing a skeleton project with all the files you need and initial content to make the project work in universAAL. The item wizards generate new files required or optional to a universAAL project with the proper formatting and template or initial content.
@@ -235,6 +236,11 @@
    <url>
       <update url="http://depot.universaal.org/eclipse-update/"/>
    </url>
+
+   <requires>
+      <import feature="org.maven.ide.eclipse.feature" version="0.12.0" match="greaterOrEqual"/>
+      <import feature="org.universaal.tools.aalstudio.feature" version="0.3.0"/>
+   </requires>
 
    <plugin
          id="org.universaal.tools.newwizard.plugin"
