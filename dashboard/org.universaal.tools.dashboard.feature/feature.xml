@@ -2,8 +2,9 @@
 <feature
       id="org.universaal.tools.dashboard.feature"
       label="AAL Studio Dashboard"
-      version="0.2.0"
-      provider-name="universAAL">
+      version="0.2.1"
+      provider-name="universAAL"
+      plugin="org.universaal.tools.aalstudio.core">
 
    <description url="http://www.example.com/description">
       This AAL Studio tool provides a dashboard that helps the developer to understand the development process for AAL applications, and that allows the developer to follow the development process by triggering the other AAL Studio tools.
@@ -232,6 +233,10 @@
    <url>
       <update url="http://depot.universaal.org/eclipse-update/"/>
    </url>
+
+   <requires>
+      <import feature="org.universaal.tools.aalstudio.feature" version="0.3.0" match="greaterOrEqual"/>
+   </requires>
 
    <plugin
          id="org.universaal.tools.dashboard"
