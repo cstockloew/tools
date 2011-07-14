@@ -145,11 +145,21 @@ public class UploadArtifact {
 					"Please select a project in the Project Explorer tab.");
 		}
 	}
-
+	
+	Reader reader=null;
 	private void getBundleProperties() {
-		try {
-			Reader reader = new FileReader(BuildAction.getSelectedProjectPath()
-					+ File.separator + "pom.xml");
+		try {			
+			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+				public void run() {
+					try{
+					 reader = new FileReader(BuildAction.getSelectedProjectPath()
+							+ File.separator + "pom.xml");
+					}catch(Exception ex){
+						ex.printStackTrace();
+					}
+				}
+			});
+			
 			MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
 			Model model = xpp3Reader.read(reader);
 			groupId = model.getGroupId();
