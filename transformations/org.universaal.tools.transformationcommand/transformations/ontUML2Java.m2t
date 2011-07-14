@@ -203,6 +203,7 @@ public interface ' ontologyName 'Namespace {
     // Import universAAL packages. 
     // Note that generator currently imports a fixed set of classes. This will be improved in the future 
     'import org.universAAL.middleware.owl.Restriction;\n'
+	'import org.universAAL.middleware.rdf.TypeMapper;\n'
     'import org.universAAL.middleware.service.owl.Service;\n'    
     'import org.universAAL.ontology.phThing.Device;\n\n'
   }

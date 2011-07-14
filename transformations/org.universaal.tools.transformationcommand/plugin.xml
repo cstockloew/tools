@@ -71,17 +71,12 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               label="AAL Studio"
-               mnemonic="U"
-               id="org.universaal.tools.AALStudio.menu">
-            <command
-                  commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
-                  id="org.universaal.tools.transformationcommand.menu.ontUML2Java"
-                  style="push">
-            </command>
-         </menu>
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=transform">
+         <command
+               commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
+               id="org.universaal.tools.transformationcommand.menu.ontUML2Java"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
@@ -120,15 +115,16 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="org.universaal.tools.AALStudio"
+            category="org.universaal.tools.transformationcommand.transformations"
             class="org.universaal.tools.transformationcommand.preferences.Uml2JavaPreferencePage"
             id="org.universaal.tools.transformationcommand.uml2java"
             name="Transform UML2Java">
       </page>
       <page
-            class="org.universaal.tools.transformationcommand.preferences.PreferencePageRoot"
-            id="org.universaal.tools.AALStudio"
-            name="AAL Studio">
+            category="org.universaal.tools.AALStudio"
+            class="org.universaal.tools.transformationcommand.preferences.TransformationsPreferencePage"
+            id="org.universaal.tools.transformationcommand.transformations"
+            name="Transformations">
       </page>
    </extension>
    <extension

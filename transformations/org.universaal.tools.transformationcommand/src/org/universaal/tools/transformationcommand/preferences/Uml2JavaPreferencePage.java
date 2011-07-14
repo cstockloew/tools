@@ -13,15 +13,15 @@ public class Uml2JavaPreferencePage
 extends FieldEditorPreferencePage
 implements IWorkbenchPreferencePage {
 
-	StringFieldEditor absolutePath;
+	StringFieldEditor pathName;
 	BooleanFieldEditor absoluteBoolean;
 
 	public Uml2JavaPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("Please enter a path for the files to be saved to. " +
-				"If \" Use absolute path\" is not checked, the files will be put in " +
-				"the project folder.");
+				"If \" Use absolute path\" is not checked, the path refers to a folder " +
+				"relative to the project folder.");
 	}
 
 	@Override
@@ -31,10 +31,10 @@ implements IWorkbenchPreferencePage {
 	@Override
 	protected void createFieldEditors() {
 		absoluteBoolean = new BooleanFieldEditor(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN, "Use absolute path.", getFieldEditorParent());
-		absolutePath = new StringFieldEditor(PreferenceConstants.P_UML2JAVA_PATH, "Please enter the desired path.", getFieldEditorParent());
+		pathName = new StringFieldEditor(PreferenceConstants.P_UML2JAVA_PATH, "Please enter the desired path.", getFieldEditorParent());
 
 		addField(absoluteBoolean);
-		addField(absolutePath);
+		addField(pathName);
 
 
 	}

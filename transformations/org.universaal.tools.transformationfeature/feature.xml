@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.transformationfeature"
-      label="universAAL Transformations"
-      version="0.2.1"
-      provider-name="universAAL">
+      label="AAL Studio Transformations"
+      version="0.2.2"
+      provider-name="universAAL"
+      plugin="org.universaal.tools.aalstudio.core">
 
    <description url="http://www.universaal.org/">
       This feature contains transformations supporting modelling based
@@ -236,7 +237,8 @@ development for the universAAL platform.
    </url>
 
    <requires>
-      <import feature="org.eclipse.mofscript" version="1.3" match="greaterOrEqual"/>
+      <import feature="org.eclipse.mofscript" version="1.4.0" match="greaterOrEqual"/>
+      <import feature="org.universaal.tools.aalstudio.feature" version="0.3.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
