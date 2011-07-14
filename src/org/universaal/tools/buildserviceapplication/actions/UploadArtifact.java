@@ -52,7 +52,7 @@ public class UploadArtifact {
 	}
 
 	public void upload() {
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
 				activeShell = PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getShell();
@@ -74,12 +74,17 @@ public class UploadArtifact {
 						}
 						Job job = new Job("AAL Studio") {
 							protected IStatus run(IProgressMonitor monitor) {
-								monitor.beginTask("Uploading application \""+projectName+"\"...", 50);
+								monitor.beginTask("Uploading application \""
+										+ projectName + "\"...", 50);
 								setProperty(IProgressConstants.KEEP_PROPERTY,
 										Boolean.FALSE);
 								try {
-									URL url = Platform.getBundle("org.universaal.tools.buildPlugin").getEntry("icons/upload.png");
-									setProperty(IProgressConstants.ICON_PROPERTY, ImageDescriptor.createFromURL(url));
+									URL url = Platform.getBundle(
+											"org.universaal.tools.buildPlugin")
+											.getEntry("icons/upload.png");
+									setProperty(
+											IProgressConstants.ICON_PROPERTY,
+											ImageDescriptor.createFromURL(url));
 									postArtifact();
 									monitor.worked(25);
 									if (artifactUploaded) {
@@ -145,21 +150,13 @@ public class UploadArtifact {
 					"Please select a project in the Project Explorer tab.");
 		}
 	}
+
 	
-	Reader reader=null;
 	private void getBundleProperties() {
-		try {			
-			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-				public void run() {
-					try{
-					 reader = new FileReader(BuildAction.getSelectedProjectPath()
-							+ File.separator + "pom.xml");
-					}catch(Exception ex){
-						ex.printStackTrace();
-					}
-				}
-			});
-			
+		try {
+
+			Reader reader = new FileReader(BuildAction.getSelectedProjectPath()
+					+ File.separator + "pom.xml");
 			MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
 			Model model = xpp3Reader.read(reader);
 			groupId = model.getGroupId();

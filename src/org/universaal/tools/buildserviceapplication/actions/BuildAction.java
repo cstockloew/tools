@@ -75,9 +75,10 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	static public String artifactFileName = "";
 	static public Collection<ArtifactMetadata> artifactMetadata = null;
 	private MavenExecutionResult installResult = null;
-	private Shell activeShell = null;
+	private static Shell activeShell = null;
 	private String selectedProjectName = "";
 	private String selectedProjectPath = "";
+	private static IProject iproject = null;
 
 	/**
 	 * The constructor.
@@ -190,75 +191,93 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	 */
 	static public String getSelectedProjectPath() {
 		try {
-			IWorkbenchPage page = window.getActivePage();
-			ISelection selection = null;
-			boolean packageExplorerActive = false;
-			boolean projectExplorerActive = false;
-			page.getViewReferences();
-			for (int i = 0; i < page.getViewReferences().length; i++) {
-				IViewReference ref = page.getViewReferences()[i];
-				if (ref.getPartName().equals("Package Explorer")) {
-					IViewPart view = ref.getView(false);
-					packageExplorerActive = isActiveView(page, view);
-				} else if (ref.getPartName().equals("Project Explorer")) {
-					IViewPart view = ref.getView(false);
-					projectExplorerActive = isActiveView(page, view);
+
+			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+				public void run() {
+					activeShell = PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getShell();
+
+					IWorkbenchPage page = window.getActivePage();
+					ISelection selection = null;
+					boolean packageExplorerActive = false;
+					boolean projectExplorerActive = false;
+					page.getViewReferences();
+					for (int i = 0; i < page.getViewReferences().length; i++) {
+						IViewReference ref = page.getViewReferences()[i];
+						if (ref.getPartName().equals("Package Explorer")) {
+							IViewPart view = ref.getView(false);
+							packageExplorerActive = isActiveView(page, view);
+						} else if (ref.getPartName().equals("Project Explorer")) {
+							IViewPart view = ref.getView(false);
+							projectExplorerActive = isActiveView(page, view);
+						}
+					}
+					if (projectExplorerActive && !packageExplorerActive) {
+						selection = page
+								.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
+					}
+					if (!projectExplorerActive && packageExplorerActive
+							|| selection == null
+							|| ((IStructuredSelection) selection).isEmpty()) {
+						selection = page
+								.getSelection("org.eclipse.jdt.ui.PackageExplorer");
+					}
+					if (selection == null
+							|| ((IStructuredSelection) selection).isEmpty()) {
+						selection = page
+								.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
+					}
+					IResource res = extractSelection(selection);
+					iproject = res.getProject();
+
 				}
-			}
-			if (projectExplorerActive && !packageExplorerActive) {
-				selection = page.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
-			}
-			if (!projectExplorerActive && packageExplorerActive
-					|| selection == null
-					|| ((IStructuredSelection) selection).isEmpty()) {
-				selection = page
-						.getSelection("org.eclipse.jdt.ui.PackageExplorer");
-			}
-			if (selection == null
-					|| ((IStructuredSelection) selection).isEmpty()) {
-				selection = page.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
-			}
-			IResource res = extractSelection(selection);
-			IProject iproject = res.getProject();
+			});
 			return iproject.getLocation().toOSString();
 		} catch (Exception ex) {
-			 ex.printStackTrace();
+			ex.printStackTrace();
 			return "";
 		}
 	}
 
 	static public String getSelectedProjectName() {
 		try {
-			IWorkbenchPage page = window.getActivePage();
-			ISelection selection = null;
-			boolean packageExplorerActive = false;
-			boolean projectExplorerActive = false;
-			page.getViewReferences();
-			for (int i = 0; i < page.getViewReferences().length; i++) {
-				IViewReference ref = page.getViewReferences()[i];
-				if (ref.getPartName().equals("Package Explorer")) {
-					IViewPart view = ref.getView(false);
-					packageExplorerActive = isActiveView(page, view);
-				} else if (ref.getPartName().equals("Project Explorer")) {
-					IViewPart view = ref.getView(false);
-					projectExplorerActive = isActiveView(page, view);
+			PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+				public void run() {
+					IWorkbenchPage page = window.getActivePage();
+					ISelection selection = null;
+					boolean packageExplorerActive = false;
+					boolean projectExplorerActive = false;
+					page.getViewReferences();
+					for (int i = 0; i < page.getViewReferences().length; i++) {
+						IViewReference ref = page.getViewReferences()[i];
+						if (ref.getPartName().equals("Package Explorer")) {
+							IViewPart view = ref.getView(false);
+							packageExplorerActive = isActiveView(page, view);
+						} else if (ref.getPartName().equals("Project Explorer")) {
+							IViewPart view = ref.getView(false);
+							projectExplorerActive = isActiveView(page, view);
+						}
+					}
+					if (projectExplorerActive && !packageExplorerActive) {
+						selection = page
+								.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
+					}
+					if (!projectExplorerActive && packageExplorerActive
+							|| selection == null
+							|| ((IStructuredSelection) selection).isEmpty()) {
+						selection = page
+								.getSelection("org.eclipse.jdt.ui.PackageExplorer");
+					}
+					if (selection == null
+							|| ((IStructuredSelection) selection).isEmpty()) {
+						selection = page
+								.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
+					}
+					IResource res = extractSelection(selection);
+					iproject = res.getProject();
+
 				}
-			}
-			if (projectExplorerActive && !packageExplorerActive) {
-				selection = page.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
-			}
-			if (!projectExplorerActive && packageExplorerActive
-					|| selection == null
-					|| ((IStructuredSelection) selection).isEmpty()) {
-				selection = page
-						.getSelection("org.eclipse.jdt.ui.PackageExplorer");
-			}
-			if (selection == null
-					|| ((IStructuredSelection) selection).isEmpty()) {
-				selection = page.getSelection(IPageLayout.ID_PROJECT_EXPLORER);
-			}
-			IResource res = extractSelection(selection);
-			IProject iproject = res.getProject();
+			});
 			return iproject.getName();
 		} catch (Exception ex) {
 			// ex.printStackTrace();
@@ -331,20 +350,32 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 													+ "\" succeeded.");
 									buildedProjects.add(selectedProject);
 								} else {
-									String exceptions = "Errors found:\n";
-									for (int i = 0; i < installResult
-											.getExceptions().size(); i++) {
-										exceptions = exceptions
-												+ installResult.getExceptions()
-														.get(i).getMessage()
-												+ "\n\n";
+									try {
+										String exceptions = "Errors found:\n";
+										for (int i = 0; i < installResult
+												.getExceptions().size(); i++) {
+											exceptions = exceptions
+													+ installResult
+															.getExceptions()
+															.get(i)
+															.getMessage()
+													+ "\n\n";
+										}
+										MessageDialog.openInformation(
+												activeShell,
+												"BuildServiceApplication",
+												"Building of project \""
+														+ selectedProjectName
+														+ "\" failed.\n\n"
+														+ exceptions);
+									} catch (Exception ex) {
+										MessageDialog.openInformation(
+												activeShell,
+												"BuildServiceApplication",
+												"Building of project \""
+														+ selectedProjectName
+														+ "\" failed.");
 									}
-									MessageDialog.openInformation(activeShell,
-											"BuildServiceApplication",
-											"Building of project \""
-													+ selectedProjectName
-													+ "\" failed.\n\n"
-													+ exceptions);
 								}
 							}
 						});
@@ -353,8 +384,9 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 				});
 
 			} else {
-				MessageDialog.openInformation(null, "BuildServiceApplication",
-						"Please select a project in the Project/Package Explorer tab.");
+				MessageDialog
+						.openInformation(null, "BuildServiceApplication",
+								"Please select a project in the Project/Package Explorer tab.");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -49,7 +49,7 @@ public class RunFelix {
 	private String executionError = "";
 
 	public void runFelix(final boolean isDebugMode) {
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
 				activeShell = PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getShell();
@@ -58,22 +58,25 @@ public class RunFelix {
 		if (!BuildAction.getSelectedProjectPath().equals("")) {
 			if (BuildAction.buildedProjects.contains(BuildAction
 					.getSelectedProjectPath())) {
-				final String projectName = BuildAction
-				.getSelectedProjectName();
+				final String projectName = BuildAction.getSelectedProjectName();
 				Job job = new Job("AAL Studio") {
 					protected IStatus run(IProgressMonitor monitor) {
-						if(!isDebugMode){
-							monitor.beginTask("Running application \""+projectName+"\"...", 50);
-						}
-						else{
-							monitor.beginTask("Debuging application \""+projectName+"\"...", 50);
+						if (!isDebugMode) {
+							monitor.beginTask("Running application \""
+									+ projectName + "\"...", 50);
+						} else {
+							monitor.beginTask("Debuging application \""
+									+ projectName + "\"...", 50);
 						}
 						setProperty(IProgressConstants.KEEP_PROPERTY,
 								Boolean.FALSE);
-						
+
 						try {
-							URL url = Platform.getBundle("org.universaal.tools.buildPlugin").getEntry("icons/run.png");
-							setProperty(IProgressConstants.ICON_PROPERTY, ImageDescriptor.createFromURL(url));
+							URL url = Platform.getBundle(
+									"org.universaal.tools.buildPlugin")
+									.getEntry("icons/run.png");
+							setProperty(IProgressConstants.ICON_PROPERTY,
+									ImageDescriptor.createFromURL(url));
 							// create configurations for launching on Eclipse
 							// 3.6
 							CreateFelixPropertiesFile fel = new CreateFelixPropertiesFile();
@@ -249,7 +252,7 @@ public class RunFelix {
 			return config;
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			executionError=executionError+"\n"+ex.getMessage();
+			executionError = executionError + "\n" + ex.getMessage();
 			return null;
 		}
 	}
@@ -336,11 +339,13 @@ public class RunFelix {
 			try {
 				installResult = downloadArtifact("org.apache.felix:org.apache.felix.main:3.2.2");
 			} catch (Exception ex) {
-				executionError=executionError+"\nFelix execution environment is missing from your local Maven repository.";
+				executionError = executionError
+						+ "\nFelix execution environment is missing from your local Maven repository.";
 				return false;
 			}
 			if (installResult.hasExceptions() || !felixFile.exists()) {
-				executionError=executionError+"\nFelix execution environment is missing from your local Maven repository.";
+				executionError = executionError
+						+ "\nFelix execution environment is missing from your local Maven repository.";
 				return false;
 			}
 
@@ -357,11 +362,13 @@ public class RunFelix {
 			try {
 				installResult = downloadArtifact("org.ops4j.pax.url:pax-url-mvn:1.3.3");
 			} catch (Exception ex) {
-				executionError=executionError+"\nMvn pax url protocol is missing from your local Maven repository.";
+				executionError = executionError
+						+ "\nMvn pax url protocol is missing from your local Maven repository.";
 				return false;
 			}
 			if (installResult.hasExceptions() || !mvnFile.exists()) {
-				executionError=executionError+"\nMvn pax url protocol is missing from your local Maven repository.";
+				executionError = executionError
+						+ "\nMvn pax url protocol is missing from your local Maven repository.";
 				return false;
 			}
 		}
@@ -372,17 +379,21 @@ public class RunFelix {
 						+ "pax" + File.separator + "url" + File.separator
 						+ "pax-url-wrap" + File.separator + "1.3.3"
 						+ File.separator + "pax-url-wrap-1.3.3.jar");
-
-		MavenExecutionResult installResult = null;
-		try {
-			installResult = downloadArtifact("org.ops4j.pax.url:pax-url-wrap:1.3.3");
-		} catch (Exception ex) {
-			executionError=executionError+"\nWrap pax url protocol is missing from your local Maven repository.";
-			return false;
-		}
-		if (installResult.hasExceptions() || !wrapFile.exists()) {
-			executionError=executionError+"\nWrap pax url protocol is missing from your local Maven repository.";
-			return false;
+		if (!wrapFile.exists()) {
+			MavenExecutionResult installResult = null;
+			try {
+				installResult = downloadArtifact("org.ops4j.pax.url:pax-url-wrap:1.3.3");
+			} catch (Exception ex) {
+				executionError = executionError
+						+ "\nWrap pax url protocol is missing from your local Maven repository.";
+				return false;
+			}
+			if (installResult.hasExceptions() || !wrapFile.exists()) {
+				executionError = executionError
+						+ "\nWrap pax url protocol is missing from your local Maven repository.";
+				return false;
+			}
+			return true;
 		}
 		return true;
 	}
