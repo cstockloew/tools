@@ -23,15 +23,11 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               id="org.universaal.tools.AALStudio.menu"
-               label="AALStudio">
-            <command
-                  commandId="org.universaal.tools.subversivePlugin.commands.exampleProject"
-                  id="org.universaal.tools.subversivePlugin.commands.exampleProject">
-            </command>
-         </menu>
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=import">
+         <command
+               commandId="org.universaal.tools.subversivePlugin.commands.exampleProject"
+               id="org.universaal.tools.subversivePlugin.commands.exampleProject">
+         </command>
       </menuContribution>
    </extension>
    <extension

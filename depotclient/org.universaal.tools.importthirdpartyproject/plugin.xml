@@ -29,15 +29,11 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               label="AAL Studio"
-               id="org.universaal.tools.AALStudio.menu">
-            <command
-                  commandId="org.universaal.importexternalproject.commands.importthirdparty"
-                  id="org.universaal.importexternalproject.menus.importthirdparty">
-            </command>
-         </menu>
+            locationURI="menu:org.universaal.tools.AALStudio.menu?endof=import">
+         <command
+               commandId="org.universaal.importexternalproject.commands.importthirdparty"
+               id="org.universaal.importexternalproject.menus.importthirdparty">
+         </command>
       </menuContribution>
    </extension>
    <extension

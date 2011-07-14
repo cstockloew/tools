@@ -7,6 +7,6 @@ Bundle-Activator: org.universaal.tools.importexternalproject.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.team.svn.core;bundle-version="0.7.9",
- org.eclipse.core.resources;bundle-version="3.7.100"
+ org.eclipse.core.resources;bundle-version="3.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
