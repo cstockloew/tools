@@ -12,6 +12,8 @@ import org.apache.velocity.app.Velocity;
 import org.universaal.tools.owl2javatransformation.model.OntologyClass;
 import org.universaal.tools.owl2javatransformation.modelgenerator.ModelGeneratorJenaImpl;
 
+import com.google.common.base.Preconditions;
+
 /**
  * This class is the entry point for the ontology creator package. It is used to
  * create a Java API from an OWL-Definition, thus simplifying later application
@@ -32,6 +34,10 @@ public class Owl2JavaTransformation {
 	 *            further arguments are expected and thus ignored
 	 */
 	public static void main(String[] args) {
+		Preconditions.checkArgument(args.length == 2, 
+				"You have to specify to arguments the relative path to " +
+				"the owl file and the relative path to output folder", 
+				(Object[]) args);
 		String pathToOwl = args[0];
 		String outputPath = args[1];
 		if (pathToOwl == null) {
@@ -56,7 +62,7 @@ public class Owl2JavaTransformation {
 			// write each class to a file
 			for (OntologyClass clazz : classes) {
 				context.put("class", clazz);
-				Template template = Velocity.getTemplate("src/templates/uAALClass.vm");
+				Template template = Velocity.getTemplate("templates/uAALClass.vm");
 				BufferedWriter bw = openOutputFile(outputPath, clazz);
 				template.merge(context, bw);
 				bw.close();
