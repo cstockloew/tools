@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: universaal_dsl
+Bundle-Name: universAAL UML profiles
 Bundle-SymbolicName: org.universaal.tools.profileplugin;singleton:=true
-Bundle-Version: 0.2.0
+Bundle-Version: 0.2.1
 Bundle-Vendor: universAAL Project
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.6.0",
