@@ -54,22 +54,17 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               label="AAL Studio"
-               mnemonic="U"
-               id="org.universaal.tools.AALStudio.menu">
-            <command
-                  commandId="org.universaal.tools.newwizard.plugin.command.startNewWizard"
-                  mnemonic="P"
-                  id="org.universaal.tools.newwizard.plugin.menu.newproject">
-            </command>
-            <command
-                  commandId="org.universaal.tools.newwizard.plugin.command.startNewItemWizard"
-                  mnemonic="I"
-                  id="org.universaal.tools.newwizard.plugin.menu.newitem">
-            </command>
-         </menu>
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
+         <command
+               commandId="org.universaal.tools.newwizard.plugin.command.startNewWizard"
+               id="org.universaal.tools.newwizard.plugin.menu.newproject"
+               mnemonic="P">
+         </command>
+         <command
+               commandId="org.universaal.tools.newwizard.plugin.command.startNewItemWizard"
+               id="org.universaal.tools.newwizard.plugin.menu.newitem"
+               mnemonic="I">
+         </command>
       </menuContribution>
    </extension >
    <extension point="org.eclipse.help.contexts">
