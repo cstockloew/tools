@@ -222,7 +222,7 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 			IProject iproject = res.getProject();
 			return iproject.getLocation().toOSString();
 		} catch (Exception ex) {
-			// ex.printStackTrace();
+			 ex.printStackTrace();
 			return "";
 		}
 	}
