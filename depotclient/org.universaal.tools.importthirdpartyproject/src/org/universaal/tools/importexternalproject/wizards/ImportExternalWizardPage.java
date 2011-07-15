@@ -34,7 +34,7 @@ public class ImportExternalWizardPage extends WizardPage {
 	private Table table;
 	private TableColumn nameClm, dateClm, authorClm;
 	private ProjectObject[] projects;
-	private ArrayList<File> files;
+	private File files;
 	private TableViewer tableViewer;
 	private StyledText styledText;
 	private Label lblEnterSearchTerm;
@@ -108,7 +108,7 @@ public class ImportExternalWizardPage extends WizardPage {
 		lblDescription.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 		lblDescription.setText("Description:");
 
-		styledText = new StyledText(container, SWT.BORDER);
+		styledText = new StyledText(container, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		styledText.setEditable(false);
 		new Label(container, SWT.NONE);
@@ -234,9 +234,12 @@ public class ImportExternalWizardPage extends WizardPage {
 	}
 	
 	private String buildDescription(ProjectObject res){
-		String description = "Project hosted at: \n"+
-				res.getHostingSite()+"\n \n"+ res.getDesc()+"\n \n" +
-						"Tags:\n";
+		String description = 
+				"Project homepage: \n"+
+						res.getHomePage()+"\n\n"+
+				"Project hosted at: \n"+
+						res.getHostingSite()+"\n \n"+ res.getDesc()+"\n \n" +
+				"Tags:\n";
 		ArrayList<String> tags = res.getTags();
 		for(int i=0; i<tags.size(); i++){
 			description += tags.get(i) + "\n";

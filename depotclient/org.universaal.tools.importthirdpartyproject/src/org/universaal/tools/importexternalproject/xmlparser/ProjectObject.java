@@ -6,16 +6,18 @@ public class ProjectObject implements Comparable<ProjectObject>{
 	
 	private String name;
 	private String url;
+	private String svnurl;
 	private String description;
 	private String developer;
 	private String date;
 	private ArrayList<String> tags;
 	private boolean nameMatch;
 	
-	public ProjectObject(String iName, String iUrl, String iDesc, String iDev,
+	public ProjectObject(String iName, String iUrl, String iSvnUrl, String iDesc, String iDev,
 			String iDate, boolean nameMatch){
 		this.name = iName;
 		this.url = iUrl;
+		this.svnurl = iSvnUrl;
 		this.description = iDesc;
 		this.developer = iDev;
 		this.date = iDate;
@@ -29,6 +31,10 @@ public class ProjectObject implements Comparable<ProjectObject>{
 	
 	public String getUrl(){
 		return url;
+	}
+	
+	public String getSvnUrl(){
+		return svnurl;
 	}
 	
 	public String getDesc(){
@@ -73,13 +79,17 @@ public class ProjectObject implements Comparable<ProjectObject>{
 	
 	public String getHostingSite(){
 		int temp = "https://".length()+1;
-		int SLASH_INDEX = url.indexOf('/', temp);
+		int SLASH_INDEX = svnurl.indexOf('/', temp);
 		if(SLASH_INDEX >0){
-			String result = url.substring(0, SLASH_INDEX);
+			String result = svnurl.substring(0, SLASH_INDEX);
 			return result;
 		}else{
 			return url;
 		}
+	}
+	
+	public String getHomePage(){
+		return url;
 	}
 
 }

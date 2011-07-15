@@ -3,7 +3,6 @@ package org.universaal.tools.importexternalproject.xmlparser;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,18 +29,19 @@ public class XmlParser {
 		}
 	}
 
-	public boolean searchTags(ArrayList<File> input, 
+	public boolean searchTags(File input, 
 			ArrayList<ProjectObject> result, String tag){
 
-		Iterator<File> it = input.iterator();
 		boolean match=false;
 		Document doc;
-		while(it.hasNext()){
-			match = false;
-			try {
-				File current = it.next();
-				doc = dBuilder.parse(current);
-				NodeList nList = doc.getElementsByTagName("tag");
+		try {
+			doc = dBuilder.parse(input);
+			NodeList projectList = doc.getElementsByTagName("project");
+
+			for(int k=0;k<projectList.getLength(); k++){
+				match=false;
+				Element currentProject = (Element) projectList.item(k);
+				NodeList nList = currentProject.getElementsByTagName("tag");
 
 				search:
 					for(int i=0; i<nList.getLength(); i++){
@@ -55,13 +55,14 @@ public class XmlParser {
 					}
 
 				if(match){
-					String resName, resUrl, resDesc, resDev, resDate;
-					resName = ((Element) doc.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
-					resUrl = ((Element) doc.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
-					resDesc = ((Element) doc.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
-					resDev = ((Element) doc.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
-					resDate = ((Element) doc.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
-					ProjectObject projObj = new ProjectObject(resName, resUrl, resDesc, resDev, resDate, false);
+					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
+					resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
+					resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
+					resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
+					resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
+					resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
+					resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
+					ProjectObject projObj = new ProjectObject(resName, resUrl, resSvnUrl, resDesc, resDev, resDate, false);
 					for(int i=0; i<nList.getLength(); i++){
 						Element node = (Element) nList.item(i);
 						String currentTag = node.getFirstChild().getNodeValue();
@@ -69,30 +70,32 @@ public class XmlParser {
 					}
 					result.add(projObj);
 				}
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+		} catch (SAXException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
 		return match;
 	}
 
-	public boolean searchNames(ArrayList<File> input, ArrayList<ProjectObject> result, String name){
-		Iterator<File> it = input.iterator();
+	public boolean searchNames(File input, ArrayList<ProjectObject> result, String name){
 
 		boolean match;
 		boolean foundName = false;
 		Document doc;
-		while(it.hasNext()){
-			match = false;
-			try {
-				File current = it.next();
-				doc = dBuilder.parse(current);
-				NodeList nList = doc.getElementsByTagName("name");
+		try {
+			doc = dBuilder.parse(input);
+			NodeList projectList = doc.getElementsByTagName("project");
+
+			for(int k=0;k<projectList.getLength(); k++){
+				match=false;
+				Element currentProject = (Element) projectList.item(k);
+
+				NodeList nList = currentProject.getElementsByTagName("name");
 				Element element = (Element) nList.item(0);
 				String currentName = element.getFirstChild().getNodeValue();
 				if(name==null || name.equalsIgnoreCase(currentName) ||  name.equals("")){
@@ -100,14 +103,15 @@ public class XmlParser {
 				}
 
 				if(match){
-					String resName, resUrl, resDesc, resDev, resDate;
-					resName = ((Element) doc.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
-					resUrl = ((Element) doc.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
-					resDesc = ((Element) doc.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
-					resDev = ((Element) doc.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
-					resDate = ((Element) doc.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
-					ProjectObject projObj = new ProjectObject(resName, resUrl, resDesc, resDev, resDate, true);
-					NodeList nTagList = doc.getElementsByTagName("tag");
+					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
+					resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
+					resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
+					resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
+					resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
+					resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
+					resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
+					ProjectObject projObj = new ProjectObject(resName, resUrl,resSvnUrl, resDesc, resDev, resDate, true);
+					NodeList nTagList = currentProject.getElementsByTagName("tag");
 					for(int i=0; i<nTagList.getLength(); i++){
 						Element node = (Element) nTagList.item(i);
 						String currentTag = node.getFirstChild().getNodeValue();
@@ -116,45 +120,20 @@ public class XmlParser {
 					result.add(projObj);
 					foundName=true;
 				}
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
 			}
+
+		} catch (SAXException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+
 
 		return foundName;
 	}
 
-	public ArrayList<ProjectObject> getAll(ArrayList<File> input){
-		Iterator<File> it = input.iterator();
-		ArrayList<ProjectObject> result = new ArrayList<ProjectObject>();
-		Document doc;
-		while(it.hasNext()){
 
-			try{
-				File current = it.next();
-				doc = dBuilder.parse(current);
-
-				String resName, resUrl, resDesc, resDev, resDate;
-				resName = ((Element) doc.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
-				resUrl = ((Element) doc.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
-				resDesc = ((Element) doc.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
-				resDev = ((Element) doc.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
-				resDate = ((Element) doc.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
-				result.add(new ProjectObject(resName, resUrl, resDesc, resDev, resDate, true));
-
-
-			}catch(IOException e){
-				e.printStackTrace();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-		return result;
-	}
 }
