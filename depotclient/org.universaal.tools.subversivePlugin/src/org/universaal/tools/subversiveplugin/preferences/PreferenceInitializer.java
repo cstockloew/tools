@@ -11,9 +11,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer{
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_URL, 
-				"http://forge.universaal.org/svn/uaaltools");
+				"http://forge.universaal.org/svn/support");
 		store.setDefault(PreferenceConstants.P_FOLDER,
-				"/trunk/tutorials");
+				"/trunk/samples");
 		
 	}
 }
