@@ -1,8 +1,7 @@
-package org.universAAL.ucc;
+package org.universAAL.ucc.core;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.io.rdf.Form;
 import org.universAAL.middleware.io.rdf.Group;
@@ -13,6 +12,7 @@ import org.universAAL.middleware.io.rdf.Submit;
 import org.universAAL.middleware.io.rdf.TextArea;
 import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
+
 import org.universAAL.ucc.api.model.IModel;
 
 /**
@@ -64,19 +64,22 @@ public class Activator implements BundleActivator {
 		//}
 	}
 	
-	public void start(BundleContext arg0) throws Exception {
-		System.out.println(arg0.getProperty(Constants.FRAMEWORK_OS_NAME));
-		System.out.println(arg0.getProperty(Constants.FRAMEWORK_OS_VERSION));
-		System.out.println(arg0.getProperty(Constants.FRAMEWORK_PROCESSOR));
-		
-		context = arg0;
+	public void start(BundleContext context) throws Exception {
+		this.context = context;
 		Activator.testForm();
 		
 		ServiceReference sr = context.getServiceReference(IModel.class.getName());
 		if (sr == null)
 			return;
 		
-		Activator.model = (IModel) context.getService(sr);
+		Object o = context.getService(sr);
+		Class[] test = o.getClass().getClasses();
+		Class[] test1 = o.getClass().getInterfaces();
+		
+		if (o instanceof IModel)
+			System.out.println("Test");
+		
+		Activator.model = (IModel)o;
 		
 		Activator.model.getApplicationRegistration().registerApplicaton("testApp");
 	}
