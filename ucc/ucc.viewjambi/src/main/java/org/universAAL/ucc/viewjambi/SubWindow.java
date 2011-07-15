@@ -2,7 +2,7 @@ package org.universAAL.ucc.viewjambi;
 
 import org.universAAL.ucc.api.view.ISubWindow;
 
-import com.trolltech.qt.QThread;
+import com.trolltech.qt.core.QFile;
 import com.trolltech.qt.gui.QLabel;
 import com.trolltech.qt.gui.QMdiSubWindow;
 import com.trolltech.qt.gui.QPixmap;
@@ -16,9 +16,18 @@ public class SubWindow extends QMdiSubWindow implements ISubWindow {
 	public SubWindow() {
 		super();
 		
+		//String jarPath = "classpath:" + Activator.getContext().getBundle().getLocation().substring(6) + "#images/uaal.gif";
+		String jarPath = "uaal.jpg";
+		System.out.println(jarPath);
+		
 		windowHeader = new QLabel(this);
 		windowHeader.setText("This is a test!");
-		windowHeader.setPixmap(new QPixmap("classpath:images/uaal.png"));
+		QFile file = new QFile(jarPath);
+		if (file.exists())
+			System.out.println("\n\n\n\n\n\njojojo\n\n\n\n\n\n");
+		else
+			System.out.println("\n\n\n\n\n\nnonono\n\n\n\n\n\n");
+		windowHeader.setPixmap(new QPixmap(jarPath));
 		layout.addWidget(windowHeader);
 		windowHeader.show();
 		
