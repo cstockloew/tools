@@ -59,7 +59,6 @@ public class ImportExampleWizard extends Wizard implements IImportWizard {
 		//selects an object in the table.
 		CheckoutAsOperation check = new CheckoutAsOperation(choice.getName(), choice, false, directory,ISVNConnector.Depth.INFINITY, false);
 		CompositeOperation op = new CompositeOperation(check.getId(), check.getMessagesClass());
-		
 		IProject project[] = new IProject[1];
 		project[0] = check.getProject();
 		DisconnectOperation disc = new DisconnectOperation(project, true);

@@ -70,7 +70,7 @@ public class ImportExampleWizardPage extends WizardPage {
 	
 	public ImportExampleWizardPage(){
 		super("wizardPage");
-		setTitle("Import UNIVERSAAL Example");
+		setTitle("Import universAAL Example");
 		setDescription("Please select an example to import.");
 		display = Display.getDefault();
 		
@@ -148,7 +148,7 @@ public class ImportExampleWizardPage extends WizardPage {
 			//If it does not exist, it is created here.
 			if(createLocation){
 				IRepositoryLocation loc = SVNRemoteStorage.instance().newRepositoryLocation();
-				loc.setUrl(repositoryUrl);
+				loc.setUrl(repositoryUrl+folderUrl);
 				loc.reconfigure();
 				AddRepositoryLocationOperation op = new AddRepositoryLocationOperation(loc);
 				SaveRepositoryLocationsOperation savOp = new SaveRepositoryLocationsOperation();
@@ -165,8 +165,10 @@ public class ImportExampleWizardPage extends WizardPage {
 				locs = SVNRemoteStorage.instance().getRepositoryLocations();
 				
 				for(int i=0;i<locs.length;i++){
-					if(locs[i].getUrl().equals(repositoryUrl)){
+					if(locs[i].getUrl().equals(repositoryUrl+folderUrl)){
 						location = locs[i];
+						System.out.println("Loop!");
+						location.setUsername("anonymous");
 						fold = new SVNRepositoryFolder(location, 
 								repositoryUrl
 								+folderUrl,
