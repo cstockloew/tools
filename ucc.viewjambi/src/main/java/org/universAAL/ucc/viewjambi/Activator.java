@@ -13,13 +13,18 @@ import org.universAAL.ucc.api.view.IMainWindow;
 import com.trolltech.qt.gui.QApplication;
 
 public class Activator implements BundleActivator {
-	public static Thread thread = null;
+	private static Thread thread = null;
+	private static BundleContext context = null;
 
 	private IMainWindow mainWindow = null;
+	
+	static BundleContext getContext() {
+		return context;
+	}
 
 	static final String libraryNames[] = { "qtjambi.dll",
 			"com_trolltech_qt_core.dll", "com_trolltech_qt_gui.dll",
-			"QtCore4.dll", "QtGui4.dll" };
+			"QtCore4.dll", "QtGui4.dll","uaal.jpg"};
 
 	static {
 		for (int i = 0; i < libraryNames.length; i++)
@@ -47,6 +52,8 @@ public class Activator implements BundleActivator {
 	}
 
 	public void start(final BundleContext context) throws Exception {
+		
+		this.context = context;
 
 		Properties props = System.getProperties();
 		String path = ".;" + props.getProperty("java.library.path");
