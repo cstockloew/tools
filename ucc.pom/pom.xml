@@ -90,7 +90,7 @@
 	</distributionManagement>
 
 	<modules>
-		<module>../ucc.core.api</module>
+		<module>../ucc.api</module>
 		<module>../ucc.model</module>
 		<module>../ucc.viewjambi</module>
 		<module>../ucc.core</module>

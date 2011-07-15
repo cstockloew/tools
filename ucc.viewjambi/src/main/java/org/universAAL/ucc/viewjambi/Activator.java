@@ -1,4 +1,4 @@
-package org.universAAL.ucc;
+package org.universAAL.ucc.viewjambi;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,9 +7,8 @@ import java.util.Properties;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
+
 import org.universAAL.ucc.api.view.IMainWindow;
-import org.universAAL.ucc.viewjambi.MainWindow;
 
 import com.trolltech.qt.gui.QApplication;
 

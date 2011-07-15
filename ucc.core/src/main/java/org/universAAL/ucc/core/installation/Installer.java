@@ -2,8 +2,8 @@ package org.universAAL.ucc.core.installation;
 
 import java.io.File;
 
-import org.universAAL.ucc.Activator;
 import org.universAAL.ucc.api.core.IInstaller;
+import org.universAAL.ucc.core.Activator;
 
 /**
  * @author Alex
