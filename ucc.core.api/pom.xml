@@ -1,10 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.universAAL.ucc</groupId>
+  <parent>
+	 <groupId>org.universAAL.ucc</groupId>
+	 <artifactId>ucc.pom</artifactId>
+	 <version>1.0.0</version>
+     <relativePath>../pom/pom.xml</relativePath>
+  </parent>
   <artifactId>ucc.core.api</artifactId>
   <version>0.0.1</version>
-  <name/>
-  <description/>
+  <name>API for the uCC</name>
+  <description>This API contains of interfaces for a model, a view and the core itself.</description>
   <packaging>bundle</packaging>
     <dependencies>
 		<dependency>
@@ -27,9 +33,10 @@
 				<configuration>
 					<instructions>
 						<Bundle-Name>${project.name}</Bundle-Name>
-						<Bundle-Activator>org.universAAL.ucc.api.Activator</Bundle-Activator>
+						<Bundle-Activator>org.universAAL.ucc.Activator</Bundle-Activator>
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Private-Package>org.universAAL.ucc</Private-Package>
 						<Export-Bundle>org.universAAL.ucc.api.*</Export-Bundle>
 					</instructions>
 				</configuration>
