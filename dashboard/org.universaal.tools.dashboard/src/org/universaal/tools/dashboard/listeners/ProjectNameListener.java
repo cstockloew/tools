@@ -2,7 +2,6 @@ package org.universaal.tools.dashboard.listeners;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -59,6 +58,8 @@ public class ProjectNameListener implements ISelectionListener {
 			path = project.getFullPath();
 			((DashboardView)source).setProjectName(path.toPortableString());
 		}
+		
+		((DashboardView)source).setCurrentProject(project);
 		
 		
 		

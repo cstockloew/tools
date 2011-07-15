@@ -1,5 +1,6 @@
 package org.universaal.tools.dashboard.views;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
@@ -28,7 +29,7 @@ import org.universaal.tools.dashboard.buttonlisteners.RunProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryListener;
 import org.universaal.tools.dashboard.buttonlisteners.TemporaryMouseListener;
 import org.universaal.tools.dashboard.buttonlisteners.TransformListener;
-import org.universaal.tools.dashboard.buttonlisteners.UploadProjectListener;
+import org.universaal.tools.dashboard.buttonlisteners.UploadOpenSourceListener;
 import org.universaal.tools.dashboard.listeners.ProjectNameListener;
 
 public class DashboardView extends ViewPart {
@@ -52,6 +53,8 @@ public class DashboardView extends ViewPart {
 	private Label lblBuildArrow;
 	private Label lblBuild;
 	
+	private IProject project;
+	
 	private ISelectionListener selectionListener;
 	private Label lblProjectProgressField;
 	private Label lblProjectNameField;
@@ -59,6 +62,7 @@ public class DashboardView extends ViewPart {
 	private Label lblTransform;
 	private Button btnImportExample;
 	private Button btnImportThirdpartyApplication;
+	private Button btnGenerateAalappxml;
 
 	public DashboardView() {
 	}
@@ -288,7 +292,6 @@ public class DashboardView extends ViewPart {
 		applDescCanvas.setLayout(new GridLayout(1, false));
 		FormData fd_applDescCanvas = new FormData();
 		fd_applDescCanvas.right = new FormAttachment(btnCombineProject);
-		fd_applDescCanvas.left = new FormAttachment(applicationBinCanvas, 0, SWT.LEFT);
 		fd_applDescCanvas.top = new FormAttachment(applicationBinCanvas, 6);
 		applDescCanvas.setLayoutData(fd_applDescCanvas);
 		
@@ -322,6 +325,10 @@ public class DashboardView extends ViewPart {
 		label_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 		FormData fd_label_11 = new FormData();
 		fd_label_11.bottom = new FormAttachment(applDescCanvas, -20, SWT.BOTTOM);
+		
+		btnGenerateAalappxml = new Button(applDescCanvas, SWT.NONE);
+		btnGenerateAalappxml.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
+		btnGenerateAalappxml.setText("Generate aalapp.xml");
 		fd_label_11.right = new FormAttachment(btnCombineProject, -20, SWT.RIGHT);
 		label_11.setLayoutData(fd_label_11);
 		
@@ -497,8 +504,11 @@ public class DashboardView extends ViewPart {
 		btnRun.addSelectionListener(new RunProjectListener(this));
 		btnDebug.addSelectionListener(new DebugProjectListener(this));
 		
+		//Project Description
+		btnGenerateAalappxml.addSelectionListener(new TemporaryListener(this, "Generate XML"));
+		
 		//Publishable Application
-		btnUploadOpenSource.addSelectionListener(new UploadProjectListener(this));
+		btnUploadOpenSource.addSelectionListener(new UploadOpenSourceListener(this));
 		btnPublishUstore.addSelectionListener(new PublishProjectListener(this));
 		
 		//Application Design
@@ -555,5 +565,13 @@ public class DashboardView extends ViewPart {
 	
 	public void setProjectName(String name){
 		this.lblProjectNameField.setText(name);
+	}
+	
+	public void setCurrentProject(IProject input){
+		this.project = input;
+	}
+	
+	public IProject getCurrentProject(){
+		return project;
 	}
 }
