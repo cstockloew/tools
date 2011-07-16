@@ -30,6 +30,7 @@
 <mapEntry key="mvn:org.apache.felix/org.apache.felix.configadmin/1.2.4" value="true@true@2@false"/>
 <mapEntry key="mvn:org.universAAL.ontology/ont.phWorld" value="true@true@5@false"/>
 <mapEntry key="mvn:org.universAAL.middleware/mw.acl.interfaces" value="true@true@2@false"/>
+<mapEntry key="mvn:org.universAAL.ucc/ucc.api" value="true@true@6@false"/>
 <mapEntry key="wrap:mvn:jp.go.ipa/jgcl/1.0" value="true@true@2@false"/>
 <mapEntry key="mvn:org.universAAL.middleware/mw.bus.model" value="true@true@3@true"/>
 <mapEntry key="mvn:org.universAAL.middleware/mw.bus.context" value="true@true@4@true"/>
@@ -44,7 +45,6 @@
 <mapEntry key="mvn:org.universAAL.ucc/ucc.core" value="true@true@8@true"/>
 <mapEntry key="wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.4" value="true@true@3@false"/>
 <mapEntry key="mvn:org.universAAL.ucc/ucc.model" value="true@true@7@true"/>
-<mapEntry key="mvn:org.universAAL.ucc/ucc.core.api" value="true@true@6@false"/>
 <mapEntry key="wrap:mvn:java3d/j3d-core/1.3.1" value="true@true@2@false"/>
 </mapAttribute>
 <listAttribute key="org.ops4j.pax.cursor.runArguments">
@@ -67,13 +67,13 @@
 <listEntry value="wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.4@3"/>
 <listEntry value="mvn:org.universAAL.ucc/ucc.model@7@update"/>
 <listEntry value="wrap:mvn:java3d/j3d-core/1.3.1@2"/>
+<listEntry value="mvn:org.universAAL.ucc/ucc.api@6"/>
 <listEntry value="mvn:org.universAAL.middleware/mw.data.serialization@4@update"/>
 <listEntry value="mvn:org.universAAL.middleware/mw.bus.model@3@update"/>
 <listEntry value="mvn:org.universAAL.middleware/mw.data.representation@4@update"/>
 <listEntry value="wrap:mvn:org.osgi/osgi_R4_compendium/1.0@2"/>
 <listEntry value="mvn:org.universAAL.ucc/ucc.core@8@update"/>
 <listEntry value="wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.4@2"/>
-<listEntry value="mvn:org.universAAL.ucc/ucc.core.api@6"/>
 </listAttribute>
 <stringAttribute key="osgi_framework_id" value="--platform=felix --version=1.4.0"/>
 <stringAttribute key="pde.version" value="3.3"/>

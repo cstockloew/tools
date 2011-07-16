@@ -44,15 +44,8 @@
 						<Private-Package>org.universAAL.ucc.viewjambi.*</Private-Package>
 						<Include-Resource>
 							{maven-resources}
-						</Include-Resource>				
-						<Bundle-ClassPath>.,lib/qtjambi-4.5.2_01.jar,bin,images,{maven-dependencies}</Bundle-ClassPath>
-						<Bundle-NativeCode>  
-					   		bin/qtjambi.dll;osname=win;processor=x86,
-					   		bin/com_trolltech_qt_core.dll;osname=win;processor=x86,
-					   		bin/com_trolltech_qt_gui.dll;osname=win;processor=x86,
-					   		bin/QtCore4.dll;osname=win;processor=x86,
-					   		bin/QtGui4.dll;osname=win;processor=x86
-					    </Bundle-NativeCode>
+						</Include-Resource>			
+						<Bundle-ClassPath>.,lib/qtjambi-4.5.2_01.jar,lib/qtjambi-win32-msvc2005-4.5.2_01.jar,bin,images,lib,{maven-dependencies}</Bundle-ClassPath>
 					</instructions>
 				</configuration>
 			</plugin>
