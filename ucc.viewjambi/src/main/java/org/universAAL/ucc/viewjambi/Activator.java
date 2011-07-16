@@ -1,8 +1,5 @@
 package org.universAAL.ucc.viewjambi;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Properties;
 
 import org.osgi.framework.BundleActivator;
@@ -22,7 +19,7 @@ public class Activator implements BundleActivator {
 		return context;
 	}
 
-	static final String libraryNames[] = { "qtjambi.dll",
+	/*static final String libraryNames[] = { "qtjambi.dll",
 			"com_trolltech_qt_core.dll", "com_trolltech_qt_gui.dll",
 			"QtCore4.dll", "QtGui4.dll","uaal.jpg"};
 
@@ -49,11 +46,11 @@ public class Activator implements BundleActivator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	public void start(final BundleContext context) throws Exception {
 		
-		this.context = context;
+		Activator.context = context;
 
 		Properties props = System.getProperties();
 		String path = ".;" + props.getProperty("java.library.path");
