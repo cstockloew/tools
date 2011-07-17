@@ -70,7 +70,7 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	}
 	
 	public void installApp() {
-		InstallView subWindow = new InstallView();
+		InstallView subWindow = new InstallView(this);
         subWindow.setGeometry(100, 100, 500, 400);
         subWindow.setWindowTitle("Install a new application!");
         mdi.addSubWindow(subWindow);
