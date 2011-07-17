@@ -52,10 +52,10 @@ public class Activator implements BundleActivator {
 		
 		Activator.context = context;
 
-		Properties props = System.getProperties();
+		/*Properties props = System.getProperties();
 		String path = ".;" + props.getProperty("java.library.path");
 		props.setProperty("java.library.path", path);
-		System.setProperties(props);
+		System.setProperties(props);*/
 
 		thread = new Thread(new Runnable() {
 			public void run() {
