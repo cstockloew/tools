@@ -45,7 +45,7 @@
 						<Include-Resource>
 							{maven-resources}
 						</Include-Resource>			
-						<Bundle-ClassPath>.,lib/qtjambi-4.5.2_01.jar,lib/qtjambi-win32-msvc2005-4.5.2_01.jar,bin,images,lib,{maven-dependencies}</Bundle-ClassPath>
+						<Bundle-ClassPath>.,lib/qtjambi-4.5.2_01.jar,lib/qtjambi-win32-msvc2005-4.5.2_01.jar,bin,lib{maven-dependencies}</Bundle-ClassPath>
 					</instructions>
 				</configuration>
 			</plugin>

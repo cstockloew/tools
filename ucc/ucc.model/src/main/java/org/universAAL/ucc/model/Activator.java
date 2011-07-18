@@ -12,13 +12,7 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext context) throws Exception {
 		Activator.context=context;
 		
-		Model test1 = new Model();
-		
-		model = test1;
-		Class[] test = model.getClass().getClasses();
-		
-		if (test1 instanceof IModel)
-			System.out.println("Test");
+		model = new Model();
 		
 		context.registerService(new String[] { IModel.class.getName() }, model, null);
 	}
