@@ -12,6 +12,10 @@ import org.eclipse.core.runtime.*;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection; //import org.eclipse.core.resources.*;
+import org.eclipse.m2e.core.MavenPlugin;
+import org.eclipse.m2e.core.internal.IMavenConstants;
+import org.eclipse.m2e.core.ui.internal.actions.OpenMavenConsoleAction;
+import org.eclipse.m2e.core.project.ProjectImportConfiguration;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
@@ -22,10 +26,6 @@ import java.io.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.progress.IProgressConstants;
-import org.maven.ide.eclipse.MavenPlugin;
-import org.maven.ide.eclipse.actions.OpenMavenConsoleAction;
-import org.maven.ide.eclipse.core.IMavenConstants;
-import org.maven.ide.eclipse.project.ProjectImportConfiguration;
 import org.universaal.tools.newwizard.plugin.Activator;
 
 /**
@@ -100,8 +100,9 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	// I use deprecated methods because I haven´t found the new way to
 	// create a new project
-	// TODO: Use the latest methods
-	final String projectName = configuration.getProjectName(model);
+	// TODO: Use the latest methods -> Latest version of Maven plugin keeps
+	// using them!
+//	final String projectName = configuration.getProjectName(model);
 	IStatus nameStatus = configuration.validateProjectName(model);
 	if (!nameStatus.isOK()) {
 	    MessageDialog.openError(getShell(),
@@ -129,7 +130,6 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	}
 
 	final Job job, job2;
-	final MavenPlugin plugin = MavenPlugin.getDefault();
 
 	// This job creates a blank maven project with the POM as defined in the
 	// wizard
@@ -140,7 +140,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		try {
 		    // Here we use the maven plugin to create and shape the
 		    // project
-		    plugin.getProjectConfigurationManager()
+		    MavenPlugin.getProjectConfigurationManager()
 			    .createSimpleProject(project, location, model,
 				    getFolders(), //
 				    configuration, monitor);
@@ -231,6 +231,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			// here...
 			System.out.println(">>>>>>>>>>>>>>NO POM!!!!!!!!!"); //$NON-NLS-1$
 		    }
+		    //This is like refreshing, because we changed the pom
+		    MavenPlugin.getProjectConfigurationManager().updateProjectConfiguration(project, monitor);
 		    return Status.OK_STATUS;
 		} catch (CoreException e) {
 		    return e.getStatus();
@@ -281,7 +283,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		IResourceChangeEvent.POST_CHANGE);
 	try {
 	    // Execute the first job (create maven)
-	    job.setRule(plugin.getProjectConfigurationManager().getRule());
+	    job.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
 	    job.schedule();
 
 	    // MNGECLIPSE-766 wait until new project is created
@@ -294,7 +296,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		}
 	    }
 	    // Execute the second job (modify to uaal)
-	    job2.setRule(plugin.getProjectConfigurationManager().getRule());
+//	    job2.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
 	    job2.schedule();
 
 	    // MNGECLIPSE-766 wait until new project is created
