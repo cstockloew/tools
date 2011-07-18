@@ -36,7 +36,8 @@
 						<Bundle-Activator>org.universAAL.ucc.api.Activator</Bundle-Activator>
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Private-Package>org.universAAL.ucc.core.*</Private-Package>
+						<Private-Package>org.universAAL.ucc.api.*</Private-Package>
+						<Export-Package>org.universAAL.ucc.api.core.*,org.universAAL.ucc.api.model.*,org.universAAL.ucc.api.view.*</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>

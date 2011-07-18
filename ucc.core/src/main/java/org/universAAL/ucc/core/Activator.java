@@ -1,5 +1,7 @@
 package org.universAAL.ucc.core;
 
+import java.io.File;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -13,7 +15,13 @@ import org.universAAL.middleware.io.rdf.TextArea;
 import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
 
+import org.universAAL.ucc.api.core.IDeinstaller;
+import org.universAAL.ucc.api.core.IInformation;
+import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.api.model.IModel;
+import org.universAAL.ucc.core.information.Information;
+import org.universAAL.ucc.core.installation.Deinstaller;
+import org.universAAL.ucc.core.installation.Installer;
 
 /**
  * The uCCCore is the connection to the OSGi Framework and therefore need to have
@@ -24,11 +32,16 @@ import org.universAAL.ucc.api.model.IModel;
  * @updated 11-Jul-2011 16:37:33
  */
 public class Activator implements BundleActivator {
+	private static BundleContext context = null;
+	private static String rundir = "c:"+File.separator;
+	
+	private static MessageContentSerializer contentSerializer = null;
 	
 	private static IModel model = null;
 	
-	private static BundleContext context = null;
-	private static MessageContentSerializer contentSerializer = null;
+	private IInstaller installer = null;
+	private IDeinstaller deinstaller = null;
+	private IInformation information = null;
 	
 	public static IModel getModel() {
 		return model;
@@ -64,21 +77,30 @@ public class Activator implements BundleActivator {
 		//}
 	}
 	
+	public static String getRundir() {
+		return rundir;
+	}
+	
 	public void start(BundleContext context) throws Exception {
-		this.context = context;
-		Activator.testForm();
+		Activator.context = context;
+		//Activator.testForm();
+
+		String bundlePath = Activator.context.getBundle().getLocation();
+		Activator.rundir = bundlePath.substring(bundlePath.indexOf("/")+1,bundlePath.lastIndexOf("/"));
+		
+		this.installer = new Installer();
+		this.deinstaller = new Deinstaller();
+		this.information = new Information(context);
+		
+		context.registerService(new String[] { IInstaller.class.getName() }, installer, null);
+		context.registerService(new String[] { IDeinstaller.class.getName() }, deinstaller, null);
+		context.registerService(new String[] { IInformation.class.getName() }, information, null);
 		
 		ServiceReference sr = context.getServiceReference(IModel.class.getName());
 		if (sr == null)
 			return;
 		
-		Object o = context.getService(sr);
-		Class[] test = o.getClass().getClasses();
-		Class[] test1 = o.getClass().getInterfaces();
-		
-		if (o instanceof IModel)
-			System.out.println("Test");
-		
+		Object o = context.getService(sr);		
 		Activator.model = (IModel)o;
 		
 		Activator.model.getApplicationRegistration().registerApplicaton("testApp");
