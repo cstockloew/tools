@@ -6,24 +6,24 @@
       <actionSet
             label="Sample Action Set"
             visible="true"
-            id="org.universaal.tools.buildServiceApplication.actionSet">        
+            id="org.universaal.tools.buildServiceApplication.actionSet">   
          <action
-               label="&amp;Run universAAL application"
-               icon="icons/run.png"
-               class="org.universaal.tools.buildserviceapplication.actions.RunAction"
-               tooltip="Run universAAL application"
+               label="&amp;Publish universAAL application"
+               icon="icons/publish.png"
+               class="org.universaal.tools.buildserviceapplication.actions.PublishAction"
+               tooltip="Publish application to uStore"
                menubarPath="org.universaal.tools.AALStudio.menu/build"
                toolbarPath="uAALGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.RunAction" >			
-         </action>
-         <action
-               label="&amp;Build universAAL application"
-               icon="icons/compile.png"
-               class="org.universaal.tools.buildserviceapplication.actions.BuildAction"
-               tooltip="Build universAAL application"
+               id="org.universaal.tools.buildserviceapplication.actions.PublishAction">			
+         </action>  
+           <action
+               label="&amp;Upload application to Developer Depot"
+               icon="icons/upload.png"
+               class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
+               tooltip="Upload application to Developer Depot"
                menubarPath="org.universaal.tools.AALStudio.menu/build"
                toolbarPath="uAALGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.BuildAction">				
+               id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
          </action>
          <action
                label="&amp;Debug universAAL application"
@@ -34,24 +34,24 @@
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.DebugAction" >			
          </action>
-         <action
-               label="&amp;Upload application to Developer Depot"
-               icon="icons/upload.png"
-               class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
-               tooltip="Upload application to Developer Depot"
+          <action
+               label="&amp;Run universAAL application"
+               icon="icons/run.png"
+               class="org.universaal.tools.buildserviceapplication.actions.RunAction"
+               tooltip="Run universAAL application"
                menubarPath="org.universaal.tools.AALStudio.menu/build"
                toolbarPath="uAALGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
+               id="org.universaal.tools.buildserviceapplication.actions.RunAction" >			
          </action>
-         <action
-               label="&amp;Publish universAAL application"
-               icon="icons/publish.png"
-               class="org.universaal.tools.buildserviceapplication.actions.PublishAction"
-               tooltip="Publish application to uStore"
+           <action
+               label="&amp;Build universAAL application"
+               icon="icons/compile.png"
+               class="org.universaal.tools.buildserviceapplication.actions.BuildAction"
+               tooltip="Build universAAL application"
                menubarPath="org.universaal.tools.AALStudio.menu/build"
                toolbarPath="uAALGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.PublishAction">			
-         </action>   
+               id="org.universaal.tools.buildserviceapplication.actions.BuildAction">				
+         </action>      
       </actionSet>
    </extension>
    <extension
