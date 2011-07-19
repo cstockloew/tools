@@ -1,4 +1,4 @@
-package uploadopensourceplugin.handlers;
+package org.universaal.tools.uploadopensourceplugin.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -8,8 +8,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.universaal.tools.uploadopensourceplugin.wizards.UploadOpenSourceWizard;
 
-import uploadopensourceplugin.wizards.UploadOpenSourceWizard;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.

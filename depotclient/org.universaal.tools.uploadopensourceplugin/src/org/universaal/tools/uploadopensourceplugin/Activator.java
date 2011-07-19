@@ -1,4 +1,4 @@
-package uploadopensourceplugin;
+package org.universaal.tools.uploadopensourceplugin;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

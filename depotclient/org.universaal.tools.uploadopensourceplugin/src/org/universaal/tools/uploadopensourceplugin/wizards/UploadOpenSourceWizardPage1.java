@@ -1,15 +1,20 @@
-package uploadopensourceplugin.wizards;
+package org.universaal.tools.uploadopensourceplugin.wizards;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class UploadOpenSourceWizardPage1 extends WizardPage {
 	private Text text;
+	private Button btnGenerateEmailTo;
+	private boolean generateEmail=false;
 
 	/**
 	 * Create the wizard.
@@ -42,9 +47,35 @@ public class UploadOpenSourceWizardPage1 extends WizardPage {
 		
 		text = new Text(container, SWT.BORDER);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		new Label(container, SWT.NONE);
+		
+		btnGenerateEmailTo = new Button(container, SWT.CHECK);
+		btnGenerateEmailTo.setText("Generate email to send to the Developer Depot? (Will open default email client)");
+		btnGenerateEmailTo.addSelectionListener(new EmailListener());
 	}
 	
 	public String getText(){
 		return text.getText();
+	}
+
+	public boolean getGenerateEmail(){
+		return generateEmail;
+	}
+	
+	private class EmailListener implements SelectionListener{
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			generateEmail=!generateEmail;
+			System.out.println(generateEmail);
+			
+		}
+
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }

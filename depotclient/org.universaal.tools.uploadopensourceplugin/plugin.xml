@@ -4,36 +4,52 @@
    <extension
          point="org.eclipse.ui.commands">
       <category
-            id="uploadopensourceplugin.commands.aalcategory"
+            id="org.universaal.tools.uploadopensourceplugin.commands.aalcategory"
             name="universAAL">
       </category>
       <command
-            categoryId="uploadopensourceplugin.commands.aalcategory"
-            id="uploadopensourceplugin.commands.uploadopensource"
+            categoryId="org.universaal.tools.uploadopensourceplugin.commands.aalcategory"
+            id="org.universaal.tools.uploadopensourceplugin.commands.uploadopensource"
             name="Upload Open Source">
+      </command>
+      <command
+            id="org.universaal.tools.uploadopensourceplugin.openemail"
+            name="Open mail client">
+      </command>
+      <command
+            id="org.universaal.tools.uploadopensourceplugin.generateaalapp"
+            name="Generate aalapp.xml">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="uploadopensourceplugin.handlers.UploadHandler"
-            commandId="uploadopensourceplugin.commands.uploadopensource">
+            class="org.universaal.tools.uploadopensourceplugin.handlers.UploadHandler"
+            commandId="org.universaal.tools.uploadopensourceplugin.commands.uploadopensource">
+      </handler>
+      <handler
+            class="org.universaal.tools.uploadopensourceplugin.handlers.SendEmailHandler"
+            commandId="org.universaal.tools.uploadopensourceplugin.openemail">
+      </handler>
+      <handler
+            class="org.universaal.tools.uploadopensourceplugin.handlers.GenerateAalApp"
+            commandId="org.universaal.tools.uploadopensourceplugin.generateaalapp">
       </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               id="org.universaal.tools.AALStudio.menu"
-               label="AAL Studio"
-               mnemonic="M">
-            <command
-                  commandId="uploadopensourceplugin.commands.uploadopensource"
-                  id="uploadopensourceplugin.menus.uploadsourcecommand"
-                  mnemonic="S">
-            </command>
-         </menu>
+            locationURI="menu:org.universaal.tools.AALStudio.menu?before=new">
+         <command
+               commandId="org.universaal.tools.uploadopensourceplugin.commands.uploadopensource"
+               id="org.universaal.tools.uploadopensourceplugin.menus.uploadsourcecommand"
+               style="push">
+         </command>
+         <command
+               commandId="org.universaal.tools.uploadopensourceplugin.generateaalapp"
+               id="org.universaal.tools.uploadopensourceplugin.menus.generateaalapp"
+               style="push">
+         </command>
       </menuContribution>
    </extension>
 

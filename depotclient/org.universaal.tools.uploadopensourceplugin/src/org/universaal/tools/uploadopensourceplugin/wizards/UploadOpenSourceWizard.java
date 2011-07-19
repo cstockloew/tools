@@ -1,4 +1,4 @@
-package uploadopensourceplugin.wizards;
+package org.universaal.tools.uploadopensourceplugin.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -19,6 +19,8 @@ import org.eclipse.team.svn.core.svnstorage.SVNRemoteStorage;
 import org.eclipse.team.svn.core.utility.ProgressMonitorUtility;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.PlatformUI;
+import org.universaal.tools.uploadopensourceplugin.email.SendEmail;
+
 
 public class UploadOpenSourceWizard extends Wizard {
 	
@@ -79,6 +81,10 @@ public class UploadOpenSourceWizard extends Wizard {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			return false;
+		}
+		if(page.getGenerateEmail()){
+			SendEmail email = new SendEmail(project);
+			email.sendEmail();
 		}
 		
 		return true;
