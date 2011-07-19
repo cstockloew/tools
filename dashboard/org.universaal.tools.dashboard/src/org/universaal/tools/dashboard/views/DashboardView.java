@@ -34,7 +34,7 @@ import org.universaal.tools.dashboard.listeners.ProjectNameListener;
 
 public class DashboardView extends ViewPart {
 
-	public static final String ID = "org.universaal.tools.views.DashboardView"; //$NON-NLS-1$
+	public static final String ID = "org.universaal.tools.dashboard.views.DashboardView"; //$NON-NLS-1$
 	private Button btnCreateProject;
 	private Button btnImportProject;
 	private Button btnEditProject;

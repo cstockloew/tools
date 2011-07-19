@@ -22,7 +22,7 @@ public class UploadOpenSourceListener implements SelectionListener {
 	public void widgetSelected(SelectionEvent e) {
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
 		try {
-			handlerService.executeCommand("uploadopensourceplugin.commands.uploadopensource", null);
+			handlerService.executeCommand("org.universaal.tools.uploadopensourceplugin.commands.uploadopensource", null);
 		} catch (ExecutionException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
