@@ -2,6 +2,7 @@ package org.universaal.tools.transformationcommand.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Iterator;
@@ -32,6 +33,9 @@ import org.eclipse.mofscript.parser.ParserUtil;
 import org.eclipse.mofscript.runtime.ExecutionManager;
 import org.eclipse.mofscript.runtime.ExecutionMessageListener;
 import org.eclipse.mofscript.runtime.MofScriptExecutionException;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
@@ -93,20 +97,33 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 	public void doTransform(IFile inputFile, ExecutionEvent event) {
 		myConsole = findConsole("MOFScript2 Console");
-		stream = myConsole.newMessageStream();
+		try {
+			FontData data = new FontData ("Arial", 9, 9);
+			data.setStyle(SWT.ITALIC);
+			Font f = new Font (null, data);
 
+			myConsole.setFont(f);
+		} catch (Exception ex) {	   	
+		}
+		stream = myConsole.newMessageStream();
+		stream.setActivateOnWrite(true);
+
+
+		
 		IPath path = new Path(transformationFileName);
 		URL l = FileLocator.find(Platform.getBundle(thisBundleName), path, null);
 
 		try {
 			l = FileLocator.toFileURL(l);
 		} catch (IOException e) {
+			
 			System.out.println("Could not locate transformation script");
 			return;
 		}
 		if (l != null) {
 			System.out.print("Running transformation script: ");
 			System.out.println(l);
+			
 		}
 
 		ParserUtil parserUtil = new ParserUtil();
@@ -118,10 +135,18 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 		File f = null;        
 		try {
-			f = new File (l.toURI());
+			String temp = l.toString();
+			temp = temp.replace(" ", "%20");
+			l = new URL(temp);
+
+			f= new File(l.toURI());
 		} catch (URISyntaxException e) {
+			
 			System.out.println("Could not find URI for transformation script");
 			return;
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		MOFScriptSpecification spec = parserUtil.parse(f, true);
@@ -157,6 +182,7 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 			uri = URI.createURI(inputFile.getLocationURI().toString());
 		}
 		catch (Exception ex) {
+			
 			ex.printStackTrace();
 			return;
 		}
@@ -171,11 +197,12 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		}       
 
 		if (sourceModel == null) {
+			
 			System.out.println("Source model could not be located");
 			return;
 		}
 		System.out.println("Adding source model");
-        
+
 		// set the source model for the execution manager   
 		execMgr.addSourceModel(sourceModel);
 
@@ -183,16 +210,16 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		IProject project = inputFile.getProject();
 		execMgr.setRootDirectory(findDirectory(project));
 
-		
+
 		// if true, files are not generated to the file system, but populated into a filemodel
 		// which can be fetched afterwards. Value false will result in standard file generation
 		execMgr.setUseFileModel(false);
 		// Turns on/off system logging
 		execMgr.setUseLog(false);
-		
-		
+
+
 		execMgr.setBlockCommentTag("//");
-		
+
 		// Adds an output listener for the transformation execution.
 		execMgr.getExecutionStack().addOutputMessageListener(this);   
 		try {
@@ -203,8 +230,10 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 			//New code
 			project.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
 		} catch (MofScriptExecutionException mex) {
+			
 			mex.printStackTrace();
 		} catch (CoreException e){
+			
 			e.printStackTrace();
 		}     
 	}
@@ -212,7 +241,7 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	@Override
 	public void executionMessage(String arg0, String arg1) {
 		// Ignore messages from MOFscript for now
-//		System.out.println(arg1);		
+		//		System.out.println(arg1);	
 		if (arg0 == null || arg0.equals("") || arg0.equals("println"))
 			stream.println(arg1);
 		else if (arg0.equalsIgnoreCase("print"))
@@ -239,17 +268,17 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 	protected abstract String getDirectoryFromPreferences();
 	protected abstract boolean getAbsolutePathBooleanFromPreferences();
-	
+
 	private MessageConsole findConsole(String name) {
-	      ConsolePlugin plugin = ConsolePlugin.getDefault();
-	      IConsoleManager conMan = plugin.getConsoleManager();
-	      IConsole[] existing = conMan.getConsoles();
-	      for (int i = 0; i < existing.length; i++)
-	         if (name.equals(existing[i].getName()))
-	            return (MessageConsole) existing[i];
-	      //no console found, so create a new one
-	      MessageConsole myConsole = new MessageConsole(name, null);
-	      conMan.addConsoles(new IConsole[]{myConsole});
-	      return myConsole;
-	   }
+		ConsolePlugin plugin = ConsolePlugin.getDefault();
+		IConsoleManager conMan = plugin.getConsoleManager();
+		IConsole[] existing = conMan.getConsoles();
+		for (int i = 0; i < existing.length; i++)
+			if (name.equals(existing[i].getName()))
+				return (MessageConsole) existing[i];
+		//no console found, so create a new one
+		MessageConsole myConsole = new MessageConsole(name, null);
+		conMan.addConsoles(new IConsole[]{myConsole});
+		return myConsole;
+	}
 }
