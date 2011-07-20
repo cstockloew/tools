@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="xmleditor.editors.XmlEditor"
+            class="org.universaal.tools.xmleditor.editors.XmlEditor"
             default="true"
             filenames="aalapp.xml,"
             icon="icons/compile.png"

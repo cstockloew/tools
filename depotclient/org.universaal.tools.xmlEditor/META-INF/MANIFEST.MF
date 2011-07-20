@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: XmlEditor
 Bundle-SymbolicName: org.universaal.tools.xmlEditor;singleton:=true
 Bundle-Version: 0.1.0
-Bundle-Activator: xmleditor.Activator
+Bundle-Activator: org.universaal.tools.xmleditor.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text,
