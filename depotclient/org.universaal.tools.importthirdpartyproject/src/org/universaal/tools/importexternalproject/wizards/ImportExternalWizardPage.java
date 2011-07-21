@@ -18,7 +18,6 @@
  */
 package org.universaal.tools.importexternalproject.wizards;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -52,7 +51,8 @@ public class ImportExternalWizardPage extends WizardPage {
 	private Table table;
 	private TableColumn nameClm, dateClm, authorClm;
 	private ProjectObject[] projects;
-	private File files;
+//	private File files;
+	private String files;
 	private TableViewer tableViewer;
 	private StyledText styledText;
 	private Label lblEnterSearchTerm;
@@ -151,7 +151,7 @@ public class ImportExternalWizardPage extends WizardPage {
 			setPageComplete(false);
 			ArrayList<ProjectObject> nameResult = new ArrayList<ProjectObject>();
 			XmlParser parser = new XmlParser();
-			files = ((ImportExternalWizard)getWizard()).getFiles();
+			files = ((ImportExternalWizard)getWizard()).getXML();
 			String searchString = (String)newInput;
 
 			//These methods take an ArrayList as input nameResult, and places

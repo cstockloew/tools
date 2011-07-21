@@ -49,5 +49,20 @@
             name="universAAL">
       </category>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.universaal.tools.AALStudio"
+            class="org.universaal.tools.importthirdparty.preferences.PreferencePage"
+            id="org.universaal.tools.importthirdpartyproject.preferences"
+            name="Import Third Party Application">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.universaal.tools.importthirdparty.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class ProjectObject implements Comparable<ProjectObject>{
 	
+	
 	private String name;
 	private String url;
 	private String svnurl;
@@ -102,7 +103,7 @@ public class ProjectObject implements Comparable<ProjectObject>{
 			String result = svnurl.substring(0, SLASH_INDEX);
 			return result;
 		}else{
-			return url;
+			return svnurl;
 		}
 	}
 	

@@ -18,8 +18,8 @@
  */
 package org.universaal.tools.importexternalproject.xmlparser;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,13 +29,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class XmlParser {
 
-	ArrayList<File> resultList;
-	DocumentBuilderFactory factory;
-	DocumentBuilder dBuilder;
+	public static final String FIELD_EMPTY = "Not given.";
+//	private ArrayList<File> resultList;
+	private DocumentBuilderFactory factory;
+	private DocumentBuilder dBuilder;
 
 	public XmlParser(){
 		this.factory = DocumentBuilderFactory.newInstance();
@@ -47,13 +49,14 @@ public class XmlParser {
 		}
 	}
 
-	public boolean searchTags(File input, 
+	public boolean searchTags(String xml, 
 			ArrayList<ProjectObject> result, String tag){
 
 		boolean match=false;
 		Document doc;
 		try {
-			doc = dBuilder.parse(input);
+			InputSource source = new InputSource(new StringReader(xml));
+			doc = dBuilder.parse(source);
 			NodeList projectList = doc.getElementsByTagName("project");
 
 			for(int k=0;k<projectList.getLength(); k++){
@@ -73,18 +76,62 @@ public class XmlParser {
 					}
 
 				if(match){
+//					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
+//					resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
+//					resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
+//					resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
+//					resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
+//					resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
+//					resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
+//					ProjectObject projObj = new ProjectObject(resName, resUrl, resSvnUrl, resDesc, resDev, resDate, false);
+//					for(int i=0; i<nList.getLength(); i++){
+//						Element node = (Element) nList.item(i);
+//						String currentTag = node.getFirstChild().getNodeValue();
+//						projObj.addTag(currentTag);
+//					}
+//					result.add(projObj);
 					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
-					resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
-					resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
-					resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
-					resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
-					resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
-					resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
-					ProjectObject projObj = new ProjectObject(resName, resUrl, resSvnUrl, resDesc, resDev, resDate, false);
-					for(int i=0; i<nList.getLength(); i++){
-						Element node = (Element) nList.item(i);
-						String currentTag = node.getFirstChild().getNodeValue();
-						projObj.addTag(currentTag);
+					try{
+						resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resName = FIELD_EMPTY;
+					}
+					try{
+						resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resUrl = FIELD_EMPTY;
+					}
+					try{
+						resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resSvnUrl = FIELD_EMPTY;
+					}
+					try{
+						resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resDesc = FIELD_EMPTY;
+					}
+					try{
+						resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resDev = FIELD_EMPTY;
+					}
+					try{
+						resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resDate = "FIELD_EMPTY";
+					}
+					
+					ProjectObject projObj = new ProjectObject(resName, resUrl,resSvnUrl, resDesc, resDev, resDate, false);
+					try{
+						NodeList nTagList = currentProject.getElementsByTagName("tag");
+						for(int i=0; i<nTagList.getLength(); i++){
+							Element node = (Element) nTagList.item(i);
+							String currentTag = node.getFirstChild().getNodeValue();
+							projObj.addTag(currentTag);
+						}
+					}catch(Exception e){
+						projObj.addTag(FIELD_EMPTY);
 					}
 					result.add(projObj);
 				}
@@ -100,13 +147,14 @@ public class XmlParser {
 		return match;
 	}
 
-	public boolean searchNames(File input, ArrayList<ProjectObject> result, String name){
+	public boolean searchNames(String xml, ArrayList<ProjectObject> result, String name){
 
 		boolean match;
 		boolean foundName = false;
 		Document doc;
 		try {
-			doc = dBuilder.parse(input);
+			InputSource source = new InputSource(new StringReader(xml));
+			doc = dBuilder.parse(source);
 			NodeList projectList = doc.getElementsByTagName("project");
 
 			for(int k=0;k<projectList.getLength(); k++){
@@ -122,18 +170,47 @@ public class XmlParser {
 
 				if(match){
 					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
-					resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
-					resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
-					resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
-					resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
-					resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
-					resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
+					try{
+						resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resName = FIELD_EMPTY;
+					}
+					try{
+						resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resUrl = FIELD_EMPTY;
+					}
+					try{
+						resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resSvnUrl = FIELD_EMPTY;
+					}
+					try{
+						resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resDesc = FIELD_EMPTY;
+					}
+					try{
+						resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resDev = FIELD_EMPTY;
+					}
+					try{
+						resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resDate = FIELD_EMPTY;
+					}
+					
 					ProjectObject projObj = new ProjectObject(resName, resUrl,resSvnUrl, resDesc, resDev, resDate, true);
-					NodeList nTagList = currentProject.getElementsByTagName("tag");
-					for(int i=0; i<nTagList.getLength(); i++){
-						Element node = (Element) nTagList.item(i);
-						String currentTag = node.getFirstChild().getNodeValue();
-						projObj.addTag(currentTag);
+					try{
+						NodeList nTagList = currentProject.getElementsByTagName("tag");
+						for(int i=0; i<nTagList.getLength(); i++){
+							Element node = (Element) nTagList.item(i);
+							String currentTag = node.getFirstChild().getNodeValue();
+							projObj.addTag(currentTag);
+						}
+					}catch(Exception e){
+						projObj.addTag(FIELD_EMPTY);
 					}
 					result.add(projObj);
 					foundName=true;
