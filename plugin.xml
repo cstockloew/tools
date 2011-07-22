@@ -10,7 +10,7 @@
       <command
             categoryId="org.universaal.tools.subversivePlugin.commands.category"
             id="org.universaal.tools.subversivePlugin.commands.exampleProject"
-            name="Import Example Project">
+            name="Import example project">
       </command>
    </extension>
    <extension
