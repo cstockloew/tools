@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.depotclient.feature"
       label="AAL Studio integration with Developer Depot"
-      version="0.2.1"
+      version="0.4.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -248,6 +248,20 @@
 
    <plugin
          id="org.universaal.tools.importthirdpartyproject"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.universaal.tools.uploadopensourceplugin"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.universaal.tools.xmlEditor"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -10,15 +10,15 @@
       <command
             categoryId="org.universaal.tools.uploadopensourceplugin.commands.aalcategory"
             id="org.universaal.tools.uploadopensourceplugin.commands.uploadopensource"
-            name="Upload Open Source">
+            name="Upload as open source">
       </command>
       <command
             id="org.universaal.tools.uploadopensourceplugin.openemail"
-            name="Open mail client">
+            name="Request listing as 3rd party project">
       </command>
       <command
             id="org.universaal.tools.uploadopensourceplugin.generateaalapp"
-            name="Generate aalapp.xml">
+            name="Create application description">
       </command>
    </extension>
    <extension
@@ -39,20 +39,24 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.universaal.tools.AALStudio.menu?before=new">
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=additions">
          <command
                commandId="org.universaal.tools.uploadopensourceplugin.commands.uploadopensource"
                id="org.universaal.tools.uploadopensourceplugin.menus.uploadsourcecommand"
                style="push">
          </command>
          <command
-               commandId="org.universaal.tools.uploadopensourceplugin.generateaalapp"
-               id="org.universaal.tools.uploadopensourceplugin.menus.generateaalapp"
-               style="push">
-         </command>
-         <command
                commandId="org.universaal.tools.uploadopensourceplugin.openemail"
                id="org.universaal.tools.uploadopensourceplugin.menus.generateemail"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.universaal.tools.AALStudio.menu?endof=new">
+         <command
+               commandId="org.universaal.tools.uploadopensourceplugin.generateaalapp"
+               id="org.universaal.tools.uploadopensourceplugin.menus.generateaalapp"
                style="push">
          </command>
       </menuContribution>

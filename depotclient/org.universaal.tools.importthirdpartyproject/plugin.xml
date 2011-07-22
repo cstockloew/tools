@@ -5,7 +5,7 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            name="Import Third Party Application"
+            name="Import 3rd party project"
             id="org.universaal.importexternalproject.commands.importthirdparty">
       </command>
    </extension>

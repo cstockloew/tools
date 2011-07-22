@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.buildFeature"
       label="AAL Studio Build"
-      version="0.5.1"
+      version="0.6.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -235,8 +235,8 @@
    </url>
 
    <requires>
-      <import feature="org.maven.ide.eclipse.feature" version="0.12.0" match="greaterOrEqual"/>
       <import feature="org.universaal.tools.aalstudio.feature" version="0.3.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.m2e.feature" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
