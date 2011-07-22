@@ -215,6 +215,10 @@ org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/
 org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/preferences/PreferencePage.java -text svneol=unset#text/plain
 org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/wizards/ImportExampleWizard.java -text svneol=unset#text/plain
 org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/wizards/ImportExampleWizardPage.java -text svneol=unset#text/plain
+org.universaal.tools.thirdpartyphp/.buildpath -text
+org.universaal.tools.thirdpartyphp/.project -text
+org.universaal.tools.thirdpartyphp/main.php -text
+org.universaal.tools.thirdpartyphp/projects.xml -text
 org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
