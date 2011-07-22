@@ -31,7 +31,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.xmleditor.model.ProjectModel;
 
-
+/**
+ * Fields-page of the XML-editor. Contains textfields that the user can enter
+ * information into, and it will update the XML automatically.
+ * @author Adrian
+ *
+ */
 public class FieldsPage extends Composite {
 
 	private XmlEditor parent;
@@ -39,13 +44,17 @@ public class FieldsPage extends Composite {
 	private StyledText description;
 	private ProjectModel model;
 
-	/**
-	 * @wbp.parser.constructor
-	 */
+	
 	public FieldsPage(Composite container){
 		super(container, SWT.NONE);
 	}
 	
+	/**
+	 * Creates the layout of the page
+	 * @param parent - The XMLEditor-object that created this page.
+	 * @param model - The ProjectObject that is the model.
+	 * @param container - Container that contains the SWT items.
+	 */
 	public FieldsPage(XmlEditor parent, ProjectModel model, Composite container){
 		super(container, SWT.NONE);
 		this.parent = parent;
@@ -121,6 +130,9 @@ public class FieldsPage extends Composite {
 		tags.addModifyListener(listen);
 	}
 	
+	/**
+	 * Sets the value of the fields to the values in the ProjectObject-model
+	 */
 	public void setFields(){
 		projectName.setText(model.getpName());
 		developerName.setText(model.getpDev());
@@ -131,11 +143,15 @@ public class FieldsPage extends Composite {
 		tags.setText(getTagsStringFromModel());
 	}
 	
+	/**
+	 * Listens to the fields, and updates the model when changes are made.
+	 * @author Adrian
+	 *
+	 */
 	class FieldListener implements ModifyListener{
 
 		@Override
 		public void modifyText(ModifyEvent e) {
-//			parent.isDirty = true;
 			parent.fieldsModified();
 			
 			if(e.getSource()==projectName){
@@ -155,6 +171,11 @@ public class FieldsPage extends Composite {
 		}
 	}
 	
+	/**
+	 * Parses the string in the tags-field, and returns them as separate Strings 
+	 * in an ArrayList.
+	 * @return ArrayList containing the tags in the Tags-field.
+	 */
 	private ArrayList<String> getTagsFromFields(){
 		ArrayList<String> result = new ArrayList<String>();
 		String string = tags.getText();
@@ -171,6 +192,11 @@ public class FieldsPage extends Composite {
 		return result;
 	}
 	
+	/**
+	 * Gets the ArrayList of tags from the model, and creates a String where 
+	 * the tags are separated by commas.
+	 * @return String containing all the tags, separated by commas.
+	 */
 	private String getTagsStringFromModel(){
 		String result="";
 		ArrayList<String> tags = model.getpTags();

@@ -45,22 +45,33 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-
+/**
+ * The page of the XML-editor that displays the raw XML-code.
+ * @author Adrian
+ *
+ */
 public class SourcePage extends StructuredTextEditor {
 	
 	private ProjectModel model;
 	private XmlEditor parent;
 	private Document doc;
-	private boolean isPageModified;
+//	private boolean isPageModified;
 	
 	public SourcePage(XmlEditor parent, ProjectModel model, Document doc){
 		this.parent = parent;
 		this.model = model;
 		this.doc = doc;
-		this.isPageModified = false;
+//		this.isPageModified = false;
 		
 	}
 	
+	/**
+	 * When the user has made changes to the XML-code, this method will be called
+	 * when the user saves or changes page.
+	 * It parses the modified XML, and updates the ProjectModel accordingly, so
+	 * that when the user changes to the Fields-page, the updated data will be
+	 * displayed.
+	 */
 	public void updateModelFromXml(){
 
 		try {
@@ -131,6 +142,11 @@ public class SourcePage extends StructuredTextEditor {
 
 	}
 	
+	/**
+	 * Checks the ProjectObject model, and updates the xml accordingly. This
+	 * will be called after a user has made changes in the fields-page, so that
+	 * the raw XML will contain the correct data.
+	 */
 	public void updateXmlFromModel(){
 
 		NodeList nList;
@@ -188,6 +204,8 @@ public class SourcePage extends StructuredTextEditor {
 			StringWriter stringWriter = new StringWriter();
 			Result result = new StreamResult(stringWriter);
 			TransformerFactory factory2 = TransformerFactory.newInstance();
+			
+			//The transformer makes the XML-output nicely formatted.
 			Transformer transformer;
 			transformer = factory2.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");

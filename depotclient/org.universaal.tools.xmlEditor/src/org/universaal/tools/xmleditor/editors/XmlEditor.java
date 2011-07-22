@@ -72,7 +72,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-
+/**
+ * Main part of the multipage XML-editor. Creates the two pages of the editor,
+ * and handles saving and such.
+ * @author Adrian
+ *
+ */
 public class XmlEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
 	public static final String ID = "xmleditor.editors.EditorPart1"; //$NON-NLS-1$
@@ -88,11 +93,14 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 
 	public XmlEditor() {
 		super();
-//		isDirty=false;
 		isPageModified = false;
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
 
+	/**
+	 * Gets a hold of the input to this editor, and parses it so that it can
+	 * be used by the pages.
+	 */
 	public void init(IEditorSite site, IEditorInput editorInput)
 			throws PartInitException {
 		if (!(editorInput instanceof IFileEditorInput))
@@ -121,7 +129,6 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
-		System.out.println("Resource changed");
 	}
 
 	void updateTitle(){
@@ -130,6 +137,9 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 		setTitleToolTip(input.getToolTipText());
 	}
 
+	/**
+	 * Creates the two pages, and sets the correct names.
+	 */
 	@Override
 	protected void createPages() {
 		int index;
@@ -384,6 +394,10 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 		return tags;	
 	}
 
+	/**
+	 * Marks the editor as dirty if the user written something in the fields on
+	 * page 2.
+	 */
 	public void fieldsModified(){
 		boolean wasDirty = isDirty();
 		isPageModified = true;
