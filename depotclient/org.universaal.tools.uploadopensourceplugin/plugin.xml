@@ -50,6 +50,11 @@
                id="org.universaal.tools.uploadopensourceplugin.menus.generateaalapp"
                style="push">
          </command>
+         <command
+               commandId="org.universaal.tools.uploadopensourceplugin.openemail"
+               id="org.universaal.tools.uploadopensourceplugin.menus.generateemail"
+               style="push">
+         </command>
       </menuContribution>
    </extension>
 

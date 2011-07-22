@@ -41,8 +41,19 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+/**
+ * Class that generates the aalapp.xml file for a selected project. This file
+ * is meant to contain important information about a project, such as author,
+ * URL to SVN Repository and a description of the project.
+ * @author Adrian
+ *
+ */
 public class GenerateAalApp extends AbstractHandler {
 
+	/**
+	 * First finds the selected project in the package explorer, and then generates
+	 * a new file at the project's root. Then opens the new file with an editor.
+	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
@@ -68,14 +79,12 @@ public class GenerateAalApp extends AbstractHandler {
 		}
 		
 		String string = project.getLocation().toPortableString();
-		System.out.println(string);
 
 		File file = new File(string, "aalapp.xml");
 		try {
 			file.createNewFile();
 			project.refreshLocal(IProject.DEPTH_ONE, new NullProgressMonitor());
-//			IFileStore fileStore = EFS.getLocalFileSystem().getStore(file.toURI());
-//			IDE.openEditorOnFileStore( page, fileStore );
+
 			IFile fileToOpen;
 			do{
 				fileToOpen = project.getFile("aalapp.xml");

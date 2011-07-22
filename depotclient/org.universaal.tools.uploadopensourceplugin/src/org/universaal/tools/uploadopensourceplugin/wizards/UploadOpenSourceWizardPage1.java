@@ -29,6 +29,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * The only page of the Upload Open Source wizard.
+ * @author Adrian
+ *
+ */
 public class UploadOpenSourceWizardPage1 extends WizardPage {
 	private Text text;
 	private Button btnGenerateEmailTo;
@@ -80,13 +85,16 @@ public class UploadOpenSourceWizardPage1 extends WizardPage {
 		return generateEmail;
 	}
 	
+	/**
+	 * Keeps track of the checkbox and whether it is checked or not.
+	 * @author Adrian
+	 *
+	 */
 	private class EmailListener implements SelectionListener{
 
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			generateEmail=!generateEmail;
-			System.out.println(generateEmail);
-			
+			generateEmail=!generateEmail;		
 		}
 
 		@Override

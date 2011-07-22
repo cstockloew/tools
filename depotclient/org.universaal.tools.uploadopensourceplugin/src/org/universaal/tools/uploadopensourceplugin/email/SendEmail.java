@@ -50,7 +50,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
+/**
+ * Class that handles the opening of the default mail-client and also generating
+ * an email that can be sent to the AAL Studio team containing all important 
+ * information about a project.
+ * @author Adrian
+ *
+ */
 public class SendEmail {
 
 	private final static String EMAIL = "universAAL@something.org";
@@ -61,6 +67,10 @@ public class SendEmail {
 	private String uri;
 	private IProject project;
 
+	/**
+	 * Constructor that finds the currently selected project, and then the file
+	 * "aalapp.xml" at its root.
+	 */
 	public SendEmail(){
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		ISelectionService service = PlatformUI.getWorkbench().
@@ -94,6 +104,11 @@ public class SendEmail {
 		
 	}
 
+	/**
+	 * Constructor that takes the currently selected projects as input, and then
+	 * finds the file "aalapp.xml" at its root.
+	 * @param project - The currently selected project in the package explorer.
+	 */
 	public SendEmail(IProject project){
 		this.project = project;
 		String string = project.getLocation().toPortableString();
@@ -104,6 +119,11 @@ public class SendEmail {
 		
 	}
 
+	/**
+	 * Generates an URI that is used to fill out address fields and the body of
+	 * the email. The method needs to replace all characters that is not allowed
+	 * in a URI with another one that is allowed.
+	 */
 	private void generateURI(){
 		try{
 
@@ -132,8 +152,11 @@ public class SendEmail {
 			uri = uri.replace("/", "%2F");
 			uri = uri.replace("<", "%3C");
 			uri = uri.replace(">", "%3E");
-			char lineBreak = uri.charAt(83);
-			char lineBreak2 = uri.charAt(84);
+			
+			//Carriage return and new line feed
+			char lineBreak = 13;
+			char lineBreak2 = 10;
+
 			uri = uri.replace(""+lineBreak+lineBreak2, "");
 
 		} catch (IOException e) {
@@ -154,6 +177,11 @@ public class SendEmail {
 		}
 	}
 
+	/**
+	 * Open the default mail client and if the field this.uri is set, attempts 
+	 * to fill in address field and body of the email. If the URI is malformed,
+	 * it instead opens a blank email.
+	 */
 	public void sendEmail(){
 		if(Desktop.isDesktopSupported()){
 			desktop = Desktop.getDesktop();
@@ -166,8 +194,15 @@ public class SendEmail {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Parseerror at: "+e.getIndex());
 				e.printStackTrace();
+				try {
+					desktop.mail();
+				} catch (IOException e1) {
+					
+					e1.printStackTrace();
+				}
+				
 			}
 		}
 	}

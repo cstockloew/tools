@@ -39,13 +39,23 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.PlatformUI;
 import org.universaal.tools.uploadopensourceplugin.email.SendEmail;
 
-
+/**
+ * Main part of the Upload Open Source wizard. When the user presses Finish in 
+ * the wizard, this class handles the uploading of the project to the given
+ * SVN Repository.
+ * @author Adrian
+ *
+ */
 public class UploadOpenSourceWizard extends Wizard {
 	
 	UploadOpenSourceWizardPage1 page;
 	IProject project;
 	IProject[] projects;
 	
+	/**
+	 * When the wizard is created, it finds the currently selected project in
+	 * preparation for the uploading to SVN.
+	 */
 	public UploadOpenSourceWizard(){
 		page = new UploadOpenSourceWizardPage1();
 		
@@ -83,6 +93,9 @@ public class UploadOpenSourceWizard extends Wizard {
 		return false;
 	}
 
+	/**
+	 * Creates a new SVN Repository Location and uploads the current project.
+	 */
 	@Override
 	public boolean performFinish() {
 		IRepositoryLocation loc = SVNRemoteStorage.instance().newRepositoryLocation();
@@ -108,6 +121,12 @@ public class UploadOpenSourceWizard extends Wizard {
 		return true;
 	}
 	
+	/**
+	 * Helperclass to give the folder in the SVN Repository the correct name.
+	 * Demanded by the Subversive API.
+	 * @author Adrian
+	 *
+	 */
 	private class FolderNamer implements ShareProjectOperation.IFolderNameMapper{
 		@Override
 		public String getRepositoryFolderName(IProject arg0) {
@@ -115,6 +134,12 @@ public class UploadOpenSourceWizard extends Wizard {
 		}
 	}
 
+	/**
+	 * Makes it possible for the wizard to display a progressbar while the work
+	 * is being done.
+	 * @author Adrian
+	 *
+	 */
 	private class Progress implements IRunnableWithProgress{
 
 		Job job;
