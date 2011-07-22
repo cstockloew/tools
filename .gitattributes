@@ -1,4 +1,7 @@
 * text=auto !eol
+org.universaal.tool.wizardfeature/.project -text
+org.universaal.tool.wizardfeature/build.properties -text
+org.universaal.tool.wizardfeature/feature.xml -text
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
