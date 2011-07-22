@@ -196,6 +196,16 @@ org.universaal.tools.profileplugin/model/uaal_ml.profile.notation -text
 org.universaal.tools.profileplugin/model/uaal_ml.profile.uml -text svneol=unset#text/plain
 org.universaal.tools.profileplugin/plugin.xml -text svneol=unset#text/plain
 org.universaal.tools.profileplugin/src/icons/patient_ns16.gif -text
+org.universaal.tools.samples.lighting/.project -text svneol=unset#text/plain
+org.universaal.tools.samples.lighting/models/lighting.di -text
+org.universaal.tools.samples.lighting/models/lighting.notation -text
+org.universaal.tools.samples.lighting/models/lighting.uml -text svneol=unset#text/plain
+org.universaal.tools.samples.lighting/models/middleware.owl.di -text
+org.universaal.tools.samples.lighting/models/middleware.owl.notation -text
+org.universaal.tools.samples.lighting/models/middleware.owl.uml -text svneol=unset#text/plain
+org.universaal.tools.samples.lighting/models/ontology.di -text
+org.universaal.tools.samples.lighting/models/ontology.notation -text
+org.universaal.tools.samples.lighting/models/ontology.uml -text svneol=unset#text/plain
 org.universaal.tools.subversivePlugin/.classpath -text svneol=unset#text/plain
 org.universaal.tools.subversivePlugin/.project -text svneol=unset#text/plain
 org.universaal.tools.subversivePlugin/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
