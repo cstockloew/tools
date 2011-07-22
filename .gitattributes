@@ -124,6 +124,25 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthir
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/.classpath -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/.project -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/LICENSE.txt -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/build.properties -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/icons/compile.png -text
+org.universaal.tools.subversivePlugin/icons/sample.gif -text
+org.universaal.tools.subversivePlugin/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/eclipse/wb/swt/ResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/eclipse/wb/swt/SWTResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/handlers/ImportExampleHandler.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/preferences/PreferenceConstants.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/preferences/PreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/wizards/ImportExampleWizard.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/wizards/ImportExampleWizardPage.java -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
