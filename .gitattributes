@@ -1,4 +1,7 @@
 * text=auto !eol
+org.eclipse.mofscript/.project -text svneol=unset#text/plain
+org.eclipse.mofscript/build.properties -text svneol=unset#text/plain
+org.eclipse.mofscript/feature.xml -text svneol=unset#text/plain
 org.ops4j.pax.runner.eclipse.core.feature/.project -text svneol=unset#text/plain
 org.ops4j.pax.runner.eclipse.core.feature/build.properties -text svneol=unset#text/plain
 org.ops4j.pax.runner.eclipse.core.feature/feature.xml -text svneol=unset#text/plain
