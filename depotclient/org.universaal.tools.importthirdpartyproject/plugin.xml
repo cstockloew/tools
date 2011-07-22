@@ -6,7 +6,6 @@
          point="org.eclipse.ui.commands">
       <command
             name="Import Third Party Application"
-            categoryId="org.universaal.tools.newwizard.plugin.command"
             id="org.universaal.importexternalproject.commands.importthirdparty">
       </command>
    </extension>
@@ -16,15 +15,6 @@
             commandId="org.universaal.importexternalproject.commands.importthirdparty"
             class="org.universaal.tools.importexternalproject.handlers.ImportHandler">
       </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="org.universaal.importexternalproject.commands.sampleCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            sequence="M1+6"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
-      </key>
    </extension>
    <extension
          point="org.eclipse.ui.menus">

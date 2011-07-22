@@ -19,7 +19,6 @@
 package org.universaal.tools.importexternalproject.wizards;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -59,23 +58,31 @@ import org.universaal.tools.importexternalproject.xmlparser.ProjectObject;
 import org.universaal.tools.importexternalproject.xmlparser.XmlParser;
 import org.universaal.tools.importthirdparty.preferences.PreferenceConstants;
 
+/**
+ * Main part of the Import Third Party Application wizard.
+ * @author Adrian
+ *
+ */
 public class ImportExternalWizard extends Wizard implements IImportWizard {
 
-	private File file;
 	private ProjectObject chosenProject;
 	private ImportExternalWizardPage page;
 	private String xml;
 	private IWorkbenchWindow window;
 
+	/**
+	 * Default constructor. Called if the wizard is started from File->Import.
+	 */
 	public ImportExternalWizard(){
-		window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		this.window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		page = new ImportExternalWizardPage(true);
 		initFiles();
 	}
 
 	/**
 	 * Added another constructor to be able to know if the wizard was started 
-	 * by the command or from the Import-extension.
+	 * by the command or from the Import-Wizard-extension. This is done to give
+	 * the window the correct size, no matter where it is started from.
 	 */
 	public ImportExternalWizard(IWorkbenchWindow window){
 		this.window = window;
@@ -84,6 +91,11 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 
 	}
 
+	/**
+	 * Fetches the information from the "projects.xml"-file stored at the saved
+	 * URL, and saves it in a string that will be used to build the list of 
+	 * projects.
+	 */
 	private void initFiles(){
 
 		StringBuilder sb = new StringBuilder();
@@ -126,6 +138,16 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 		return false;
 	}
 
+	/**
+	 * Checks first if the chosen project has a registered SVN URL. If it does
+	 * not, the project can not be checked out.
+	 * This method uses the Subversive API to first create a new Repository 
+	 * location based on the SVN URL belonging to the project about to be 
+	 * checked out. After this repository location has been created and verified,
+	 * it locates the project in question, and creates a composite operation, 
+	 * so that it can both check out the project, and then remove the SVN 
+	 * Repository from the list of stored repositories.
+	 */
 	@Override
 	public boolean performFinish() {
 		if(!chosenProject.getSvnUrl().equals(XmlParser.FIELD_EMPTY)){
@@ -180,6 +202,12 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 		}
 	}
 
+	/**
+	 * Implements IRunnableWithProgress so that the Wizard can display a 
+	 * progressbar while it is checking out the project from SVN.
+	 * @author Adrian
+	 *
+	 */
 	private class Progress implements IRunnableWithProgress{
 
 		private Job job;
@@ -194,6 +222,8 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 			if(arg0==null){
 				arg0 = new NullProgressMonitor();
 			}
+			//IProgressMonitor.UNKNOWN means that the progressbar can not show
+			//how much work that remains.
 			arg0.beginTask("Test!", IProgressMonitor.UNKNOWN);
 			arg0.setTaskName("Importing project. This might take some time.");
 			while(job.getState()!=0){
@@ -213,14 +243,20 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 		addPage(page);
 	}
 
-	public File getFiles(){
-		return file;
-	}
-
+	/**
+	 * Returns the String containing the xml fetched from the web.
+	 * @return String containing xml
+	 */
 	public String getXML(){
 		return xml;
 	}
 
+	/**
+	 * When a user selects a project in the list of projects in the wizard, 
+	 * this method is called by the list's SelectionListener so that the main
+	 * part of the wizard knows the selection.
+	 * @param input The chosen project in the list
+	 */
 	public void setChosen(ProjectObject input){
 		this.chosenProject = input;
 	}

@@ -32,10 +32,14 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Parses and searches in the downloaded projects.xml-file.
+ * @author Adrian
+ *
+ */
 public class XmlParser {
 
 	public static final String FIELD_EMPTY = "Not given.";
-//	private ArrayList<File> resultList;
 	private DocumentBuilderFactory factory;
 	private DocumentBuilder dBuilder;
 
@@ -49,6 +53,17 @@ public class XmlParser {
 		}
 	}
 
+	/**
+	 * Searches through the xml-file for any projects with tags matching the
+	 * entered search-string. If any are found, it creates a ProjectObject that
+	 * it enters all the information about the matching project into, and then
+	 * places this project into the result-ArrayList the method received as 
+	 * input.
+	 * @param xml - The xml text that will be searched.
+	 * @param result - ArrayList of ProjectObject where all matches will be placed.
+	 * @param tag - The entered search-string.
+	 * @return True if any matches, false if not.
+	 */
 	public boolean searchTags(String xml, 
 			ArrayList<ProjectObject> result, String tag){
 
@@ -76,20 +91,6 @@ public class XmlParser {
 					}
 
 				if(match){
-//					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
-//					resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
-//					resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
-//					resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
-//					resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
-//					resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
-//					resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
-//					ProjectObject projObj = new ProjectObject(resName, resUrl, resSvnUrl, resDesc, resDev, resDate, false);
-//					for(int i=0; i<nList.getLength(); i++){
-//						Element node = (Element) nList.item(i);
-//						String currentTag = node.getFirstChild().getNodeValue();
-//						projObj.addTag(currentTag);
-//					}
-//					result.add(projObj);
 					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
 					try{
 						resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
@@ -147,7 +148,19 @@ public class XmlParser {
 		return match;
 	}
 
-	public boolean searchNames(String xml, ArrayList<ProjectObject> result, String name){
+	/**
+	 * Searches through the xml-file for any projects with names matching the
+	 * entered search-string. If any are found, it creates a ProjectObject that
+	 * it enters all the information about the matching project into, and then
+	 * places this project into the result-ArrayList the method received as 
+	 * input.
+	 * @param xml - The xml text that will be searched.
+	 * @param result - ArrayList of ProjectObject where all matches will be placed.
+	 * @param name - The entered search-string.
+	 * @return True if any matches, false if not.
+	 */
+	public boolean searchNames(String xml, ArrayList<ProjectObject> result,
+			String name){
 
 		boolean match;
 		boolean foundName = false;

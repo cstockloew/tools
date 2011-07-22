@@ -47,11 +47,16 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.universaal.tools.importexternalproject.xmlparser.ProjectObject;
 import org.universaal.tools.importexternalproject.xmlparser.XmlParser;
 
+/**
+ * The only page of the Import Third Party Application wizard.
+ * 
+ * @author Adrian
+ *
+ */
 public class ImportExternalWizardPage extends WizardPage {
 	private Table table;
 	private TableColumn nameClm, dateClm, authorClm;
 	private ProjectObject[] projects;
-//	private File files;
 	private String files;
 	private TableViewer tableViewer;
 	private StyledText styledText;
@@ -61,6 +66,13 @@ public class ImportExternalWizardPage extends WizardPage {
 	private Button btnListAll;
 	private boolean importExtension;
 
+	/**
+	 * Creates the page, and sets title. The boolean input tells the object
+	 * whether it was created by the command, or launched from the File->Import.
+	 * This is done to give the window the correct size no matter where it is
+	 * created from.
+	 * @param input true if created by File->Import. False otherwise.
+	 */
 	protected ImportExternalWizardPage(boolean input) {
 		super("Import external project");
 		setTitle("Import External Project.");
@@ -71,10 +83,11 @@ public class ImportExternalWizardPage extends WizardPage {
 	@Override
 	public void createControl(Composite parent) {
 
+		//Sets the size if it was created by File->Import.
 		if(importExtension){
 			getWizard().getContainer().getShell().setSize(850, 500);
 		}
-		System.out.println("createControl");
+		
 		Composite container = new Composite(parent, SWT.NULL);
 		setControl(container);
 		container.setLayout(new GridLayout(4, false));
@@ -143,9 +156,15 @@ public class ImportExternalWizardPage extends WizardPage {
 		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
-
 		}
 
+		/**
+		 * This is used to update the list when the user enters a searchterm,
+		 * and presses Search. It first searches for matches by name, and then
+		 * by tags. Name-matches are given a flag to show that they matched by 
+		 * name, and will always be displayed before the projects that only match
+		 * by tags.
+		 */
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			setPageComplete(false);
@@ -193,6 +212,10 @@ public class ImportExternalWizardPage extends WizardPage {
 
 	private class ChoiceListener implements ISelectionChangedListener{
 
+		/**
+		 * Marks the page as complete so that the wizard can be finished, and 
+		 * also sets the currentproject in the main part of the wizard.
+		 */
 		@Override
 		public void selectionChanged(SelectionChangedEvent arg0) {
 			setPageComplete(true);
@@ -207,6 +230,12 @@ public class ImportExternalWizardPage extends WizardPage {
 		}
 	}
 
+	/**
+	 * SelectionListener tied to the Search-button. It sets the searchstring as
+	 * new input for the TableViewer, and triggers a search for that string.
+	 * @author Adrian
+	 *
+	 */
 	private class Search implements SelectionListener{
 
 		@Override
@@ -222,6 +251,13 @@ public class ImportExternalWizardPage extends WizardPage {
 		}
 	}
 	
+	/**
+	 * SelectionListener tied to the List All-button. It sets an empty string 
+	 * as input for the TableViewer, and as a result, the tableviewer displays
+	 * all projects in the xml-file.
+	 * @author Adrian
+	 *
+	 */
 	private class ListAll implements SelectionListener{
 
 		@Override
@@ -235,6 +271,13 @@ public class ImportExternalWizardPage extends WizardPage {
 		
 	}
 	
+	/**
+	 * Disables the wizard "Finish"-button when the search-field has focus. 
+	 * Workaround to avoid users accidentally pressing enter to do a search, as 
+	 * this would instead finish the wizard and import a selected project.
+	 * @author Adrian
+	 *
+	 */
 	private class SearchFieldFocusListener implements FocusListener{
 
 		@Override
@@ -251,6 +294,11 @@ public class ImportExternalWizardPage extends WizardPage {
 		
 	}
 	
+	/**
+	 * Builds the description that is displayed in the StyledText-box.
+	 * @param res - The ProjectObject that will be described.
+	 * @return String containing a formatted description.
+	 */
 	private String buildDescription(ProjectObject res){
 		String description = 
 				"Project homepage: \n"+

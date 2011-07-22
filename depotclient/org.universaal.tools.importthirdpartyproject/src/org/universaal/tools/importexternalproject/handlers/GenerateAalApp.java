@@ -41,6 +41,13 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+/**
+ * Generates a file named "aalapp.xml" at the root of the currently selected
+ * project in the Package Explorer. Opens the file with an xml-editor after it
+ * is created.
+ * @author Adrian
+ *
+ */
 public class GenerateAalApp extends AbstractHandler {
 
 	@Override
@@ -51,11 +58,9 @@ public class GenerateAalApp extends AbstractHandler {
 				getActiveWorkbenchWindow().getSelectionService();
 		IStructuredSelection structured = (IStructuredSelection) service
                 .getSelection("org.eclipse.jdt.ui.PackageExplorer");
-		IProject project=null;
-		Object element;
-		IPath path;
 		
-		element = structured.getFirstElement();
+		IProject project=null;
+		Object element = structured.getFirstElement();
 		
 		if(element instanceof IResource){
 			project = ((IResource)element).getProject();
@@ -67,16 +72,15 @@ public class GenerateAalApp extends AbstractHandler {
 			project = jProject.getProject();
 		}
 		
-		String string = project.getLocation().toPortableString();
-		System.out.println(string);
+		String projectLocation = project.getLocation().toPortableString();
 
-		File file = new File(string, "aalapp.xml");
+		File file = new File(projectLocation, "aalapp.xml");
 		try {
 			file.createNewFile();
 			project.refreshLocal(IProject.DEPTH_ONE, new NullProgressMonitor());
-//			IFileStore fileStore = EFS.getLocalFileSystem().getStore(file.toURI());
-//			IDE.openEditorOnFileStore( page, fileStore );
 			IFile fileToOpen;
+			
+			//Loop until the file is created, so that it can be opened.
 			do{
 				fileToOpen = project.getFile("aalapp.xml");
 			}while(fileToOpen==null);
@@ -84,6 +88,7 @@ public class GenerateAalApp extends AbstractHandler {
 			IEditorDescriptor desc = PlatformUI.getWorkbench().
 			        getEditorRegistry().getDefaultEditor(file.getName());
 			page.openEditor(new FileEditorInput(fileToOpen), desc.getId());
+			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

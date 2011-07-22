@@ -29,21 +29,10 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.importexternalproject.wizards.ImportExternalWizard;
 
 /**
- * Our sample handler extends AbstractHandler, an IHandler base class.
- * @see org.eclipse.core.commands.IHandler
- * @see org.eclipse.core.commands.AbstractHandler
+ * Starts the Import Third Party Application wizard
  */
 public class ImportHandler extends AbstractHandler {
-	/**
-	 * The constructor.
-	 */
-	public ImportHandler() {
-	}
 
-	/**
-	 * the command has been executed, so extract extract the needed information
-	 * from the application context.
-	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
