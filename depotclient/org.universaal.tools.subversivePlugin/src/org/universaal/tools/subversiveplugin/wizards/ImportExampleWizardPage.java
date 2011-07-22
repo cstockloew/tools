@@ -64,6 +64,11 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.universaal.tools.subversiveplugin.Activator;
 import org.universaal.tools.subversiveplugin.preferences.PreferenceConstants;
 
+/**
+ * Only page of the Import AAL Studio Example Wizard.
+ * @author Adrian
+ *
+ */
 public class ImportExampleWizardPage extends WizardPage {
 	
 	private Table table;
@@ -94,6 +99,9 @@ public class ImportExampleWizardPage extends WizardPage {
 		
 	}
 	
+	/**
+	 * Creates the table with contents.
+	 */
 	public void createControl(Composite parent) {
 		loadPreferenceValues();
 		Composite container = new Composite(parent, SWT.NULL);
@@ -138,6 +146,9 @@ public class ImportExampleWizardPage extends WizardPage {
 	
 	}
 	
+	/**
+	 * Loads the stored preferencevalues from the preference store.
+	 */
 	public void loadPreferenceValues(){
 		IPreferenceStore pref = Activator.getDefault().getPreferenceStore();
 		repositoryUrl = pref.getString(PreferenceConstants.P_URL);
@@ -154,6 +165,12 @@ public class ImportExampleWizardPage extends WizardPage {
 		
 		private boolean createLocation = true;
 		
+		/**
+		 * Fetches information about the available projects from the SVN 
+		 * Repository. The Repository location in Eclipse is created if it did
+		 * not exist already. It gets all children from the example folder, and
+		 * displays them in the table.
+		 */
 		public ViewContentProvider(){
 			locs = SVNRemoteStorage.instance().getRepositoryLocations();
 			
@@ -247,14 +264,23 @@ public class ImportExampleWizardPage extends WizardPage {
 			return null;
 		}
 		public Image getImage(Object obj) {
-			return ResourceManager.getPluginImage("org.universaal.tools.subversivePlugin", "icons/compile.png");
-//			return PlatformUI.getWorkbench().
-//					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			return ResourceManager.getPluginImage("org.universaal.tools.subversivePlugin",
+					"icons/compile.png");
 		}
 	}
 	
+	/**
+	 * Listens to the table.
+	 * @author Adrian
+	 *
+	 */
 	private class ChoiceListener implements ISelectionChangedListener{
 
+		/**
+		 * Sets the selected project in the main part of the wizard, and also 
+		 * starts a separate thread that attempts to read the file "readme.txt"
+		 * that can contain important information about the project.
+		 */
 		@Override
 		public void selectionChanged(SelectionChangedEvent arg0) {
 			int index = tableViewer.getTable().getSelectionIndex();
@@ -273,8 +299,10 @@ public class ImportExampleWizardPage extends WizardPage {
 		
 	}
 	
-	//Class that is used in its own thread to fetch the information from the 
-	//readme-file. Uses an asyncExec() to update the UI.
+	/**
+	 * Class that is used in its own thread to fetch the information from the 
+	 * readme-file. Uses an asyncExec() to update the UI.
+	 */
 	private class ReadmeParser implements Runnable{
 		
 		int index;
@@ -290,7 +318,11 @@ public class ImportExampleWizardPage extends WizardPage {
 		}
 	}
 	
-	//Used by Readmeparser. Launched in an asyncExec() to update the UI.
+	/**
+	 * Used by Readmeparser. Launched in an asyncExec() to update the UI.
+	 * @author Adrian
+	 *
+	 */
 	private class UpdateDetails implements Runnable{
 		
 		private String details;
@@ -306,8 +338,12 @@ public class ImportExampleWizardPage extends WizardPage {
 		
 	}
 	
-	//Finds the readme.txt in the selected project, and returns its contents in
-	//a String.
+	/**
+	 * Finds the readme.txt in the selected project, and returns its contents in
+	 * a String
+	 * @param i - The number of the selected project in the list.
+	 * @return String containing the contents of the readme.txt
+	 */
 	private String parseFile(int i){
 		SVNRepositoryFile file = 
 			new SVNRepositoryFile(location,

@@ -40,7 +40,13 @@ import org.eclipse.team.svn.core.utility.ProgressMonitorUtility;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
+/**
+ * Main part of the Import AAL Studio Example wizard.
+ * @author Adrian
+ *
+ */
 public class ImportExampleWizard extends Wizard implements IImportWizard {
 
 	private ImportExampleWizardPage page;
@@ -48,7 +54,6 @@ public class ImportExampleWizard extends Wizard implements IImportWizard {
 	private IWorkbenchWindow window;
 	
 	public ImportExampleWizard(){
-		
 	}
 	
 	public ImportExampleWizard(IWorkbenchWindow inputWindow){
@@ -56,7 +61,9 @@ public class ImportExampleWizard extends Wizard implements IImportWizard {
 		TrayDialog.setDialogHelpAvailable(false);
 	}
 	
-	//Must override this to return true in order to get a progressbar.
+	/**
+	 * Must override this to return true in order to get a progressbar.
+	 */
 	@Override
 	public boolean needsProgressMonitor() {
 		return true;
@@ -67,6 +74,10 @@ public class ImportExampleWizard extends Wizard implements IImportWizard {
 		return false;
 	}
 	
+	/**
+	 * Checks out the chosen project from the given SVN Repository, and then
+	 * disconnects the project from the repository.
+	 */
 	@Override
 	public boolean performFinish() {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -109,6 +120,12 @@ public class ImportExampleWizard extends Wizard implements IImportWizard {
 		this.choice = input;
 	}
 	
+	/**
+	 * Implements IRunnableWithProgress so that the wizard can display a 
+	 * progressbar while the work is being done.
+	 * @author Adrian
+	 *
+	 */
 	private class Progress implements IRunnableWithProgress{
 
 		private Job job;
@@ -130,7 +147,6 @@ public class ImportExampleWizard extends Wizard implements IImportWizard {
 				if(arg0.isCanceled()){
 					job.cancel();
 				}
-//				Thread.sleep(100);
 			}
 			arg0.done();
 			

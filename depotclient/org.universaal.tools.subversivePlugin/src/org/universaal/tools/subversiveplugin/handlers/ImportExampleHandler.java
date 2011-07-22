@@ -27,6 +27,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.subversiveplugin.wizards.ImportExampleWizard;
 
+/**
+ * Creates the Import AAL Studio Example wizard.
+ * @author Adrian
+ *
+ */
 public class ImportExampleHandler extends AbstractHandler {
 
 	@Override
