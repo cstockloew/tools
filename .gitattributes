@@ -425,6 +425,41 @@ org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/Fields
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/SourcePage.java -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/XmlEditor.java -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/model/ProjectModel.java -text svneol=unset#text/plain
+org.universal.tools.configurationExtractor/.classpath -text
+org.universal.tools.configurationExtractor/.project -text
+org.universal.tools.configurationExtractor/.settings/org.eclipse.jdt.core.prefs -text
+org.universal.tools.configurationExtractor/How[!!-~]To.txt -text
+org.universal.tools.configurationExtractor/META-INF/MANIFEST.MF -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Activator.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Annotations$ElementL$Type.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Annotations$ElementL.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Annotations$ElementP$Type.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Annotations$ElementP.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Annotations$Lst.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Annotations$LstPanel.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Annotations$Root.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/Annotations.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$1.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$10.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$11.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$12.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$13.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$2.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$3.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$4.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$5.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$6.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$7.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$8.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction$9.class -text
+org.universal.tools.configurationExtractor/bin/org/universal/tools/configurationExtractor/SampleAction.class -text
+org.universal.tools.configurationExtractor/build.properties -text
+org.universal.tools.configurationExtractor/icons/icon_config.gif -text
+org.universal.tools.configurationExtractor/lib/jdom.jar -text
+org.universal.tools.configurationExtractor/plugin.xml -text
+org.universal.tools.configurationExtractor/src/org/universal/tools/configurationExtractor/Activator.java -text
+org.universal.tools.configurationExtractor/src/org/universal/tools/configurationExtractor/Annotations.java -text
+org.universal.tools.configurationExtractor/src/org/universal/tools/configurationExtractor/SampleAction.java -text
 sonar_feature/.project -text svneol=unset#text/plain
 sonar_feature/build.properties -text svneol=unset#text/plain
 sonar_feature/feature.xml -text svneol=unset#text/plain
