@@ -1,0 +1,1 @@
+java -jar owl2javatransformation.jar ../OntologyFile/uAALProfileOntology.owl test
