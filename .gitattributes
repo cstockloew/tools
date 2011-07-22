@@ -2,6 +2,26 @@
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/.classpath -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/.project -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/LICENSE.txt -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/build.properties -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/icons/sample.gif -text
+org.universaal.tools.importthirdpartyproject/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/eclipse/wb/swt/SWTResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexternalproject/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexternalproject/handlers/GenerateAalApp.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexternalproject/handlers/ImportHandler.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexternalproject/wizards/ImportExternalWizard.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexternalproject/wizards/ImportExternalWizardPage.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexternalproject/xmlparser/ProjectObject.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexternalproject/xmlparser/XmlParser.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceConstants.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
+org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferencePage.java -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.classpath -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.project -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
