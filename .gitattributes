@@ -124,6 +124,26 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthir
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.classpath -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.project -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.settings/org.eclipse.papyrus.preferences.prefs -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/build.properties -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/OWL.profile.di -text
+org.universaal.tools.profileplugin/model/OWL.profile.notation -text
+org.universaal.tools.profileplugin/model/OWL.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/RDF.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/SWRL.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/SWRL.profile.umldi -text
+org.universaal.tools.profileplugin/model/SoaML.profile.di -text
+org.universaal.tools.profileplugin/model/SoaML.profile.notation -text
+org.universaal.tools.profileplugin/model/SoaML.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/uaal_ml.profile.di -text
+org.universaal.tools.profileplugin/model/uaal_ml.profile.notation -text
+org.universaal.tools.profileplugin/model/uaal_ml.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/src/icons/patient_ns16.gif -text
 org.universaal.tools.subversivePlugin/.classpath -text svneol=unset#text/plain
 org.universaal.tools.subversivePlugin/.project -text svneol=unset#text/plain
 org.universaal.tools.subversivePlugin/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
