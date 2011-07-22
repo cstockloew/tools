@@ -22,6 +22,9 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexte
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceConstants.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
+org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.classpath -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.project -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
