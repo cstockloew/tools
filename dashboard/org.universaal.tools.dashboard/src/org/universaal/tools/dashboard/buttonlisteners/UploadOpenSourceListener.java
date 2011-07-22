@@ -28,6 +28,12 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
+/**
+ * Class that calls the Upload Open Source command when that button is pressed on 
+ * the Dashboard.
+ * @author Adrian
+ *
+ */
 public class UploadOpenSourceListener implements SelectionListener {
 
 	ViewPart view;
@@ -48,7 +54,7 @@ public class UploadOpenSourceListener implements SelectionListener {
 			MessageDialog.openInformation(view.getSite().getShell(),
 					"Command not defined.",
 					"This command was not available. " +
-					"Please install AAL Studio BuildPlugin.");
+					"Please install AAL Studio Developer Depot plugin.");
 			e1.printStackTrace();
 		} catch (NotEnabledException e1) {
 			// TODO Auto-generated catch block

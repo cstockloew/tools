@@ -32,6 +32,12 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
+/**
+ * Class that calls the Create New Project command when that button is pressed on 
+ * the Dashboard.
+ * @author Adrian
+ *
+ */
 public class CreateNewProjectListener implements SelectionListener {
 
 	ViewPart view;

@@ -28,6 +28,12 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
+/**
+ * Class that calls the Run Project command when that button is pressed on 
+ * the Dashboard.
+ * @author Adrian
+ *
+ */
 public class RunProjectListener implements SelectionListener {
 
 	ViewPart view;

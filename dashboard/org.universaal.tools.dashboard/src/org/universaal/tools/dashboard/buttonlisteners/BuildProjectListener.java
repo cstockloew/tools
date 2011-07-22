@@ -30,6 +30,12 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
+/**
+ * Class that calls the Build Project command when that button is pressed on 
+ * the Dashboard.
+ * @author Adrian
+ *
+ */
 public class BuildProjectListener implements MouseListener{
 
 	ViewPart view;

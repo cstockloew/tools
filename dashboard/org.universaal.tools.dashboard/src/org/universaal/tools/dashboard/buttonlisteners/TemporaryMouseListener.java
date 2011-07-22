@@ -23,6 +23,12 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.ui.part.ViewPart;
 
+/**
+ * A temporary Listener assigned to those arrows where the associated command
+ * is not yet implemented.
+ * @author Adrian
+ *
+ */
 public class TemporaryMouseListener implements MouseListener {
 
 	ViewPart view;

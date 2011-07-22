@@ -30,6 +30,12 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.universaal.tools.dashboard.views.DashboardView;
 
+/**
+ * Class that listens to the workbench to keep track of the currently selected
+ * project.
+ * @author Adrian
+ *
+ */
 public class ProjectNameListener implements ISelectionListener {
 	
 	IWorkbenchPart part;
@@ -48,6 +54,11 @@ public class ProjectNameListener implements ISelectionListener {
 
 	}
 	
+	/**
+	 * When a new item is selected in the package explorer, it finds the 
+	 * project containing this item, and then calls a method to display the 
+	 * name of this project in the Dashboard.
+	 */
 	protected void pageSelectionChanged(){
 		if(part == source){
 			return;

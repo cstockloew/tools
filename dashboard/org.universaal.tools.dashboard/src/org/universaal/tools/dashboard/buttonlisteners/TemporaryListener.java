@@ -24,6 +24,12 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.part.ViewPart;
 
+/**
+ * A temporary Listener that is assigned to buttons where the associated command
+ * is not yet implemented.
+ * @author Adrian
+ *
+ */
 public class TemporaryListener implements SelectionListener {
 	
 	ViewPart view;

@@ -29,6 +29,12 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
+/**
+ * Class that calls the Create New Item command when that button is pressed on 
+ * the Dashboard.
+ * @author Adrian
+ *
+ */
 public class CreateNewItemListener implements SelectionListener{
 	
 	ViewPart view;

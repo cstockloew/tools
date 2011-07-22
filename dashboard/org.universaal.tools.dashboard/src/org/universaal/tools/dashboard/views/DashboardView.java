@@ -40,6 +40,7 @@ import org.universaal.tools.dashboard.buttonlisteners.BuildProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewItemListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.DebugProjectListener;
+import org.universaal.tools.dashboard.buttonlisteners.GenerateXmlListener;
 import org.universaal.tools.dashboard.buttonlisteners.ImportExampleListener;
 import org.universaal.tools.dashboard.buttonlisteners.ImportThirdPartyListener;
 import org.universaal.tools.dashboard.buttonlisteners.PublishProjectListener;
@@ -50,6 +51,11 @@ import org.universaal.tools.dashboard.buttonlisteners.TransformListener;
 import org.universaal.tools.dashboard.buttonlisteners.UploadOpenSourceListener;
 import org.universaal.tools.dashboard.listeners.ProjectNameListener;
 
+/**
+ * The Dashboardview itself.
+ * @author Adrian
+ *
+ */
 public class DashboardView extends ViewPart {
 
 	public static final String ID = "org.universaal.tools.dashboard.views.DashboardView"; //$NON-NLS-1$
@@ -499,11 +505,10 @@ public class DashboardView extends ViewPart {
 	}
 
 	/**
-	 * Create the actions.
+	 * Use this method to create all the buttonlisteners, and assign them to 
+	 * their respective buttons.
 	 */
 	private void createActions() {
-		// Create the actions
-		//Add button-listeners
 		
 		//Project definition
 		btnCreateProject.addSelectionListener(new CreateNewProjectListener(this));
@@ -523,7 +528,7 @@ public class DashboardView extends ViewPart {
 		btnDebug.addSelectionListener(new DebugProjectListener(this));
 		
 		//Project Description
-		btnGenerateAalappxml.addSelectionListener(new TemporaryListener(this, "Generate XML"));
+		btnGenerateAalappxml.addSelectionListener(new GenerateXmlListener(this));
 		
 		//Publishable Application
 		btnUploadOpenSource.addSelectionListener(new UploadOpenSourceListener(this));
@@ -566,7 +571,8 @@ public class DashboardView extends ViewPart {
 	@Override
 	public void dispose(){
 		super.dispose();
-		
+		ResourceManager.dispose();
+		SWTResourceManager.dispose();
 		if(selectionListener!=null){
 			getSite().getPage().removePostSelectionListener(selectionListener);
 		}

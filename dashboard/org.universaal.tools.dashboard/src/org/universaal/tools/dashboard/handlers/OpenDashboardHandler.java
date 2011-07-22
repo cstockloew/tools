@@ -25,7 +25,11 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.universaal.tools.dashboard.views.DashboardView;
 
-
+/**
+ * Handler that handles the Open Dashboard command.
+ * @author Adrian
+ *
+ */
 public class OpenDashboardHandler extends AbstractHandler {
 
 	@Override
