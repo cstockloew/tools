@@ -124,6 +124,47 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexte
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceConstants.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.owl2javatransformation/.classpath -text
+org.universaal.tools.owl2javatransformation/.project -text
+org.universaal.tools.owl2javatransformation/OntologyFile/uAALProfileOntology.owl -text
+org.universaal.tools.owl2javatransformation/ant/bundle.xml -text
+org.universaal.tools.owl2javatransformation/jar/guava-r09.jar -text
+org.universaal.tools.owl2javatransformation/jar/icu4j-3.4.4.jar -text
+org.universaal.tools.owl2javatransformation/jar/iri-0.8.jar -text
+org.universaal.tools.owl2javatransformation/jar/jena-2.6.4.jar -text
+org.universaal.tools.owl2javatransformation/jar/junit-4.5.jar -text
+org.universaal.tools.owl2javatransformation/jar/log4j-1.2.14.jar -text
+org.universaal.tools.owl2javatransformation/jar/lucene-core-2.3.1.jar -text
+org.universaal.tools.owl2javatransformation/jar/owl2java.bat -text
+org.universaal.tools.owl2javatransformation/jar/owl2javatransformation.jar -text
+org.universaal.tools.owl2javatransformation/jar/slf4j-api-1.5.8.jar -text
+org.universaal.tools.owl2javatransformation/jar/slf4j-log4j12-1.5.8.jar -text
+org.universaal.tools.owl2javatransformation/jar/stax-api-1.0.1.jar -text
+org.universaal.tools.owl2javatransformation/jar/templates/uAALClass.vm -text
+org.universaal.tools.owl2javatransformation/jar/test/AAL_Space.java -text
+org.universaal.tools.owl2javatransformation/jar/test/AAL_Space_Profile.java -text
+org.universaal.tools.owl2javatransformation/jar/test/Elderly_Profile.java -text
+org.universaal.tools.owl2javatransformation/jar/test/Elderly_User.java -text
+org.universaal.tools.owl2javatransformation/jar/test/Profilable_Entity.java -text
+org.universaal.tools.owl2javatransformation/jar/test/Profile.java -text
+org.universaal.tools.owl2javatransformation/jar/test/Sub_Profile.java -text
+org.universaal.tools.owl2javatransformation/jar/test/User.java -text
+org.universaal.tools.owl2javatransformation/jar/test/User_Identification_Profile.java -text
+org.universaal.tools.owl2javatransformation/jar/test/User_Profile.java -text
+org.universaal.tools.owl2javatransformation/jar/velocity-1.7-dep.jar -text
+org.universaal.tools.owl2javatransformation/jar/velocity.log -text
+org.universaal.tools.owl2javatransformation/jar/wstx-asl-3.2.9.jar -text
+org.universaal.tools.owl2javatransformation/jar/xercesImpl-2.7.1.jar -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/Owl2JavaTransformation.java -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/model/OntologyClass.java -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/model/OntologyEntity.java -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/model/OntologyProperty.java -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/model/PropertyRestriction.java -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/model/RestrictionType.java -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/modelgenerator/ModelGenerator.java -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/modelgenerator/ModelGeneratorFakeImpl.java -text
+org.universaal.tools.owl2javatransformation/src/org/universaal/tools/owl2javatransformation/modelgenerator/ModelGeneratorJenaImpl.java -text
+org.universaal.tools.owl2javatransformation/templates/uAALClass.vm -text
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
