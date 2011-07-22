@@ -1,0 +1,56 @@
+Project and Item Wizards 
+
+== Role of this tool ==
+ConfigurationExtractor Eclipse Plug-In extracts pieces of source code and special annotations and writes them into a XML configuration file.
+
+=== Benefits ===
+Builds up a XML configuration file automatically in a few seconds, searching trough all source files you want it to use.
+Much more faster than doing it by hand.
+
+=== Relation to reference architecture ===
+Tool was written for the FZI Living Lab AAL - PATRONUS project.
+
+=== Relation to Eclipse ===
+This Plug-In was developed in Eclipse to use with Eclipse development environment.
+
+== Overview of functionality ==
+Extract pieces of source code and comment annotations, write them into a XML file.
+
+== Installation guide ==
+1. Copy directory fzi.de.util.config into your Eclipse\plugins folder.
+2. Download JDOM from http//www.jdom.org
+3. Start your Eclipse development environment
+4. Import the JDom.jar file into your build path
+5. Use the ConfigurationExtractor
+
+=== Prerequisites and dependencies ===
+Depends on the JDOM Package (http://www.jdom.org/), tested and works with JDOM 1.1
+
+=== Tool installation procedure ===
+See Installation guide.
+
+== Release history ==
+Not released yet.
+
+=== Release for D3.1-A ===
+
+{| border="1" cellpadding="2" 
+|- valign="top"
+! scope="row" width="30%" | New features implemented
+| width="70%" | Creat a new PERSONA-compliant blank template project.
+
+Set the initial description of the project.
+
+Select the initial premade wrapper classes included.
+
+Defines command for invoking the wizard.
+|- valign="top"
+! scope="row" | Limitations and problems fixed
+| This is the first release, and thus no limitations and problems from previous releases are addressed.
+|- valign="top"
+! scope="row" | Known remaining limitations and problems
+| No problems detected or reported until now.
+|- valign="top"
+! scope="row" | Features not yet implemented
+| Wizards for creating new Items (project-specific classes and files) in selected projects, folders or packages
+|}
