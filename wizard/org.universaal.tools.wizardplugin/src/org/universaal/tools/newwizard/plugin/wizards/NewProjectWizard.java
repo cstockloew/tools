@@ -11,7 +11,7 @@ import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection; //import org.eclipse.core.resources.*;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.ui.internal.actions.OpenMavenConsoleAction;
@@ -20,8 +20,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-
-import java.io.*;
 
 import org.eclipse.ui.*;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -43,12 +41,21 @@ public class NewProjectWizard extends Wizard implements INewWizard {
     private static final ProjectFolder RESOURCES_TEST = new ProjectFolder(
 	    "src/test/resources", "target/test-classes"); //$NON-NLS-1$ //$NON-NLS-2$
 
+    private static final String[] classNames = { "CPublisher", "CSubscriber",
+	    "ISubscriber", "OPublisher", "SCallee", "SCaller", "IPublisher",
+	    "OSubscriber" };
     private static final ProjectFolder[] JAR_DIRS = { JAVA, JAVA_TEST,
 	    RESOURCES, RESOURCES_TEST };
     private NewProjectWizardPage1 page1;
     private NewProjectWizardPage2 page2;
     private ISelection selection;
     ProjectImportConfiguration configuration;
+    short[][] templateMatrix = { { 1, 1, 1, 1, 1, 1, 0, 0, 1 },
+		{ 1, 1, 0, 0, 2, 1, 0, 0, 2 }, 
+		{ 3, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 1, 0, 0, 0, 2, 0, 0, 0, 2 }, 
+		{ 4, 4, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
     public NewProjectWizard() {
 	// Some details about the wizard...
@@ -65,7 +72,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	configuration = new ProjectImportConfiguration();
 	page1 = new NewProjectWizardPage1(selection);
 	page2 = new NewProjectWizardPage2(selection);
-	PlatformUI.getWorkbench().getHelpSystem().setHelp(getShell(), Activator.PLUGIN_ID + ".help_project");
+	PlatformUI.getWorkbench().getHelpSystem()
+		.setHelp(getShell(), Activator.PLUGIN_ID + ".help_project");
 	addPage(page1);
 	addPage(page2);
     }
@@ -97,12 +105,14 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	checks[7] = page2.getOsubscriber().getSelection();
 	checks[8] = page2.getDefCpublisher().getSelection();
 	checks[9] = page2.getDefScaller().getSelection();
+	final boolean template=page2.getTemplate().getSelection();
+	final int templateIndex=page2.getTemplateDropDown().getSelectionIndex();
 
 	// I use deprecated methods because I haven´t found the new way to
 	// create a new project
 	// TODO: Use the latest methods -> Latest version of Maven plugin keeps
 	// using them!
-//	final String projectName = configuration.getProjectName(model);
+	// final String projectName = configuration.getProjectName(model);
 	IStatus nameStatus = configuration.validateProjectName(model);
 	if (!nameStatus.isOK()) {
 	    MessageDialog.openError(getShell(),
@@ -133,7 +143,9 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	// This job creates a blank maven project with the POM as defined in the
 	// wizard
-	job = new WorkspaceJob("wizard.project.job.creatingProject") { //$NON-NLS-1$
+	job = new WorkspaceJob(
+		org.universaal.tools.newwizard.plugin.wizards.Messages
+			.getString("Project.8")) { //$NON-NLS-1$
 	    public IStatus runInWorkspace(IProgressMonitor monitor) {
 		setProperty(IProgressConstants.ACTION_PROPERTY,
 			new OpenMavenConsoleAction());
@@ -154,13 +166,15 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	};
 
 	// This job modifies the newly created blank maven project to be
-	// uaal(PERSONA)-compliant
-	job2 = new WorkspaceJob("wizard.project.job.second") { //$NON-NLS-1$
+	// uaal-compliant
+	job2 = new WorkspaceJob(
+		org.universaal.tools.newwizard.plugin.wizards.Messages
+			.getString("Project.9")) { //$NON-NLS-1$
 	    public IStatus runInWorkspace(IProgressMonitor monitor) {
 		setProperty(IProgressConstants.ACTION_PROPERTY,
 			new OpenMavenConsoleAction());
 		try {
-		    // Set the name of the package
+		    // Set the name & create the package
 		    IFolder src = project.getFolder(JAVA.getPath());
 		    String[] folders = pack.replace(".", "#").split("#"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		    for (int i = 0; i < folders.length; i++) {
@@ -168,74 +182,81 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			packFold.create(true, true, monitor);
 			src = packFold;
 		    }
-		    // create the selected files
+		    // create the activator
 		    IFile f1 = src.getFile("Activator.java"); //$NON-NLS-1$
-		    f1.create(customizeFileStream("Activator", pack, //$NON-NLS-1$
+		    f1.create(FileStreamUtils.customizeFileStream(
+			    "Activator", pack, //$NON-NLS-1$
 			    checks), true, monitor);
-		    if (checks[0]) {
-			if (!checks[8]) {
-			    IFile f2 = src.getFile("CPublisher.java"); //$NON-NLS-1$
-			    f2.create(customizeFileStream("CPublisher", pack, //$NON-NLS-1$
-				    checks), true, monitor);
+		    if (template) {//Copy the template classes. Watch for indices
+			for (int i = 0; i < 6; i++) {// 6: No IP or OS yet: No handler template yet
+			    String folder = getTemplateFolder(templateIndex, i);// Get origin folder for this file
+			    if (!folder.isEmpty()) {// If folder is "" means there is no such file for this template
+				IFile f = src.getFile(classNames[i] + ".java"); //$NON-NLS-1$
+				f.create(FileStreamUtils.customizeFileStream(
+					"templates/" + folder + "/" + classNames[i], pack, //$NON-NLS-1$
+					checks), true, monitor);//This copies template file from right folder
+				if (i == 4) {//If SCee, add ProvidedServ
+				    IFile faux = src
+					    .getFile("SCalleeProvidedService.java"); //$NON-NLS-1$
+				    faux.create(FileStreamUtils
+					    .customizeFileStream("templates/" + folder + "/"
+						    + "SCalleeProvidedService", //$NON-NLS-1$
+						    pack, checks), true,
+					    monitor);
+				}
+			    }
+
+			}
+		    } else {
+			// Watch out here for indices
+			for (int i = 0; i < 8; i++) {
+			    if (checks[i] && !((i == 0) && (checks[8]))// check default CPer
+				    && !((i == 5) && (checks[9]))) {// check default SCer
+				IFile f = src.getFile(classNames[i] + ".java"); //$NON-NLS-1$
+				f.create(FileStreamUtils.customizeFileStream(
+					classNames[i], pack, //$NON-NLS-1$
+					checks), true, monitor);
+				if (i == 4) {// If SCee, add ProvidedServ
+				    IFile faux = src
+					    .getFile("SCalleeProvidedService.java"); //$NON-NLS-1$
+				    faux.create(FileStreamUtils
+					    .customizeFileStream(
+						    "SCalleeProvidedService", //$NON-NLS-1$
+						    pack, checks), true,
+					    monitor);
+				}
+			    }
 			}
 		    }
-		    if (checks[1]) {
-			IFile f3 = src.getFile("CSubscriber.java"); //$NON-NLS-1$
-			f3.create(customizeFileStream("CSubscriber", pack, //$NON-NLS-1$
-				checks), true, monitor);
-		    }
-		    if (checks[2]) {
-			IFile f4 = src.getFile("ISubscriber.java"); //$NON-NLS-1$
-			f4.create(customizeFileStream("ISubscriber", pack, //$NON-NLS-1$
-				checks), true, monitor);
-		    }
-		    if (checks[3]) {
-			IFile f5 = src.getFile("OPublisher.java"); //$NON-NLS-1$
-			f5.create(customizeFileStream("OPublisher", pack, //$NON-NLS-1$
-				checks), true, monitor);
-		    }
-		    if (checks[4]) {
-			IFile f6 = src.getFile("SCalleeProvidedService.java"); //$NON-NLS-1$
-			f6.create(customizeFileStream("SCalleeProvidedService", //$NON-NLS-1$
-				pack, checks), true, monitor);
-		    }
-		    if (checks[4]) {
-			IFile f7 = src.getFile("SCallee.java"); //$NON-NLS-1$
-			f7.create(customizeFileStream("SCallee", pack, //$NON-NLS-1$
-				checks), true, monitor);
-		    }
-		    if (checks[5]) {
-			if (!checks[9]) {
-			    IFile f8 = src.getFile("SCaller.java"); //$NON-NLS-1$
-			    f8.create(customizeFileStream("SCaller", pack, //$NON-NLS-1$
-				    checks), true, monitor);
-			}
-		    }
-		    if (checks[6]) {
-			IFile f9 = src.getFile("IPublisher.java"); //$NON-NLS-1$
-			f9.create(customizeFileStream("IPublisher", pack, //$NON-NLS-1$
-				checks), true, monitor);
-		    }
-		    if (checks[7]) {
-			IFile f10 = src.getFile("OSubscriber.java"); //$NON-NLS-1$
-			f10.create(customizeFileStream("OSubscriber", pack, //$NON-NLS-1$
-				checks), true, monitor);
-		    }
+		    // Now edit the POM file
 		    IFile pom = project.getFile("pom.xml"); //$NON-NLS-1$
 		    if (pom.exists()) {
-			// Modify the pom to be uaal(PERSONA)-compliant
-			pom.setContents(customizePomStream(pack, pom
-				.getContents(), checks), true, true, monitor);
+			//This is to add phWorld and/or ont.profile deps, if template
+			boolean[] templateDeps={template, templateIndex==0};
+			// Modify the pom to be uaal-compliant
+			pom.setContents(
+				FileStreamUtils.customizePomStream(pack,
+					pom.getContents(), checks, templateDeps), true, true,
+				monitor);
 		    } else {
-			// TODO: If there is no pom -> fail. Set some message
-			// here...
-			System.out.println(">>>>>>>>>>>>>>NO POM!!!!!!!!!"); //$NON-NLS-1$
+			return new Status(
+				    Status.ERROR,
+				    Activator.PLUGIN_ID,
+				    org.universaal.tools.newwizard.plugin.wizards.Messages
+					    .getString("Project.7"));
 		    }
-		    //This is like refreshing, because we changed the pom
-		    MavenPlugin.getProjectConfigurationManager().updateProjectConfiguration(project, monitor);
+		    // This is like refreshing, because we changed the pom
+		    MavenPlugin.getProjectConfigurationManager()
+			    .updateProjectConfiguration(project, monitor);
 		    return Status.OK_STATUS;
 		} catch (CoreException e) {
 		    return e.getStatus();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    return new Status(
+			    Status.ERROR,
+			    Activator.PLUGIN_ID,
+			    e.getMessage());
 		} finally {
 		    monitor.done();
 		}
@@ -296,7 +317,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		}
 	    }
 	    // Execute the second job (modify to uaal)
-//	    job2.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
+	    // job2.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
 	    job2.schedule();
 
 	    // MNGECLIPSE-766 wait until new project is created
@@ -312,259 +333,6 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	    workspace.removeResourceChangeListener(listener);
 	}
 	return true;
-    }
-
-    /**
-     * This method parses a newly created Activator file to make it init, start
-     * and stop as appropriate the rest of uaal-specific files. It also adapts
-     * package name to all files.
-     * 
-     * @param filename
-     *            The name of the file (without extension)
-     * @param packname
-     *            The name of package
-     * @param checks
-     *            Collection of checked options to browse all checked classes
-     * @return
-     */
-    private InputStream customizeFileStream(String filename, String packname,
-	    boolean[] checks) {
-	try {
-	    // TODO: Modify if necessary the rest of files, not only Activator.
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(
-		    this.getClass().getClassLoader().getResourceAsStream(
-			    "files/" + filename + ".java"))); //$NON-NLS-1$ //$NON-NLS-2$
-	    StringBuilder output = new StringBuilder();
-	    String line;
-	    while ((line = reader.readLine()) != null) {
-		if (line.contains("/*TAG:PACKAGE*/")) { //$NON-NLS-1$
-		    output.append("package " + packname + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
-		} else if (line.contains("/*TAG:IMPORT*/")) {
-		    if (checks[8]) {
-			output
-				.append("import org.universAAL.middleware.context.ContextPublisher;\n"); //$NON-NLS-1$
-			output
-				.append("import org.universAAL.middleware.context.DefaultContextPublisher;\n"); //$NON-NLS-1$
-		    }
-		    if (checks[9]) {
-			output
-				.append("import org.universAAL.middleware.service.ServiceCaller;\n"); //$NON-NLS-1$
-			output
-				.append("import org.universAAL.middleware.service.DefaultServiceCaller;\n"); //$NON-NLS-1$
-		    }
-		} else if (line.contains("/*TAG:INIT*/")) { //$NON-NLS-1$
-		    if (checks[4])
-			output.append("	public static SCallee scallee=null;\n"); //$NON-NLS-1$
-		    if (checks[5])
-			if (checks[9])
-			    output
-				    .append("	public static ServiceCaller scaller=null;\n"); //$NON-NLS-1$
-			else
-			    output
-				    .append("	public static SCaller scaller=null;\n"); //$NON-NLS-1$
-		    if (checks[2])
-			output
-				.append("	public static ISubscriber isubscriber=null;\n"); //$NON-NLS-1$
-		    if (checks[3])
-			output
-				.append("	public static OPublisher opublisher=null;\n"); //$NON-NLS-1$
-		    if (checks[1])
-			output
-				.append("	public static CSubscriber csubscriber=null;\n"); //$NON-NLS-1$
-		    if (checks[0])
-			if (checks[8])
-			    output
-				    .append("	public static ContextPublisher cpublisher=null;\n"); //$NON-NLS-1$
-			else
-			    output
-				    .append("	public static CPublisher cpublisher=null;\n"); //$NON-NLS-1$
-		    if (checks[6])
-			output
-				.append("	public static IPublisher ipublisher=null;\n"); //$NON-NLS-1$
-		    if (checks[7])
-			output
-				.append("	public static OSubscriber osubscriber=null;\n"); //$NON-NLS-1$
-		} else if (line.contains("/*TAG:START*/")) { //$NON-NLS-1$
-		    if (checks[4])
-			output.append("		scallee=new SCallee(context);\n"); //$NON-NLS-1$
-		    if (checks[5]) {
-			if (checks[9])
-			    output
-				    .append("		scaller=new DefaultServiceCaller(context);\n"); //$NON-NLS-1$
-			else
-			    output.append("		scaller=new SCaller(context);\n"); //$NON-NLS-1$
-		    }
-		    if (checks[2])
-			output.append("		isubscriber=new ISubscriber(context);\n"); //$NON-NLS-1$
-		    if (checks[3])
-			output.append("		opublisher=new OPublisher(context);\n"); //$NON-NLS-1$
-		    if (checks[1])
-			output
-				.append("		csubscriber=new CSubscriber(context);\n"); //$NON-NLS-1$
-		    if (checks[0]) {
-			if (checks[8])
-			    output
-				    .append("		cpublisher=new DefaultContextPublisher(context,null);\n"); //$NON-NLS-1$
-			else
-			    output
-				    .append("		cpublisher=new CPublisher(context);\n"); //$NON-NLS-1$
-		    }
-		    if (checks[6])
-			output
-				.append("		ipublisher=new IPublisher(context);\n"); //$NON-NLS-1$
-		    if (checks[7])
-			output
-				.append("		osubscriber=new OSubscriber(context);\n"); //$NON-NLS-1$
-		} else if (line.contains("/*TAG:STOP*/")) { //$NON-NLS-1$
-		    if (checks[4])
-			output.append("		scallee.close();\n"); //$NON-NLS-1$
-		    if (checks[5])
-			output.append("		scaller.close();\n"); //$NON-NLS-1$
-		    if (checks[2])
-			output.append("		isubscriber.close();\n"); //$NON-NLS-1$
-		    if (checks[3])
-			output.append("		opublisher.close();\n"); //$NON-NLS-1$
-		    if (checks[1])
-			output.append("		csubscriber.close();\n"); //$NON-NLS-1$
-		    if (checks[0])
-			output.append("		cpublisher.close();\n"); //$NON-NLS-1$
-		    if (checks[6])
-			output.append("		ipublisher.close();\n"); //$NON-NLS-1$
-		    if (checks[7])
-			output.append("		osubscriber.close();\n"); //$NON-NLS-1$
-		} else if (line.contains("/*TAG:CLASSNAME*/")) { //$NON-NLS-1$
-		    line = line.replace("/*TAG:CLASSNAME*/", filename); //$NON-NLS-1$
-		    output.append(line + "\n"); //$NON-NLS-1$
-		} else {
-		    output.append(line + "\n"); //$NON-NLS-1$
-		}
-	    }
-	    return new ByteArrayInputStream(output.toString().getBytes());
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    return null;
-	}
-    }
-
-    /**
-     * This method parses the blank pom template and adds dependencies and
-     * configurations for the project to be uaal-compliant
-     * 
-     * @param checks
-     */
-    private InputStream customizePomStream(String packname,
-	    InputStream instream, boolean[] checks) {
-	try {
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(
-		    instream));
-	    StringBuilder output = new StringBuilder();
-	    String line;
-	    while ((line = reader.readLine()) != null) {
-		if (line.contains("</project>")) { //$NON-NLS-1$
-		    output.append("  <packaging>bundle</packaging>\n"); //$NON-NLS-1$
-		    output
-			    .append("    <dependencies>\n" //$NON-NLS-1$
-				    + "		<dependency>\n" //$NON-NLS-1$
-				    + "			<groupId>org.apache.felix</groupId>\n" //$NON-NLS-1$
-				    + "			<artifactId>org.osgi.core</artifactId>\n" //$NON-NLS-1$
-				    + "			<version>1.0.1</version>\n" //$NON-NLS-1$
-				    + "		</dependency>\n" //$NON-NLS-1$
-				    + "		<dependency>\n" //$NON-NLS-1$
-				    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
-				    + "			<artifactId>mw.data.representation</artifactId>\n" //$NON-NLS-1$
-				    + "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
-				    + "		</dependency>\n"); //$NON-NLS-1$
-		    if (checks[0] || checks[1]) {
-			output
-				.append("		<dependency>\n" //$NON-NLS-1$
-					+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
-					+ "			<artifactId>mw.bus.context</artifactId>\n" //$NON-NLS-1$
-					+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
-					+ "		</dependency>\n"); //$NON-NLS-1$
-		    }
-		    if (checks[2] || checks[3] || checks[6] || checks[7]) {
-			output
-				.append("		<dependency>\n" //$NON-NLS-1$
-					+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
-					+ "			<artifactId>mw.bus.io</artifactId>\n" //$NON-NLS-1$
-					+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
-					+ "		</dependency>\n"); //$NON-NLS-1$
-		    }
-		    if (checks[4] || checks[5]) {
-			output
-				.append("		<dependency>\n" //$NON-NLS-1$
-					+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
-					+ "			<artifactId>mw.bus.service</artifactId>\n" //$NON-NLS-1$
-					+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
-					+ "		</dependency>\n"); //$NON-NLS-1$
-		    }
-		    output.append("	</dependencies>\n"); //$NON-NLS-1$
-		    output
-			    .append("    <build>\n" //$NON-NLS-1$
-				    + "		<plugins>\n" //$NON-NLS-1$
-				    + "			<plugin>\n" //$NON-NLS-1$
-				    + "				<groupId>org.apache.felix</groupId>\n" //$NON-NLS-1$
-				    + "				<artifactId>maven-bundle-plugin</artifactId>\n" //$NON-NLS-1$
-				    + "				<extensions>true</extensions>\n" //$NON-NLS-1$
-				    + "				<configuration>\n" //$NON-NLS-1$
-				    + "					<instructions>\n" //$NON-NLS-1$
-				    + "						<Bundle-Name>${project.name}</Bundle-Name>\n" //$NON-NLS-1$
-				    + "						<Bundle-Activator>" //$NON-NLS-1$
-				    + packname
-				    + ".Activator</Bundle-Activator>\n" //$NON-NLS-1$
-				    + "						<Bundle-Description>${project.description}</Bundle-Description>\n" //$NON-NLS-1$
-				    + "						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>\n" //$NON-NLS-1$
-				    + "					</instructions>\n" //$NON-NLS-1$
-				    + "				</configuration>\n" //$NON-NLS-1$
-				    + "			</plugin>\n" + "		</plugins>\n" //$NON-NLS-1$ //$NON-NLS-2$
-				    + "	</build>\n"); //$NON-NLS-1$
-		    output
-			    .append("	<repositories>\n" //$NON-NLS-1$
-				    + "		<repository>\n" //$NON-NLS-1$
-				    + "			<id>central</id>\n" //$NON-NLS-1$
-				    + "			<name>Central Maven Repository</name>\n" //$NON-NLS-1$
-				    + "			<url>http://repo1.maven.org/maven2</url>\n" //$NON-NLS-1$
-				    + "			<snapshots>\n" //$NON-NLS-1$
-				    + "				<enabled>false</enabled>\n" //$NON-NLS-1$
-				    + "			</snapshots>\n" //$NON-NLS-1$
-				    + "		</repository>\n" //$NON-NLS-1$
-				    + "		<repository>\n" //$NON-NLS-1$
-				    + "			<id>apache-snapshots</id>\n" //$NON-NLS-1$
-				    + "			<name>Apache Snapshots</name>\n" //$NON-NLS-1$
-				    + "			<url>http://people.apache.org/repo/m2-snapshot-repository</url>\n" //$NON-NLS-1$
-				    + "			<releases>\n" //$NON-NLS-1$
-				    + "				<enabled>false</enabled>\n" //$NON-NLS-1$
-				    + "			</releases>\n" //$NON-NLS-1$
-				    + "			<snapshots>\n" //$NON-NLS-1$
-				    + "				<updatePolicy>daily</updatePolicy>\n" //$NON-NLS-1$
-				    + "			</snapshots>\n" //$NON-NLS-1$
-				    + "		</repository>\n" //$NON-NLS-1$
-				    + "		<repository>\n" //$NON-NLS-1$
-				    + "			<id>uaal</id>\n" //$NON-NLS-1$
-				    + "			<name>universAAL Repositories</name>\n" //$NON-NLS-1$
-				    + "			<url>http://depot.universaal.org/maven-repo/releases/</url>\n" //$NON-NLS-1$
-				    + "			<snapshots>\n" //$NON-NLS-1$
-				    + "				<enabled>false</enabled>\n" //$NON-NLS-1$
-				    + "			</snapshots>\n" //$NON-NLS-1$
-				    + "		</repository>\n" //$NON-NLS-1$
-				    + "		<repository>\n" //$NON-NLS-1$
-				    + "			<id>uaal-snapshots</id>\n" //$NON-NLS-1$
-				    + "			<name>universAAL Snapshot Repositories</name>\n" //$NON-NLS-1$
-				    + "			<url>http://depot.universaal.org/maven-repo/snapshots/</url>\n" //$NON-NLS-1$
-				    + "			<releases>\n" //$NON-NLS-1$
-				    + "				<enabled>false</enabled>\n" //$NON-NLS-1$
-				    + "			</releases>\n" + "		</repository>\n" //$NON-NLS-1$ //$NON-NLS-2$
-				    + "	</repositories>\n"); //$NON-NLS-1$
-		    output.append("</project>\n"); //$NON-NLS-1$
-		} else {
-		    output.append(line + "\n"); //$NON-NLS-1$
-		}
-	    }
-	    return new ByteArrayInputStream(output.toString().getBytes());
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    return null;
-	}
     }
 
     /**
@@ -635,6 +403,37 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	    return this.getOutputPath() != null;
 	}
 
+    }
+    
+    /**
+     * Returns the template folder from where to get the right template file for
+     * a desired wrapper class <code>colClass</code> for a full template
+     * project, which type is identified by <code>rowTemplate</code>.
+     * 
+     * @param rowTemplate
+     *            The index of type of full template project, according to the
+     *            dropdown combo of the second page of wizard
+     * @param colClass
+     *            The index of the desired wrapper class, according to
+     *            <code>classNames</code> vector.
+     * @return The name of the folder so it can be used with
+     *         <code>FileStreamUtils.customizeFileStream</code>. Returns empty
+     *         string if there is not supposed to be any <code>colClass</code>
+     *         wrapper class for this type of template.
+     */
+    private String getTemplateFolder(int rowTemplate,int colClass){
+	switch (templateMatrix[rowTemplate][colClass]) {
+	case 1:
+	    return "generic_and_app";
+	case 2:
+	    return "actuator_and_appnogui";
+	case 3:
+	    return "gauge";
+	case 4:
+	    return "reasoner";
+	default:
+	    return "";
+	}
     }
 
 }

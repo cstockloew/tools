@@ -1,9 +1,6 @@
 package org.universaal.tools.newwizard.plugin.wizards;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -97,7 +94,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 		    // now create the new file
 		    final IFile file = container.getFile(new Path(clsname
 			    + ".java")); //$NON-NLS-1$
-		    InputStream stream = customizeFileStream(clstype, pack
+		    InputStream stream = FileStreamUtils.customizeFileStream(clstype, pack
 			    .getElementName(), clsname);
 		    if (file.exists()) {
 			MessageDialog.openError(getShell(),
@@ -111,7 +108,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 		    if (clsnumber == 2) {
 			final IFile fileaux = container.getFile(new Path(
 				clsname + "ProvidedService.java")); //$NON-NLS-1$
-			InputStream streamaux = customizeFileStream(
+			InputStream streamaux = FileStreamUtils.customizeFileStream(
 				"SCalleeProvidedService.java", pack.getElementName(), //$NON-NLS-1$
 				clsname + "ProvidedService"); //$NON-NLS-1$
 			if (fileaux.exists()) {
@@ -128,7 +125,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 			    "pom.xml"); //$NON-NLS-1$
 		    if (pom.exists()) {
 			// Modify the pom to be add dependencies
-			pom.setContents(modifyPomStream(pom.getContents(),
+			pom.setContents(FileStreamUtils.modifyPomStream(pom.getContents(),
 				clsnumber), true, true, monitor);
 		    } else {
 			MessageDialog.openError(getShell(),
@@ -165,109 +162,4 @@ public class NewItemWizard extends Wizard implements INewWizard {
 	return true;
     }
 
-    /**
-     * This method parses the existing pom of the project and adds dependencies
-     * for the new items
-     * 
-     * @param instream
-     *            Input stream to the POM file
-     * @param clsnumber
-     *            Type of new item being generated
-     * @return The stream of the POM modified
-     */
-    private InputStream modifyPomStream(InputStream instream, int clsnumber) {
-	// TODO use XML parsing instead of manually parsing the file.
-	try {
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(
-		    instream));
-	    StringBuilder output = new StringBuilder();
-	    String line;
-	    boolean context = false;
-	    boolean service = false;
-	    boolean io = false;
-	    while ((line = reader.readLine()) != null) {
-		if (line.contains("mw.bus.context")) { //$NON-NLS-1$
-		    context = true;
-		}
-		if (line.contains("mw.bus.service")) { //$NON-NLS-1$
-		    service = true;
-		}
-		if (line.contains("mw.bus.io")) { //$NON-NLS-1$
-		    io = true;
-		}
-		if (line.contains("</dependencies>")) { //$NON-NLS-1$
-		    StringBuilder outputnew = new StringBuilder();
-		    if (!context && (clsnumber == 0 || clsnumber == 1)) {
-			outputnew
-				.append("		<dependency>\n" //$NON-NLS-1$
-					+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
-					+ "			<artifactId>mw.bus.context</artifactId>\n" //$NON-NLS-1$
-					+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
-					+ "		</dependency>\n"); //$NON-NLS-1$
-		    }
-		    if (!service
-			    && (clsnumber == 2 || clsnumber == 3 || clsnumber == 6)) {
-			outputnew
-				.append("		<dependency>\n" //$NON-NLS-1$
-					+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
-					+ "			<artifactId>mw.bus.service</artifactId>\n" //$NON-NLS-1$
-					+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
-					+ "		</dependency>\n"); //$NON-NLS-1$
-		    }
-		    if (!io && (clsnumber == 4 || clsnumber == 5 || clsnumber == 7 || clsnumber == 8)) {
-			outputnew
-				.append("		<dependency>\n" //$NON-NLS-1$
-					+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
-					+ "			<artifactId>mw.bus.io</artifactId>\n" //$NON-NLS-1$
-					+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
-					+ "		</dependency>\n"); //$NON-NLS-1$
-		    }
-		    outputnew.append("</dependencies>"); //$NON-NLS-1$
-		    line = line
-			    .replace("</dependencies>", outputnew.toString()); //$NON-NLS-1$
-		}
-		output.append(line + "\n"); //$NON-NLS-1$
-	    }
-	    return new ByteArrayInputStream(output.toString().getBytes());
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    return null;
-	}
-    }
-
-    /**
-     * Puts the template content into the newly generated item
-     * 
-     * @param fileTemplateName
-     *            Name of the template file to use
-     * @param packname
-     *            Name of the package where it is generated
-     * @param filename
-     *            Name of the item being generated
-     * @return The stream of the generated content
-     */
-    private InputStream customizeFileStream(String fileTemplateName,
-	    String packname, String filename) {
-	try {
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(
-		    this.getClass().getClassLoader().getResourceAsStream(
-			    "files/" + fileTemplateName))); //$NON-NLS-1$
-	    StringBuilder output = new StringBuilder();
-	    String line;
-	    while ((line = reader.readLine()) != null) {
-		if (line.contains("/*TAG:PACKAGE*/")) { //$NON-NLS-1$
-		    line = "package " + packname + ";\n"; //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		if (line.contains("/*TAG:CLASSNAME*/")) { //$NON-NLS-1$
-		    line = line.replace("/*TAG:CLASSNAME*/", filename); //$NON-NLS-1$
-		}
-		output.append(line + "\n"); //$NON-NLS-1$
-	    }
-	    return new ByteArrayInputStream(output.toString().getBytes());
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    return null;
-	}
-    }
-    
 }

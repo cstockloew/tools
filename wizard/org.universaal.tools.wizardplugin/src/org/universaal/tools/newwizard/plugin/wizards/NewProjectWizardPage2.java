@@ -13,6 +13,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -36,8 +37,10 @@ public class NewProjectWizardPage2 extends WizardPage {
     private Button osubscriber;
     private Button defscaller;
     private Button defcpublisher;
+    private Button template;
     private Combo drop;
     private Text packaging;
+    private Group containerClasses;
 
     /**
      * Constructor for NewProjectWizardPage2.
@@ -55,38 +58,38 @@ public class NewProjectWizardPage2 extends WizardPage {
      */
     public void createControl(Composite parent) {
 	Composite containerParent = new Composite(parent, SWT.NULL);
-	GridLayout layoutP = new GridLayout();
-	containerParent.setLayout(layoutP);
-	layoutP.numColumns = 1;
-	layoutP.verticalSpacing = 9;
-	
-	// First layout with the name of the package
-	Composite container1 = new Composite(containerParent, SWT.NULL);
-	GridLayout layout2 = new GridLayout();
-	container1.setLayout(layout2);
-	container1.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	layout2.numColumns = 2;
-	layout2.verticalSpacing = 9;
+	GridLayout layoutParent = new GridLayout();
+	containerParent.setLayout(layoutParent);
+	layoutParent.numColumns = 1;
+	layoutParent.verticalSpacing = 9;
+
+	// First layout with the name of the package & template
+	Composite containerInfo = new Composite(containerParent, SWT.NULL);
+	GridLayout layoutInfo = new GridLayout();
+	layoutInfo.numColumns = 2;
+	layoutInfo.verticalSpacing = 9;
+	containerInfo.setLayout(layoutInfo);
+	containerInfo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
 	// Name of the package
-	Label label4 = new Label(container1, SWT.NULL);
+	Label label4 = new Label(containerInfo, SWT.NULL);
 	label4.setText(Messages.getString("Page2.2")); //$NON-NLS-1$
-	packaging = new Text(container1, SWT.BORDER | SWT.SINGLE);
-	GridData gd7 = new GridData(GridData.FILL_HORIZONTAL);
-	packaging.setLayoutData(gd7);
+	packaging = new Text(containerInfo, SWT.BORDER | SWT.SINGLE);
+	GridData layoutInfo1 = new GridData(GridData.FILL_HORIZONTAL);
+	packaging.setLayoutData(layoutInfo1);
 	packaging.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
 		validateInput();
 	    }
 	});
-	
+
 	// Dropdown with template of full project
-	Label label5 = new Label(container1, SWT.NULL);
+	Label label5 = new Label(containerInfo, SWT.NULL);
 	label5.setText(Messages.getString("Page2.13")); //$NON-NLS-1$
-	
-	drop = new Combo(container1, SWT.READ_ONLY);
+	drop = new Combo(containerInfo, SWT.READ_ONLY);
 	drop.select(0);
-	GridData gd10 = new GridData(GridData.FILL_HORIZONTAL);
-	drop.setLayoutData(gd10);
+	GridData layoutInfo2 = new GridData(GridData.FILL_HORIZONTAL);
+	drop.setLayoutData(layoutInfo2);
 	drop.add(Messages.getString("Page2.14"), 0); //$NON-NLS-1$
 	drop.add(Messages.getString("Page2.15"), 1); //$NON-NLS-1$
 	drop.add(Messages.getString("Page2.16"), 2); //$NON-NLS-1$
@@ -95,88 +98,58 @@ public class NewProjectWizardPage2 extends WizardPage {
 	drop.add(Messages.getString("Page2.19"), 5); //$NON-NLS-1$
 	drop.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
-		csubscriber.setSelection(false);
-		cpublisher.setSelection(false);
-		scallee.setSelection(false);
-		scaller.setSelection(false);
-		isubscriber.setSelection(false);
-		opublisher.setSelection(false);
-		ipublisher.setSelection(false);
-		osubscriber.setSelection(false);
-		defcpublisher.setSelection(false);
-		defscaller.setSelection(false);
-		defcpublisher.setEnabled(false);
-		defscaller.setEnabled(false);
-		switch (drop.getSelectionIndex()) {
-		case 0:
-		    csubscriber.setSelection(true);
-		    cpublisher.setSelection(true);
-		    defcpublisher.setEnabled(true);
-		    scallee.setSelection(true);
-		    scaller.setSelection(true);
-		    defscaller.setEnabled(true);
-		    isubscriber.setSelection(true);
-		    opublisher.setSelection(true);
-		    break;
-		case 1:
-		    csubscriber.setSelection(true);
-		    cpublisher.setSelection(true);
-		    defcpublisher.setEnabled(true);
-		    scallee.setSelection(true);
-		    scaller.setSelection(true);
-		    defscaller.setEnabled(true);
-		    break;
-		case 2:
-		    cpublisher.setSelection(true);
-		    defcpublisher.setEnabled(true);
-		    break;
-		case 3:
-		    cpublisher.setSelection(true);
-		    defcpublisher.setEnabled(true);
-		    scallee.setSelection(true);
-		    break;
-		case 4:
-		    csubscriber.setSelection(true);
-		    cpublisher.setSelection(true);
-		    defcpublisher.setEnabled(true);
-		    break;
-		case 5:
-		    ipublisher.setSelection(true);
-		    osubscriber.setSelection(true);
-		    break;
-		default:
-		    break;
+		if (drop.getSelectionIndex() < 0
+			|| drop.getSelectionIndex() == 5) {// TODO: remove 5
+							   // when handler
+							   // template ready
+		    template.setSelection(false);
+		    template.setEnabled(false);
+		    enableClasses(true);
+		} else {
+		    template.setEnabled(true);
 		}
-		validateInput();
+		refreshClasses();
 	    }
 	});
-	
+
+	// Checkbox for full template project
+	template = new Button(containerParent, SWT.CHECK);
+	GridData layoutParent1 = new GridData(GridData.FILL_HORIZONTAL);
+	template.setLayoutData(layoutParent1);
+	template.setText(Messages.getString("Page2.22")); //$NON-NLS-1$
+	template.setEnabled(false);
+	template.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+		enableClasses(!template.getSelection());
+	    }
+	});
+
 	// Second layout with the checkboxes of classes
-	Group container2 = new Group(containerParent, SWT.NONE);
-	container2.setText(Messages.getString("Page2.3")); //$NON-NLS-1$
+	containerClasses = new Group(containerParent, SWT.NONE);
+	containerClasses.setText(Messages.getString("Page2.3")); //$NON-NLS-1$
 	GridLayout layout = new GridLayout();
-	container2.setLayout(layout);
-	container2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
+	containerClasses.setLayout(layout);
+	containerClasses.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 		| GridData.HORIZONTAL_ALIGN_CENTER));
 	layout.numColumns = 3;
 	layout.verticalSpacing = 9;
-	
+
 	GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
-	
+
 	// SCallee
-	scallee = new Button(container2, SWT.CHECK);
+	scallee = new Button(containerClasses, SWT.CHECK);
 	scallee.setLayoutData(gd1);
 	scallee.setText(Messages.getString("Page2.7")); //$NON-NLS-1$
 	// SCaller
-	scaller = new Button(container2, SWT.CHECK);
+	scaller = new Button(containerClasses, SWT.CHECK);
 	scaller.setLayoutData(gd1);
 	scaller.setText(Messages.getString("Page2.6")); //$NON-NLS-1$
 	scaller.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
-		if(defscaller!=null){
-		    if(scaller.getSelection()){
+		if (defscaller != null) {
+		    if (scaller.getSelection()/* &&!template.getSelection() */) {
 			defscaller.setEnabled(true);
-		    }else{
+		    } else {
 			defscaller.setSelection(false);
 			defscaller.setEnabled(false);
 		    }
@@ -184,25 +157,25 @@ public class NewProjectWizardPage2 extends WizardPage {
 	    }
 	});
 	// DefaultSCaller
-	defscaller = new Button(container2, SWT.CHECK);
+	defscaller = new Button(containerClasses, SWT.CHECK);
 	defscaller.setLayoutData(gd1);
 	defscaller.setText(Messages.getString("Page2.20")); //$NON-NLS-1$
 	defscaller.setEnabled(false);
-	
+
 	// CSubscriber
-	csubscriber = new Button(container2, SWT.CHECK);
+	csubscriber = new Button(containerClasses, SWT.CHECK);
 	csubscriber.setLayoutData(gd1);
 	csubscriber.setText(Messages.getString("Page2.4")); //$NON-NLS-1$
 	// CPublisher
-	cpublisher = new Button(container2, SWT.CHECK);
+	cpublisher = new Button(containerClasses, SWT.CHECK);
 	cpublisher.setLayoutData(gd1);
 	cpublisher.setText(Messages.getString("Page2.5")); //$NON-NLS-1$
 	cpublisher.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
-		if(defcpublisher!=null){
-		    if(cpublisher.getSelection()){
+		if (defcpublisher != null) {
+		    if (cpublisher.getSelection()/* &&!template.getSelection() */) {
 			defcpublisher.setEnabled(true);
-		    }else{
+		    } else {
 			defcpublisher.setSelection(false);
 			defcpublisher.setEnabled(false);
 		    }
@@ -210,34 +183,34 @@ public class NewProjectWizardPage2 extends WizardPage {
 	    }
 	});
 	// DefaultSCaller
-	defcpublisher = new Button(container2, SWT.CHECK);
+	defcpublisher = new Button(containerClasses, SWT.CHECK);
 	defcpublisher.setLayoutData(gd1);
 	defcpublisher.setText(Messages.getString("Page2.21")); //$NON-NLS-1$
 	defcpublisher.setEnabled(false);
 
 	// OSubscriber
-	osubscriber = new Button(container2, SWT.CHECK);
+	osubscriber = new Button(containerClasses, SWT.CHECK);
 	osubscriber.setLayoutData(gd1);
 	osubscriber.setText(Messages.getString("Page2.12")); //$NON-NLS-1$
 	// OPublisher
-	opublisher = new Button(container2, SWT.CHECK);
+	opublisher = new Button(containerClasses, SWT.CHECK);
 	opublisher.setLayoutData(gd1);
 	opublisher.setText(Messages.getString("Page2.8")); //$NON-NLS-1$
-	//Empty placeholder
-	Label empty1 = new Label(container2, SWT.NULL);
+	// Empty placeholder
+	Label empty1 = new Label(containerClasses, SWT.NULL);
 	empty1.setText(" "); //$NON-NLS-1$
 	// ISubscriber
-	isubscriber = new Button(container2, SWT.CHECK);
+	isubscriber = new Button(containerClasses, SWT.CHECK);
 	isubscriber.setLayoutData(gd1);
 	isubscriber.setText(Messages.getString("Page2.9")); //$NON-NLS-1$
 	// IPublisher
-	ipublisher = new Button(container2, SWT.CHECK);
+	ipublisher = new Button(containerClasses, SWT.CHECK);
 	ipublisher.setLayoutData(gd1);
 	ipublisher.setText(Messages.getString("Page2.11")); //$NON-NLS-1$
-	//Empty placeholder
-	Label empty2 = new Label(container2, SWT.NULL);
+	// Empty placeholder
+	Label empty2 = new Label(containerClasses, SWT.NULL);
 	empty2.setText(" "); //$NON-NLS-1$
-	
+
 	validateInput();
 	setControl(containerParent);
     }
@@ -267,6 +240,83 @@ public class NewProjectWizardPage2 extends WizardPage {
 	setMessage(null);
     }
 
+    /**
+     * Updates the checkboxes of the classes matching what is selected in
+     * template dropdown & checkbox
+     */
+    private void refreshClasses() {
+	boolean isnottemplate = !template.getSelection();
+	csubscriber.setSelection(false);
+	cpublisher.setSelection(false);
+	scallee.setSelection(false);
+	scaller.setSelection(false);
+	isubscriber.setSelection(false);
+	opublisher.setSelection(false);
+	ipublisher.setSelection(false);
+	osubscriber.setSelection(false);
+	defcpublisher.setSelection(false);
+	defscaller.setSelection(false);
+	defcpublisher.setEnabled(false);
+	defscaller.setEnabled(false);
+	if (drop != null) {
+	    switch (drop.getSelectionIndex()) {
+	    case 0:
+		csubscriber.setSelection(true);
+		cpublisher.setSelection(true);
+		defcpublisher.setEnabled(true & isnottemplate);
+		scallee.setSelection(true);
+		scaller.setSelection(true);
+		defscaller.setEnabled(true & isnottemplate);
+		isubscriber.setSelection(true);
+		opublisher.setSelection(true);
+		break;
+	    case 1:
+		csubscriber.setSelection(true);
+		cpublisher.setSelection(true);
+		defcpublisher.setEnabled(true & isnottemplate);
+		scallee.setSelection(true);
+		scaller.setSelection(true);
+		defscaller.setEnabled(true & isnottemplate);
+		break;
+	    case 2:
+		cpublisher.setSelection(true);
+		defcpublisher.setEnabled(true & isnottemplate);
+		break;
+	    case 3:
+		cpublisher.setSelection(true);
+		defcpublisher.setEnabled(true & isnottemplate);
+		scallee.setSelection(true);
+		break;
+	    case 4:
+		csubscriber.setSelection(true);
+		cpublisher.setSelection(true);
+		defcpublisher.setEnabled(true & isnottemplate);
+		break;
+	    case 5:
+		ipublisher.setSelection(true);
+		osubscriber.setSelection(true);
+		break;
+	    default:
+		break;
+	    }
+	}
+	validateInput();
+    }
+    
+    /**
+     * Helper to enable/disable the classes checkboxes
+     * @param enable True to enable the checkboxes, false otherwise
+     */
+    private void enableClasses(boolean enable){
+	if (containerClasses != null) {
+	    Control[] checkboxes = containerClasses.getChildren();
+	    for (int i = 0; i < checkboxes.length; i++) {
+		checkboxes[i].setEnabled(enable);
+	    }
+	    refreshClasses();
+	}
+    }
+
     public Button getCsubscriber() {
 	return csubscriber;
     }
@@ -290,7 +340,7 @@ public class NewProjectWizardPage2 extends WizardPage {
     public Button getOpublisher() {
 	return opublisher;
     }
-    
+
     public Button getIpublisher() {
 	return ipublisher;
     }
@@ -298,17 +348,25 @@ public class NewProjectWizardPage2 extends WizardPage {
     public Button getOsubscriber() {
 	return osubscriber;
     }
-    
+
     public Button getDefCpublisher() {
 	return defcpublisher;
     }
-    
+
     public Button getDefScaller() {
 	return defscaller;
     }
 
     public Text getPackaging() {
 	return packaging;
+    }
+    
+    public Button getTemplate() {
+	return template;
+    }
+    
+    public Combo getTemplateDropDown(){
+	return drop;
     }
 
 }
