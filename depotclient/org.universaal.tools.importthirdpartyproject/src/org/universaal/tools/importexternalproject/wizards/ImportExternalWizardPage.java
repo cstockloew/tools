@@ -19,6 +19,7 @@
 package org.universaal.tools.importexternalproject.wizards;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -45,6 +46,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.universaal.tools.importexternalproject.xmlparser.ProjectObject;
+import org.universaal.tools.importexternalproject.xmlparser.ProjectSearcher;
 import org.universaal.tools.importexternalproject.xmlparser.XmlParser;
 
 /**
@@ -65,6 +67,11 @@ public class ImportExternalWizardPage extends WizardPage {
 	private Button btnSearch;
 	private Button btnListAll;
 	private boolean importExtension;
+	private Composite composite;
+	private Button btnAll;
+	private Button btnOfficialExamples;
+	private Button btnThirdPartyApplications;
+	private Label lblHeader;
 
 	/**
 	 * Creates the page, and sets title. The boolean input tells the object
@@ -91,6 +98,36 @@ public class ImportExternalWizardPage extends WizardPage {
 		Composite container = new Composite(parent, SWT.NULL);
 		setControl(container);
 		container.setLayout(new GridLayout(4, false));
+		
+		lblHeader = new Label(container, SWT.NONE | SWT.WRAP);
+		GridData gd_lblHeader = new GridData(SWT.LEFT, SWT.CENTER, true, false, 4, 1);
+		gd_lblHeader.widthHint = 712;
+		lblHeader.setLayoutData(gd_lblHeader);
+		lblHeader.setText("The project will be imported using SVN. Please note" +
+				" that installation of SVN Connectors will be started on the first" +
+				" use of SVN - select e.g. the SVN Kit with highest version number.\n"
+				+"If asked for a username and password, enter \"anonymous\" as " +
+				"username, and blank password");
+		
+		composite = new Composite(container, SWT.NONE);
+		composite.setLayout(new GridLayout(3, false));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
+		
+		RadioButtonsListener radio = new RadioButtonsListener();
+		btnOfficialExamples = new Button(composite, SWT.RADIO);
+		btnOfficialExamples.setText("Official Examples");
+		btnOfficialExamples.addSelectionListener(radio);
+		
+		btnThirdPartyApplications = new Button(composite, SWT.RADIO);
+		btnThirdPartyApplications.setText("Third Party Applications");
+		btnThirdPartyApplications.addSelectionListener(radio);
+		
+		btnAll = new Button(composite, SWT.RADIO);
+		btnAll.setText("All");
+		btnAll.addSelectionListener(radio);
+		
+		
+		new Label(container, SWT.NONE);
 
 		lblEnterSearchTerm = new Label(container, SWT.NONE);
 		lblEnterSearchTerm.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -142,46 +179,72 @@ public class ImportExternalWizardPage extends WizardPage {
 		styledText = new StyledText(container, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		styledText.setEditable(false);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
 
 		setPageComplete(false);
 
 	}
 
 	class ViewContentProvider implements IStructuredContentProvider{
+		
+		ArrayList<ProjectObject> projectList;
+		ArrayList<ProjectObject> examplesList;
+		ArrayList<ProjectObject> thirdPartyList;
+		XmlParser parser;
+		String examples;
+		String thirdParty;
+		
+		/**
+		 * Keeps track of three different lists. One containing the official 
+		 * examples, one containing third party applications, and one containing
+		 * both official examples and third party applications.
+		 */
+		public ViewContentProvider(){
+			projectList = new ArrayList<ProjectObject>();
+			examplesList = new ArrayList<ProjectObject>();
+			thirdPartyList = new ArrayList<ProjectObject>();
+			parser = new XmlParser();
+			examples = ((ImportExternalWizard)getWizard()).getExamplesXML();
+			thirdParty = ((ImportExternalWizard)getWizard()).getThirdPartyXML();
+			
+			parser.getAll(thirdParty, thirdPartyList);
+			parser.getAll(examples, examplesList);
+			
+			projectList.addAll(thirdPartyList);
+			projectList.addAll(examplesList);
+			
+			
+		}
 
 		@Override
 		public void dispose() {
-			// TODO Auto-generated method stub
 		}
 
 		/**
-		 * This is used to update the list when the user enters a searchterm,
-		 * and presses Search. It first searches for matches by name, and then
-		 * by tags. Name-matches are given a flag to show that they matched by 
-		 * name, and will always be displayed before the projects that only match
-		 * by tags.
+		 * Is called when the user enters a searchterm. The method checks
+		 * which radio button is selected, and only searches through that list.
+		 * Afterwards, it sorts the list by name before displaying it.
 		 */
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			setPageComplete(false);
-			ArrayList<ProjectObject> nameResult = new ArrayList<ProjectObject>();
-			XmlParser parser = new XmlParser();
-			files = ((ImportExternalWizard)getWizard()).getXML();
-			String searchString = (String)newInput;
 
-			//These methods take an ArrayList as input nameResult, and places
-			//the matches directly into it instead of returning values
-			parser.searchNames(files, nameResult, searchString);
-			parser.searchTags(files, nameResult, searchString);
-
-			projects = new ProjectObject[nameResult.size()];
-			for(int i=0;i<nameResult.size();i++){
-				projects[i] = nameResult.get(i);
+			ArrayList<ProjectObject> result = new ArrayList<ProjectObject>();
+			
+			if(!btnAll.isDisposed() && btnAll.getSelection()){
+				result = ProjectSearcher.search(projectList, (String)newInput);
+			}else if(!btnOfficialExamples.isDisposed() && btnOfficialExamples.getSelection()){
+				result = ProjectSearcher.search(examplesList, (String)newInput);
+			}else if(!btnThirdPartyApplications.isDisposed() && btnThirdPartyApplications.getSelection()){
+				result = ProjectSearcher.search(thirdPartyList, (String)newInput);
+			}else{
+				result = ProjectSearcher.search(projectList, "");
 			}
+			Collections.sort(result, new ProjectSearcher());
+			projects = new ProjectObject[result.size()];
+			for(int i=0; i<result.size();i++){
+				projects[i] = result.get(i);
+			}
+			
 		}
 
 		@Override
@@ -246,8 +309,6 @@ public class ImportExternalWizardPage extends WizardPage {
 
 		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 	
@@ -262,7 +323,7 @@ public class ImportExternalWizardPage extends WizardPage {
 
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			tableViewer.setInput("");
+			text.setText("");
 		}
 
 		@Override
@@ -288,8 +349,6 @@ public class ImportExternalWizardPage extends WizardPage {
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	}
@@ -304,13 +363,41 @@ public class ImportExternalWizardPage extends WizardPage {
 				"Project homepage: \n"+
 						res.getHomePage()+"\n\n"+
 				"Project hosted at: \n"+
-						res.getHostingSite()+"\n \n"+ res.getDesc()+"\n \n" +
+						res.getHostingSite()+"\n \n";
+		description += (res.getContainsSubProjects() ? "This project consists of " +
+				"several subprojects.\n\n" : "");
+				
+		description +=res.getDesc()+"\n \n" +
 				"Tags:\n";
 		ArrayList<String> tags = res.getTags();
 		for(int i=0; i<tags.size(); i++){
-			description += tags.get(i) + "\n";
+			description += "-"+tags.get(i) + "\n";
 		}
+		description += 
+				"\nProject License: \n"+
+						res.getLicense()+"\n \n"+
+				"Project License URL: \n"+
+						res.getLicenseUrl();
+					
 		return description;
 	}
+	
+	/**
+	 * Notifies the tableviewer when the radio-button-selection is changed.
+	 * @author Adrian
+	 *
+	 */
+	private class RadioButtonsListener implements SelectionListener{
 
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			tableViewer.setInput(text.getText());
+		}
+
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+		}
+		
+	}
+	
 }

@@ -90,13 +90,10 @@ public class GenerateAalApp extends AbstractHandler {
 			page.openEditor(new FileEditorInput(fileToOpen), desc.getId());
 			
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (PartInitException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return null;

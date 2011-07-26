@@ -5,14 +5,14 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            name="Import 3rd party project"
-            id="org.universaal.importexternalproject.commands.importthirdparty">
+            name="Import Example Project"
+            id="org.universaal.importexternalproject.commands.importexample">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            commandId="org.universaal.importexternalproject.commands.importthirdparty"
+            commandId="org.universaal.importexternalproject.commands.importexample"
             class="org.universaal.tools.importexternalproject.handlers.ImportHandler">
       </handler>
    </extension>
@@ -21,7 +21,7 @@
       <menuContribution
             locationURI="menu:org.universaal.tools.AALStudio.menu?endof=import">
          <command
-               commandId="org.universaal.importexternalproject.commands.importthirdparty"
+               commandId="org.universaal.importexternalproject.commands.importexample"
                id="org.universaal.importexternalproject.menus.importthirdparty">
          </command>
       </menuContribution>
@@ -45,7 +45,7 @@
             category="org.universaal.tools.AALStudio"
             class="org.universaal.tools.importthirdparty.preferences.PreferencePage"
             id="org.universaal.tools.importthirdpartyproject.preferences"
-            name="Import Third Party Application">
+            name="Import Example">
       </page>
    </extension>
    <extension

@@ -19,6 +19,7 @@
 package org.universaal.tools.importexternalproject.xmlparser;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Collects all data about projects described in the projects.xml-file.
@@ -37,31 +38,43 @@ public class ProjectObject implements Comparable<ProjectObject>{
 	private String description;
 	private String developer;
 	private String date;
+	private String license;
+	private String licenseUrl;
 	private ArrayList<String> tags;
 	private boolean nameMatch;
+	private boolean containsSubProjects;
 	
 	/**
 	 * All parameters should be self-explanatory, except the namematch-boolean.
 	 * If the name of this project matched the search-string, namematch must be
 	 * set to True, so that, after sorting the list, this will always be placed
 	 * before objects that only matched the search-string by tags.
-	 * @param iName
-	 * @param iUrl
-	 * @param iSvnUrl
-	 * @param iDesc
-	 * @param iDev
-	 * @param iDate
+	 * The subProjects tells the importer whether or not the projects contains
+	 * several sub-projects that should be imported separately.
+	 * @param name
+	 * @param url
+	 * @param svnUrl
+	 * @param desc
+	 * @param dev
+	 * @param date
+	 * @param license
+	 * @param licenseUrl
+	 * @param subProjects
 	 * @param nameMatch
 	 */
-	public ProjectObject(String iName, String iUrl, String iSvnUrl, String iDesc, String iDev,
-			String iDate, boolean nameMatch){
-		this.name = iName;
-		this.url = iUrl;
-		this.svnurl = iSvnUrl;
-		this.description = iDesc;
-		this.developer = iDev;
-		this.date = iDate;
+	public ProjectObject(String name, String url, String svnUrl, String desc, String dev,
+			String date,String license, String licenseUrl, boolean subProjects,
+			boolean nameMatch){
+		this.name = name;
+		this.url = url;
+		this.svnurl = svnUrl;
+		this.description = desc;
+		this.developer = dev;
+		this.date = date;
 		this.nameMatch = nameMatch;
+		this.license = license;
+		this.licenseUrl = licenseUrl;
+		this.containsSubProjects = subProjects;
 		this.tags = new ArrayList<String>();
 	}
 	
@@ -87,6 +100,18 @@ public class ProjectObject implements Comparable<ProjectObject>{
 	
 	public String getDate(){
 		return date;
+	}
+	
+	public String getLicense(){
+		return license;
+	}
+	
+	public String getLicenseUrl(){
+		return licenseUrl;
+	}
+	
+	public boolean getContainsSubProjects(){
+		return containsSubProjects;
 	}
 	
 	public void addTag(String tag){
@@ -135,5 +160,6 @@ public class ProjectObject implements Comparable<ProjectObject>{
 	public String getHomePage(){
 		return url;
 	}
+
 
 }

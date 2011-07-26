@@ -33,7 +33,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Parses and searches in the downloaded projects.xml-file.
+ * Parses the downloaded projects.xml-file.
  * @author Adrian
  *
  */
@@ -48,26 +48,18 @@ public class XmlParser {
 		try {
 			this.dBuilder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
-	 * Searches through the xml-file for any projects with tags matching the
-	 * entered search-string. If any are found, it creates a ProjectObject that
-	 * it enters all the information about the matching project into, and then
-	 * places this project into the result-ArrayList the method received as 
-	 * input.
-	 * @param xml - The xml text that will be searched.
-	 * @param result - ArrayList of ProjectObject where all matches will be placed.
-	 * @param tag - The entered search-string.
-	 * @return True if any matches, false if not.
+	 * Finds all the projects listed in the xml-string given as input, and creates
+	 * ProjectObjects for each of them.
+	 * @param xml - The xml-string that is to be parsed.
+	 * @param result - The ArrayList where the results will be placed.
 	 */
-	public boolean searchTags(String xml, 
-			ArrayList<ProjectObject> result, String tag){
+	public void getAll(String xml, ArrayList<ProjectObject> result){
 
-		boolean match=false;
 		Document doc;
 		try {
 			InputSource source = new InputSource(new StringReader(xml));
@@ -75,114 +67,11 @@ public class XmlParser {
 			NodeList projectList = doc.getElementsByTagName("project");
 
 			for(int k=0;k<projectList.getLength(); k++){
-				match=false;
-				Element currentProject = (Element) projectList.item(k);
-				NodeList nList = currentProject.getElementsByTagName("tag");
 
-				search:
-					for(int i=0; i<nList.getLength(); i++){
-						Element node = (Element) nList.item(i);
-						String currentTag = node.getFirstChild().getNodeValue();
-						if(currentTag.equalsIgnoreCase(tag)){
-							match=true;
-							break search;
-						}
-
-					}
-
-				if(match){
-					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
-					try{
-						resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
-					}catch(Exception e){
-						resName = FIELD_EMPTY;
-					}
-					try{
-						resUrl = ((Element) currentProject.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
-					}catch(Exception e){
-						resUrl = FIELD_EMPTY;
-					}
-					try{
-						resSvnUrl = ((Element) currentProject.getElementsByTagName("svnurl").item(0)).getFirstChild().getNodeValue();
-					}catch(Exception e){
-						resSvnUrl = FIELD_EMPTY;
-					}
-					try{
-						resDesc = ((Element) currentProject.getElementsByTagName("description").item(0)).getFirstChild().getNodeValue();
-					}catch(Exception e){
-						resDesc = FIELD_EMPTY;
-					}
-					try{
-						resDev = ((Element) currentProject.getElementsByTagName("developer").item(0)).getFirstChild().getNodeValue();
-					}catch(Exception e){
-						resDev = FIELD_EMPTY;
-					}
-					try{
-						resDate = ((Element) currentProject.getElementsByTagName("date").item(0)).getFirstChild().getNodeValue();
-					}catch(Exception e){
-						resDate = "FIELD_EMPTY";
-					}
-					
-					ProjectObject projObj = new ProjectObject(resName, resUrl,resSvnUrl, resDesc, resDev, resDate, false);
-					try{
-						NodeList nTagList = currentProject.getElementsByTagName("tag");
-						for(int i=0; i<nTagList.getLength(); i++){
-							Element node = (Element) nTagList.item(i);
-							String currentTag = node.getFirstChild().getNodeValue();
-							projObj.addTag(currentTag);
-						}
-					}catch(Exception e){
-						projObj.addTag(FIELD_EMPTY);
-					}
-					result.add(projObj);
-				}
-			}
-		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		return match;
-	}
-
-	/**
-	 * Searches through the xml-file for any projects with names matching the
-	 * entered search-string. If any are found, it creates a ProjectObject that
-	 * it enters all the information about the matching project into, and then
-	 * places this project into the result-ArrayList the method received as 
-	 * input.
-	 * @param xml - The xml text that will be searched.
-	 * @param result - ArrayList of ProjectObject where all matches will be placed.
-	 * @param name - The entered search-string.
-	 * @return True if any matches, false if not.
-	 */
-	public boolean searchNames(String xml, ArrayList<ProjectObject> result,
-			String name){
-
-		boolean match;
-		boolean foundName = false;
-		Document doc;
-		try {
-			InputSource source = new InputSource(new StringReader(xml));
-			doc = dBuilder.parse(source);
-			NodeList projectList = doc.getElementsByTagName("project");
-
-			for(int k=0;k<projectList.getLength(); k++){
-				match=false;
 				Element currentProject = (Element) projectList.item(k);
 
-				NodeList nList = currentProject.getElementsByTagName("name");
-				Element element = (Element) nList.item(0);
-				String currentName = element.getFirstChild().getNodeValue();
-				if(name==null || name.equalsIgnoreCase(currentName) ||  name.equals("")){
-					match=true;
-				}
-
-				if(match){
-					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate;
+					String resName, resUrl, resSvnUrl, resDesc, resDev, resDate,
+					resLicense, resLicenseUrl, resSubProjects;
 					try{
 						resName = ((Element) currentProject.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
 					}catch(Exception e){
@@ -213,8 +102,26 @@ public class XmlParser {
 					}catch(Exception e){
 						resDate = FIELD_EMPTY;
 					}
+					try{
+						resLicense = ((Element) currentProject.getElementsByTagName("license").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resLicense = FIELD_EMPTY;
+					}
+					try{
+						resLicenseUrl = ((Element) currentProject.getElementsByTagName("licenseurl").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resLicenseUrl = FIELD_EMPTY;
+					}
+					try{
+						resSubProjects = ((Element) currentProject.getElementsByTagName("subprojects").item(0)).getFirstChild().getNodeValue();
+					}catch(Exception e){
+						resSubProjects = FIELD_EMPTY;
+					}
 					
-					ProjectObject projObj = new ProjectObject(resName, resUrl,resSvnUrl, resDesc, resDev, resDate, true);
+					boolean containsSubProjects = resSubProjects.equalsIgnoreCase("true");
+					ProjectObject projObj = new ProjectObject(resName, resUrl,
+							resSvnUrl, resDesc, resDev, resDate, resLicense,
+							resLicenseUrl, containsSubProjects, true);
 					try{
 						NodeList nTagList = currentProject.getElementsByTagName("tag");
 						for(int i=0; i<nTagList.getLength(); i++){
@@ -225,22 +132,15 @@ public class XmlParser {
 					}catch(Exception e){
 						projObj.addTag(FIELD_EMPTY);
 					}
-					result.add(projObj);
-					foundName=true;
-				}
-
+					result.add(projObj);	
 			}
 
 		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-
-		return foundName;
 	}
 
 
