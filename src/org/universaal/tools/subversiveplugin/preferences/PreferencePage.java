@@ -39,8 +39,7 @@ public class PreferencePage
 
 	@Override
 	public void init(IWorkbench arg0) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
