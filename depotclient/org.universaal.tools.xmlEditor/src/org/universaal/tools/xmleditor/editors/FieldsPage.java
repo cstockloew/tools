@@ -21,11 +21,15 @@ package org.universaal.tools.xmleditor.editors;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -43,26 +47,36 @@ public class FieldsPage extends Composite {
 	private Text projectName, developerName, date, url, svnUrl, tags;
 	private StyledText description;
 	private ProjectModel model;
+	private Text license;
+	private Text licenseUrl;
+	private Button containsSubProjects;
+	
+	private boolean subProjects;
 
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public FieldsPage(Composite container){
 		super(container, SWT.NONE);
+		subProjects = false;
 	}
 	
 	/**
 	 * Creates the layout of the page
 	 * @param parent - The XMLEditor-object that created this page.
 	 * @param model - The ProjectObject that is the model.
-	 * @param container - Container that contains the SWT items.
+	 * @param comp - Container that contains the SWT items.
 	 */
 	public FieldsPage(XmlEditor parent, ProjectModel model, Composite container){
 		super(container, SWT.NONE);
+		subProjects = false;
 		this.parent = parent;
 		this.model = model;
 
 		FieldListener listen = new FieldListener();
 
-		this.setLayout(new GridLayout(2, false));
+		setLayout(new GridLayout(2, false));
 
 		Label lblProjectName = new Label(this, SWT.NONE);
 		lblProjectName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -101,8 +115,21 @@ public class FieldsPage extends Composite {
 
 		svnUrl = new Text(this, SWT.BORDER);
 		svnUrl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
-
+		
+		Label lblLicense = new Label(this, SWT.NONE);
+		lblLicense.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblLicense.setText("License");
+		
+		license = new Text(this, SWT.BORDER);
+		license.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		
+		Label lblLicenseUrl = new Label(this, SWT.NONE);
+		lblLicenseUrl.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblLicenseUrl.setText("License URL");
+		
+		licenseUrl = new Text(this, SWT.BORDER);
+		licenseUrl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		
 		Label lblTags = new Label(this, SWT.NONE);
 		lblTags.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblTags.setText("Tags");
@@ -110,6 +137,15 @@ public class FieldsPage extends Composite {
 
 		tags = new Text(this, SWT.BORDER);
 		tags.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		
+		Label lblSubProjects = new Label(this, SWT.NONE);
+		lblSubProjects.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblSubProjects.setText("Sub-projects");
+		
+		
+		containsSubProjects = new Button(this, SWT.CHECK);
+		containsSubProjects.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		containsSubProjects.setText("Project contains subprojects.");
 
 
 		Label lblDescription = new Label(this, SWT.NONE);
@@ -119,9 +155,14 @@ public class FieldsPage extends Composite {
 		description = new StyledText(this, SWT.BORDER | SWT.WRAP);
 		description.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
+
 		setFields();
 
+		
 		description.addModifyListener(listen);
+		containsSubProjects.addSelectionListener(new CheckBoxListener());
+		licenseUrl.addModifyListener(listen);
+		license.addModifyListener(listen);
 		svnUrl.addModifyListener(listen);
 		url.addModifyListener(listen);
 		date.addModifyListener(listen);
@@ -134,12 +175,15 @@ public class FieldsPage extends Composite {
 	 * Sets the value of the fields to the values in the ProjectObject-model
 	 */
 	public void setFields(){
-		projectName.setText(model.getpName());
-		developerName.setText(model.getpDev());
-		date.setText(model.getpDate());
-		url.setText(model.getpUrl());
-		svnUrl.setText(model.getpSvnUrl());
-		description.setText(model.getpDesc());
+		projectName.setText(model.getName());
+		developerName.setText(model.getDev());
+		date.setText(model.getDate());
+		url.setText(model.getUrl());
+		svnUrl.setText(model.getSvnUrl());
+		license.setText(model.getLicense());
+		licenseUrl.setText(model.getLicenseUrl());
+		containsSubProjects.setSelection(model.getContainsSubProjects());
+		description.setText(model.getDesc());
 		tags.setText(getTagsStringFromModel());
 	}
 	
@@ -155,19 +199,24 @@ public class FieldsPage extends Composite {
 			parent.fieldsModified();
 			
 			if(e.getSource()==projectName){
-				model.setpName(projectName.getText());
+				model.setName(projectName.getText());
 			}else if(e.getSource() == developerName){
-				model.setpDev(developerName.getText());
+				model.setDev(developerName.getText());
 			}else if(e.getSource()==date){
-				model.setpDate(date.getText());
+				model.setDate(date.getText());
 			}else if(e.getSource()==url){
-				model.setpUrl(url.getText());
+				model.setUrl(url.getText());
 			}else if(e.getSource()==svnUrl){
-				model.setpSvnUrl(svnUrl.getText());
+				model.setSvnUrl(svnUrl.getText());
 			}else if(e.getSource()==description){
-				model.setpDesc(description.getText());
-			}else if(e.getSource()==tags)
-				model.setpTags(getTagsFromFields());
+				model.setDesc(description.getText());
+			}else if(e.getSource()==tags){
+				model.setTags(getTagsFromFields());
+			}else if(e.getSource()==license){
+				model.setLicense(license.getText());
+			}else if(e.getSource()==licenseUrl){
+				model.setLicenseUrl(licenseUrl.getText());
+			}
 		}
 	}
 	
@@ -199,7 +248,7 @@ public class FieldsPage extends Composite {
 	 */
 	private String getTagsStringFromModel(){
 		String result="";
-		ArrayList<String> tags = model.getpTags();
+		ArrayList<String> tags = model.getTags();
 		for(int i=0; i<tags.size();i++){
 			result += tags.get(i);
 			if(i!=tags.size()-1){
@@ -207,6 +256,26 @@ public class FieldsPage extends Composite {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * Listens to the checkbox, and updates the model if it is changed.
+	 * @author Adrian
+	 *
+	 */
+	private class CheckBoxListener implements SelectionListener{
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			subProjects = !subProjects;
+			model.setContainsSubProjects(subProjects);			
+		}
+
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			
+		}
+		
 	}
 
 

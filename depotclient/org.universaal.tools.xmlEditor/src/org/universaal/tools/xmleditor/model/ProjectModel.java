@@ -31,82 +31,112 @@ import org.universaal.tools.xmleditor.editors.XmlEditor;
 public class ProjectModel {
 	
 	private IEditorInput input;
-	private String pName, pDev, pDate, pUrl, pSvnUrl, pDesc;
-	private ArrayList<String> pTags;
+	private String name, dev, date, url, svnUrl, desc, license, licenseUrl;
+	private ArrayList<String> tags;
+	private boolean containsSubProjects;
 	
 	public ProjectModel(String name, String dev, String date, String url,
-			String svnurl, String desc, ArrayList<String> tags, XmlEditor input){
-		pName = name;
-		pDev = dev;
-		pDate = date;
-		pUrl = url;
-		pSvnUrl = svnurl;
-		pDesc = desc;
-		pTags = tags;
+			String svnurl, String desc, String license, String licenseUrl,
+			boolean containSubProjects, ArrayList<String> tags, XmlEditor input){
+		this.name = name;
+		this.dev = dev;
+		this.date = date;
+		this.url = url;
+		this.svnUrl = svnurl;
+		this.desc = desc;
+		this.tags = tags;
+		this.license = license;
+		this.licenseUrl = licenseUrl;
+		this.containsSubProjects = containSubProjects;
 	}
 
 	public IEditorInput getInput() {
 		return input;
 	}
 
-	public String getpName() {
-		return pName;
+	public String getName() {
+		return name;
 	}
 
-	public String getpDev() {
-		return pDev;
+	public String getDev() {
+		return dev;
 	}
 
-	public String getpDate() {
-		return pDate;
+	public String getDate() {
+		return date;
 	}
 
-	public String getpUrl() {
-		return pUrl;
+	public String getUrl() {
+		return url;
 	}
 
-	public String getpSvnUrl() {
-		return pSvnUrl;
+	public String getSvnUrl() {
+		return svnUrl;
 	}
 
-	public String getpDesc() {
-		return pDesc;
+	public String getDesc() {
+		return desc;
+	}
+	
+	public String getLicense(){
+		return license;
+	}
+	
+	public String getLicenseUrl(){
+		return licenseUrl;
+	}
+	
+	public boolean getContainsSubProjects(){
+		return containsSubProjects;
 	}
 
-	public ArrayList<String> getpTags() {
-		return pTags;
+	public ArrayList<String> getTags() {
+		return tags;
 	}
 
 	public void setInput(IEditorInput input) {
 		this.input = input;
 	}
 
-	public void setpName(String pName) {
-		this.pName = pName;
+	public void setName(String pName) {
+		this.name = pName;
 	}
 
-	public void setpDev(String pDev) {
-		this.pDev = pDev;
+	public void setDev(String pDev) {
+		this.dev = pDev;
 	}
 
-	public void setpDate(String pDate) {
-		this.pDate = pDate;
+	public void setDate(String pDate) {
+		this.date = pDate;
 	}
 
-	public void setpUrl(String pUrl) {
-		this.pUrl = pUrl;
+	public void setUrl(String pUrl) {
+		this.url = pUrl;
 	}
 
-	public void setpSvnUrl(String pSvnUrl) {
-		this.pSvnUrl = pSvnUrl;
+	public void setSvnUrl(String pSvnUrl) {
+		this.svnUrl = pSvnUrl;
 	}
 
-	public void setpDesc(String pDesc) {
-		this.pDesc = pDesc;
+	public void setDesc(String pDesc) {
+		this.desc = pDesc;
+	}
+	
+	public void setLicense(String license){
+		this.license = license;
+	}
+	
+	public void setLicenseUrl(String licenseUrl){
+		this.licenseUrl = licenseUrl;
+	}
+	
+	public void setContainsSubProjects(boolean contains){
+		this.containsSubProjects = contains;
 	}
 
-	public void setpTags(ArrayList<String> pTags) {
-		this.pTags = pTags;
+	public void setTags(ArrayList<String> pTags) {
+		this.tags = pTags;
 	}
+	
 
 }

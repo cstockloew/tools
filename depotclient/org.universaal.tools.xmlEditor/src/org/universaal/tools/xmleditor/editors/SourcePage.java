@@ -55,13 +55,11 @@ public class SourcePage extends StructuredTextEditor {
 	private ProjectModel model;
 	private XmlEditor parent;
 	private Document doc;
-//	private boolean isPageModified;
 	
 	public SourcePage(XmlEditor parent, ProjectModel model, Document doc){
 		this.parent = parent;
 		this.model = model;
 		this.doc = doc;
-//		this.isPageModified = false;
 		
 	}
 	
@@ -80,19 +78,17 @@ public class SourcePage extends StructuredTextEditor {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			doc = builder.parse(new InputSource(new StringReader(string)));
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		NodeList nList;
 		Element node;
-		String name, developer, date, url, svnurl, desc;
+		String name, developer, date, url, svnurl, license, licenseUrl,
+		subProjects, desc;
 		ArrayList<String> tags = new ArrayList<String>();
 
 		nList = doc.getElementsByTagName("name");
@@ -114,6 +110,18 @@ public class SourcePage extends StructuredTextEditor {
 		nList = doc.getElementsByTagName("svnurl");
 		node = (Element) nList.item(0);
 		svnurl = node.getFirstChild().getNodeValue();
+		
+		nList = doc.getElementsByTagName("license");
+		node = (Element) nList.item(0);
+		license = node.getFirstChild().getNodeValue();
+		
+		nList = doc.getElementsByTagName("licenseurl");
+		node = (Element) nList.item(0);
+		licenseUrl = node.getFirstChild().getNodeValue();
+		
+		nList = doc.getElementsByTagName("subprojects");
+		node = (Element) nList.item(0);
+		subProjects = node.getFirstChild().getNodeValue();
 
 		nList = doc.getElementsByTagName("description");
 		node = (Element) nList.item(0);
@@ -125,20 +133,25 @@ public class SourcePage extends StructuredTextEditor {
 			tags.add(node.getFirstChild().getNodeValue());
 		}
 
-		if(!name.equals(model.getpName()))
-			model.setpName(name);
-		if(!developer.equals(model.getpDev()))
-			model.setpDev(developer);
-		if(!date.equals(model.getpDate()))
-			model.setpDate(date);
-		if(!url.equals(model.getpUrl()))
-			model.setpUrl(url);
-		if(!svnurl.equals(model.getpSvnUrl()))
-			model.setpSvnUrl(svnurl);
-		if(!desc.equals(model.getpDesc()))
-			model.setpDesc(desc);
-
-		model.setpTags(tags);
+		if(!name.equals(model.getName()))
+			model.setName(name);
+		if(!developer.equals(model.getDev()))
+			model.setDev(developer);
+		if(!date.equals(model.getDate()))
+			model.setDate(date);
+		if(!url.equals(model.getUrl()))
+			model.setUrl(url);
+		if(!svnurl.equals(model.getSvnUrl()))
+			model.setSvnUrl(svnurl);
+		if(!license.equals(model.getLicense()))
+			model.setLicense(license);
+		if(!licenseUrl.equals(model.getLicenseUrl()))
+			model.setLicenseUrl(licenseUrl);
+		if(!desc.equals(model.getDesc()))
+			model.setDesc(desc);
+	
+		model.setContainsSubProjects(subProjects.equalsIgnoreCase("true"));
+		model.setTags(tags);
 
 	}
 	
@@ -155,29 +168,41 @@ public class SourcePage extends StructuredTextEditor {
 		try{
 			nList = doc.getElementsByTagName("name");
 			node = (Element) nList.item(0);
-			node.setTextContent(model.getpName());
+			node.setTextContent(model.getName());
 
 			nList = doc.getElementsByTagName("developer");
 			node = (Element) nList.item(0);
-			node.setTextContent(model.getpDev());
+			node.setTextContent(model.getDev());
 
 			nList = doc.getElementsByTagName("date");
 			node = (Element) nList.item(0);
-			node.setTextContent(model.getpDate());
+			node.setTextContent(model.getDate());
 
 			nList = doc.getElementsByTagName("url");
 			node = (Element) nList.item(0);
-			node.setTextContent(model.getpUrl());
+			node.setTextContent(model.getUrl());
 
 			nList = doc.getElementsByTagName("svnurl");
 			node = (Element) nList.item(0);
-			node.setTextContent(model.getpSvnUrl());
+			node.setTextContent(model.getSvnUrl());
+			
+			nList = doc.getElementsByTagName("license");
+			node = (Element) nList.item(0);
+			node.setTextContent(model.getLicense());
+			
+			nList = doc.getElementsByTagName("licenseurl");
+			node = (Element) nList.item(0);
+			node.setTextContent(model.getLicenseUrl());
+			
+			nList = doc.getElementsByTagName("subprojects");
+			node = (Element) nList.item(0);
+			node.setTextContent(model.getContainsSubProjects() ? "true" : "false");
 
 			nList = doc.getElementsByTagName("description");
 			node = (Element) nList.item(0);
-			node.setTextContent(model.getpDesc());
+			node.setTextContent(model.getDesc());
 
-			ArrayList<String> tempTags = model.getpTags();
+			ArrayList<String> tempTags = model.getTags();
 			nList = doc.getElementsByTagName("tags");
 			Node oldTags = (Element) nList.item(0);
 			Node project = node.getParentNode();
@@ -216,10 +241,8 @@ public class SourcePage extends StructuredTextEditor {
 			String str = stringWriter.getBuffer().toString();
 			this.getDocumentProvider().getDocument(parent.getEditorInput()).set(str);
 		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 	}

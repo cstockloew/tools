@@ -153,7 +153,6 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 			setPageText(index, "Fields");
 			setActivePage(1);
 		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -240,7 +239,6 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 				doc.normalizeDocument();
 
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SAXException e) {
 				
@@ -263,18 +261,22 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 					project.appendChild(node);
 					node = doc.createElement("svnurl");
 					project.appendChild(node);
+					node = doc.createElement("license");
+					project.appendChild(node);
+					node = doc.createElement("licenseurl");
+					project.appendChild(node);
+					node = doc.createElement("subprojects");
+					project.appendChild(node);
 					node = doc.createElement("description");
 					project.appendChild(node);
 					node = doc.createElement("tags");
 					project.appendChild(node);
 				} catch (ParserConfigurationException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -282,7 +284,9 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 
 		NodeList nList;
 		Element node;
-		String name, developer, date, url, svnurl, desc;
+		String name, developer, date, url, svnurl, desc, license, licenseUrl,
+		subProjectsString;
+		boolean containsSubProjects;
 		ArrayList<String> tags = new ArrayList<String>();
 		try{
 			Node project = doc.getElementsByTagName("project").item(0);
@@ -346,18 +350,47 @@ public class XmlEditor extends MultiPageEditorPart implements IResourceChangeLis
 				desc = "";
 			}
 			
+			nList = doc.getElementsByTagName("license");
+			node = (Element) nList.item(0);
+			if(node!=null)
+				license = node.getFirstChild().getNodeValue();
+			else{
+				project.appendChild(doc.createElement("license"));
+				license = "";
+			}
+			
+			nList = doc.getElementsByTagName("licenseurl");
+			node = (Element) nList.item(0);
+			if(node!=null)
+				licenseUrl = node.getFirstChild().getNodeValue();
+			else{
+				project.appendChild(doc.createElement("licenseurl"));
+				licenseUrl = "";
+			}
+			
+			nList = doc.getElementsByTagName("subprojects");
+			node = (Element) nList.item(0);
+			if(node!=null)
+				subProjectsString = node.getFirstChild().getNodeValue();
+			else{
+				project.appendChild(doc.createElement("subprojects"));
+				subProjectsString = "false";
+			}
+			
+			containsSubProjects = subProjectsString.equalsIgnoreCase("true");
+			
 			tags=parseTagsFromXML();
 
 			System.out.println("Nonempty model created.");
-			model = new ProjectModel(name, developer, date, url, svnurl, desc, tags, this);
+			model = new ProjectModel(name, developer, date, url, svnurl, desc,
+					license,licenseUrl,containsSubProjects, tags, this);
 		}catch(DOMException e){
 			e.printStackTrace();
 			
 		}catch(Exception e){
-			//TODO Handle other information contained in the xml
 			e.printStackTrace();
 			System.out.println("Empty model created");
-			model = new ProjectModel("","","","","","",tags,this);
+			model = new ProjectModel("","","","","","","","",false,tags,this);
 		}
 	}
 
