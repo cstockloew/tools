@@ -1,15 +1,15 @@
 /*
 	Copyright 2011 SINTEF, http://www.sintef.no
-	
+
 	See the NOTICE file distributed with this work for additional 
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.core.PackageFragment;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.ISelectionService;
@@ -56,28 +57,37 @@ public class GenerateAalApp extends AbstractHandler {
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
+
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		ISelectionService service = PlatformUI.getWorkbench().
 				getActiveWorkbenchWindow().getSelectionService();
 		IStructuredSelection structured = (IStructuredSelection) service
-                .getSelection("org.eclipse.jdt.ui.PackageExplorer");
+				.getSelection("org.eclipse.jdt.ui.PackageExplorer");
 		IProject project=null;
 		Object element;
 		IPath path;
-		
-		element = structured.getFirstElement();
-		
-		if(element instanceof IResource){
-			project = ((IResource)element).getProject();
-		}else if (element instanceof PackageFragment){
-			IJavaProject jProject = ((PackageFragment)element).getJavaProject();
-			project = jProject.getProject();
-		}else if (element instanceof IJavaElement){
-			IJavaProject jProject = ((IJavaElement)element).getJavaProject();
-			project = jProject.getProject();
+
+		if(structured!=null){
+			element = structured.getFirstElement();
+
+			if(element instanceof IResource){
+				project = ((IResource)element).getProject();
+			}else if (element instanceof PackageFragment){
+				IJavaProject jProject = ((PackageFragment)element).getJavaProject();
+				project = jProject.getProject();
+			}else if (element instanceof IJavaElement){
+				IJavaProject jProject = ((IJavaElement)element).getJavaProject();
+				project = jProject.getProject();
+			}
+
 		}
-		
+		if(project == null){
+			MessageDialog.openInformation(PlatformUI.getWorkbench().
+					getActiveWorkbenchWindow().getShell(), "No selected project",
+					"Please select a project in the package explorer.");
+			return null;
+		}
+
 		String string = project.getLocation().toPortableString();
 
 		File file = new File(string, "aalapp.xml");
@@ -89,18 +99,15 @@ public class GenerateAalApp extends AbstractHandler {
 			do{
 				fileToOpen = project.getFile("aalapp.xml");
 			}while(fileToOpen==null);
-			
+
 			IEditorDescriptor desc = PlatformUI.getWorkbench().
-			        getEditorRegistry().getDefaultEditor(file.getName());
+					getEditorRegistry().getDefaultEditor(file.getName());
 			page.openEditor(new FileEditorInput(fileToOpen), desc.getId());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (PartInitException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return null;

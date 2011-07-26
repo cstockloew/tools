@@ -98,9 +98,7 @@ public class UploadOpenSourceWizardPage1 extends WizardPage {
 		}
 
 		@Override
-		public void widgetDefaultSelected(SelectionEvent e) {
-			// TODO Auto-generated method stub
-			
+		public void widgetDefaultSelected(SelectionEvent e) {			
 		}
 		
 	}

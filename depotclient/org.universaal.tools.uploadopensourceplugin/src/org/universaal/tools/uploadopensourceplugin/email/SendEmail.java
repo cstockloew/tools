@@ -44,6 +44,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.core.PackageFragment;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPage;
@@ -60,6 +61,8 @@ import org.xml.sax.SAXException;
 public class SendEmail {
 
 	private final static String EMAIL = "universAAL@something.org";
+	private final static String SUBJECT = "New universAAL Project";
+	
 	private Desktop desktop;
 	private File file;
 	private Document doc;
@@ -145,8 +148,7 @@ public class SendEmail {
 			transformer.transform(source, result);
 			str = stringWriter.getBuffer().toString();
 
-			uri = "mailto:"+EMAIL+"?SUBJECT=New universAAL Project&BODY="+str;
-
+			uri = "mailto:"+EMAIL+"?SUBJECT="+SUBJECT+"&BODY="+str;
 
 			uri = uri.replace(" ", "%20");
 			uri = uri.replace("/", "%2F");
@@ -160,19 +162,14 @@ public class SendEmail {
 			uri = uri.replace(""+lineBreak+lineBreak2, "");
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -185,22 +182,32 @@ public class SendEmail {
 	public void sendEmail(){
 		if(Desktop.isDesktopSupported()){
 			desktop = Desktop.getDesktop();
+			
+			//First tries to send construct the URI including the message body.
 			try {
 				if(uri!=null)
 					desktop.mail(new URI(uri));
 				else
 					desktop.mail();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
-				System.out.println("Parseerror at: "+e.getIndex());
+				
+				//If the string contained illegal characters, instead of 
+				//including the body of the mail, it only fills out the address
+				//and subject fields.
+				MessageDialog.openInformation(PlatformUI.getWorkbench().
+						getActiveWorkbenchWindow().getShell(), "Malformed URI",
+						"The URI used to generate email body was malformed. \n" +
+						"Does your aalapp.xml contain any very special characters?");
 				e.printStackTrace();
 				try {
-					desktop.mail();
+					String uri = "mailto:"+EMAIL+"?SUBJECT="+SUBJECT;
+					desktop.mail(new URI(uri));
 				} catch (IOException e1) {
-					
 					e1.printStackTrace();
+				} catch (URISyntaxException e1) {
+					e.printStackTrace();
 				}
 				
 			}
