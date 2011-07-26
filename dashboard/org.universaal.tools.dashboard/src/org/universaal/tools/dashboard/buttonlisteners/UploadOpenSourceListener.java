@@ -48,7 +48,6 @@ public class UploadOpenSourceListener implements SelectionListener {
 		try {
 			handlerService.executeCommand("org.universaal.tools.uploadopensourceplugin.commands.uploadopensource", null);
 		} catch (ExecutionException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NotDefinedException e1) {
 			MessageDialog.openInformation(view.getSite().getShell(),
@@ -57,10 +56,8 @@ public class UploadOpenSourceListener implements SelectionListener {
 					"Please install AAL Studio Developer Depot plugin.");
 			e1.printStackTrace();
 		} catch (NotEnabledException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NotHandledException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 

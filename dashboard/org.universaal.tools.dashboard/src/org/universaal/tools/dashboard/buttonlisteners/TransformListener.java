@@ -45,13 +45,11 @@ public class TransformListener implements MouseListener {
 
 	@Override
 	public void mouseDoubleClick(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseDown(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -62,7 +60,6 @@ public class TransformListener implements MouseListener {
 		try {
 			handlerService.executeCommand("org.universaal.tools.transformationcommand.commands.ontUML2Java", null);
 		} catch (ExecutionException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NotDefinedException e1) {
 			MessageDialog.openError(view.getSite().getShell(),
@@ -71,10 +68,11 @@ public class TransformListener implements MouseListener {
 					"Please install AAL Studio Transform Plugin.");
 			e1.printStackTrace();
 		} catch (NotEnabledException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NotHandledException e1) {
-			// TODO Auto-generated catch block
+			MessageDialog.openError(view.getSite().getShell(),
+					"Not a valid selection.",
+					"Please select a valid target for the transformation command.");
 			e1.printStackTrace();
 		}
 

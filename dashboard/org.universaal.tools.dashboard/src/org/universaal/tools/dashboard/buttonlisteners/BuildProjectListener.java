@@ -46,14 +46,10 @@ public class BuildProjectListener implements MouseListener{
 
 	@Override
 	public void mouseDoubleClick(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseDown(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -64,7 +60,6 @@ public class BuildProjectListener implements MouseListener{
 			handlerService.executeCommand("org.universaal.tools.buildserviceapplication.actions.BuildAction", null);
 			
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotDefinedException e) {
 			MessageDialog.openInformation(view.getSite().getShell(),
@@ -73,10 +68,8 @@ public class BuildProjectListener implements MouseListener{
 					"Please install AAL Studio BuildPlugin.");
 			e.printStackTrace();
 		} catch (NotEnabledException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotHandledException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

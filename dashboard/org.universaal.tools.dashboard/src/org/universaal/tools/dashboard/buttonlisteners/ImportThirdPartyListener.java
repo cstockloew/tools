@@ -49,7 +49,6 @@ public class ImportThirdPartyListener implements SelectionListener {
 		try {
 			handlerService.executeCommand("org.universaal.importexternalproject.commands.importthirdparty", null);
 		} catch (ExecutionException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NotDefinedException e1) {
 			MessageDialog.openInformation(view.getSite().getShell(),
@@ -58,10 +57,8 @@ public class ImportThirdPartyListener implements SelectionListener {
 					"Please install AAL Studio Developer Depot Client Plugin.");
 			e1.printStackTrace();
 		} catch (NotEnabledException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NotHandledException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -71,7 +68,6 @@ public class ImportThirdPartyListener implements SelectionListener {
 
 	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

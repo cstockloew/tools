@@ -49,7 +49,6 @@ public class CreateNewProjectListener implements SelectionListener {
 
 	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -61,7 +60,6 @@ public class CreateNewProjectListener implements SelectionListener {
 			handlerService.executeCommand("org.universaal.tools.newwizard.plugin.command.startNewWizard", null);
 
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotDefinedException e) {
 			MessageDialog.openInformation(view.getSite().getShell(),
@@ -70,10 +68,8 @@ public class CreateNewProjectListener implements SelectionListener {
 					"Please install AAL Studio New Wizards Plugin.");
 			e.printStackTrace();
 		} catch (NotEnabledException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotHandledException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e){
 			e.printStackTrace();

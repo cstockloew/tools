@@ -44,7 +44,6 @@ public class ImportExampleListener implements SelectionListener {
 
 	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -52,9 +51,8 @@ public class ImportExampleListener implements SelectionListener {
 	public void widgetSelected(SelectionEvent arg0) {
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
 		try {
-			handlerService.executeCommand("org.universaal.tools.subversivePlugin.commands.exampleProject", null);
+			handlerService.executeCommand("org.universaal.importexternalproject.commands.importexample", null);
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotDefinedException e) {
 			MessageDialog.openInformation(view.getSite().getShell(),
@@ -63,10 +61,8 @@ public class ImportExampleListener implements SelectionListener {
 					"Please install AAL Studio Developer Depot Client Plugin.");
 			e.printStackTrace();
 		} catch (NotEnabledException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotHandledException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

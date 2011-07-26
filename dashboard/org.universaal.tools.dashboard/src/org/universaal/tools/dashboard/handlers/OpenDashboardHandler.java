@@ -38,7 +38,6 @@ public class OpenDashboardHandler extends AbstractHandler {
 			PlatformUI.getWorkbench().
 			getActiveWorkbenchWindow().getActivePage().showView(DashboardView.ID);
 		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

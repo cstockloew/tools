@@ -1,15 +1,15 @@
 /*
 	Copyright 2011 SINTEF, http://www.sintef.no
-	
+
 	See the NOTICE file distributed with this work for additional 
 	information regarding copyright ownership
-	
+
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-	
+
 	  http://www.apache.org/licenses/LICENSE-2.0
-	
+
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -76,16 +76,15 @@ public class DashboardView extends ViewPart {
 	private Label lblCombineArrow;
 	private Label lblBuildArrow;
 	private Label lblBuild;
-	
+
 	private IProject project;
-	
+
 	private ISelectionListener selectionListener;
 	private Label lblProjectProgressField;
 	private Label lblProjectNameField;
 	private Label lblTransformArrow;
 	private Label lblTransform;
 	private Button btnImportExample;
-	private Button btnImportThirdpartyApplication;
 	private Button btnGenerateAalappxml;
 
 	public DashboardView() {
@@ -97,411 +96,279 @@ public class DashboardView extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		
+
 		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
-		
-		Composite composite = new Composite(scrolledComposite, SWT.NONE);
-		composite.setLayout(new FormLayout());
-		
-		Canvas projectDefCanvas = new Canvas(composite, SWT.BORDER);
-		projectDefCanvas.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		GridLayout gl_projectDefCanvas = new GridLayout(1, false);
-		gl_projectDefCanvas.verticalSpacing = 0;
-		projectDefCanvas.setLayout(gl_projectDefCanvas);
-		FormData fd_canvas = new FormData();
-		fd_canvas.top = new FormAttachment(0, 175);
-		projectDefCanvas.setLayoutData(fd_canvas);
-		
-		Label lblProjectDefinition = new Label(projectDefCanvas, SWT.WRAP);
-		GridData gd_lblProjectDefinition = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_lblProjectDefinition.widthHint = 71;
-		lblProjectDefinition.setLayoutData(gd_lblProjectDefinition);
-		lblProjectDefinition.setText("Project Definition");
-		lblProjectDefinition.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
-		lblProjectDefinition.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		new Label(projectDefCanvas, SWT.NONE);
-		
-		btnCreateProject = new Button(projectDefCanvas, SWT.NONE);
-		btnCreateProject.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_button = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_button.widthHint = 64;
-		btnCreateProject.setLayoutData(gd_button);
-		btnCreateProject.setText("Create");
-		
-		btnImportProject = new Button(projectDefCanvas, SWT.NONE);
-		btnImportProject.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_button_1 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_button_1.widthHint = 59;
-		btnImportProject.setLayoutData(gd_button_1);
-		btnImportProject.setText("Import");
-		
-		btnEditProject = new Button(projectDefCanvas, SWT.NONE);
-		btnEditProject.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_button_2 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_button_2.widthHint = 53;
-		btnEditProject.setLayoutData(gd_button_2);
-		btnEditProject.setText("Edit");
-		
-		Label arrrow1 = new Label(composite, SWT.NONE);
-		arrrow1.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrows.png"));
-		FormData fd_label_1 = new FormData();
-		fd_label_1.top = new FormAttachment(projectDefCanvas, 35, SWT.TOP);
-		fd_label_1.left = new FormAttachment(projectDefCanvas);
-		arrrow1.setLayoutData(fd_label_1);
-		
-		Canvas javaClassesCanvas = new Canvas(composite, SWT.BORDER);
-		javaClassesCanvas.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		GridLayout gl_javaClassesCanvas = new GridLayout(1, false);
-		gl_javaClassesCanvas.verticalSpacing = 0;
-		javaClassesCanvas.setLayout(gl_javaClassesCanvas);
-		FormData fd_canvas_1 = new FormData();
-		fd_canvas_1.bottom = new FormAttachment(projectDefCanvas, 0, SWT.BOTTOM);
-		fd_canvas_1.top = new FormAttachment(projectDefCanvas, 0, SWT.TOP);
-		fd_canvas_1.left = new FormAttachment(arrrow1);
-		javaClassesCanvas.setLayoutData(fd_canvas_1);
-		
-		Label lblJavaClasses = new Label(javaClassesCanvas, SWT.WRAP);
-		GridData gd_lblJavaClasses = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_lblJavaClasses.widthHint = 62;
-		lblJavaClasses.setLayoutData(gd_lblJavaClasses);
-		lblJavaClasses.setText("Java Classes");
-		lblJavaClasses.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
-		lblJavaClasses.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		new Label(javaClassesCanvas, SWT.NONE);
-		
-		btnCreateClass = new Button(javaClassesCanvas, SWT.NONE);
-		btnCreateClass.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_button_3 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_button_3.widthHint = 65;
-		btnCreateClass.setLayoutData(gd_button_3);
-		btnCreateClass.setText("Create");
-		
-		btnImportClass = new Button(javaClassesCanvas, SWT.NONE);
-		btnImportClass.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_button_4 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_button_4.widthHint = 26;
-		btnImportClass.setLayoutData(gd_button_4);
-		btnImportClass.setText("Import");
-		
-		btnEditClass = new Button(javaClassesCanvas, SWT.NONE);
-		btnEditClass.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_button_5 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_button_5.widthHint = 63;
-		btnEditClass.setLayoutData(gd_button_5);
-		btnEditClass.setText("Edit");
-		
-		Composite btnBuildProject = new Composite(composite, SWT.NONE);
-		GridLayout gl_composite_1 = new GridLayout(1, false);
-		gl_composite_1.verticalSpacing = 0;
-		gl_composite_1.marginWidth = 0;
-		btnBuildProject.setLayout(gl_composite_1);
-		FormData fd_composite_1 = new FormData();
-		fd_composite_1.top = new FormAttachment(javaClassesCanvas, 30, SWT.TOP);
-		fd_composite_1.left = new FormAttachment(javaClassesCanvas);
-		btnBuildProject.setLayoutData(fd_composite_1);
-		
-		lblBuildArrow = new Label(btnBuildProject, SWT.NONE);
-		GridData gd_label_3 = new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1);
-		gd_label_3.heightHint = 23;
-		lblBuildArrow.setLayoutData(gd_label_3);
-		lblBuildArrow.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrows.png"));
-		
-		Canvas applicationBinCanvas = new Canvas(composite, SWT.BORDER);
-		applicationBinCanvas.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		GridLayout gl_applicationBinCanvas = new GridLayout(1, false);
-		gl_applicationBinCanvas.verticalSpacing = 0;
-		applicationBinCanvas.setLayout(gl_applicationBinCanvas);
-		FormData fd_canvas_2 = new FormData();
-		fd_canvas_2.bottom = new FormAttachment(projectDefCanvas, 0, SWT.BOTTOM);
-		fd_canvas_2.top = new FormAttachment(projectDefCanvas, 0, SWT.TOP);
-		fd_canvas_2.height = 100;
-		fd_canvas_2.left = new FormAttachment(btnBuildProject);
-		
-		lblBuild = new Label(btnBuildProject, SWT.CENTER);
-		lblBuild.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		lblBuild.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
-		lblBuild.setText("Build");
-		applicationBinCanvas.setLayoutData(fd_canvas_2);
-		
-		Label lblApplicationBinary = new Label(applicationBinCanvas, SWT.WRAP);
-		GridData gd_lblApplicationBinary = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_lblApplicationBinary.widthHint = 123;
-		lblApplicationBinary.setLayoutData(gd_lblApplicationBinary);
-		lblApplicationBinary.setText("Application Binary");
-		lblApplicationBinary.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
-		lblApplicationBinary.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		new Label(applicationBinCanvas, SWT.NONE);
-		
-		btnTestConformance = new Button(applicationBinCanvas, SWT.NONE);
-		btnTestConformance.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_button_6 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_button_6.widthHint = 112;
-		btnTestConformance.setLayoutData(gd_button_6);
-		btnTestConformance.setText("Test \r\nconformance");
-		
-		btnRun = new Button(applicationBinCanvas, SWT.NONE);
-		btnRun.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_btnRun = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnRun.widthHint = 81;
-		btnRun.setLayoutData(gd_btnRun);
-		btnRun.setText("Run");
-		
-		btnDebug = new Button(applicationBinCanvas, SWT.NONE);
-		btnDebug.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_btnDebug = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_btnDebug.widthHint = 71;
-		btnDebug.setLayoutData(gd_btnDebug);
-		btnDebug.setText("Debug");
-		
-		Composite btnCombineProject = new Composite(composite, SWT.NONE);
-		GridLayout gl_composite_2 = new GridLayout(1, false);
-		gl_composite_2.verticalSpacing = 0;
-		gl_composite_2.marginWidth = 0;
-		btnCombineProject.setLayout(gl_composite_2);
-		FormData fd_composite_2 = new FormData();
-		fd_composite_2.top = new FormAttachment(applicationBinCanvas, 30, SWT.TOP);
-		fd_composite_2.left = new FormAttachment(applicationBinCanvas);
-		btnCombineProject.setLayoutData(fd_composite_2);
-		
-		lblCombineArrow = new Label(btnCombineProject, SWT.NONE);
-		GridData gd_label_6 = new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1);
-		gd_label_6.heightHint = 19;
-		lblCombineArrow.setLayoutData(gd_label_6);
-		lblCombineArrow.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrows.png"));
-		
-		lblCombine = new Label(btnCombineProject, SWT.NONE);
-		lblCombine.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		lblCombine.setText("Combine");
-		lblCombine.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
-		
-		Canvas publishableCanvas = new Canvas(composite, SWT.BORDER);
-		publishableCanvas.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		GridLayout gl_publishableCanvas = new GridLayout(1, false);
-		gl_publishableCanvas.verticalSpacing = 0;
-		publishableCanvas.setLayout(gl_publishableCanvas);
-		FormData fd_canvas_3 = new FormData();
-		fd_canvas_3.bottom = new FormAttachment(projectDefCanvas, 0, SWT.BOTTOM);
-		fd_canvas_3.top = new FormAttachment(applicationBinCanvas, 0, SWT.TOP);
-		fd_canvas_3.height = 100;
-		fd_canvas_3.left = new FormAttachment(btnCombineProject);
-		publishableCanvas.setLayoutData(fd_canvas_3);
-		
-		Label lblPublishableApplication = new Label(publishableCanvas, SWT.WRAP);
-		GridData gd_lblPublishableApplication = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_lblPublishableApplication.widthHint = 85;
-		lblPublishableApplication.setLayoutData(gd_lblPublishableApplication);
-		lblPublishableApplication.setText("Publishable application");
-		lblPublishableApplication.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
-		lblPublishableApplication.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		new Label(publishableCanvas, SWT.NONE);
-		
-		btnPublishUstore = new Button(publishableCanvas, SWT.NONE);
-		btnPublishUstore.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_btnPublishUstore = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnPublishUstore.widthHint = 126;
-		btnPublishUstore.setLayoutData(gd_btnPublishUstore);
-		btnPublishUstore.setText("Publish to uStore");
-		
-		btnUploadOpenSource = new Button(publishableCanvas, SWT.NONE);
-		btnUploadOpenSource.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		GridData gd_btnPublishOpenSource = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_btnPublishOpenSource.widthHint = 85;
-		btnUploadOpenSource.setLayoutData(gd_btnPublishOpenSource);
-		btnUploadOpenSource.setText("Upload open source");
-		
-		Canvas applDescCanvas = new Canvas(composite, SWT.BORDER);
-		applDescCanvas.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		applDescCanvas.setLayout(new GridLayout(1, false));
-		FormData fd_applDescCanvas = new FormData();
-		fd_applDescCanvas.right = new FormAttachment(btnCombineProject);
-		fd_applDescCanvas.top = new FormAttachment(applicationBinCanvas, 6);
-		applDescCanvas.setLayoutData(fd_applDescCanvas);
-		
-		Label lblApplicationDescription = new Label(applDescCanvas, SWT.WRAP | SWT.CENTER);
-		GridData gd_lblApplicationDescription = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_lblApplicationDescription.widthHint = 111;
-		lblApplicationDescription.setLayoutData(gd_lblApplicationDescription);
-		lblApplicationDescription.setText("Application Description");
-		lblApplicationDescription.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
-		lblApplicationDescription.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		
-		Canvas confParCanvas = new Canvas(composite, SWT.BORDER);
-		confParCanvas.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		confParCanvas.setLayout(new GridLayout(1, false));
-		FormData fd_confParCanvas = new FormData();
-		fd_confParCanvas.right = new FormAttachment(btnCombineProject);
-		fd_confParCanvas.bottom = new FormAttachment(applicationBinCanvas, -6);
-		fd_confParCanvas.left = new FormAttachment(applicationBinCanvas, 0, SWT.LEFT);
-		confParCanvas.setLayoutData(fd_confParCanvas);
-		
-		Label lblConfigurationParameters = new Label(confParCanvas, SWT.WRAP | SWT.CENTER);
-		GridData gd_lblConfigurationParameters = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gd_lblConfigurationParameters.widthHint = 85;
-		lblConfigurationParameters.setLayoutData(gd_lblConfigurationParameters);
-		lblConfigurationParameters.setText("Configuration Parameters");
-		lblConfigurationParameters.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
-		lblConfigurationParameters.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		
-		Label label_11 = new Label(composite, SWT.NONE);
-		label_11.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrow_curve_left_s.png"));
-		label_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-		FormData fd_label_11 = new FormData();
-		fd_label_11.bottom = new FormAttachment(applDescCanvas, -20, SWT.BOTTOM);
-		
-		btnGenerateAalappxml = new Button(applDescCanvas, SWT.NONE);
-		btnGenerateAalappxml.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		btnGenerateAalappxml.setText("Generate aalapp.xml");
-		fd_label_11.right = new FormAttachment(btnCombineProject, -20, SWT.RIGHT);
-		label_11.setLayoutData(fd_label_11);
-		
-		Label label_12 = new Label(composite, SWT.NONE);
-		label_12.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrow_curve_left_down_s.png"));
-		FormData fd_label_12 = new FormData();
-		fd_label_12.right = new FormAttachment(btnCombineProject, -20, SWT.RIGHT);
-		fd_label_12.top = new FormAttachment(confParCanvas, 20, SWT.TOP);
-		label_12.setLayoutData(fd_label_12);
-		
-		Canvas canvas_6 = new Canvas(composite, SWT.BORDER);
-		fd_canvas.left = new FormAttachment(0, 10);
-		
-		btnImportExample = new Button(projectDefCanvas, SWT.NONE);
-		btnImportExample.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		btnImportExample.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		btnImportExample.setText("Import Example");
-		
-		btnImportThirdpartyApplication = new Button(projectDefCanvas, SWT.NONE);
-		btnImportThirdpartyApplication.setText("Import Third-party application");
-		canvas_6.setBackground(SWTResourceManager.getColor(30, 144, 255));
-		GridLayout gl_canvas_6 = new GridLayout(1, false);
-		gl_canvas_6.verticalSpacing = 0;
-		canvas_6.setLayout(gl_canvas_6);
-		FormData fd_canvas_6 = new FormData();
-		fd_canvas_6.right = new FormAttachment(0, 750);
-		fd_canvas_6.top = new FormAttachment(0, 10);
-		fd_canvas_6.left = new FormAttachment(0, 333);
-		canvas_6.setLayoutData(fd_canvas_6);
-		
-		Label label_13 = new Label(canvas_6, SWT.CENTER);
-		label_13.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/universaals.jpg"));
-		GridData gd_label_13 = new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1);
-		gd_label_13.widthHint = 401;
-		gd_label_13.heightHint = 48;
-		label_13.setLayoutData(gd_label_13);
-		label_13.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		label_13.setBackground(SWTResourceManager.getColor(30, 144, 255));
-		label_13.setAlignment(SWT.LEFT);
-		
-		Composite composite_1 = new Composite(canvas_6, SWT.NONE);
-		composite_1.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		composite_1.setBackground(SWTResourceManager.getColor(30, 144, 255));
-		GridLayout gl_composite_3 = new GridLayout(2, false);
-		gl_composite_3.marginHeight = 0;
-		composite_1.setLayout(gl_composite_3);
-		GridData gd_composite_1 = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-		gd_composite_1.heightHint = 18;
-		gd_composite_1.widthHint = 179;
-		composite_1.setLayoutData(gd_composite_1);
-		
-		Label lblProjectName = new Label(composite_1, SWT.NONE);
-		GridData gd_lblProjectName = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_lblProjectName.heightHint = 22;
-		lblProjectName.setLayoutData(gd_lblProjectName);
-		lblProjectName.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
-		lblProjectName.setBackground(SWTResourceManager.getColor(30, 144, 255));
-		lblProjectName.setText("Project Name: ");
-		
-		lblProjectNameField = new Label(composite_1, SWT.WRAP);
-		GridData gd_lblProjectNameField = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_lblProjectNameField.widthHint = 155;
-		lblProjectNameField.setLayoutData(gd_lblProjectNameField);
-		lblProjectNameField.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		lblProjectNameField.setText("no project selected");
-		lblProjectNameField.setBackground(SWTResourceManager.getColor(30, 144, 255));
-		
-		Composite composite_2 = new Composite(canvas_6, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(30, 144, 255));
-		GridLayout gl_composite_4 = new GridLayout(2, false);
-		gl_composite_4.marginHeight = 0;
-		composite_2.setLayout(gl_composite_4);
-		GridData gd_composite_2 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_composite_2.heightHint = 20;
-		gd_composite_2.widthHint = 178;
-		composite_2.setLayoutData(gd_composite_2);
-		
-		Label lblProjectProgress = new Label(composite_2, SWT.NONE);
-		lblProjectProgress.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
-		lblProjectProgress.setBackground(SWTResourceManager.getColor(30, 144, 255));
-		lblProjectProgress.setText("Project Progress:");
-		
-		lblProjectProgressField = new Label(composite_2, SWT.NONE);
-		lblProjectProgressField.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		lblProjectProgressField.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		lblProjectProgressField.setBackground(SWTResourceManager.getColor(30, 144, 255));
-		
-		Composite transformCanvas = new Composite(composite, SWT.NONE);
-		GridLayout gl_transformCanvas = new GridLayout(1, false);
-		gl_transformCanvas.verticalSpacing = 0;
-		gl_transformCanvas.marginRight = 5;
-		transformCanvas.setLayout(gl_transformCanvas);
-		FormData fd_transformCanvas = new FormData();
-		fd_transformCanvas.right = new FormAttachment(btnBuildProject);
-		fd_transformCanvas.left = new FormAttachment(javaClassesCanvas, 0, SWT.LEFT);
-		fd_transformCanvas.bottom = new FormAttachment(javaClassesCanvas);
-		transformCanvas.setLayoutData(fd_transformCanvas);
-		
-		Canvas canvas_1 = new Canvas(composite, SWT.BORDER);
-		canvas_1.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		FormData fd_canvas_8;
+
+		Composite container = new Composite(scrolledComposite, SWT.NONE);
+		GridLayout gl_container = new GridLayout(7, false);
+		gl_container.verticalSpacing = 0;
+		gl_container.horizontalSpacing = 0;
+		container.setLayout(gl_container);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+
+		Composite canvas_1 = new Composite(container, SWT.BORDER);
+		canvas_1.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		canvas_1.setBackground(SWTResourceManager.getColor(135, 206, 235));
 		GridLayout gl_canvas_1 = new GridLayout(1, false);
-		gl_canvas_1.verticalSpacing = 0;
+		gl_canvas_1.verticalSpacing = 2;
 		canvas_1.setLayout(gl_canvas_1);
-		fd_canvas_8 = new FormData();
-		fd_canvas_8.bottom = new FormAttachment(transformCanvas);
-		fd_canvas_8.left = new FormAttachment(javaClassesCanvas, 0, SWT.LEFT);
-		canvas_1.setLayoutData(fd_canvas_8);
-		
-		Label lblApplicationDesign = new Label(canvas_1, SWT.WRAP);
-		lblApplicationDesign.setBackground(SWTResourceManager.getColor(173, 216, 230));
-		lblApplicationDesign.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
-		GridData gd_lblApplicationDesign = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_lblApplicationDesign.widthHint = 79;
-		lblApplicationDesign.setLayoutData(gd_lblApplicationDesign);
+
+		Label lblApplicationDesign = new Label(canvas_1, SWT.NONE);
+		lblApplicationDesign.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		lblApplicationDesign.setBackground(SWTResourceManager.getColor(135, 206, 235));
 		lblApplicationDesign.setText("Application Design");
-		
+
 		btnCreate = new Button(canvas_1, SWT.NONE);
-		btnCreate.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		btnCreate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		btnCreate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		btnCreate.setText("Create");
-		
+
 		btnEdit = new Button(canvas_1, SWT.NONE);
-		btnEdit.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
-		btnEdit.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		btnEdit.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		btnEdit.setText("Edit");
-		
-		
-		
+		new Label(container, SWT.NONE);
+
+		Composite universaalLogoComp = new Composite(container, SWT.BORDER);
+		universaalLogoComp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
+		universaalLogoComp.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		universaalLogoComp.setBackground(SWTResourceManager.getColor(30, 144, 255));
+		universaalLogoComp.setLayout(new GridLayout(2, false));
+
+		Label imgUniversaalLogo = new Label(universaalLogoComp, SWT.NONE);
+		imgUniversaalLogo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		imgUniversaalLogo.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/universaals.jpg"));
+
+		Label lblProjectName = new Label(universaalLogoComp, SWT.NONE);
+		lblProjectName.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
+		lblProjectName.setText("Project Name:");
+		lblProjectName.setBackground(SWTResourceManager.getColor(30, 144, 255));
+
+		lblProjectNameField = new Label(universaalLogoComp, SWT.NONE);
+		lblProjectNameField.setBackground(SWTResourceManager.getColor(30, 144, 255));
+		lblProjectNameField.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
+		lblProjectNameField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+		Label lblPercentComp = new Label(universaalLogoComp, SWT.NONE);
+		lblPercentComp.setFont(SWTResourceManager.getFont("Arial", 11, SWT.BOLD));
+		lblPercentComp.setText("Percentage complete");
+		lblPercentComp.setBackground(SWTResourceManager.getColor(30, 144, 255));
+
+		lblProjectProgressField = new Label(universaalLogoComp, SWT.NONE);
+		lblProjectProgressField.setBackground(SWTResourceManager.getColor(30, 144, 255));
+		lblProjectProgressField.setFont(SWTResourceManager.getFont("Arial", 10, SWT.NORMAL));
+		lblProjectProgressField.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1));
+
+
+
+		Composite projectDefCanvas = new Composite(container, SWT.BORDER);
+		projectDefCanvas.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		projectDefCanvas.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		GridLayout gl_projectDefCanvas = new GridLayout(1, false);
+		gl_projectDefCanvas.verticalSpacing = 2;
+		projectDefCanvas.setLayout(gl_projectDefCanvas);
+
+		Label lblProjectDefinition = new Label(projectDefCanvas, SWT.NONE);
+		lblProjectDefinition.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		lblProjectDefinition.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		lblProjectDefinition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		lblProjectDefinition.setText("Project Definition");
+
+		btnCreateProject = new Button(projectDefCanvas, SWT.NONE);
+		btnCreateProject.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnCreateProject.setGrayed(false);
+		btnCreateProject.setEnabled(true);
+		btnCreateProject.setText("Create Project");
+
+
+		btnImportProject = new Button(projectDefCanvas, SWT.NONE);
+		btnImportProject.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnImportProject.setText("Import Project");
+
+
+		btnEditProject = new Button(projectDefCanvas, SWT.NONE);
+		btnEditProject.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnEditProject.setText("Edit Project");
+
+
+		btnImportExample = new Button(projectDefCanvas, SWT.NONE);
+		btnImportExample.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnImportExample.setText("Import Example");
+
+		Label label_4 = new Label(container, SWT.NONE);
+		label_4.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrows.png"));
+
+		Composite composite_5 = new Composite(container, SWT.NONE);
+		composite_5.setLayout(new GridLayout(1, false));
+		composite_5.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+
+		Composite transformCanvas = new Composite(composite_5, SWT.NONE);
+		transformCanvas.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		transformCanvas.setLayout(new GridLayout(1, false));
+
 		lblTransformArrow = new Label(transformCanvas, SWT.NONE);
 		lblTransformArrow.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblTransformArrow.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrow_down_s.png"));
-		
+
 		lblTransform = new Label(transformCanvas, SWT.NONE);
-		lblTransform.setAlignment(SWT.CENTER);
-		GridData gd_lblTransform = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_lblTransform.widthHint = 67;
-		lblTransform.setLayoutData(gd_lblTransform);
 		lblTransform.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
 		lblTransform.setText("Transform");
-		
-		scrolledComposite.setContent(composite);
-		scrolledComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+		Composite javaClassesCanvas = new Composite(composite_5, SWT.BORDER);
+		javaClassesCanvas.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		javaClassesCanvas.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		GridLayout gl_javaClassesCanvas = new GridLayout(1, false);
+		gl_javaClassesCanvas.verticalSpacing = 2;
+		javaClassesCanvas.setLayout(gl_javaClassesCanvas);
+		javaClassesCanvas.setBackground(SWTResourceManager.getColor(135, 206, 235));
+
+		Label lblJavaClasses = new Label(javaClassesCanvas, SWT.NONE);
+		lblJavaClasses.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		lblJavaClasses.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		lblJavaClasses.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		lblJavaClasses.setText("Java Classes");
+
+		btnCreateClass = new Button(javaClassesCanvas, SWT.NONE);
+		btnCreateClass.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnCreateClass.setText("Create");
+
+		btnImportClass = new Button(javaClassesCanvas, SWT.NONE);
+		btnImportClass.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnImportClass.setText("Import");
+
+		btnEditClass = new Button(javaClassesCanvas, SWT.NONE);
+		btnEditClass.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnEditClass.setText("Edit");
+
+
+		Composite btnBuildProject = new Composite(container, SWT.NONE);
+		btnBuildProject.setLayout(new GridLayout(1, false));
+
+		lblBuildArrow = new Label(btnBuildProject, SWT.NONE);
+		lblBuildArrow.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblBuildArrow.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrows.png"));
+
+		lblBuild = new Label(btnBuildProject, SWT.NONE);
+		lblBuild.setText("Build");
+		lblBuild.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+
+		Composite composite_3 = new Composite(container, SWT.NONE);
+		composite_3.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		composite_3.setLayout(new GridLayout(2, false));
+
+		Composite confParCanvas = new Composite(composite_3, SWT.BORDER);
+		confParCanvas.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		confParCanvas.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		confParCanvas.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		confParCanvas.setLayout(new GridLayout(1, false));
+
+		Label lblConfigurationParameters = new Label(confParCanvas, SWT.NONE);
+		lblConfigurationParameters.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		lblConfigurationParameters.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		lblConfigurationParameters.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		lblConfigurationParameters.setText("Configuration Parameters");
+
+		Label label_12 = new Label(composite_3, SWT.NONE);
+		label_12.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		label_12.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrow_curve_left_down_s.png"));
+
+		Composite grpApplicationBinary = new Composite(composite_3, SWT.BORDER | SWT.SHADOW_IN);
+		grpApplicationBinary.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		GridLayout gl_grpApplicationBinary = new GridLayout(1, false);
+		gl_grpApplicationBinary.verticalSpacing = 2;
+		grpApplicationBinary.setLayout(gl_grpApplicationBinary);
+		grpApplicationBinary.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		grpApplicationBinary.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+
+		Label lblApplicationBinary = new Label(grpApplicationBinary, SWT.NONE);
+		lblApplicationBinary.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		lblApplicationBinary.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		lblApplicationBinary.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		lblApplicationBinary.setText("Application Binary");
+
+		btnTestConformance = new Button(grpApplicationBinary, SWT.NONE);
+		btnTestConformance.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnTestConformance.setText("Test Conformance");
+
+		btnRun = new Button(grpApplicationBinary, SWT.NONE);
+		btnRun.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnRun.setText("Run");
+
+		btnDebug = new Button(grpApplicationBinary, SWT.NONE);
+		btnDebug.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnDebug.setText("Debug");
+
+		Composite btnCombineProject = new Composite(composite_3, SWT.NONE);
+		btnCombineProject.setLayout(new GridLayout(1, false));
+
+		lblCombineArrow = new Label(btnCombineProject, SWT.NONE);
+		lblCombineArrow.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblCombineArrow.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrows.png"));
+
+		lblCombine = new Label(btnCombineProject, SWT.NONE);
+		lblCombine.setText("Combine");
+		lblCombine.setFont(SWTResourceManager.getFont("Arial", 10, SWT.BOLD));
+
+		Composite applDescCanvas = new Composite(composite_3, SWT.NONE);
+		applDescCanvas.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		applDescCanvas.setLayout(new GridLayout(1, false));
+		applDescCanvas.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		applDescCanvas.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+
+		Label lblApplicationDescription = new Label(applDescCanvas, SWT.NONE);
+		lblApplicationDescription.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		lblApplicationDescription.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		lblApplicationDescription.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		lblApplicationDescription.setText("Application Description");
+
+		btnGenerateAalappxml = new Button(applDescCanvas, SWT.NONE);
+		btnGenerateAalappxml.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnGenerateAalappxml.setText("Generate application description");
+
+		Label label_11 = new Label(composite_3, SWT.NONE);
+		label_11.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		label_11.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/arrow_curve_left_s.png"));
+
+		Composite publishableCanvas = new Composite(container, SWT.BORDER | SWT.SHADOW_OUT);
+		GridLayout gl_publishableCanvas = new GridLayout(1, false);
+		gl_publishableCanvas.verticalSpacing = 2;
+		publishableCanvas.setLayout(gl_publishableCanvas);
+		publishableCanvas.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		publishableCanvas.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		publishableCanvas.setBackground(SWTResourceManager.getColor(135, 206, 235));
+
+		Label lblPublishableApplication = new Label(publishableCanvas, SWT.NONE);
+		lblPublishableApplication.setBackground(SWTResourceManager.getColor(135, 206, 235));
+		lblPublishableApplication.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		lblPublishableApplication.setText("Publishable Application");
+
+		btnPublishUstore = new Button(publishableCanvas, SWT.NONE);
+		btnPublishUstore.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnPublishUstore.setText("Publish to uStore");
+
+		btnUploadOpenSource = new Button(publishableCanvas, SWT.NONE);
+		btnUploadOpenSource.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnUploadOpenSource.setText("Upload Open Source");
+
+		Composite grpProjectDefinition = new Composite(container, SWT.NONE);
+		grpProjectDefinition.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
+		grpProjectDefinition.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		grpProjectDefinition.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+		GridLayout gl_grpProjectDefinition = new GridLayout(1, false);
+		gl_grpProjectDefinition.marginWidth = 0;
+		gl_grpProjectDefinition.marginHeight = 0;
+		grpProjectDefinition.setLayout(gl_grpProjectDefinition);
+
+
+		scrolledComposite.setContent(container);
+		scrolledComposite.setMinSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		createActions();
 		initializeToolBar();
 		initializeMenu();
 		hookPageSelection();
-		
+
 	}
 
 	/**
@@ -509,35 +376,34 @@ public class DashboardView extends ViewPart {
 	 * their respective buttons.
 	 */
 	private void createActions() {
-		
+
 		//Project definition
 		btnCreateProject.addSelectionListener(new CreateNewProjectListener(this));
 		btnImportProject.addSelectionListener(new TemporaryListener(this, "Import Project"));
 		btnEditProject.addSelectionListener(new TemporaryListener(this, "Edit Project"));
 		btnImportExample.addSelectionListener(new ImportExampleListener(this));
-		btnImportThirdpartyApplication.addSelectionListener(new ImportThirdPartyListener(this));
-		
+
 		//Java Classes
 		btnCreateClass.addSelectionListener(new CreateNewItemListener(this));
 		btnImportClass.addSelectionListener(new TemporaryListener(this, "Import Class"));
 		btnEditClass.addSelectionListener(new TemporaryListener(this, "Edit Class"));
-		
+
 		//Application Binary
 		btnTestConformance.addSelectionListener(new TemporaryListener(this, "Test Conformance"));
 		btnRun.addSelectionListener(new RunProjectListener(this));
 		btnDebug.addSelectionListener(new DebugProjectListener(this));
-		
+
 		//Project Description
 		btnGenerateAalappxml.addSelectionListener(new GenerateXmlListener(this));
-		
+
 		//Publishable Application
 		btnUploadOpenSource.addSelectionListener(new UploadOpenSourceListener(this));
 		btnPublishUstore.addSelectionListener(new PublishProjectListener(this));
-		
+
 		//Application Design
 		btnCreate.addSelectionListener(new TemporaryListener(this, "Create"));
 		btnEdit.addSelectionListener(new TemporaryListener(this, "Edit"));
-		
+
 		//
 		lblBuild.addMouseListener(new BuildProjectListener(this));
 		lblCombine.addMouseListener(new TemporaryMouseListener(this, "Combine Project"));
@@ -567,7 +433,7 @@ public class DashboardView extends ViewPart {
 	public void setFocus() {
 		// Set the focus
 	}
-	
+
 	@Override
 	public void dispose(){
 		super.dispose();
@@ -577,7 +443,7 @@ public class DashboardView extends ViewPart {
 			getSite().getPage().removePostSelectionListener(selectionListener);
 		}
 	}
-	
+
 	/**
 	 * Add selectionListener for updating Project Name
 	 */
@@ -585,16 +451,16 @@ public class DashboardView extends ViewPart {
 		selectionListener = new ProjectNameListener(this);
 		getSite().getPage().addPostSelectionListener(selectionListener);
 	}
-	
-	
+
+
 	public void setProjectName(String name){
 		this.lblProjectNameField.setText(name);
 	}
-	
+
 	public void setCurrentProject(IProject input){
 		this.project = input;
 	}
-	
+
 	public IProject getCurrentProject(){
 		return project;
 	}
