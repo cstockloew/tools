@@ -204,6 +204,7 @@ public class ImportExampleWizardPage extends WizardPage {
 						location = locs[i];
 						System.out.println("Loop!");
 						location.setUsername("anonymous");
+						location.setPassword("");
 						fold = new SVNRepositoryFolder(location, 
 								repositoryUrl
 								+folderUrl,

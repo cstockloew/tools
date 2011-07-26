@@ -101,7 +101,6 @@ public class ImportExampleWizard extends Wizard implements IImportWizard {
 		try {
 			getContainer().run(true, true, new Progress(job));
 		} catch (InvocationTargetException e) {
-			//TODO
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			job.cancel();
