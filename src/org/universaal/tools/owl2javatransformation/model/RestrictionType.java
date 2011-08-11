@@ -17,5 +17,9 @@ public enum RestrictionType {
 	/**
 	 * currently not supported
 	 */
-	JUST_CARDINALITY;
+	JUST_CARDINALITY,
+	/**
+	 * currently not supported;
+	 */
+	ALL_VALUES_FROM_WITH_CARDINALITY;
 }

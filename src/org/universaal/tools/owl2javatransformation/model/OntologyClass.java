@@ -15,7 +15,7 @@ import com.google.common.collect.ImmutableSet;
  * @author wolf
  * 
  */
-public final class OntologyClass extends OntologyEntity {
+public class OntologyClass extends OntologyEntity {
 	
 	private final Set<OntologyProperty> declaredProps;
 	private final String superClassName;
