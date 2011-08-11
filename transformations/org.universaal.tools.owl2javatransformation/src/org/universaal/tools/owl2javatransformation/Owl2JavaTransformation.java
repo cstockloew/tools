@@ -10,6 +10,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.universaal.tools.owl2javatransformation.model.OntologyClass;
+import org.universaal.tools.owl2javatransformation.model.OntologyEnumeration;
 import org.universaal.tools.owl2javatransformation.modelgenerator.ModelGeneratorJenaImpl;
 
 import com.google.common.base.Preconditions;
@@ -62,7 +63,11 @@ public class Owl2JavaTransformation {
 			// write each class to a file
 			for (OntologyClass clazz : classes) {
 				context.put("class", clazz);
-				Template template = Velocity.getTemplate("templates/uAALClass.vm");
+				Template template = null;
+				if (clazz instanceof OntologyEnumeration)
+					template = Velocity.getTemplate("templates/uAALEnum.vm");
+				else
+					template = Velocity.getTemplate("templates/uAALClass.vm");
 				BufferedWriter bw = openOutputFile(outputPath, clazz);
 				template.merge(context, bw);
 				bw.close();

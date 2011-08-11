@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.universaal.tools.owl2javatransformation.model.OntologyClass;
 import org.universaal.tools.owl2javatransformation.model.OntologyEntity;
+import org.universaal.tools.owl2javatransformation.model.OntologyEnumeration;
 import org.universaal.tools.owl2javatransformation.model.OntologyProperty;
 import org.universaal.tools.owl2javatransformation.model.PropertyRestriction;
 import org.universaal.tools.owl2javatransformation.model.RestrictionType;
@@ -19,6 +20,7 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.ontology.OntProperty;
+import com.hp.hpl.jena.ontology.OntResource;
 import com.hp.hpl.jena.ontology.Restriction;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.util.FileManager;
@@ -89,18 +91,34 @@ public class ModelGeneratorJenaImpl implements ModelGenerator {
 	}
 
 	private OntologyClass transformClass(OntClass ontClass) {
-		return new OntologyClass(OntologyEntity.uriToSimpleName(ontClass.getURI()), ontClass.getURI(), 
+		if (ontClass.isEnumeratedClass() || ontClass.listInstances(true).hasNext()) // instance check is necessary due to Protege's way of constructing enumerations
+			return new OntologyEnumeration(OntologyEntity.uriToSimpleName(ontClass.getURI()), ontClass.getURI(), 
+					ontClass.getComment(null) == null ? "" : ontClass.getComment(null), getDeclaredProperties(ontClass), 
+					OntologyEntity.uriToSimpleName(getSuperClass(ontClass)), getImportedPackages(), 
+							getPackageName(ontClass.getURI()), getRestrictions(ontClass), getInstances(ontClass));
+		else 
+			return new OntologyClass(OntologyEntity.uriToSimpleName(ontClass.getURI()), ontClass.getURI(), 
 					ontClass.getComment(null) == null ? "" : ontClass.getComment(null), getDeclaredProperties(ontClass), 
 					OntologyEntity.uriToSimpleName(getSuperClass(ontClass)), getImportedPackages(), 
 							getPackageName(ontClass.getURI()), getRestrictions(ontClass));
 	}
 	
+	private Set<String> getInstances(OntClass ontClass) {
+		Set<String> instances = new HashSet<String>();
+		ExtendedIterator<? extends OntResource> listInstances = ontClass.listInstances(true);
+		while (listInstances.hasNext()) {
+			OntResource instance = listInstances.next();
+			instances.add(instance.getURI());
+		}
+		return instances;
+	}
+
 	private String getSuperClass(OntClass ontClass) {
 		Set<OntClass> classes = new HashSet<OntClass>();
 		Iterator<OntClass> iter = ontClass.listSuperClasses(true);
 		while (iter.hasNext()) {
 			OntClass clazz = iter.next();	
-			if (!clazz.isRestriction()) {
+			if (!clazz.isRestriction() && !clazz.isEnumeratedClass()) {
 				classes.add(clazz);
 			}
 		}
@@ -153,13 +171,13 @@ public class ModelGeneratorJenaImpl implements ModelGenerator {
 			
 			return new OntologyProperty(OntologyEntity.uriToSimpleName(ontProp.getURI()), ontProp.getURI(), 
 					ontProp.getComment(null) == null ? "" : ontProp.getComment(null), OntologyEntity.uriToSimpleName(ontProp.getDomain().getURI()), 
-					OntologyEntity.dataTypeToSimpleName(ontProp.getRange().getURI()), 
+							ontProp.getRange() == null ? "" : OntologyEntity.dataTypeToSimpleName(ontProp.getRange().getURI()), 
 					true);
 		}
 		else 
 			return new OntologyProperty(OntologyEntity.uriToSimpleName(ontProp.getURI()), ontProp.getURI(), 
 				ontProp.getComment(null), OntologyEntity.uriToSimpleName(ontProp.getDomain().getURI()), 
-				OntologyEntity.uriToSimpleName(ontProp.getRange().getURI()), 
+				ontProp.getRange() == null ? "" : OntologyEntity.uriToSimpleName(ontProp.getRange().getURI()), 
 				false);
 	}
 	
