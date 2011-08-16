@@ -116,7 +116,7 @@ public class CreateFelixPropertiesFile {
 			out.write("felix.auto.start.2=\\\n");
 	//		out.write("\"file:/D:/org.apache.felix.fileinstall-3.1.10.jar\" \\\n");
 			out.write("\"mvn:org.apache.felix/org.apache.felix.configadmin\" \\\n");
-			out.write("\"mvn:org.universaal.middleware/mw.acl.interfaces/0.3.0-SNAPSHOT\" \\\n");
+			out.write("\"mvn:org.universAAL.middleware/mw.acl.interfaces/0.3.0-SNAPSHOT\" \\\n");
 			out.write("\"wrap:mvn:jp.go.ipa/jgcl/1.0\" \\\n");
 			out.write("\"wrap:mvn:java3d/vecmath/1.3.1\" \\\n");
 			out.write("\"wrap:mvn:org.bouncycastle/jce.jdk13/144\" \\\n");
@@ -125,13 +125,13 @@ public class CreateFelixPropertiesFile {
 			out.write("\"wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.4\"\n");
 			out.write("felix.auto.start.3=\\\n");
 			out.write("\"wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.4\" \\\n");
-			out.write("\"mvn:org.universaal.middleware/mw.bus.model/0.3.0-SNAPSHOT\"\n");
+			out.write("\"mvn:org.universAAL.middleware/mw.bus.model/0.3.0-SNAPSHOT\"\n");
 			out.write("felix.auto.start.4=\\\n");
-			out.write("\"mvn:org.universaal.middleware/mw.bus.context/0.3.0-SNAPSHOT\" \\\n");
-			out.write("\"mvn:org.universaal.middleware/mw.bus.service/0.3.0-SNAPSHOT\" \\\n");
-			out.write("\"mvn:org.universaal.middleware/mw.data.serialization/0.3.0-SNAPSHOT\" \\\n");
-			out.write("\"mvn:org.universaal.middleware/mw.data.representation/0.3.0-SNAPSHOT\" \\\n");
-			out.write("\"mvn:org.universaal.middleware/mw.bus.io/0.3.0-SNAPSHOT\"\n");
+			out.write("\"mvn:org.universAAL.middleware/mw.bus.context/0.3.0-SNAPSHOT\" \\\n");
+			out.write("\"mvn:org.universAAL.middleware/mw.bus.service/0.3.0-SNAPSHOT\" \\\n");
+			out.write("\"mvn:org.universAAL.middleware/mw.data.serialization/0.3.0-SNAPSHOT\" \\\n");
+			out.write("\"mvn:org.universAAL.middleware/mw.data.representation/0.3.0-SNAPSHOT\" \\\n");
+			out.write("\"mvn:org.universAAL.middleware/mw.bus.io/0.3.0-SNAPSHOT\"\n");
 
 			// put ontology artifacts according to project's pom
 			if (ontologyDependencies.size() != 0) {
