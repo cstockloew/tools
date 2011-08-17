@@ -19,24 +19,12 @@
 package org.universaal.tools.uploadopensourceplugin.email;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -49,8 +37,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 /**
  * Class that handles the opening of the default mail-client and also generating
  * an email that can be sent to the AAL Studio team containing all important 
@@ -65,8 +51,6 @@ public class SendEmail {
 	
 	private Desktop desktop;
 	private File file;
-	private Document doc;
-	private String str;
 	private String uri;
 	private IProject project;
 
@@ -124,53 +108,23 @@ public class SendEmail {
 
 	/**
 	 * Generates an URI that is used to fill out address fields and the body of
-	 * the email. The method needs to replace all characters that is not allowed
-	 * in a URI with another one that is allowed.
+	 * the email. The method expects that the URI string is later encoded using
+	 * e.g. the multi-parameter constructors for the URI class.
 	 */
 	private void generateURI(){
 		try{
-
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			doc = builder.parse(this.file);
-
-			Source source = new DOMSource(doc);
-			StringWriter stringWriter = new StringWriter();
-			Result result = new StreamResult(stringWriter);
-			TransformerFactory factory2 = TransformerFactory.newInstance();
-			Transformer transformer;
-			transformer = factory2.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-			transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
-			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-
-			transformer.transform(source, result);
-			str = stringWriter.getBuffer().toString();
-
-			uri = "mailto:"+EMAIL+"?SUBJECT="+SUBJECT+"&BODY="+str;
-
-			uri = uri.replace(" ", "%20");
-			uri = uri.replace("/", "%2F");
-			uri = uri.replace("<", "%3C");
-			uri = uri.replace(">", "%3E");
-			
-			//Remove carriage return and new line feed
-			char lineBreak = 13;
-			char lineBreak2 = 10;
-
-			uri = uri.replace(""+lineBreak, "%0D");
-			uri = uri.replace(""+lineBreak2, "%0A");
+			// Reads the full content of the xml file as a string, and builds the content of a mailto URI
+		    BufferedReader reader = new BufferedReader( new FileReader (file));
+		    String str  = null;
+		    StringBuilder strBuilder = new StringBuilder();
+		    String ls = System.getProperty("line.separator");
+		    while( ( str = reader.readLine() ) != null ) {
+		        strBuilder.append( str );
+		        strBuilder.append( ls );
+		    }
+		    uri = EMAIL+"?SUBJECT="+SUBJECT+"&BODY="+strBuilder.toString();
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
 	}
@@ -187,7 +141,7 @@ public class SendEmail {
 			//First tries to send construct the URI including the message body.
 			try {
 				if(uri!=null)
-					desktop.mail(new URI(uri));
+					desktop.mail(new URI("mailto", uri, null)); // Using multi-parameter constructor to get encoding
 				else
 					desktop.mail();
 			} catch (IOException e) {
