@@ -155,11 +155,12 @@ public class SendEmail {
 			uri = uri.replace("<", "%3C");
 			uri = uri.replace(">", "%3E");
 			
-			//Carriage return and new line feed
+			//Remove carriage return and new line feed
 			char lineBreak = 13;
 			char lineBreak2 = 10;
 
-			uri = uri.replace(""+lineBreak+lineBreak2, "");
+			uri = uri.replace(""+lineBreak, "%0D");
+			uri = uri.replace(""+lineBreak2, "%0A");
 
 		} catch (IOException e) {
 			e.printStackTrace();
