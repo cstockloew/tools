@@ -1,13 +1,13 @@
 package org.universaal.tools.conformance.actions;
 
 import java.io.File;
-import java.net.URL;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.Maven;
 import org.apache.maven.artifact.metadata.ArtifactMetadata;
 import org.apache.maven.cli.MavenCli;
@@ -15,6 +15,8 @@ import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionRequestPopulator;
 import org.apache.maven.execution.MavenExecutionResult;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.settings.building.DefaultSettingsBuildingRequest;
 import org.apache.maven.settings.building.SettingsBuilder;
 import org.apache.maven.settings.building.SettingsBuildingRequest;
@@ -22,16 +24,13 @@ import org.codehaus.plexus.DefaultPlexusContainer;
 import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.core.CompilationUnit;
 import org.eclipse.jdt.internal.core.JavaProject;
@@ -40,18 +39,13 @@ import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -59,8 +53,18 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressConstants;
+import org.sonar.ide.eclipse.core.SonarCorePlugin;
+import org.sonar.ide.eclipse.core.SonarKeyUtils;
+import org.sonar.ide.eclipse.internal.core.ServersManager;
+import org.sonar.ide.eclipse.internal.ui.properties.ProjectProperties;
 import org.sonar.ide.eclipse.internal.ui.wizards.ConfigureProjectsWizard;
 import org.sonar.ide.eclipse.internal.ui.wizards.ConfigureProjectsWizard.ConfigureProjectsPage.AssociateProjects;
+import org.sonar.ide.eclipse.internal.ui.wizards.ConfigureProjectsWizard.ConfigureProjectsPage.SonarProject;
+import org.sonar.ide.eclipse.internal.ui.actions.ToggleNatureAction;
+import org.sonar.wsclient.Sonar;
+import org.sonar.wsclient.services.Resource;
+import org.sonar.wsclient.services.ResourceQuery;
+
 
 
 /**
@@ -85,6 +89,9 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 	private String selectedProjectName = "";
 	private String selectedProjectPath = "";
 	private static IProject iproject = null;
+	private static String SONAR_SERVER_URL="http://universaal2008.itaca.upv.es:9000";
+	private static String SONAR_SERVER_USERNAME="sonar";
+	private static String SONAR_SERVER_PASSWORD="Sonar1";
 
 	/**
 	 * The constructor.
@@ -291,11 +298,46 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 		}
 	}
 
+	private String getGroupIdOfSelectedProject() {
+		try {
+			Reader reader = new FileReader(getSelectedProjectPath()
+					+ File.separator + "pom.xml");
+			MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
+			Model model = xpp3Reader.read(reader);
+			String groupId = model.getGroupId();
 
+			// if groupId is null then search within its parent
+			if (groupId == null && model.getParent() != null) {
+				groupId = model.getParent().getGroupId();
+			}
 
+			reader.close();
+			return groupId;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
 
-	
-	
+	private String getArtifactIdOfSelectedProject() {
+		try {
+			Reader reader = new FileReader(getSelectedProjectPath()
+					+ File.separator + "pom.xml");
+			MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
+			Model model = xpp3Reader.read(reader);
+			String artifactId = model.getArtifactId();
+			// if artifactId is null then search within its parent
+			if (artifactId == null && model.getParent() != null) {
+				artifactId = model.getParent().getArtifactId();
+			}
+			reader.close();
+			return artifactId;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
 	/**
 	 * The action has been activated. The argument of the method represents the
 	 * 'real' action sitting in the workbench UI.
@@ -312,27 +354,129 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 					public void run() {
 						activeShell = PlatformUI.getWorkbench()
 								.getActiveWorkbenchWindow().getShell();
-
+						window = PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow();
 					}
 				});
 
 				Job job = new Job("AAL Studio") {
 					protected IStatus run(IProgressMonitor monitor) {
 						try {
-							monitor.beginTask("Testing conformance of application \""
-									+ selectedProjectName + "\"...", 50);
+							monitor.beginTask(
+									"Testing conformance of application \""
+											+ selectedProjectName + "\"...", 50);
 							setProperty(IProgressConstants.KEEP_PROPERTY,
 									Boolean.FALSE);
-							URL url = Platform.getBundle(
-									"org.universaal.tools.buildPlugin")
-									.getEntry("icons/compile.png");
-							setProperty(IProgressConstants.ICON_PROPERTY,
-									ImageDescriptor.createFromURL(url));
+							// URL url = Platform.getBundle(
+							// "org.universaal.tools.buildPlugin")
+							// .getEntry("icons/compile.png");
+							// setProperty(IProgressConstants.ICON_PROPERTY,
+							// ImageDescriptor.createFromURL(url));
+
+							// adds sonar server to sonar preferences window
+							ServersManager serversManager = ((ServersManager) SonarCorePlugin
+									.getServersManager());
+							serversManager.addServer(
+									SONAR_SERVER_URL,
+									SONAR_SERVER_USERNAME, SONAR_SERVER_PASSWORD);
+							serversManager.save();
+
 							setUpMavenBuild();
 							monitor.worked(15);
 							installResult = runSonarGoal(selectedProjectPath);
+
+							monitor.worked(45);
+							try {
+								
+								org.sonar.ide.eclipse.internal.ui.wizards.ConfigureProjectsWizard p1 = new org.sonar.ide.eclipse.internal.ui.wizards.ConfigureProjectsWizard(
+										null, null);
+								ConfigureProjectsWizard.ConfigureProjectsPage p = p1.new ConfigureProjectsPage(
+										null, null);
+								SonarProject myProject = p.new SonarProject(
+										iproject);
+								myProject.setArtifactId(getArtifactIdOfSelectedProject());
+								myProject.setGroupId(getGroupIdOfSelectedProject());
+
+								SonarProject[] projects = new SonarProject[1];
+								projects[0]=myProject;
+								AssociateProjects associate = p.new AssociateProjects(
+										SONAR_SERVER_URL, projects);
 							
-							monitor.worked(50);
+
+								
+									// from file ConfigureProjectsWizard.java
+								
+								
+								
+								 ResourceQuery query = new ResourceQuery().setScopes(Resource.SCOPE_SET).setQualifiers(Resource.QUALIFIER_PROJECT,
+								            Resource.QUALIFIER_MODULE);
+								        Sonar sonar = SonarCorePlugin.getServersManager().getSonar(SONAR_SERVER_URL);
+								        List<Resource> resources = sonar.findAll(query);
+								        for (SonarProject sonarProject : projects) {
+								          for (Resource resource : resources) {
+								            if (resource.getKey().endsWith(":" + sonarProject.getName())) {
+								              sonarProject.setGroupId(StringUtils.substringBefore(resource.getKey(), ":"));
+								              sonarProject.setArtifactId(sonarProject.getName());
+								            }
+								          }
+								        }
+								
+								
+								
+								
+								
+								String key = SonarKeyUtils.projectKey(
+										myProject.getGroupId(),
+										myProject.getArtifactId(),
+										myProject.getBranch());
+								String message = "project '"
+										+ myProject.getName() + "' with key '"
+										+ key + "'";
+								monitor.subTask(message);
+
+								Sonar sonar2 = SonarCorePlugin
+										.getServersManager()
+										.getSonar(SONAR_SERVER_URL);
+								// TODO Godin: sonar.find throws NPE here
+								List<Resource> resources2 = sonar2
+										.findAll(new ResourceQuery(key));
+								if (resources2.isEmpty()) {
+									System.out.println(message
+											+ " not found on server");
+
+								}
+								ProjectProperties properties = ProjectProperties
+										.getInstance(myProject.getProject());
+								properties.setUrl(SONAR_SERVER_URL);
+								properties.setArtifactId(myProject
+										.getArtifactId());
+								properties.setGroupId(myProject.getGroupId());
+								properties.setBranch(myProject.getBranch());
+								properties.save();
+								ToggleNatureAction.enableNature(myProject
+										.getProject());
+								monitor.worked(50);
+
+								// open sonar view
+								final IWorkbenchPage page = window
+										.getActivePage();
+								PlatformUI.getWorkbench().getDisplay()
+										.syncExec(new Runnable() {
+											public void run() {
+												try {
+													page.showView("org.sonar.ide.eclipse.ui.views.WebView");
+												} catch (Exception e) {
+													// TODO Auto-generated catch
+													// block
+													e.printStackTrace();
+												}
+											}
+										});
+
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
+
 							if (installResult.hasExceptions()) {
 								return Status.CANCEL_STATUS;
 							} else {
@@ -351,6 +495,13 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 						Display.getDefault().syncExec(new Runnable() {
 							public void run() {
 								if (event.getResult().isOK()) {
+									try {
+										ToggleNatureAction
+												.enableNature(iproject);
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 									MessageDialog.openInformation(activeShell,
 											"Test conformance",
 											"Testing conformance of application \""
@@ -404,21 +555,13 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-
 	protected Action getSonarWebView() {
 		return new Action("Open Sonar web view") {
 			public void run() {
 				try {
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getActivePage().showView(
-									"org.sonar.ide.eclipse.ui.views.WebView");
+							.getActivePage()
+							.showView("org.sonar.ide.eclipse.ui.views.WebView");
 				} catch (PartInitException e) {
 
 					e.printStackTrace();
@@ -475,14 +618,13 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 	protected MavenExecutionResult runSonarGoal(String path) throws Exception {
 		File basedir = new File(selectedProjectPath);
 		MavenExecutionRequest request = createExecutionRequest();
-		request.setPom(new File(basedir, "pom.xml"));		
+		request.setPom(new File(basedir, "pom.xml"));
 		request.setGoals(Arrays.asList("sonar:sonar"));
 		populator.populateDefaults(request);
 		MavenExecutionResult result = maven.execute(request);
 		return result;
 
 	}
-
 
 	/**
 	 * Selection in the workbench has been changed. We can change the state of
