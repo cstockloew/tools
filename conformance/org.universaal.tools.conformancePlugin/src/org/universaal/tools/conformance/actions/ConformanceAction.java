@@ -3,6 +3,7 @@ package org.universaal.tools.conformance.actions;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,6 +28,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
@@ -39,6 +41,7 @@ import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
@@ -65,8 +68,6 @@ import org.sonar.wsclient.Sonar;
 import org.sonar.wsclient.services.Resource;
 import org.sonar.wsclient.services.ResourceQuery;
 
-
-
 /**
  * Our sample action implements workbench action delegate. The action proxy will
  * be created by the workbench and shown in the UI. When the user tries to use
@@ -89,9 +90,9 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 	private String selectedProjectName = "";
 	private String selectedProjectPath = "";
 	private static IProject iproject = null;
-	private static String SONAR_SERVER_URL="http://universaal2008.itaca.upv.es:9000";
-	private static String SONAR_SERVER_USERNAME="sonar";
-	private static String SONAR_SERVER_PASSWORD="Sonar1";
+	private static String SONAR_SERVER_URL = "http://84.124.53.250:9000";
+	private static String SONAR_SERVER_USERNAME = "sonar";
+	private static String SONAR_SERVER_PASSWORD = "Sonar1";
 
 	/**
 	 * The constructor.
@@ -367,64 +368,69 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 											+ selectedProjectName + "\"...", 50);
 							setProperty(IProgressConstants.KEEP_PROPERTY,
 									Boolean.FALSE);
-							// URL url = Platform.getBundle(
-							// "org.universaal.tools.buildPlugin")
-							// .getEntry("icons/compile.png");
-							// setProperty(IProgressConstants.ICON_PROPERTY,
-							// ImageDescriptor.createFromURL(url));
+							URL url = Platform.getBundle(
+									"org.universaal.tools.aalstudio.core")
+									.getEntry("logo_32x32.png");
+							setProperty(IProgressConstants.ICON_PROPERTY,
+									ImageDescriptor.createFromURL(url));
 
 							// adds sonar server to sonar preferences window
 							ServersManager serversManager = ((ServersManager) SonarCorePlugin
 									.getServersManager());
-							serversManager.addServer(
-									SONAR_SERVER_URL,
-									SONAR_SERVER_USERNAME, SONAR_SERVER_PASSWORD);
+							serversManager.addServer(SONAR_SERVER_URL,
+									SONAR_SERVER_USERNAME,
+									SONAR_SERVER_PASSWORD);
 							serversManager.save();
 
-							setUpMavenBuild();
+							setUpMaven();
 							monitor.worked(15);
 							installResult = runSonarGoal(selectedProjectPath);
 
 							monitor.worked(45);
 							try {
-								
+
 								org.sonar.ide.eclipse.internal.ui.wizards.ConfigureProjectsWizard p1 = new org.sonar.ide.eclipse.internal.ui.wizards.ConfigureProjectsWizard(
 										null, null);
 								ConfigureProjectsWizard.ConfigureProjectsPage p = p1.new ConfigureProjectsPage(
 										null, null);
 								SonarProject myProject = p.new SonarProject(
 										iproject);
-								myProject.setArtifactId(getArtifactIdOfSelectedProject());
-								myProject.setGroupId(getGroupIdOfSelectedProject());
+								myProject
+										.setArtifactId(getArtifactIdOfSelectedProject());
+								myProject
+										.setGroupId(getGroupIdOfSelectedProject());
 
 								SonarProject[] projects = new SonarProject[1];
-								projects[0]=myProject;
+								projects[0] = myProject;
 								AssociateProjects associate = p.new AssociateProjects(
 										SONAR_SERVER_URL, projects);
-							
 
-								
-									// from file ConfigureProjectsWizard.java
-								
-								
-								
-								 ResourceQuery query = new ResourceQuery().setScopes(Resource.SCOPE_SET).setQualifiers(Resource.QUALIFIER_PROJECT,
-								            Resource.QUALIFIER_MODULE);
-								        Sonar sonar = SonarCorePlugin.getServersManager().getSonar(SONAR_SERVER_URL);
-								        List<Resource> resources = sonar.findAll(query);
-								        for (SonarProject sonarProject : projects) {
-								          for (Resource resource : resources) {
-								            if (resource.getKey().endsWith(":" + sonarProject.getName())) {
-								              sonarProject.setGroupId(StringUtils.substringBefore(resource.getKey(), ":"));
-								              sonarProject.setArtifactId(sonarProject.getName());
-								            }
-								          }
-								        }
-								
-								
-								
-								
-								
+								// from file ConfigureProjectsWizard.java
+
+								ResourceQuery query = new ResourceQuery()
+										.setScopes(Resource.SCOPE_SET)
+										.setQualifiers(
+												Resource.QUALIFIER_PROJECT,
+												Resource.QUALIFIER_MODULE);
+								Sonar sonar = SonarCorePlugin
+										.getServersManager().getSonar(
+												SONAR_SERVER_URL);
+								List<Resource> resources = sonar.findAll(query);
+								for (SonarProject sonarProject : projects) {
+									for (Resource resource : resources) {
+										if (resource.getKey().endsWith(
+												":" + sonarProject.getName())) {
+											sonarProject.setGroupId(StringUtils
+													.substringBefore(
+															resource.getKey(),
+															":"));
+											sonarProject
+													.setArtifactId(sonarProject
+															.getName());
+										}
+									}
+								}
+
 								String key = SonarKeyUtils.projectKey(
 										myProject.getGroupId(),
 										myProject.getArtifactId(),
@@ -435,8 +441,8 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 								monitor.subTask(message);
 
 								Sonar sonar2 = SonarCorePlugin
-										.getServersManager()
-										.getSonar(SONAR_SERVER_URL);
+										.getServersManager().getSonar(
+												SONAR_SERVER_URL);
 								// TODO Godin: sonar.find throws NPE here
 								List<Resource> resources2 = sonar2
 										.findAll(new ResourceQuery(key));
@@ -566,15 +572,6 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 
 					e.printStackTrace();
 				}
-				// IWorkbenchWindow dw =
-				// PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-				// IWorkbenchPage page = dw.getActivePage();
-				// try{
-				// page.showView("WebView.ID");
-				// }catch (Exception e){
-				// e.printStackTrace();
-				// }
-
 			}
 		};
 	}
@@ -582,7 +579,7 @@ public class ConformanceAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * Sets up Maven embedder for execution.
 	 */
-	protected void setUpMavenBuild() {
+	protected void setUpMaven() {
 		try {
 			container = new DefaultPlexusContainer();
 			maven = container.lookup(Maven.class);

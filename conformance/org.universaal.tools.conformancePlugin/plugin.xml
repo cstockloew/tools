@@ -13,14 +13,30 @@
                icon="icons/compile.png"
                class="org.universaal.tools.conformance.actions.ConformanceAction"
                tooltip="Test for conformance"
-               menubarPath="org.universaal.tools.AALStudio.menu/build"
+               menubarPath="org.universaal.tools.AALStudio.menu/test"
                toolbarPath="uAALGroup"
                id="org.universaal.tools.conformance.actions.ConformanceAction">			
-         </action> 
-         
+         </action>          
       </actionSet>
-
    </extension>
-
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="universAAL"
+            id="org.universaal.tools.conformance.commands">
+      </category>
+      <command
+            name="Test for conformance"
+            categoryId="org.universaal.tools.conformance.commands"
+            id="org.universaal.tools.conformance.actions.ConformanceAction">
+      </command>     
+   </extension> 
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.universaal.tools.conformance.actions.ConformanceAction"
+            class="org.universaal.tools.conformance.handlers.ConformanceHandler">
+      </handler>      
+   </extension> 
 </plugin>
     
