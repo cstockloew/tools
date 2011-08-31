@@ -33,6 +33,10 @@
                   name="build"
                   visible="true">
             </separator>
+            <separator
+                  name="test"
+                  visible="true">
+            </separator>
          </menu>
       </menuContribution>
    </extension>
