@@ -1,0 +1,26 @@
+#surefire
+#Fri Jul 29 13:34:59 CEST 2011
+testClassesDirectory=C\:\\workspaces\\uAAL\\ucc\\ucc.api\\target\\test-classes
+classPathUrl.4=C\:\\Users\\yumusak\\.m2\\repository\\org\\ops4j\\pax\\logging\\pax-logging-api\\1.4\\pax-logging-api-1.4.jar
+forkMode=once
+classPathUrl.3=C\:\\Users\\yumusak\\.m2\\repository\\org\\universAAL\\middleware\\mw.data.representation\\0.3.0-SNAPSHOT\\mw.data.representation-0.3.0-SNAPSHOT.jar
+classPathUrl.2=C\:\\Users\\yumusak\\.m2\\repository\\org\\apache\\felix\\org.osgi.core\\1.0.1\\org.osgi.core-1.0.1.jar
+useManifestOnlyJar=true
+classPathUrl.1=C\:\\workspaces\\uAAL\\ucc\\ucc.api\\target\\classes
+reportsDirectory=C\:\\workspaces\\uAAL\\ucc\\ucc.api\\target\\surefire-reports
+classPathUrl.0=C\:\\workspaces\\uAAL\\ucc\\ucc.api\\target\\test-classes
+providerConfiguration=org.apache.maven.surefire.junit.JUnit3Provider
+testSuiteDefinitionTestSourceDirectory=C\:\\workspaces\\uAAL\\ucc\\ucc.api\\src\\test\\java
+surefireClassPathUrl.1=C\:\\Users\\yumusak\\.m2\\repository\\org\\apache\\maven\\surefire\\surefire-api\\2.9\\surefire-api-2.9.jar
+surefireClassPathUrl.0=C\:\\Users\\yumusak\\.m2\\repository\\org\\apache\\maven\\surefire\\surefire-junit3\\2.9\\surefire-junit3-2.9.jar
+runOrder=filesystem
+useSystemClassLoader=true
+excludes0=**/*$*
+isTrimStackTrace=true
+enableAssertions=true
+includes2=**/*TestCase.java
+failIfNoTests=false
+includes1=**/*Test.java
+includes0=**/Test*.java
+childDelegation=false
+classPathUrl.5=C\:\\Users\\yumusak\\.m2\\repository\\org\\ops4j\\pax\\logging\\pax-logging-service\\1.4\\pax-logging-service-1.4.jar
