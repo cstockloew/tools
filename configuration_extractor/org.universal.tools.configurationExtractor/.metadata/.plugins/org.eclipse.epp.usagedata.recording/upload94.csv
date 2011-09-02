@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+processors,sysinfo,,,"2",1309951554736
+java.runtime.name,sysinfo,,,"Java(TM) SE Runtime Environment",1309951554736
+java.runtime.version,sysinfo,,,"1.6.0_19-b04",1309951554736
+java.specification.name,sysinfo,,,"Java Platform API Specification",1309951554736
+java.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1309951554736
+java.specification.version,sysinfo,,,"1.6",1309951554736
+java.vendor,sysinfo,,,"Sun Microsystems Inc.",1309951554736
+java.version,sysinfo,,,"1.6.0_19",1309951554736
+java.vm.info,sysinfo,,,"mixed mode, sharing",1309951554736
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1309951554736
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1309951554736
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1309951554736
+java.vm.specification.version,sysinfo,,,"1.0",1309951554736
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1309951554736
+java.vm.version,sysinfo,,,"16.2-b04",1309951554736
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1309951583892
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1309951589069
+executed,command,org.eclipse.ui.ide,3.5.2.M20100113-0800,"org.eclipse.ui.navigate.openResource",1309951589082
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1309951593330
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1309951594522
+closed,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1309951594597
+stopped,bundle,org.eclipse.jst.ws.axis.creation.ui,1.0.406.v200903031852,"org.eclipse.jst.ws.axis.creation.ui",1309951594887
+stopped,bundle,org.eclipse.jst.ws.axis.consumption.ui,1.0.405.v200901261650,"org.eclipse.jst.ws.axis.consumption.ui",1309951594887
+stopped,bundle,org.eclipse.jst.ws.axis.consumption.core,1.0.306.v200810082309,"org.eclipse.jst.ws.axis.consumption.core",1309951594887
+stopped,bundle,org.eclipse.jst.ws.axis2.creation.ui,1.0.103.v200807162242,"org.eclipse.jst.ws.axis2.creation.ui",1309951594887

@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+locale,sysinfo,,,"de_DE",1313662238937
+processors,sysinfo,,,"2",1313662238937
+java.runtime.name,sysinfo,,,"Java(TM) SE Runtime Environment",1313662238937
+java.runtime.version,sysinfo,,,"1.6.0_19-b04",1313662238937
+java.specification.name,sysinfo,,,"Java Platform API Specification",1313662238937
+java.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1313662238937
+java.specification.version,sysinfo,,,"1.6",1313662238937
+java.vendor,sysinfo,,,"Sun Microsystems Inc.",1313662238937
+java.version,sysinfo,,,"1.6.0_19",1313662238937
+java.vm.info,sysinfo,,,"mixed mode, sharing",1313662238937
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1313662238937
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1313662238937
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1313662238937
+java.vm.specification.version,sysinfo,,,"1.0",1313662238937
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1313662238937
+java.vm.version,sysinfo,,,"16.2-b04",1313662238937
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313662530617
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313662532249
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313662533180
+closed,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313662533302
+stopped,bundle,org.eclipse.jst.j2ee.xdoclet.runtime,1.1.102.v200805140135,"org.eclipse.jst.j2ee.xdoclet.runtime",1313662533747
+stopped,bundle,org.eclipse.jst.j2ee.ejb.annotations.xdoclet,1.2.0.v200805140020,"org.eclipse.jst.j2ee.ejb.annotations.xdoclet",1313662533747
+stopped,bundle,org.eclipse.jst.server.generic.jboss,1.6.1.v200904151730,"org.eclipse.jst.server.generic.jboss",1313662533750
+stopped,bundle,org.eclipse.jst.server.generic.jonas,1.5.205.v200805140145,"org.eclipse.jst.server.generic.jonas",1313662533750
+stopped,bundle,org.eclipse.jst.server.generic.oc4j,1.5.206.v20090812,"org.eclipse.jst.server.generic.oc4j",1313662533752

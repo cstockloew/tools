@@ -1,0 +1,23 @@
+what,kind,bundleId,bundleVersion,description,time
+processors,sysinfo,,,"2",1313834331722
+java.runtime.name,sysinfo,,,"Java(TM) SE Runtime Environment",1313834331722
+java.runtime.version,sysinfo,,,"1.6.0_19-b04",1313834331722
+java.specification.name,sysinfo,,,"Java Platform API Specification",1313834331722
+java.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1313834331722
+java.specification.version,sysinfo,,,"1.6",1313834331722
+java.vendor,sysinfo,,,"Sun Microsystems Inc.",1313834331722
+java.version,sysinfo,,,"1.6.0_19",1313834331722
+java.vm.info,sysinfo,,,"mixed mode, sharing",1313834331722
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1313834331722
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1313834331722
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1313834331722
+java.vm.specification.version,sysinfo,,,"1.0",1313834331722
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1313834331722
+java.vm.version,sysinfo,,,"16.2-b04",1313834331722
+started,bundle,CE,1.0.0.qualifier,"CE",1313834331911
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313834332254
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313834346665
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313834347625
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313834348454
+closed,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313834348518
+stopped,bundle,org.eclipse.jst.j2ee.xdoclet.runtime,1.1.102.v200805140135,"org.eclipse.jst.j2ee.xdoclet.runtime",1313834348843
