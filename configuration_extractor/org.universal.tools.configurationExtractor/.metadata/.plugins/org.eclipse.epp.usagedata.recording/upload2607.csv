@@ -1,0 +1,26 @@
+what,kind,bundleId,bundleVersion,description,time
+java.version,sysinfo,,,"1.6.0_19",1313083743421
+java.vm.info,sysinfo,,,"mixed mode, sharing",1313083743421
+java.vm.name,sysinfo,,,"Java HotSpot(TM) Client VM",1313083743421
+java.vm.specification.name,sysinfo,,,"Java Virtual Machine Specification",1313083743421
+java.vm.specification.vendor,sysinfo,,,"Sun Microsystems Inc.",1313083743421
+java.vm.specification.version,sysinfo,,,"1.0",1313083743421
+java.vm.vendor,sysinfo,,,"Sun Microsystems Inc.",1313083743421
+java.vm.version,sysinfo,,,"16.2-b04",1313083743421
+started,bundle,org.eclipse.mylyn.context.core,3.4.1.v20100909-0100-e3x,"org.eclipse.mylyn.context.core",1313083743433
+started,bundle,org.eclipse.mylyn.context.ui,3.4.2.v20110131-0100-e3x,"org.eclipse.mylyn.context.ui",1313083743443
+started,bundle,org.eclipse.mylyn.tasks.ui,3.4.3.v20110131-0100-e3x,"org.eclipse.mylyn.tasks.ui",1313083743496
+started,bundle,org.eclipse.mylyn.team.ui,3.4.3.v20110131-0100-e3x,"org.eclipse.mylyn.team.ui",1313083743506
+started,bundle,org.eclipse.update.scheduler,3.2.200.v20081127,"org.eclipse.update.scheduler",1313083743506
+started,bundle,org.eclipse.update.core,3.2.300.v20090525,"org.eclipse.update.core",1313083743561
+started,bundle,org.eclipse.wst.ws.service.policy.ui,1.0.102.v200903070248,"org.eclipse.wst.ws.service.policy.ui",1313083743561
+started,bundle,CE,1.0.0.qualifier,"CE",1313083755379
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313083769012
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313083787943
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313083788010
+stopped,bundle,CE,1.0.0.qualifier,"CE",1313083788010
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313083789569
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313083791035
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313083804617
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313083806492
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313083807620

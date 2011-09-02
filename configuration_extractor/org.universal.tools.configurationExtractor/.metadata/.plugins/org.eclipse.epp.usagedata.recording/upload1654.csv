@@ -1,0 +1,10 @@
+what,kind,bundleId,bundleVersion,description,time
+stopped,bundle,org.eclipse.wst.wsdl.validation,1.1.402.v200911251542,"org.eclipse.wst.wsdl.validation",1312743087304
+stopped,bundle,org.eclipse.wst.xsl.jaxp.debug.ui,1.0.0.v200904240436,"org.eclipse.wst.xsl.jaxp.debug.ui",1312743087304
+stopped,bundle,org.eclipse.wst.xsl.ui,1.0.100.v200907172129,"org.eclipse.wst.xsl.ui",1312743087304
+stopped,bundle,org.eclipse.wst.xml.xpath.ui,1.0.0.v200904240436,"org.eclipse.wst.xml.xpath.ui",1312743087304
+stopped,bundle,org.eclipse.wst.xsl.debug.ui,1.0.0.v200904240436,"org.eclipse.wst.xsl.debug.ui",1312743087304
+stopped,bundle,org.eclipse.wst.xsl.jaxp.launching,1.0.0.v200904240436,"org.eclipse.wst.xsl.jaxp.launching",1312743087304
+stopped,bundle,org.eclipse.wst.xsl.launching,1.0.0.v200904241348,"org.eclipse.wst.xsl.launching",1312743087304
+stopped,bundle,org.eclipse.wst.xsl.core,1.0.1.v200908101420,"org.eclipse.wst.xsl.core",1312743087304
+stopped,bundle,org.eclipse.datatools.enablement.oda.xml.ui,1.2.1.v201001191820,"org.eclipse.datatools.enablement.oda.xml.ui",1312743087304

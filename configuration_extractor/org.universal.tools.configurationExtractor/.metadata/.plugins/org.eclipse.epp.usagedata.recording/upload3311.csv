@@ -1,0 +1,9 @@
+what,kind,bundleId,bundleVersion,description,time
+stopped,bundle,org.eclipse.jdt.debug.ui,3.4.1.v20090811_r351,"org.eclipse.jdt.debug.ui",1313491243847
+stopped,bundle,org.eclipse.jst.common.annotations.ui,1.1.102.v200806010600,"org.eclipse.jst.common.annotations.ui",1313491243850
+stopped,bundle,org.eclipse.jst.j2ee.ejb.annotations.ui,1.1.102.v200805140020,"org.eclipse.jst.j2ee.ejb.annotations.ui",1313491243850
+stopped,bundle,org.eclipse.jst.ejb.ui,1.1.301.v200908131325,"org.eclipse.jst.ejb.ui",1313491243850
+stopped,bundle,org.eclipse.jst.ws.axis.creation.ui,1.0.406.v200903031852,"org.eclipse.jst.ws.axis.creation.ui",1313491243852
+stopped,bundle,org.eclipse.jst.ws.axis.consumption.ui,1.0.405.v200901261650,"org.eclipse.jst.ws.axis.consumption.ui",1313491243867
+stopped,bundle,org.eclipse.jst.ws.axis2.creation.ui,1.0.103.v200807162242,"org.eclipse.jst.ws.axis2.creation.ui",1313491243870
+stopped,bundle,org.eclipse.jst.ws.axis2.consumption.ui,1.0.102.v200807232000,"org.eclipse.jst.ws.axis2.consumption.ui",1313491243870

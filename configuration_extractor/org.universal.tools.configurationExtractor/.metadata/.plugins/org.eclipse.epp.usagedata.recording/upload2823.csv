@@ -1,0 +1,17 @@
+what,kind,bundleId,bundleVersion,description,time
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313182374326
+deactivated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313182375858
+activated,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313182376953
+closed,workbench,org.eclipse.ui.workbench,3.5.2.M20100113-0800,"",1313182377053
+stopped,bundle,CE,1.0.0.qualifier,"CE",1313182377425
+stopped,bundle,org.eclipse.jst.j2ee.xdoclet.runtime,1.1.102.v200805140135,"org.eclipse.jst.j2ee.xdoclet.runtime",1313182377426
+stopped,bundle,org.eclipse.jst.j2ee.ejb.annotations.xdoclet,1.2.0.v200805140020,"org.eclipse.jst.j2ee.ejb.annotations.xdoclet",1313182377427
+stopped,bundle,org.eclipse.jst.server.generic.jboss,1.6.1.v200904151730,"org.eclipse.jst.server.generic.jboss",1313182377428
+stopped,bundle,org.eclipse.jst.server.generic.jonas,1.5.205.v200805140145,"org.eclipse.jst.server.generic.jonas",1313182377429
+stopped,bundle,org.eclipse.jst.server.generic.oc4j,1.5.206.v20090812,"org.eclipse.jst.server.generic.oc4j",1313182377430
+stopped,bundle,org.eclipse.jst.server.websphere.core,1.0.302.v20080620,"org.eclipse.jst.server.websphere.core",1313182377431
+stopped,bundle,org.eclipse.jst.server.generic.ui,1.0.405.v200905022002,"org.eclipse.jst.server.generic.ui",1313182377432
+stopped,bundle,org.eclipse.jst.server.generic.core,1.0.506.v20090817,"org.eclipse.jst.server.generic.core",1313182377433
+stopped,bundle,org.eclipse.mylyn.ide.ant,3.4.0.v20100608-0100-e3x,"org.eclipse.mylyn.ide.ant",1313182377434
+stopped,bundle,org.eclipse.datatools.connectivity.oda.template.ui,3.2.0.v200906020553,"org.eclipse.datatools.connectivity.oda.template.ui",1313182377435
+stopped,bundle,org.eclipse.pde.api.tools.ui,1.0.101.v20090820,"org.eclipse.pde.api.tools.ui",1313182377450
