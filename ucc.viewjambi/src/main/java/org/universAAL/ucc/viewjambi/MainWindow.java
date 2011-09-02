@@ -1,9 +1,7 @@
 package org.universAAL.ucc.viewjambi;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.osgi.framework.BundleContext;
 
@@ -16,14 +14,10 @@ import org.universAAL.ucc.viewjambi.install.DeinstallView;
 import org.universAAL.ucc.viewjambi.install.InstallView;
 import org.universAAL.ucc.viewjambi.install.LicenseView;
 import org.universAAL.ucc.viewjambi.juic.Ui_MainWindow;
-import org.universAAL.ucc.viewjambi.layouts.OverviewGridLayout;
 import org.universAAL.ucc.viewjambi.overview.GridView;
-import org.universAAL.ucc.viewjambi.overview.LabeledIcon;
 import org.universAAL.ucc.viewjambi.overview.OverviewView;
 
-import com.trolltech.qt.QUiForm;
 import com.trolltech.qt.core.QModelIndex;
-import com.trolltech.qt.core.Global.QtMsgType;
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.gui.QMessageBox.StandardButton;
 
@@ -55,7 +49,6 @@ public class MainWindow extends QMainWindow implements IMainWindow {
     	super.resizeEvent(event);
     }
 
-    @Override
 	public void addSubWindow(ISubWindow subWindow) {
 		if (subWindow instanceof SubWindow) {
 			QMdiSubWindow mdiWindow = ui_base.mdiArea.addSubWindow((QWidget)subWindow);
@@ -64,14 +57,12 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 		}
 	}
 
-    @Override
 	public void closeSubWindow(ISubWindow subWindow) {
 		QMdiSubWindow mdiChild = subWindows.remove(subWindow);
 		if (mdiChild != null)
 			mdiChild.close();
 	}
 
-    @Override
 	public boolean initialize() {
 		// TODO Auto-generated method stub
 		return false;
