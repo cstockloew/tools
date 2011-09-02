@@ -31,7 +31,8 @@ public class Activator implements BundleActivator {
 	private IMainWindow mainWindow = null;
 
 	static final String libraryNames[] = { "qtjambi.dll",
-			"com_trolltech_qt_core.dll", "com_trolltech_qt_gui.dll",
+			"com_trolltech_qt_core.dll", "com_trolltech_qt_gui.dll", "com_trolltech_qt_network.dll",
+			"com_trolltech_qt_phonon.dll", "com_trolltech_qt_webkit.dll",
 			"QtCore4.dll", "QtGui4.dll", "QtNetwork4.dll", "phonon4.dll" , "QtWebKit4.dll"};
 
 	static {
@@ -43,7 +44,7 @@ public class Activator implements BundleActivator {
 		InputStream inputStream = Activator.class.getClassLoader()
 				.getResourceAsStream(name);
 		File libraryFile = new File(name);
-		libraryFile.deleteOnExit();
+		//libraryFile.deleteOnExit();
 		try {
 			FileOutputStream fileOutputStream = new FileOutputStream(
 					libraryFile);
@@ -117,7 +118,7 @@ public class Activator implements BundleActivator {
 		thread.start();
 
 		while (mainWindow == null)
-			;
+			Thread.sleep(0);
 
 		context.registerService(new String[] { IMainWindow.class.getName() },
 				mainWindow, null);

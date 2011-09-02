@@ -14,7 +14,6 @@ public class Information implements IInformation {
 		this.context = context;
 	}
 
-	@Override
 	public String[] activeBundles() {
 		Bundle[] bundles = context.getBundles();
 		ArrayList<String> activeBundles = new ArrayList<String>();
@@ -28,7 +27,6 @@ public class Information implements IInformation {
 		return activeBundles.toArray(result);
 	}
 
-	@Override
 	public Bundle[] bundles() {
 		return context.getBundles();
 	}
