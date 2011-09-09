@@ -12,7 +12,7 @@ package org.universAAL.ucc.viewjambi.juic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.universAAL.ucc.viewjambi.Activator;
+import org.universAAL.ucc.viewjambi.impl.Activator;
 import org.universAAL.ucc.viewjambi.layouts.OverviewGridLayout;
 import org.universAAL.ucc.viewjambi.overview.LabeledIcon;
 

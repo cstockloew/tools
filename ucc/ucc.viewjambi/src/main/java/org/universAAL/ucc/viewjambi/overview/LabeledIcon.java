@@ -1,16 +1,13 @@
 package org.universAAL.ucc.viewjambi.overview;
 
-import org.universAAL.ucc.viewjambi.Activator;
-import org.universAAL.ucc.viewjambi.juic.Ui_GridView;
+import org.universAAL.ucc.viewjambi.impl.Activator;
 
 import com.trolltech.qt.core.QSize;
 import com.trolltech.qt.gui.QAbstractButton;
 import com.trolltech.qt.gui.QLabel;
 import com.trolltech.qt.gui.QPaintEvent;
 import com.trolltech.qt.gui.QPixmap;
-import com.trolltech.qt.gui.QPushButton;
 import com.trolltech.qt.gui.QVBoxLayout;
-import com.trolltech.qt.gui.QWidget;
 import com.trolltech.qt.gui.QLayout.SizeConstraint;
 
 public class LabeledIcon extends QAbstractButton{

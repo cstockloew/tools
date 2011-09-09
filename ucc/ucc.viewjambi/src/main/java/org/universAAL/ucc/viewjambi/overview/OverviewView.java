@@ -1,10 +1,9 @@
 package org.universAAL.ucc.viewjambi.overview;
 
-import org.universAAL.ucc.api.core.IDeinstaller;
 import org.universAAL.ucc.api.model.IModel;
-import org.universAAL.ucc.viewjambi.Activator;
-import org.universAAL.ucc.viewjambi.MainWindow;
-import org.universAAL.ucc.viewjambi.SubWindow;
+import org.universAAL.ucc.viewjambi.common.SubWindow;
+import org.universAAL.ucc.viewjambi.impl.Activator;
+import org.universAAL.ucc.viewjambi.impl.MainWindow;
 import org.universAAL.ucc.viewjambi.juic.Ui_Overview;
 
 import com.trolltech.qt.core.QModelIndex;
@@ -15,12 +14,11 @@ public class OverviewView extends SubWindow {
 	
 	private static Ui_Overview install_base = new Ui_Overview();
 	private static IModel model;
-	private static IDeinstaller deinstaller;
 	public static QTreeView treeView;
 	public static boolean active;
 	
-	public OverviewView(MainWindow parent) {
-		super(parent, OverviewView.install_base);
+	public OverviewView() {
+		super(OverviewView.install_base);
 		model = Activator.getModel();
 		active = true;
 		init();
@@ -65,15 +63,15 @@ public class OverviewView extends SubWindow {
 		treeView.doubleClicked.connect(this, "onDoubleClick(QModelIndex)");
 	}
 	
-	private void onDoubleClick(QModelIndex index){
+	protected void onDoubleClick(QModelIndex index){
 		if(Activator.getModel().getApplicationManagment().containsApplication((String) index.data()))
-			new Overview_ConfigView(this.parent, (String) index.data());
+			new Overview_ConfigView((String) index.data());
 	}
 	
 	protected void cancel() {
 		System.out.println("Setting active to false..");
 		active = false;
-		this.parent.closeSubWindow(this);
+		MainWindow.getInstance().closeSubWindow(this);
 	}
 	
 }

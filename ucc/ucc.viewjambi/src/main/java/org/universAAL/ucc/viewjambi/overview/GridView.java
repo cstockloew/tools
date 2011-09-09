@@ -3,38 +3,27 @@ package org.universAAL.ucc.viewjambi.overview;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.universAAL.ucc.api.core.IDeinstaller;
-import org.universAAL.ucc.viewjambi.Activator;
-import org.universAAL.ucc.viewjambi.MainWindow;
-import org.universAAL.ucc.viewjambi.SubWindow;
+import org.universAAL.ucc.viewjambi.common.SubWindow;
+import org.universAAL.ucc.viewjambi.impl.MainWindow;
 import org.universAAL.ucc.viewjambi.information.InformationView;
 import org.universAAL.ucc.viewjambi.install.InstallView;
 import org.universAAL.ucc.viewjambi.juic.Ui_GridView;
 import org.universAAL.ucc.viewjambi.layouts.OverviewGridLayout;
 import org.universAAL.ucc.viewjambi.store.StoreView;
 
-import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.QSize;
-import com.trolltech.qt.core.QUrl;
-import com.trolltech.qt.gui.QGridLayout;
-import com.trolltech.qt.gui.QLabel;
-import com.trolltech.qt.gui.QLayoutItemInterface;
-import com.trolltech.qt.gui.QMessageBox;
-import com.trolltech.qt.gui.QMessageBox.StandardButton;
-import com.trolltech.qt.webkit.QWebView;
+
 
 public class GridView extends SubWindow {
 	
 	private static Ui_GridView install_base = new Ui_GridView();
 	private OverviewGridLayout gridLayout;
 	private static List<LabeledIcon> iconWidgets;
-	static MainWindow parent;
 	static OverviewView overview;
 
 
-	public GridView(MainWindow parent) {
-		super(parent, GridView.install_base);
-		this.parent = parent;
+	public GridView() {
+		super(GridView.install_base);
 		gridLayout = install_base.currentLayout;
 		
 		this.setMinimumSize(new QSize(500,  200));
@@ -57,24 +46,23 @@ public class GridView extends SubWindow {
   	}
 	
 	public void overview(){
-		overview = new OverviewView(parent);
+		overview = new OverviewView();
 	}
 	
 	public void install(){
-		new InstallView(parent);
+		new InstallView();
 	}
 	
 	public void uninstall(){
-			parent.deinstallApp();
-		
+		MainWindow.getInstance().deinstallApp();
 	}
 	
 	public void information(){
-		new InformationView(parent);
+		new InformationView();
 	}
 	
 	public void openStore(){
-		new StoreView(parent);
+		new StoreView();
 	}
     
 	private void setIconList(){
