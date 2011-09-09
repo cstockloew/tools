@@ -3,14 +3,10 @@ package org.universAAL.ucc.viewjambi.layouts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.universAAL.ucc.viewjambi.overview.LabeledIcon;
-
 import com.trolltech.qt.core.QPoint;
 import com.trolltech.qt.core.QRect;
 import com.trolltech.qt.core.QSize;
-import com.trolltech.qt.gui.QGridLayout;
 import com.trolltech.qt.gui.QLayout;
-import com.trolltech.qt.gui.QLayoutItem;
 import com.trolltech.qt.gui.QLayoutItemInterface;
 import com.trolltech.qt.gui.QWidget;
 import com.trolltech.qt.gui.QWidgetItem;
@@ -47,7 +43,9 @@ public class OverviewGridLayout extends QLayout{
 
 	@Override
 	public QLayoutItemInterface itemAt(int arg0) {
-		return layoutItems.get(arg0);
+		if (arg0 >= 0 && arg0 < layoutItems.size())
+			return layoutItems.get(arg0);
+		return null;
 	}
 
 	@Override

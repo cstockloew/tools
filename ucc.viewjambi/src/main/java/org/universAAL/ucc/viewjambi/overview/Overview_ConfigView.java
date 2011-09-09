@@ -4,16 +4,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.universAAL.ucc.api.model.IModel;
-import org.universAAL.ucc.viewjambi.Activator;
-import org.universAAL.ucc.viewjambi.MainWindow;
-import org.universAAL.ucc.viewjambi.SubWindow;
+import org.universAAL.ucc.viewjambi.common.SubWindow;
+import org.universAAL.ucc.viewjambi.impl.Activator;
+import org.universAAL.ucc.viewjambi.impl.MainWindow;
 import org.universAAL.ucc.viewjambi.juic.Ui_Configure;
 
-import com.trolltech.qt.QUiForm;
-import com.trolltech.qt.gui.QBoxLayout;
 import com.trolltech.qt.gui.QHBoxLayout;
 import com.trolltech.qt.gui.QLabel;
-import com.trolltech.qt.gui.QWidget;
 
 public class Overview_ConfigView extends SubWindow {
 	
@@ -21,8 +18,8 @@ public class Overview_ConfigView extends SubWindow {
 	private static IModel model;
 	private String bundleName;
 	
-	protected Overview_ConfigView(MainWindow parent, String bundleName) {
-		super(parent, install_base);
+	protected Overview_ConfigView(String bundleName) {
+		super(install_base);
 		this.bundleName = bundleName;
 		model = Activator.getModel();
 		install_base.cancelButton.clicked.connect(this, "cancel()");
@@ -53,7 +50,7 @@ public class Overview_ConfigView extends SubWindow {
 	
 	
 	protected void cancel() {
-		this.parent.closeSubWindow(this);
+		MainWindow.getInstance().closeSubWindow(this);
 	}
 	
 	protected void save(){

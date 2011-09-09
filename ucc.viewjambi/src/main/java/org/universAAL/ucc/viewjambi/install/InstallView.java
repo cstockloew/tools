@@ -1,11 +1,8 @@
 package org.universAAL.ucc.viewjambi.install;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.universAAL.ucc.viewjambi.Activator;
-import org.universAAL.ucc.viewjambi.MainWindow;
-import org.universAAL.ucc.viewjambi.SubWindow;
+import org.universAAL.ucc.viewjambi.common.SubWindow;
+import org.universAAL.ucc.viewjambi.impl.Activator;
+import org.universAAL.ucc.viewjambi.impl.MainWindow;
 import org.universAAL.ucc.viewjambi.juic.Ui_Install;
 
 import com.trolltech.qt.gui.QDialog;
@@ -18,8 +15,8 @@ public class InstallView extends SubWindow {
 	private static Ui_Install install_base = new Ui_Install();
 	
 	
-	public InstallView(MainWindow parent) {
-		super(parent, InstallView.install_base);
+	public InstallView() {
+		super(InstallView.install_base);
 		
 		install_base.fileChoise.clicked.connect(this,"openFileChoise()");
 		install_base.okButton.clicked.connect(this, "installFile()");
@@ -44,18 +41,18 @@ public class InstallView extends SubWindow {
 		p=p.replace("/", "\\");
 		try {
 			String appDir = Activator.getInstaller().installApplication(p);
-			this.parent.closeSubWindow(this);
-			this.parent.showLicense(appDir);
+			MainWindow.getInstance().closeSubWindow(this);
+			MainWindow.getInstance().showLicense(appDir);
 		} catch (NullPointerException e){
 			QMessageBox.critical(this, "Error", "Installation failed! The Application probably already is installed!");
 		} catch (Exception e) {
 			QMessageBox.critical(this, "Error", e.getMessage());
-			this.parent.closeSubWindow(this);
+			MainWindow.getInstance().closeSubWindow(this);
 		}
 	}
 	
 	protected void cancel() {
-		this.parent.closeSubWindow(this);
+		MainWindow.getInstance().closeSubWindow(this);
 	}
 	
 }

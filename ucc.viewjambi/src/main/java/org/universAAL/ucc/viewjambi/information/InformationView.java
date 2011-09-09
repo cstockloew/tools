@@ -3,9 +3,9 @@ package org.universAAL.ucc.viewjambi.information;
 import java.util.Date;
 
 import org.osgi.framework.Bundle;
-import org.universAAL.ucc.viewjambi.Activator;
-import org.universAAL.ucc.viewjambi.MainWindow;
-import org.universAAL.ucc.viewjambi.SubWindow;
+import org.universAAL.ucc.viewjambi.common.SubWindow;
+import org.universAAL.ucc.viewjambi.impl.Activator;
+import org.universAAL.ucc.viewjambi.impl.MainWindow;
 import org.universAAL.ucc.viewjambi.juic.Ui_SystemInformation;
 
 import com.trolltech.qt.gui.QTableWidgetItem;
@@ -14,8 +14,8 @@ public class InformationView extends SubWindow {
 
 	private static Ui_SystemInformation information_base = new Ui_SystemInformation();
 
-	public InformationView(MainWindow parent) {
-		super(parent, InformationView.information_base);
+	public InformationView() {
+		super(InformationView.information_base);
 
 		Bundle[] bundles = Activator.getInformation().bundles();
 
@@ -35,7 +35,7 @@ public class InformationView extends SubWindow {
 	}
 
 	protected void closeMe() {
-		this.parent.closeSubWindow(this);
+		MainWindow.getInstance().closeSubWindow(this);
 	}
 
 	protected String statusToString(int status) {
