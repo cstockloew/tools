@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/sonar_feature_1.0.0.201104041658.jar" id="sonar_feature" version="1.0.0.201104041658">
+      <category name="universaal_prereq"/>
+   </feature>
+   <feature url="features/org.universaal.tools.profilefeature_0.2.1.jar" id="org.universaal.tools.profilefeature" version="0.2.1">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.eclipse.mofscript_1.4.0.3.jar" id="org.eclipse.mofscript" version="1.4.0.3">
+      <category name="universaal_prereq"/>
+   </feature>
+   <feature url="features/org.ops4j.pax.runner.eclipse.core.feature_1.7.5.201106072115.jar" id="org.ops4j.pax.runner.eclipse.core.feature" version="1.7.5.201106072115">
+      <category name="universaal_prereq"/>
+   </feature>
+   <feature url="features/org.ops4j.pax.runner.eclipse.ui.feature_1.7.5.201106072115.jar" id="org.ops4j.pax.runner.eclipse.ui.feature" version="1.7.5.201106072115">
+      <category name="universaal_prereq"/>
+   </feature>
+   <feature url="features/org.universaal.tools.aalstudio.feature_0.6.0.jar" id="org.universaal.tools.aalstudio.feature" version="0.6.0">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.buildFeature_0.6.0.jar" id="org.universaal.tools.buildFeature" version="0.6.0">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.dashboard.feature_0.3.0.jar" id="org.universaal.tools.dashboard.feature" version="0.3.0">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.depotclient.feature_0.4.0.jar" id="org.universaal.tools.depotclient.feature" version="0.4.0">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.newwizard.feature_0.6.0.jar" id="org.universaal.tools.newwizard.feature" version="0.6.0">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.transformationfeature_0.3.0.jar" id="org.universaal.tools.transformationfeature" version="0.3.0">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.aalstudio.feature_0.6.1.jar" id="org.universaal.tools.aalstudio.feature" version="0.6.1">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.buildFeature_0.6.1.jar" id="org.universaal.tools.buildFeature" version="0.6.1">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.newwizard.feature_0.6.1.jar" id="org.universaal.tools.newwizard.feature" version="0.6.1">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.conformanceFeature_0.5.1.jar" id="org.universaal.tools.conformanceFeature" version="0.5.1">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.dashboard.feature_0.4.0.jar" id="org.universaal.tools.dashboard.feature" version="0.4.0">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.depotclient.feature_0.5.0.jar" id="org.universaal.tools.depotclient.feature" version="0.5.0">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.transformationfeature_0.4.0.jar" id="org.universaal.tools.transformationfeature" version="0.4.0">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <category-def name="universaal_tools" label="AAL Studio tools">
+      <description>
+         Tools for development of AAL applications using the universAAL platform
+      </description>
+   </category-def>
+   <category-def name="universaal_future_tools" label="AAL Studio upcomming tools">
+      <description>
+         The tools in this category are still in early development and are currently not complete enough for use during regular development
+      </description>
+   </category-def>
+   <category-def name="universaal_prereq" label="AAL Studio prerequisites">
+      <description>
+         3rd party tools needed by the AAL Studio
+      </description>
+   </category-def>
+</site>
