@@ -82,6 +82,9 @@ org.universaal.tools.conformancePlugin/plugin.xml -text
 org.universaal.tools.conformancePlugin/src/org/universaal/tools/conformance/Activator.java -text
 org.universaal.tools.conformancePlugin/src/org/universaal/tools/conformance/actions/ConformanceAction.java -text
 org.universaal.tools.conformancePlugin/src/org/universaal/tools/conformance/handlers/ConformanceHandler.java -text
+org.universaal.tools.dashboard.feature/.project -text svneol=unset#text/plain
+org.universaal.tools.dashboard.feature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.dashboard.feature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.classpath -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.project -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
