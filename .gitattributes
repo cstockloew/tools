@@ -168,6 +168,10 @@ org.universaal.tools.profileplugin/model/uaal_ml.profile.notation -text
 org.universaal.tools.profileplugin/model/uaal_ml.profile.uml -text svneol=unset#text/plain
 org.universaal.tools.profileplugin/plugin.xml -text svneol=unset#text/plain
 org.universaal.tools.profileplugin/src/icons/patient_ns16.gif -text
+org.universaal.tools.thirdpartyphp/.buildpath -text
+org.universaal.tools.thirdpartyphp/.project -text
+org.universaal.tools.thirdpartyphp/main.php -text
+org.universaal.tools.thirdpartyphp/projects.xml -text
 org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
