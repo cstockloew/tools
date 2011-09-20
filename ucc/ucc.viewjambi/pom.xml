@@ -28,11 +28,6 @@
 			<version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.hp.hpl.jena</groupId>
-			<artifactId>jena</artifactId>
-			<version>2.6.4</version>
-		</dependency>
-		<dependency>
 		    <groupId>com.trolltech</groupId>
 		    <artifactId>jambi</artifactId>
 		    <version>4.5.2</version>
