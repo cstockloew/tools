@@ -12,7 +12,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.P_THRD_PARTY_URL, 
 				"http://depot.universaal.org/projectrequest/projects.xml");
 		store.setDefault(PreferenceConstants.P_EXAMPLES_URL,
-				"http://depot.universaal.org/projectrequest/projects.xml");
+				"http://depot.universaal.org/projectrequest/official.xml");
 		
 	}
 

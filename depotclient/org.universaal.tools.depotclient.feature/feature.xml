@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.depotclient.feature"
       label="AAL Studio integration with Developer Depot"
-      version="0.4.0"
+      version="0.5.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -238,13 +238,6 @@
       <import feature="org.eclipse.team.svn" version="0.7.9.I20100512-1900" match="greaterOrEqual"/>
       <import feature="org.universaal.tools.aalstudio.feature" version="0.3.0"/>
    </requires>
-
-   <plugin
-         id="org.universaal.tools.subversivePlugin"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.universaal.tools.importthirdpartyproject"
