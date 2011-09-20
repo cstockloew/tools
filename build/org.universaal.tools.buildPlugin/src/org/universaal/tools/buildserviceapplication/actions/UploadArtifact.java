@@ -15,6 +15,7 @@ import org.apache.maven.artifact.metadata.ArtifactMetadata;
 import org.apache.maven.cli.MavenCli;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.Base64;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -51,6 +52,21 @@ public class UploadArtifact {
 		this.NEXUS_PASSWORD = nexusPassword;
 	}
 
+	
+	public MavenProject getSelectedMavenProject() {
+		for (int i = 0; i < BuildAction.buildedProjects.size(); i++) {
+			MavenProject project = BuildAction.buildedProjects.get(i);
+			if (project.getArtifactId().equals(
+					BuildAction.getSelectedProjectName())
+					&& project.getBasedir().toString()
+							.equals(BuildAction.getSelectedProjectPath())) {
+				return project;
+			}
+		}
+		return null;
+	}
+	
+	
 	public void upload() {
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
@@ -59,8 +75,7 @@ public class UploadArtifact {
 			}
 		});
 		if (!BuildAction.getSelectedProjectPath().equals("")) {
-			if (BuildAction.buildedProjects.contains(BuildAction
-					.getSelectedProjectPath())) {
+			if (BuildAction.buildedProjects.contains(getSelectedMavenProject())) {
 
 				try {
 					String selectedProject = BuildAction
@@ -187,11 +202,11 @@ public class UploadArtifact {
 			if (isArtifactRelease) {
 				webPage = NEXUS_URL + "releases/" + groupId.replace(".", "/")
 						+ "/" + artifactId + "/" + artifactVersion + "/"
-						+ BuildAction.artifactFileName;
+						+ artifactId;
 			} else {
 				webPage = NEXUS_URL + "snapshots/" + groupId.replace(".", "/")
 						+ "/" + artifactId + "/" + artifactVersion + "/"
-						+ BuildAction.artifactFileName;
+						+ artifactId;
 			}
 
 			String authString = NEXUS_USERNAME + ":" + NEXUS_PASSWORD;
@@ -214,7 +229,10 @@ public class UploadArtifact {
 					+ File.separator + groupId.replace(".", File.separator)
 					+ File.separator + artifactId + File.separator
 					+ artifactVersion + File.separator
-					+ BuildAction.artifactFileName);
+					+ artifactId
+					+"-"
+					+artifactVersion
+					+".jar");
 
 			FileInputStream fis = new FileInputStream(file);
 			char current;
@@ -239,11 +257,14 @@ public class UploadArtifact {
 		}
 	}
 
+
+	
+	
 	private void postMetadata() {
-		Iterator<ArtifactMetadata> it = BuildAction.artifactMetadata.iterator();
+		
+		Iterator<ArtifactMetadata> it = BuildAction.artifactMetadata.get(getSelectedMavenProject()).iterator();
 		while (it.hasNext()) {
-			ArtifactMetadata metadata = it.next();
-			metadata.getRemoteFilename();
+			ArtifactMetadata metadata = it.next();			
 			try {
 				String webPage = "";
 				if (metadata.getRemoteFilename().endsWith(".pom")) {

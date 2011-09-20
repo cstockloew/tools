@@ -109,6 +109,8 @@
             class="org.universaal.tools.buildserviceapplication.handlers.PublishApplicationHandler">
       </handler>
    </extension> 
-
+   <extension point="org.eclipse.ui.startup">
+     <startup class="org.universaal.tools.buildserviceapplication.StartupClass"/>
+   </extension>
 </plugin>
     

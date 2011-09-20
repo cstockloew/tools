@@ -5,8 +5,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.maven.Maven;
 import org.apache.maven.artifact.metadata.ArtifactMetadata;
@@ -15,6 +17,7 @@ import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionRequestPopulator;
 import org.apache.maven.execution.MavenExecutionResult;
+import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.building.DefaultSettingsBuildingRequest;
 import org.apache.maven.settings.building.SettingsBuilder;
 import org.apache.maven.settings.building.SettingsBuildingRequest;
@@ -70,15 +73,16 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	public static MavenExecutionRequestPopulator populator;
 	public static DefaultPlexusContainer container;
 	public static Maven maven;
-	static public List<String> buildedProjects = new ArrayList<String>();
+	static public List<MavenProject> buildedProjects = new ArrayList<MavenProject>();
 	static public SettingsBuilder settingsBuilder;
-	static public String artifactFileName = "";
-	static public Collection<ArtifactMetadata> artifactMetadata = null;
+static public Map<MavenProject,Collection<ArtifactMetadata>> artifactMetadata=new HashMap<MavenProject,Collection<ArtifactMetadata>>();
+	
 	private MavenExecutionResult installResult = null;
 	private static Shell activeShell = null;
 	private String selectedProjectName = "";
 	private String selectedProjectPath = "";
 	private static IProject iproject = null;
+	
 
 	/**
 	 * The constructor.
@@ -319,11 +323,8 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 									ImageDescriptor.createFromURL(url));
 							setUpMavenBuild();
 							monitor.worked(15);
-							installResult = install(selectedProjectPath);
-							artifactFileName = installResult.getProject()
-									.getArtifact().getFile().getName();
-							artifactMetadata = installResult.getProject()
-									.getArtifact().getMetadataList();
+							installResult = install(selectedProjectPath);	
+							
 							monitor.worked(50);
 							if (installResult.hasExceptions()) {
 								return Status.CANCEL_STATUS;
@@ -348,7 +349,9 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 											"Building of application \""
 													+ selectedProjectName
 													+ "\" succeeded.");
-									buildedProjects.add(selectedProject);
+									buildedProjects.add(installResult.getProject());
+									artifactMetadata.put(installResult.getProject(), installResult.getProject()
+											.getArtifact().getMetadataList());									
 								} else {
 									try {
 										String exceptions = "Errors found:\n";
