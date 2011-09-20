@@ -10,6 +10,9 @@ org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/Lo
 org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/Node.java -text
 org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/RDFVis.java -text
 org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/ResourceInterpreter.java -text
+org.universaal.tools.aalstudio.feature/.project -text svneol=unset#text/plain
+org.universaal.tools.aalstudio.feature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.aalstudio.feature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.buildFeature/.project -text
 org.universaal.tools.buildFeature/build.properties -text
 org.universaal.tools.buildFeature/feature.xml -text
