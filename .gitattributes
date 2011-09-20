@@ -2,6 +2,9 @@
 org.eclipse.mofscript/.project -text svneol=unset#text/plain
 org.eclipse.mofscript/build.properties -text svneol=unset#text/plain
 org.eclipse.mofscript/feature.xml -text svneol=unset#text/plain
+org.ops4j.pax.runner.eclipse.core.feature/.project -text svneol=unset#text/plain
+org.ops4j.pax.runner.eclipse.core.feature/build.properties -text svneol=unset#text/plain
+org.ops4j.pax.runner.eclipse.core.feature/feature.xml -text svneol=unset#text/plain
 org.universAAL.tools.logmonitor/pom.xml -text
 org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/Activator.java -text
 org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/Edge.java -text
