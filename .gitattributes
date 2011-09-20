@@ -120,6 +120,25 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthir
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/LICENSE.txt -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/build.properties -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/icons/sample.gif -text
+org.universaal.tools.transformationcommand/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/activator/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/TransformExampleHandler.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/TransformOntUML2Java.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/TransformationHandler.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/preferences/PreferenceConstants.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/preferences/TransformationsPreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/preferences/Uml2JavaPreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/transformations/ListUMLClasses.m2t -text
+org.universaal.tools.transformationcommand/transformations/ontUML2Java.m2t -text
 org.universaal.tools.wizardplugin/.classpath -text
 org.universaal.tools.wizardplugin/.project -text
 org.universaal.tools.wizardplugin/.settings/org.eclipse.jdt.core.prefs -text
