@@ -39,6 +39,18 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/PublishApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/RunApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/UploadApplicationHandler.java -text
+org.universaal.tools.conformancePlugin/.classpath -text
+org.universaal.tools.conformancePlugin/.project -text
+org.universaal.tools.conformancePlugin/.settings/org.eclipse.jdt.core.prefs -text
+org.universaal.tools.conformancePlugin/META-INF/MANIFEST.MF -text
+org.universaal.tools.conformancePlugin/build.properties -text
+org.universaal.tools.conformancePlugin/icons/Thumbs.db -text
+org.universaal.tools.conformancePlugin/icons/compile.png -text
+org.universaal.tools.conformancePlugin/icons/logo_32x32.png -text
+org.universaal.tools.conformancePlugin/plugin.xml -text
+org.universaal.tools.conformancePlugin/src/org/universaal/tools/conformance/Activator.java -text
+org.universaal.tools.conformancePlugin/src/org/universaal/tools/conformance/actions/ConformanceAction.java -text
+org.universaal.tools.conformancePlugin/src/org/universaal/tools/conformance/handlers/ConformanceHandler.java -text
 org.universaal.tools.dashboard/.classpath -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.project -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
