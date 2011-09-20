@@ -385,3 +385,6 @@ org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/Fields
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/SourcePage.java -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/XmlEditor.java -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/model/ProjectModel.java -text svneol=unset#text/plain
+sonar_feature/.project -text svneol=unset#text/plain
+sonar_feature/build.properties -text svneol=unset#text/plain
+sonar_feature/feature.xml -text svneol=unset#text/plain
