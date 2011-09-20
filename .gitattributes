@@ -48,6 +48,9 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/PublishApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/RunApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/UploadApplicationHandler.java -text
+org.universaal.tools.conformanceFeauture/.project -text
+org.universaal.tools.conformanceFeauture/build.properties -text
+org.universaal.tools.conformanceFeauture/feature.xml -text
 org.universaal.tools.conformancePlugin/.classpath -text
 org.universaal.tools.conformancePlugin/.project -text
 org.universaal.tools.conformancePlugin/.settings/org.eclipse.jdt.core.prefs -text
