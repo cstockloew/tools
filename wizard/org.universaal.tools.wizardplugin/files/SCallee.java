@@ -1,5 +1,7 @@
 /*TAG:PACKAGE*/
 
+/* More on how to use this class at: 
+ * http://forge.universaal.org/wiki/support:Developer_Handbook_6#Providing_services_on_the_bus */
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;

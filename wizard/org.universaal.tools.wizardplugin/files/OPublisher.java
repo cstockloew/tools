@@ -1,5 +1,7 @@
 /*TAG:PACKAGE*/
 
+/* More on how to use this class at: 
+ * http://forge.universaal.org/wiki/support:Developer_Handbook_8 */
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.output.OutputPublisher;
 
