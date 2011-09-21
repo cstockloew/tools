@@ -46,7 +46,10 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
    		p.ownedElement->forEach(c : uml.Class) {
    			c.createPropertyList()
   			c.createPropertyListForAssociations()
+  			
    		}
+		//now see if there are any associations that own both its ends
+		p.ownedElement->forEach(ass : uml.Association) {ass.createPropertyForAssociations()}
 
 	  	StdOut.println("Handling classes of package :" + p.name) 
   		//Generate a java-class for each class in the ontology
@@ -200,6 +203,8 @@ public interface ' ontologyName 'Namespace {
     self.genIsWellFormed()
     self.genGetRDFSComment()
     self.genGetRDFSLabel()
+    
+    self.genGetClassLevelRestrictions()
    
     self.genPropertyGettersAndSetters()
     
@@ -214,19 +219,38 @@ public interface ' ontologyName 'Namespace {
    */
   uml.Class::createPropertyList() {
  	//look if there is an entry in the hashtable for the active classifier.
- 	Hashtable pHash = propertyHashtable.get(self.name)
+ 	var pHash:Hashtable = propertyHashtable.get(self.name)
  	
  	self.ownedMember->forEach(att : uml.Property) {
- 		//add property to list and update the hashtable
- 	   	pHash.put(att.name, att)
- 	   	stdout.println("INFO: Putting property " + att.name + " to inner hash. pHash size=" + pHash.size())
-   	      	
-      }
-   //update propertyHashtable
+ 		//add property to list and update the hashtable. 
+ 	   	pHash.put(att.name, att) //key=property.name. ELement = property
+    }
+ 
+    //update propertyHashtable
     if (!pHash.isEmpty()){
- 		propertyHashtable.put(self.name,pHash)
-    	stdout.println("INFO: Property hashtable updated for key " + self.name + " (" + pHash.size() +"). Size=" + propertyHashtable.size() )
+ 		propertyHashtable.put(self.name,pHash) //key=class.name. Element = hashtable
+    	stdout.println("INFO: Property hashtable updated for key " + self.name + " (size=" + pHash.size() +"). Total size=" + propertyHashtable.size() )
    }
+  }
+  
+  /**
+   * This function will only deal with associations. It updates the navigable classifiers in the propertyHash
+   * with information about their navigable ends   *
+   */
+  uml.Association::createPropertyForAssociations() {
+    //get the navigable ends
+  	self.navigableOwnedEnd->forEach(p : uml.Property) {
+  		stdout.println("Navigable property on association " + self.name + " - called " + p.name + " of type " + p.type.name )
+  		//must get the navigator classifier.
+  		self.memberEnd->forEach(prop : uml.Property) {
+  			if (!prop.name.equals(p.name)){
+  				//must get the global hashtable entry before updating it
+  				var naviHash:Hashtable = propertyHashtable.get(prop.type.name)
+  				naviHash.put(prop.type.name, p) //key= propertytype.name. Element=Property
+  				propertyHashtable.put(prop.type.name, naviHash) //key propertytype.name (the name of the class that can navigate)
+  			} //if
+  		}//foreach prop
+   	} //foreach p
   }
    
   /*
@@ -236,22 +260,25 @@ public interface ' ontologyName 'Namespace {
    */
 
  uml.Classifier::createPropertyListForAssociations() {
-    //now get the associations for this class
+   
+    //now get the properties for this classifier from the global hashtable
     Hashtable pHash = propertyHashtable.get(self.name)
     
+    //for each association owned by the classifier, check for navigation and update local hashtable
     self.getAssociations()->forEach(ass : uml.Association ) {
+      	stdout.println("INFO: Found association:" + ass.name + " for " + self.name)
+      	     	
       	//only add the assocations that are navigable for the classifier in question
         ass.navigableOwnedEnd->forEach(c : uml.Classifier) {
            	if (c.name.equals(ass.name)){
-        		pHash.put(ass.name, ass)  
+        		pHash.put(ass.name, ass)  //key=association.name. Element= association
         	}
         }
     }
  	
  	//update propertyHashtable
     if (!pHash.isEmpty()){
- 		propertyHashtable.put(self.name,pHash)
-    	stdout.println("INFO: Property hashtable updated for key " + self.name + " (" + pHash.size() +"). Size=" + propertyHashtable.size() )
+ 		propertyHashtable.put(self.name,pHash)  //key=classifier.name. Element=hashtable
    }
  }
  
@@ -267,8 +294,17 @@ public interface ' ontologyName 'Namespace {
   }
 
   uml.Class::genStatic() {
-    '  static {\n'
+    '  \n  static {\n'
     '    MY_URI = ' ontologyNamespaceReference '+ "' self.name.trim() '";\n' 
+    
+    //if this class is a specialization of Service it will need the restrictions hashtable.
+    var isService:boolean = false
+    self.general->forEach(sc : uml.Class) {
+    	if (sc.name.equals("Service")) {
+    	    isService=true    	  
+    	}
+    }
+    
     
     //get the property's hachtable and intialize the properties
     Hashtable props = propertyHashtable.get(self.name)
@@ -276,12 +312,20 @@ public interface ' ontologyName 'Namespace {
     //properties first
     props->forEach(att: uml.Property) {
   	    '    PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
+  	    
+  	    if (isService) { //we have a service and must add a static restriction part
+  	    	'	addRestriction(getClassRestrictionsOnProperty(PROP_' + att.toUpperFormat() + ', new String[] { PROP_' + att.toUpperFormat()  ' }, restrictions));\n'
+  	    }
 	}
 	//association properties next. The filter may be obsolete as the po
 	props->forEach (ass : uml.Association) // | ass.endType.first().name.trim().equals(self.name.trim()) ) 
 	{
 	  stdout.println("INFO: Generating static for associations: " + ass.name)
 	  '    PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' ass.name.trim() '";\n'
+	  
+	  if (isService) { //we have a service and must add a static restriction part
+  	    	'	addRestriction(getClassRestrictionsOnProperty(PROP_' + ass.toUpperFormat() + ', new String[] {PROP_' + ass.toUpperFormat()  ' }, restrictions));\n'
+  	    }
 	
 	}
   	'\n'
@@ -356,7 +400,6 @@ public interface ' ontologyName 'Namespace {
   }
   
   /**
-   *	 
    * This function will generate the property declarations for the class in question. The properties are taken from the 
    * propertyHashtable.
    */
@@ -364,8 +407,21 @@ public interface ' ontologyName 'Namespace {
   	//insert default identifier for each owlClass
   	'  public static final String MY_URI;\n'
   	
+  	//check if the classifier is a child of Service
+  	var isService:boolean = false
+  	self.general->forEach(c : uml.Class) {
+  		if (c.name.equals("Service")) {
+  			isService=true
+  		}
+  	}
+  	
+  	if (isService) {
+    //print required property declaration
+    '  public static Hashtable restrictions = new Hashtable();\n' 
+  	}
+  	
   	//get the properties from the class in question from the propertyHashtable.
-  	Hashtable myProps = propertyHashtable.get(self.name)
+  	var myProps:Hashtable = propertyHashtable.get(self.name)
   	if (!myProps==null) {
   	  	//define the properties from attribute definitions in uml
   		myProps->forEach(att : uml.Property ) {
@@ -375,6 +431,7 @@ public interface ' ontologyName 'Namespace {
 	        	stdout.println("WARNING: No type defined for " + att.name  + ". Using string as default")
 	    	}
         	'  public static final String PROP_' att.toUpperFormat() ';\n'
+        	
   		}
   		
   		//define the properties from associations in uml
@@ -429,7 +486,7 @@ public interface ' ontologyName 'Namespace {
       '    }\n'
 	}	
 	//association properties next. 
-	props->forEach (ass : uml.Association) //| ass.endType.first().name.trim().equals(self.name.trim()) ) 
+	props->forEach (ass : uml.Association) 
 	{
 	  '    else if (PROP_' ass.memberEnd.last().toUpperFormat() '.equals(propURI)) {\n'
 	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
@@ -467,11 +524,16 @@ public interface ' ontologyName 'Namespace {
    * NOTE: THIS FUNCTION MAY BE SIMPLIFIED USING THE HASHTABLE
    */
  
+ //TODO SIMPLIFY
    uml.Class::genGetStandardPropertyURIs() {
+ 	//get the properties from propertyHash
+ 	var props:Hashtable = propertyHashtable.get(self.name)
+  	var numberOfProperties:Integer = props.size() //should include both association and property elements
+ 	
  	// First, find the number of properties URIs to add
- 	var numberOfProperties:Integer = self.getAssociations().size()
-	var props:List = self.ownedMember->select(prop : uml.Property)
- 	numberOfProperties = numberOfProperties + props.size()
+ 	//var numberOfProperties:Integer = self.getAssociations().size()
+	//var props:List = self.ownedMember->select(prop : uml.Property)
+ 	//numberOfProperties = numberOfProperties + props.size()
  	
  	if (numberOfProperties == 0) {
  	  // Do not generate method if there are no properties to add
@@ -497,10 +559,6 @@ public interface ' ontologyName 'Namespace {
 	props->forEach(prop : uml.Property) {
 	  '    toReturn[index++] = PROP_' prop.toUpperFormat() ';\n'
 	}	
-
-	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
-	  '    PROP_' ass.memberEnd.last().toUpperFormat() ';\n'	
-	}
 
     '    return toReturn;\n'
     '  }\n'    
@@ -541,6 +599,33 @@ public interface ' ontologyName 'Namespace {
        
    }  
 
+	/**
+     * For each direct child under Service, the getClassLevelRestrictions operation should be generated
+     */
+	uml.Class::genGetClassLevelRestrictions() {
+	  var isService:boolean = false
+	  //check if one of the generalization (multiple inheritance supported on a model-level) is a Service
+	  self.general->forEach(c : uml.Class){
+	    //this is a rather vulnerable check. 
+	    //TODO:Should include full namespace check
+	    if (c.name.equals("Service")) {
+	    	isService = true
+	    }
+	  
+	  if (isService) {
+'
+  protected Hashtable getClassLevelRestrictions() {
+	  return restrictions;
+  }
+'	
+	  }
+	}
+  }
+
+
+/**
+ * Create operation for RDFSComment
+ */
    uml.Class::genGetRDFSComment() {
 '
   public static String getRDFSComment() {
@@ -556,6 +641,9 @@ public interface ' ontologyName 'Namespace {
 
    }
   
+/**
+ *
+ */
    uml.Class::genGetRDFSCommentDefault() {
 	 unprotect{
 '
@@ -565,7 +653,9 @@ public interface ' ontologyName 'Namespace {
  	}
    }
   
-  
+/**
+ *
+ */ 
    uml.Class::genGetRDFSLabel() {
  '
   public static String getRDFSLabel() {
@@ -576,12 +666,12 @@ public interface ' ontologyName 'Namespace {
    }
 
 
-
-   // Methods for generating getters and setters for properties.
-   // NOTE: CAN BE SIMPLIFIED USING HASHTABLE
-
+/**
+ * Methods for generating getters and setters for properties.
+ * NOTE: CAN BE SIMPLIFIED USING HASHTABLE
+ */
    uml.Class::genPropertyGettersAndSetters() {
-     
+    //TODO: SIMPLIFY
    	//iterate through each property and generate getter and setter methods 
   	self.ownedMember->forEach(att : uml.Property) {
 		var theTypeName:String = "String"	
@@ -615,6 +705,9 @@ public interface ' ontologyName 'Namespace {
      
    }
 
+/**
+ *
+ */
    uml.Class::genBooleanGetterAndSetter(methodName:String, propertyLongName:String) {
 '
   public boolean is' methodName '() {
@@ -627,7 +720,10 @@ public interface ' ontologyName 'Namespace {
   }		
 '		
    }
-   
+
+/**
+ *
+ */   
    uml.Class::genIntGetterAndSetter(methodName:String, propertyLongName:String) {
 '
   public int get' methodName '() {
@@ -641,6 +737,9 @@ public interface ' ontologyName 'Namespace {
 '		
    }
 
+/**
+ *
+ */
    uml.Class::genLongGetterAndSetter(methodName:String, propertyLongName:String) {
 '
   public long get' methodName '() {
@@ -654,6 +753,9 @@ public interface ' ontologyName 'Namespace {
 '		
    }
 
+/**
+ *
+ */
    uml.Class::genObjectGetterAndSetter(methodName:String, propertyLongName:String, typeName:String) {
 '
   public 'typeName ' get' methodName '() {
@@ -666,15 +768,17 @@ public interface ' ontologyName 'Namespace {
   }		
 '		
    }
-   
-   uml.NamedElement::printHashtable() {
-   	//this will just print the complete hashtable to console
-   	stdout.println("PropertyHashtable has " + propertyHashtable.size() + " elements")
-   	stdout.println("Keys: " + propertyHashtable.keys())
-  	propertyHashtable.keys()->forEach(c) {
-  	  stdout.println("Classifier:" + propertyHashtable.get(c))
-    }
-  	 
+
+/**
+ *
+ */   
+  uml.NamedElement::printHashtable() {
+  //this will just print the complete hashtable to console
+  stdout.println("PropertyHashtable has " + propertyHashtable.size() + " elements")
+  stdout.println("Keys: " + propertyHashtable.keys())
+  propertyHashtable.keys()->forEach(c) {
+  	stdout.println("Classifier:" + propertyHashtable.get(c))
+  	}
   }
    	
  }
