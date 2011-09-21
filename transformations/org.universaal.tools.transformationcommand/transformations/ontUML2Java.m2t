@@ -68,7 +68,6 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
 	  	StdOut.println("Handling activator of package :" + p.name) 
    		p.generateActivator(ontologyClassList)
    		
-   		p.printHashtable()
                                          
 	}           
   }
@@ -229,7 +228,7 @@ public interface ' ontologyName 'Namespace {
     //update propertyHashtable
     if (!pHash.isEmpty()){
  		propertyHashtable.put(self.name,pHash) //key=class.name. Element = hashtable
-    	stdout.println("INFO: Property hashtable updated for key " + self.name + " (size=" + pHash.size() +"). Total size=" + propertyHashtable.size() )
+    	//stdout.println("INFO: Property hashtable updated for key " + self.name + " (size=" + pHash.size() +"). Total size=" + propertyHashtable.size() )
    }
   }
   
@@ -240,7 +239,7 @@ public interface ' ontologyName 'Namespace {
   uml.Association::createPropertyForAssociations() {
     //get the navigable ends
   	self.navigableOwnedEnd->forEach(p : uml.Property) {
-  		stdout.println("Navigable property on association " + self.name + " - called " + p.name + " of type " + p.type.name )
+  		//stdout.println("Navigable property on association " + self.name + " - called " + p.name + " of type " + p.type.name )
   		//must get the navigator classifier.
   		self.memberEnd->forEach(prop : uml.Property) {
   			if (!prop.name.equals(p.name)){
@@ -266,7 +265,7 @@ public interface ' ontologyName 'Namespace {
     
     //for each association owned by the classifier, check for navigation and update local hashtable
     self.getAssociations()->forEach(ass : uml.Association ) {
-      	stdout.println("INFO: Found association:" + ass.name + " for " + self.name)
+      	//stdout.println("INFO: Found association:" + ass.name + " for " + self.name)
       	     	
       	//only add the assocations that are navigable for the classifier in question
         ass.navigableOwnedEnd->forEach(c : uml.Classifier) {
@@ -320,7 +319,7 @@ public interface ' ontologyName 'Namespace {
 	//association properties next. The filter may be obsolete as the po
 	props->forEach (ass : uml.Association) // | ass.endType.first().name.trim().equals(self.name.trim()) ) 
 	{
-	  stdout.println("INFO: Generating static for associations: " + ass.name)
+	  //stdout.println("INFO: Generating static for associations: " + ass.name)
 	  '    PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' ass.name.trim() '";\n'
 	  
 	  if (isService) { //we have a service and must add a static restriction part
@@ -425,8 +424,7 @@ public interface ' ontologyName 'Namespace {
   	if (!myProps==null) {
   	  	//define the properties from attribute definitions in uml
   		myProps->forEach(att : uml.Property ) {
-  		  Stdout.println("Found property: " + att.name )
-  		  //iterate through each property and declare them as static
+  		    //iterate through each property and declare them as static
 	    	if (att.type == null) {
 	        	stdout.println("WARNING: No type defined for " + att.name  + ". Using string as default")
 	    	}
@@ -436,7 +434,6 @@ public interface ' ontologyName 'Namespace {
   		
   		//define the properties from associations in uml
   		myProps->forEach(ass : uml.Association) {
-  			StdOut.println("Found association property: " + ass.name)
   			//iterate through each property and declare them as static
 	        '  public static final String PROP_' ass.toUpperFormat() ';\n'
   		}
@@ -481,17 +478,33 @@ public interface ' ontologyName 'Namespace {
 	//go through the attributes first
 	props->forEach(prop : uml.Property) {
 	  '    else if (PROP_' prop.toUpperFormat() '.equals(propURI)) {\n'
+	  //handle 0..* cardinality
+	  if (prop.upper<0 && prop.lower==0) {
+	  '      return Restriction.getAllValuesRestriction(propURI, \n'
+	  '        ' self.getURIExpressionForType(prop.type.name.trim()) ');\n'
+	  }
+	  else {
 	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
       '        'self.getURIExpressionForType(prop.type.name.trim())', ' prop.upper ', ' prop.lower ');\n'
       '    }\n'
+	  }
+	  	
 	}	
 	//association properties next. 
 	props->forEach (ass : uml.Association) 
 	{
 	  '    else if (PROP_' ass.memberEnd.last().toUpperFormat() '.equals(propURI)) {\n'
+	  //handle 0..* cardinality
+	  if (ass.memberEnd.last().upper<0 && ass.memberEnd.last().lower==0) {
+	  '   	 return Restriction.getAllValuesRestriction(propURI, \n'
+	  '        ' self.getURIExpressionForType(ass.memberEnd.last().type.name.trim()) ');\n'
+	  }
+	  else {
 	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
       '        'self.getURIExpressionForType(ass.endType.last().name.trim())', ' ass.memberEnd.last().upper ', ' ass.memberEnd.last().lower ');\n'
       '    }\n'
+	  }
+	  
 	}	
 
      
