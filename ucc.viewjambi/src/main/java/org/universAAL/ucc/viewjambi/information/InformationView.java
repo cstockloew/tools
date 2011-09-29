@@ -35,7 +35,7 @@ public class InformationView extends SubWindow {
 	}
 
 	protected void closeMe() {
-		MainWindow.getInstance().closeSubWindow(this);
+		MainWindow.getInstance().hideSubWindow(this);
 	}
 
 	protected String statusToString(int status) {

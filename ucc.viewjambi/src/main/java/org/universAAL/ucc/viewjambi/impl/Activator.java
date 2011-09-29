@@ -31,7 +31,7 @@ public class Activator implements BundleActivator {
 	private static IConfigurator configurator = null;
 	private static PluginBase pluginBase = null;
 	
-	MainWindow mainWindow = null;
+	public MainWindow mainWindow = null;
 
 	static final String libraryNames[] = { "qtjambi.dll",
 			"com_trolltech_qt_core.dll", "com_trolltech_qt_gui.dll", "com_trolltech_qt_network.dll",

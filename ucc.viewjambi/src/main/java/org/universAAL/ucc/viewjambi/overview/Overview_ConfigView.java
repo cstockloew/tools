@@ -50,7 +50,7 @@ public class Overview_ConfigView extends SubWindow {
 	
 	
 	protected void cancel() {
-		MainWindow.getInstance().closeSubWindow(this);
+		MainWindow.getInstance().removeSubWindow(this);
 	}
 	
 	protected void save(){

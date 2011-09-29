@@ -113,13 +113,13 @@ public class ConfigView extends SubWindow {
 			 QMessageBox.information(this, "Installation", "Installation successfully completed!");
 		 }else
 			 QMessageBox.critical(this, "Error", completed);
-		 MainWindow.getInstance().closeSubWindow(this);
+		 MainWindow.getInstance().removeSubWindow(this);
 		 
 	}
 	
 	protected void cancel() {
 		Activator.getInstaller().revertInstallation(new File(appDir));
-		MainWindow.getInstance().closeSubWindow(this);
+		MainWindow.getInstance().removeSubWindow(this);
 	}
 	
 	/** For convenience and test purposes the xml parsing is done here. 

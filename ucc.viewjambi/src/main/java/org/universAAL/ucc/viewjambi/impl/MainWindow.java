@@ -60,10 +60,29 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 		}
 	}
 
-	public void closeSubWindow(ISubWindow subWindow) {
+	public void removeSubWindow(ISubWindow subWindow) {
 		QMdiSubWindow mdiChild = subWindows.remove(subWindow);
 		if (mdiChild != null)
 			mdiChild.close();
+	}
+	
+	public void showSubWindow(ISubWindow subWindow) {
+		QMdiSubWindow child = this.subWindows.get(subWindow);
+		if (child == null) {
+			System.err.println("Can not find SubWindow --> can not show it!");
+			return;
+		}
+		child.show();
+	}
+
+
+	public void hideSubWindow(ISubWindow subWindow) {
+		QMdiSubWindow child = this.subWindows.get(subWindow);
+		if (child == null) {
+			System.err.println("Can not find SubWindow --> can not hide it!");
+			return;
+		}
+		child.hide();
 	}
 
 	public boolean initialize() {
