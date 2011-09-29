@@ -7,17 +7,11 @@ package org.universAAL.ucc.api.view;
  */
 public interface IMainWindow {
 
-	/**
-	 * 
-	 * @param subWindow
-	 */
 	public void addSubWindow(ISubWindow subWindow);
-
-	/**
-	 * 
-	 * @param subWindow
-	 */
-	public void closeSubWindow(ISubWindow subWindow);
+	public void removeSubWindow(ISubWindow subWindow);
+	
+	public void showSubWindow(ISubWindow subWindow);
+	public void hideSubWindow(ISubWindow subWindow);
 
 	public boolean initialize();
 

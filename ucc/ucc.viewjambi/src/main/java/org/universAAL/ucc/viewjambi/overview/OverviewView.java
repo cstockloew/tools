@@ -71,7 +71,7 @@ public class OverviewView extends SubWindow {
 	protected void cancel() {
 		System.out.println("Setting active to false..");
 		active = false;
-		MainWindow.getInstance().closeSubWindow(this);
+		MainWindow.getInstance().removeSubWindow(this);
 	}
 	
 }

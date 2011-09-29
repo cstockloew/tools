@@ -41,18 +41,18 @@ public class InstallView extends SubWindow {
 		p=p.replace("/", "\\");
 		try {
 			String appDir = Activator.getInstaller().installApplication(p);
-			MainWindow.getInstance().closeSubWindow(this);
+			MainWindow.getInstance().removeSubWindow(this);
 			MainWindow.getInstance().showLicense(appDir);
 		} catch (NullPointerException e){
 			QMessageBox.critical(this, "Error", "Installation failed! The Application probably already is installed!");
 		} catch (Exception e) {
 			QMessageBox.critical(this, "Error", e.getMessage());
-			MainWindow.getInstance().closeSubWindow(this);
+			MainWindow.getInstance().removeSubWindow(this);
 		}
 	}
 	
 	protected void cancel() {
-		MainWindow.getInstance().closeSubWindow(this);
+		MainWindow.getInstance().removeSubWindow(this);
 	}
 	
 }

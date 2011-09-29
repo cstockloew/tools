@@ -49,12 +49,12 @@ public class DeinstallView extends SubWindow {
 			}else{
 				QMessageBox.critical(this, "Deinstall Application", "Could not deinstall the application!");
 			}
-			MainWindow.getInstance().closeSubWindow(this);
+			MainWindow.getInstance().removeSubWindow(this);
 		}
 	}
 	
 	protected void cancel() {
-		MainWindow.getInstance().closeSubWindow(this);
+		MainWindow.getInstance().removeSubWindow(this);
 	}
 	
 }

@@ -30,7 +30,7 @@ public class LicenseView extends SubWindow {
 	
 	
 	protected void accept() {
-		MainWindow.getInstance().closeSubWindow(this);
+		MainWindow.getInstance().removeSubWindow(this);
 		MainWindow.getInstance().configureApp(appDir);
 	}
 
@@ -59,7 +59,7 @@ public class LicenseView extends SubWindow {
 	
 	protected void cancel() {
 		Activator.getInstaller().revertInstallation(new File(appDir));
-		MainWindow.getInstance().closeSubWindow(this);
+		MainWindow.getInstance().removeSubWindow(this);
 	}
 	
 }
