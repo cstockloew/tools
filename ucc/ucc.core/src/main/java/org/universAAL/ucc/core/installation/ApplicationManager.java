@@ -1,7 +1,5 @@
 package org.universAAL.ucc.core.installation;
 
-import java.io.File;
-
 public class ApplicationManager {
 
 	public String[] getInstalledApps() {

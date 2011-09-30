@@ -32,8 +32,12 @@ public class Activator implements BundleActivator{
 					Activator.uCCPluginBase.registerPlugin(Activator.uCCPlugin);
 					System.out.println("Plugin started!");
 				}
-				else
-					System.err.println("Can not start information-view: Do not found all needed OSGi Services!");				
+				else {
+					if (Activator.uCCPluginBase == null)
+						System.err.println("Can not start information-view: Do not found Plugin-Base!");	
+					if (Activator.information == null)
+						System.err.println("Can not start information-view: Do not found Information Service!");	
+				}
 			}
 		}).start();
 	}

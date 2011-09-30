@@ -36,6 +36,7 @@ import org.universAAL.ucc.core.installation.Installer;
 public class Activator implements BundleActivator {
 	private static BundleContext context = null;
 	private static String rundir = "c:"+File.separator;
+	private static int max_retry = 10;
 	
 	private static MessageContentSerializer contentSerializer = null;
 	
@@ -84,38 +85,52 @@ public class Activator implements BundleActivator {
 		return rundir;
 	}
 	
-	public void start(BundleContext context) throws Exception {
+	public void start(final BundleContext context) throws Exception {
 		Activator.context = context;
-		ServiceReference sr = context.getServiceReference(IModel.class.getName());
-		if (sr == null)
-			return;
-		Object o = context.getService(sr);		
-		Activator.model = (IModel)o;
-
-		String bundlePath = Activator.context.getBundle().getLocation();
-		Activator.rundir = bundlePath.substring(bundlePath.indexOf("/")+1,bundlePath.lastIndexOf("/"));
-		Activator.rundir= Activator.rundir.replace("/", "\\");
-		
-		this.installer = new Installer(context);
-		this.deinstaller = new Deinstaller(context);
-		this.information = new Information(context);
-		this.configurator = new Configurator(context);
-		
-		context.registerService(new String[] { IInstaller.class.getName() }, installer, null);
-		context.registerService(new String[] { IDeinstaller.class.getName() }, deinstaller, null);
-		context.registerService(new String[] { IInformation.class.getName() }, information, null);
-		context.registerService(new String[] { IConfigurator.class.getName() }, configurator, null);
-		
-		
-		
-		
-		
-		//Activator.model.getApplicationRegistration().registerApplicaton("testApp");
-		
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					Activator.model = (IModel) getServiceObject(context, IModel.class.getName());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (Activator.model == null) {
+					System.err.println("Do not find uCC Model --> uCC Core not started");
+					return;
+				}
+				String bundlePath = Activator.context.getBundle().getLocation();
+				Activator.rundir = bundlePath.substring(bundlePath.indexOf("/")+1,bundlePath.lastIndexOf("/"));
+				Activator.rundir= Activator.rundir.replace("/", "\\");
+				
+				installer = new Installer(context);
+				deinstaller = new Deinstaller(context);
+				information = new Information(context);
+				configurator = new Configurator(context);
+				
+				context.registerService(new String[] { IInstaller.class.getName() }, installer, null);
+				context.registerService(new String[] { IDeinstaller.class.getName() }, deinstaller, null);
+				context.registerService(new String[] { IInformation.class.getName() }, information, null);
+				context.registerService(new String[] { IConfigurator.class.getName() }, configurator, null);	
+			}
+		}).start();
 	}
 
 	public void stop(BundleContext arg0) throws Exception {
 		
+	}
+	
+	private Object getServiceObject(BundleContext context, String name) throws Exception {
+		ServiceReference sr = null;
+		int retry_count = 0;
+		while (sr == null && retry_count<max_retry) {
+			sr = context.getServiceReference(name);
+			if (sr == null)
+				Thread.sleep(1000);
+			retry_count++;
+		}
+		if (sr != null)
+			return context.getService(sr);
+		return null;
 	}
 
 }
