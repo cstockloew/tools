@@ -159,7 +159,8 @@ public class FileStreamUtils {
      * @throws IOException
      */
     protected static InputStream customizePomStream(String packname,
-	    InputStream instream, boolean[] checks, boolean[] template) throws IOException {
+	    InputStream instream, boolean[] checks, boolean[] template,
+	    String mwVersion) throws IOException {
 	BufferedReader reader = new BufferedReader(new InputStreamReader(
 		instream));
 	StringBuilder output = new StringBuilder();
@@ -176,41 +177,41 @@ public class FileStreamUtils {
 			+ "		<dependency>\n" //$NON-NLS-1$
 			+ "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
 			+ "			<artifactId>mw.data.representation</artifactId>\n" //$NON-NLS-1$
-			+ "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
+			+ "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
 			+ "		</dependency>\n"); //$NON-NLS-1$
 		if (checks[0] || checks[1]) {
 		    output.append("		<dependency>\n" //$NON-NLS-1$
 			    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
 			    + "			<artifactId>mw.bus.context</artifactId>\n" //$NON-NLS-1$
-			    + "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
+			    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
 			    + "		</dependency>\n"); //$NON-NLS-1$
 		}
 		if (checks[2] || checks[3] || checks[6] || checks[7]) {
 		    output.append("		<dependency>\n" //$NON-NLS-1$
 			    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
 			    + "			<artifactId>mw.bus.io</artifactId>\n" //$NON-NLS-1$
-			    + "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
+			    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
 			    + "		</dependency>\n"); //$NON-NLS-1$
 		}
 		if (checks[4] || checks[5]) {
 		    output.append("		<dependency>\n" //$NON-NLS-1$
 			    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
 			    + "			<artifactId>mw.bus.service</artifactId>\n" //$NON-NLS-1$
-			    + "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
+			    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
 			    + "		</dependency>\n"); //$NON-NLS-1$
 		}
 		if (template[0]) {
 		    output.append("		<dependency>\n" //$NON-NLS-1$
 			    + "			<groupId>org.universAAL.ontology</groupId>\n" //$NON-NLS-1$
 			    + "			<artifactId>ont.phWorld</artifactId>\n" //$NON-NLS-1$
-			    + "			<version>0.2.2-SNAPSHOT</version>\n" //$NON-NLS-1$
+			    + "			<version>" + getPhWorlVersion(mwVersion) + "</version>\n" //$NON-NLS-1$
 			    + "		</dependency>\n"); //$NON-NLS-1$
 		}
 		if (template[1]) {
 		    output.append("		<dependency>\n" //$NON-NLS-1$
 			    + "			<groupId>org.universAAL.ontology</groupId>\n" //$NON-NLS-1$
 			    + "			<artifactId>ont.profile</artifactId>\n" //$NON-NLS-1$
-			    + "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
+			    + "			<version>" + getProfileVersion(mwVersion) + "</version>\n" //$NON-NLS-1$
 			    + "		</dependency>\n"); //$NON-NLS-1$
 		}
 		output.append("	</dependencies>\n"); //$NON-NLS-1$
@@ -288,7 +289,7 @@ public class FileStreamUtils {
      * @throws IOException
      */
     protected static InputStream modifyPomStream(InputStream instream,
-	    int clsnumber) throws IOException {
+	    int clsnumber, String mwVersion) throws IOException {
 	// TODO use XML parsing instead of manually parsing the file.
 	BufferedReader reader = new BufferedReader(new InputStreamReader(
 		instream));
@@ -314,7 +315,7 @@ public class FileStreamUtils {
 			    .append("		<dependency>\n" //$NON-NLS-1$
 				    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
 				    + "			<artifactId>mw.bus.context</artifactId>\n" //$NON-NLS-1$
-				    + "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
+				    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
 				    + "		</dependency>\n"); //$NON-NLS-1$
 		}
 		if (!service
@@ -323,7 +324,7 @@ public class FileStreamUtils {
 			    .append("		<dependency>\n" //$NON-NLS-1$
 				    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
 				    + "			<artifactId>mw.bus.service</artifactId>\n" //$NON-NLS-1$
-				    + "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
+				    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
 				    + "		</dependency>\n"); //$NON-NLS-1$
 		}
 		if (!io
@@ -332,7 +333,7 @@ public class FileStreamUtils {
 			    .append("		<dependency>\n" //$NON-NLS-1$
 				    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
 				    + "			<artifactId>mw.bus.io</artifactId>\n" //$NON-NLS-1$
-				    + "			<version>0.3.0-SNAPSHOT</version>\n" //$NON-NLS-1$
+				    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
 				    + "		</dependency>\n"); //$NON-NLS-1$
 		}
 		outputnew.append("</dependencies>"); //$NON-NLS-1$
@@ -341,6 +342,20 @@ public class FileStreamUtils {
 	    output.append(line + "\n"); //$NON-NLS-1$
 	}
 	return new ByteArrayInputStream(output.toString().getBytes());
+    }
+
+    private static String getProfileVersion(String mwVersion) {
+	if (mwVersion.equals(NewProjectWizardPage2.VER_031_S)) {
+	    return "0.3.1-SNAPSHOT";
+	}
+	return "0.3.0-SNAPSHOT";
+    }
+
+    private static String getPhWorlVersion(String mwVersion) {
+	if (mwVersion.equals(NewProjectWizardPage2.VER_031_S)) {
+	    return "0.2.3-SNAPSHOT";
+	}
+	return "0.2.2-SNAPSHOT";
     }
 
 }

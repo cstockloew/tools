@@ -1,5 +1,7 @@
 package org.universaal.tools.newwizard.plugin.wizards;
 
+import java.awt.Font;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaConventions;
@@ -30,7 +32,7 @@ import org.universaal.tools.newwizard.plugin.Activator;
  * type, package and name.
  */
 public class NewItemWizardPage extends NewTypeWizardPage {
-    private Combo drop;
+    private Combo drop,drop1;
     private Text clasname;
 
     public NewItemWizardPage(ISelection selection) {
@@ -74,30 +76,47 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	layoutP.numColumns = 1;
 	layoutP.verticalSpacing = 9;
 	// First layout with the name of the package
-	Composite container2 = new Composite(containerP, SWT.NULL);
+	Composite container1 = new Composite(containerP, SWT.NULL);
 	GridLayout layout2 = new GridLayout();
-	container2.setLayout(layout2);
-	container2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	container1.setLayout(layout2);
+	container1.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	layout2.numColumns = 4;
 	layout2.verticalSpacing = 9;
 	// provided by NewTypeWizardPage
-	createContainerControls(container2, 4);
-	createPackageControls(container2, 4);
+	createContainerControls(container1, 4);
+	createPackageControls(container1, 4);
+	// Dropdown with middleware versions
+	Label label6 = new Label(container1, SWT.NULL);
+	label6.setText(Messages.getString("Page2.23")); //$NON-NLS-1$
+	drop1 = new Combo(container1, SWT.READ_ONLY);
+	drop1.select(0);
+	GridData layoutInfo3 = new GridData(GridData.FILL_HORIZONTAL);
+	drop1.setLayoutData(layoutInfo3);
+	drop1.add(NewProjectWizardPage2.VER_030_S, 0);
+	drop1.add(NewProjectWizardPage2.VER_031_S, 1);
+	drop1.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
+		validateInput();
+	    }
+	});
+	//TODO: Remove this when we auto-select compliance
+	Label label7 = new Label(containerP, SWT.NULL);
+	label7.setText(Messages.getString("PageI.18")); //$NON-NLS-1$
 
 	// Second layout with the checkboxes of classes
-	Group container = new Group(containerP, SWT.NONE);
-	container.setText("classes"); //$NON-NLS-1$
+	Group container2 = new Group(containerP, SWT.NONE);
+	container2.setText(Messages.getString("PageI.16")); //$NON-NLS-1$
 	GridLayout layout = new GridLayout();
-	container.setLayout(layout);
-	container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
+	container2.setLayout(layout);
+	container2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 		| GridData.HORIZONTAL_ALIGN_CENTER));
 	layout.numColumns = 3;
 	layout.verticalSpacing = 9;
 
 	// Name of the class
-	Label label4 = new Label(container, SWT.NULL);
-	label4.setText("classname"); //$NON-NLS-1$
-	clasname = new Text(container, SWT.BORDER | SWT.SINGLE);
+	Label label4 = new Label(container2, SWT.NULL);
+	label4.setText(Messages.getString("PageI.17")); //$NON-NLS-1$
+	clasname = new Text(container2, SWT.BORDER | SWT.SINGLE);
 	GridData gd0 = new GridData(GridData.FILL_HORIZONTAL);
 	clasname.setLayoutData(gd0);
 	clasname.addPaintListener(new PaintListener() {
@@ -112,7 +131,7 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	});
 
 	// Dropdown with type of item
-	drop = new Combo(container, SWT.READ_ONLY);
+	drop = new Combo(container2, SWT.READ_ONLY);
 	drop.select(0);
 	GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
 	drop.setLayoutData(gd1);
@@ -133,7 +152,7 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	//TODO: I don´t know why this doesn´t work with getShell in NewItemWizad.addPages (see Project wizard)
 	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, Activator.PLUGIN_ID + ".help_item");
 	validateInput();
-	setControl(container);
+	setControl(container2);
     }
 
     public Combo getDrop() {
@@ -175,6 +194,11 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	    setPageComplete(false);
 	    return;
 	}
+	if(drop1.getSelectionIndex() < 0){
+	    setMessage(Messages.getString("Page2.24")); //$NON-NLS-1$
+	    setPageComplete(false);
+	    return;
+	}
 	setPageComplete(true);
 	setErrorMessage(null);
 	setMessage(null);
@@ -211,6 +235,10 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	super.handleFieldChanged(fieldName);
 //	doStatusUpdate();
 	validateInput();
+    }
+    
+    public Combo getVersionDropDown() {
+	return drop1;
     }
 
 }

@@ -107,6 +107,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	checks[9] = page2.getDefScaller().getSelection();
 	final boolean template=page2.getTemplate().getSelection();
 	final int templateIndex=page2.getTemplateDropDown().getSelectionIndex();
+	final String mwVersion=page2.getVersionDropDown().getItem(page2.getVersionDropDown().getSelectionIndex());
 
 	// I use deprecated methods because I haven´t found the new way to
 	// create a new project
@@ -185,7 +186,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		    // create the activator
 		    IFile f1 = src.getFile("Activator.java"); //$NON-NLS-1$
 		    f1.create(FileStreamUtils.customizeFileStream(
-			    "Activator", pack, //$NON-NLS-1$
+			    mwVersion + "/" + "Activator", pack, //$NON-NLS-1$
 			    checks), true, monitor);
 		    if (template) {//Copy the template classes. Watch for indices
 			for (int i = 0; i < 6; i++) {// 6: No IP or OS yet: No handler template yet
@@ -193,13 +194,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			    if (!folder.isEmpty()) {// If folder is "" means there is no such file for this template
 				IFile f = src.getFile(classNames[i] + ".java"); //$NON-NLS-1$
 				f.create(FileStreamUtils.customizeFileStream(
-					"templates/" + folder + "/" + classNames[i], pack, //$NON-NLS-1$
+					 mwVersion + "/templates/" + folder + "/" + classNames[i], pack, //$NON-NLS-1$
 					checks), true, monitor);//This copies template file from right folder
 				if (i == 4) {//If SCee, add ProvidedServ
 				    IFile faux = src
 					    .getFile("SCalleeProvidedService.java"); //$NON-NLS-1$
 				    faux.create(FileStreamUtils
-					    .customizeFileStream("templates/" + folder + "/"
+					    .customizeFileStream(mwVersion + "/templates/" +  folder + "/"
 						    + "SCalleeProvidedService", //$NON-NLS-1$
 						    pack, checks), true,
 					    monitor);
@@ -214,14 +215,14 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				    && !((i == 5) && (checks[9]))) {// check default SCer
 				IFile f = src.getFile(classNames[i] + ".java"); //$NON-NLS-1$
 				f.create(FileStreamUtils.customizeFileStream(
-					classNames[i], pack, //$NON-NLS-1$
+					mwVersion + "/" + classNames[i], pack, //$NON-NLS-1$
 					checks), true, monitor);
 				if (i == 4) {// If SCee, add ProvidedServ
 				    IFile faux = src
 					    .getFile("SCalleeProvidedService.java"); //$NON-NLS-1$
 				    faux.create(FileStreamUtils
 					    .customizeFileStream(
-						    "SCalleeProvidedService", //$NON-NLS-1$
+						    mwVersion + "/" + "SCalleeProvidedService", //$NON-NLS-1$
 						    pack, checks), true,
 					    monitor);
 				}
@@ -236,7 +237,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			// Modify the pom to be uaal-compliant
 			pom.setContents(
 				FileStreamUtils.customizePomStream(pack,
-					pom.getContents(), checks, templateDeps), true, true,
+					pom.getContents(), checks, templateDeps, mwVersion), true, true,
 				monitor);
 		    } else {
 			return new Status(

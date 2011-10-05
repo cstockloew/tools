@@ -70,6 +70,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 	final String clsname = page.getClasname().getText();
 	final String clstype = page.getFileTemplateName();
 	final int clsnumber = page.getDrop().getSelectionIndex();
+	final String mwVersion=page.getVersionDropDown().getItem(page.getVersionDropDown().getSelectionIndex());
 
 	// this job performs the creationof the item
 	Job job = new WorkspaceJob("wizard.item.job") { //$NON-NLS-1$
@@ -94,7 +95,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 		    // now create the new file
 		    final IFile file = container.getFile(new Path(clsname
 			    + ".java")); //$NON-NLS-1$
-		    InputStream stream = FileStreamUtils.customizeFileStream(clstype, pack
+		    InputStream stream = FileStreamUtils.customizeFileStream(mwVersion+"/"+clstype, pack
 			    .getElementName(), clsname);
 		    if (file.exists()) {
 			MessageDialog.openError(getShell(),
@@ -109,7 +110,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 			final IFile fileaux = container.getFile(new Path(
 				clsname + "ProvidedService.java")); //$NON-NLS-1$
 			InputStream streamaux = FileStreamUtils.customizeFileStream(
-				"SCalleeProvidedService.java", pack.getElementName(), //$NON-NLS-1$
+				mwVersion+"/"+"SCalleeProvidedService.java", pack.getElementName(), //$NON-NLS-1$
 				clsname + "ProvidedService"); //$NON-NLS-1$
 			if (fileaux.exists()) {
 			    MessageDialog.openError(getShell(),
@@ -126,7 +127,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 		    if (pom.exists()) {
 			// Modify the pom to be add dependencies
 			pom.setContents(FileStreamUtils.modifyPomStream(pom.getContents(),
-				clsnumber), true, true, monitor);
+				clsnumber, mwVersion), true, true, monitor);
 		    } else {
 			MessageDialog.openError(getShell(),
 				Messages.getString("Item.5"), //$NON-NLS-1$

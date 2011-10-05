@@ -38,9 +38,11 @@ public class NewProjectWizardPage2 extends WizardPage {
     private Button defscaller;
     private Button defcpublisher;
     private Button template;
-    private Combo drop;
+    private Combo drop,drop1;
     private Text packaging;
     private Group containerClasses;
+    public static final String VER_030_S="0.3.0-SNAPSHOT"; //$NON-NLS-1$
+    public static final String VER_031_S="0.3.1-SNAPSHOT"; //$NON-NLS-1$
 
     /**
      * Constructor for NewProjectWizardPage2.
@@ -79,6 +81,21 @@ public class NewProjectWizardPage2 extends WizardPage {
 	packaging.setLayoutData(layoutInfo1);
 	packaging.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
+		validateInput();
+	    }
+	});
+	
+	// Dropdown with middleware versions
+	Label label6 = new Label(containerInfo, SWT.NULL);
+	label6.setText(Messages.getString("Page2.23")); //$NON-NLS-1$
+	drop1 = new Combo(containerInfo, SWT.READ_ONLY);
+	drop1.select(0);
+	GridData layoutInfo3 = new GridData(GridData.FILL_HORIZONTAL);
+	drop1.setLayoutData(layoutInfo3);
+	drop1.add(VER_030_S, 0);
+	drop1.add(VER_031_S, 1);
+	drop1.addSelectionListener(new SelectionAdapter() {
+	    public void widgetSelected(SelectionEvent e) {
 		validateInput();
 	    }
 	});
@@ -235,6 +252,11 @@ public class NewProjectWizardPage2 extends WizardPage {
 	    setPageComplete(false);
 	    return;
 	}
+	if(drop1.getSelectionIndex()<0){
+	    setMessage(Messages.getString("Page2.24")); //$NON-NLS-1$
+	    setPageComplete(false);
+	    return;
+	}
 	setPageComplete(true);
 	setErrorMessage(null);
 	setMessage(null);
@@ -367,6 +389,10 @@ public class NewProjectWizardPage2 extends WizardPage {
     
     public Combo getTemplateDropDown(){
 	return drop;
+    }
+
+    public Combo getVersionDropDown() {
+	return drop1;
     }
 
 }
