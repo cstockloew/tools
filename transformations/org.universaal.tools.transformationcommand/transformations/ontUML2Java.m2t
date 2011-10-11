@@ -30,7 +30,7 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
     
     ontologyName = self.name 
     StdOut.println("Generating Java classes for ontology: " + ontologyName)
-    ontologyNamespace = self.getStereotypeValue("owlOntology", "defaultNamespace")
+    ontologyNamespace = "http:\\\\\\\\ontology.universAAL.org\\\\"+ontologyName; //self.getStereotypeValue("owlOntology", "defaultNamespace")
     StdOut.println("Namespace: "+ontologyNamespace) 
     ontologyNamespaceReference =  ontologyName +  'Namespace.NAMESPACE'  
   
@@ -318,7 +318,8 @@ public interface ' ontologyName 'Namespace {
   	    '    PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
   	    
   	    if (isService) { //we have a service and must add a static restriction part
-  	    	'	addRestriction(getClassRestrictionsOnProperty(PROP_' + att.toUpperFormat() + ', new String[] { PROP_' + att.toUpperFormat()  ' }, restrictions));\n'
+  	    	'	addRestriction(Restriction.getAllValuesRestriction(PROP_' + att.toUpperFormat() + ',\n'
+  	    	'       'self.getURIExpressionForType(att.type.name.trim())'), new String[] { PROP_' + att.toUpperFormat()  ' }, restrictions);\n'
   	    }
 	}
 	//association properties next. The filter may be obsolete as the po
@@ -328,7 +329,8 @@ public interface ' ontologyName 'Namespace {
 	  '    PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' ass.name.trim() '";\n'
 	  
 	  if (isService) { //we have a service and must add a static restriction part
-  	    	'	addRestriction(getClassRestrictionsOnProperty(PROP_' + ass.toUpperFormat() + ', new String[] {PROP_' + ass.toUpperFormat()  ' }, restrictions));\n'
+  	    	'	addRestriction(Restriction.getAllValuesRestriction(PROP_' + ass.toUpperFormat() + ',\n'
+  	    	'       'self.getURIExpressionForType(ass.endType.name.trim())'), new String[] { PROP_' + ass.toUpperFormat()  ' }, restrictions);\n'
   	    }
 	
 	}
@@ -487,6 +489,7 @@ public interface ' ontologyName 'Namespace {
 	  if (prop.upper<0 && prop.lower==0) {
 	  '      return Restriction.getAllValuesRestriction(propURI, \n'
 	  '        ' self.getURIExpressionForType(prop.type.name.trim()) ');\n'
+	  '    }\n'
 	  }
 	  else {
 	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
@@ -503,6 +506,7 @@ public interface ' ontologyName 'Namespace {
 	  if (ass.memberEnd.last().upper<0 && ass.memberEnd.last().lower==0) {
 	  '   	 return Restriction.getAllValuesRestriction(propURI, \n'
 	  '        ' self.getURIExpressionForType(ass.memberEnd.last().type.name.trim()) ');\n'
+	  '    }\n'
 	  }
 	  else {
 	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
