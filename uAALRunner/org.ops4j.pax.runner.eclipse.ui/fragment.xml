@@ -6,7 +6,7 @@
       <tab
             class="org.ops4j.pax.cursor.ui.CursorTab"
             group="org.eclipse.pde.ui.launcher.EquinoxLauncherTabGroup"
-            id="org.ops4j.pax.cursor.ui.CursorTab"
+            id="org.ops4j.pax.cursor.ui.CursorTabUAAL"
             name="Pax Runner Eclipse Plugin Tab">
       </tab>
    </extension>

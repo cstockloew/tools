@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OPS4J Pax Runner - Eclipse Plugin UI
-Bundle-SymbolicName: org.ops4j.pax.runner.eclipse.ui;singleton:=true
+Bundle-SymbolicName: org.ops4j.pax.runner.eclipse.uiUAAL;singleton:=true
 Bundle-Version: 1.7.5.qualifier
 Bundle-ClassPath: pax-runner-eclipse-ui,
  src/main/,
