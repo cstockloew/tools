@@ -12,9 +12,6 @@
    <feature url="features/org.ops4j.pax.runner.eclipse.core.feature_1.7.5.201106072115.jar" id="org.ops4j.pax.runner.eclipse.core.feature" version="1.7.5.201106072115">
       <category name="universaal_prereq"/>
    </feature>
-   <feature url="features/org.ops4j.pax.runner.eclipse.ui.feature_1.7.5.201106072115.jar" id="org.ops4j.pax.runner.eclipse.ui.feature" version="1.7.5.201106072115">
-      <category name="universaal_prereq"/>
-   </feature>
    <feature url="features/org.universaal.tools.aalstudio.feature_0.6.0.jar" id="org.universaal.tools.aalstudio.feature" version="0.6.0">
       <category name="universaal_tools"/>
    </feature>
@@ -53,6 +50,15 @@
    </feature>
    <feature url="features/org.universaal.tools.transformationfeature_0.4.0.jar" id="org.universaal.tools.transformationfeature" version="0.4.0">
       <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.ops4j.pax.runner.eclipse.ui.AALStudio.feature_1.7.5.201110141540.jar" id="org.ops4j.pax.runner.eclipse.ui.AALStudio.feature" version="1.7.5.201110141540">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.transformationfeature_0.5.0.jar" id="org.universaal.tools.transformationfeature" version="0.5.0">
+      <category name="universaal_future_tools"/>
+   </feature>
+   <feature url="features/org.universaal.tools.newwizard.feature_0.6.2.jar" id="org.universaal.tools.newwizard.feature" version="0.6.2">
+      <category name="universaal_tools"/>
    </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
