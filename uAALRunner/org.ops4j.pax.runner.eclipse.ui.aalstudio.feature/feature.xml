@@ -2,7 +2,7 @@
 <feature
       id="org.ops4j.pax.runner.eclipse.ui.aalstudio.feature"
       label="Pax Runner Plugin for Eclipse UI for AAL Studio"
-      version="1.7.5.201110181445"
+      version="1.7.5.201110181545"
       provider-name="OPS4j.org">
 
    <copyright url="http://www.ops4j.org">
@@ -250,6 +250,7 @@ limitations under the License.
 
    <requires>
       <import plugin="org.eclipse.pde.ui" version="3.6.1.v20110210_r362" match="greaterOrEqual"/>
+      <import feature="org.ops4j.pax.runner.eclipse.core.feature" version="1.7.5.201106072115"/>
    </requires>
 
    <plugin
