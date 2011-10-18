@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.ops4j.pax.runner.eclipse.ui.AALStudio.feature"
+      id="org.ops4j.pax.runner.eclipse.ui.aalstudio.feature"
       label="Pax Runner Plugin for Eclipse UI for AAL Studio"
-      version="1.7.5.201110171440"
+      version="1.7.5.201110181445"
       provider-name="OPS4j.org">
 
    <copyright url="http://www.ops4j.org">
@@ -253,7 +253,7 @@ limitations under the License.
    </requires>
 
    <plugin
-         id="org.ops4j.pax.runner.eclipse.core"
+         id="org.ops4j.pax.runner.eclipse.ui.aalstudio"
          download-size="0"
          install-size="0"
          version="0.0.0"
