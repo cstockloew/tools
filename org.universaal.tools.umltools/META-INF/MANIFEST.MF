@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UML tools
+Bundle-SymbolicName: org.universaal.tools.umltools; singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Activator: org.universaal.tools.umltools.Activator
+Bundle-Vendor: universAAL
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ocl.uml;bundle-version="3.1.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
