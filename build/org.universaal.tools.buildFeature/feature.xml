@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.buildFeature"
       label="AAL Studio Build"
-      version="0.6.1"
+      version="0.6.2"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
