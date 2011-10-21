@@ -14,7 +14,7 @@ public class Activator implements BundleActivator{
 	public void start(BundleContext bcontext) throws Exception {
 		Activator.osgiContext=bcontext;
 		Activator.context = uAALBundleContainer.THE_CONTAINER
-			.registerModule(new Object[] { context });
+			.registerModule(new Object[] { bcontext });
 		/*TAG:START*/
 	}
 
