@@ -68,6 +68,7 @@ public class DuplicateUMLTemplate extends AbstractHandler {
 		org.eclipse.uml2.uml.Class thirdClass = pkg.createOwnedClass("ThirdClass", false);
 		thirdClass.createGeneralization(secClass);
 		thirdClass.createOwnedAttribute("theProperty", umlString);
+//		thirdClass.
 		
 		save(myModel, URI.createURI("platform:/resource/MyTest/mynewmodel.uml"));
 		return null;
@@ -116,7 +117,8 @@ public class DuplicateUMLTemplate extends AbstractHandler {
 		Resource resource = resourceSet.createResource(uri);
 		EList contents = resource.getContents();
 
-		contents.add(package_);
+		contents.add(package_);		
+		
 
 		for (Iterator allContents = UMLUtil.getAllContents(package_, true, false); allContents.hasNext();) {
 
