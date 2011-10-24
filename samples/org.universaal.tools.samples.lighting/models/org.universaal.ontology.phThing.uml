@@ -5,8 +5,8 @@
       <body>This property could be derived from the class' name
 </body>
     </ownedComment>
-    <packageImport xmi:id="_uu5REPqQEeCQQaPCMdH-vA">
-      <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
+    <packageImport xmi:id="_nh1P8P4eEeCMDfYSajZxow">
+      <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_CGOSIPqREeCQQaPCMdH-vA" name="org.universaal.ontology.phThing">
       <packagedElement xmi:type="uml:Class" xmi:id="_Kbe0kKFHEeCPiYRKlVcMuQ" name="Device">
@@ -35,6 +35,9 @@
       <packagedElement xmi:type="uml:Class" xmi:id="_2HPUcPqMEeCQQaPCMdH-vA" name="DeviceService">
         <generalization xmi:id="_xa8AkPqQEeCQQaPCMdH-vA">
           <general xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_60ZK8KFGEeCPiYRKlVcMuQ"/>
+        </generalization>
+        <generalization xmi:id="_xeXxkP4eEeCMDfYSajZxow">
+          <general xmi:type="uml:Class" href="org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
         </generalization>
         <ownedAttribute xmi:id="_MBQUsPqNEeCQQaPCMdH-vA" name="controls"/>
       </packagedElement>

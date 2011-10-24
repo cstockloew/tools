@@ -186,7 +186,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aoDwpfqOEeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_aoCicPqOEeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aoDJgfqOEeCQQaPCMdH-vA" x="112" y="480"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aoDJgfqOEeCQQaPCMdH-vA" x="128" y="360"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_fBMUAPqOEeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_fBMUAvqOEeCQQaPCMdH-vA" source="ShadowFigure">
@@ -226,7 +226,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fBM7IfqOEeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_fBLF4PqOEeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fBMUAfqOEeCQQaPCMdH-vA" x="168" y="304"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fBMUAfqOEeCQQaPCMdH-vA" x="176" y="192"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_9gSTsPqOEeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_9gSTsvqOEeCQQaPCMdH-vA" source="ShadowFigure">
@@ -262,7 +262,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9gS60_qOEeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_9gRFkPqOEeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9gSTsfqOEeCQQaPCMdH-vA" x="64" y="724"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9gSTsfqOEeCQQaPCMdH-vA" x="44" y="536"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_ExcNIPqPEeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ExcNIvqPEeCQQaPCMdH-vA" source="ShadowFigure">
@@ -318,7 +318,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Exc0QPqPEeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_Exa_APqPEeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ExcNIfqPEeCQQaPCMdH-vA" x="312" y="664"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ExcNIfqPEeCQQaPCMdH-vA" x="324" y="556"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_dTrz4PqPEeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dTsa8PqPEeCQQaPCMdH-vA" source="ShadowFigure">
@@ -354,7 +354,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dTsbBfqPEeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_dTqlwPqPEeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dTrz4fqPEeCQQaPCMdH-vA" x="600" y="372"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dTrz4fqPEeCQQaPCMdH-vA" x="608" y="280"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_jCfw0PqPEeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_jCgX4PqPEeCQQaPCMdH-vA" source="ShadowFigure">
@@ -390,7 +390,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jCgX9fqPEeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_jCeisPqPEeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jCfw0fqPEeCQQaPCMdH-vA" x="352" y="536"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jCfw0fqPEeCQQaPCMdH-vA" x="436" y="416"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_w1bVMPqPEeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_w1b8QPqPEeCQQaPCMdH-vA" source="ShadowFigure">
@@ -422,7 +422,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_w1cjU_qPEeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_w1aHEPqPEeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_w1bVMfqPEeCQQaPCMdH-vA" x="648" y="544"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_w1bVMfqPEeCQQaPCMdH-vA" x="736" y="416"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_CBagEPqQEeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_CBagEvqQEeCQQaPCMdH-vA" source="ShadowFigure">

@@ -54,7 +54,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_utJvP_qREeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_utJIIfqREeCQQaPCMdH-vA" x="384" y="248"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_utJIIfqREeCQQaPCMdH-vA" x="412" y="252"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_zjyuAPqREeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_zjzVEPqREeCQQaPCMdH-vA" source="ShadowFigure">
@@ -90,7 +90,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zjzVJfqREeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.service.owl.uml#_zjw40PqREeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zjyuAfqREeCQQaPCMdH-vA" x="764" y="548"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zjyuAfqREeCQQaPCMdH-vA" x="544" y="612"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_0iz7APqREeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0i0iEPqREeCQQaPCMdH-vA" source="ShadowFigure">
@@ -182,7 +182,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1-6spPqREeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.service.owl.uml#_1-3pUPqREeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1-5egfqREeCQQaPCMdH-vA" x="420" y="480"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1-5egfqREeCQQaPCMdH-vA" x="208" y="460"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_-nK74PqREeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_-nLi8PqREeCQQaPCMdH-vA" source="ShadowFigure">
