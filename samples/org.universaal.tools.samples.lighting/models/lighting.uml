@@ -16,11 +16,14 @@
     <packageImport xmi:id="_mutzEKIrEeCR0PqXfWn3bQ">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
     </packageImport>
-    <packageImport xmi:id="_M7G4sKYpEeCn49vC5eMr5A">
-      <importedPackage xmi:type="uml:Model" href="middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
+    <packageImport xmi:id="_vUCLgP4fEeCMDfYSajZxow">
+      <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
     </packageImport>
-    <packageImport xmi:id="_NcXLoKYpEeCn49vC5eMr5A">
-      <importedPackage xmi:type="uml:Model" href="ontology.uml#_INViAKFHEeCPiYRKlVcMuQ"/>
+    <packageImport xmi:id="_vsfu0P4fEeCMDfYSajZxow">
+      <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
+    </packageImport>
+    <packageImport xmi:id="_wGp7QP4fEeCMDfYSajZxow">
+      <importedPackage xmi:type="uml:Model" href="org.universaal.ontology.phThing.uml#_INViAKFHEeCPiYRKlVcMuQ"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="org.universAAL.ontology.lighting">
       <packageImport xmi:id="_fE_0QKFdEeCP6pkOW5nrGg">
@@ -36,6 +39,9 @@
         </ownedComment>
         <generalization xmi:id="_ttiyAKFdEeCP6pkOW5nrGg">
           <general xmi:type="uml:Class" href="middleware.owl.uml#_60ZK8KFGEeCPiYRKlVcMuQ"/>
+        </generalization>
+        <generalization xmi:id="_AJTfgP4gEeCMDfYSajZxow">
+          <general xmi:type="uml:Class" href="org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
         </generalization>
         <ownedAttribute xmi:id="_uumL4KFIEeCPiYRKlVcMuQ" name="hasRestrictions"/>
       </packagedElement>
@@ -59,6 +65,9 @@
       <packagedElement xmi:type="uml:Class" xmi:id="_Mv1GIJv_EeCgJ7sXDd2E1w" name="LightSource">
         <generalization xmi:id="_pQD6EKFdEeCP6pkOW5nrGg">
           <general xmi:type="uml:Class" href="ontology.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
+        </generalization>
+        <generalization xmi:id="_ExBRgP4gEeCMDfYSajZxow">
+          <general xmi:type="uml:Class" href="org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
         </generalization>
         <ownedAttribute xmi:id="_PqR0sKFHEeCPiYRKlVcMuQ" name="ambientCoverage">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
@@ -136,6 +145,9 @@
       <packagedElement xmi:type="uml:Class" xmi:id="_4UJ4QKFFEeCPiYRKlVcMuQ" name="LightType" visibility="package">
         <generalization xmi:id="_SJV4IKYpEeCn49vC5eMr5A">
           <general xmi:type="uml:Class" href="middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
+        </generalization>
+        <generalization xmi:id="_AETOQP4hEeCMDfYSajZxow">
+          <general xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_w1aHEPqPEeCQQaPCMdH-vA"/>
         </generalization>
       </packagedElement>
     </packagedElement>
