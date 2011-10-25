@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.gmf.runtime.emf.core.resources.GMFResourceFactory;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
@@ -61,6 +62,10 @@ public class DuplicateWithECore extends AbstractHandler {
 				UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
 				"ecore", new EcoreResourceFactoryImpl());		
+		
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+				".notation", new GMFResourceFactory());
+		
 		return resourceSet;
 	}
 
@@ -321,7 +326,10 @@ public class DuplicateWithECore extends AbstractHandler {
 	}
 	
 	
-	
+	public static void papyrusTest() {
+
+		//org.eclipse.papyrus.wizards.CreateModelWizard
+	}
 	
 	/*	Code snippet to create a UML model, add some UML classes and add save to file	
 	

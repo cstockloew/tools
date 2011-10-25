@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ocl.uml;bundle-version="3.1.0",
  org.eclipse.papyrus.core;bundle-version="0.8.0",
- org.eclipse.papyrus.core.resourceloading;bundle-version="0.8.0"
+ org.eclipse.papyrus.core.resourceloading;bundle-version="0.8.0",
+ org.eclipse.papyrus.wizards;bundle-version="0.8.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
