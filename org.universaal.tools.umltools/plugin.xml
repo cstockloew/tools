@@ -13,12 +13,21 @@
             categoryId="org.universaal.tools.umltools.commands.category"
             id="org.universaal.tools.umltools.commands.sampleCommand">
       </command>
+      <command
+            categoryId="org.universaal.tools.umltools.commands.category"
+            id="org.universaal.tools.umltools.command1"
+            name="Create from files">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
             commandId="org.universaal.tools.umltools.commands.sampleCommand"
             class="org.universaal.tools.umltools.handlers.DuplicateUMLTemplate">
+      </handler>
+      <handler
+            class="org.universaal.tools.umltools.handlers.DuplicateWithECore"
+            commandId="org.universaal.tools.umltools.command1">
       </handler>
    </extension>
    <extension
@@ -42,6 +51,10 @@
                   commandId="org.universaal.tools.umltools.commands.sampleCommand"
                   mnemonic="S"
                   id="org.universaal.tools.umltools.menus.sampleCommand">
+            </command>
+            <command
+                  commandId="org.universaal.tools.umltools.command1"
+                  style="push">
             </command>
          </menu>
       </menuContribution>

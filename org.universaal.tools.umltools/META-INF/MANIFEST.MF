@@ -7,6 +7,8 @@ Bundle-Activator: org.universaal.tools.umltools.Activator
 Bundle-Vendor: universAAL
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.ocl.uml;bundle-version="3.1.0"
+ org.eclipse.ocl.uml;bundle-version="3.1.0",
+ org.eclipse.papyrus.core;bundle-version="0.8.0",
+ org.eclipse.papyrus.core.resourceloading;bundle-version="0.8.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
