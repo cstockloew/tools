@@ -13,6 +13,7 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
   var ontologyNamespaceReference:String
   var propertyHashtable: Hashtable  
   var projectInfo: Hashtable
+  var importedModels: Hashtable
 
  
    /**
@@ -35,6 +36,8 @@ texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/U
     ontologyNamespaceReference =  ontologyName +  'Namespace.NAMESPACE'  
   
     
+    //must create the import list.
+    self.getImportList()
          
   	self.ownedMember -> forEach( p:uml.Package ){         
         var ontologyClassList:Hashtable
@@ -211,9 +214,7 @@ public interface ' ontologyName 'Namespace {
     self.genGetClassLevelRestrictions()
    
     self.genPropertyGettersAndSetters()
-    
-    
-    
+   
     '}\n'    
   }
   
@@ -798,14 +799,37 @@ public interface ' ontologyName 'Namespace {
      projectInfo.put("name", self.name)
      projectInfo.put("artefactId", self.name)
      projectInfo.put("groupId", self.owner.getValue("owlOntology", "defaultNamespace"))
-     
-     
-     projectInfo.put("version",  self.owner.getValue("owlOntology", "versionInfo"))
+     projectInfo.put("versionInfo",  self.owner.getValue("owlOntology", "versionInfo"))
      
      self.genPOMFileHeader()
      
   
    }
+ 
+ /**
+  * This rule will populate the import model hashtable based on the external models imported in the model structure
+  * It iterates over the packageimport elements and extracts the model-name (artefactID) and the model's owlOntology defaultnamespace and version
+  */  
+ uml.Model::getImportList() {
+   //get the imported packages
+  self.packageImport->forEach(c : uml.PackageImport) {
+   	stdout.println("Found imported elements: " + c.importedPackage.name + " - " + c.importedPackage.getAppliedStereotypes())
+   	if (c.importedPackage.hasStereotype("owlOntology")) {
+   		stdout.println("Found owlOntology import. Adding import to list")
+   		
+   		//get the import name, default namespace and version to local hashtable
+   		var modelImport:Hashtable
+   		modelImport.put("name", c.importedPackage.name)
+   		modelImport.put("defaultNamespace", c.importedPackage.getValue("owlOntology", "defaultNamespace"))
+   		modelImport.put("versionInfo", c.importedPackage.getValue("owlOntology", "versionInfo"))
+   		
+   		//add hashtable to global list
+   		importedModels.put(c.importedPackage.name, modelImport)
+   		}
+   	   
+   	}
+ 	
+ }
 
 /**
  * Prints the POM file header, adding the project groupid, artefactid, version, name and description.
@@ -815,16 +839,29 @@ public interface ' ontologyName 'Namespace {
 	<modelVersion>4.0.0</modelVersion> 
   	<groupId>' projectInfo.get("groupId") '</groupId>
   	<artifactId>' projectInfo.get("artefactId") '</artifactId>
-  	<version>' projectInfo.get("version") '</version>
+  	<version>' projectInfo.get("versionInfo") '</version>
   	<name>' projectInfo.get("name") '</name>
  	 <description/>
   	<packaging>bundle</packaging>
-    	<dependencies>
+    	<dependencies>'
+    	//output dependencies for imported models
+    
+    	importedModels->forEach(i) {
+    	  stdout.println("object has type: " + i)
+ '	
+ 			<dependency>
+    			<groupId>'i.get("name")'</groupId>
+    			<artifactId>'i.get("defaultNamespace")'</artifactId>
+    			<version>'i.get("versionInfo")'</version>
+    		</dependency>'    	
+    	}			
+'			
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.osgi.core</artifactId>
 				<version>1.0.1</version>
 			</dependency>
+			<!--
 			<dependency>
 				<groupId>org.universAAL.middleware</groupId>
 				<artifactId>mw.data.representation</artifactId>
@@ -845,6 +882,7 @@ public interface ' ontologyName 'Namespace {
 				<artifactId>mw.bus.service</artifactId>
 				<version>0.3.0-SNAPSHOT</version>
 			</dependency>
+			-->
 		</dependencies>
   	  <build>
 			<plugins>
