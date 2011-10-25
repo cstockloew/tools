@@ -3,8 +3,10 @@ package org.universaal.tools.umltools.handlers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -43,10 +45,14 @@ public class DuplicateWithECore extends AbstractHandler {
 	
 	Shell shell;
 	
-
+	/** 
+	 * Create a new resource set and register XMI, UML and eCore resource factories 
+	 * with it. The ModelSet subclass of resource set is used because it may give 
+	 * better support for Papyrus models
+	 * 
+	 * @return A new resource set with registered resource factories
+	 */
 	protected static ModelSet createAndInitResourceSet() {
-		// Create a resource set and register XMI resource factory
-		// associated with ".simple" file extension
 		ModelSet resourceSet = new ModelSet();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
         (Resource.Factory.Registry.DEFAULT_EXTENSION, 
@@ -54,26 +60,7 @@ public class DuplicateWithECore extends AbstractHandler {
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
 				UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-				"ecore", new EcoreResourceFactoryImpl());
-		
-		//resourceSet.
-		/*		ResourceSet resourceSet = new ResourceSetImpl();
-		
-//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("simplelanguage", new XMIResourceFactoryImpl());
-
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-	        (Resource.Factory.Registry.DEFAULT_EXTENSION, 
-	         new XMIResourceFactoryImpl());		
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-				UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-
-
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-				//GMFReource.
-				UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-
-*/	
-		
+				"ecore", new EcoreResourceFactoryImpl());		
 		return resourceSet;
 	}
 
@@ -82,37 +69,43 @@ public class DuplicateWithECore extends AbstractHandler {
 	 * from the application context.
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
-		
-		
-/*		org.eclipse.papyrus.sashwindows.di.DiPackage.eINSTANCE;
-		impl.DiPackageImpl.init();
-		org.eclipse.gmf.runtime.notation.
-*/		
-		
+		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+		shell = window.getShell();
 
-		
-		//OnDemandLoadingModelSet theSet = new OnDemandLoadingModelSet();
-		
-		
-		//org.eclipse.papyrus.core.utils.PapyrusEcoreUtils utils;
-		
-		//org.eclipse.papyrus.core.resourceloading.
-		
-
-		org.eclipse.papyrus.resource.ModelsReader reader;
-		org.eclipse.papyrus.sashwindows.di.impl.DiPackageImpl pack;
-		
-		
 		FileDialog fd = new FileDialog(shell); 
-		
 
 		fd.setFilterExtensions(new String[] {"*.di"});
 		fd.setFilterNames(new String[] {"Papyrus model"});
+				
+		String inFileName = fd.open();
 		
-//		fd.setFilterExtensions(new String[] {"*.notation"});
-//		fd.setFilterNames(new String[] {"Papyrus notation file"});
+		if(inFileName!=null){
+
+			// Ask for name of new model
+			FileDialog fdSave = new FileDialog(shell,SWT.SAVE); 
+
+			fdSave.setFilterExtensions(new String[] {"*.di"});
+			fdSave.setFilterNames(new String[] {"Papyrus model"});
+
+			String cloneFileName = fdSave.open();
+
+			if(cloneFileName!=null) {
+				clonePapyrusModel(inFileName, cloneFileName);
+					
+				MessageDialog.openInformation(
+						shell,
+						"Created model from template files",
+						"UML model created!");				
+			}
+		}
+		return null;
 		
+/*		
+		FileDialog fd = new FileDialog(shell); 
+
+		fd.setFilterExtensions(new String[] {"*.di"});
+		fd.setFilterNames(new String[] {"Papyrus model"});
+				
 		String ret = fd.open();
 		
 		if(ret!=null){
@@ -144,7 +137,7 @@ public class DuplicateWithECore extends AbstractHandler {
 
 
 				// Create a new resource set for the copies, and add the each root object to a new resource in this set 
-				ResourceSet newResourceSet = createAndInitResourceSet();
+				ModelSet newResourceSet = createAndInitResourceSet();
 				for (Iterator<EObject> iter = copyList.iterator(); iter.hasNext(); ) {
 					EObject cr = iter.next();
 					String saveFileName = notationFileName;
@@ -176,27 +169,135 @@ public class DuplicateWithECore extends AbstractHandler {
 	
 			}	
 		}
-		
-		
-/*		Model myModel = createModel("My model");				
-		importPrimitiveTypes(myModel);
-		
-		Package pkg = myModel.createNestedPackage("My package");
-		pkg.createOwnedClass("First class", false);
-		org.eclipse.uml2.uml.Class secClass = pkg.createOwnedClass("SecondClass", true);
-		org.eclipse.uml2.uml.Class thirdClass = pkg.createOwnedClass("ThirdClass", false);
-		thirdClass.createGeneralization(secClass);
-		thirdClass.createOwnedAttribute("theProperty", umlString);
-//		thirdClass.
-		
-		save(myModel, URI.createURI("platform:/resource/MyTest/mynewmodel.uml"));*/
 		return null;
+*/
+	}
+	
+	
+/*	
+	public void loadPapyrusModel(String diFileName) {
+		ModelSet resourceSet = createAndInitResourceSet(); 
+					
+		EObject diRoot = loadRootObject(resourceSet, diFileName);
+		EObject notationRoot = loadRootObject(resourceSet, diFileName.replace(".di", ".notation"));
+		EObject umlRoot = loadRootObject(resourceSet, diFileName.replace(".di", ".uml"));
+				
+
+	}
+	
+	
+	public static ModelSet cloneResources() {
+		ModelSet modelSet = new ModelSet();
+		return modelSet;
 	}
 	
 
+	public static ResourceSet cloneSingleFileModel(ResourceSet resourceSet, String modelURI) {
+		int extIndex = modelURI.lastIndexOf(".") + 1;
+		String ext = modelURI.substring(extIndex);
+		
+		return cloneModel(resourceSet, modelURI, new String[] {ext});		
+	}
+		
+	public static ResourceSet clonePapyrusModel(ResourceSet resourceSet, String modelURI) {
+		//org.eclipse.papyrus.resource.notation.NotationModel.NOTATION_FILE_EXTENSION;
+		//org.eclipse.papyrus.resource.sasheditor.SashModel.MODEL_FILE_EXTENSION
+		//org.eclipse.papyrus.resource.uml.UmlModel.UML_FILE_EXTENSION
+
+		return cloneModel(resourceSet, modelURI, new String[] {"di", "notation", "uml"});
+	}		
+	
+	public static ResourceSet cloneModel(ResourceSet resourceSet, String modelURI, String[] fileExtensions) {
+		ResourceSet cloneSet = createAndInitResourceSet();
+		// Clone the extension factory map
+		Map<String, Object> toMap = cloneSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+		Map<String, Object> fromMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+		for (Iterator<String> it = fromMap.keySet().iterator(); it.hasNext();) {
+			String key = it.next();
+			toMap.put(key, fromMap.get(key));			
+		}
+
+		int extIndex = modelURI.lastIndexOf(".") + 1;
+		String baseURI = modelURI.substring(0, extIndex);
+		
+		List<EObject> listToClone = new ArrayList<EObject>();
+		
+		for (int i = 0; i < fileExtensions.length; i++) {
+			EObject obj = loadRootObject(resourceSet, baseURI + fileExtensions[i]);
+			listToClone.add(obj);
+		}
+		
+		
+		return cloneSet;
+		
+	}
+*/
+
+	public static ResourceSet clonePapyrusModel(String inModelURI, String cloneModelURI) {
+		//org.eclipse.papyrus.resource.notation.NotationModel.NOTATION_FILE_EXTENSION;
+		//org.eclipse.papyrus.resource.sasheditor.SashModel.MODEL_FILE_EXTENSION
+		//org.eclipse.papyrus.resource.uml.UmlModel.UML_FILE_EXTENSION
+
+		return cloneModel(inModelURI, cloneModelURI, new String[] {"di", "notation", "uml"});
+	}		
+	
+	
+	public static ResourceSet cloneModel(String inModelURI, String cloneModelURI, String[] fileExtensions) {
+		ResourceSet inSet = createAndInitResourceSet();
+		
+		int inExtIndex = inModelURI.lastIndexOf(".") + 1;
+		String inBaseURI = inModelURI.substring(0, inExtIndex);
+		
+		List<EObject> listToClone = new ArrayList<EObject>();
+		Map<String,String> classNameToExtensionMap = new HashMap<String, String>();
+		
+		
+		// Load the models and collect the root objects to be cloned
+		for (int i = 0; i < fileExtensions.length; i++) {
+			EObject obj = loadRootObject(inSet, inBaseURI + fileExtensions[i]);
+			listToClone.add(obj);
+			classNameToExtensionMap.put(obj.eClass().getName(), fileExtensions[i]);
+		}
+		
+		// Start the cloning
+		ResourceSet cloneSet = createAndInitResourceSet();
+		Collection<EObject> clonedList = EcoreUtil.copyAll(listToClone);
+		
+		int cloneExtIndex = cloneModelURI.lastIndexOf(".") + 1;
+		String cloneBaseURI = cloneModelURI.substring(0, cloneExtIndex);
+		
+		// Add the clones to the clone resource set and set the right file names
+		for (Iterator<EObject> iter = clonedList.iterator(); iter.hasNext(); ) {
+			EObject cr = iter.next();
+
+			String cloneFileName = cloneBaseURI + classNameToExtensionMap.get(cr.eClass().getName());
+			URI uri = URI.createFileURI(cloneFileName);
+			Resource resource = cloneSet.createResource(uri);
+			resource.getContents().add(cr);			
+		}
+
+		// Save the resources
+		EList<Resource> resources = cloneSet.getResources();
+		for (Iterator<Resource> resIter = resources.iterator(); resIter.hasNext(); ) {					
+			try {
+				resIter.next().save(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cloneSet;		
+	}
+	
+	
+	
+	
+	
 	/**
-	 * Load the root object of the file.
+	 * Load the root object of the file by getting it through the 
+	 * provided resource set.
 	 * 
+	 * @param resourceSet The resource set used to load the resource
 	 * @param fileURI
 	 * @return The loaded root object, or null if no root object could not be found
 	 */
@@ -208,9 +309,9 @@ public class DuplicateWithECore extends AbstractHandler {
 			Resource resource = resourceSet.getResource(uri, true);
 			try {
 				resource.load(null);
-				EObject userService = resource.getContents().get(0);
+				EObject object = resource.getContents().get(0);
 
-				return userService;				
+				return object;				
 			}
 			catch (Exception e){
 				System.out.println("failed to load content of file : " + fileURI);
@@ -219,6 +320,30 @@ public class DuplicateWithECore extends AbstractHandler {
 		return null;
 	}
 	
+	
+	
+	
+	/*	Code snippet to create a UML model, add some UML classes and add save to file	
+	
+	Model myModel = createModel("My model");				
+	importPrimitiveTypes(myModel);
+	
+	Package pkg = myModel.createNestedPackage("My package");
+	pkg.createOwnedClass("First class", false);
+	org.eclipse.uml2.uml.Class secClass = pkg.createOwnedClass("SecondClass", true);
+	org.eclipse.uml2.uml.Class thirdClass = pkg.createOwnedClass("ThirdClass", false);
+	thirdClass.createGeneralization(secClass);
+	thirdClass.createOwnedAttribute("theProperty", umlString);
+	save(myModel, URI.createURI("platform:/resource/MyTest/mynewmodel.uml"));*/
+	
+	
+	
+	// Papyrus classes that may be of interrest
+	
+	//OnDemandLoadingModelSet theSet = new OnDemandLoadingModelSet();
+	//org.eclipse.papyrus.core.utils.PapyrusEcoreUtils utils;		
+	//org.eclipse.papyrus.resource.ModelsReader reader;
+	//org.eclipse.papyrus.sashwindows.di.impl.DiPackageImpl pack;
 	
 	
 }
