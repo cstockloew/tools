@@ -167,6 +167,13 @@ public class DuplicateWithECore extends AbstractHandler {
 						e.printStackTrace();
 					}
 				}
+				IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+				this.shell = window.getShell();
+				MessageDialog.openInformation(
+						shell,
+						"Creating from template files",
+						"UML model created!");
+	
 			}	
 		}
 		
