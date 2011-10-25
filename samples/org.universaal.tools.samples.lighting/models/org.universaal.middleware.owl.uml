@@ -70,5 +70,5 @@
       <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
     </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_oSLsUPqQEeCQQaPCMdH-vA" defaultNamespace="org.universaal.middleware.owl" base_Package="_0huTAKFGEeCPiYRKlVcMuQ"/>
+  <OWL:owlOntology xmi:id="_oSLsUPqQEeCQQaPCMdH-vA" defaultNamespace="org.universaal.middleware.owl" base_Package="_0huTAKFGEeCPiYRKlVcMuQ" versionInfo="1.0"/>
 </xmi:XMI>

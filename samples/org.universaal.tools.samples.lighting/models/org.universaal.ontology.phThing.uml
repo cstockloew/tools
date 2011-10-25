@@ -69,5 +69,5 @@
       <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
     </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_CaDmYPqMEeCQQaPCMdH-vA" defaultNamespace="org.universaal.ontology.phThing" base_Package="_INViAKFHEeCPiYRKlVcMuQ"/>
+  <OWL:owlOntology xmi:id="_CaDmYPqMEeCQQaPCMdH-vA" defaultNamespace="org.universaal.ontology.phThing" base_Package="_INViAKFHEeCPiYRKlVcMuQ" versionInfo="1.0"/>
 </xmi:XMI>
