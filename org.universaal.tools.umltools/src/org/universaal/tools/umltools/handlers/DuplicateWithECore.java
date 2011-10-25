@@ -90,12 +90,6 @@ public class DuplicateWithECore extends AbstractHandler {
 		org.eclipse.gmf.runtime.notation.
 */		
 		
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		this.shell = window.getShell();
-		MessageDialog.openInformation(
-				shell,
-				"Creating from template files",
-				"UML model created!");
 
 		
 		//OnDemandLoadingModelSet theSet = new OnDemandLoadingModelSet();
@@ -192,74 +186,6 @@ public class DuplicateWithECore extends AbstractHandler {
 		return null;
 	}
 	
-/*	
-	public void addLibrary() {
-		FileDialog fd = new FileDialog(shell); 
-
-		
-		fd.setFilterExtensions(new String[] {"*.notation"});
-		fd.setFilterNames(new String[] {"Papyrus notation file"});
-		
-		String ret = fd.open();
-		
-		if(ret!=null){
-			ResourceSet resourceSet = createAndInitResourceSet(); 
-
-			Object notationRoot = loadRootObject(ret);
-			
-			List allRes = resourceSet.getResources();
-			List newList = new ArrayList<EObject>();
-			for (int i = 0; i < allRes.size(); i++) {
-				newList.add(allRes.get(i)); // TODO: Add loading
-			}
-			EcoreUtil.copyAll(newList);
-			List<EObject> copyList = EcoreUtil.copyAll(newList);
-		}			
-	}	
-
-	public void saveUserService() {
-		FileDialog fd = new FileDialog(shell,SWT.SAVE); 
-		
-		fd.setFilterExtensions(new String[] {"*.simplelanguage"});
-		fd.setFilterNames(new String[] {"User service"});
-		
-		fd.setFileName("The user service name");
-		String ret = fd.open();
-
-		if (ret != null) {
-			UserServiceUtils.saveUserService(ret, userService);
-		}
-	}
-		
-*/	
-	
-	/**
-	 * Create a new user service, and return the initialized service
-	 * @return
-	 */
-	public static Object newUserService() {
-/*		// Create an initialized resource set 
-		ResourceSet resourceSet = createAndInitResourceSet();
-
-		// Create a new resource associated with a file
-		URI fileURI = URI.createURI("MyTest.simplelanguage"); //).getAbsolutePath();
-		// URI fileURI = URI.createFileURI("MyTest.simple");
-		Resource resource = resourceSet.createResource(fileURI);
-
-		// Create a user service as the root element, and set its name
-		UserService userService = SimpleLanguageFactory.eINSTANCE.createUserService();
-		userService.setName("My first task");
-	
-		// Create an instance of a task, set its name, and add to the
-		// content of the resource at root
-		Task myTask = SimpleLanguageFactory.eINSTANCE.createTask();
-		myTask.setName("My first task");
-		userService.getTasks().add(myTask);
-				
-		resource.getContents().add(userService);	
-		return userService;*/
-		return null;
-	}
 
 	/**
 	 * Load the root object of the file.
@@ -285,7 +211,6 @@ public class DuplicateWithECore extends AbstractHandler {
 		}			
 		return null;
 	}
-
 	
 	
 	
