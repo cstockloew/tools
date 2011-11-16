@@ -5,8 +5,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 
 import org.universAAL.ucc.api.core.IConfigurator;
@@ -22,7 +24,6 @@ import com.trolltech.qt.gui.QApplication;
 public class Activator implements BundleActivator {
 	private static Thread thread = null;
 	private static BundleContext context = null;
-	private static String rundir = "c:"+File.separator;
 
 	private static IInstaller installer = null;
 	private static IDeinstaller deinstaller = null;
@@ -30,6 +31,7 @@ public class Activator implements BundleActivator {
 	private static IModel model = null;
 	private static IConfigurator configurator = null;
 	private static PluginBase pluginBase = null;
+	private static final String plugins="ucc_plugins/";
 	
 	public MainWindow mainWindow = null;
 
@@ -66,10 +68,6 @@ public class Activator implements BundleActivator {
 	public static BundleContext getContext() {
 		return context;
 	}
-	
-	public static String getRundir() {
-		return rundir;
-	}
 
 	public static IInstaller getInstaller() {
 		Activator.getServices();
@@ -98,9 +96,6 @@ public class Activator implements BundleActivator {
 	public void start(final BundleContext context) throws Exception {
 		Activator.context = context;
 		
-		String bundlePath = Activator.context.getBundle().getLocation();
-		Activator.rundir = bundlePath.substring(bundlePath.indexOf("/")+1,bundlePath.lastIndexOf("/"));
-
 		Properties props = System.getProperties();
 		String path = ".;" + props.getProperty("java.library.path");
 		props.setProperty("java.library.path", path);
@@ -112,9 +107,11 @@ public class Activator implements BundleActivator {
 
 				mainWindow = MainWindow.getInstance();
 				mainWindow.show();
-				pluginBase =  new PluginBase();
+		
+				pluginBase =  new PluginBase(new GridView());
 				context.registerService(IPluginBase.class.getName(), pluginBase, null);
-				new GridView();
+				loadPlugins();
+				
 
 				QApplication.exec();
 			}
@@ -155,5 +152,53 @@ public class Activator implements BundleActivator {
 			if (sr != null)
 				Activator.configurator = (IConfigurator) context.getService(sr);
 		}
+	}
+	
+	private static boolean loadPlugins(){
+		
+		File pluginFolder = new File(Activator.getInformation().getRunDir()+plugins);
+		if(pluginFolder.exists()){
+		
+			String[] pluginlist=pluginFolder.list();
+			for(int i=0;i<pluginlist.length;i++){
+				if(pluginlist[i].endsWith(".jar")){
+					Bundle temp;
+					try {
+						temp = Activator.context.installBundle("file:"+pluginFolder.getAbsolutePath()+File.separator+pluginlist[i]);
+						if(temp==null){
+							System.err.println("Error loading plugin "+pluginlist[i]);
+							return false;
+						}else{
+							System.out.println(pluginlist[i]+" successfully loaded");
+							startPlugin(temp);
+						}
+					} catch (BundleException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+				}
+			}
+		}
+		return true;
+	}
+	private static boolean startPlugin(Bundle b){
+		try {
+			b.start();
+		} catch (BundleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		switch (b.getState()) {
+			case Bundle.ACTIVE:
+				System.out.println("Bundle successfully started!");
+				return true;
+			case Bundle.INSTALLED:
+				System.err.println("Bundle failed to start!");
+				return false;
+			case Bundle.RESOLVED:
+				System.err.println("Bundle failed to start!");
+				return false;
+			}
+		return false;
 	}
 }

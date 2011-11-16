@@ -139,7 +139,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 private String extractBundles(String path) {
       
 	String destDir = path.substring(path.lastIndexOf(File.separator) + 1,path.lastIndexOf("."));
-	destDir =Activator.getRundir() + File.separator + destDir;
+	destDir =Activator.getInformation().getRunDir() + File.separator + destDir;
 	File appDir=new File(destDir);
 	int suffix=1;
 	while(appDir.exists()){

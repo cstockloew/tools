@@ -2,6 +2,7 @@ package org.universAAL.ucc.plugin.information;
 
 import org.universAAL.ucc.api.plugin.IPlugin;
 import org.universAAL.ucc.api.plugin.IPluginBase;
+import org.universAAL.ucc.api.plugin.PluginGridViewItem;
 import org.universAAL.ucc.api.plugin.PluginMenu;
 import org.universAAL.ucc.plugin.information.gui.InformationView;
 
@@ -11,9 +12,11 @@ public class UCCPlugin implements IPlugin {
 	private InformationView informationView = null;
 	private IPluginBase uCCPluginBase = null;
 	
+	
 	public UCCPlugin(IPluginBase uCCPluginBase) {
-		createMenu();
 		this.uCCPluginBase = uCCPluginBase;
+		createMenu();
+		createGridViewItem();
 	}
 
 	public void registerViews() {
@@ -31,5 +34,15 @@ public class UCCPlugin implements IPlugin {
 			}
 			
 		});
+	}
+	public void createGridViewItem(){
+		PluginGridViewItem gv= new PluginGridViewItem("System\nInformation", "addressbook.png",	new Runnable() {
+
+			public void run() {
+				uCCPluginBase.getMainView().showSubWindow(informationView);
+			}
+			
+		});
+		uCCPluginBase.addGridItem(gv);
 	}
 }

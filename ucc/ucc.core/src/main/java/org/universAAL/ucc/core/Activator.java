@@ -2,8 +2,10 @@ package org.universAAL.ucc.core;
 
 import java.io.File;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.io.rdf.Form;
 import org.universAAL.middleware.io.rdf.Group;
@@ -35,8 +37,8 @@ import org.universAAL.ucc.core.installation.Installer;
  */
 public class Activator implements BundleActivator {
 	private static BundleContext context = null;
-	private static String rundir = "c:"+File.separator;
 	private static int max_retry = 10;
+	
 	
 	private static MessageContentSerializer contentSerializer = null;
 	
@@ -44,11 +46,14 @@ public class Activator implements BundleActivator {
 	
 	private IInstaller installer = null;
 	private IDeinstaller deinstaller = null;
-	private IInformation information = null;
+	private static IInformation information = null;
 	private IConfigurator configurator = null;
 	
 	public static IModel getModel() {
 		return model;
+	}
+	public static IInformation getInformation(){
+		return information;
 	}
 	
 	public static synchronized void testForm() {
@@ -81,12 +86,12 @@ public class Activator implements BundleActivator {
 		//}
 	}
 	
-	public static String getRundir() {
-		return rundir;
-	}
 	
 	public void start(final BundleContext context) throws Exception {
 		Activator.context = context;
+		
+		//Activator.loadPlugins();
+		
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -98,9 +103,6 @@ public class Activator implements BundleActivator {
 					System.err.println("Do not find uCC Model --> uCC Core not started");
 					return;
 				}
-				String bundlePath = Activator.context.getBundle().getLocation();
-				Activator.rundir = bundlePath.substring(bundlePath.indexOf("/")+1,bundlePath.lastIndexOf("/"));
-				Activator.rundir= Activator.rundir.replace("/", "\\");
 				
 				installer = new Installer(context);
 				deinstaller = new Deinstaller(context);
@@ -132,5 +134,7 @@ public class Activator implements BundleActivator {
 			return context.getService(sr);
 		return null;
 	}
+	
+	
 
 }
