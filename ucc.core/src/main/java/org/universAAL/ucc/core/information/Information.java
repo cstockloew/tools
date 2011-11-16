@@ -5,13 +5,30 @@ import java.util.ArrayList;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.universAAL.ucc.api.core.IInformation;
+import org.universAAL.ucc.core.Activator;
 
 public class Information implements IInformation {
 	
 	private BundleContext context = null;
+	private String rundir=null;
 	
 	public Information(BundleContext context) {
 		this.context = context;
+		String bundlePath = context.getBundle().getLocation();
+		System.out.println(bundlePath);
+	
+		if(countOccurrences(bundlePath)==2){
+			rundir= bundlePath.substring(bundlePath.indexOf(":")+2, bundlePath.lastIndexOf("/"));
+			System.out.println(rundir);
+			rundir= rundir.substring(0, rundir.lastIndexOf("/"));
+			System.out.println(rundir);
+			rundir= rundir.substring(0, rundir.lastIndexOf("/")+1);
+			System.out.println(rundir);
+		}else{
+			/*rundir= bundlePath.substring(bundlePath.indexOf(":")+1, bundlePath.lastIndexOf("/")+1);
+			System.out.println(rundir);*/
+			rundir="";
+		}
 	}
 
 	public String[] activeBundles() {
@@ -29,6 +46,21 @@ public class Information implements IInformation {
 
 	public Bundle[] bundles() {
 		return context.getBundles();
+	}
+	public void setRunDir(String path){
+		this.rundir=path;
+	}
+	public String getRunDir(){
+		return this.rundir;
+	}
+	private static int countOccurrences(String a){
+		int result=0;
+		char[] b= a.toCharArray();
+		for(int i=0;i<b.length;i++){
+			if(b[i]==':')
+				result++;
+		}
+		return result;
 	}
 
 }

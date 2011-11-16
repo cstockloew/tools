@@ -8,6 +8,7 @@ public interface IPluginBase {
 	public void unregisterPlugin(final IPlugin plugin);
 	
 	public void addMenu(final PluginMenu menu);
+	public void addGridItem(final PluginGridViewItem item);
 	
 	public IMainWindow getMainView();
 	

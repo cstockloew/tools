@@ -6,5 +6,7 @@ public interface IInformation {
 	
 	public String[] activeBundles();
 	public Bundle[] bundles();
+	public void setRunDir(String path);
+	public String getRunDir();
 	
 }

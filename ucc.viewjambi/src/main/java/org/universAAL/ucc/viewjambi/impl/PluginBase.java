@@ -6,10 +6,12 @@ import java.util.Iterator;
 
 import org.universAAL.ucc.api.plugin.IPlugin;
 import org.universAAL.ucc.api.plugin.IPluginBase;
+import org.universAAL.ucc.api.plugin.PluginGridViewItem;
 import org.universAAL.ucc.api.plugin.PluginMenu;
 import org.universAAL.ucc.api.plugin.PluginMenuEntry;
 import org.universAAL.ucc.api.plugin.PluginMenuSimpleEntry;
 import org.universAAL.ucc.api.view.IMainWindow;
+import org.universAAL.ucc.viewjambi.overview.GridView;
 
 import com.trolltech.qt.core.QObject;
 import com.trolltech.qt.gui.QAction;
@@ -18,11 +20,12 @@ import com.trolltech.qt.gui.QMenu;
 
 public class PluginBase extends QObject implements IPluginBase {
 	
+	private GridView gv=null;
 	private ArrayList<IPlugin> plugins = new ArrayList<IPlugin>();
 	private Hashtable<QAction, Runnable> pluginMenuActions = new Hashtable<QAction, Runnable>();
 	
-	public PluginBase() {
-		
+	public PluginBase(GridView gv) {
+		this.gv=gv;
 	}
 
 	public void registerPlugin(final IPlugin plugin) {
@@ -59,6 +62,14 @@ public class PluginBase extends QObject implements IPluginBase {
 				mainWindow.menuBar().addMenu(newMenu);
 			}}
 		);
+	}
+	public void addGridItem(final PluginGridViewItem item){
+		QApplication.invokeLater(new Runnable() {
+			public void run() {
+				gv.addItem(item);
+			}}
+		);
+		
 	}
 	
 	public IMainWindow getMainView() {

@@ -175,9 +175,13 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		
 	}
 	private String getConfPath(String rundir){
-		for(int i=0;i<3;i++)
-			rundir=rundir.substring(0, rundir.lastIndexOf("\\"));
-		return rundir+"\\confadmin\\";
+		if(Activator.context.getBundle().getLocation().startsWith("file"))
+			return "configurations\\";
+		else{
+			for(int i=0;i<3;i++)
+				rundir=rundir.substring(0, rundir.lastIndexOf("\\"));
+			return rundir+"\\confadmin\\";
+		}
 	}
 
 	

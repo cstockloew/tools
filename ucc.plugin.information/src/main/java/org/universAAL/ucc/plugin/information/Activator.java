@@ -30,6 +30,7 @@ public class Activator implements BundleActivator{
 				if (Activator.uCCPluginBase != null && information != null) {
 					Activator.uCCPlugin = new UCCPlugin(Activator.uCCPluginBase);
 					Activator.uCCPluginBase.registerPlugin(Activator.uCCPlugin);
+					//Activator.uCCPlugin.createGridViewItem();
 					System.out.println("Plugin started!");
 				}
 				else {

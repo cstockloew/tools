@@ -1,8 +1,11 @@
 package org.universAAL.ucc.viewjambi.overview;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
+import org.universAAL.ucc.api.plugin.PluginGridViewItem;
 import org.universAAL.ucc.viewjambi.common.SubWindow;
 import org.universAAL.ucc.viewjambi.impl.MainWindow;
 import org.universAAL.ucc.viewjambi.information.InformationView;
@@ -11,7 +14,10 @@ import org.universAAL.ucc.viewjambi.juic.Ui_GridView;
 import org.universAAL.ucc.viewjambi.layouts.OverviewGridLayout;
 import org.universAAL.ucc.viewjambi.store.StoreView;
 
+import com.trolltech.qt.core.QObject;
 import com.trolltech.qt.core.QSize;
+import com.trolltech.qt.gui.QAction;
+import com.trolltech.qt.gui.QWidget;
 
 
 public class GridView extends SubWindow {
@@ -20,6 +26,7 @@ public class GridView extends SubWindow {
 	private OverviewGridLayout gridLayout;
 	private static List<LabeledIcon> iconWidgets;
 	static OverviewView overview;
+	private HashMap<LabeledIcon, Runnable> items;
 
 
 	public GridView() {
@@ -28,44 +35,73 @@ public class GridView extends SubWindow {
 		
 		this.setMinimumSize(new QSize(500,  200));
  
-		setIconList();
-
-		int current = 0;
-    	for(LabeledIcon icon : iconWidgets){  		
-    		gridLayout.addWidget(icon, 3);
-    		switch(current){
-    		case 0: icon.clicked.connect(this, "overview()"); break;
-    		case 1: icon.clicked.connect(this, "install()"); break;
-    		case 2: icon.clicked.connect(this, "uninstall()"); break;
-    		case 3: icon.clicked.connect(this, "information()"); break;
-    		case 4: icon.clicked.connect(this, "openStore()"); break;
-    		default: icon.clicked.connect(this, "overview()"); break;
-    		}
-    		current++;
-    	} 
+		items=new HashMap<LabeledIcon, Runnable>();
+		Runnable temp=new Runnable(){
+			public void run() {
+				overview=new OverviewView();
+			}
+		};
+		items.put(new LabeledIcon("Overview", "explorer.png"), temp);
+		temp=new Runnable(){
+			public void run() {
+				new InstallView();
+			}
+		};
+		items.put(new LabeledIcon("Install App", "3dsmax.png"), temp);
+		temp=new Runnable(){
+			public void run() {
+				MainWindow.getInstance().deinstallApp();
+			}
+		};
+		items.put(new LabeledIcon("Uninstall App", "aimp 4.png"), temp);
+		temp=new Runnable(){
+			public void run() {
+				new StoreView();
+			}
+		};
+		items.put(new LabeledIcon("Download App", "utorrent2.png"), temp);
+		
+		updateGridView();
+		
+		
+		//setIconList();
   	}
-	
-	public void overview(){
-		overview = new OverviewView();
+
+	public void addItem(final PluginGridViewItem p){
+		items.put(new LabeledIcon(p.getCaption(),p.getIcon()), p.getToBeRunAtClick());
+		updateGridView();
+	}
+	private void updateGridView(){
+		Iterator<QObject> old=gridLayout.children().iterator();
+		while(old.hasNext())
+			gridLayout.removeWidget((QWidget) old.next());
+
+		Iterator<LabeledIcon> itr=items.keySet().iterator();
+		while(itr.hasNext()){
+			LabeledIcon icon=itr.next();
+			icon.clicked.disconnect();
+    		gridLayout.addWidget(icon, 3);
+    		icon.clicked.connect(this,"gridItemClicked()");
+    	} 
+	}
+	public void gridItemClicked(){
+			Object object = QObject.signalSender();
+			if (object == null || !(object instanceof LabeledIcon)) {
+				System.err.println("Object have to be of type LabeledIcon!");
+				return;
+			}
+			Runnable toExec = this.items.get(object);
+			if (toExec == null) {
+				System.err.println("Action not registered!");
+				return;
+			}
+			toExec.run();
 	}
 	
-	public void install(){
-		new InstallView();
-	}
 	
-	public void uninstall(){
-		MainWindow.getInstance().deinstallApp();
-	}
 	
-	public void information(){
-		new InformationView();
-	}
-	
-	public void openStore(){
-		new StoreView();
-	}
     
-	private void setIconList(){
+/*	private void setIconList(){
 		iconWidgets = new ArrayList<LabeledIcon>();
 		iconWidgets.add(new LabeledIcon("Overview", "explorer.png"));
 		iconWidgets.add(new LabeledIcon("Install App", "3dsmax.png"));
@@ -75,12 +111,12 @@ public class GridView extends SubWindow {
 		iconWidgets.add(new LabeledIcon("Foo", "rss.png"));
 		iconWidgets.add(new LabeledIcon("Bar", "chat.png"));
 		iconWidgets.add(new LabeledIcon("Foo2", "gmail.png"));
-		/*iconWidgets.add(new LabeledIcon("Download App", "utorrent2.png"));
 		iconWidgets.add(new LabeledIcon("Download App", "utorrent2.png"));
 		iconWidgets.add(new LabeledIcon("Download App", "utorrent2.png"));
 		iconWidgets.add(new LabeledIcon("Download App", "utorrent2.png"));
 		iconWidgets.add(new LabeledIcon("Download App", "utorrent2.png"));
-		*/
-	}
+		iconWidgets.add(new LabeledIcon("Download App", "utorrent2.png"));
+	
+	}*/
 	
 }

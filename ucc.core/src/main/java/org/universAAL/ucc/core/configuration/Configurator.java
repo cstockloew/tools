@@ -51,7 +51,7 @@ public class Configurator implements IConfigurator {
 	public String finishConfiguration(String appName, ArrayList<Bundle> bundles, HashMap<String,String> conf){
 		if(!Activator.getModel().getApplicationRegistration().registerApplication(appName, conf))
 			return "App Registration failed!";
-		if(!Activator.getModel().getApplicationRegistration().writeToConfigFile(appName,Activator.getRundir()))
+		if(!Activator.getModel().getApplicationRegistration().writeToConfigFile(appName,Activator.getInformation().getRunDir()))
 			return "Error writing Configuration File!";
 		Iterator<Bundle> itr=bundles.iterator();
 		while(itr.hasNext()){

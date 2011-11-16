@@ -13,3 +13,4 @@ public interface IConfigurator {
 	public String finishConfiguration(String appName, ArrayList<Bundle> bundles, HashMap<String,String> conf);
 	public void testAMethod();
 }
+
