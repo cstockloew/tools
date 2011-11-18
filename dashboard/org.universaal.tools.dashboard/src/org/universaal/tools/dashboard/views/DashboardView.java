@@ -66,6 +66,7 @@ public class DashboardView extends ViewPart {
 	private Button btnImportClass;
 	private Button btnEditClass;
 	private Button btnTestConformance;
+	private Button btnExtractConfiguration;
 	private Button btnRun;
 	private Button btnDebug;
 	private Button btnUploadOpenSource;
@@ -268,6 +269,10 @@ public class DashboardView extends ViewPart {
 		lblConfigurationParameters.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
 		lblConfigurationParameters.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		lblConfigurationParameters.setText("Configuration Parameters");
+		
+        btnExtractConfiguration = new Button(confParCanvas, SWT.NONE);
+        btnExtractConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        btnExtractConfiguration.setText("Extract the Configuration");
 
 		Label label_12 = new Label(composite_3, SWT.NONE);
 		label_12.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
