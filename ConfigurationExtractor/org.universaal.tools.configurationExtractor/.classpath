@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="icons"/>
+	<classpathentry kind="lib" path="lib/lib_jena/arq-2.8.7.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/icu4j-3.4.4.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/iri-0.8.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/jena-2.6.4-tests.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/jena-2.6.4.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/org.universaal.tools.configurationExtractor/lib/lib_jena/jena-2.6.4-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lib_jena/junit-4.5.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/lucene-core-2.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/slf4j-api-1.5.8.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/slf4j-log4j12-1.5.8.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/stax-api-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/wstx-asl-3.2.9.jar"/>
+	<classpathentry kind="lib" path="lib/lib_jena/xercesImpl-2.7.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
