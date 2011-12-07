@@ -11,6 +11,7 @@ public class Information implements IInformation {
 	
 	private BundleContext context = null;
 	private String rundir=null;
+	private String bundledir=null;
 	
 	public Information(BundleContext context) {
 		this.context = context;
@@ -24,10 +25,12 @@ public class Information implements IInformation {
 			System.out.println(rundir);
 			rundir= rundir.substring(0, rundir.lastIndexOf("/")+1);
 			System.out.println(rundir);
+			bundledir="plugins/";
 		}else{
 			/*rundir= bundlePath.substring(bundlePath.indexOf(":")+1, bundlePath.lastIndexOf("/")+1);
 			System.out.println(rundir);*/
 			rundir="";
+			bundledir="bundles/";
 		}
 	}
 
@@ -52,6 +55,9 @@ public class Information implements IInformation {
 	}
 	public String getRunDir(){
 		return this.rundir;
+	}
+	public String getBundleDir(){
+		return this.bundledir;
 	}
 	private static int countOccurrences(String a){
 		int result=0;

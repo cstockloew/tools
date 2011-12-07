@@ -81,11 +81,11 @@ public class Installer extends ApplicationManager implements IInstaller {
 		boolean eulaok=false;
 		for(int i=0;i<content.length;i++){
 			if(content[i].endsWith(".jar")) jarok=true;
-			if(content[i].equals("config.xml")) configok=true;
+			if(content[i].equals("config.owl")) configok=true;
 			if(content[i].equals("EULA.txt")) eulaok=true;
 		}
 		if(!jarok) throw new Exception("There is no installable jar File in uaal Package!");
-		if(!configok) throw new Exception("config.xml file not found!");
+		if(!configok) throw new Exception("config.owl file not found!");
 		if(!eulaok) throw new Exception("No License agreement found!");
 	}
 	
@@ -139,11 +139,13 @@ public class Installer extends ApplicationManager implements IInstaller {
 private String extractBundles(String path) {
       
 	String destDir = path.substring(path.lastIndexOf(File.separator) + 1,path.lastIndexOf("."));
-	destDir =Activator.getInformation().getRunDir() + File.separator + destDir;
+	destDir =Activator.getInformation().getRunDir()+Activator.getInformation().getBundleDir()+ destDir;
 	File appDir=new File(destDir);
 	int suffix=1;
+	int slength=0;
 	while(appDir.exists()){
-		destDir=destDir.substring(0, destDir.length())+suffix;
+		destDir=destDir.substring(0, destDir.length()-slength)+suffix;
+		slength=(suffix+"").length();
 		appDir=new File(destDir);
 		suffix++;
 	}

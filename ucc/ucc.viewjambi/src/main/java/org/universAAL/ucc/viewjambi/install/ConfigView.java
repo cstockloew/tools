@@ -36,8 +36,7 @@ public class ConfigView extends SubWindow {
 	
 	private static Ui_Configure install_base=new Ui_Configure();
 	private static String appDir;
-	private HashMap<String,QObject> configdata= new HashMap<String, QObject>(); 
-	private HashMap<String,String> appInfo=new HashMap<String,String>();
+
 	
 	
 	public ConfigView(String configpath) {
@@ -45,18 +44,15 @@ public class ConfigView extends SubWindow {
 		
 		appDir = configpath;
 		try {
-			if(!performConfiguration(configpath+ File.separator +"config.xml", install_base)){
-				QLabel info = new QLabel();
-				info.setText("No Configuration necessary!");
-				 install_base.verticalLayout_4.insertWidget(0,info);
-			}
-		} catch (XMLStreamException e) {
-			QMessageBox.critical(this, "Error", "Error parsing config file!");
+			Activator.getConfigurator().performConfiguration(configpath+ File.separator +"config.owl", install_base.verticalLayout_4);
+		} catch (Exception e) {
+			QMessageBox.critical(this, "Error", e.getMessage());
+			e.printStackTrace();
 		}
-		if(appInfo.get("id")==null||appInfo.get("name")==null){
+		/*if(appInfo.get("id")==null||appInfo.get("name")==null){
 			QMessageBox.critical(this, "Error", "Application Info is not properly set!");
 			
-		}
+		}*/
 		install_base.okButton.clicked.connect(this, "saveConfiguration()");
 		install_base.cancelButton.clicked.connect(this, "cancel()");
 		//this.parent.adjustSize();
@@ -71,43 +67,12 @@ public class ConfigView extends SubWindow {
 	}
 	
 	protected void saveConfiguration() {
-		 Collection<QObject> c = configdata.values();
-		 Iterator<QObject> itr = c.iterator();
-		 HashMap<String,String> conf=new HashMap<String,String>();
-		 while(itr.hasNext()){
-			 String key;
-			 String value = "";
-			 QObject a = itr.next();
-			 key = a.objectName();
-		      if(a.getClass().getName().equals("com.trolltech.qt.gui.QComboBox")){
-		    	 value=((QComboBox) a).currentText();
-		      }
-		      if(a.getClass().getName().equals("com.trolltech.qt.gui.QLineEdit")){
-		    	  if(((QLineEdit) a).text().equals("")){
-		    		  QMessageBox.critical(this, "Error", "Please fill out all fields!");
-			    	  return;
-		    	  }
-		    	  value=((QLineEdit) a).text();  
-		      }
-		      if(a.getClass().getName().equals("com.trolltech.qt.gui.QCheckBox")){
-		    	  System.out.print(": "+((QCheckBox) a).isChecked());
-		      	  if(((QCheckBox) a).isChecked()){
-		      		  value = "true";
-		      	  }else{
-		      		  value = "false";
-		      	  }
-		      }
-		      System.out.println();
-		      //returnMap.put(key, value);
-		    	  //value=new Boolean(((QCheckBox) a).isChecked()).toString();
-		      conf.put(key, value);    	  
-		 }
-		 ArrayList<Bundle> ib = Activator.getInstaller().getInstalledBundles();
-		 String install_base = ib.get(0).getLocation();
-		 install_base=install_base.substring(5, install_base.lastIndexOf(File.separator));
-		 conf.put("install_base",install_base);
-		 conf.put("appName", appInfo.get("name"));
-		 String completed=Activator.getConfigurator().finishConfiguration(appInfo.get("id"), ib , conf);
+
+		if(!Activator.getConfigurator().checkEnteredValues()){
+			QMessageBox.critical(this, "Error", "Please fill out all fields!");
+	    	 return;
+		}
+		String completed =Activator.getConfigurator().finishConfiguration(Activator.getInstaller().getInstalledBundles());
 		 if(completed==null){
 			 Activator.getInstaller().resetBundles();
 			 QMessageBox.information(this, "Installation", "Installation successfully completed!");
@@ -120,94 +85,5 @@ public class ConfigView extends SubWindow {
 	protected void cancel() {
 		Activator.getInstaller().revertInstallation(new File(appDir));
 		MainWindow.getInstance().removeSubWindow(this);
-	}
-	
-	/** For convenience and test purposes the xml parsing is done here. 
-	 *  In the future this method should be moved to the Configurator class.
-	 *  
-	 * @param Path
-	 * @throws XMLStreamException 
-	 */
-	@SuppressWarnings("unchecked")
-	public boolean performConfiguration(String Path, Ui_Configure conf) throws XMLStreamException{
-		
-		
-		QBoxLayout parent = conf.verticalLayout_4;
-		QWidget current = new QWidget();
-		QLabel curLabel = new QLabel();
-		String curid=null;
-		int row =0;
-		int panelrow=0;
-		boolean added=false;
-		
-		
-	      XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-	      XMLEventReader  evRd = inputFactory.createXMLEventReader( new StreamSource( Path ) );
-	      Stack<String>   stck = new Stack<String>();
-	      while( evRd.hasNext() ) {
-	         XMLEvent ev = evRd.nextEvent();
-	         if( ev.isStartElement() ) {
-	            stck.push( ev.asStartElement().getName().getLocalPart() );
-	            
-	            Iterator<Attribute> iter = ev.asStartElement().getAttributes();
-	            while( iter.hasNext() ) {
-	               Attribute a = iter.next();
-	               if(ev.asStartElement().getName().getLocalPart().equals("root"))
-	            	   appInfo.put(a.getName().getLocalPart(), a.getValue());
-	               curid=a.getValue();
-	            }
-	            if(ev.asStartElement().getName().getLocalPart().equals("panel")){
-	            	QGroupBox panel= new QGroupBox();
-	            	QVBoxLayout lay= new QVBoxLayout();
-	            	panel.setLayout(lay);
-	            	panel.setTitle(curid);
-	            	parent.insertWidget(panelrow, panel);
-	            	parent=lay;
-	            	panelrow++;
-	            }
-	         }
-	         if( ev.isCharacters() ) {
-	            String s = ev.asCharacters().getData();
-	            if( s.trim().length() > 0 ){
-	            	if(stck.peek().equals("type")){
-	            		if(s.equals("TEXTBOX"))current=new QLineEdit();
-	        			if(s.equals("DROPDOWNLIST"))current=new QComboBox();
-	        			if(s.equals("CHECKBOX"))current=new QCheckBox();
-	        			
-	        			current.setObjectName(curid);
-	            	}
-	            	if(stck.peek().equals("title")){
-	            		curLabel=new QLabel();
-	            		curLabel.setText(s);
-	            	}
-	            	if(stck.peek().equals("domain")){
-	            		String[] entries=s.split(";");
-	            		for(int i=0;i<entries.length;i++){
-	            			((QComboBox) current).addItem(entries[i]);
-	            		}
-	            	
-	            	}
-	            }
-	         }
-	         if( ev.isEndElement()){
-	        	 String stckitem=stck.pop();
-	        	 if(stckitem.equals("element")){
-	        		 QHBoxLayout temp = new QHBoxLayout();
-	        		 current.setParent(conf.verticalLayout_4);
-	        		 temp.insertWidget(0,curLabel);
-	        		 temp.insertWidget(1,current);
-	        		 parent.insertLayout(row, temp);
-	        		 configdata.put(current.objectName(), current);
-	        		 row++;
-	        		 added=true;
-	        	 }
-	        	 if(stckitem.equals("panel")){
-	        		 parent=conf.verticalLayout_4;
-	        		 row=0;
-	        	 }
-	         }
-	      }
-	      conf.verticalLayout_4.activate();
-	      return added;
 	}
 }
