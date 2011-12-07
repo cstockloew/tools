@@ -8,5 +8,6 @@ public interface IInformation {
 	public Bundle[] bundles();
 	public void setRunDir(String path);
 	public String getRunDir();
+	public String getBundleDir();
 	
 }

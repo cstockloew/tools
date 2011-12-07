@@ -12,7 +12,6 @@ import org.universAAL.ucc.viewjambi.information.InformationView;
 import org.universAAL.ucc.viewjambi.install.InstallView;
 import org.universAAL.ucc.viewjambi.juic.Ui_GridView;
 import org.universAAL.ucc.viewjambi.layouts.OverviewGridLayout;
-import org.universAAL.ucc.viewjambi.store.StoreView;
 
 import com.trolltech.qt.core.QObject;
 import com.trolltech.qt.core.QSize;
@@ -54,13 +53,13 @@ public class GridView extends SubWindow {
 			}
 		};
 		items.put(new LabeledIcon("Uninstall App", "aimp 4.png"), temp);
-		temp=new Runnable(){
+		/*temp=new Runnable(){
 			public void run() {
 				new StoreView();
 			}
 		};
 		items.put(new LabeledIcon("Download App", "utorrent2.png"), temp);
-		
+		*/
 		updateGridView();
 		
 		
