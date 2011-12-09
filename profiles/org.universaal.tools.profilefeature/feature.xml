@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.profilefeature"
       label="AAL Studio UML profiles"
-      version="0.2.1"
+      version="0.2.4"
       provider-name="universAAL">
 
    <description url="http://www.universaal.org">
@@ -118,6 +118,13 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.universaal.tools.profileplugin"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.universaal.tools.ontologies.plugin"
          download-size="0"
          install-size="0"
          version="0.0.0"
