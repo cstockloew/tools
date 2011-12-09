@@ -25,7 +25,7 @@
     <packageImport xmi:id="_wGp7QP4fEeCMDfYSajZxow">
       <importedPackage xmi:type="uml:Model" href="org.universaal.ontology.phThing.uml#_INViAKFHEeCPiYRKlVcMuQ"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="org.universAAL.ontology.lighting">
+    <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="org.universaal.ontology.lighting">
       <packagedElement xmi:type="uml:Class" xmi:id="_hI5GcJv-EeCgJ7sXDd2E1w" name="Lighting">
         <ownedComment xmi:id="_bI148KInEeCR0PqXfWn3bQ">
           <body>This is the lighting class
@@ -164,5 +164,5 @@
       <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
     </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_NeG6cKF7EeCR0PqXfWn3bQ" defaultNamespace="http://ontology.universAAL.org/lighting.owl" base_Package="_qb8akM37EdqwVrslYOdUDA" versionInfo="1.0"/>
+  <OWL:owlOntology xmi:id="_NeG6cKF7EeCR0PqXfWn3bQ" defaultNamespace="http://ontology.universaal.org/lighting.owl" base_Package="_qb8akM37EdqwVrslYOdUDA" versionInfo="1.0"/>
 </xmi:XMI>
