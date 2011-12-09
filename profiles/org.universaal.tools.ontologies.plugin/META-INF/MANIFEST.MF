@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OntologyPlugin
+Bundle-SymbolicName: org.universaal.tools.ontologies.plugin;singleton:=true
+Bundle-Version: 0.1.0
+Bundle-Activator: org.universaal.tools.ontologies.plugin.Activator
+Bundle-Vendor: universAAL
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.papyrus.extensionpoints.uml2,
+ org.eclipse.emf.ecore
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

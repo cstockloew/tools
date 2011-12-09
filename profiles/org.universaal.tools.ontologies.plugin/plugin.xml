@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+      <library
+            name="universAAL Middleware Ontology"
+            path="pathmap://AAL_ONTOLOGIES/org.universaal.middlware.owl.uml"
+            provider="universAAL">
+      </library>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.uri_mapping">
+      <mapping
+            source="pathmap://AAL_ONTOLOGIES/"
+            target="platform:/plugin/org.universaal.tools.ontologies.plugin/model/">
+      </mapping>
+   </extension>
+   <extension
+         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+      <library
+            name="universAAL Service Ontology"
+            path="pathmap://AAL_ONTOLOGIES/org.universaal.middlware.service.owl.uml">
+      </library>
+   </extension>
+   <extension
+         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+      <library
+            name="universAAL Physical Thing Ontology"
+            path="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.owl.uml">
+      </library>
+   </extension>
+
+</plugin>
