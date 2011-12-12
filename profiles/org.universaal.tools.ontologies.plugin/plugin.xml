@@ -14,7 +14,7 @@
          point="org.eclipse.emf.ecore.uri_mapping">
       <mapping
             source="pathmap://AAL_ONTOLOGIES/"
-            target="platform:/plugin/org.universaal.tools.ontologies.plugin/model/">
+            target="platform:/plugin/org.universaal.tools.modelling.ontology.common/model/">
       </mapping>
    </extension>
    <extension
