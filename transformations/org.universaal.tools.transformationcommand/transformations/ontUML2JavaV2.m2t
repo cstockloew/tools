@@ -5,7 +5,25 @@
  * description: 
  */
 
-texttransformation OntologyUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
+texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
+
+
+/**
+ * Change required:
+ * - make simple ontology classes (as separate files)
+ * - update activator (registering ontology)
+ * - add factory class
+ * - add new ontology class
+ * -- create OntClassInfoSetup variable for each ontology class with createNewAbstractOntClassInfo / createNewOntClassInfo
+ * -- in second loop, add all other info for each ontology class incl. comment, resourceLabel, superclass, then the following:
+ * -- add support for properties
+ * -- add support for enumerations
+ * -- add support for restrictions
+ * -- add suppport for imports
+ */
+
+
+
 
 
   var ontologyNamespace:String
@@ -197,7 +215,7 @@ package ' self.name ';
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Factory extends ResourceFactoryImpl {
+public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 
 
   public Resource createInstance(String classURI, String instanceURI, int factoryIndex) {
@@ -206,19 +224,13 @@ public class Factory extends ResourceFactoryImpl {
 '
 	var classIndex:Integer = 0
 	ontologyClassList.values()->forEach(component:uml.Class) {
-'      Class.forName(' component.package.name '.owl.' component.name '.class.getName());
-'
+'     case ' classIndex ':
+	    return new 'component.name'(instanceURI);
+'  
 		classIndex = classIndex + 1
 	}
 '
-
-	case 0:
-	    return new LightSource(instanceURI);
-	case 1:
-	    return new BeamingSource(instanceURI);
 	}
-	
-
   }
 '
   }
