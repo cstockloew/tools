@@ -11,8 +11,8 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
 /**
  * Change required:
  * - make simple ontology classes (as separate files)
- * - update activator (registering ontology)
- * - add factory class
+ * x update activator (registering ontology)
+ * x add factory class
  * - add new ontology class
  * -- create OntClassInfoSetup variable for each ontology class with createNewAbstractOntClassInfo / createNewOntClassInfo
  * -- in second loop, add all other info for each ontology class incl. comment, resourceLabel, superclass, then the following:
@@ -60,8 +60,10 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
   	self.ownedMember -> forEach( p:uml.Package ){         
         var ontologyClassList:Hashtable
  
+ /*
  	  	StdOut.println("Handling namespace interface of package :" + p.name) 
    		p.generateNamespaceInterface()
+ */
    		
    		//Create a hashtable containing the properties of the classes in the model.
    		StdOut.println("Handling properties of classes (not interfaces) in the package: " + p.name)
@@ -116,25 +118,22 @@ package ' self.name ';
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.universAAL.middleware.owl.OntologyManagement;
+import 'self.name'.owl;
 
 public class Activator implements BundleActivator {
 
   static BundleContext context = null;
+  'ontologyName'Ontology ontology = new 'ontologyName'Ontology();
 
-    public void start(BundleContext context) throws Exception {
-      Activator.context = context;
-'
-	ontologyClassList.values()->forEach(component:uml.Class) {
-'      Class.forName(' component.package.name '.owl.' component.name '.class.getName());
-'
-	}
-'    }
+  public void start(BundleContext context) throws Exception {
+    Activator.context = context;
+    OntologyManagement.getInstance().register(ontology);
+  }
 
-    public void stop(BundleContext arg0) throws Exception {
-	// TODO Auto-generated method stub
-
-    }
-
+  public void stop(BundleContext arg0) throws Exception {
+    OntologyManagement.getInstance().unregister(ontology);
+  }
 }	
 '	
 
@@ -142,7 +141,7 @@ public class Activator implements BundleActivator {
 
 
   uml.Package::generateMainOntologyClass(ontologyClassList:Hashtable) {
-	file( self.name.replace("\\.", "/") + '/' + "Ontology.java" )
+	file( self.name.replace("\\.", "/") + '/owl/' + ontologyName + "Ontology.java" )
 
 '
 package ' self.name ';
@@ -207,13 +206,14 @@ public final class LightingOntology extends Ontology {
 
  
   uml.Package::generateFactory(ontologyClassList:Hashtable) {
-	file( self.name.replace("\\.", "/") + '/' + "Factory.java" )
+	file( self.name.replace("\\.", "/") + '/' + ontologyName + "Factory.java" )
     
 '
 package ' self.name ';
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import 'self.name'.owl;
 
 public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 
@@ -231,7 +231,9 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	}
 '
 	}
+	return null;
   }
+}
 '
   }
 
@@ -289,7 +291,7 @@ public interface ' ontologyName 'Namespace {
   }
 
 
-	
+/*	
   uml.Interface::generateOntologyInterface() {
 	file( self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
                 
@@ -306,7 +308,7 @@ public interface ' ontologyName 'Namespace {
     
     '}\n'    
   }
-
+*/
 
 
   uml.Class::generateOntologyClass () {
@@ -323,7 +325,7 @@ public interface ' ontologyName 'Namespace {
   	
     self.genPropertyDeclaration() //will be rewritten to be output only
     //self.genPropertiesForAssociations() // I guess this will be removed as all properties are created in the previous.
-    self.genStatic()
+    //self.genStatic()
     self.genConstructors()
     self.genGetClassRestrictionsOnProperty()
     self.genGetStandardPropertyURIs()
@@ -420,6 +422,43 @@ public interface ' ontologyName 'Namespace {
     'import org.universAAL.ontology.phThing.Device;\n\n'
   }
 
+
+
+
+
+  uml.Class::genStatic() {
+    '  \n  static {\n'
+    '    public static final String MY_URI = ' ontologyNamespaceReference '\n'
+    '        + "' self.name.trim() '";\n' 
+    
+    //get the property's hashtable and intialize the properties
+    Hashtable props = propertyHashtable.get(self.name)
+    
+    //properties first
+    props->forEach(att: uml.Property) {
+  	    '    public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference '\n'
+  	    '        + "' att.name.trim() '";\n'
+	}
+
+	//association properties next. The filter may be obsolete as the po
+	props->forEach (ass : uml.Association) // | ass.endType.first().name.trim().equals(self.name.trim()) ) 
+	{
+	  //stdout.println("INFO: Generating static for associations: " + ass.name)
+	  '    public static final String PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference '\n'
+	  '        + "' ass.name.trim() '";\n'
+	  
+	}
+  	'\n'
+    '  }\n'
+  }     
+
+
+
+
+
+
+/* old version of genStatic - some of this is maybe needed for ontology class
+
   uml.Class::genStatic() {
     '  \n  static {\n'
     '    MY_URI = ' ontologyNamespaceReference '+ "' self.name.trim() '";\n' 
@@ -433,7 +472,7 @@ public interface ' ontologyName 'Namespace {
     }
     
     
-    //get the property's hachtable and intialize the properties
+    //get the property's hashtable and intialize the properties
     Hashtable props = propertyHashtable.get(self.name)
     
     //properties first
@@ -461,6 +500,8 @@ public interface ' ontologyName 'Namespace {
     '    register('self.name'.class);\n'
     '  }\n'
   }     
+*/ 
+ 
   
   /**
    * This operation will define the properties on an interface.
