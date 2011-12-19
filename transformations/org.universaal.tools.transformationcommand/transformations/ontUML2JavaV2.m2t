@@ -13,6 +13,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
  * x make simple ontology classes (as separate files)
  * x update activator (registering ontology)
  * x add factory class
+ * - update POM file
  * - add new ontology class
  * -- create OntClassInfoSetup variable for each ontology class with createNewAbstractOntClassInfo / createNewOntClassInfo
  * -- in second loop, add all other info for each ontology class incl. comment, resourceLabel, superclass, then the following:
@@ -119,7 +120,7 @@ package ' self.name ';
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.owl.OntologyManagement;
-import 'self.name'.owl;
+import 'self.name'.owl.*;
 
 public class Activator implements BundleActivator {
 
@@ -162,7 +163,7 @@ import org.universAAL.ontology.location.LocationOntology;
 import org.universAAL.ontology.phThing.Device;
 
 /**
- * @author 
+ * @author AAL Studio 
  */
 public final class LightingOntology extends Ontology {
 
@@ -238,6 +239,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
   }
 
 
+/* No longer needed?
   
   uml.Package::generateNamespaceInterface() {
     StdOut.println('Generating name space interface')
@@ -258,7 +260,7 @@ public interface ' ontologyName 'Namespace {
 '	
 
   }  
-  
+*/  
   
   uml.Classifier::toUpperFormat():String {
     var txt:String
