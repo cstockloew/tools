@@ -10,7 +10,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
 
 /**
  * Change required:
- * - make simple ontology classes (as separate files)
+ * x make simple ontology classes (as separate files)
  * x update activator (registering ontology)
  * x add factory class
  * - add new ontology class
@@ -291,24 +291,6 @@ public interface ' ontologyName 'Namespace {
   }
 
 
-/*	
-  uml.Interface::generateOntologyInterface() {
-	file( self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
-                
-    //Start generating the code
-    'package ' self.package.name '.owl;\n\n'
-    
-    self.genImports()
-    
-	self.genInterfaceDeclaration()
-	    
-    ' {\n'
-    
-    self.genInterfaceProperties()
-    
-    '}\n'    
-  }
-*/
 
 
   uml.Class::generateOntologyClass () {
@@ -327,13 +309,14 @@ public interface ' ontologyName 'Namespace {
     //self.genPropertiesForAssociations() // I guess this will be removed as all properties are created in the previous.
     //self.genStatic()
     self.genConstructors()
-    self.genGetClassRestrictionsOnProperty()
-    self.genGetStandardPropertyURIs()
+    self.genGetClassURI()
+   // self.genGetClassRestrictionsOnProperty()
+    //self.genGetStandardPropertyURIs()
     
     self.genGetPropSerializationType()
     self.genIsWellFormed()
-    self.genGetRDFSComment()
-    self.genGetRDFSLabel()
+    //  self.genGetRDFSComment()
+    // self.genGetRDFSLabel()
     
     self.genGetClassLevelRestrictions()
    
@@ -426,8 +409,7 @@ public interface ' ontologyName 'Namespace {
 
 
 
-  uml.Class::genStatic() {
-    '  \n  static {\n'
+  uml.Class::genPropertyDeclaration() {
     '    public static final String MY_URI = ' ontologyNamespaceReference '\n'
     '        + "' self.name.trim() '";\n' 
     
@@ -449,15 +431,64 @@ public interface ' ontologyName 'Namespace {
 	  
 	}
   	'\n'
-    '  }\n'
   }     
 
+  
+  uml.Class::genConstructors() {
+    '
+  public ' self.name ' () {
+    super();
+  }
+  
+  public ' self.name ' (String uri) {
+    super(uri);
+  }\n'
+  }    
+  
+  uml.Class::genGetClassURI() {
+    '
+  public String getClassURI() {
+    return MY_URI;
+  }\n'
+  }    
+  
+ 
+  
+
+  
+  /**
+   * TODO: Revise to correct scheme for subclassing with the new ontology encoding. 
+   *
+   * Generate the class declaration.   
+   */
+  uml.Class::genClassDeclaration() {
+    'public ' if (self.isAbstract) {'abstract '} 'class ' self.name
+    if (self.superClass.isEmpty()) {
+      stdout.println("Warning: Class " + self.name + " has no super class")
+    }
+    else {  
+      ' extends '
+      self.superClass.first().name 
+      if (self.superClass.size() > 1) {
+        stdout.println("WARNING: Class " + self.name + " is defined to have multiple superclasses. Use interfaces instead - additional superclasses are igonered!")
+      }        
+    }
+    if (!self.interfaceRealization.isEmpty()) {
+      ' implements '
+      var firstInter:Boolean 
+      firstInter = true
+      self.interfaceRealization->forEach(inter:uml.InterfaceRealization) {
+        '' inter.supplier.first().name ' '
+        if (!firstInter) {','}          
+        firstInter = false
+      }
+    }
+  }
 
 
 
 
-
-/* old version of genStatic - some of this is maybe needed for ontology class
+/* The genStatic method is not needed for classes, but some of this is maybe needed for ontology class
 
   uml.Class::genStatic() {
     '  \n  static {\n'
@@ -501,78 +532,15 @@ public interface ' ontologyName 'Namespace {
     '  }\n'
   }     
 */ 
- 
+   
   
-  /**
-   * This operation will define the properties on an interface.
-   * The interface properties are not (yet) in the properties hashtable.
-   */
-  uml.Interface::genInterfaceProperties() {
-     '  public static final String MY_URI = ' ontologyNamespaceReference ' + "' self.name.trim() '";\n' 
-    
-    self.ownedMember->forEach(att : uml.Property) {
-  	   if (att.type == null) {
-	        stdout.println("WARNING: No type defined for " + att.name +  ". Using string as default")
-	        '  public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
-	    }
-	    else {
-	    	'  public static final ' att.type 'PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
-	    	}
-		
-	}
-    '\n'
   
-  }
-  /**
-   * Generate the class declaration.   
-   */
-  uml.Class::genClassDeclaration() {
-    'public ' if (self.isAbstract) {'abstract '} 'class ' self.name
-    if (self.superClass.isEmpty()) {
-      stdout.println("Warning: Class " + self.name + " has no super class")
-    }
-    else {  
-      ' extends '
-      self.superClass.first().name 
-      if (self.superClass.size() > 1) {
-        stdout.println("WARNING: Class " + self.name + " is defined to have multiple superclasses. Use interfaces instead - additional superclasses are igonered!")
-      }        
-    }
-    if (!self.interfaceRealization.isEmpty()) {
-      ' implements '
-      var firstInter:Boolean 
-      firstInter = true
-      self.interfaceRealization->forEach(inter:uml.InterfaceRealization) {
-        '' inter.supplier.first().name ' '
-        if (!firstInter) {','}          
-        firstInter = false
-      }
-    }
-  }
-
-
- /**
-  * Generate the interface decklaration
-  */
-  uml.Interface::genInterfaceDeclaration() {
-    'public interface ' self.name
-    if (!self.generalization.isEmpty()) {
-      ' extends '
-      var firstInter:Boolean 
-      firstInter = true
-
-      self.generalization->forEach(gen : uml.Generalization) {
-        if (!firstInter) {','}          
-        '' gen.general.name ' '
-        firstInter = false
-      }
-    }
-  }
-  
-  /**
+/* old version of genPropertyDeclarations - some of this may need to be moved to new ontology class 
+   *
+   *
    * This function will generate the property declarations for the class in question. The properties are taken from the 
    * propertyHashtable.
-   */
+   
    uml.Classifier::genPropertyDeclaration() {
   	//insert default identifier for each owlClass
   	'  public static final String MY_URI;\n'
@@ -612,20 +580,75 @@ public interface ' ontologyName 'Namespace {
   
   	
   }
- 
+*/ 
   
-  uml.Class::genConstructors() {
-    '
-  public ' self.name ' () {
-    super();
+/* interfaces is not used in new ontology representation, so this can probably be removed
+
+  uml.Interface::generateOntologyInterface() {
+	file( self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
+                
+    //Start generating the code
+    'package ' self.package.name '.owl;\n\n'
+    
+    self.genImports()
+    
+	self.genInterfaceDeclaration()
+	    
+    ' {\n'
+    
+    self.genInterfaceProperties()
+    
+    '}\n'    
   }
+*/
+
+
+ /* Interfaces are not used in new ontology representation, so this can probably be removed
+  *
+  *
+  * Generate the interface decklaration
+  uml.Interface::genInterfaceDeclaration() {
+    'public interface ' self.name
+    if (!self.generalization.isEmpty()) {
+      ' extends '
+      var firstInter:Boolean 
+      firstInter = true
+
+      self.generalization->forEach(gen : uml.Generalization) {
+        if (!firstInter) {','}          
+        '' gen.general.name ' '
+        firstInter = false
+      }
+    }
+  }
+  */
   
-  public ' self.name ' (String uri) {
-    super(uri);
-  }\n'
-  }    
+
+  /* Interfaces are not used in new ontology representation, so this can probably be removed
+   * 
+   * This operation will define the properties on an interface.
+   * The interface properties are not (yet) in the properties hashtable.
+  uml.Interface::genInterfaceProperties() {
+     '  public static final String MY_URI = ' ontologyNamespaceReference ' + "' self.name.trim() '";\n' 
+    
+    self.ownedMember->forEach(att : uml.Property) {
+  	   if (att.type == null) {
+	        stdout.println("WARNING: No type defined for " + att.name +  ". Using string as default")
+	        '  public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
+	    }
+	    else {
+	    	'  public static final ' att.type 'PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
+	    	}
+		
+	}
+    '\n'
   
+  }
+   */
+
+
   
+/* Not used directly but may be needed for new ontology class
   
   uml.Class::genGetClassRestrictionsOnProperty() {
 '
@@ -691,6 +714,8 @@ public interface ' ontologyName 'Namespace {
 '  }\n\n'
   }  
   
+*/  
+  
   uml.Class::getURIExpressionForType(typeName : String):String {
     if (typeName == null) {
       typeName = "String"
@@ -705,10 +730,12 @@ public interface ' ontologyName 'Namespace {
   }
 
   
-  /**
+  /* Is parts of this function needed for the ontology class in the new representation?
+   *
+   *
    * Generation the property URI. 
    * NOTE: THIS FUNCTION MAY BE SIMPLIFIED USING THE HASHTABLE
-   */
+   
  
  //TODO SIMPLIFY
    uml.Class::genGetStandardPropertyURIs() {
@@ -749,6 +776,8 @@ public interface ' ontologyName 'Namespace {
     '    return toReturn;\n'
     '  }\n'    
    }
+
+*/
 
   uml.Class::genPropertiesForAssociations() {
       //generate 
@@ -809,9 +838,10 @@ public interface ' ontologyName 'Namespace {
   }
 
 
-/**
+/* Not needed in new ontology representation?
+ *
  * Create operation for RDFSComment
- */
+ 
    uml.Class::genGetRDFSComment() {
 '
   public static String getRDFSComment() {
@@ -826,10 +856,11 @@ public interface ' ontologyName 'Namespace {
 '  }'
 
    }
+*/
   
-/**
+/* Not needed in new ontology representation?
  *
- */
+ *
    uml.Class::genGetRDFSCommentDefault() {
 	 unprotect{
 '
@@ -838,10 +869,10 @@ public interface ' ontologyName 'Namespace {
 '     		
  	}
    }
+*/  
   
-/**
+/* Not needed in new ontology representation?
  *
- */ 
    uml.Class::genGetRDFSLabel() {
  '
   public static String getRDFSLabel() {
@@ -850,6 +881,7 @@ public interface ' ontologyName 'Namespace {
 '    
    
    }
+ */ 
 
 
 /**
