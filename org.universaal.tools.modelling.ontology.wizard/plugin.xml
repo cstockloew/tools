@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="universAAL"
+            id="org.universaal.tools.modelling.ontology.wizard">
+      </category>
+      <wizard
+            name="Create new ontology modelling project"
+            icon="icons/uAALmicro.png"
+            category="org.universaal.tools.modelling.ontology.wizard"
+            class="org.universaal.tools.modelling.ontology.wizard.wizards.NewProjectWizard"
+            id="org.universaal.tools.modelling.ontology.wizard.wizards.startNewWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="org.universaal.tools.modelling.ontology.wizard.command"
+            name="universAAL">
+      </category>
+      <command
+            id="org.universaal.tools.modelling.ontology.wizard.startNewWizard"
+            name="Create new ontology modelling project">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.universaal.tools.modelling.ontology.wizard.commands.NewProjectCommandHandler"
+            commandId="org.universaal.tools.modelling.ontology.wizard.command.startNewWizard">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
+         <command
+               commandId="org.universaal.tools.modelling.ontology.wizard.startNewWizard"
+               icon="icons/uAALmicro.png"
+               id="org.universaal.modelling.ontology.wizard.newOntology"
+               mnemonic="O"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+
+
+</plugin>

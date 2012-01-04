@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: universAAL Ontology Modelling Wizard
+Bundle-SymbolicName: org.universaal.tools.modelling.ontology.wizard; singleton:=true
+Bundle-Version: 0.1.0
+Bundle-Activator: org.universaal.tools.modelling.ontology.wizard.Activator
+Bundle-Vendor: universAAL SINTEF
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.maven.model,
+ org.eclipse.jdt.core,
+ org.eclipse.m2e.core,
+ org.eclipse.m2e.core.internal,
+ org.eclipse.m2e.core.project,
+ org.eclipse.m2e.core.ui.internal.actions
