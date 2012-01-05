@@ -1,4 +1,4 @@
-/**
+	/**
  * transformation Ontology UML 2 Java transformation for universAAL
  * date: 28/6/2011
  * author: Erlend Stav, StŒle Walderhaug
@@ -18,8 +18,8 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
  * -- create OntClassInfoSetup variable for each ontology class with createNewAbstractOntClassInfo / createNewOntClassInfo
  * -- in second loop, add all other info for each ontology class incl. comment, resourceLabel, superclass, then the following:
  * -- add support for properties
- * -- add support for enumerations
  * -- add support for restrictions
+ * -- add support for enumerations
  * -- add suppport for imports
  */
 
@@ -165,44 +165,96 @@ import org.universAAL.ontology.phThing.Device;
 /**
  * @author AAL Studio 
  */
-public final class LightingOntology extends Ontology {
+public final class ' ontologyName 'Ontology extends Ontology {
 
-  private static LightingFactory factory = new LightingFactory();;
+	private static ' ontologyName 'Factory factory = new ' ontologyName 'Factory();
+	public static final String NAMESPACE ="http://ontology.universaal.org/' ontologyName '.owl#";
+	
+	public ' ontologyName 'Ontology() {
+		super(NAMESPACE);
+	}
 
-  public static final String NAMESPACE = "http://ontology.universaal.org/Lighting.owl#";
-
-  public LightingOntology() {
-	super(NAMESPACE);
-  }
-
-  public void create() {
-	Resource r = getInfo();
-	r.setResourceComment("The ontology defining the most general concepts dealing with light sources and their control.");
-	r.setResourceLabel("Lighting");
-	addImport(DataRepOntology.NAMESPACE);
-	addImport(ServiceBusOntology.NAMESPACE);
-	addImport(LocationOntology.NAMESPACE);
-
-	OntClassInfoSetup oci;
-
-	// load LightType
-	oci = createNewAbstractOntClassInfo(LightType.MY_URI);
-	oci.setResourceComment("The type of a light source");
-	oci.setResourceLabel("Light Type");
-
-	// load NaturalLight
-	oci = createNewAbstractOntClassInfo(NaturalLight.MY_URI);
-	oci.setResourceComment("The type of natural light sources");
-	oci.setResourceLabel("Natural Light");
-	oci.addSuperClass(LightType.MY_URI);
-	// NaturalLight.init();
-	oci.toEnumeration(new ManagedIndividual[] { NaturalLight.moonShine,
-		NaturalLight.sunShine });
-  }
-}
+	public void create {
+		Resource r = getInfo();
+		r.setResourceComment("The ontology defining the most general concepts dealing with light sources and their control.");
+		r.setResourceLabel("Lighting");
+		addImport(DataRepOntology.NAMESPACE);
+		addImport(ServiceBusOntology.NAMESPACE);
+		addImport(LocationOntology.NAMESPACE);
+		
+		OntClassInfoSetup oci;
 '
-    
-  }
+		//create a ontclassinfo for each ontology class in the ontologyClassList
+		var index:Integer
+		index = 0
+		
+		ontologyClassList->forEach(c: uml.Class) {
+			'\n		//load 'c.name' \n '
+			if (c.isAbstract) { 
+				'		oci = createNewAbstractOntClassInfo(' c.name '.MY_URI);\n'
+			}
+			else {
+				'		oci = createNewOntClassInfo(' c.name '.MY_URI, factory, ' index ');\n'
+				index+=1
+			} //end check for abstract class
+			
+			'		oci.setResourceComment("' c.ownedComment.first().body.trim() '");\n'
+			'		oci.setResourceLabel("' c.name.trim() '");\n' 
+			
+			//add reference to the superclass. In case of multiple inheritance, use the first entry in set
+			if (c.superClass.size()>0) {
+				c.superClass->forEach(sc: uml.Class) {
+					'		oci.addSuperClass(' sc.name '.MY_URI); \n'	
+			  	}	
+			}
+		
+			//using the class's hashtable
+			Hashtable props = propertyHashtable.get(c.name)
+			Boolean isObjectProperty = true //true=objectproperty, false=datatypeproperty, default=true
+			Boolean isFunctional = true //true/false, default=true
+			//go through the attributes first
+			props->forEach(prop : uml.Property) {
+			//get stereotype and check for datatypeproperty. Otherwise objectproperty.
+			isObjectProperty = true
+			isFunctional = true
+			if (prop.hasStereotype("datatypeProperty")) {
+				isObjectProperty = false
+				isFunctional = prop.getValue("datatypeProperty", "isFunctional")
+				if (isFunctional!=false){ //default = true
+				'		oci.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
+				}
+				else {
+				'		oci.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
+				}
+			}
+			else { //default = objectProperty
+			  	isFunctional = prop.getValue("objectProperty", "isFunctional")
+				if (isFunctional!=false){ //default = true
+				'		oci.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
+				}
+				else {
+				'		oci.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
+				}
+			}
+	
+	 		 //handle 0..* cardinality
+	  		if (prop.upper<0 && prop.lower==0) {
+				'      	oci.addRestriction(MergedRestriction.getAllValuesRestriction(' c.name '.PROP_' prop.toUpperFormat() ', ' prop.name '.MY_URI, \n'
+				'       	' self.getURIExpressionForType(prop.type.name.trim()) ');\n'
+				'	    }\n'
+	 		} //if
+	  		else {
+				'		oci.addRestriction(MergedRestriction.getAllValuesRestrictionWithCardinality(' c.name '.PROP_' prop.toUpperFormat() ', ' prop.name '.MY_URI, \n'	  
+				'			'self.getURIExpressionForType(prop.type.name.trim())', ' prop.upper ', ' prop.lower ');\n'
+				'		}\n'
+	 		 } //else
+	 		 
+	 		 //TODO: add support for getCardinalityRestriction
+	 	} //forEach	prop
+	} //forEach class
+	}
+		
+
 
 
  
@@ -237,6 +289,8 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 }
 '
   }
+
+
 
 
 /* No longer needed?
