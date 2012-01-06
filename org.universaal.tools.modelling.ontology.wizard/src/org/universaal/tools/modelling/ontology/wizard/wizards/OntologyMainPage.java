@@ -17,6 +17,7 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.core.databinding.beans.BeansObservables;
 
 public class OntologyMainPage extends WizardPage {
 	private Binding projectNameBinding;
@@ -51,13 +52,6 @@ public class OntologyMainPage extends WizardPage {
 		lblOntologyName.setText("Ontology name");
 		
 		txtOntologyname = new Text(container, SWT.BORDER);
-		txtOntologyname.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				System.out.println("Update time");
-				projectNameBinding.updateModelToTarget();
-			}
-		});
 		txtOntologyname.setText("ontologyName");
 		txtOntologyname.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
@@ -111,25 +105,25 @@ public class OntologyMainPage extends WizardPage {
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
-		IObservableValue txtOntologynameTextObserveValue = PojoObservables.observeValue(txtOntologyname, "text");
-		IObservableValue modelOntologyNameObserveValue = PojoObservables.observeValue(model, "ontologyName");
-		bindingContext.bindValue(txtOntologynameTextObserveValue, modelOntologyNameObserveValue, null, null);
+		IObservableValue txtOntologynameObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtOntologyname, SWT.Modify));
+		IObservableValue modelOntologyNameObserveValue = BeansObservables.observeValue(model, "ontologyName");
+		bindingContext.bindValue(txtOntologynameObserveTextObserveWidget, modelOntologyNameObserveValue, null, null);
 		//
-		IObservableValue txtPackagenameTextObserveValue = PojoObservables.observeValue(txtPackagename, "text");
-		IObservableValue modelPackageNameObserveValue = PojoObservables.observeValue(model, "packageName");
-		bindingContext.bindValue(txtPackagenameTextObserveValue, modelPackageNameObserveValue, null, null);
+		IObservableValue txtPackagenameObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtPackagename, SWT.Modify));
+		IObservableValue modelPackageNameObserveValue = BeansObservables.observeValue(model, "packageName");
+		bindingContext.bindValue(txtPackagenameObserveTextObserveWidget, modelPackageNameObserveValue, null, null);
 		//
-		IObservableValue txtProjectnameTextObserveValue = PojoObservables.observeValue(txtProjectname, "text");
-		IObservableValue modelProjectNameObserveValue = PojoObservables.observeValue(model, "projectName");
-		projectNameBinding = bindingContext.bindValue(txtProjectnameTextObserveValue, modelProjectNameObserveValue, null, null);
-		//
-		IObservableValue txtNamespaceObserveTextObserveWidget = SWTObservables.observeText(txtNamespace, SWT.Modify);
-		IObservableValue modelOntologyNamespaceObserveValue = PojoObservables.observeValue(model, "ontologyNamespace");
-		bindingContext.bindValue(txtNamespaceObserveTextObserveWidget, modelOntologyNamespaceObserveValue, null, null);
-		//
-		IObservableValue btnUseDefaultValuesObserveSelectionObserveWidget = SWTObservables.observeSelection(btnUseDefaultValues);
-		IObservableValue modelUseDerivedValuesObserveValue = PojoObservables.observeValue(model, "useDerivedValues");
+		IObservableValue btnUseDefaultValuesObserveSelectionObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeSelection(btnUseDefaultValues));
+		IObservableValue modelUseDerivedValuesObserveValue = BeansObservables.observeValue(model, "useDerivedValues");
 		bindingContext.bindValue(btnUseDefaultValuesObserveSelectionObserveWidget, modelUseDerivedValuesObserveValue, null, null);
+		//
+		IObservableValue txtProjectnameObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtProjectname, SWT.Modify));
+		IObservableValue modelProjectNameObserveValue = BeansObservables.observeValue(model, "projectName");
+		bindingContext.bindValue(txtProjectnameObserveTextObserveWidget, modelProjectNameObserveValue, null, null);
+		//
+		IObservableValue txtNamespaceObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtNamespace, SWT.Modify));
+		IObservableValue modelOntologyNamespaceObserveValue = BeansObservables.observeValue(model, "ontologyNamespace");
+		bindingContext.bindValue(txtNamespaceObserveTextObserveWidget, modelOntologyNamespaceObserveValue, null, null);
 		//
 		return bindingContext;
 	}
