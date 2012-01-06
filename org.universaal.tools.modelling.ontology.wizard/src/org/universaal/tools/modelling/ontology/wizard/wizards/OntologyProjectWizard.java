@@ -39,7 +39,7 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 	
 	OntologyMainPage mainPage;
 	OntologyImportPage importPage;
-	MavenDetailsPage mavenPage;
+	//MavenDetailsPage mavenPage;
 	IWorkbench workbench;
 	
 
@@ -53,11 +53,11 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 		mainPage.setModel(ontologyProjectModel);
 		importPage = new OntologyImportPage();
 		importPage.setModel(ontologyProjectModel);
-		mavenPage = new MavenDetailsPage();
-		mavenPage.setModel(ontologyProjectModel.mavenModel);
+		//mavenPage = new MavenDetailsPage();
+		//mavenPage.setModel(ontologyProjectModel.mavenModel);
 		addPage(mainPage);
 		addPage(importPage);
-		addPage(mavenPage);
+		//addPage(mavenPage);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 	    
 	    return Status.OK_STATUS;		
 */
-		mavenPage.updateModel();
+		//mavenPage.updateModel();
 		
 	    final ProjectImportConfiguration configuration;
 	    final Model model = ontologyProjectModel.getMavenModel();

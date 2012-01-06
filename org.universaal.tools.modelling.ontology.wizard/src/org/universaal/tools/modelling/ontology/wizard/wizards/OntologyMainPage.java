@@ -18,12 +18,14 @@ import org.eclipse.core.databinding.Binding;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class OntologyMainPage extends WizardPage {
 	private Binding projectNameBinding;
 	private DataBindingContext m_bindingContext;
 	private Text txtOntologyname;
-	private Text txtPackagename;
+	private Text txtParentPackage;
 	private Text txtProjectname;
 	private Text txtNamespace;
 
@@ -55,18 +57,28 @@ public class OntologyMainPage extends WizardPage {
 		txtOntologyname.setText("ontologyName");
 		txtOntologyname.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblPackageName = new Label(container, SWT.NONE);
-		lblPackageName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblPackageName.setText("Package name");
+		lblParentPackage = new Label(container, SWT.NONE);
+		lblParentPackage.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblParentPackage.setText("Parent package");
 		
-		txtPackagename = new Text(container, SWT.BORDER);
-		txtPackagename.setText("packageName");
-		txtPackagename.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		txtParentPackage = new Text(container, SWT.BORDER);
+		txtParentPackage.setText("parentPackageName");
+		txtParentPackage.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		
 		btnUseDefaultValues = new Button(container, SWT.CHECK);
+		btnUseDefaultValues.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean enabled = !btnUseDefaultValues.getSelection();
+				txtProjectname.setEnabled(enabled);
+				txtNamespace.setEnabled(enabled);
+				txtGroupid.setEnabled(enabled);
+				txtMavenname.setEnabled(enabled);
+			}
+		});
 		btnUseDefaultValues.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		btnUseDefaultValues.setText("Use derived values");
 		
@@ -75,6 +87,7 @@ public class OntologyMainPage extends WizardPage {
 		lblProjectName.setText("Project name");
 		
 		txtProjectname = new Text(container, SWT.BORDER);
+		txtProjectname.setEnabled(false);
 		txtProjectname.setText("projectName");
 		txtProjectname.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
@@ -83,13 +96,57 @@ public class OntologyMainPage extends WizardPage {
 		lblOntologyNamespace.setText("Namespace");
 		
 		txtNamespace = new Text(container, SWT.BORDER);
+		txtNamespace.setEnabled(false);
 		txtNamespace.setText("namespace");
 		txtNamespace.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblGroupId = new Label(container, SWT.NONE);
+		lblGroupId.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblGroupId.setText("Maven group id");
+		
+		txtGroupid = new Text(container, SWT.BORDER);
+		txtGroupid.setEnabled(false);
+		txtGroupid.setText("groupID");
+		txtGroupid.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblMavenName = new Label(container, SWT.NONE);
+		lblMavenName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblMavenName.setText("Maven name");
+		
+		txtMavenname = new Text(container, SWT.BORDER);
+		txtMavenname.setEnabled(false);
+		txtMavenname.setText("mavenName");
+		txtMavenname.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label label_1 = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
+		label_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		
+		lblMavenVersion = new Label(container, SWT.NONE);
+		lblMavenVersion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblMavenVersion.setText("Maven version");
+		
+		txtVersion = new Text(container, SWT.BORDER);
+		txtVersion.setText("version");
+		txtVersion.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblMavenDescription = new Label(container, SWT.NONE);
+		lblMavenDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblMavenDescription.setText("Maven description");
+		
+		txtMavendescription = new Text(container, SWT.BORDER);
+		txtMavendescription.setText("mavenDescription");
+		txtMavendescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		m_bindingContext = initDataBindings();
 	}
 	
 	OntologyProjectModel model;
 	private Button btnUseDefaultValues;
+	private Text txtVersion;
+	private Text txtGroupid;
+	private Text txtMavenname;
+	private Text txtMavendescription;
+	private Label lblParentPackage;
+	private Label lblMavenVersion;
 	
 	public void setModel(OntologyProjectModel model) {
 		this.model = model;
@@ -109,13 +166,13 @@ public class OntologyMainPage extends WizardPage {
 		IObservableValue modelOntologyNameObserveValue = BeansObservables.observeValue(model, "ontologyName");
 		bindingContext.bindValue(txtOntologynameObserveTextObserveWidget, modelOntologyNameObserveValue, null, null);
 		//
-		IObservableValue txtPackagenameObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtPackagename, SWT.Modify));
-		IObservableValue modelPackageNameObserveValue = BeansObservables.observeValue(model, "packageName");
-		bindingContext.bindValue(txtPackagenameObserveTextObserveWidget, modelPackageNameObserveValue, null, null);
+		IObservableValue txtParentPackageObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtParentPackage, SWT.Modify));
+		IObservableValue modelParentPackageNameObserveValue = BeansObservables.observeValue(model, "parentPackageName");
+		bindingContext.bindValue(txtParentPackageObserveTextObserveWidget, modelParentPackageNameObserveValue, null, null);
 		//
 		IObservableValue btnUseDefaultValuesObserveSelectionObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeSelection(btnUseDefaultValues));
-		IObservableValue modelUseDerivedValuesObserveValue = BeansObservables.observeValue(model, "useDerivedValues");
-		bindingContext.bindValue(btnUseDefaultValuesObserveSelectionObserveWidget, modelUseDerivedValuesObserveValue, null, null);
+		IObservableValue modelUseSimpleModeObserveValue = BeansObservables.observeValue(model, "useSimpleMode");
+		bindingContext.bindValue(btnUseDefaultValuesObserveSelectionObserveWidget, modelUseSimpleModeObserveValue, null, null);
 		//
 		IObservableValue txtProjectnameObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtProjectname, SWT.Modify));
 		IObservableValue modelProjectNameObserveValue = BeansObservables.observeValue(model, "projectName");
@@ -124,6 +181,22 @@ public class OntologyMainPage extends WizardPage {
 		IObservableValue txtNamespaceObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtNamespace, SWT.Modify));
 		IObservableValue modelOntologyNamespaceObserveValue = BeansObservables.observeValue(model, "ontologyNamespace");
 		bindingContext.bindValue(txtNamespaceObserveTextObserveWidget, modelOntologyNamespaceObserveValue, null, null);
+		//
+		IObservableValue txtGroupidObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtGroupid, SWT.Modify));
+		IObservableValue modelPackageNameObserveValue = BeansObservables.observeValue(model, "packageName");
+		bindingContext.bindValue(txtGroupidObserveTextObserveWidget, modelPackageNameObserveValue, null, null);
+		//
+		IObservableValue txtMavennameObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtMavenname, SWT.Modify));
+		IObservableValue modelMavenNameObserveValue = BeansObservables.observeValue(model, "mavenName");
+		bindingContext.bindValue(txtMavennameObserveTextObserveWidget, modelMavenNameObserveValue, null, null);
+		//
+		IObservableValue txtVersionObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtVersion, SWT.Modify));
+		IObservableValue modelMavenModelversionObserveValue = PojoObservables.observeValue(model, "mavenModel.version");
+		bindingContext.bindValue(txtVersionObserveTextObserveWidget, modelMavenModelversionObserveValue, null, null);
+		//
+		IObservableValue txtMavendescriptionObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtMavendescription, SWT.Modify));
+		IObservableValue modelMavenModeldescriptionObserveValue = PojoObservables.observeValue(model, "mavenModel.description");
+		bindingContext.bindValue(txtMavendescriptionObserveTextObserveWidget, modelMavenModeldescriptionObserveValue, null, null);
 		//
 		return bindingContext;
 	}

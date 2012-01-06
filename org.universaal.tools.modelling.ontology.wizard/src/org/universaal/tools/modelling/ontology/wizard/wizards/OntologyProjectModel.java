@@ -8,19 +8,28 @@ import java.util.List;
 import org.apache.maven.model.Model;
 
 public class OntologyProjectModel  {
-	String ontologyName = "MyOntology";
-	String projectName = "MyProject";
-	boolean useDerivedValues = true;
-	String packageName = "org.universaal.ontology.myontology";
+	public static final String DEFAULT_ONTOLOGY_NAME = "MyOntology";
+	public static final String DEFAULT_PARENT_PACKAGE_NAME = "org.universaal.ontology";
+
+	String ontologyName = "ont";
+	String parentPackageName = "pck";
+	
+	boolean useSimpleMode = true;
+
+	String projectName;
+	String packageName;
 	String ontologyNamespace;
+	
+	String mavenName;
+	
 
 	List<String> importedOntologies = new ArrayList<String>();	
 	Model mavenModel = new Model();
 
 	public OntologyProjectModel() {
+		setOntologyName(DEFAULT_ONTOLOGY_NAME);
+		setParentPackageName(DEFAULT_PARENT_PACKAGE_NAME);
 		mavenModel.setModelVersion("4.0.0"); //$NON-NLS-1$
-		mavenModel.setArtifactId(ontologyName);
-		mavenModel.setGroupId(packageName);
 		mavenModel.setVersion("0.1");
 	}
 	
@@ -30,31 +39,46 @@ public class OntologyProjectModel  {
 	public void setOntologyName(String ontologyName) {
 		if (this.ontologyName != ontologyName) {
 			support.firePropertyChange("ontologyName", this.ontologyName, this.ontologyName = ontologyName);
-			if (useDerivedValues) {
-				setProjectName(ontologyName);
-				setOntologyNamespace("http://"+revertDomainName(packageName) + "/" + getOntologyName());
+			if (useSimpleMode) {
+				setProjectName(parentPackageName + "." + ontologyName.toLowerCase());
+				setPackageName(parentPackageName);
+				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + getOntologyName());
+				setMavenName(ontologyName);
 			}
 		}
 	}
+	public String getParentPackageName() {
+		return parentPackageName;
+	}
+
+	public void setParentPackageName(String parentPackageName) {
+		if (this.parentPackageName != parentPackageName) {
+			support.firePropertyChange("parentPackageName", this.parentPackageName, this.parentPackageName = parentPackageName);
+			if (useSimpleMode) {
+				setProjectName(parentPackageName + "." + ontologyName.toLowerCase());
+				setPackageName(parentPackageName);
+				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + ontologyName);
+			}
+		}
+	}
+
+	public boolean isUseSimpleMode() {
+		return useSimpleMode;
+	}
+	
+	public void setUseSimpleMode(boolean useDerivedValues) {
+		if (this.useSimpleMode != useDerivedValues) {
+			support.firePropertyChange("useSimpleMode", this.useSimpleMode, this.useSimpleMode = useDerivedValues);			
+		}
+	}
+
 	public String getProjectName() {
-		//if (useDerivedValues) {
-		//	return ontologyName;
-		//}
-		//else {
-			return projectName;
-		//}
+		return projectName;
 	}
 	public void setProjectName(String projectName) {
 		if (this.projectName != projectName) {
 			support.firePropertyChange("projectName", this.projectName, this.projectName = projectName);
-		}
-	}
-	public boolean isUseDerivedValues() {
-		return useDerivedValues;
-	}
-	public void setUseDerivedValues(boolean useDerivedValues) {
-		if (this.useDerivedValues != useDerivedValues) {
-			support.firePropertyChange("useDerivedValues", this.useDerivedValues, this.useDerivedValues = useDerivedValues);			
+			mavenModel.setArtifactId(projectName);
 		}
 	}
 	public String getPackageName() {
@@ -63,11 +87,21 @@ public class OntologyProjectModel  {
 	public void setPackageName(String packageName) {
 		if (this.packageName != packageName) {
 			support.firePropertyChange("packageName", this.packageName, this.packageName = packageName);
-			if (useDerivedValues) 
-				setOntologyNamespace("http://"+revertDomainName(packageName) + "/" + getOntologyName());
+			mavenModel.setGroupId(packageName);
 		}
 	}
 	
+	public String getMavenName() {
+		return mavenName;
+	}
+
+	public void setMavenName(String mavenName) {
+		if (this.mavenName != mavenName) {
+			support.firePropertyChange("mavenName", this.mavenName, this.mavenName = mavenName);
+			mavenModel.setName(mavenName);
+		}
+	}
+
 	public String revertDomainName(String packageName) {
 		String[] path = packageName.split("\\.");
 		StringBuffer buffer = new StringBuffer();
@@ -80,12 +114,7 @@ public class OntologyProjectModel  {
 	}
 	
 	public String getOntologyNamespace() {
-		//if (useDerivedValues) {
-		//	return "http://"+revertDomainName(getPackageName()) + "/" + getOntologyName();
-		//}
-		//else {
-			return ontologyNamespace;
-		//}
+		return ontologyNamespace;
 	}
 
 	public void setOntologyNamespace(String ontologyNamespace) {
