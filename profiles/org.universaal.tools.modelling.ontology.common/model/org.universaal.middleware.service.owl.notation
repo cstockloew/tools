@@ -249,7 +249,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bXK8gfqSEeCQQaPCMdH-vA" x="864" y="96"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_gxgTsfqREeCQQaPCMdH-vA"/>
-  <element xmi:type="uml:Model" href="org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
+  <element xmi:type="uml:Package" href="org.universaal.middleware.service.owl.uml#_Xx5jADuNEeGWHJDQ6prNGQ"/>
   <edges xmi:type="notation:Connector" xmi:id="_ATFrIPqSEeCQQaPCMdH-vA" type="4002" source="_utJIIPqREeCQQaPCMdH-vA" target="_-nK74PqREeCQQaPCMdH-vA" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_ATGSMPqSEeCQQaPCMdH-vA" type="6007">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_ATGSMfqSEeCQQaPCMdH-vA" y="40"/>
