@@ -2,7 +2,7 @@
 <xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OWL="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8 pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww">
   <uml:Model xmi:id="_m1fiMDuGEeGemd2yvbYdUw" name="$$MODEL_NAME$$">
     <ownedComment xmi:id="_FbSYQDuyEeGwdc6BTx-7Jw" annotatedElement="_thSEwDuGEeGemd2yvbYdUw">
-      <body>This comment describes the ontology</body>
+      <body>Add a comment that describes the ontology here</body>
     </ownedComment>
     <packageImport xmi:id="_m1gJQDuGEeGemd2yvbYdUw">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
@@ -17,6 +17,18 @@
       <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$">
+      <ownedComment xmi:id="_olm-4DvcEeG588nPCnr8CA">
+        <annotatedElement xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
+        <annotatedElement xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
+        <annotatedElement xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
+        <body>These base classes are taken from the imported packages shown in the Model Explorer view. Typically, you will subclass these by adding a generalization relation to your own ontology classes. 
+To apply other imported classes, just drag them into the diagram from the Model Explorer.
+</body>
+      </ownedComment>
+      <ownedComment xmi:id="_zZzEwDvdEeG588nPCnr8CA" annotatedElement="_l6V2ADvdEeG588nPCnr8CA _6fXEwDuGEeGemd2yvbYdUw _4fXi8DuGEeGemd2yvbYdUw">
+        <body>These are just example classes that can be renamed or deleted. To create your own classes use the palette (nodes) to the right. You can add associations and generalizations from the the &quot;Edges&quot; palette.
+To add properties to the classes, select property from the Nodes menu and click on the class to add it to.</body>
+      </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_4fXi8DuGEeGemd2yvbYdUw" name="MyService">
         <generalization xmi:id="_SBLJQDuHEeGemd2yvbYdUw">
           <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
@@ -25,6 +37,11 @@
       <packagedElement xmi:type="uml:Class" xmi:id="_6fXEwDuGEeGemd2yvbYdUw" name="MyDevice">
         <generalization xmi:id="_Reoc4DuHEeGemd2yvbYdUw">
           <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
+        </generalization>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_l6V2ADvdEeG588nPCnr8CA" name="MyConcept">
+        <generalization xmi:id="_oLTMADvdEeG588nPCnr8CA">
+          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
         </generalization>
       </packagedElement>
     </packagedElement>

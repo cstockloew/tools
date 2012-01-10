@@ -180,7 +180,7 @@ public class OntologyProjectFactory {
 			resource.getContents().add(cr);			
 		}
 		
-		//replaceTemplateNames(cloneSet ,model);
+		replaceTemplateNames(cloneSet ,model);
 		
 		// Save the resources
 		EList<Resource> resources = cloneSet.getResources();
