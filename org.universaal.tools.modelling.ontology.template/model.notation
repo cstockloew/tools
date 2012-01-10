@@ -178,7 +178,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jmtLsSJQEeGObL8r12dTAg" x="83" y="82"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_YrvmISGkEeGpENLYqQ2TiA"/>
-  <element xmi:type="uml:Model" href="model.uml#_YrCbgCGkEeGpENLYqQ2TiA"/>
+  <element xmi:type="uml:Package" href="model.uml#_llT5kCGkEeGpENLYqQ2TiA"/>
   <edges xmi:type="notation:Connector" xmi:id="_owlFACJPEeGObL8r12dTAg" type="4013" source="_pNoUwCJMEeGObL8r12dTAg" target="_kaToUCJPEeGObL8r12dTAg" lineColor="0">
     <styles xmi:type="notation:FontStyle" xmi:id="_owlFASJPEeGObL8r12dTAg" fontName="Lucida Grande" fontHeight="11"/>
     <element xsi:nil="true"/>
