@@ -1,63 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OWL="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8 pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww">
-  <uml:Model xmi:id="_YrCbgCGkEeGpENLYqQ2TiA" name="ontologyName">
-    <ownedComment xmi:id="_pMqEYCJMEeGObL8r12dTAg">
-      <annotatedElement xmi:type="uml:Class" href="../org.universaal.tools.samples.lighting/models/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
-      <annotatedElement xmi:type="uml:Class" href="../org.universaal.tools.samples.lighting/models/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
-      <body>These base classes are taken from the imported packages shown in the Model Explorer view. To apply other imported classes, just drag them into the diagram.</body>
+  <uml:Model xmi:id="_m1fiMDuGEeGemd2yvbYdUw" name="$$MODEL_NAME$$">
+    <ownedComment xmi:id="_FbSYQDuyEeGwdc6BTx-7Jw" annotatedElement="_thSEwDuGEeGemd2yvbYdUw">
+      <body>This comment describes the ontology</body>
     </ownedComment>
-    <ownedComment xmi:id="_QgjaMCJQEeGObL8r12dTAg" annotatedElement="_JS1PQCJQEeGObL8r12dTAg _KpC0QCJQEeGObL8r12dTAg">
-      <body>These are just example classes that can be renamed or deleted. To create your own classes use the palette (nodes) to the right. To add associations and dependencies use the &quot;Edges&quot; palette.</body>
-    </ownedComment>
-    <ownedComment xmi:id="_jmr9kCJQEeGObL8r12dTAg">
-      <body>For more information please refer to the universAAL developer WIKI tools pages
-</body>
-    </ownedComment>
-    <packageImport xmi:id="_YrCbgSGkEeGpENLYqQ2TiA">
+    <packageImport xmi:id="_m1gJQDuGEeGemd2yvbYdUw">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
     </packageImport>
-    <packageImport xmi:id="_Jn6lICGlEeGpENLYqQ2TiA">
-      <importedPackage xmi:type="uml:Model" href="../org.universaal.tools.samples.lighting/models/org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
+    <packageImport xmi:id="_A1SFADuHEeGemd2yvbYdUw">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
     </packageImport>
-    <packageImport xmi:id="_J5grcCGlEeGpENLYqQ2TiA">
-      <importedPackage xmi:type="uml:Model" href="../org.universaal.tools.samples.lighting/models/org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
+    <packageImport xmi:id="_BNtMEDuHEeGemd2yvbYdUw">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_INViAKFHEeCPiYRKlVcMuQ"/>
     </packageImport>
-    <packageImport xmi:id="_KO9XACGlEeGpENLYqQ2TiA">
-      <importedPackage xmi:type="uml:Model" href="../org.universaal.tools.samples.lighting/models/org.universaal.ontology.phThing.uml#_INViAKFHEeCPiYRKlVcMuQ"/>
+    <packageImport xmi:id="_BiESgDuHEeGemd2yvbYdUw">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
     </packageImport>
-    <packageImport xmi:id="_tMt18CJLEeGObL8r12dTAg">
-      <importedPackage xmi:type="uml:Profile" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_0"/>
-    </packageImport>
-    <packageImport xmi:id="_wZbpkCJLEeGObL8r12dTAg">
-      <importedPackage xmi:type="uml:Profile" href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
-    </packageImport>
-    <packagedElement xmi:type="uml:Package" xmi:id="_llT5kCGkEeGpENLYqQ2TiA" name="org.universaal.ontology.$$ontologyName$$"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_JS1PQCJQEeGObL8r12dTAg" name="MyDevice">
-      <generalization xmi:id="_MUoMUCJQEeGObL8r12dTAg">
-        <general xmi:type="uml:Class" href="../org.universaal.tools.samples.lighting/models/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
-      </generalization>
-      <ownedAttribute xmi:id="_PgV6YCJQEeGObL8r12dTAg" name="myService" type="_KpC0QCJQEeGObL8r12dTAg" association="_PgXIgCJQEeGObL8r12dTAg">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PgV6YSJQEeGObL8r12dTAg" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PgV6YiJQEeGObL8r12dTAg" value="1"/>
-      </ownedAttribute>
+    <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$">
+      <packagedElement xmi:type="uml:Class" xmi:id="_4fXi8DuGEeGemd2yvbYdUw" name="MyService">
+        <generalization xmi:id="_SBLJQDuHEeGemd2yvbYdUw">
+          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
+        </generalization>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_6fXEwDuGEeGemd2yvbYdUw" name="MyDevice">
+        <generalization xmi:id="_Reoc4DuHEeGemd2yvbYdUw">
+          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
+        </generalization>
+      </packagedElement>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_KpC0QCJQEeGObL8r12dTAg" name="MyService">
-      <generalization xmi:id="_L6UO4CJQEeGObL8r12dTAg">
-        <general xmi:type="uml:Class" href="../org.universaal.tools.samples.lighting/models/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
-      </generalization>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_PgXIgCJQEeGObL8r12dTAg" name="myDevice_myService_0" memberEnd="_PgXIgSJQEeGObL8r12dTAg _PgV6YCJQEeGObL8r12dTAg">
-      <ownedEnd xmi:id="_PgXIgSJQEeGObL8r12dTAg" name="myDevice" type="_JS1PQCJQEeGObL8r12dTAg" association="_PgXIgCJQEeGObL8r12dTAg">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PgXIgiJQEeGObL8r12dTAg" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PgXIgyJQEeGObL8r12dTAg" value="1"/>
-      </ownedEnd>
-    </packagedElement>
-    <profileApplication xmi:id="_emazkCJOEeGObL8r12dTAg">
-      <eAnnotations xmi:id="_emr5UCJOEeGObL8r12dTAg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <profileApplication xmi:id="_x2yFYDuGEeGemd2yvbYdUw">
+      <eAnnotations xmi:id="_x26oQDuGEeGemd2yvbYdUw" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww"/>
       </eAnnotations>
       <appliedProfile href="pathmap://TwoUse_Profiles/OWL.profile.uml#_0"/>
     </profileApplication>
+    <profileApplication xmi:id="_x28dcDuGEeGemd2yvbYdUw">
+      <eAnnotations xmi:id="_x3DLIDuGEeGemd2yvbYdUw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/RDF.profile.uml#_0R89QCqWEd6tAp0dWJ5sSg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
+    </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_f6H3ICJOEeGObL8r12dTAg" defaultNamespace="http://ontology.universaal.org/$$ontologyName$$.owl" base_Package="_YrCbgCGkEeGpENLYqQ2TiA" versionInfo="1.0"/>
+  <OWL:owlOntology xmi:id="_sW7i8DuxEeGwdc6BTx-7Jw" base_Package="_m1fiMDuGEeGemd2yvbYdUw"/>
 </xmi:XMI>
