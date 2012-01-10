@@ -32,9 +32,17 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_B9p9AJv_EeCgJ7sXDd2E1w" name="BlinkableLighting">
         <generalization xmi:id="_otbZcJv_EeCgJ7sXDd2E1w" general="_hI5GcJv-EeCgJ7sXDd2E1w"/>
+        <ownedAttribute xmi:id="_-b9ysDvSEeGWHJDQ6prNGQ" name="controls" type="_POvYkJv_EeCgJ7sXDd2E1w" association="_-b-ZwDvSEeGWHJDQ6prNGQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-b9ysTvSEeGWHJDQ6prNGQ" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-b9ysjvSEeGWHJDQ6prNGQ" value="1"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_Iso9gJv_EeCgJ7sXDd2E1w" name="Beaming">
         <generalization xmi:id="_oGSg8Jv_EeCgJ7sXDd2E1w" general="_hI5GcJv-EeCgJ7sXDd2E1w"/>
+        <ownedAttribute xmi:id="_HVpJIDvTEeGWHJDQ6prNGQ" name="controls" type="_QpxMIJv_EeCgJ7sXDd2E1w" association="_HVqXQDvTEeGWHJDQ6prNGQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HVpJITvTEeGWHJDQ6prNGQ" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_HVpJIjvTEeGWHJDQ6prNGQ" value="1"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_LMWhMJv_EeCgJ7sXDd2E1w" name="BlinkableBeaming">
         <generalization xmi:id="_pQUEEJv_EeCgJ7sXDd2E1w" general="_Iso9gJv_EeCgJ7sXDd2E1w"/>
@@ -48,21 +56,18 @@
         <ownedComment xmi:id="_1O97kDeIEeGXFsuJsZAP1w">
           <body>The light emitting source</body>
         </ownedComment>
-        <generalization xmi:id="_pQD6EKFdEeCP6pkOW5nrGg">
-          <general xmi:type="uml:Class" href="ontology.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
-        </generalization>
         <generalization xmi:id="_ExBRgP4gEeCMDfYSajZxow">
           <general xmi:type="uml:Class" href="org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
         </generalization>
         <ownedAttribute xmi:id="_PqR0sKFHEeCPiYRKlVcMuQ" name="ambientCoverage">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          <type xmi:type="uml:Class" href="../../org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2GIv0DuIEeGWHJDQ6prNGQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2GIIwDuIEeGWHJDQ6prNGQ"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_T7M3UKFHEeCPiYRKlVcMuQ" name="sourceBrigthtness" aggregation="composite">
+        <ownedAttribute xmi:id="_T7M3UKFHEeCPiYRKlVcMuQ" name="sourceBrightness" aggregation="composite">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_88rlUDuSEeGWHJDQ6prNGQ" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pcK9oDuTEeGWHJDQ6prNGQ"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pcK9oDuTEeGWHJDQ6prNGQ" value="1"/>
           <defaultValue xmi:type="uml:LiteralString" xmi:id="_9oQVEDuWEeGWHJDQ6prNGQ" name="values" value="0..100"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_V091UKFHEeCPiYRKlVcMuQ" name="sourceColor">
@@ -78,6 +83,7 @@
         <ownedAttribute xmi:id="_WYGygJwAEeCgJ7sXDd2E1w" name="isBlinking">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_WZo3UDvUEeGWHJDQ6prNGQ" name="isBlinking"/>
         <interfaceRealization xmi:id="_JaHBsKFIEeCPiYRKlVcMuQ" name="InterfaceRealization" supplier="_Gm_Z0KFIEeCPiYRKlVcMuQ" client="_POvYkJv_EeCgJ7sXDd2E1w" contract="_Gm_Z0KFIEeCPiYRKlVcMuQ"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_QpxMIJv_EeCgJ7sXDd2E1w" name="BeamingSource">
@@ -145,6 +151,18 @@
           <general xmi:type="uml:Class" href="middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
         </generalization>
       </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_-b-ZwDvSEeGWHJDQ6prNGQ" name="blinkControl" memberEnd="_-b-ZwTvSEeGWHJDQ6prNGQ _-b9ysDvSEeGWHJDQ6prNGQ">
+        <ownedEnd xmi:id="_-b-ZwTvSEeGWHJDQ6prNGQ" name="controlledBy" type="_B9p9AJv_EeCgJ7sXDd2E1w" association="_-b-ZwDvSEeGWHJDQ6prNGQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-b-ZwjvSEeGWHJDQ6prNGQ" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-b-ZwzvSEeGWHJDQ6prNGQ" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_HVqXQDvTEeGWHJDQ6prNGQ" name="beamControl" memberEnd="_HVqXQTvTEeGWHJDQ6prNGQ _HVpJIDvTEeGWHJDQ6prNGQ">
+        <ownedEnd xmi:id="_HVqXQTvTEeGWHJDQ6prNGQ" name="controlledBy" type="_Iso9gJv_EeCgJ7sXDd2E1w" association="_HVqXQDvTEeGWHJDQ6prNGQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HVqXQjvTEeGWHJDQ6prNGQ" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_HVqXQzvTEeGWHJDQ6prNGQ" value="1"/>
+        </ownedEnd>
+      </packagedElement>
     </packagedElement>
     <profileApplication xmi:id="_Ubc6IKFGEeCPiYRKlVcMuQ">
       <eAnnotations xmi:id="_UfNYwKFGEeCPiYRKlVcMuQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
@@ -166,11 +184,11 @@
     </profileApplication>
   </uml:Model>
   <OWL:owlOntology xmi:id="_NeG6cKF7EeCR0PqXfWn3bQ" defaultNamespace="http://ontology.universaal.org/lighting.owl" base_Package="_qb8akM37EdqwVrslYOdUDA" versionInfo="1.0"/>
-  <OWL:datatypeProperty xmi:id="_VhcAkDeNEeGXFsuJsZAP1w" base_Property="_T7M3UKFHEeCPiYRKlVcMuQ"/>
+  <OWL:datatypeProperty xmi:id="_VhcAkDeNEeGXFsuJsZAP1w" base_Property="_T7M3UKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_GpexADeREeGXFsuJsZAP1w" base_Property="_PqR0sKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
-  <OWL:objectProperty xmi:id="_JftXQDeREeGXFsuJsZAP1w" base_Property="_V091UKFHEeCPiYRKlVcMuQ"/>
-  <OWL:objectProperty xmi:id="_KswZMDeREeGXFsuJsZAP1w" base_Property="_XLYOoKFHEeCPiYRKlVcMuQ"/>
-  <OWL:owlValue xmi:id="_-fJXYDeREeGXFsuJsZAP1w" base_Property="_T7M3UKFHEeCPiYRKlVcMuQ"/>
+  <OWL:objectProperty xmi:id="_JftXQDeREeGXFsuJsZAP1w" base_Property="_V091UKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_KswZMDeREeGXFsuJsZAP1w" base_Property="_XLYOoKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_KISo0DuEEeGWHJDQ6prNGQ" base_Property="_dQJoYJwAEeCgJ7sXDd2E1w" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_LHajgDuEEeGWHJDQ6prNGQ" base_Property="_hjuWYJwAEeCgJ7sXDd2E1w" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_YxT5UDvUEeGWHJDQ6prNGQ" base_Property="_WZo3UDvUEeGWHJDQ6prNGQ" isFunctional="true"/>
 </xmi:XMI>
