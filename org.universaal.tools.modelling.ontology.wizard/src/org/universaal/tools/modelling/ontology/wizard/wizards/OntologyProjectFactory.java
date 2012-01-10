@@ -45,7 +45,11 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.progress.IProgressConstants;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.eclipse.uml2.uml.util.UMLUtil;
 import org.universaal.tools.modelling.ontology.wizard.Activator;
 
 /**
@@ -91,7 +95,7 @@ public class OntologyProjectFactory {
 		URI toUri = URI.createPlatformResourceURI("/" + model.getMavenModel().getArtifactId() + "/" + model.getOntologyName() + ".di", true);		
 		//fromUri.appendSegment(model.getOntologyName() + ".di");			
 	
-		clonePapyrusModel(fromUri.toString(), toUri.toString());	
+		clonePapyrusModel(fromUri.toString(), toUri.toString(), model);	
 	}
 	
 	/** 
@@ -103,13 +107,13 @@ public class OntologyProjectFactory {
 	 */
 	protected static ModelSet createAndInitResourceSet() {
 		ModelSet resourceSet = new ModelSet();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-        (Resource.Factory.Registry.DEFAULT_EXTENSION, 
-   	         new XMIResourceFactoryImpl());
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-				UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-				"ecore", new EcoreResourceFactoryImpl());		
+//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+//        (Resource.Factory.Registry.DEFAULT_EXTENSION, 
+//   	         new XMIResourceFactoryImpl());
+//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+//				UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+//				"ecore", new EcoreResourceFactoryImpl());		
 		
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
 				".notation", new GMFResourceFactory());
@@ -117,21 +121,31 @@ public class OntologyProjectFactory {
 		return resourceSet;
 	}	
 	
-	public static ResourceSet clonePapyrusModel(String inModelURI, String cloneModelURI) {
-		System.out.println("InModel: " + inModelURI);
-		System.out.println("OutModel: " + cloneModelURI);
-		
+	public static ResourceSet clonePapyrusModel(String inModelURI, String cloneModelURI, OntologyProjectModel model) {
 		//org.eclipse.papyrus.resource.notation.NotationModel.NOTATION_FILE_EXTENSION;
 		//org.eclipse.papyrus.resource.sasheditor.SashModel.MODEL_FILE_EXTENSION
 		//org.eclipse.papyrus.resource.uml.UmlModel.UML_FILE_EXTENSION
 
-		return cloneModel(inModelURI, cloneModelURI, new String[] {"di", "notation", "uml"});
+		return cloneModel(inModelURI, cloneModelURI, new String[] { "uml", "notation", "di"}, model);
 	}		
 	
 	
-	public static ResourceSet cloneModel(String inModelURI, String cloneModelURI, String[] fileExtensions) {
-		ResourceSet inSet = createAndInitResourceSet();
+	public static ResourceSet cloneModel(String inModelURI, String cloneModelURI, String[] fileExtensions, OntologyProjectModel model) {
+		// Create clone resource set and add resources for all extensions
+		ResourceSet cloneSet = createAndInitResourceSet();
+		int cloneExtIndex = cloneModelURI.lastIndexOf(".") + 1;
+		String cloneBaseURI = cloneModelURI.substring(0, cloneExtIndex);
+		Map<String, Resource> extensionToResourceMap = new HashMap<String, Resource>();
 		
+		for (String ext : fileExtensions) {
+			String cloneFileName = cloneBaseURI + ext;
+			URI uri = URI.createURI(cloneFileName);
+			Resource resource = cloneSet.createResource(uri);		
+			extensionToResourceMap.put(ext, resource);
+		}
+
+		// Create the in resource set, and prepare for reading and going through it
+		ResourceSet inSet = createAndInitResourceSet();		
 		int inExtIndex = inModelURI.lastIndexOf(".") + 1;
 		String inBaseURI = inModelURI.substring(0, inExtIndex);
 		
@@ -141,28 +155,33 @@ public class OntologyProjectFactory {
 		
 		// Load the models and collect the root objects to be cloned
 		for (int i = 0; i < fileExtensions.length; i++) {
-			EObject obj = loadRootObject(inSet, inBaseURI + fileExtensions[i]);
-			listToClone.add(obj);
-			classNameToExtensionMap.put(obj.eClass().getName(), fileExtensions[i]);
+			EList<EObject> obj = loadContent(inSet, inBaseURI + fileExtensions[i]);
+			listToClone.addAll(obj);
+			
+			if (fileExtensions[i].equals("uml")) {
+				EcoreUtil.resolveAll(inSet);
+			}
+
+			for (EObject rootContent : obj) {
+				classNameToExtensionMap.put(rootContent.eClass().getName(), fileExtensions[i]);
+			}
 		}
 		
 		// Start the cloning
-		ResourceSet cloneSet = createAndInitResourceSet();
 		Collection<EObject> clonedList = EcoreUtil.copyAll(listToClone);
 		
-		int cloneExtIndex = cloneModelURI.lastIndexOf(".") + 1;
-		String cloneBaseURI = cloneModelURI.substring(0, cloneExtIndex);
 		
 		// Add the clones to the clone resource set and set the right file names
 		for (Iterator<EObject> iter = clonedList.iterator(); iter.hasNext(); ) {
 			EObject cr = iter.next();
 
-			String cloneFileName = cloneBaseURI + classNameToExtensionMap.get(cr.eClass().getName());
-			URI uri = URI.createURI(cloneFileName); //createFileURI
-			Resource resource = cloneSet.createResource(uri);
+			// Find the right resource to add to, and add
+			Resource resource = extensionToResourceMap.get(classNameToExtensionMap.get(cr.eClass().getName()));
 			resource.getContents().add(cr);			
 		}
-
+		
+		//replaceTemplateNames(cloneSet ,model);
+		
 		// Save the resources
 		EList<Resource> resources = cloneSet.getResources();
 		for (Iterator<Resource> resIter = resources.iterator(); resIter.hasNext(); ) {					
@@ -177,7 +196,36 @@ public class OntologyProjectFactory {
 	}
 	
 	
+	public static void replaceTemplateNames(ResourceSet resourceSet, OntologyProjectModel model) {
+		//Collection<NamedElement> matches = UMLUtil.findNamedElements(resourceSet, "abc");
+		
+		
+		HashMap<String, String> replaceMap = new HashMap<String, String>();
+		replaceMap.put("$$MODEL_NAME$$", model.getOntologyName());
+		replaceMap.put("$$PACKAGE_NAME$$", model.getPackageName());
+		
+		
+		for (Iterator it = resourceSet.getAllContents(); it.hasNext();) {
+			Object element = it.next();
+			if (element instanceof NamedElement) {
+				String newName = replaceMap.get(((NamedElement) element).getName());
+				if (newName != null) {
+					((NamedElement) element).setName(newName);					
+				}
+				if (element instanceof org.eclipse.uml2.uml.Model) {
+					Stereotype s = ((NamedElement) element).getAppliedStereotype("OWL:owlOntology");
+					if (s != null)
+						UMLUtil.setTaggedValue((Element) element, s, "defaultNamespace", model.getOntologyNamespace());
 	
+					// ((NamedElement) element).getOwnedComments();
+					// Put any description into owned comment of model 
+					// replaceMap.put(model.getMavenModel().getDescription();
+					
+				}
+			}
+		}
+		
+	}
 	
 	
 	/**
@@ -187,7 +235,7 @@ public class OntologyProjectFactory {
 	 * @param resourceSet The resource set used to load the resource
 	 * @param fileURI
 	 * @return The loaded root object, or null if no root object could not be found
-	 */
+	 *
 	public static EObject loadRootObject(ResourceSet resourceSet, String fileURI) {
 		
 		if(fileURI !=null){
@@ -206,5 +254,35 @@ public class OntologyProjectFactory {
 		}			
 		return null;
 	}
+*/
+	
+	/**
+	 * Load the content of the file by getting it through the 
+	 * provided resource set.
+	 * 
+	 * @param resourceSet The resource set used to load the resource
+	 * @param fileURI
+	 * @return The content of the resource, or null if no content could not be found
+	 */
+	public static EList<EObject> loadContent(ResourceSet resourceSet, String fileURI) {
+		
+		if(fileURI !=null){
+			//Set the file name from the dialog
+			URI uri = URI.createURI(fileURI); // createFileURI
+			Resource resource = resourceSet.getResource(uri, true);
+			try {
+				resource.load(null);
+				return resource.getContents();
+
+//				return object;				
+			}
+			catch (Exception e){
+				System.out.println("failed to load content of file : " + fileURI);
+			}			
+		}			
+		return null;
+	}
+	
+	
 	
 }
