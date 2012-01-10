@@ -45,6 +45,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.progress.IProgressConstants;
+import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Stereotype;
@@ -213,14 +214,15 @@ public class OntologyProjectFactory {
 					((NamedElement) element).setName(newName);					
 				}
 				if (element instanceof org.eclipse.uml2.uml.Model) {
-					Stereotype s = ((NamedElement) element).getAppliedStereotype("OWL:owlOntology");
+					//String str = UMLUtil.getStereotype(((NamedElement) element).getStereotypeApplications().get(0)).getQualifiedName();
+					Stereotype s = ((NamedElement) element).getAppliedStereotype("OWL::owlOntology");
 					if (s != null)
 						UMLUtil.setTaggedValue((Element) element, s, "defaultNamespace", model.getOntologyNamespace());
 	
-					// ((NamedElement) element).getOwnedComments();
-					// Put any description into owned comment of model 
-					// replaceMap.put(model.getMavenModel().getDescription();
-					
+					Comment comm = ((NamedElement) element).getOwnedComments().get(0);
+					if (comm != null) {
+						comm.setBody(model.getMavenModel().getDescription());			
+					}
 				}
 			}
 		}
