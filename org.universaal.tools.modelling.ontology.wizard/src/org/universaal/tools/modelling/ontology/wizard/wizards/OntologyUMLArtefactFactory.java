@@ -54,53 +54,33 @@ import org.eclipse.uml2.uml.util.UMLUtil;
 import org.universaal.tools.modelling.ontology.wizard.Activator;
 
 /**
- * This class is a factory that crates an ontology project, including
- * its Eclipse, Maven and UML model artefacts
+ * This class is a factory that crates the UML artefact for an ontology project
+ * based information entered in the Wizard.
  *  
  * @author erlend
  *
  */
-public class OntologyProjectFactory {
-	/**
-	 * Creates the ontology project based on the provided model
-	 * 
-	 * @param model
-	 */
-	public static void create(OntologyProjectModel model) {
-		createEclipseProject(model);
-		createMavenArtefacts(model);
-		createUMLArtefacts(model);
-	}
-	
-	protected static void createEclipseProject(OntologyProjectModel model) {
-		
-	}
-
-	static final String[] folders = new String[] {
-		"src/main/java", "src/test/java", "src/main/resources", "src/test/resources" };
-
-	
-	protected static boolean createMavenArtefacts(OntologyProjectModel ontologyModel) {
-		return false;
-	
-	}
+public class OntologyUMLArtefactFactory {
 	
 	public static final String MODEL_DIR = "models";
 	public static final String DI_FILE = "model.di";
 	
+	/**
+	 * Creates a set of UML artefacts based on the provided model with content from the Wizard.
+	 * The artefacts are added to the project identified by the Wizard. The Eclipse project must 
+	 * exist before this method is called.
+	 *  
+	 * @param model
+	 */
 	protected static void createUMLArtefacts(OntologyProjectModel model) {
 		URI fromUri = URI.createPlatformPluginURI("/" + Activator.PLUGIN_ID + "/" + MODEL_DIR + "/" + DI_FILE, true);
-		//fromUri.appendSegments(new String[] {MODEL_DIR, DI_FILE});
-	
-		
 		URI toUri = URI.createPlatformResourceURI("/" + model.getMavenModel().getArtifactId() + "/" + model.getOntologyName() + ".di", true);		
-		//fromUri.appendSegment(model.getOntologyName() + ".di");			
 	
 		clonePapyrusModel(fromUri.toString(), toUri.toString(), model);	
 	}
 	
 	/** 
-	 * Create a new resource set and register XMI, UML and eCore resource factories 
+	 * Create a new resource set and register the GMF resource factory 
 	 * with it. The ModelSet subclass of resource set is used because it may give 
 	 * better support for Papyrus models
 	 * 
@@ -108,29 +88,39 @@ public class OntologyProjectFactory {
 	 */
 	protected static ModelSet createAndInitResourceSet() {
 		ModelSet resourceSet = new ModelSet();
-//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
-//        (Resource.Factory.Registry.DEFAULT_EXTENSION, 
-//   	         new XMIResourceFactoryImpl());
-//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-//				UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-//				"ecore", new EcoreResourceFactoryImpl());		
-		
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
 				".notation", new GMFResourceFactory());
 		
 		return resourceSet;
 	}	
 	
+	/**
+	 * This method adds the set of file extensions used by Papyrus models, and forwards this
+	 * call to cloneModel in order to clones the model files identified with the inModelURI into files identified
+	 * by the cloneModelURI. The provided java model object is used to
+	 * customize the cloned model with values entered in the Wizard
+	 * 
+	 * @param inModelURI
+	 * @param cloneModelURI
+	 * @param fileExtensions
+	 * @param model
+	 * @return
+	 */
 	public static ResourceSet clonePapyrusModel(String inModelURI, String cloneModelURI, OntologyProjectModel model) {
-		//org.eclipse.papyrus.resource.notation.NotationModel.NOTATION_FILE_EXTENSION;
-		//org.eclipse.papyrus.resource.sasheditor.SashModel.MODEL_FILE_EXTENSION
-		//org.eclipse.papyrus.resource.uml.UmlModel.UML_FILE_EXTENSION
-
 		return cloneModel(inModelURI, cloneModelURI, new String[] { "uml", "notation", "di"}, model);
 	}		
 	
-	
+	/**
+	 * This method clones the model files identified with the inModelURI into files identified
+	 * by the cloneModelURI and the set of extensions. The provided java model object is used to
+	 * customize the cloned model with values entered in the Wizard
+	 * 
+	 * @param inModelURI
+	 * @param cloneModelURI
+	 * @param fileExtensions
+	 * @param model
+	 * @return
+	 */
 	public static ResourceSet cloneModel(String inModelURI, String cloneModelURI, String[] fileExtensions, OntologyProjectModel model) {
 		// Create clone resource set and add resources for all extensions
 		ResourceSet cloneSet = createAndInitResourceSet();
@@ -196,7 +186,13 @@ public class OntologyProjectFactory {
 		return cloneSet;		
 	}
 	
-	
+	/**
+	 * Goes through the model elements, replacing template names, tagged values and comments
+	 * with values entered in the wizard
+	 * 
+	 * @param resourceSet
+	 * @param model The Java model class containing the values from the wizard
+	 */
 	public static void replaceTemplateNames(ResourceSet resourceSet, OntologyProjectModel model) {
 		//Collection<NamedElement> matches = UMLUtil.findNamedElements(resourceSet, "abc");
 		
@@ -232,34 +228,6 @@ public class OntologyProjectFactory {
 	
 	
 	/**
-	 * Load the root object of the file by getting it through the 
-	 * provided resource set.
-	 * 
-	 * @param resourceSet The resource set used to load the resource
-	 * @param fileURI
-	 * @return The loaded root object, or null if no root object could not be found
-	 *
-	public static EObject loadRootObject(ResourceSet resourceSet, String fileURI) {
-		
-		if(fileURI !=null){
-			//Set the file name from the dialog
-			URI uri = URI.createURI(fileURI); // createFileURI
-			Resource resource = resourceSet.getResource(uri, true);
-			try {
-				resource.load(null);
-				EObject object = resource.getContents().get(0);
-
-				return object;				
-			}
-			catch (Exception e){
-				System.out.println("failed to load content of file : " + fileURI);
-			}			
-		}			
-		return null;
-	}
-*/
-	
-	/**
 	 * Load the content of the file by getting it through the 
 	 * provided resource set.
 	 * 
@@ -276,8 +244,6 @@ public class OntologyProjectFactory {
 			try {
 				resource.load(null);
 				return resource.getContents();
-
-//				return object;				
 			}
 			catch (Exception e){
 				System.out.println("failed to load content of file : " + fileURI);

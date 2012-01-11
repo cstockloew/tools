@@ -154,7 +154,7 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 			setProperty(IProgressConstants.ACTION_PROPERTY,
 				new OpenMavenConsoleAction());
 			try {
-				OntologyProjectFactory.createUMLArtefacts(ontologyProjectModel);
+				OntologyUMLArtefactFactory.createUMLArtefacts(ontologyProjectModel);
 				
 			    // This is like refreshing, because we changed the pom
 			    //MavenPlugin.getProjectConfigurationManager()
