@@ -20,7 +20,8 @@ package org.universaal.tools.transformationcommand.preferences;
 
 public class PreferenceConstants {
 	
-	public static final String P_UML2JAVA_PATH = "uml2javaabsolutepath";
+	public static final String P_UML2JAVA_ROOTPATH = "uml2javarootpath";
+	public static final String P_UML2JAVA_JAVAPATH = "uml2javajavapath";
 	public static final String P_UML2JAVA_ABSOLUTE_BOOLEAN = "uml2javarelativepathboolean";
 
 }

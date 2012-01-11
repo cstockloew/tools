@@ -29,18 +29,23 @@ public class TransformExampleHandler extends TransformationHandler {
 
 	public TransformExampleHandler() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String directory = store.getString(PreferenceConstants.P_UML2JAVA_PATH);
+		String directory = store.getString(PreferenceConstants.P_UML2JAVA_ROOTPATH);
 		boolean absolutePath = store.getBoolean(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN);
 		setFileAndBundleName(TRANSFORMATION_FILENAME, THIS_BUNDLE_NAME);
 	}
 
 
 	@Override
-	protected String getDirectoryFromPreferences() {
+	protected String getRootDirectoryFromPreferences() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	protected String getJavaDirectoryFromPreferences() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	protected boolean getAbsolutePathBooleanFromPreferences() {

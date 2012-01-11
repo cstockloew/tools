@@ -31,7 +31,8 @@ public class Uml2JavaPreferencePage
 extends FieldEditorPreferencePage
 implements IWorkbenchPreferencePage {
 
-	StringFieldEditor pathName;
+	StringFieldEditor javaPathName;
+	StringFieldEditor rootPathName;
 	BooleanFieldEditor absoluteBoolean;
 
 	public Uml2JavaPreferencePage() {
@@ -49,10 +50,12 @@ implements IWorkbenchPreferencePage {
 	@Override
 	protected void createFieldEditors() {
 		absoluteBoolean = new BooleanFieldEditor(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN, "Use absolute path.", getFieldEditorParent());
-		pathName = new StringFieldEditor(PreferenceConstants.P_UML2JAVA_PATH, "Please enter the desired path.", getFieldEditorParent());
+		rootPathName = new StringFieldEditor(PreferenceConstants.P_UML2JAVA_ROOTPATH, "Please enter the desired root output path (blank for project root)", getFieldEditorParent());
+		javaPathName = new StringFieldEditor(PreferenceConstants.P_UML2JAVA_JAVAPATH, "Please enter the relative subdirectory within the root for Java files.", getFieldEditorParent());
 
 		addField(absoluteBoolean);
-		addField(pathName);
+		addField(rootPathName);
+		addField(javaPathName);
 
 
 	}

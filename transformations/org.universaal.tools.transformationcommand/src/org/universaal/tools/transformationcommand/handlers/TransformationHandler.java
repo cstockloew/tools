@@ -226,11 +226,9 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 		// sets the root output directory, if any is desired (e.g. "c:/temp")
 		IProject project = inputFile.getProject();
-		//		execMgr.setRootDirectory(findDirectory(project)); Old code. Should refine the use of preferences
-
-		execMgr.setRootDirectory(project.getLocation().toString());		
+		execMgr.setRootDirectory(findRootDirectory(project));		
 		System.setProperty("org.universaal.tools.transformationcommand.javadir", 
-				getJavaDirectoryFromPreferences() );
+				getTrimmedJavaDirectoryFromPreferences() );
 
 		// if true, files are not generated to the file system, but populated into a filemodel
 		// which can be fetched afterwards. Value false will result in standard file generation
@@ -274,28 +272,31 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	 * @param inputFile
 	 * @return
 	 */
-	private String findDirectory(IProject project){
+	private String findRootDirectory(IProject project){
 		if(getAbsolutePathBooleanFromPreferences()){
-			return getDirectoryFromPreferences();
+			return getRootDirectoryFromPreferences();
 		}else{
-			String result = project.getLocation() + 
-					(getDirectoryFromPreferences().charAt(0)=='/' ? "" : "/")+ 
-					getDirectoryFromPreferences();
-			System.out.println("Returning " + result);
+			String result = project.getLocation().toString(); 
+			String root = getRootDirectoryFromPreferences();
+			if ((root != null) && (root.length() > 0)) {
+				result = result + 
+					(root.charAt(0)=='/' ? "" : "/")+ 
+					root;
+			}
 			return result;
 		}
 
 	}
-
-	private String getJavaDirectoryFromPreferences() {
-		// For now, strip away any leading "/" in directory name
-		String javaDir = getDirectoryFromPreferences();
+	private String getTrimmedJavaDirectoryFromPreferences() {
+		// Strip away any leading "/" in directory name
+		String javaDir = getJavaDirectoryFromPreferences();
 		if (javaDir.charAt(0)=='/')
 			return javaDir.substring(1);
-		return getDirectoryFromPreferences();		
+		return javaDir;		
 	}
 	
-	protected abstract String getDirectoryFromPreferences();
+	protected abstract String getRootDirectoryFromPreferences();
+	protected abstract String getJavaDirectoryFromPreferences();
 	protected abstract boolean getAbsolutePathBooleanFromPreferences();
 
 	private MessageConsole findConsole(String name) {

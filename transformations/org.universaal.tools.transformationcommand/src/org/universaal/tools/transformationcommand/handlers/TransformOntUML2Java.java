@@ -31,12 +31,20 @@ public class TransformOntUML2Java extends TransformationHandler {
 	}
 
 	@Override
-	protected String getDirectoryFromPreferences() {
+	protected String getRootDirectoryFromPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String directory = store.getString(PreferenceConstants.P_UML2JAVA_PATH);
+		String directory = store.getString(PreferenceConstants.P_UML2JAVA_ROOTPATH);
 		return directory;
 	}
 
+	@Override
+	protected String getJavaDirectoryFromPreferences() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		String directory = store.getString(PreferenceConstants.P_UML2JAVA_JAVAPATH);
+		return directory;
+	}
+
+	
 	@Override
 	protected boolean getAbsolutePathBooleanFromPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();

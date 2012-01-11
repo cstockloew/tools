@@ -27,8 +27,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer  {
 	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		store.setDefault(PreferenceConstants.P_UML2JAVA_PATH, 
-				"/src/main/java");
+		store.setDefault(PreferenceConstants.P_UML2JAVA_JAVAPATH, 
+				"src/main/java");
+		store.setDefault(PreferenceConstants.P_UML2JAVA_ROOTPATH, 
+				"");
 		store.setDefault(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN, 
 				false);
 		
