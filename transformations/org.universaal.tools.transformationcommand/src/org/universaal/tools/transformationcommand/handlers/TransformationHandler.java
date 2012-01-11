@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.mofscript.MOFScriptModel.MOFScriptSpecification;
 import org.eclipse.mofscript.parser.MofScriptParseError;
 import org.eclipse.mofscript.parser.ParserUtil;
@@ -248,6 +249,8 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 			System.out.println("Completed transformation");
 			//New code
 			project.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
+		    MavenPlugin.getProjectConfigurationManager()
+		    	.updateProjectConfiguration(project, new NullProgressMonitor());			
 		} catch (MofScriptExecutionException mex) {
 			
 			mex.printStackTrace();
