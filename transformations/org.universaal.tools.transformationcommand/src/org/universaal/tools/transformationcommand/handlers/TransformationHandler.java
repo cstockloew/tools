@@ -226,8 +226,11 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 		// sets the root output directory, if any is desired (e.g. "c:/temp")
 		IProject project = inputFile.getProject();
-		execMgr.setRootDirectory(findDirectory(project));
+		//		execMgr.setRootDirectory(findDirectory(project)); Old code. Should refine the use of preferences
 
+		execMgr.setRootDirectory(project.getLocation().toString());		
+		System.setProperty("org.universaal.tools.transformationcommand.javadir", 
+				getJavaDirectoryFromPreferences() );
 
 		// if true, files are not generated to the file system, but populated into a filemodel
 		// which can be fetched afterwards. Value false will result in standard file generation
@@ -243,7 +246,7 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		try {
 			System.out.println("Performing transformation");
 
-			execMgr.executeTransformation();           
+			execMgr.executeTransformation();      
 			System.out.println("Completed transformation");
 			//New code
 			project.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
@@ -284,6 +287,14 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 	}
 
+	private String getJavaDirectoryFromPreferences() {
+		// For now, strip away any leading "/" in directory name
+		String javaDir = getDirectoryFromPreferences();
+		if (javaDir.charAt(0)=='/')
+			return javaDir.substring(1);
+		return getDirectoryFromPreferences();		
+	}
+	
 	protected abstract String getDirectoryFromPreferences();
 	protected abstract boolean getAbsolutePathBooleanFromPreferences();
 

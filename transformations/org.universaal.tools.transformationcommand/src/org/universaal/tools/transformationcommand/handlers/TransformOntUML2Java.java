@@ -23,7 +23,7 @@ import org.universaal.tools.transformationcommand.activator.Activator;
 import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
 
 public class TransformOntUML2Java extends TransformationHandler {
-	static final String TRANSFORMATION_FILENAME = "transformations/ontUML2Java.m2t";
+	static final String TRANSFORMATION_FILENAME = "transformations/ontUML2JavaV2.m2t";
 	static final String THIS_BUNDLE_NAME = Activator.PLUGIN_ID;
 
 	public TransformOntUML2Java() {

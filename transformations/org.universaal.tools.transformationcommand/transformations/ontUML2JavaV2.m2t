@@ -33,6 +33,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
   var propertyHashtable: Hashtable  
   var projectInfo: Hashtable
   var importedModels: Hashtable
+  var javaBasePath:String
 
  
    /**
@@ -40,6 +41,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
    */
     
   uml.Model::main() {
+    javaBasePath = getEnv("org.universaal.tools.transformationcommand.javadir")
     
     if (!self.hasStereotype("owlOntology")) {
       
@@ -50,9 +52,11 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
     
     ontologyName = self.name 
     StdOut.println("Generating Java classes for ontology: " + ontologyName)
-    ontologyNamespace = "http:\\\\\\\\ontology.universAAL.org\\\\"+ontologyName; //self.getStereotypeValue("owlOntology", "defaultNamespace")
+    
+    //ontologyNamespace = "http:\\\\\\\\ontology.universAAL.org\\\\"+ontologyName; //self.getStereotypeValue("owlOntology", "defaultNamespace")
+    ontologyNamespace = self.getStereotypeValue("owlOntology", "defaultNamespace")
     StdOut.println("Namespace: "+ontologyNamespace) 
-    ontologyNamespaceReference =  ontologyName +  'Namespace.NAMESPACE'  
+    ontologyNamespaceReference =  ontologyName +  'Ontology.NAMESPACE'  
   
     
     //must create the import list.
@@ -60,11 +64,6 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
          
   	self.ownedMember -> forEach( p:uml.Package ){         
         var ontologyClassList:Hashtable
- 
- /*
- 	  	StdOut.println("Handling namespace interface of package :" + p.name) 
-   		p.generateNamespaceInterface()
- */
    		
    		//Create a hashtable containing the properties of the classes in the model.
    		StdOut.println("Handling properties of classes (not interfaces) in the package: " + p.name)
@@ -82,15 +81,6 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
 		    ontologyClassList.put(component.name, component)
 			component.generateOntologyClass()
 		}
-/*	
-	  	StdOut.println("Handling interfaces of package :" + p.name) 
-  		//Generate a java-class for each interface in the ontology
-		p.ownedElement -> forEach( inter:uml.Interface ) { // | component.hasStereotype("owlClass") ){
-			inter.generateOntologyInterface()
-  		    ontologyClassList.put(self.name, self)
-		}
-*/		
-   		
    		
 	  	StdOut.println("Handling main ontology class for :" + p.name) 
    		p.generateMainOntologyClass(ontologyClassList)
@@ -112,7 +102,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
  
  
   uml.Package::generateActivator(ontologyClassList:Hashtable) {
-	file( self.name.replace("\\.", "/") + '/' + "Activator.java" )
+	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/' + "Activator.java" )
     
 '
 package ' self.name ';
@@ -142,10 +132,10 @@ public class Activator implements BundleActivator {
 
 
   uml.Package::generateMainOntologyClass(ontologyClassList:Hashtable) {
-	file( self.name.replace("\\.", "/") + '/owl/' + ontologyName + "Ontology.java" )
+	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/owl/' + ontologyName + "Ontology.java" )
 
 '
-package ' self.name ';
+package ' self.name '.owl;
 
 import org.universAAL.middleware.owl.BoundingValueRestriction;
 import org.universAAL.middleware.owl.DataRepOntology;
@@ -157,10 +147,11 @@ import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.TypeMapper;
 import org.universAAL.middleware.service.owl.Service;
 import org.universAAL.middleware.service.owl.ServiceBusOntology;
-import org.universAAL.ontology.LightingFactory;
 import org.universAAL.ontology.location.Location;
 import org.universAAL.ontology.location.LocationOntology;
 import org.universAAL.ontology.phThing.Device;
+import ' self.name '.' ontologyName 'Factory;
+
 
 /**
  * @author AAL Studio 
@@ -168,13 +159,13 @@ import org.universAAL.ontology.phThing.Device;
 public final class ' ontologyName 'Ontology extends Ontology {
 
 	private static ' ontologyName 'Factory factory = new ' ontologyName 'Factory();
-	public static final String NAMESPACE ="http://ontology.universaal.org/' ontologyName '.owl#";
+	public static final String NAMESPACE ="' ontologyNamespace '#";
 	
 	public ' ontologyName 'Ontology() {
 		super(NAMESPACE);
 	}
 
-	public void create {
+	public void create() {
 		Resource r = getInfo();
 		r.setResourceComment("The ontology defining the most general concepts dealing with light sources and their control.");
 		r.setResourceLabel("Lighting");
@@ -244,19 +235,15 @@ public final class ' ontologyName 'Ontology extends Ontology {
 				'       	' self.getURIExpressionForType(prop.type.name.trim()) '));\n'
 				'	    \n'
 	 		} //if 0..*
-			else if (1) {  //association.
-				stdout.println("DAMN ME!" + prop)
-			}
-	 		
 	  		else if (!prop.type.name.trim().equals("") ) {  //this is a datatype property that has been set.
 					'		oci.addRestriction(MergedRestriction\n'
 					'			.getAllValuesRestrictionWithCardinality(' c.name '.PROP_' prop.toUpperFormat() ', \n'	  
-					'			'self.getURIExpressionForType(prop.type.name.trim())', ' prop.lower ', ' prop.upper '))'
+					'			'self.getURIExpressionForType(prop.type.name.trim())', ' prop.lower ', ' prop.upper ')'
 					if (prop.defaultValue.name.equals("values")) { //TODO: this is a temporary solution. See doc for more info
 						//TODO: must check for property type. Now supporting Integer only
 						'\n			' prop.getBoundingRestriction(c.name)
 					}
-					';\n'
+					');\n'
 					'		\n'
 	 		 	} //else if
 	 		else {    //default when unset type
@@ -268,6 +255,9 @@ public final class ' ontologyName 'Ontology extends Ontology {
 	 	
 	 	
 	} //forEach class
+'	}
+}
+'
 }
 		
 
@@ -275,14 +265,16 @@ public final class ' ontologyName 'Ontology extends Ontology {
 
  
   uml.Package::generateFactory(ontologyClassList:Hashtable) {
-	file( self.name.replace("\\.", "/") + '/' + ontologyName + "Factory.java" )
+	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/' + ontologyName + "Factory.java" )
     
 '
 package ' self.name ';
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import 'self.name'.owl;
+import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.rdf.impl.ResourceFactoryImpl;
+import 'self.name'.owl.*;
 
 public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 
@@ -307,47 +299,23 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
   }
 
 
-
-
-/* No longer needed?
-  
-  uml.Package::generateNamespaceInterface() {
-    StdOut.println('Generating name space interface')
-    
-	file( self.name.replace("\\.", "/") + '/owl/' + ontologyName + "Namespace.java" )
-    
-'
-package ' self.name '.owl;
-
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
-
-public interface ' ontologyName 'Namespace {
-
-  static final String NAMESPACE = "' ontologyNamespace '#";
-
-}	
-'	
-
-  }  
-*/  
   uml.Property::getBoundingRestriction(className: String):String {
-  var txt:String
-  var res:String
+    var txt:String
+    var res:String
   
-  //get the default value string specification. This string holds the range - min, max.
-  //TODO: add support for more ranges and sets.
-  txt = self.defaultValue.value.trim()
+    //get the default value string specification. This string holds the range - min, max.
+    //TODO: add support for more ranges and sets.
+    txt = self.defaultValue.value.trim()
  
-  res = ""
+    res = ""
   
-  //currently only integer is supported
-  if (self.type.name.equals("Integer")) {
- 	res = ".addRestriction(new BoundingValueRestriction(" + className + ".PROP_" + self.toUpperFormat() 
-  	res = res + ", new Integer(" + txt.substringBefore("..") + "), true, new Integer(" + txt.substringAfter("..")+  "), true)))"
-  }
+    //currently only integer is supported
+    if (self.type.name.equals("Integer")) {
+ 	  res = ".addRestriction(new BoundingValueRestriction(" + className + ".PROP_" + self.toUpperFormat() 
+  	  res = res + ", new Integer(" + txt.substringBefore("..") + "), true, new Integer(" + txt.substringAfter("..")+  "), true))"
+    }
  
-  return res //empty or a boundingrestriction.
+    return res //empty or a boundingrestriction.
   }
   
   
@@ -385,7 +353,7 @@ public interface ' ontologyName 'Namespace {
 
 
   uml.Class::generateOntologyClass () {
-	file( self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
+	file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
                 
     //Start generating the code
     'package ' self.package.name '.owl;\n\n'
@@ -396,20 +364,15 @@ public interface ' ontologyName 'Namespace {
     ' {\n'
    
   	
-    self.genPropertyDeclaration() //will be rewritten to be output only
-    //self.genPropertiesForAssociations() // I guess this will be removed as all properties are created in the previous.
-    //self.genStatic()
+    self.genPropertyDeclaration()
+
     self.genConstructors()
     self.genGetClassURI()
-   // self.genGetClassRestrictionsOnProperty()
-    //self.genGetStandardPropertyURIs()
     
     self.genGetPropSerializationType()
     self.genIsWellFormed()
-    //  self.genGetRDFSComment()
-    // self.genGetRDFSLabel()
     
-    self.genGetClassLevelRestrictions()
+    //self.genGetClassLevelRestrictions()
    
     self.genPropertyGettersAndSetters()
    
@@ -490,10 +453,9 @@ public interface ' ontologyName 'Namespace {
     
     // Import universAAL packages. 
     // Note that generator currently imports a fixed set of classes. This will be improved in the future 
-    'import org.universAAL.middleware.owl.Restriction;\n'
-	'import org.universAAL.middleware.rdf.TypeMapper;\n'
+ 	'import org.universAAL.middleware.owl.ManagedIndividual;\n'
     'import org.universAAL.middleware.service.owl.Service;\n'    
-    'import org.universAAL.ontology.phThing.Device;\n\n'
+    'import org.universAAL.ontology.phThing.Device;\n\n' 
   }
 
 
@@ -575,237 +537,6 @@ public interface ' ontologyName 'Namespace {
       }
     }
   }
-
-
-
-
-/* The genStatic method is not needed for classes, but some of this is maybe needed for ontology class
-
-  uml.Class::genStatic() {
-    '  \n  static {\n'
-    '    MY_URI = ' ontologyNamespaceReference '+ "' self.name.trim() '";\n' 
-    
-    //if this class is a specialization of Service it will need the restrictions hashtable.
-    var isService:boolean = false
-    self.general->forEach(sc : uml.Class) {
-    	if (sc.name.equals("Service")) {
-    	    isService=true    	  
-    	}
-    }
-    
-    
-    //get the property's hashtable and intialize the properties
-    Hashtable props = propertyHashtable.get(self.name)
-    
-    //properties first
-    props->forEach(att: uml.Property) {
-  	    '    PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
-  	    
-  	    if (isService) { //we have a service and must add a static restriction part
-  	    	'	addRestriction(Restriction.getAllValuesRestriction(PROP_' + att.toUpperFormat() + ',\n'
-  	    	'       'self.getURIExpressionForType(att.type.name.trim())'), new String[] { PROP_' + att.toUpperFormat()  ' }, restrictions);\n'
-  	    }
-	}
-	//association properties next. The filter may be obsolete as the po
-	props->forEach (ass : uml.Association) // | ass.endType.first().name.trim().equals(self.name.trim()) ) 
-	{
-	  //stdout.println("INFO: Generating static for associations: " + ass.name)
-	  '    PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' ass.name.trim() '";\n'
-	  
-	  if (isService) { //we have a service and must add a static restriction part
-  	    	'	addRestriction(Restriction.getAllValuesRestriction(PROP_' + ass.toUpperFormat() + ',\n'
-  	    	'       'self.getURIExpressionForType(ass.endType.name.trim())'), new String[] { PROP_' + ass.toUpperFormat()  ' }, restrictions);\n'
-  	    }
-	
-	}
-  	'\n'
-    '    register('self.name'.class);\n'
-    '  }\n'
-  }     
-*/ 
-   
-  
-  
-/* old version of genPropertyDeclarations - some of this may need to be moved to new ontology class 
-   *
-   *
-   * This function will generate the property declarations for the class in question. The properties are taken from the 
-   * propertyHashtable.
-   
-   uml.Classifier::genPropertyDeclaration() {
-  	//insert default identifier for each owlClass
-  	'  public static final String MY_URI;\n'
-  	
-  	//check if the classifier is a child of Service
-  	var isService:boolean = false
-  	self.general->forEach(c : uml.Class) {
-  		if (c.name.equals("Service")) {
-  			isService=true
-  		}
-  	}
-  	
-  	if (isService) {
-    //print required property declaration
-    '  public static Hashtable restrictions = new Hashtable();\n' 
-  	}
-  	
-  	//get the properties from the class in question from the propertyHashtable.
-  	var myProps:Hashtable = propertyHashtable.get(self.name)
-  	if (!myProps==null) {
-  	  	//define the properties from attribute definitions in uml
-  		myProps->forEach(att : uml.Property ) {
-  		    //iterate through each property and declare them as static
-	    	if (att.type == null) {
-	        	stdout.println("WARNING: No type defined for " + att.name  + ". Using string as default")
-	    	}
-        	'  public static final String PROP_' att.toUpperFormat() ';\n'
-        	
-  		}
-  		
-  		//define the properties from associations in uml
-  		myProps->forEach(ass : uml.Association) {
-  			//iterate through each property and declare them as static
-	        '  public static final String PROP_' ass.toUpperFormat() ';\n'
-  		}
-  	}
-  
-  	
-  }
-*/ 
-  
-/* interfaces is not used in new ontology representation, so this can probably be removed
-
-  uml.Interface::generateOntologyInterface() {
-	file( self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
-                
-    //Start generating the code
-    'package ' self.package.name '.owl;\n\n'
-    
-    self.genImports()
-    
-	self.genInterfaceDeclaration()
-	    
-    ' {\n'
-    
-    self.genInterfaceProperties()
-    
-    '}\n'    
-  }
-*/
-
-
- /* Interfaces are not used in new ontology representation, so this can probably be removed
-  *
-  *
-  * Generate the interface decklaration
-  uml.Interface::genInterfaceDeclaration() {
-    'public interface ' self.name
-    if (!self.generalization.isEmpty()) {
-      ' extends '
-      var firstInter:Boolean 
-      firstInter = true
-
-      self.generalization->forEach(gen : uml.Generalization) {
-        if (!firstInter) {','}          
-        '' gen.general.name ' '
-        firstInter = false
-      }
-    }
-  }
-  */
-  
-
-  /* Interfaces are not used in new ontology representation, so this can probably be removed
-   * 
-   * This operation will define the properties on an interface.
-   * The interface properties are not (yet) in the properties hashtable.
-  uml.Interface::genInterfaceProperties() {
-     '  public static final String MY_URI = ' ontologyNamespaceReference ' + "' self.name.trim() '";\n' 
-    
-    self.ownedMember->forEach(att : uml.Property) {
-  	   if (att.type == null) {
-	        stdout.println("WARNING: No type defined for " + att.name +  ". Using string as default")
-	        '  public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
-	    }
-	    else {
-	    	'  public static final ' att.type 'PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference ' + "' att.name.trim() '";\n'
-	    	}
-		
-	}
-    '\n'
-  
-  }
-   */
-
-
-  
-/* Not used directly but may be needed for new ontology class
-  
-  uml.Class::genGetClassRestrictionsOnProperty() {
-'
-  public static Restriction getClassRestrictionsOnProperty(String propURI) {
-
-'    
-    unprotect {
-
-'    //Add any maunual modifications within this block
-'    
-    }
-
-'
-    if (propURI == null) {
-	  return null;
-    }
-'
-	//using the class's hashtable
-	Hashtable props = propertyHashtable.get(self.name)
-	
-	//go through the attributes first
-	props->forEach(prop : uml.Property) {
-	  '    else if (PROP_' prop.toUpperFormat() '.equals(propURI)) {\n'
-	  //handle 0..* cardinality
-	  if (prop.upper<0 && prop.lower==0) {
-	  '      return Restriction.getAllValuesRestriction(propURI, \n'
-	  '        ' self.getURIExpressionForType(prop.type.name.trim()) ');\n'
-	  '    }\n'
-	  }
-	  else {
-	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
-      '        'self.getURIExpressionForType(prop.type.name.trim())', ' prop.upper ', ' prop.lower ');\n'
-      '    }\n'
-	  }
-	  	
-	}	
-	//association properties next. 
-	props->forEach (ass : uml.Association) 
-	{
-	  '    else if (PROP_' ass.memberEnd.last().toUpperFormat() '.equals(propURI)) {\n'
-	  //handle 0..* cardinality
-	  if (ass.memberEnd.last().upper<0 && ass.memberEnd.last().lower==0) {
-	  '   	 return Restriction.getAllValuesRestriction(propURI, \n'
-	  '        ' self.getURIExpressionForType(ass.memberEnd.last().type.name.trim()) ');\n'
-	  '    }\n'
-	  }
-	  else {
-	  '      return Restriction.getAllValuesRestrictionWithCardinality(propURI, \n'	  
-      '        'self.getURIExpressionForType(ass.endType.last().name.trim())', ' ass.memberEnd.last().upper ', ' ass.memberEnd.last().lower ');\n'
-      '    }\n'
-	  }
-	  
-	}	
-
-     
-    if (self.superClass.isEmpty()) {
-      '    return null;\n'
-    }
-    else {
-      '    return ' self.superClass.first().name '.getClassRestrictionsOnProperty(propURI);\n'	  	  
-    }
-    
-'  }\n\n'
-  }  
-  
-*/  
   
   uml.Class::getURIExpressionForType(typeName : String):String {
     if (typeName == null) {
@@ -821,65 +552,21 @@ public interface ' ontologyName 'Namespace {
   }
 
   
-  /* Is parts of this function needed for the ontology class in the new representation?
-   *
-   *
-   * Generation the property URI. 
-   * NOTE: THIS FUNCTION MAY BE SIMPLIFIED USING THE HASHTABLE
-   
- 
- //TODO SIMPLIFY
-   uml.Class::genGetStandardPropertyURIs() {
- 	//get the properties from propertyHash
- 	var props:Hashtable = propertyHashtable.get(self.name)
-  	var numberOfProperties:Integer = props.size() //should include both association and property elements
- 	
- 	// First, find the number of properties URIs to add
- 	//var numberOfProperties:Integer = self.getAssociations().size()
-	//var props:List = self.ownedMember->select(prop : uml.Property)
- 	//numberOfProperties = numberOfProperties + props.size()
- 	
- 	if (numberOfProperties == 0) {
- 	  // Do not generate method if there are no properties to add
- 	  return
- 	}
- 	
-	// Generate method
-    '\n  public static String[] getStandardPropertyURIs() {\n'
-    if (self.superClass.isEmpty()) {
-      '    // First, create an array large enough to hold all my properties \n'
-	  '    String[] toReturn = new String['numberOfProperties'];\n\n'
-      '    // Next, copy each of my property URIs into the array \n'
-	  '    int index = 0;\n'
-    }
-    else {
-      '    // First, retrieve inherited properties and copy into an array large enough to hold inherited + own \n'
-      '    String[] inherited = 'self.superClass.first().name'.getStandardPropertyURIs();\n'
-	  '    String[] toReturn = new String[inherited.length + 'numberOfProperties'];\n'
-	  '    System.arraycopy(inherited, 0, toReturn, 0, inherited.length);\n\n'
-      '    // Next, copy each of my own property URIs into the array \n'
-	  '    int index = inherited.length;\n'
-    }
-	props->forEach(prop : uml.Property) {
-	  '    toReturn[index++] = PROP_' prop.toUpperFormat() ';\n'
-	}	
-
-    '    return toReturn;\n'
-    '  }\n'    
-   }
-
-*/
-
   uml.Class::genPropertiesForAssociations() {
       //generate 
       self.getAssociations()->forEach(ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim())) {
       '  public static final String PROP_'  ass.memberEnd.last().toUpperFormat() ';\n'
       }
 		
-	}
+  }
 
 
    uml.Class::genGetPropSerializationType() {
+'  public int getPropSerializationType(String arg0) {
+	// TODO Implement or if for Device subclasses: remove 
+	return 0;
+  }
+'	    
    }
 
    uml.Class::genIsWellFormed() {
@@ -904,6 +591,7 @@ public interface ' ontologyName 'Namespace {
   }\n'
        
    }  
+    
 
 	/**
      * For each direct child under Service, the getClassLevelRestrictions operation should be generated
@@ -927,52 +615,6 @@ public interface ' ontologyName 'Namespace {
 	  }
 	}
   }
-
-
-/* Not needed in new ontology representation?
- *
- * Create operation for RDFSComment
- 
-   uml.Class::genGetRDFSComment() {
-'
-  public static String getRDFSComment() {
-'
-    if (self.ownedComment.isEmpty()) {
-      self.genGetRDFSCommentDefault()
-    }
-    else {
-     '    return "' self.ownedComment.first().body.trim() '";\n'
-    } 
-      
-'  }'
-
-   }
-*/
-  
-/* Not needed in new ontology representation?
- *
- *
-   uml.Class::genGetRDFSCommentDefault() {
-	 unprotect{
-'
-    //TODO: enter a description of the class here\'
-	return "Description of class 'self.name'";
-'     		
- 	}
-   }
-*/  
-  
-/* Not needed in new ontology representation?
- *
-   uml.Class::genGetRDFSLabel() {
- '
-  public static String getRDFSLabel() {
-    return "'self.name.trim()'";
-  }
-'    
-   
-   }
- */ 
 
 
 /**
@@ -1004,14 +646,14 @@ public interface ' ontologyName 'Namespace {
 		  self.genObjectGetterAndSetter(methodName, propLongName, theTypeName)
 		}	
 	}
- 
+/* 
  	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
       var methodName:String = ass.memberEnd.last().name.trim().firstToUpper()
       var propLongName:String = "PROP_" + ass.toUpperFormat()
       var theTypeName:String = ass.endType.last().name
 	  self.genObjectGetterAndSetter(methodName, propLongName, theTypeName)       	  
 	}
-     
+*/     
    }
 
 /**
@@ -1079,13 +721,14 @@ public interface ' ontologyName 'Namespace {
    }
    
  uml.Package::generatePOMFile() {
-     file( self.name.replace("\\.", "/") + '/' + "pom.xml" )
+     file("pom.xml" )
+     //file( self.name.replace("\\.", "/") + '/' + "pom.xml" )
      
      //set the projectInfo hashtable
-     projectInfo.put("name", self.name)
-     projectInfo.put("artefactId", self.name)
-     projectInfo.put("groupId", self.owner.getValue("owlOntology", "defaultNamespace"))
-     projectInfo.put("versionInfo",  self.owner.getValue("owlOntology", "versionInfo"))
+     projectInfo.put("name", self.owner.name.trim())
+     projectInfo.put("artefactId", self.owner.name.trim())
+     projectInfo.put("groupId", self.name.trim())
+     projectInfo.put("versionInfo",  self.owner.getValue("owlOntology", "versionInfo").trim())
      
      self.genPOMFileHeader()
      
@@ -1127,12 +770,19 @@ public interface ' ontologyName 'Namespace {
   	<artifactId>' projectInfo.get("artefactId") '</artifactId>
   	<version>' projectInfo.get("versionInfo") '</version>
   	<name>' projectInfo.get("name") '</name>
- 	 <description/>
+ 	<description>' 
+ 	if (self.owner.ownedComment.first() != null) { 	  
+ 		''self.owner.ownedComment.first().body''
+ 	}
+ 	else {
+ 	  'No further description provided'
+ 	}
+ 	'</description>
   	<packaging>bundle</packaging>
     	<dependencies>'
     	//output dependencies for imported models
     
-    	importedModels->forEach(i) {
+/*    	importedModels->forEach(i) {
     	  stdout.println("object has type: " + i)
  '	
  			<dependency>
@@ -1140,36 +790,41 @@ public interface ' ontologyName 'Namespace {
     			<artifactId>'i.get("defaultNamespace")'</artifactId>
     			<version>'i.get("versionInfo")'</version>
     		</dependency>'    	
-    	}			
+    	} Need to find out how to set the right version numbers in models, and what to do with the -SNAPSHOT extension - for now use hardcoded*/ 			
 '			
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.osgi.core</artifactId>
 				<version>1.0.1</version>
 			</dependency>
-			<!--
-			<dependency>
+'//			<!--
+'			<dependency>
 				<groupId>org.universAAL.middleware</groupId>
 				<artifactId>mw.data.representation</artifactId>
-				<version>0.3.0-SNAPSHOT</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.universAAL.middleware</groupId>
 				<artifactId>mw.bus.context</artifactId>
-				<version>0.3.0-SNAPSHOT</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.universAAL.middleware</groupId>
 				<artifactId>mw.bus.io</artifactId>
-				<version>0.3.0-SNAPSHOT</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.universAAL.middleware</groupId>
 				<artifactId>mw.bus.service</artifactId>
-				<version>0.3.0-SNAPSHOT</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
-			-->
-		</dependencies>
+			<dependency>
+           		<groupId>org.universAAL.ontology</groupId>
+           		<artifactId>ont.phWorld</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+       		</dependency>						
+'//			-->
+'		</dependencies>
   	  <build>
 			<plugins>
 				<plugin>
