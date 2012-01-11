@@ -64,6 +64,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
          
   	self.ownedMember -> forEach( p:uml.Package ){         
         var ontologyClassList:Hashtable
+        var ontologyEnumerationList:Hashtable
    		
    		//Create a hashtable containing the properties of the classes in the model.
    		StdOut.println("Handling properties of classes (not interfaces) in the package: " + p.name)
@@ -82,6 +83,11 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
 			component.generateOntologyClass()
 		}
    		
+		p.ownedElement -> forEach( component:uml.Enumeration ) { // | component.hasStereotype("owlClass") ){
+		    ontologyEnumerationList.put(component.name, component)
+			component.generateEnumerationClass()
+		}
+
 	  	StdOut.println("Handling main ontology class for :" + p.name) 
    		p.generateMainOntologyClass(ontologyClassList)
 
@@ -378,6 +384,133 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
    
     '}\n'    
   }
+
+  uml.Enumeration::generateEnumerationClass () {
+	file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
+              
+    //Start generating the code
+    'package ' self.package.name '.owl;\n\n'
+    
+  	if (self.isAbstract) {
+  	  'import org.universAAL.middleware.owl.ManagedIndividual;\n\n'
+  	}
+  
+  	self.genEnumClassDeclaration()
+	    
+    ' {\n'
+   
+    self.genPropertyDeclaration()
+
+	if (self.isAbstract) {
+	  self.genAbstractEnumerationContent()
+	}
+	else {
+	  var enumCount:Integer = 0
+	  self.ownedLiteral->forEach(enumLit : uml.EnumerationLiteral) {
+	    '  public static final int 'enumLit.toUpperFormat()' = 'enumCount';\n'
+	    enumCount = enumCount + 1	    
+	  }
+	  '\n'
+	  
+      '  private static final String[] names = {\n'
+      '    '
+      var firstEnum:Boolean = true
+	  self.ownedLiteral->forEach(enumLit : uml.EnumerationLiteral) {
+	    '"'enumLit.name.trim()'"'
+	    if (firstEnum) {
+	      	','
+	    	firstEnum = false
+	    }	    
+	  }
+      ' };\n\n'
+      
+	  self.ownedLiteral->forEach(enumLit : uml.EnumerationLiteral) {
+	    '  public static final 'self.name' ' enumLit.name.trim() ' = new ' self.name '(' enumLit.toUpperFormat()');\n'
+	  }	
+    
+      // Generate privat constructor
+'
+    private int order;
+
+    private 'self.name'(int order) {
+	super('ontologyName'Ontology.NAMESPACE + names[order]);
+	this.order = order;
+    }
+
+    public int getPropSerializationType(String propURI) {
+	return PROP_SERIALIZATION_OPTIONAL;
+    }
+
+    public boolean isWellFormed() {
+	return true;
+    }
+
+    public String name() {
+	return names[order];
+    }
+
+    public int ord() {
+	return order;
+    }
+'	  
+	  
+      self.genGetClassURI()
+    
+          
+      '  public static 'self.name' get'self.name'ByOrder(int order) {\n'
+	  '    switch (order) {\n'
+	  self.ownedLiteral->forEach(enumLit : uml.EnumerationLiteral) {
+	    '      case 'enumLit.toUpperFormat()':\n'
+        '        return 'enumLit.name.trim()';\n'
+	  }	
+	  '    default:\n'
+	  '      return null;'
+	  '    }\n'
+	  '  }\n\n'
+
+
+'  public static final 'self.name' valueOf(String name) {
+	if (name == null)
+	    return null;
+
+	if (name.startsWith('ontologyName'Ontology.NAMESPACE))
+	    name = name.substring('ontologyName'Ontology.NAMESPACE.length());
+
+	for (int i = 'self.ownedLiteral.first().toUpperFormat()'; i <= 'self.ownedLiteral.last().toUpperFormat()'; i++)
+	    if (names[i].equals(name))
+		return get'self.name'ByOrder(i);
+
+	return null;
+  }
+'    
+    
+    
+	}
+	
+   
+    '}\n'    
+  }
+
+  uml.Enumeration::genAbstractEnumerationContent() {
+'
+  protected 'self.name'(String uri) {
+    super(uri);
+  }
+    
+  public String getClassURI() {
+	return MY_URI;
+  }
+'	    
+  }  
+
+  uml.Enumeration::genEnumClassDeclaration() {
+    var superClassName:String = "ManagedIndividual"
+    if (!self.generalization.isEmpty()) {
+     superClassName = self.generalization.first().general.name
+    }
+    'public ' if (self.isAbstract) {'abstract '} 'class ' self.name ' extends ' superClassName
+  }
+
   
   /*
    * Will get the properties for the class and put it into the propertyHashtable
