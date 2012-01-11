@@ -42,7 +42,7 @@ public class NewProjectWizardPage2 extends WizardPage {
     private Text packaging;
     private Group containerClasses;
     public static final String VER_030_S="0.3.0-SNAPSHOT"; //$NON-NLS-1$
-    public static final String VER_031_S="0.3.1-SNAPSHOT"; //$NON-NLS-1$
+    public static final String VER_031_S="1.0.0"; //$NON-NLS-1$
 
     /**
      * Constructor for NewProjectWizardPage2.

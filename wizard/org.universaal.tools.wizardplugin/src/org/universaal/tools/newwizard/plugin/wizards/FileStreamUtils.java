@@ -179,6 +179,23 @@ public class FileStreamUtils {
 			+ "			<artifactId>mw.data.representation</artifactId>\n" //$NON-NLS-1$
 			+ "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
 			+ "		</dependency>\n"); //$NON-NLS-1$
+		if (mwVersion.equals(NewProjectWizardPage2.VER_031_S)){
+		    output.append("		<dependency>\n" //$NON-NLS-1$
+			    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
+			    + "			<artifactId>mw.bus.model</artifactId>\n" //$NON-NLS-1$
+			    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
+			    + "		</dependency>\n"); //$NON-NLS-1$
+		    output.append("		<dependency>\n" //$NON-NLS-1$
+			    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
+			    + "			<artifactId>mw.container.xfaces</artifactId>\n" //$NON-NLS-1$
+			    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
+			    + "		</dependency>\n"); //$NON-NLS-1$
+		    output.append("		<dependency>\n" //$NON-NLS-1$
+			    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
+			    + "			<artifactId>mw.container.osgi</artifactId>\n" //$NON-NLS-1$
+			    + "			<version>" + mwVersion + "</version>\n" //$NON-NLS-1$
+			    + "		</dependency>\n"); //$NON-NLS-1$
+		}
 		if (checks[0] || checks[1]) {
 		    output.append("		<dependency>\n" //$NON-NLS-1$
 			    + "			<groupId>org.universAAL.middleware</groupId>\n" //$NON-NLS-1$
@@ -346,14 +363,14 @@ public class FileStreamUtils {
 
     private static String getProfileVersion(String mwVersion) {
 	if (mwVersion.equals(NewProjectWizardPage2.VER_031_S)) {
-	    return "0.3.1-SNAPSHOT";
+	    return "1.0.0";
 	}
 	return "0.3.0-SNAPSHOT";
     }
 
     private static String getPhWorlVersion(String mwVersion) {
 	if (mwVersion.equals(NewProjectWizardPage2.VER_031_S)) {
-	    return "0.2.3-SNAPSHOT";
+	    return "1.0.0";
 	}
 	return "0.2.2-SNAPSHOT";
     }
