@@ -10,8 +10,8 @@
     <packageImport xmi:id="_vsfu0P4fEeCMDfYSajZxow">
       <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
     </packageImport>
-    <packageImport xmi:id="_sclVQDuAEeGWHJDQ6prNGQ">
-      <importedPackage xmi:type="uml:Model" href="../../org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.phThing.uml#_INViAKFHEeCPiYRKlVcMuQ"/>
+    <packageImport xmi:id="_ZWN7ED1yEeGLn5o7IxfHjA">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_INViAKFHEeCPiYRKlVcMuQ"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="org.universaal.ontology.lighting">
       <ownedComment xmi:id="_dhNvUKFHEeCPiYRKlVcMuQ" annotatedElement="_Mv1GIJv_EeCgJ7sXDd2E1w">
@@ -60,7 +60,7 @@
           <general xmi:type="uml:Class" href="org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
         </generalization>
         <ownedAttribute xmi:id="_PqR0sKFHEeCPiYRKlVcMuQ" name="ambientCoverage">
-          <type xmi:type="uml:Class" href="../../org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
+          <type xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2GIv0DuIEeGWHJDQ6prNGQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2GIIwDuIEeGWHJDQ6prNGQ"/>
         </ownedAttribute>
@@ -75,7 +75,7 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fiQ6QDuIEeGWHJDQ6prNGQ"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_XLYOoKFHEeCPiYRKlVcMuQ" name="sourceLocation">
-          <type xmi:type="uml:Class" href="org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
+          <type xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_POvYkJv_EeCgJ7sXDd2E1w" name="BlinkableLightSource" clientDependency="_JaHBsKFIEeCPiYRKlVcMuQ">
@@ -92,7 +92,7 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_hjuWYJwAEeCgJ7sXDd2E1w" name="targetSurface">
-          <type xmi:type="uml:Class" href="../../org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
+          <type xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8x2Z4DuIEeGWHJDQ6prNGQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8x1y0DuIEeGWHJDQ6prNGQ"/>
         </ownedAttribute>
