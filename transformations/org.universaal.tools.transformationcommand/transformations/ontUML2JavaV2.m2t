@@ -449,11 +449,11 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
       '    '
       var firstEnum:Boolean = true
 	  self.ownedLiteral->forEach(enumLit : uml.EnumerationLiteral) {
-	    '"'enumLit.name.trim()'"'
-	    if (firstEnum) {
+	    if (!firstEnum) {
 	      	','
-	    	firstEnum = false
 	    }	    
+	    '"'enumLit.name.trim()'"'
+	    firstEnum = false
 	  }
       ' };\n\n'
       
@@ -463,32 +463,32 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
     
       // Generate privat constructor
 '
-    private int order;
+  private int order;
 
-    private 'self.name'(int order) {
-	super('ontologyName'Ontology.NAMESPACE + names[order]);
-	this.order = order;
-    }
+  private 'self.name'(int order) {
+    super('ontologyName'Ontology.NAMESPACE + names[order]);
+    this.order = order;
+  }
 
-    public int getPropSerializationType(String propURI) {
-	return PROP_SERIALIZATION_OPTIONAL;
-    }
+  public int getPropSerializationType(String propURI) {
+    return PROP_SERIALIZATION_OPTIONAL;
+  }
 
-    public boolean isWellFormed() {
-	return true;
-    }
+  public boolean isWellFormed() {
+    return true;
+  }
 
-    public String name() {
-	return names[order];
-    }
+  public String name() {
+    return names[order];
+  }
 
-    public int ord() {
-	return order;
-    }
+  public int ord() {
+    return order;
+  }
 '	  
 	  
       self.genGetClassURI()
-    
+      '\n'
           
       '  public static 'self.name' get'self.name'ByOrder(int order) {\n'
 	  '    switch (order) {\n'
@@ -629,24 +629,24 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 
 
   uml.Class::genPropertyDeclaration() {
-    '    public static final String MY_URI = ' ontologyNamespaceReference '\n'
-    '        + "' self.name.trim() '";\n' 
+    '  public static final String MY_URI = ' ontologyNamespaceReference '\n'
+    '    + "' self.name.trim() '";\n' 
     
     //get the property's hashtable and intialize the properties
     Hashtable props = propertyHashtable.get(self.name)
     
     //properties first
     props->forEach(att: uml.Property) {
-  	    '    public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference '\n'
-  	    '        + "' att.name.trim() '";\n'
+  	    '  public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference '\n'
+  	    '    + "' att.name.trim() '";\n'
 	}
 
 	//association properties next. The filter may be obsolete as the po
 	props->forEach (ass : uml.Association) // | ass.endType.first().name.trim().equals(self.name.trim()) ) 
 	{
 	  //stdout.println("INFO: Generating static for associations: " + ass.name)
-	  '    public static final String PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference '\n'
-	  '        + "' ass.name.trim() '";\n'
+	  '  public static final String PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference '\n'
+	  '    + "' ass.name.trim() '";\n'
 	  
 	}
   	'\n'
