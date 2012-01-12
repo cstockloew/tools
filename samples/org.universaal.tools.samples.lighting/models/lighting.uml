@@ -103,25 +103,23 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_esmNsJv_EeCgJ7sXDd2E1w" name="ElectricLight">
         <generalization xmi:id="_8e9sYDuDEeGWHJDQ6prNGQ" general="_4UJ4QKFFEeCPiYRKlVcMuQ"/>
-        <ownedLiteral xmi:id="_rHMx8KFJEeCPiYRKlVcMuQ"/>
-        <ownedLiteral xmi:id="_wTzZsKFJEeCPiYRKlVcMuQ"/>
-        <ownedLiteral xmi:id="_0sMWQKFJEeCPiYRKlVcMuQ" name="CARBON_ARC_LAMP"/>
-        <ownedLiteral xmi:id="_20Pn4KFJEeCPiYRKlVcMuQ" name="DISCHARGE_LAMP"/>
-        <ownedLiteral xmi:id="_7GIT0KFJEeCPiYRKlVcMuQ" name="FLUORESCENT_LAMP"/>
-        <ownedLiteral xmi:id="_9Jf5wKFJEeCPiYRKlVcMuQ" name="HALOGEN_LAMP"/>
-        <ownedLiteral xmi:id="_ASvioKFKEeCPiYRKlVcMuQ" name="LED_LAMP"/>
-        <ownedLiteral xmi:id="_DEYj0KFKEeCPiYRKlVcMuQ" name="LIGHT_BULB"/>
+        <ownedLiteral xmi:id="_0sMWQKFJEeCPiYRKlVcMuQ" name="carbonArcLamp"/>
+        <ownedLiteral xmi:id="_20Pn4KFJEeCPiYRKlVcMuQ" name="dischargeLamp"/>
+        <ownedLiteral xmi:id="_7GIT0KFJEeCPiYRKlVcMuQ" name="fluorecentLamp"/>
+        <ownedLiteral xmi:id="_9Jf5wKFJEeCPiYRKlVcMuQ" name="halogenLamp"/>
+        <ownedLiteral xmi:id="_ASvioKFKEeCPiYRKlVcMuQ" name="ledLamp"/>
+        <ownedLiteral xmi:id="_DEYj0KFKEeCPiYRKlVcMuQ" name="lightBulb"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_fnpgsJv_EeCgJ7sXDd2E1w" name="FlamingLight">
         <generalization xmi:id="_7b1bcDuDEeGWHJDQ6prNGQ" general="_4UJ4QKFFEeCPiYRKlVcMuQ"/>
-        <ownedLiteral xmi:id="_W3ceoKFKEeCPiYRKlVcMuQ" name="CANDLE_LIGHT"/>
-        <ownedLiteral xmi:id="_X7ShQKFKEeCPiYRKlVcMuQ" name="OIL_LAMP"/>
-        <ownedLiteral xmi:id="_ZaLhIKFKEeCPiYRKlVcMuQ" name="GAS_LAMP"/>
+        <ownedLiteral xmi:id="_W3ceoKFKEeCPiYRKlVcMuQ" name="candleLight"/>
+        <ownedLiteral xmi:id="_X7ShQKFKEeCPiYRKlVcMuQ" name="oilLamp"/>
+        <ownedLiteral xmi:id="_ZaLhIKFKEeCPiYRKlVcMuQ" name="gasLamp"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_gWZdEJv_EeCgJ7sXDd2E1w" name="NaturalLight">
         <generalization xmi:id="_9BX14DuDEeGWHJDQ6prNGQ" general="_4UJ4QKFFEeCPiYRKlVcMuQ"/>
-        <ownedLiteral xmi:id="_ETKUcJwCEeCgJ7sXDd2E1w" name="SUN_SHINE"/>
-        <ownedLiteral xmi:id="_FlKu4JwCEeCgJ7sXDd2E1w" name="MOON_LIGHT"/>
+        <ownedLiteral xmi:id="_ETKUcJwCEeCgJ7sXDd2E1w" name="sunShine"/>
+        <ownedLiteral xmi:id="_FlKu4JwCEeCgJ7sXDd2E1w" name="moonLight"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_zZ1RwJv_EeCgJ7sXDd2E1w" name="controls" memberEnd="_zZ1RwZv_EeCgJ7sXDd2E1w _zZ1RxJv_EeCgJ7sXDd2E1w" navigableOwnedEnd="_zZ1RxJv_EeCgJ7sXDd2E1w">
         <ownedEnd xmi:id="_zZ1RwZv_EeCgJ7sXDd2E1w" name="controlledBy" type="_hI5GcJv-EeCgJ7sXDd2E1w" association="_zZ1RwJv_EeCgJ7sXDd2E1w">
