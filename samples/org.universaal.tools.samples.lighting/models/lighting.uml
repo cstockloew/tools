@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OWL="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8 pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OWL="http:///schemas/OWL/_S8A-wCJKEeG7rLMFBi5lsA/9" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OWL/_S8A-wCJKEeG7rLMFBi5lsA/9 pathmap://TwoUse_Profiles/OWL.profile.uml#_S8DbACJKEeG7rLMFBi5lsA">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="Lighting">
     <packageImport xmi:id="_mutzEKIrEeCR0PqXfWn3bQ">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
     </packageImport>
-    <packageImport xmi:id="_vUCLgP4fEeCMDfYSajZxow">
-      <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
-    </packageImport>
-    <packageImport xmi:id="_vsfu0P4fEeCMDfYSajZxow">
-      <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
-    </packageImport>
     <packageImport xmi:id="_ZWN7ED1yEeGLn5o7IxfHjA">
       <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_INViAKFHEeCPiYRKlVcMuQ"/>
     </packageImport>
+    <packageImport xmi:id="_vCWzcD9LEeGdPs0pgFT8DQ">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
+    </packageImport>
+    <packageImport xmi:id="_vdRN0D9LEeGdPs0pgFT8DQ">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
+    </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="org.universaal.ontology.lighting">
-      <ownedComment xmi:id="_dhNvUKFHEeCPiYRKlVcMuQ" annotatedElement="_Mv1GIJv_EeCgJ7sXDd2E1w">
-        <body>LIghting Namespace should be renamed of moved to Lighting Class
-</body>
-      </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_hI5GcJv-EeCgJ7sXDd2E1w" name="Lighting">
         <ownedComment xmi:id="_bI148KInEeCR0PqXfWn3bQ">
           <body>This is the lighting class
 </body>
         </ownedComment>
-        <generalization xmi:id="_ttiyAKFdEeCP6pkOW5nrGg">
-          <general xmi:type="uml:Class" href="middleware.owl.uml#_60ZK8KFGEeCPiYRKlVcMuQ"/>
-        </generalization>
-        <generalization xmi:id="_AJTfgP4gEeCMDfYSajZxow">
-          <general xmi:type="uml:Class" href="org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
+        <generalization xmi:id="_4zdhID9LEeGdPs0pgFT8DQ">
+          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
         </generalization>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_B9p9AJv_EeCgJ7sXDd2E1w" name="BlinkableLighting">
@@ -56,8 +49,8 @@
         <ownedComment xmi:id="_1O97kDeIEeGXFsuJsZAP1w">
           <body>The light emitting source</body>
         </ownedComment>
-        <generalization xmi:id="_ExBRgP4gEeCMDfYSajZxow">
-          <general xmi:type="uml:Class" href="org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
+        <generalization xmi:id="_1996sD9LEeGdPs0pgFT8DQ">
+          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
         </generalization>
         <ownedAttribute xmi:id="_PqR0sKFHEeCPiYRKlVcMuQ" name="ambientCoverage">
           <type xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
@@ -77,14 +70,14 @@
         <ownedAttribute xmi:id="_XLYOoKFHEeCPiYRKlVcMuQ" name="sourceLocation">
           <type xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_PwmsgDhgEeGXFsuJsZAP1w"/>
         </ownedAttribute>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_POvYkJv_EeCgJ7sXDd2E1w" name="BlinkableLightSource" clientDependency="_JaHBsKFIEeCPiYRKlVcMuQ">
-        <generalization xmi:id="_s5E6gJv_EeCgJ7sXDd2E1w" general="_Mv1GIJv_EeCgJ7sXDd2E1w"/>
-        <ownedAttribute xmi:id="_WYGygJwAEeCgJ7sXDd2E1w" name="isBlinking">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <ownedAttribute xmi:id="_r0rzZJwBEeCgJ7sXDd2E1w" name="hasType" type="_4UJ4QKFFEeCPiYRKlVcMuQ" association="_r0rzYJwBEeCgJ7sXDd2E1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r0rzZZwBEeCgJ7sXDd2E1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r0rzZpwBEeCgJ7sXDd2E1w" value="1"/>
         </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_POvYkJv_EeCgJ7sXDd2E1w" name="BlinkableLightSource">
+        <generalization xmi:id="_s5E6gJv_EeCgJ7sXDd2E1w" general="_Mv1GIJv_EeCgJ7sXDd2E1w"/>
         <ownedAttribute xmi:id="_WZo3UDvUEeGWHJDQ6prNGQ" name="isBlinking"/>
-        <interfaceRealization xmi:id="_JaHBsKFIEeCPiYRKlVcMuQ" name="InterfaceRealization" supplier="_Gm_Z0KFIEeCPiYRKlVcMuQ" client="_POvYkJv_EeCgJ7sXDd2E1w" contract="_Gm_Z0KFIEeCPiYRKlVcMuQ"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_QpxMIJv_EeCgJ7sXDd2E1w" name="BeamingSource">
         <generalization xmi:id="_tXPdMJv_EeCgJ7sXDd2E1w" general="_Mv1GIJv_EeCgJ7sXDd2E1w"/>
@@ -131,24 +124,13 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zZ1Rxpv_EeCgJ7sXDd2E1w" value="1"/>
         </ownedEnd>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_r0rzYJwBEeCgJ7sXDd2E1w" name="hasType" memberEnd="_r0rzYZwBEeCgJ7sXDd2E1w _r0rzZJwBEeCgJ7sXDd2E1w" navigableOwnedEnd="_r0rzZJwBEeCgJ7sXDd2E1w">
+      <packagedElement xmi:type="uml:Association" xmi:id="_r0rzYJwBEeCgJ7sXDd2E1w" name="hasType" memberEnd="_r0rzYZwBEeCgJ7sXDd2E1w _r0rzZJwBEeCgJ7sXDd2E1w">
         <ownedEnd xmi:id="_r0rzYZwBEeCgJ7sXDd2E1w" name="usedBy" type="_Mv1GIJv_EeCgJ7sXDd2E1w" association="_r0rzYJwBEeCgJ7sXDd2E1w">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r0rzYpwBEeCgJ7sXDd2E1w" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r0rzY5wBEeCgJ7sXDd2E1w" value="1"/>
         </ownedEnd>
-        <ownedEnd xmi:id="_r0rzZJwBEeCgJ7sXDd2E1w" name="hasType" type="_4UJ4QKFFEeCPiYRKlVcMuQ" association="_r0rzYJwBEeCgJ7sXDd2E1w">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r0rzZZwBEeCgJ7sXDd2E1w" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r0rzZpwBEeCgJ7sXDd2E1w" value="1"/>
-        </ownedEnd>
       </packagedElement>
-      <packagedElement xmi:type="uml:Interface" xmi:id="_Gm_Z0KFIEeCPiYRKlVcMuQ" name="Blinkable">
-        <ownedAttribute xmi:id="_OzfhMKFIEeCPiYRKlVcMuQ" name="blinking"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_4UJ4QKFFEeCPiYRKlVcMuQ" name="LightType" visibility="package" isAbstract="true">
-        <generalization xmi:id="_SJV4IKYpEeCn49vC5eMr5A">
-          <general xmi:type="uml:Class" href="middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
-        </generalization>
-      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_4UJ4QKFFEeCPiYRKlVcMuQ" name="LightType" visibility="package" isAbstract="true"/>
       <packagedElement xmi:type="uml:Association" xmi:id="_-b-ZwDvSEeGWHJDQ6prNGQ" name="blinkControl" memberEnd="_-b-ZwTvSEeGWHJDQ6prNGQ _-b9ysDvSEeGWHJDQ6prNGQ">
         <ownedEnd xmi:id="_-b-ZwTvSEeGWHJDQ6prNGQ" name="controlledBy" type="_B9p9AJv_EeCgJ7sXDd2E1w" association="_-b-ZwDvSEeGWHJDQ6prNGQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-b-ZwjvSEeGWHJDQ6prNGQ" value="1"/>
@@ -168,25 +150,18 @@
       </eAnnotations>
       <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
     </profileApplication>
-    <profileApplication xmi:id="_JYRtgKF7EeCR0PqXfWn3bQ">
-      <eAnnotations xmi:id="_JYr9MKF7EeCR0PqXfWn3bQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww"/>
-      </eAnnotations>
-      <appliedProfile href="pathmap://TwoUse_Profiles/OWL.profile.uml#_0"/>
-    </profileApplication>
     <profileApplication xmi:id="_IHniMKIQEeCR0PqXfWn3bQ">
       <eAnnotations xmi:id="_IH52EKIQEeCR0PqXfWn3bQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/RDF.profile.uml#_0R89QCqWEd6tAp0dWJ5sSg"/>
       </eAnnotations>
       <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
     </profileApplication>
+    <profileApplication xmi:id="_pP5QID9MEeGdPs0pgFT8DQ">
+      <eAnnotations xmi:id="_pQLkAD9MEeGdPs0pgFT8DQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_S8DbACJKEeG7rLMFBi5lsA"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://TwoUse_Profiles/OWL.profile.uml#_0"/>
+    </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_NeG6cKF7EeCR0PqXfWn3bQ" defaultNamespace="http://ontology.universaal.org/lighting.owl" base_Package="_qb8akM37EdqwVrslYOdUDA" versionInfo="1.0"/>
-  <OWL:datatypeProperty xmi:id="_VhcAkDeNEeGXFsuJsZAP1w" base_Property="_T7M3UKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
-  <OWL:objectProperty xmi:id="_GpexADeREeGXFsuJsZAP1w" base_Property="_PqR0sKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
-  <OWL:objectProperty xmi:id="_JftXQDeREeGXFsuJsZAP1w" base_Property="_V091UKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
-  <OWL:objectProperty xmi:id="_KswZMDeREeGXFsuJsZAP1w" base_Property="_XLYOoKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
-  <OWL:objectProperty xmi:id="_KISo0DuEEeGWHJDQ6prNGQ" base_Property="_dQJoYJwAEeCgJ7sXDd2E1w" isFunctional="true"/>
-  <OWL:objectProperty xmi:id="_LHajgDuEEeGWHJDQ6prNGQ" base_Property="_hjuWYJwAEeCgJ7sXDd2E1w" isFunctional="true"/>
-  <OWL:objectProperty xmi:id="_YxT5UDvUEeGWHJDQ6prNGQ" base_Property="_WZo3UDvUEeGWHJDQ6prNGQ" isFunctional="true"/>
+  <OWL:owlOntology xmi:id="_wiEdQD9MEeGdPs0pgFT8DQ" base_Package="_w8IxIM37EdqwVrslYOdUDA"/>
 </xmi:XMI>
