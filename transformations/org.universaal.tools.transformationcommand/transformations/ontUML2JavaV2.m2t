@@ -282,7 +282,7 @@ public final class ' ontologyName 'Ontology extends Ontology {
 	
 	 		 //handle 0..* cardinality
 	  		if (prop.upper<0 && prop.lower==0) {
-				'      	oci.addRestriction(MergedRestriction.getAllValuesRestriction(' c.name '.PROP_' prop.toUpperFormat() ', ' prop.name '.MY_URI, \n'
+				'      	oci.addRestriction(MergedRestriction.getAllValuesRestriction(' c.name '.PROP_' prop.toUpperFormat() ',  \n'
 				'       	' self.getURIExpressionForType(prop.type.name.trim()) '));\n'
 				'	    \n'
 	 		} //if 0..*
