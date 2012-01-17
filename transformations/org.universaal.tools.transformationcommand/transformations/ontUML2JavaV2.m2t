@@ -250,23 +250,35 @@ public final class ' ontologyName 'Ontology extends Ontology {
 			if (prop.hasStereotype("datatypeProperty")) { //datatypeProperty
 				isObjectProperty = false
 				isFunctional = prop.getValue("datatypeProperty", "isFunctional")
-				if (isFunctional!=false){ //default = true
-				'    oci.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
-				}
-				else {
-				'    oci.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
-				}//isfunctional = true
-				
 			}
 			else  if (prop.hasStereotype("objectProperty")) {
-			  		isFunctional = prop.getValue("objectProperty", "isFunctional")
-			  		if (isFunctional!=false){ //default = true
-						'    oci.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
-					}
-					else {
-						'    oci.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
-					}
+			  	isFunctional = prop.getValue("objectProperty", "isFunctional")
 			}
+			else {
+				if (prop.isDataType()) {
+					isObjectProperty = false
+				}		  
+			}			
+			
+			
+			if (isObjectProperty) {
+		  		if (isFunctional){ //default = true
+					'    oci.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
+				}
+				else {
+					'    oci.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
+				}
+			}
+			else {
+				if (isFunctional){ //default = true
+					'    oci.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
+				}
+				else {
+					'    oci.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
+				}//isfunctional = true
+			}
+			
+			
 	
 	 		 //handle 0..* cardinality
 	  		if (prop.upper<0 && prop.lower==0) {
@@ -299,7 +311,28 @@ public final class ' ontologyName 'Ontology extends Ontology {
 '
 }
 		
+  uml.Property::isDataType() {
+	var theTypeName:String = "String"	
+	
+	if (self.type != null) {
+		  theTypeName = self.type.name
+	}
 
+	if (theTypeName == "Boolean") {
+	  return true
+    }  		  
+	else if (theTypeName == "UnlimitedNatural") {
+	  return true
+	}
+    else if (theTypeName == "Integer") {
+      return true
+	}		
+	else if (theTypeName == "String") {
+	  return true
+	}
+	return false
+    
+  }
 
 
  
@@ -424,9 +457,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
     //Start generating the code
     'package ' self.package.name '.owl;\n\n'
     
-  	if (self.isAbstract) {
-  	  'import org.universAAL.middleware.owl.ManagedIndividual;\n\n'
-  	}
+  	'import org.universAAL.middleware.owl.ManagedIndividual;\n\n'
   
   	self.genEnumClassDeclaration()
 	    
@@ -1000,9 +1031,11 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 					<configuration>
 						<instructions>
 							<Bundle-Name>${project.name}</Bundle-Name>
-							<Bundle-Activator>src.Activator</Bundle-Activator>
+							<Bundle-Activator>'self.name.trim()'.Activator</Bundle-Activator>
 							<Bundle-Description>${project.description}</Bundle-Description>
 							<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+							<Export-Package>'self.name.trim()'.owl.*</Export-Package>
+							<Private-Package>'self.name.trim()'.*</Private-Package>							
 						</instructions>
 					</configuration>
 				</plugin>
