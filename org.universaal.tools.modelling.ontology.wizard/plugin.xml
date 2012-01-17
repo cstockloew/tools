@@ -5,11 +5,11 @@
    <extension
          point="org.eclipse.ui.commands">
       <category
-            name="Sample Category"
+            name="universAAL"
             id="org.universaal.tools.modelling.ontology.wizard.commands.category">
       </category>
       <command
-            name="Sample Command"
+            name="Create a new Ontology Project"
             categoryId="org.universaal.tools.modelling.ontology.wizard.commands.category"
             id="org.universaal.tools.modelling.ontology.wizard.commands.sampleCommand">
       </command>
@@ -33,29 +33,12 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               label="Sample Menu"
-               mnemonic="M"
-               id="org.universaal.tools.modelling.ontology.wizard.menus.sampleMenu">
-            <command
-                  commandId="org.universaal.tools.modelling.ontology.wizard.commands.sampleCommand"
-                  mnemonic="S"
-                  id="org.universaal.tools.modelling.ontology.wizard.menus.sampleCommand">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-         <toolbar
-               id="org.universaal.tools.modelling.ontology.wizard.toolbars.sampleToolbar">
-            <command
-                  commandId="org.universaal.tools.modelling.ontology.wizard.commands.sampleCommand"
-                  icon="icons/sample.gif"
-                  tooltip="Say hello world"
-                  id="org.universaal.tools.modelling.ontology.wizard.toolbars.sampleCommand">
-            </command>
-         </toolbar>
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
+         <command
+               commandId="org.universaal.tools.modelling.ontology.wizard.commands.sampleCommand"
+               id="org.universaal.tools.modelling.ontology.wizard.menus.sampleCommand"
+               mnemonic="S">
+         </command>
       </menuContribution>
    </extension>
    <extension
