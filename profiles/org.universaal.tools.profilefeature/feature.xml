@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.profilefeature"
-      label="AAL Studio UML profiles"
-      version="0.3.1"
+      label="AAL Studio Modelling Support"
+      version="0.3.2"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
