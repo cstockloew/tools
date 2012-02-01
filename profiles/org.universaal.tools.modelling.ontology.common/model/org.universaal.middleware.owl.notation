@@ -457,7 +457,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_CBagEfqQEeCQQaPCMdH-vA" x="1188" y="64"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_0hvhIaFGEeCPiYRKlVcMuQ"/>
-  <element xmi:type="uml:Model" href="org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
+  <element xmi:type="uml:Package" href="org.universaal.middleware.owl.uml#_J8JskPqREeCQQaPCMdH-vA"/>
   <edges xmi:type="notation:Connector" xmi:id="_YyPsgKFMEeCPiYRKlVcMuQ" type="4002" source="_7cnokKFGEeCPiYRKlVcMuQ" target="_Xh--gKFMEeCPiYRKlVcMuQ" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_YyQTkKFMEeCPiYRKlVcMuQ" type="6007">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_YyQTkaFMEeCPiYRKlVcMuQ" y="40"/>
