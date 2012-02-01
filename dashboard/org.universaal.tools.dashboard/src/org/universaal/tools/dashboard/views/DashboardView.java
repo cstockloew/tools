@@ -39,6 +39,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.universaal.tools.dashboard.buttonlisteners.BuildProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewItemListener;
 import org.universaal.tools.dashboard.buttonlisteners.CreateNewProjectListener;
+import org.universaal.tools.dashboard.buttonlisteners.CreateOntologyProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.DebugProjectListener;
 import org.universaal.tools.dashboard.buttonlisteners.GenerateXmlListener;
 import org.universaal.tools.dashboard.buttonlisteners.ImportExampleListener;
@@ -120,7 +121,7 @@ public class DashboardView extends ViewPart {
 		Label lblApplicationDesign = new Label(canvas_1, SWT.NONE);
 		lblApplicationDesign.setFont(SWTResourceManager.getFont("Arial", 12, SWT.BOLD));
 		lblApplicationDesign.setBackground(SWTResourceManager.getColor(135, 206, 235));
-		lblApplicationDesign.setText("Application Design");
+		lblApplicationDesign.setText("Ontology Project");
 
 		btnCreate = new Button(canvas_1, SWT.NONE);
 		btnCreate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -406,7 +407,7 @@ public class DashboardView extends ViewPart {
 		btnPublishUstore.addSelectionListener(new PublishProjectListener(this));
 
 		//Application Design
-		btnCreate.addSelectionListener(new TemporaryListener(this, "Create"));
+		btnCreate.addSelectionListener(new CreateOntologyProjectListener(this));
 		btnEdit.addSelectionListener(new TemporaryListener(this, "Edit"));
 
 		//
