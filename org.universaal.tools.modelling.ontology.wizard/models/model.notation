@@ -24,7 +24,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_th4hsTuGEeGemd2yvbYdUw"/>
       </children>
       <element xmi:type="uml:Package" href="model.uml#_thSEwDuGEeGemd2yvbYdUw"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_th3TkTuGEeGemd2yvbYdUw" x="145" y="77"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_th3TkTuGEeGemd2yvbYdUw" x="36" y="72"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_FcU6EDuyEeGwdc6BTx-7Jw" type="2012" fontName="Times New Roman" fontHeight="11" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_FcVhIDuyEeGwdc6BTx-7Jw" source="ShadowFigure">
@@ -53,7 +53,19 @@
         </eAnnotations>
       </children>
       <element xmi:type="uml:Comment" href="model.uml#_FbSYQDuyEeGwdc6BTx-7Jw"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_FcU6ETuyEeGwdc6BTx-7Jw" x="126" y="225" width="310" height="115"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_FcU6ETuyEeGwdc6BTx-7Jw" x="17" y="220" width="310" height="115"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_KElywEzWEeG-B--gQQeYyw" type="Note" fontName="Lucida Grande" fontHeight="14" description="This diagram shows the packages you have in your ontology model. Usually  a single package is used, and you will not need to update this diagram. Use the ontology overview diagram to edit the content of your ontology - this can be opened from the tab below or by double-clicking on the package symbol in this diagram." fillColor="8905185" transparency="0" lineColor="0" lineWidth="1">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_KEqEMEzWEeG-B--gQQeYyw" type="DiagramName">
+        <element xsi:nil="true"/>
+      </children>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_KEqEMUzWEeG-B--gQQeYyw" type="Description">
+        <element xsi:nil="true"/>
+      </children>
+      <styles xmi:type="notation:TextStyle" xmi:id="_KElywUzWEeG-B--gQQeYyw"/>
+      <styles xmi:type="notation:LineTypeStyle" xmi:id="_KElywkzWEeG-B--gQQeYyw"/>
+      <element xsi:nil="true"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KElyw0zWEeG-B--gQQeYyw" x="468" y="72" width="271" height="226"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_m27soTuGEeGemd2yvbYdUw"/>
     <element xmi:type="uml:Model" href="model.uml#_m1fiMDuGEeGemd2yvbYdUw"/>
@@ -95,7 +107,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4fb0dTuGEeGemd2yvbYdUw"/>
       </children>
       <element xmi:type="uml:Class" href="model.uml#_4fXi8DuGEeGemd2yvbYdUw"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4fbNUTuGEeGemd2yvbYdUw" x="495" y="288"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4fbNUTuGEeGemd2yvbYdUw" x="522" y="252"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_6faIEDuGEeGemd2yvbYdUw" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6favITuGEeGemd2yvbYdUw" source="ShadowFigure">
@@ -127,7 +139,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6fbWPzuGEeGemd2yvbYdUw"/>
       </children>
       <element xmi:type="uml:Class" href="model.uml#_6fXEwDuGEeGemd2yvbYdUw"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6favIDuGEeGemd2yvbYdUw" x="315" y="288"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6favIDuGEeGemd2yvbYdUw" x="306" y="252"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_EJRlUDuHEeGemd2yvbYdUw" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_EJSMYDuHEeGemd2yvbYdUw" source="ShadowFigure">
@@ -159,7 +171,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EJSMdTuHEeGemd2yvbYdUw"/>
       </children>
       <element xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EJRlUTuHEeGemd2yvbYdUw" x="130" y="117" width="123"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EJRlUTuHEeGemd2yvbYdUw" x="63" y="117" width="123"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_HHRAcDuHEeGemd2yvbYdUw" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_HHRAcjuHEeGemd2yvbYdUw" source="ShadowFigure">
@@ -191,7 +203,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HHRnlDuHEeGemd2yvbYdUw"/>
       </children>
       <element xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HHRAcTuHEeGemd2yvbYdUw" x="315" y="117"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HHRAcTuHEeGemd2yvbYdUw" x="306" y="117"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_JRrCgDuHEeGemd2yvbYdUw" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_JRrpkDuHEeGemd2yvbYdUw" source="ShadowFigure">
@@ -223,21 +235,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JRrppTuHEeGemd2yvbYdUw"/>
       </children>
       <element xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JRrCgTuHEeGemd2yvbYdUw" x="513" y="117"/>
-    </children>
-    <children xmi:type="notation:Shape" xmi:id="_opag0DvcEeG588nPCnr8CA" type="2012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_opag0jvcEeG588nPCnr8CA" source="ShadowFigure">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_opag0zvcEeG588nPCnr8CA" key="ShadowFigure_Value" value="false"/>
-      </eAnnotations>
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_opbH4DvcEeG588nPCnr8CA" source="displayNameLabelIcon">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_opbH4TvcEeG588nPCnr8CA" key="displayNameLabelIcon_value" value="false"/>
-      </eAnnotations>
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_opbH4jvcEeG588nPCnr8CA" source="QualifiedName">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_opbH4zvcEeG588nPCnr8CA" key="QualifiedNameDepth" value="1000"/>
-      </eAnnotations>
-      <children xmi:type="notation:DecorationNode" xmi:id="_opbH5DvcEeG588nPCnr8CA" type="5038"/>
-      <element xmi:type="uml:Comment" href="model.uml#_olm-4DvcEeG588nPCnr8CA"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_opag0TvcEeG588nPCnr8CA" x="135" y="9" width="505" height="73"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JRrCgTuHEeGemd2yvbYdUw" x="522" y="117"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_l6aHcDvdEeG588nPCnr8CA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_l6augDvdEeG588nPCnr8CA" source="ShadowFigure">
@@ -269,21 +267,31 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_l6bVlDvdEeG588nPCnr8CA"/>
       </children>
       <element xmi:type="uml:Class" href="model.uml#_l6V2ADvdEeG588nPCnr8CA"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_l6aHcTvdEeG588nPCnr8CA" x="139" y="288"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_l6aHcTvdEeG588nPCnr8CA" x="72" y="252"/>
     </children>
-    <children xmi:type="notation:Shape" xmi:id="_zZzr0DvdEeG588nPCnr8CA" type="2012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_zZ0S4DvdEeG588nPCnr8CA" source="ShadowFigure">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_zZ0S4TvdEeG588nPCnr8CA" key="ShadowFigure_Value" value="false"/>
-      </eAnnotations>
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_zZ0S4jvdEeG588nPCnr8CA" source="displayNameLabelIcon">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_zZ0S4zvdEeG588nPCnr8CA" key="displayNameLabelIcon_value" value="false"/>
-      </eAnnotations>
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_zZ0S5DvdEeG588nPCnr8CA" source="QualifiedName">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_zZ0S5TvdEeG588nPCnr8CA" key="QualifiedNameDepth" value="1000"/>
-      </eAnnotations>
-      <children xmi:type="notation:DecorationNode" xmi:id="_zZ0S5jvdEeG588nPCnr8CA" type="5038"/>
-      <element xmi:type="uml:Comment" href="model.uml#_zZzEwDvdEeG588nPCnr8CA"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zZzr0TvdEeG588nPCnr8CA" x="135" y="450" width="505" height="127"/>
+    <children xmi:type="notation:Shape" xmi:id="_-0dF0EzWEeG-B--gQQeYyw" type="Note" fontName="Lucida Grande" fontHeight="14" description="The classes at the top of this diagram are base classes taken from the imported packages shown in the Model Explorer view (select Papyrus from the Window/Open Perspective menu). Typically, you will subclass these classes by adding a generalization relation to your own ontology classes. &#xA;To apply other imported classes, just drag them into the diagram from the Model Explorer." fillColor="8905185" transparency="0" lineColor="0" lineWidth="1">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_-0eT8EzWEeG-B--gQQeYyw" type="DiagramName">
+        <element xsi:nil="true"/>
+      </children>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_-0eT8UzWEeG-B--gQQeYyw" type="Description">
+        <element xsi:nil="true"/>
+      </children>
+      <styles xmi:type="notation:TextStyle" xmi:id="_-0dF0UzWEeG-B--gQQeYyw"/>
+      <styles xmi:type="notation:LineTypeStyle" xmi:id="_-0dF0kzWEeG-B--gQQeYyw"/>
+      <element xsi:nil="true"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-0dF00zWEeG-B--gQQeYyw" x="18" y="18" width="730" height="82"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_Vbwp4EzXEeG-B--gQQeYyw" type="Note" fontName="Lucida Grande" fontHeight="14" description="The classes in the lower part of the diagram are just example classes that can be renamed or deleted. To create your own classes, select Class from the Ontology palette (to the right). You can also add associations and generalizations from this palette.&#xA;To add properties to the classes, select datatypeProperty (for primitive types) or objectProperty from the Ontology palette and click on the class to add it to. For further instructions, visit the wiki at:&#xA;http://forge.universaal.org/wiki/uaaltools:Ontology_modelling&#xA;You can delete these instruction notes from the model when you do not need them any more." fillColor="8905185" transparency="0" lineColor="0" lineWidth="1">
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_VbxQ8EzXEeG-B--gQQeYyw" type="DiagramName">
+        <element xsi:nil="true"/>
+      </children>
+      <children xmi:type="notation:BasicDecorationNode" xmi:id="_VbxQ8UzXEeG-B--gQQeYyw" type="Description">
+        <element xsi:nil="true"/>
+      </children>
+      <styles xmi:type="notation:TextStyle" xmi:id="_Vbwp4UzXEeG-B--gQQeYyw"/>
+      <styles xmi:type="notation:LineTypeStyle" xmi:id="_Vbwp4kzXEeG-B--gQQeYyw"/>
+      <element xsi:nil="true"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbwp40zXEeG-B--gQQeYyw" x="18" y="378" width="730" height="136"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_1_7sETuGEeGemd2yvbYdUw"/>
     <element xmi:type="uml:Package" href="model.uml#_thSEwDuGEeGemd2yvbYdUw"/>
@@ -303,28 +311,6 @@
       <styles xmi:type="notation:FontStyle" xmi:id="_SBOzoTuHEeGemd2yvbYdUw" fontName="Lucida Grande" fontHeight="11"/>
       <element xmi:type="uml:Generalization" href="model.uml#_SBLJQDuHEeGemd2yvbYdUw"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_SBOzojuHEeGemd2yvbYdUw" points="[-3, -50, 0, 84]$[-3, -113, 0, 21]$[-3, -121, 0, 13]"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_SBWIYDuHEeGemd2yvbYdUw" id="(0.29,0.87)"/>
-    </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_axG3wDvdEeG588nPCnr8CA" type="4013" source="_opag0DvcEeG588nPCnr8CA" target="_EJRlUDuHEeGemd2yvbYdUw" lineColor="0">
-      <styles xmi:type="notation:FontStyle" xmi:id="_axG3wTvdEeG588nPCnr8CA" fontName="Lucida Grande" fontHeight="11"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_axG3wjvdEeG588nPCnr8CA" points="[0, 0, 165, -28]$[-162, 22, 3, -6]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_axJ7EDvdEeG588nPCnr8CA" id="(0.16237623762376238,0.9863013698630136)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_axJ7ETvdEeG588nPCnr8CA" id="(0.7073170731707317,0.06)"/>
-    </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_bDsckDvdEeG588nPCnr8CA" type="4013" source="_opag0DvcEeG588nPCnr8CA" target="_HHRAcDuHEeGemd2yvbYdUw" lineColor="0">
-      <styles xmi:type="notation:FontStyle" xmi:id="_bDsckTvdEeG588nPCnr8CA" fontName="Lucida Grande" fontHeight="11"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_bDsckjvdEeG588nPCnr8CA" points="[-2, 0, 0, -33]$[-5, 21, -3, -12]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_bDuRwDvdEeG588nPCnr8CA" id="(0.38863976083707025,1.0)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_bDuRwTvdEeG588nPCnr8CA" id="(0.19,0.01)"/>
-    </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_br5sEDvdEeG588nPCnr8CA" type="4013" source="_opag0DvcEeG588nPCnr8CA" target="_JRrCgDuHEeGemd2yvbYdUw" lineColor="0">
-      <styles xmi:type="notation:FontStyle" xmi:id="_br5sETvdEeG588nPCnr8CA" fontName="Lucida Grande" fontHeight="11"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_br5sEjvdEeG588nPCnr8CA" points="[0, 0, -185, -31]$[175, 21, -10, -10]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_br7hQDvdEeG588nPCnr8CA" id="(0.7801980198019802,0.7808219178082192)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_br7hQTvdEeG588nPCnr8CA" id="(0.1,0.1)"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_oLUaIDvdEeG588nPCnr8CA" type="4002" source="_l6aHcDvdEeG588nPCnr8CA" target="_EJRlUDuHEeGemd2yvbYdUw" lineColor="0">
       <children xmi:type="notation:DecorationNode" xmi:id="_oLUaIzvdEeG588nPCnr8CA" type="6007">
@@ -335,27 +321,6 @@
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_oLUaIjvdEeG588nPCnr8CA" points="[4, -13, 0, 94]$[2, -91, -2, 16]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_oLW2YDvdEeG588nPCnr8CA" id="(0.45,0.13)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_oLW2YTvdEeG588nPCnr8CA" id="(0.4715447154471545,0.84)"/>
-    </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_Qh2ZADveEeG588nPCnr8CA" type="4013" source="_zZzr0DvdEeG588nPCnr8CA" target="_l6aHcDvdEeG588nPCnr8CA" lineColor="0">
-      <styles xmi:type="notation:FontStyle" xmi:id="_Qh2ZATveEeG588nPCnr8CA" fontName="Lucida Grande" fontHeight="11"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Qh2ZAjveEeG588nPCnr8CA" points="[-9, 0, 0, 75]$[-16, -62, -7, 13]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Qh41QDveEeG588nPCnr8CA" id="(0.0891089108910891,0.0)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Qh41QTveEeG588nPCnr8CA" id="(0.32,0.87)"/>
-    </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_RduLYDveEeG588nPCnr8CA" type="4013" source="_zZzr0DvdEeG588nPCnr8CA" target="_6faIEDuGEeGemd2yvbYdUw" lineColor="0">
-      <styles xmi:type="notation:FontStyle" xmi:id="_RduLYTveEeG588nPCnr8CA" fontName="Lucida Grande" fontHeight="11"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_RduLYjveEeG588nPCnr8CA" points="[0, 0, -168, 68]$[165, -62, -3, 6]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_RdwAkDveEeG588nPCnr8CA" id="(0.43366336633663366,0.03937007874015748)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_RdwAkTveEeG588nPCnr8CA" id="(0.33,0.94)"/>
-    </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_SCoPQDveEeG588nPCnr8CA" type="4013" source="_zZzr0DvdEeG588nPCnr8CA" target="_4fbNUDuGEeGemd2yvbYdUw" lineColor="0">
-      <styles xmi:type="notation:FontStyle" xmi:id="_SCoPQTveEeG588nPCnr8CA" fontName="Lucida Grande" fontHeight="11"/>
-      <element xsi:nil="true"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_SCoPQjveEeG588nPCnr8CA" points="[0, 0, -347, 65]$[345, -62, -2, 3]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_SCqEcDveEeG588nPCnr8CA" id="(0.7801980198019802,0.047244094488188976)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_SCqrgDveEeG588nPCnr8CA" id="(0.34,0.97)"/>
     </edges>
   </notation:Diagram>
 </xmi:XMI>

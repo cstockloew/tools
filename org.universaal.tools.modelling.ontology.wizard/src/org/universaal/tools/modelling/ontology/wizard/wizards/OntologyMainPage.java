@@ -183,7 +183,7 @@ public class OntologyMainPage extends WizardPage {
 		bindingContext.bindValue(txtNamespaceObserveTextObserveWidget, modelOntologyNamespaceObserveValue, null, null);
 		//
 		IObservableValue txtGroupidObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtGroupid, SWT.Modify));
-		IObservableValue modelPackageNameObserveValue = BeansObservables.observeValue(model, "packageName");
+		IObservableValue modelPackageNameObserveValue = BeansObservables.observeValue(model, "mavenGroupId");
 		bindingContext.bindValue(txtGroupidObserveTextObserveWidget, modelPackageNameObserveValue, null, null);
 		//
 		IObservableValue txtMavennameObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtMavenname, SWT.Modify));

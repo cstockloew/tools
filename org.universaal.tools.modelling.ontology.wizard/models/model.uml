@@ -17,18 +17,6 @@
       <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$">
-      <ownedComment xmi:id="_olm-4DvcEeG588nPCnr8CA">
-        <annotatedElement xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
-        <annotatedElement xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
-        <annotatedElement xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
-        <body>These base classes are taken from the imported packages shown in the Model Explorer view. Typically, you will subclass these by adding a generalization relation to your own ontology classes. 
-To apply other imported classes, just drag them into the diagram from the Model Explorer.
-</body>
-      </ownedComment>
-      <ownedComment xmi:id="_zZzEwDvdEeG588nPCnr8CA" annotatedElement="_l6V2ADvdEeG588nPCnr8CA _6fXEwDuGEeGemd2yvbYdUw _4fXi8DuGEeGemd2yvbYdUw">
-        <body>These are just example classes that can be renamed or deleted. To create your own classes use the palette (nodes) to the right. You can add associations and generalizations from the the &quot;Edges&quot; palette.
-To add properties to the classes, select property from the Nodes menu and click on the class to add it to.</body>
-      </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_4fXi8DuGEeGemd2yvbYdUw" name="MyService">
         <generalization xmi:id="_SBLJQDuHEeGemd2yvbYdUw">
           <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>

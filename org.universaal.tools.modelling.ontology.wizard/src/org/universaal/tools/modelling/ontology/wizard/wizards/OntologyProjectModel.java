@@ -20,6 +20,7 @@ public class OntologyProjectModel  {
 	String packageName;
 	String ontologyNamespace;
 	
+	String mavenGroupId;
 	String mavenName;
 	
 
@@ -30,7 +31,7 @@ public class OntologyProjectModel  {
 		setOntologyName(DEFAULT_ONTOLOGY_NAME);
 		setParentPackageName(DEFAULT_PARENT_PACKAGE_NAME);
 		mavenModel.setModelVersion("4.0.0"); //$NON-NLS-1$
-		mavenModel.setVersion("0.1");
+		mavenModel.setVersion("0.1.0-SNAPSHOT");
 	}
 	
 	public String getOntologyName() {
@@ -40,8 +41,9 @@ public class OntologyProjectModel  {
 		if (this.ontologyName != ontologyName) {
 			support.firePropertyChange("ontologyName", this.ontologyName, this.ontologyName = ontologyName);
 			if (useSimpleMode) {
-				setProjectName(parentPackageName + "." + ontologyName.toLowerCase());
-				setPackageName(parentPackageName);
+				String fullPkgName = parentPackageName + "." + ontologyName.toLowerCase();
+				setProjectName(fullPkgName);
+				setPackageName(fullPkgName);
 				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + getOntologyName());
 				setMavenName(ontologyName);
 			}
@@ -55,9 +57,11 @@ public class OntologyProjectModel  {
 		if (this.parentPackageName != parentPackageName) {
 			support.firePropertyChange("parentPackageName", this.parentPackageName, this.parentPackageName = parentPackageName);
 			if (useSimpleMode) {
-				setProjectName(parentPackageName + "." + ontologyName.toLowerCase());
-				setPackageName(parentPackageName);
+				String fullPkgName = parentPackageName + "." + ontologyName.toLowerCase();
+				setProjectName(fullPkgName);
+				setPackageName(fullPkgName);
 				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + ontologyName);
+				setMavenGroupId(parentPackageName);
 			}
 		}
 	}
@@ -87,9 +91,18 @@ public class OntologyProjectModel  {
 	public void setPackageName(String packageName) {
 		if (this.packageName != packageName) {
 			support.firePropertyChange("packageName", this.packageName, this.packageName = packageName);
-			mavenModel.setGroupId(packageName);
 		}
 	}
+
+	public String getMavenGroupId() {
+		return mavenGroupId;
+	}
+	public void setMavenGroupId(String mavenGroupId) {
+		if (this.mavenGroupId != mavenGroupId) {
+			support.firePropertyChange("mavenGroupId", this.mavenGroupId, this.mavenGroupId = mavenGroupId);
+			mavenModel.setGroupId(mavenGroupId);
+		}
+	}	
 	
 	public String getMavenName() {
 		return mavenName;
