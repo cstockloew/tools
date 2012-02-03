@@ -17,7 +17,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.jdt.core.JavaConventions;
+import org.universaal.tools.newwizard.plugin.Activator;
 
 /**
  * The second wizard page allows setting the name of the root package, where all
@@ -70,6 +72,9 @@ public class NewProjectWizardPage2 extends WizardPage {
 	GridLayout layoutInfo = new GridLayout();
 	layoutInfo.numColumns = 2;
 	layoutInfo.verticalSpacing = 9;
+	// Set the help
+	PlatformUI.getWorkbench().getHelpSystem()
+		.setHelp(parent, Activator.PLUGIN_ID + ".help_project");
 	containerInfo.setLayout(layoutInfo);
 	containerInfo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 

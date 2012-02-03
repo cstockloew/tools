@@ -72,8 +72,6 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	configuration = new ProjectImportConfiguration();
 	page1 = new NewProjectWizardPage1(selection);
 	page2 = new NewProjectWizardPage2(selection);
-	PlatformUI.getWorkbench().getHelpSystem()
-		.setHelp(getShell(), Activator.PLUGIN_ID + ".help_project");
 	addPage(page1);
 	addPage(page2);
     }

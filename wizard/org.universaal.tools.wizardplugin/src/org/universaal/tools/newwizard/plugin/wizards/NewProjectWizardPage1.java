@@ -10,6 +10,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
+import org.universaal.tools.newwizard.plugin.Activator;
 
 /**
  * The first wizard page allows setting the details for the project, represented
@@ -40,6 +42,9 @@ public class NewProjectWizardPage1 extends WizardPage {
 	container.setLayout(layout);
 	layout.numColumns = 2;
 	layout.verticalSpacing = 9;
+	// Set the help
+	PlatformUI.getWorkbench().getHelpSystem()
+		.setHelp(parent, Activator.PLUGIN_ID + ".help_project");
 	// Group Id
 	Label label1 = new Label(container, SWT.NULL);
 	label1.setText(Messages.getString("Page1.1")); //$NON-NLS-1$

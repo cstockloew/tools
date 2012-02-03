@@ -75,6 +75,9 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	containerP.setLayout(layoutP);
 	layoutP.numColumns = 1;
 	layoutP.verticalSpacing = 9;
+	// Set the help
+	PlatformUI.getWorkbench().getHelpSystem()
+		.setHelp(parent, Activator.PLUGIN_ID + ".help_item");
 	// First layout with the name of the package
 	Composite container1 = new Composite(containerP, SWT.NULL);
 	GridLayout layout2 = new GridLayout();
@@ -149,8 +152,6 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 		validateInput();
 	    }
 	});
-	//TODO: I don´t know why this doesn´t work with getShell in NewItemWizad.addPages (see Project wizard)
-	PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, Activator.PLUGIN_ID + ".help_item");
 	validateInput();
 	setControl(container2);
     }
