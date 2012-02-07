@@ -10,9 +10,6 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
 
 /**
  * Change required:
- * x make simple ontology classes (as separate files)
- * x update activator (registering ontology)
- * x add factory class
  * - update POM file
  * - add new ontology class
  * -- create OntClassInfoSetup variable for each ontology class with createNewAbstractOntClassInfo / createNewOntClassInfo
@@ -22,9 +19,6 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
  * -- add support for enumerations
  * -- add suppport for imports
  */
-
-
-
 
 
   var ontologyNamespace:String
@@ -776,13 +770,13 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	
 	//attributes first
 	props->forEach(att : uml.Property) {
-  	    '\n      && props.containsKey(PROP_'att.toUpperFormat()')'
+  	    '\n      && hasProperty(PROP_'att.toUpperFormat()')'
   	}
   	
   	//associations next
  	props->forEach (ass : uml.Association) // | ass.endType.first().name.trim().equals(self.name.trim()) ) 
  	{
-  	    '\n      && props.containsKey(PROP_'ass.memberEnd.last().toUpperFormat()') '
+  	    '\n      && hasProperty(PROP_'ass.memberEnd.last().toUpperFormat()') '
  	}  
     ';
   }\n'
@@ -859,12 +853,12 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
    uml.Class::genBooleanGetterAndSetter(methodName:String, propertyLongName:String) {
 '
   public boolean is' methodName '() {
-	Boolean b = (Boolean) props.get('propertyLongName');
+	Boolean b = (Boolean) getProperty('propertyLongName');
 	return (b == null) ? false : b.booleanValue();
   }		
 
   public void set'methodName'(boolean newPropValue) {
-      props.put('propertyLongName', new Boolean(newPropValue));
+      setProperty('propertyLongName', new Boolean(newPropValue));
   }		
 '		
    }
@@ -875,12 +869,12 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
    uml.Class::genIntGetterAndSetter(methodName:String, propertyLongName:String) {
 '
   public int get' methodName '() {
-	Integer i = (Integer) props.get('propertyLongName');
+	Integer i = (Integer) getProperty('propertyLongName');
 	return (i == null) ? 0 : i.intValue();
   }		
 
   public void set'methodName'(int newPropValue) {
-      props.put('propertyLongName', new Integer(newPropValue));
+      setProperty('propertyLongName', new Integer(newPropValue));
   }		
 '		
    }
@@ -891,12 +885,12 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
    uml.Class::genLongGetterAndSetter(methodName:String, propertyLongName:String) {
 '
   public long get' methodName '() {
-	Long l = (Long) props.get('propertyLongName');
+	Long l = (Long) getProperty('propertyLongName');
 	return (l == null) ? 0 : l.longValue();
   }		
 
   public void set'methodName'(long newPropValue) {
-      props.put('propertyLongName', new Long(newPropValue));
+      setProperty('propertyLongName', new Long(newPropValue));
   }		
 '		
    }
@@ -907,12 +901,12 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
    uml.Class::genObjectGetterAndSetter(methodName:String, propertyLongName:String, typeName:String) {
 '
   public 'typeName ' get' methodName '() {
-    return ('typeName')props.get('propertyLongName');
+    return ('typeName')getProperty('propertyLongName');
   }		
 
   public void set'methodName'('typeName' newPropValue) {
     if (newPropValue != null)
-      props.put('propertyLongName', newPropValue);
+      setProperty('propertyLongName', newPropValue);
   }		
 '		
    }
