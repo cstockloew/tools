@@ -8,26 +8,28 @@ import org.universAAL.middleware.service.ServiceCallee;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 
-public class /*TAG:CLASSNAME*/ extends ServiceCallee{
+import pack.testproj.SCalleeProvidedService;
 
-	protected /*TAG:CLASSNAME*/(ModuleContext context, ServiceProfile[] realizedServices) {
-		super(context, realizedServices);
-		// TODO Auto-generated constructor stub
-	}
-	
-	protected /*TAG:CLASSNAME*/(ModuleContext context) {
-		super(context, /*TAG:CLASSNAME*/ProvidedService.profiles);
-		// TODO Auto-generated constructor stub
-	}
+public class /*TAG:CLASSNAME*/ extends ServiceCallee {
 
-	public void communicationChannelBroken() {
-		// TODO Auto-generated method stub
-		
-	}
+    protected /*TAG:CLASSNAME*/(ModuleContext context, ServiceProfile[] realizedServices) {
+	super(context, realizedServices);
+	// TODO Auto-generated constructor stub
+    }
 
-	public ServiceResponse handleCall(ServiceCall call) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    protected SCallee(ModuleContext context) {
+	super(context, /*TAG:CLASSNAME*/ProvidedService.profiles);
+	// TODO Auto-generated constructor stub
+    }
+
+    public void communicationChannelBroken() {
+	// TODO Auto-generated method stub
+
+    }
+
+    public ServiceResponse handleCall(ServiceCall call) {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
 }
