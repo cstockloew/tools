@@ -112,6 +112,11 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
+		 <repository>
+            <id>qtjambi</id>
+            <name>qtjambi</name>
+            <url>http://qtjambi.sourceforge.net/maven2/</url>
+        </repository>
 	</repositories>
 
 	<distributionManagement>
