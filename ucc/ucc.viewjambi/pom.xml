@@ -28,19 +28,10 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.trolltech</groupId>
-		    <artifactId>jambi</artifactId>
-		    <version>4.5.2</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/src/main/resources/lib/qtjambi-4.5.2_01.jar</systemPath>
-		</dependency>
-		<dependency>
-		    <groupId>com.trolltech</groupId>
-		    <artifactId>jambi-bin</artifactId>
-		    <version>4.5.2</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/src/main/resources/lib/qtjambi-win32-msvc2005-4.5.2_01.jar</systemPath>
-		</dependency>
+		<groupId>net.sf.qtjambi</groupId>
+		<artifactId>qtjambi</artifactId>
+		<version>4.5.2_01</version>
+	</dependency>
 	</dependencies>
     <build>
 		<plugins>

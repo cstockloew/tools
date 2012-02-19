@@ -37,6 +37,16 @@
 			<artifactId>ucc.api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+		<groupId>net.sf.qtjambi</groupId>
+		<artifactId>qtjambi</artifactId>
+		<version>4.5.2_01</version>
+	</dependency>
+	<dependency>
+		<groupId>com.hp.hpl.jena</groupId>
+		<artifactId>jena</artifactId>
+		<version>2.6.4</version>
+	</dependency>
 	</dependencies>
     <build>
 		<plugins>
