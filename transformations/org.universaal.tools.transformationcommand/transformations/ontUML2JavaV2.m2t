@@ -351,10 +351,12 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 '
 	var classIndex:Integer = 0
 	ontologyClassList.values()->forEach(component:uml.Class) {
-'     case ' classIndex ':
-	    return new 'component.name'(instanceURI);
-'  
+	  // Generate factory entry only for concrete classes
+	  if (component.isAbstract() == false) {
+		'     case ' classIndex ':\n'
+		'       return new 'component.name'(instanceURI);\n'
 		classIndex = classIndex + 1
+	  }
 	}
 '
 	}
@@ -640,7 +642,9 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
  }
  
  uml.Class::genImports() {
-    'import java.util.Hashtable;\n\n'
+    'import java.util.Hashtable;\n'
+	'import java.util.ArrayList;\n'
+	'import java.util.List;\n\n'
     
     // Import universAAL packages. 
     // Note that generator currently imports a fixed set of classes. This will be improved in the future 
@@ -824,7 +828,10 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 		  theTypeName = att.type.name
 		}
 
-		if (theTypeName == "Boolean") {
+		if ((att.upper > 1) or (att.upper == -1)) {
+		  self.genArrayGetterAndSetter(methodName, propLongName, theTypeName)
+		}
+		else if (theTypeName == "Boolean") {
 		  self.genBooleanGetterAndSetter(methodName, propLongName)
     	}  		  
 		else if (theTypeName == "UnlimitedNatural") {
@@ -846,6 +853,59 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	}
 */     
    }
+
+
+   uml.Class::genArrayGetterAndSetter(methodName:String, propertyLongName:String, typeName:String) {
+
+
+
+
+/* The following code was made under the assumption that we need to handle a special case of a single
+* contained object differently than if the list contain many objects. Hopefully the simplified approach
+* above will be sufficient, though.
+*/	
+'
+  public 'typeName'[] get'methodName'() {
+    Object propList = props.get('propertyLongName');
+    if (propList instanceof List) {
+      return ('typeName'[]) ((List) propList).toArray(new 'typeName'[0]);
+    } else {
+      List returnList = new ArrayList();
+      if (propList != null)
+        returnList.add(('typeName') propList);
+      return ('typeName'[]) returnList.toArray(new 'typeName'[0]);
+    }
+  }
+
+  public void add'methodName'('typeName' sens) {
+    Object propList = props.get('propertyLongName');
+    if (propList instanceof List) {
+      List list = (List) propList;
+      list.add(sens);
+      props.put('propertyLongName', list);
+    } else if (propList == null) {
+      props.put('propertyLongName', sens);
+    } else {
+      List list = new ArrayList();
+      list.add(('typeName') propList);
+      list.add(sens);
+      props.put('propertyLongName', list);
+    }
+  }
+
+  public void set'methodName'('typeName'[] sens) {
+    List propList = new ArrayList(sens.length);
+    for (int i = 0; i < sens.length; i++) {
+      propList.add(sens[i]);
+    }
+    props.put('propertyLongName', propList);
+  }
+'		
+ /**/
+ 
+   }
+
+
 
 /**
  *
@@ -968,7 +1028,10 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
  	else {
  	  'No further description provided'
  	}
- 	'</description>
+ 	' 	</description>
+ 	<properties>
+ 	    <project.build.sourceEncoding>UTF-16</project.build.sourceEncoding>
+ 	</properties>
   	<packaging>bundle</packaging>
     	<dependencies>'
     	//output dependencies for imported models
