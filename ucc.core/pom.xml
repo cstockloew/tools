@@ -8,7 +8,7 @@
      <relativePath>../ucc.pom/pom.xml</relativePath>
   </parent>
   <artifactId>ucc.core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>Core of the uCC</name>
   <description>Provides the main functionalities of the uCC.</description>
   <packaging>bundle</packaging>
@@ -20,22 +20,22 @@
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.data.representation</artifactId>
-			<version>0.3.1-SNAPSHOT</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.bus.model</artifactId>
-			<version>0.3.1-SNAPSHOT</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
-			<artifactId>mw.bus.io</artifactId>
-			<version>0.3.1-SNAPSHOT</version>
+			<artifactId>mw.bus.ui</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.tools.ucc</groupId>
 			<artifactId>ucc.api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		<groupId>net.sf.qtjambi</groupId>

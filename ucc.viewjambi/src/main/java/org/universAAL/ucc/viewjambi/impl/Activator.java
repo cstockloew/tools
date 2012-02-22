@@ -155,6 +155,10 @@ public class Activator implements BundleActivator {
 	}
 	
 	private static boolean loadPlugins(){
+		if (Activator.getInformation() == null) {
+			System.err.println("Could not load plugins! Information-Service not found!");
+			return false;
+		}
 		
 		File pluginFolder = new File(Activator.getInformation().getRunDir()+plugins);
 		if(pluginFolder.exists()){
