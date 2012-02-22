@@ -7,13 +7,6 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
-import org.universAAL.middleware.io.rdf.Form;
-import org.universAAL.middleware.io.rdf.Group;
-import org.universAAL.middleware.io.rdf.InputField;
-import org.universAAL.middleware.io.rdf.Label;
-import org.universAAL.middleware.io.rdf.Select1;
-import org.universAAL.middleware.io.rdf.Submit;
-import org.universAAL.middleware.io.rdf.TextArea;
 import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
 
@@ -56,7 +49,7 @@ public class Activator implements BundleActivator {
 		return information;
 	}
 	
-	public static synchronized void testForm() {
+	/*public static synchronized void testForm() {
 		//if (Constants.debugMode()) {
 			if (contentSerializer == null) {
 				ServiceReference sr = context.getServiceReference(MessageContentSerializer.class.getName());
@@ -84,7 +77,7 @@ public class Activator implements BundleActivator {
 			System.out.println(str);
 			System.out.println();
 		//}
-	}
+	}*/
 	
 	
 	public void start(final BundleContext context) throws Exception {

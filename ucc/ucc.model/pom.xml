@@ -8,7 +8,7 @@
      <relativePath>../ucc.pom/pom.xml</relativePath>
   </parent>
   <artifactId>ucc.model</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>Model of the uCC</name>
   <description>This bundle is responsible to manage all needed data for the uCC like listing of installed applications.</description>
   <packaging>bundle</packaging>
@@ -20,12 +20,12 @@
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.data.representation</artifactId>
-			<version>0.3.1-SNAPSHOT</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.tools.ucc</groupId>
 			<artifactId>ucc.api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
     <build>
