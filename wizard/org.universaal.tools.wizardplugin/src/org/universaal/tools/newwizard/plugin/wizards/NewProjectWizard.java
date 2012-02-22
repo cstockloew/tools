@@ -50,7 +50,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
     private NewProjectWizardPage2 page2;
     private ISelection selection;
     ProjectImportConfiguration configuration;
-    short[][] templateMatrix = { { 1, 1, 1, 1, 1, 1, 0, 0, 1 },
+    short[][] templateMatrix100 = { { 1, 1, 1, 1, 1, 1, 0, 0, 1 },
+		{ 1, 1, 0, 0, 2, 1, 0, 0, 2 }, 
+		{ 3, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 1, 0, 0, 0, 2, 0, 0, 0, 2 }, 
+		{ 4, 4, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+    short[][] templateMatrix110 = { { 1, 1, 0, 1, 1, 1, 0, 0, 1 },
 		{ 1, 1, 0, 0, 2, 1, 0, 0, 2 }, 
 		{ 3, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 1, 0, 0, 0, 2, 0, 0, 0, 2 }, 
@@ -105,7 +111,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	checks[9] = page2.getDefScaller().getSelection();
 	final boolean template=page2.getTemplate().getSelection();
 	final int templateIndex=page2.getTemplateDropDown().getSelectionIndex();
-	final String mwVersion=page2.getVersionDropDown().getItem(page2.getVersionDropDown().getSelectionIndex());
+	final int mwVer=page2.getVersionDropDown().getSelectionIndex();
+	final String mwVersion=page2.getVersionDropDown().getItem(mwVer);
 
 	// I use deprecated methods because I haven´t found the new way to
 	// create a new project
@@ -187,8 +194,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			    mwVersion + "/" + "Activator", pack, //$NON-NLS-1$
 			    checks), true, monitor);
 		    if (template) {//Copy the template classes. Watch for indices
-			for (int i = 0; i < 6; i++) {// 6: No IP or OS yet: No handler template yet
-			    String folder = getTemplateFolder(templateIndex, i);// Get origin folder for this file
+			for (int i = 0; i < classNames.length; i++) {
+			    String folder = getTemplateFolder(templateIndex, i, mwVer);// Get origin folder for this file
 			    if (!folder.isEmpty()) {// If folder is "" means there is no such file for this template
 				IFile f = src.getFile(classNames[i] + ".java"); //$NON-NLS-1$
 				f.create(FileStreamUtils.customizeFileStream(
@@ -420,8 +427,14 @@ public class NewProjectWizard extends Wizard implements INewWizard {
      *         string if there is not supposed to be any <code>colClass</code>
      *         wrapper class for this type of template.
      */
-    private String getTemplateFolder(int rowTemplate,int colClass){
-	switch (templateMatrix[rowTemplate][colClass]) {
+    private String getTemplateFolder(int rowTemplate,int colClass,int mwVer){
+	int k;
+	if(mwVer>1){
+	    k=templateMatrix110[rowTemplate][colClass];
+	}else{
+	    k=templateMatrix100[rowTemplate][colClass];
+	}
+	switch (k) {
 	case 1:
 	    return "generic_and_app";
 	case 2:

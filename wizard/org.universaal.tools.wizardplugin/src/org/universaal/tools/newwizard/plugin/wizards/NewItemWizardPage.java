@@ -1,7 +1,5 @@
 package org.universaal.tools.newwizard.plugin.wizards;
 
-import java.awt.Font;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaConventions;
@@ -9,8 +7,6 @@ import org.eclipse.jdt.ui.wizards.NewTypeWizardPage; //import org.eclipse.jface.
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -97,8 +93,10 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	drop1.setLayoutData(layoutInfo3);
 	drop1.add(NewProjectWizardPage2.VER_030_S, 0);
 	drop1.add(NewProjectWizardPage2.VER_031_S, 1);
+	drop1.add(NewProjectWizardPage2.VER_110, 2);
 	drop1.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
+		changeClasses();
 		validateInput();
 	    }
 	});
@@ -152,8 +150,39 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 		validateInput();
 	    }
 	});
+	drop.setEnabled(false);
 	validateInput();
 	setControl(container2);
+    }
+    
+    private void changeClasses() {
+	drop.setEnabled(true);
+	if (drop1.getSelectionIndex() > 1) {
+	    drop.deselectAll();
+	    drop.clearSelection();
+	    drop.removeAll();
+	    drop.add(Messages.getString("PageI.3"), 0); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.4"), 1); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.5"), 2); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.6"), 3); //$NON-NLS-1$
+	    drop.add(Messages.getString("Page2.25"), 4); //$NON-NLS-1$
+	    drop.add(Messages.getString("Page2.26"), 5); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.9"), 6); //$NON-NLS-1$
+	} else {
+	    drop.deselectAll();
+	    drop.clearSelection();
+	    drop.removeAll();
+	    drop.add(Messages.getString("PageI.3"), 0); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.4"), 1); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.5"), 2); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.6"), 3); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.7"), 4); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.8"), 5); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.9"), 6); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.14"), 7); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.15"), 8); //$NON-NLS-1$
+	}
+
     }
 
     public Combo getDrop() {

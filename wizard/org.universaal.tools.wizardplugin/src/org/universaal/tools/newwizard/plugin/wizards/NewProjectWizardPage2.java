@@ -34,17 +34,18 @@ public class NewProjectWizardPage2 extends WizardPage {
     private Button scallee;
     private Button scaller;
     private Button isubscriber;
-    private Button opublisher;
+    private Button opublisherUIC;
     private Button ipublisher;
-    private Button osubscriber;
+    private Button osubscriberUIH;
     private Button defscaller;
     private Button defcpublisher;
     private Button template;
-    private Combo drop,drop1;
+    private Combo drop, drop1;
     private Text packaging;
     private Group containerClasses;
-    public static final String VER_030_S="0.3.0-SNAPSHOT"; //$NON-NLS-1$
-    public static final String VER_031_S="1.0.0"; //$NON-NLS-1$
+    public static final String VER_030_S = "0.3.0-SNAPSHOT"; //$NON-NLS-1$
+    public static final String VER_031_S = "1.0.0"; //$NON-NLS-1$
+    public static final String VER_110 = "1.1.0"; //$NON-NLS-1$
 
     /**
      * Constructor for NewProjectWizardPage2.
@@ -89,7 +90,7 @@ public class NewProjectWizardPage2 extends WizardPage {
 		validateInput();
 	    }
 	});
-	
+
 	// Dropdown with middleware versions
 	Label label6 = new Label(containerInfo, SWT.NULL);
 	label6.setText(Messages.getString("Page2.23")); //$NON-NLS-1$
@@ -99,8 +100,10 @@ public class NewProjectWizardPage2 extends WizardPage {
 	drop1.setLayoutData(layoutInfo3);
 	drop1.add(VER_030_S, 0);
 	drop1.add(VER_031_S, 1);
+	drop1.add(VER_110, 2);
 	drop1.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
+		changeClasses();
 		validateInput();
 	    }
 	});
@@ -211,13 +214,13 @@ public class NewProjectWizardPage2 extends WizardPage {
 	defcpublisher.setEnabled(false);
 
 	// OSubscriber
-	osubscriber = new Button(containerClasses, SWT.CHECK);
-	osubscriber.setLayoutData(gd1);
-	osubscriber.setText(Messages.getString("Page2.12")); //$NON-NLS-1$
+	osubscriberUIH = new Button(containerClasses, SWT.CHECK);
+	osubscriberUIH.setLayoutData(gd1);
+	osubscriberUIH.setText(Messages.getString("Page2.12")); //$NON-NLS-1$
 	// OPublisher
-	opublisher = new Button(containerClasses, SWT.CHECK);
-	opublisher.setLayoutData(gd1);
-	opublisher.setText(Messages.getString("Page2.8")); //$NON-NLS-1$
+	opublisherUIC = new Button(containerClasses, SWT.CHECK);
+	opublisherUIC.setLayoutData(gd1);
+	opublisherUIC.setText(Messages.getString("Page2.8")); //$NON-NLS-1$
 	// Empty placeholder
 	Label empty1 = new Label(containerClasses, SWT.NULL);
 	empty1.setText(" "); //$NON-NLS-1$
@@ -257,7 +260,7 @@ public class NewProjectWizardPage2 extends WizardPage {
 	    setPageComplete(false);
 	    return;
 	}
-	if(drop1.getSelectionIndex()<0){
+	if (drop1.getSelectionIndex() < 0) {
 	    setMessage(Messages.getString("Page2.24")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
@@ -278,9 +281,9 @@ public class NewProjectWizardPage2 extends WizardPage {
 	scallee.setSelection(false);
 	scaller.setSelection(false);
 	isubscriber.setSelection(false);
-	opublisher.setSelection(false);
+	opublisherUIC.setSelection(false);
 	ipublisher.setSelection(false);
-	osubscriber.setSelection(false);
+	osubscriberUIH.setSelection(false);
 	defcpublisher.setSelection(false);
 	defscaller.setSelection(false);
 	defcpublisher.setEnabled(false);
@@ -294,8 +297,8 @@ public class NewProjectWizardPage2 extends WizardPage {
 		scallee.setSelection(true);
 		scaller.setSelection(true);
 		defscaller.setEnabled(true & isnottemplate);
-		isubscriber.setSelection(true);
-		opublisher.setSelection(true);
+		isubscriber.setSelection((drop1.getSelectionIndex() < 2)&true);
+		opublisherUIC.setSelection(true);
 		break;
 	    case 1:
 		csubscriber.setSelection(true);
@@ -320,8 +323,8 @@ public class NewProjectWizardPage2 extends WizardPage {
 		defcpublisher.setEnabled(true & isnottemplate);
 		break;
 	    case 5:
-		ipublisher.setSelection(true);
-		osubscriber.setSelection(true);
+		ipublisher.setSelection((drop1.getSelectionIndex() < 2)&true);
+		osubscriberUIH.setSelection(true);
 		break;
 	    default:
 		break;
@@ -329,12 +332,14 @@ public class NewProjectWizardPage2 extends WizardPage {
 	}
 	validateInput();
     }
-    
+
     /**
      * Helper to enable/disable the classes checkboxes
-     * @param enable True to enable the checkboxes, false otherwise
+     * 
+     * @param enable
+     *            True to enable the checkboxes, false otherwise
      */
-    private void enableClasses(boolean enable){
+    private void enableClasses(boolean enable) {
 	if (containerClasses != null) {
 	    Control[] checkboxes = containerClasses.getChildren();
 	    for (int i = 0; i < checkboxes.length; i++) {
@@ -342,6 +347,31 @@ public class NewProjectWizardPage2 extends WizardPage {
 	    }
 	    refreshClasses();
 	}
+    }
+
+    /**
+     * Helper to change the classes checkboxes depending on MW version
+     */
+    private void changeClasses() {
+	opublisherUIC.setSelection(false);
+	osubscriberUIH.setSelection(false);
+	isubscriber.setSelection(false);
+	ipublisher.setSelection(false);
+	if (drop1.getSelectionIndex() > 1) {
+	    // Change from old I/O bus to new UI bus
+	    opublisherUIC.setText(Messages.getString("Page2.25"));//$NON-NLS-1$
+	    osubscriberUIH.setText(Messages.getString("Page2.26"));//$NON-NLS-1$
+	    isubscriber.setSelection(false);
+	    isubscriber.setVisible(false);
+	    ipublisher.setVisible(false);
+	} else {
+	    // Change from new UI bus to old I/O bus
+	    opublisherUIC.setText(Messages.getString("Page2.8"));//$NON-NLS-1$
+	    osubscriberUIH.setText(Messages.getString("Page2.12"));//$NON-NLS-1$
+	    isubscriber.setVisible(true);
+	    ipublisher.setVisible(true);
+	}
+	refreshClasses();
     }
 
     public Button getCsubscriber() {
@@ -365,7 +395,7 @@ public class NewProjectWizardPage2 extends WizardPage {
     }
 
     public Button getOpublisher() {
-	return opublisher;
+	return opublisherUIC;
     }
 
     public Button getIpublisher() {
@@ -373,7 +403,7 @@ public class NewProjectWizardPage2 extends WizardPage {
     }
 
     public Button getOsubscriber() {
-	return osubscriber;
+	return osubscriberUIH;
     }
 
     public Button getDefCpublisher() {
@@ -387,12 +417,12 @@ public class NewProjectWizardPage2 extends WizardPage {
     public Text getPackaging() {
 	return packaging;
     }
-    
+
     public Button getTemplate() {
 	return template;
     }
-    
-    public Combo getTemplateDropDown(){
+
+    public Combo getTemplateDropDown() {
 	return drop;
     }
 
