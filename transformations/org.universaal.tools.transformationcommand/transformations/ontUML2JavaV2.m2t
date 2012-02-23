@@ -173,23 +173,45 @@ public final class ' ontologyName 'Ontology extends Ontology {
     addImport(ServiceBusOntology.NAMESPACE);
     addImport(LocationOntology.NAMESPACE);
 		
-    OntClassInfoSetup oci;
+    
 '
 		// TODO: Check if all classes should be created initially with a different OntClassInfoSetup variable
 		
 		if (!enumerationClassList.isEmpty()) {
-            '\n\n    // ******* Enumeration classes of the ontology ******* //\n\n'        		  
+            '\n\n    // ******* Declaration of enumeration classes of the ontology ******* //\n\n'        		  
 			enumerationClassList->forEach(enumClass : uml.Enumeration) {
-			  // TODO: Determine if the order in which the classes appear here is of importance
-			  '    // load 'enumClass.name'\n'
-			  '    oci = createNewAbstractOntClassInfo('enumClass.name'.MY_URI);\n'
-			  '    oci.setResourceComment("");\n'
-			  '    oci.setResourceLabel("'enumClass.name'");\n'
+			  '    OntClassInfoSetup oci_' enumClass.name' = createNewAbstractOntClassInfo('enumClass.name'.MY_URI);\n'
+			}
+		}
+			  
+		'\n\n    // ******* Declaration of regular classes of the ontology ******* //\n'
+
+		//create a ontclassinfo for each ontology class in the ontologyClassList
+		var index:Integer
+		index = 0
+		
+		ontologyClassList->forEach(c: uml.Class) {	
+			if (c.isAbstract) { 
+				'    OntClassInfoSetup oci_' c.name.trim() ' = createNewAbstractOntClassInfo(' c.name.trim() '.MY_URI);\n'
+			}
+			else {
+				'    OntClassInfoSetup oci_' c.name.trim() ' = createNewOntClassInfo(' c.name.trim() '.MY_URI, factory, ' index ');\n'
+				index+=1
+			} //end check for abstract class
+		}
+			
+			
+		if (!enumerationClassList.isEmpty()) {
+		    '\n\n    // ******* Add content to enumeration classes of the ontology ******* //\n\n'        		  
+			enumerationClassList->forEach(enumClass : uml.Enumeration) {
+			  var oci:String = "oci_" + enumClass.name.trim()
+			  '    ' oci '.setResourceComment("");\n'
+			  '    ' oci '.setResourceLabel("'enumClass.name'");\n'
 			  if (!enumClass.isAbstract) {
 			    enumClass.generalization->forEach(gen:uml.Generalization) {
-			      '    oci.addSuperClass('gen.general.name'.MY_URI);\n'
+			      '    ' oci '.addSuperClass('gen.general.name'.MY_URI);\n'
 			    }
-			    '    oci.toEnumeration(new ManagedIndividual[] {\n'
+			    '    ' oci '.toEnumeration(new ManagedIndividual[] {\n'
 			    '      '
 			    var litCount:Integer = 0
 			    enumClass.ownedLiteral->forEach(lit:uml.EnumerationLiteral) {
@@ -206,29 +228,17 @@ public final class ' ontologyName 'Ontology extends Ontology {
 			}
 		}
 
-		'\n\n    // ******* Regular classes of the ontology ******* //\n'
-
-		//create a ontclassinfo for each ontology class in the ontologyClassList
-		var index:Integer
-		index = 0
+	   '\n\n    // ******* Add content to regular classes of the ontology ******* //\n'	
 		
-		ontologyClassList->forEach(c: uml.Class) {
-			'\n    //load 'c.name' \n'
-			if (c.isAbstract) { 
-				'    oci = createNewAbstractOntClassInfo(' c.name '.MY_URI);\n'
-			}
-			else {
-				'    oci = createNewOntClassInfo(' c.name '.MY_URI, factory, ' index ');\n'
-				index+=1
-			} //end check for abstract class
-			
-			'    oci.setResourceComment("' c.ownedComment.first().body.trim() '");\n'
-			'    oci.setResourceLabel("' c.name.trim() '");\n' 
+		ontologyClassList->forEach(c: uml.Class) {		  
+		  var oci:String = "oci_"  + c.name.trim()
+			'    'oci '.setResourceComment("' c.ownedComment.first().body.trim() '");\n'
+			'    'oci '.setResourceLabel("' c.name.trim() '");\n' 
 			
 			//add reference to the superclass. In case of multiple inheritance, use the first entry in set
 			if (c.superClass.size()>0) {
 				c.superClass->forEach(sc: uml.Class) {
-					'    oci.addSuperClass(' sc.name '.MY_URI); \n'	
+					'    'oci '.addSuperClass(' sc.name '.MY_URI); \n'	
 			  	}	
 			}
 		
@@ -257,18 +267,18 @@ public final class ' ontologyName 'Ontology extends Ontology {
 			
 			if (isObjectProperty) {
 		  		if (isFunctional){ //default = true
-					'    oci.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
+					'    ' oci '.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
 				}
 				else {
-					'    oci.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
+					'    ' oci '.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
 				}
 			}
 			else {
 				if (isFunctional){ //default = true
-					'    oci.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
+					'    ' oci '.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
 				}
 				else {
-					'    oci.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
+					'    ' oci '.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
 				}//isfunctional = true
 			}
 			
@@ -276,12 +286,12 @@ public final class ' ontologyName 'Ontology extends Ontology {
 	
 	 		 //handle 0..* cardinality
 	  		if (prop.upper<0 && prop.lower==0) {
-				'      	oci.addRestriction(MergedRestriction.getAllValuesRestriction(' c.name '.PROP_' prop.toUpperFormat() ',  \n'
+				'      	' oci '.addRestriction(MergedRestriction.getAllValuesRestriction(' c.name '.PROP_' prop.toUpperFormat() ',  \n'
 				'       	' self.getURIExpressionForType(prop.type.name.trim()) '));\n'
 				'	    \n'
 	 		} //if 0..*
 	  		else if (!prop.type.name.trim().equals("") ) {  //this is a datatype property that has been set.
-					'    oci.addRestriction(MergedRestriction\n'
+					'    ' oci '.addRestriction(MergedRestriction\n'
 					'      .getAllValuesRestrictionWithCardinality(' c.name '.PROP_' prop.toUpperFormat() ', \n'	  
 					'      'self.getURIExpressionForType(prop.type.name.trim())', ' prop.lower ', ' prop.upper ')'
 					if (prop.defaultValue.name.equals("values")) { //TODO: this is a temporary solution. See doc for more info
@@ -292,7 +302,7 @@ public final class ' ontologyName 'Ontology extends Ontology {
 					'    \n'
 	 		 	} //else if
 	 		else {    //default when unset type
-	 		  	'    oci.addRestriction(MergedRestriction.getCardinalityRestriction(' c.name '.PROP_' prop.toUpperFormat() ', ' prop.lower ', ' prop.upper '));\n'
+	 		  	'    ' oci '.addRestriction(MergedRestriction.getCardinalityRestriction(' c.name '.PROP_' prop.toUpperFormat() ', ' prop.lower ', ' prop.upper '));\n'
 				'    \n'
 	 		}
 	 	} //forEach	prop
