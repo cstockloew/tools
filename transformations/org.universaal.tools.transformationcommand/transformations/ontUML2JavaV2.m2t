@@ -829,7 +829,8 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 		}
 
 		if ((att.upper > 1) or (att.upper == -1)) {
-		  self.genArrayGetterAndSetter(methodName, propLongName, theTypeName)
+		  var includeAddMethod:Boolean = att.lower < 2
+		  self.genArrayGetterAndSetter(methodName, propLongName, theTypeName, includeAddMethod)
 		}
 		else if (theTypeName == "Boolean") {
 		  self.genBooleanGetterAndSetter(methodName, propLongName)
@@ -844,64 +845,52 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 		  self.genObjectGetterAndSetter(methodName, propLongName, theTypeName)
 		}	
 	}
-/* 
- 	self.getAssociations()->forEach (ass : uml.Association | ass.endType.first().name.trim().equals(self.name.trim()) ) {
-      var methodName:String = ass.memberEnd.last().name.trim().firstToUpper()
-      var propLongName:String = "PROP_" + ass.toUpperFormat()
-      var theTypeName:String = ass.endType.last().name
-	  self.genObjectGetterAndSetter(methodName, propLongName, theTypeName)       	  
-	}
-*/     
    }
 
 
-   uml.Class::genArrayGetterAndSetter(methodName:String, propertyLongName:String, typeName:String) {
-
-
-
-
-/* The following code was made under the assumption that we need to handle a special case of a single
-* contained object differently than if the list contain many objects. Hopefully the simplified approach
-* above will be sufficient, though.
-*/	
+   uml.Class::genArrayGetterAndSetter(methodName:String, propertyLongName:String, typeName:String, includeAdd:boolean) {
 '
   public 'typeName'[] get'methodName'() {
-    Object propList = props.get('propertyLongName');
-    if (propList instanceof List) {
+    Object propList = getProperty('propertyLongName');
+    if (propList instanceof List)
       return ('typeName'[]) ((List) propList).toArray(new 'typeName'[0]);
-    } else {
-      List returnList = new ArrayList();
+    else if (propList != null)
+      return new 'typeName'[] {('typeName')propList}; // Handle special case of a single item not contained in a list
+    return new 'typeName'[0];
+  }
+'
+  if (includeAdd) {
+'
+  public void add'methodName'('typeName' newValue) {
+    Object propList = getProperty('propertyLongName');
+    List newList;
+    if (propList instanceof List)
+      newList = (List)propList;
+    else {
+      newList = new ArrayList();
       if (propList != null)
-        returnList.add(('typeName') propList);
-      return ('typeName'[]) returnList.toArray(new 'typeName'[0]);
+        newList.add(propList); // Handle special case of a single previous item not contained in a list
     }
+    newList.add(newValue);
+    setProperty('propertyLongName', newList);
   }
-
-  public void add'methodName'('typeName' sens) {
-    Object propList = props.get('propertyLongName');
-    if (propList instanceof List) {
-      List list = (List) propList;
-      list.add(sens);
-      props.put('propertyLongName', list);
-    } else if (propList == null) {
-      props.put('propertyLongName', sens);
-    } else {
-      List list = new ArrayList();
-      list.add(('typeName') propList);
-      list.add(sens);
-      props.put('propertyLongName', list);
-    }
+'
+  } else {
+'
+  // No add'methodName'() method was generated because the lower cardinality of this
+  // property is >= 2, and the generic add method implementation do not support this constraint
+'    
   }
+'  
 
-  public void set'methodName'('typeName'[] sens) {
-    List propList = new ArrayList(sens.length);
-    for (int i = 0; i < sens.length; i++) {
-      propList.add(sens[i]);
+  public void set'methodName'('typeName'[] propertyValue) {
+    List propList = new ArrayList(propertyValue.length);
+    for (int i = 0; i < propertyValue.length; i++) {
+      propList.add(propertyValue[i]);
     }
-    props.put('propertyLongName', propList);
+    setProperty('propertyLongName', propList);
   }
 '		
- /**/
  
    }
 
