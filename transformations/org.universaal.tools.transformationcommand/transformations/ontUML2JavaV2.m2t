@@ -167,15 +167,14 @@ public final class ' ontologyName 'Ontology extends Ontology {
 
   public void create() {
     Resource r = getInfo();
-    r.setResourceComment("The ontology defining the most general concepts dealing with light sources and their control.");
-    r.setResourceLabel("Lighting");
+    r.setResourceComment("' self.owner.getFirstCommentText() '");
+    r.setResourceLabel("'ontologyName'");
     addImport(DataRepOntology.NAMESPACE);
     addImport(ServiceBusOntology.NAMESPACE);
     addImport(LocationOntology.NAMESPACE);
 		
     
 '
-		// TODO: Check if all classes should be created initially with a different OntClassInfoSetup variable
 		
 		if (!enumerationClassList.isEmpty()) {
             '\n\n    // ******* Declaration of enumeration classes of the ontology ******* //\n\n'        		  
@@ -205,8 +204,8 @@ public final class ' ontologyName 'Ontology extends Ontology {
 		    '\n\n    // ******* Add content to enumeration classes of the ontology ******* //\n\n'        		  
 			enumerationClassList->forEach(enumClass : uml.Enumeration) {
 			  var oci:String = "oci_" + enumClass.name.trim()
-			  '    ' oci '.setResourceComment("");\n'
-			  '    ' oci '.setResourceLabel("'enumClass.name'");\n'
+			  '    ' oci '.setResourceComment("' enumClass.getFirstCommentText() '");\n'
+			  '    ' oci '.setResourceLabel("'enumClass.name.trim() '");\n'
 			  if (!enumClass.isAbstract) {
 			    enumClass.generalization->forEach(gen:uml.Generalization) {
 			      '    ' oci '.addSuperClass('gen.general.name'.MY_URI);\n'
@@ -232,7 +231,7 @@ public final class ' ontologyName 'Ontology extends Ontology {
 		
 		ontologyClassList->forEach(c: uml.Class) {		  
 		  var oci:String = "oci_"  + c.name.trim()
-			'    'oci '.setResourceComment("' c.ownedComment.first().body.trim() '");\n'
+			'    'oci '.setResourceComment("' c.getFirstCommentText() '");\n'
 			'    'oci '.setResourceLabel("' c.name.trim() '");\n' 
 			
 			//add reference to the superclass. In case of multiple inheritance, use the first entry in set
@@ -428,6 +427,18 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
   }
 
 
+  uml.NamedElement::getFirstCommentText():String {
+    if (self.ownedComment.isEmpty()) {
+      return ""
+    }
+    else {
+      // Checking the body for null do not work, so instead we check that the body is of type String
+      if (self.ownedComment.first().body.oclGetType().equals("String"))
+        return self.ownedComment.first().body.trim()
+      else
+        return ""
+    }    
+  }  
 
 
   uml.Class::generateOntologyClass () {
@@ -984,8 +995,6 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
      projectInfo.put("versionInfo",  self.owner.getValue("owlOntology", "versionInfo").trim())
      
      self.genPOMFileHeader()
-     
-  
    }
  
  /**
@@ -1030,7 +1039,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
  	else {
  	  'No further description provided'
  	}
- 	' 	</description>
+ 	'</description>
  	<properties>
  	    <project.build.sourceEncoding>UTF-16</project.build.sourceEncoding>
  	</properties>
@@ -1144,7 +1153,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 /**
  *
  */   
-  uml.NamedElement::printHashtable() {
+  uml.Classifier::printHashtable() {
   //this will just print the complete hashtable to console
   stdout.println("PropertyHashtable has " + propertyHashtable.size() + " elements")
   stdout.println("Keys: " + propertyHashtable.keys())
@@ -1154,7 +1163,6 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
   }
    	
  }
-
 
 }
 
