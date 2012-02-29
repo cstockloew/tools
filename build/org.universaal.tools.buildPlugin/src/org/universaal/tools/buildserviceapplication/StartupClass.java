@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-
+import java.io.PrintStream;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 public class StartupClass implements IStartup {
 
@@ -34,5 +38,16 @@ public class StartupClass implements IStartup {
 				ex.printStackTrace();
 			}
 		}
+		
+		
+		//redirect output to default console		
+		MessageConsole console = new MessageConsole("My Console", null);
+		console.activate();
+		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{ console });
+		MessageConsoleStream stream = console.newMessageStream();
+		System.setOut(new PrintStream(stream));
+		System.setErr(new PrintStream(stream)); 
+	
+		
 	}
 }
