@@ -239,6 +239,8 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 
 		execMgr.setBlockCommentTag("//");
+		// Use UTF-8 as the encoding of the generated files
+		execMgr.setCharset("UTF-8");
 
 		// Adds an output listener for the transformation execution.
 		execMgr.getExecutionStack().addOutputMessageListener(this);   
