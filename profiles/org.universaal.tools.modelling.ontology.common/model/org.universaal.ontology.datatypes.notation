@@ -163,6 +163,84 @@
     <element xmi:type="uml:DataType" href="org.universaal.ontology.datatypes.uml#_gtLPQGkcEeGIl7HiYaL9OA"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gtQHwWkcEeGIl7HiYaL9OA" x="1000" y="48"/>
   </children>
+  <children xmi:type="notation:Shape" xmi:id="_0N2usGkeEeGXyoAu4GMQ6g" type="2010" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0N2usmkeEeGXyoAu4GMQ6g" source="ShadowFigure">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_0N3VwGkeEeGXyoAu4GMQ6g" key="ShadowFigure_Value" value="false"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0N3VwWkeEeGXyoAu4GMQ6g" source="displayNameLabelIcon">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_0N3VwmkeEeGXyoAu4GMQ6g" key="displayNameLabelIcon_value" value="false"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0N3Vw2keEeGXyoAu4GMQ6g" source="QualifiedName">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_0N3VxGkeEeGXyoAu4GMQ6g" key="QualifiedNameDepth" value="1000"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_0N3VxWkeEeGXyoAu4GMQ6g" type="5035"/>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_0N3VxmkeEeGXyoAu4GMQ6g" type="7020">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_0N3Vx2keEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_0N3VyGkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_0N3VyWkeEeGXyoAu4GMQ6g"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0N3VymkeEeGXyoAu4GMQ6g"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_0N3Vy2keEeGXyoAu4GMQ6g" type="7021">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_0N3VzGkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_0N3VzWkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_0N3VzmkeEeGXyoAu4GMQ6g"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0N3Vz2keEeGXyoAu4GMQ6g"/>
+    </children>
+    <element xmi:type="uml:DataType" href="org.universaal.ontology.datatypes.uml#_0N0ScGkeEeGXyoAu4GMQ6g"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0N2usWkeEeGXyoAu4GMQ6g" x="358" y="284"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_1bm7QGkeEeGXyoAu4GMQ6g" type="2010" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_1bniUGkeEeGXyoAu4GMQ6g" source="ShadowFigure">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_1bniUWkeEeGXyoAu4GMQ6g" key="ShadowFigure_Value" value="false"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_1bniUmkeEeGXyoAu4GMQ6g" source="displayNameLabelIcon">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_1bniU2keEeGXyoAu4GMQ6g" key="displayNameLabelIcon_value" value="false"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_1bniVGkeEeGXyoAu4GMQ6g" source="QualifiedName">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_1bniVWkeEeGXyoAu4GMQ6g" key="QualifiedNameDepth" value="1000"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_1bniVmkeEeGXyoAu4GMQ6g" type="5035"/>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_1boJYGkeEeGXyoAu4GMQ6g" type="7020">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_1boJYWkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_1boJYmkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_1boJY2keEeGXyoAu4GMQ6g"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1boJZGkeEeGXyoAu4GMQ6g"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_1boJZWkeEeGXyoAu4GMQ6g" type="7021">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_1boJZmkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_1boJZ2keEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_1boJaGkeEeGXyoAu4GMQ6g"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1boJaWkeEeGXyoAu4GMQ6g"/>
+    </children>
+    <element xmi:type="uml:DataType" href="org.universaal.ontology.datatypes.uml#_1blGEGkeEeGXyoAu4GMQ6g"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1bm7QWkeEeGXyoAu4GMQ6g" x="531" y="279"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_2bqqEGkeEeGXyoAu4GMQ6g" type="2010" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2brRIGkeEeGXyoAu4GMQ6g" source="ShadowFigure">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2brRIWkeEeGXyoAu4GMQ6g" key="ShadowFigure_Value" value="false"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2brRImkeEeGXyoAu4GMQ6g" source="displayNameLabelIcon">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2brRI2keEeGXyoAu4GMQ6g" key="displayNameLabelIcon_value" value="false"/>
+    </eAnnotations>
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2br4MGkeEeGXyoAu4GMQ6g" source="QualifiedName">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2br4MWkeEeGXyoAu4GMQ6g" key="QualifiedNameDepth" value="1000"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_2br4MmkeEeGXyoAu4GMQ6g" type="5035"/>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_2br4M2keEeGXyoAu4GMQ6g" type="7020">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_2br4NGkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_2br4NWkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_2br4NmkeEeGXyoAu4GMQ6g"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2br4N2keEeGXyoAu4GMQ6g"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_2br4OGkeEeGXyoAu4GMQ6g" type="7021">
+      <styles xmi:type="notation:TitleStyle" xmi:id="_2br4OWkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_2br4OmkeEeGXyoAu4GMQ6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_2br4O2keEeGXyoAu4GMQ6g"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2br4PGkeEeGXyoAu4GMQ6g"/>
+    </children>
+    <element xmi:type="uml:DataType" href="org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2bqqEWkeEeGXyoAu4GMQ6g" x="702" y="288"/>
+  </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_pJoQcWkXEeGIl7HiYaL9OA"/>
-  <element xmi:type="uml:Model" href="org.universaal.ontology.datatypes.uml#_pJZm8GkXEeGIl7HiYaL9OA"/>
+  <element xmi:type="uml:Package" href="org.universaal.ontology.datatypes.uml#_U7uacGkcEeGIl7HiYaL9OA"/>
 </notation:Diagram>
