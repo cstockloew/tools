@@ -139,17 +139,45 @@ package ' self.name '.owl;
 
 import org.universAAL.middleware.owl.BoundingValueRestriction;
 import org.universAAL.middleware.owl.DataRepOntology;
-import org.universAAL.middleware.owl.ManagedIndividual;
 import org.universAAL.middleware.owl.MergedRestriction;
 import org.universAAL.middleware.owl.OntClassInfoSetup;
 import org.universAAL.middleware.owl.Ontology;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.TypeMapper;
-import org.universAAL.middleware.service.owl.Service;
 import org.universAAL.middleware.service.owl.ServiceBusOntology;
-import org.universAAL.ontology.location.Location;
 import org.universAAL.ontology.location.LocationOntology;
-import org.universAAL.ontology.phThing.Device;
+
+' 
+//use the import hastables to generate a complete list of imports.
+//for each class in the ontologyClassList, get the import classes and put them into a new hashtable.
+//use the same hashtable for all classes, meaning that duplicate entries will be overwritten. 
+
+var factoryImportList: Hashtable
+
+ontologyClassList->forEach(c : uml.Class) {
+	var importList:Hashtable = c.getImportsForClass()
+	importList.keys()->forEach(impString:String) {
+    	//insert the key into the factoryImportList
+    	factoryImportList.put(impString, c)
+    	}
+    
+    }
+    
+//now print the import statements
+factoryImportList.keys()->forEach(impString:String) {
+ 	'import 'impString';\n'
+ }
+ 
+'\n\n'
+
+/**
+import org.universAAL.middleware.owl.ManagedIndividual; 
+import org.universAAL.middleware.service.owl.Service;
+import org.universAAL.ontology.location.Location;
+import org.universAAL.ontology.phThing.Device; 
+*/
+'
+
 import ' self.name '.' ontologyName 'Factory;
 
 
