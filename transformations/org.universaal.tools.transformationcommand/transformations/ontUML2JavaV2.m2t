@@ -247,72 +247,70 @@ public final class ' ontologyName 'Ontology extends Ontology {
 			Boolean isFunctional = true //true/false, default=true
 			//go through the attributes first
 			props->forEach(prop : uml.Property) {
-			//get stereotype and check for datatypeproperty. Otherwise objectproperty.
-			isObjectProperty = true
-			isFunctional = true
-			if (prop.hasStereotype("datatypeProperty")) { //datatypeProperty
-				isObjectProperty = false
-				isFunctional = prop.getValue("datatypeProperty", "isFunctional")
-			}
-			else  if (prop.hasStereotype("objectProperty")) {
-			  	isFunctional = prop.getValue("objectProperty", "isFunctional")
-			}
-			else {
-				if (prop.isDataType()) {
+				//get stereotype and check for datatypeproperty. Otherwise objectproperty.
+				isObjectProperty = true
+				isFunctional = true
+				if (prop.hasStereotype("datatypeProperty")) { //datatypeProperty
 					isObjectProperty = false
-				}		  
-			}			
-			
-			
-			if (isObjectProperty) {
-		  		if (isFunctional){ //default = true
-					'    ' oci '.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
+					isFunctional = prop.getValue("datatypeProperty", "isFunctional")
+				}
+				else  if (prop.hasStereotype("objectProperty")) {
+				  	isFunctional = prop.getValue("objectProperty", "isFunctional")
 				}
 				else {
-					'    ' oci '.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
-				}
-			}
-			else {
-				if (isFunctional){ //default = true
-					'    ' oci '.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
-				}
-				else {
-					'    ' oci '.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
-				}//isfunctional = true
-			}
-			
-			
-	
-	 		 //handle 0..* cardinality
-	  		if (prop.upper<0 && prop.lower==0) {
-				'      	' oci '.addRestriction(MergedRestriction.getAllValuesRestriction(' c.name '.PROP_' prop.toUpperFormat() ',  \n'
-				'       	' self.getURIExpressionForType(prop.type.name.trim()) '));\n'
-				'	    \n'
-	 		} //if 0..*
-	  		else if (!prop.type.name.trim().equals("") ) {  //this is a datatype property that has been set.
-					'    ' oci '.addRestriction(MergedRestriction\n'
-					'      .getAllValuesRestrictionWithCardinality(' c.name '.PROP_' prop.toUpperFormat() ', \n'	  
-					'      'self.getURIExpressionForType(prop.type.name.trim())', ' prop.lower ', ' prop.upper ')'
-					if (prop.defaultValue.name.equals("values")) { //TODO: this is a temporary solution. See doc for more info
-						//TODO: must check for property type. Now supporting Integer only
-						'\n      ' prop.getBoundingRestriction(c.name)
+					if (prop.isDataType()) {
+						isObjectProperty = false
+					}		  
+				}			
+				
+				
+				if (isObjectProperty) {
+			  		if (isFunctional){ //default = true
+						'    ' oci '.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
 					}
-					');\n'
+					else {
+						'    ' oci '.addObjectProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
+					}
+				}
+				else {
+					if (isFunctional){ //default = true
+						'    ' oci '.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ').setFunctional();\n'
+					}
+					else {
+						'    ' oci '.addDatatypeProperty(' c.name'.PROP_' prop.toUpperFormat() ');\n'
+					}//isfunctional = true
+				}
+				
+				
+		
+		 		 //handle 0..* cardinality
+		  		if (prop.upper<0 && prop.lower==0) {
+					'      	' oci '.addRestriction(MergedRestriction.getAllValuesRestriction(' c.name '.PROP_' prop.toUpperFormat() ',  \n'
+					'       	' self.getURIExpressionForType(prop.type.name.trim()) '));\n'
+					'	    \n'
+		 		} //if 0..*
+		  		else if (!prop.type.name.trim().equals("") ) {  //this is a datatype property that has been set.
+						'    ' oci '.addRestriction(MergedRestriction\n'
+						'      .getAllValuesRestrictionWithCardinality(' c.name '.PROP_' prop.toUpperFormat() ', \n'	  
+						'      'self.getURIExpressionForType(prop.type.name.trim())', ' prop.lower ', ' prop.upper ')'
+						if (prop.defaultValue.name.equals("values")) { //TODO: this is a temporary solution. See doc for more info
+							//TODO: must check for property type. Now supporting Integer only
+							'\n      ' prop.getBoundingRestriction(c.name)
+						}
+						');\n'
+						'    \n'
+		 		 	} //else if
+		 		else {    //default when unset type
+		 		  	'    ' oci '.addRestriction(MergedRestriction.getCardinalityRestriction(' c.name '.PROP_' prop.toUpperFormat() ', ' prop.lower ', ' prop.upper '));\n'
 					'    \n'
-	 		 	} //else if
-	 		else {    //default when unset type
-	 		  	'    ' oci '.addRestriction(MergedRestriction.getCardinalityRestriction(' c.name '.PROP_' prop.toUpperFormat() ', ' prop.lower ', ' prop.upper '));\n'
-				'    \n'
-	 		}
-	 	} //forEach	prop
+		 		}
+		 	} //forEach	prop
 	 	
-	 	
-	 	
-	} //forEach class
+		} //forEach class
 '  }
 }
 '
-}
+  }
 		
   uml.Property::isDataType() {
 	var theTypeName:String = "String"	
@@ -669,12 +667,36 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
     
     // Import universAAL packages. 
     // Note that generator currently imports a fixed set of classes. This will be improved in the future 
- 	'import org.universAAL.middleware.owl.ManagedIndividual;\n'
-    'import org.universAAL.middleware.service.owl.Service;\n'    
-    'import org.universAAL.ontology.phThing.Device;\n\n' 
+ 	//'import org.universAAL.middleware.owl.ManagedIndividual;\n'
+    //'import org.universAAL.middleware.service.owl.Service;\n'    
+    //'import org.universAAL.ontology.phThing.Device;\n\n' 
+    var importList:Hashtable = self.getImportsForClass()
+    importList.keys()->forEach(impString:String) {
+    	'import 'impString';\n'
+    }
+    
   }
 
 
+
+  uml.Class::getImportsForClass():Hashtable {
+    var classesReferredTo:Hashtable
+    
+	self.generalization->forEach(gen:uml.Generalization) {
+		var importName:String = gen.general.package.name + "." + gen.general.name
+		classesReferredTo.put(importName,gen.general)
+	}
+	if (classesReferredTo.isEmpty())
+	  classesReferredTo.put("universAAL.middleware.owl.ManagedIndividual", null)
+	  
+	// Next, find properties  
+	var props:Hashtable = propertyHashtable.get(self.name)  
+	props->forEach(prop : uml.Property) {
+		var importName:String = prop.class.package.name + "." + prop.class.name
+		classesReferredTo.put(importName,prop)
+	}
+	return classesReferredTo  
+  } 
 
 
 
