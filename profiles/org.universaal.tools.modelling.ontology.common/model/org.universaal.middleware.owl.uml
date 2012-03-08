@@ -4,7 +4,7 @@
     <packageImport xmi:id="_fn0o4KIrEeCR0PqXfWn3bQ">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Package" xmi:id="_J8JskPqREeCQQaPCMdH-vA" name="org.universaal.middleware.owl">
+    <packagedElement xmi:type="uml:Package" xmi:id="_J8JskPqREeCQQaPCMdH-vA" name="org.universAAL.middleware.owl">
       <packagedElement xmi:type="uml:Class" xmi:id="_7clzYKFGEeCPiYRKlVcMuQ" name="ManagedIndividual">
         <generalization xmi:id="_YyMpMKFMEeCPiYRKlVcMuQ" general="_Xh6tEKFMEeCPiYRKlVcMuQ"/>
         <ownedAttribute xmi:id="_b7DQgKFMEeCPiYRKlVcMuQ" name="OWL_NAMESPACE">

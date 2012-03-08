@@ -7,7 +7,7 @@
     <packageImport xmi:id="_5QVSoDhhEeGXFsuJsZAP1w">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Package" xmi:id="_CGOSIPqREeCQQaPCMdH-vA" name="org.universaal.ontology.phThing">
+    <packagedElement xmi:type="uml:Package" xmi:id="_CGOSIPqREeCQQaPCMdH-vA" name="org.universAAL.ontology.phThing">
       <ownedComment xmi:id="_zXdp4KFHEeCPiYRKlVcMuQ" annotatedElement="_Kbe0kKFHEeCPiYRKlVcMuQ">
         <body>This property could be derived from the class' name
 </body>

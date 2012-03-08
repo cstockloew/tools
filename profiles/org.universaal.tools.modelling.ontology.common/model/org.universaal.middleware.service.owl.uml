@@ -7,7 +7,7 @@
     <packageImport xmi:id="_9MS5UPqREeCQQaPCMdH-vA">
       <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Package" xmi:id="_Xx5jADuNEeGWHJDQ6prNGQ" name="org.universaal.middleware.service.owl">
+    <packagedElement xmi:type="uml:Package" xmi:id="_Xx5jADuNEeGWHJDQ6prNGQ" name="org.universAAL.middleware.service.owl">
       <packagedElement xmi:type="uml:Class" xmi:id="_utGr4PqREeCQQaPCMdH-vA" name="Service">
         <generalization xmi:id="_ATCn0PqSEeCQQaPCMdH-vA">
           <general xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
