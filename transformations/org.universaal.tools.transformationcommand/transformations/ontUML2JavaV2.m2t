@@ -85,32 +85,42 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
 	  	StdOut.println("Handling main ontology class for :" + p.name) 
    		p.generateMainOntologyClass(ontologyClassList, ontologyEnumerationList)
 
-	  	StdOut.println("Handling factory for :" + p.name) 
+		StdOut.println("Handling factory for :" + self.name) 
    		p.generateFactory(ontologyClassList)
-
-	  	StdOut.println("Handling activator of :" + p.name) 
-   		p.generateActivator(ontologyClassList)
+  	}
 
 
-		StdOut.println("Generating the POM file")
-		//create the POM file for the project
-		p.generatePOMFile() 
+	StdOut.println("Handling activator of :" + self.name) 
+   	self.generateActivator()
 
-                                         
-	}           
+	StdOut.println("Generating the POM file")
+	//create the POM file for the project
+	self.generatePOMFile() 
   }
  
  
-  uml.Package::generateActivator(ontologyClassList:Hashtable) {
-	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/' + "Activator.java" )
+	uml.Package::generateActivator() {
+		// First, find package name for activator
+		var mainPacakageName:String = " "
+		self.ownedMember -> forEach( p:uml.Package ) {
+			mainPacakageName = p.name.substring(0, p.name.lastIndexOf("."))
+			//break	
+		}           
+    
+		file( javaBasePath + "/" + mainPacakageName.replace("\\.", "/") + '/' + "Activator.java" )
     
 '
-package ' self.name ';
+package ' mainPacakageName ';
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.owl.OntologyManagement;
-import 'self.name'.owl.*;
+'
+		self.ownedMember -> forEach( p:uml.Package ) {
+			'import 'p.name'.*\n;'
+		}           
+
+'
 
 public class Activator implements BundleActivator {
 
@@ -132,10 +142,10 @@ public class Activator implements BundleActivator {
 
 
   uml.Package::generateMainOntologyClass(ontologyClassList:Hashtable, enumerationClassList:Hashtable) {
-	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/owl/' + ontologyName + "Ontology.java" )
+	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/' + ontologyName + "Ontology.java" )
 
 '
-package ' self.name '.owl;
+package ' self.name ';
 
 import org.universAAL.middleware.owl.BoundingValueRestriction;
 import org.universAAL.middleware.owl.DataRepOntology;
@@ -375,8 +385,8 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.impl.ResourceFactoryImpl;
-import 'self.name'.owl.*;
-
+' //import 'self.name'.owl.*;
+'
 public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 
 
@@ -468,10 +478,10 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 
 
   uml.Class::generateOntologyClass () {
-	file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
+	file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + '/' + self.name + ".java" )
                 
     //Start generating the code
-    'package ' self.package.name '.owl;\n\n'
+    'package ' self.package.name ';\n\n'
     
     self.genImports()
   	self.genClassDeclaration()
@@ -495,10 +505,10 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
   }
 
   uml.Enumeration::generateEnumerationClass () {
-	file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + '/owl/' + self.name + ".java" )
+	file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + '/' + self.name + ".java" )
               
     //Start generating the code
-    'package ' self.package.name '.owl;\n\n'
+    'package ' self.package.name ';\n\n'
     
   	'import org.universAAL.middleware.owl.ManagedIndividual;\n\n'
   
@@ -717,17 +727,19 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 		}
 	}
 	if (classesReferredTo.isEmpty())
-	  classesReferredTo.put("universAAL.middleware.owl.ManagedIndividual", null)
+	  classesReferredTo.put("universAAL.middleware.owl.ManagedIndividual", " ")
 	  
 	// Next, find properties  
 	var props:Hashtable = propertyHashtable.get(self.name)  
 	props->forEach(prop : uml.Property) {
 	  if (prop.isDataType()) {
+	    stdout.println("Prop " + prop.name + " type " + prop.datatype.name)
 	    // TODO: Handle datatypes
 	  }
 	  else {
-		if (!self.package.name.equals(prop.class.package.name)) {
-			var importName:String = prop.class.package.name + "." + prop.class.name
+	    stdout.println("Prop " + prop.name + " type " + prop.type.name + " package " + prop.type.package)
+		if (!self.package.name.equals(prop.type.package.name)) {
+			var importName:String = prop.type.package.name + "." + prop.type.name
 			classesReferredTo.put(importName,prop)
 		}
 	  }
@@ -918,11 +930,14 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 		else if (theTypeName == "Boolean") {
 		  self.genBooleanGetterAndSetter(methodName, propLongName)
     	}  		  
-		else if (theTypeName == "UnlimitedNatural") {
+		else if ((theTypeName == "UnlimitedNatural") || (theTypeName == "Long")) {
 		  self.genLongGetterAndSetter(methodName, propLongName)
 		}
    	    else if (theTypeName == "Integer") {
 		  self.genIntGetterAndSetter(methodName, propLongName)
+		}		
+   	    else if (theTypeName == "Float") {
+		  self.genFloatGetterAndSetter(methodName, propLongName)
 		}		
 		else {
 		  self.genObjectGetterAndSetter(methodName, propLongName, theTypeName)
@@ -1030,6 +1045,23 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 /**
  *
  */
+   uml.Class::genFloatGetterAndSetter(methodName:String, propertyLongName:String) {
+'
+  public float get' methodName '() {
+	Float f = (Float) getProperty('propertyLongName');
+	return (f == null) ? 0 : f.floatValue();
+  }		
+
+  public void set'methodName'(float newPropValue) {
+      setProperty('propertyLongName', new Float(newPropValue));
+  }		
+'		
+   }
+
+
+/**
+ *
+ */
    uml.Class::genObjectGetterAndSetter(methodName:String, propertyLongName:String, typeName:String) {
 '
   public 'typeName ' get' methodName '() {
@@ -1048,10 +1080,10 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
      //file( self.name.replace("\\.", "/") + '/' + "pom.xml" )
      
      //set the projectInfo hashtable
-     projectInfo.put("name", self.owner.name.trim())
-     projectInfo.put("artefactId", self.owner.name.trim())
-     projectInfo.put("groupId", self.name.trim())
-     projectInfo.put("versionInfo",  self.owner.getValue("owlOntology", "versionInfo").trim())
+     projectInfo.put("name", self.name.trim())
+     projectInfo.put("artefactId", self.name.trim())
+     projectInfo.put("groupId", self.name.trim())  //TODO: Find what this should be - was previously package name
+     projectInfo.put("versionInfo",  self.getValue("owlOntology", "versionInfo").trim())
      
      self.genPOMFileHeader()
    }
