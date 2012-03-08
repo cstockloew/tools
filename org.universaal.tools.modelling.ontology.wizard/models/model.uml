@@ -4,9 +4,6 @@
     <ownedComment xmi:id="_FbSYQDuyEeGwdc6BTx-7Jw" annotatedElement="_thSEwDuGEeGemd2yvbYdUw">
       <body>Add a comment that describes the ontology here</body>
     </ownedComment>
-    <packageImport xmi:id="_m1gJQDuGEeGemd2yvbYdUw">
-      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
-    </packageImport>
     <packageImport xmi:id="_A1SFADuHEeGemd2yvbYdUw">
       <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
     </packageImport>
@@ -15,6 +12,9 @@
     </packageImport>
     <packageImport xmi:id="_BiESgDuHEeGemd2yvbYdUw">
       <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
+    </packageImport>
+    <packageImport xmi:id="_RdNGUGk2EeG7I7JPKubQ9g">
+      <importedPackage href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_U7uacGkcEeGIl7HiYaL9OA"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$">
       <packagedElement xmi:type="uml:Class" xmi:id="_4fXi8DuGEeGemd2yvbYdUw" name="MyService">

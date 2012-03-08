@@ -43,7 +43,7 @@ public class OntologyProjectModel  {
 			if (useSimpleMode) {
 				String fullPkgName = parentPackageName + "." + ontologyName.toLowerCase();
 				setProjectName(fullPkgName);
-				setPackageName(fullPkgName);
+				setPackageName(fullPkgName + ".owl");
 				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + getOntologyName());
 				setMavenName(ontologyName);
 			}
@@ -59,7 +59,7 @@ public class OntologyProjectModel  {
 			if (useSimpleMode) {
 				String fullPkgName = parentPackageName + "." + ontologyName.toLowerCase();
 				setProjectName(fullPkgName);
-				setPackageName(fullPkgName);
+				setPackageName(fullPkgName + ".owl");
 				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + ontologyName);
 				setMavenGroupId(parentPackageName);
 			}

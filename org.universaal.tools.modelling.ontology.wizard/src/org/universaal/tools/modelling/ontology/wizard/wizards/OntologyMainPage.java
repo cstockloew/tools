@@ -75,6 +75,7 @@ public class OntologyMainPage extends WizardPage {
 				boolean enabled = !btnUseDefaultValues.getSelection();
 				txtProjectname.setEnabled(enabled);
 				txtNamespace.setEnabled(enabled);
+				txtJavaPackageName.setEnabled(enabled);
 				txtGroupid.setEnabled(enabled);
 				txtMavenname.setEnabled(enabled);
 			}
@@ -90,6 +91,16 @@ public class OntologyMainPage extends WizardPage {
 		txtProjectname.setEnabled(false);
 		txtProjectname.setText("projectName");
 		txtProjectname.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		lblJavaPackageName = new Label(container, SWT.NONE);
+		lblJavaPackageName.setToolTipText("The package name used for the classes of the ontology");
+		lblJavaPackageName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblJavaPackageName.setText("Package name");
+		
+		txtJavaPackageName = new Text(container, SWT.BORDER);
+		txtJavaPackageName.setEnabled(false);
+		txtJavaPackageName.setText("javaPackageName");
+		txtJavaPackageName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblOntologyNamespace = new Label(container, SWT.NONE);
 		lblOntologyNamespace.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -147,6 +158,8 @@ public class OntologyMainPage extends WizardPage {
 	private Text txtMavendescription;
 	private Label lblParentPackage;
 	private Label lblMavenVersion;
+	private Label lblJavaPackageName;
+	private Text txtJavaPackageName;
 	
 	public void setModel(OntologyProjectModel model) {
 		this.model = model;
@@ -197,6 +210,10 @@ public class OntologyMainPage extends WizardPage {
 		IObservableValue txtMavendescriptionObserveTextObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeText(txtMavendescription, SWT.Modify));
 		IObservableValue modelMavenModeldescriptionObserveValue = PojoObservables.observeValue(model, "mavenModel.description");
 		bindingContext.bindValue(txtMavendescriptionObserveTextObserveWidget, modelMavenModeldescriptionObserveValue, null, null);
+		//
+		IObservableValue txtJavaPackageNameObserveTextObserveWidget = SWTObservables.observeText(txtJavaPackageName, SWT.Modify);
+		IObservableValue modelPackageNameObserveValue_1 = BeansObservables.observeValue(model, "packageName");
+		bindingContext.bindValue(txtJavaPackageNameObserveTextObserveWidget, modelPackageNameObserveValue_1, null, null);
 		//
 		return bindingContext;
 	}
