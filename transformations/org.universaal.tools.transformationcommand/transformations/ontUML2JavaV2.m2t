@@ -674,7 +674,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
     importList.keys()->forEach(impString:String) {
     	'import 'impString';\n'
     }
-    
+    '\n\n'
   }
 
 
@@ -683,8 +683,10 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
     var classesReferredTo:Hashtable
     
 	self.generalization->forEach(gen:uml.Generalization) {
-		var importName:String = gen.general.package.name + "." + gen.general.name
-		classesReferredTo.put(importName,gen.general)
+		if (!self.package.name.equals(gen.general.package.name)) {
+			var importName:String = gen.general.package.name + "." + gen.general.name
+			classesReferredTo.put(importName,gen.general)
+		}
 	}
 	if (classesReferredTo.isEmpty())
 	  classesReferredTo.put("universAAL.middleware.owl.ManagedIndividual", null)
@@ -692,8 +694,15 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	// Next, find properties  
 	var props:Hashtable = propertyHashtable.get(self.name)  
 	props->forEach(prop : uml.Property) {
-		var importName:String = prop.class.package.name + "." + prop.class.name
-		classesReferredTo.put(importName,prop)
+	  if (prop.isDataType()) {
+	    // TODO: Handle datatypes
+	  }
+	  else {
+		if (!self.package.name.equals(prop.class.package.name)) {
+			var importName:String = prop.class.package.name + "." + prop.class.name
+			classesReferredTo.put(importName,prop)
+		}
+	  }
 	}
 	return classesReferredTo  
   } 
