@@ -352,16 +352,16 @@ public final class ' ontologyName 'Ontology extends Ontology {
   }
 		
   uml.Model::initDatatypeImportMap() {
-    datatypeImportMap.put("Boolean", "")
-    datatypeImportMap.put("Integer", "")
-    datatypeImportMap.put("Float", "")
-    datatypeImportMap.put("UnlimitedNatural", "")
-    datatypeImportMap.put("String", "")
-    datatypeImportMap.put("Float", "")
-    datatypeImportMap.put("Double", "")
-    datatypeImportMap.put("XMLGregorianCalendar", "import javax.xml.datatype.XMLGregorianCalendar;\n")
-    datatypeImportMap.put("Duration", "import javax.xml.datatype.Duration;\n")
-    datatypeImportMap.put("Locale", "import java.util.Locale;\n")
+    datatypeImportMap.put("Boolean", " ")
+    datatypeImportMap.put("Integer", " ")
+    datatypeImportMap.put("Float", " ")
+    datatypeImportMap.put("UnlimitedNatural", " ")
+    datatypeImportMap.put("String", " ")
+    datatypeImportMap.put("Float", " ")
+    datatypeImportMap.put("Double", " ")
+    datatypeImportMap.put("XMLGregorianCalendar", "javax.xml.datatype.XMLGregorianCalendar")
+    datatypeImportMap.put("Duration", "javax.xml.datatype.Duration")
+    datatypeImportMap.put("Locale", "java.util.Locale")
   }		
 		
 		
@@ -372,22 +372,9 @@ public final class ' ontologyName 'Ontology extends Ontology {
 	if (self.type != null) {
 		  theTypeName = self.type.name
 	}
-	return (datatypeImportMap.get(theTypeName) != null)
-/*
-	if (theTypeName == "Boolean") {
-	  return true
-    }  		  
-	else if (theTypeName == "UnlimitedNatural") {
-	  return true
-	}
-    else if (theTypeName == "Integer") {
-      return true
-	}		
-	else if (theTypeName == "String") {
-	  return true
-	}
-	return false
-  */  
+	var isDatatype:boolean = (datatypeImportMap.get(theTypeName) != null)
+	
+	return isDatatype
   }
 
   uml.Property::getDataTypeImport() {
@@ -757,11 +744,12 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	var props:Hashtable = propertyHashtable.get(self.name)  
 	props->forEach(prop : uml.Property) {
 	  if (prop.isDataType()) {
-	    stdout.println("Datatype " + prop.name + " type " + prop.datatype.name)
-	    // TODO: Handle datatypes
+	    var importStr:String = prop.getDataTypeImport()
+	    if (!importStr.equals(" ")) {
+			classesReferredTo.put(importStr,prop)	      
+	    }
 	  }
 	  else {
-	    stdout.println("Prop " + prop.name + " type " + prop.type.name + " package " + prop.type.package)
 		if (!self.package.name.equals(prop.type.package.name)) {
 			var importName:String = prop.type.package.name + "." + prop.type.name
 			classesReferredTo.put(importName,prop)
@@ -856,11 +844,14 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
     if (typeName == null) {
       typeName = "String"
     }
-    if ((typeName == "Boolean") || (typeName == "Integer") || (typeName == "String")) {
-      return "TypeMapper.getDatatypeURI(" + typeName + ".class)"
-    }
-    else if (typeName == "UnlimitedNatural") {
-      return "TypeMapper.getDatatypeURI(Long.class)"    
+    if (datatypeImportMap.get(typeName) != null) {
+      // This is a datatype
+      if (typeName == "UnlimitedNatural") {
+      	return "TypeMapper.getDatatypeURI(Long.class)"    
+      }
+ 	  else {
+ 	    return "TypeMapper.getDatatypeURI(" + typeName + ".class)"
+ 	  }   
     }
     return typeName+".MY_URI"    
   }
