@@ -356,6 +356,7 @@ public final class ' ontologyName 'Ontology extends Ontology {
     datatypeImportMap.put("Integer", " ")
     datatypeImportMap.put("Float", " ")
     datatypeImportMap.put("UnlimitedNatural", " ")
+    datatypeImportMap.put("Long", " ")
     datatypeImportMap.put("String", " ")
     datatypeImportMap.put("Float", " ")
     datatypeImportMap.put("Double", " ")
