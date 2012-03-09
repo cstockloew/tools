@@ -11,17 +11,17 @@ public class Activator implements BundleActivator {
     public static BundleContext osgiContext = null;
     public static ModuleContext context = null;
 
-    /* TAG:INIT */
+    /*TAG:INIT*/
 
     public void start(BundleContext bcontext) throws Exception {
 	Activator.osgiContext = bcontext;
 	Activator.context = uAALBundleContainer.THE_CONTAINER
 		.registerModule(new Object[] { bcontext });
-	/* TAG:START */
+	/*TAG:START*/
     }
 
     public void stop(BundleContext arg0) throws Exception {
-	/* TAG:STOP */
+	/*TAG:STOP*/
     }
 
 }

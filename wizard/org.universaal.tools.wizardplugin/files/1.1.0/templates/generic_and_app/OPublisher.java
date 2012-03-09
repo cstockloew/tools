@@ -63,10 +63,10 @@ public class OPublisher extends UICaller {
     public void communicationChannelBroken() {
 	// TODO Auto-generated method stub
     }
-    
+
     public void dialogAborted(String arg0) {
 	// TODO Auto-generated method stub
-	
+
     }
 
     /* -Example- These "show" methods send output events to be rendered */
@@ -74,7 +74,6 @@ public class OPublisher extends UICaller {
 	Form f = getMainForm();
 	UIRequest oe = new UIRequest(user, f, LevelRating.middle,
 		Locale.ENGLISH, PrivacyLevel.insensible);
-	Activator.isubscriber.subscribe(f.getDialogID());
 	sendUIRequest(oe);
     }
 
@@ -83,7 +82,6 @@ public class OPublisher extends UICaller {
 	Form f = getResponseForm(formsNames, formsResults);
 	UIRequest oe = new UIRequest(user, f, LevelRating.middle,
 		Locale.ENGLISH, PrivacyLevel.insensible);
-	Activator.isubscriber.subscribe(f.getDialogID());
 	sendUIRequest(oe);
     }
 
@@ -91,7 +89,6 @@ public class OPublisher extends UICaller {
 	Form f = getStatusForm(string);
 	UIRequest oe = new UIRequest(user, f, LevelRating.middle,
 		Locale.ENGLISH, PrivacyLevel.insensible);
-	Activator.isubscriber.subscribe(f.getDialogID());
 	sendUIRequest(oe);
     }
 
@@ -119,7 +116,7 @@ public class OPublisher extends UICaller {
 		new PropertyPath(null, false, new String[] { INPUT_2 }),
 		MergedRestriction.getAllValuesRestrictionWithCardinality(INPUT_2,
 			TypeMapper.getDatatypeURI(Boolean.class), 1, 1),
-		Boolean.TRUE);
+			Boolean.TRUE);
 
 	// A Select input to select just 1 option
 	Select1 s1 = new Select1(controls,
@@ -138,11 +135,11 @@ public class OPublisher extends UICaller {
 		"img/bt_white.png");
 
 	// An input to select from a numeric range
-//	new Range(controls, new Label("Range", (String) null),
-//		new PropertyPath(null, false, new String[] { INPUT_9 }),
-//		OrderingRestriction.newOrderingRestriction(Integer.valueOf(12),
-//			Integer.valueOf(3), true, true, INPUT_9),
-//		new Integer(5));
+	//	new Range(controls, new Label("Range", (String) null),
+	//		new PropertyPath(null, false, new String[] { INPUT_9 }),
+	//		OrderingRestriction.newOrderingRestriction(Integer.valueOf(12),
+	//			Integer.valueOf(3), true, true, INPUT_9),
+	//		new Integer(5));
 
 	// Button to test the above forms
 	new Submit(submits, new Label("Test Input Forms", (String) null),

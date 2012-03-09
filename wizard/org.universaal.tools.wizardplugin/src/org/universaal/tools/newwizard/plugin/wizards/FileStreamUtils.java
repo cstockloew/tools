@@ -7,6 +7,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class FileStreamUtils {
+    public static final String TAG_PACKAGE="/*TAG:PACKAGE*/";
+    public static final String TAG_IMPORT="/*TAG:IMPORT*/";
+    public static final String TAG_INIT="/*TAG:INIT*/";
+    public static final String TAG_START="/*TAG:START*/";
+    public static final String TAG_STOP="/*TAG:STOP*/";
+    public static final String TAG_CLASSNAME="/*TAG:CLASSNAME*/";
 
     /**
      * Puts the template content into the newly generated item
@@ -28,11 +34,11 @@ public class FileStreamUtils {
 	StringBuilder output = new StringBuilder();
 	String line;
 	while ((line = reader.readLine()) != null) {
-	    if (line.contains("/*TAG:PACKAGE*/")) { //$NON-NLS-1$
+	    if (line.contains(TAG_PACKAGE)) { //$NON-NLS-1$
 		line = "package " + packname + ";\n"; //$NON-NLS-1$ //$NON-NLS-2$
 	    }
-	    if (line.contains("/*TAG:CLASSNAME*/")) { //$NON-NLS-1$
-		line = line.replace("/*TAG:CLASSNAME*/", filename); //$NON-NLS-1$
+	    if (line.contains(TAG_CLASSNAME)) { //$NON-NLS-1$
+		line = line.replace(TAG_CLASSNAME, filename); //$NON-NLS-1$
 	    }
 	    output.append(line + "\n"); //$NON-NLS-1$
 	}
@@ -63,9 +69,9 @@ public class FileStreamUtils {
 	StringBuilder output = new StringBuilder();
 	String line;
 	while ((line = reader.readLine()) != null) {
-	    if (line.contains("/*TAG:PACKAGE*/")) { //$NON-NLS-1$
+	    if (line.contains(TAG_PACKAGE)) { //$NON-NLS-1$
 		output.append("package " + packname + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
-	    } else if (line.contains("/*TAG:IMPORT*/")) {
+	    } else if (line.contains(TAG_IMPORT)) {
 		if (checks[8]) {
 		    output.append("import org.universAAL.middleware.context.ContextPublisher;\n"); //$NON-NLS-1$
 		    output.append("import org.universAAL.middleware.context.DefaultContextPublisher;\n"); //$NON-NLS-1$
@@ -74,7 +80,7 @@ public class FileStreamUtils {
 		    output.append("import org.universAAL.middleware.service.ServiceCaller;\n"); //$NON-NLS-1$
 		    output.append("import org.universAAL.middleware.service.DefaultServiceCaller;\n"); //$NON-NLS-1$
 		}
-	    } else if (line.contains("/*TAG:INIT*/")) { //$NON-NLS-1$
+	    } else if (line.contains(TAG_INIT)) { //$NON-NLS-1$
 		if (checks[4])
 		    output.append("	public static SCallee scallee=null;\n"); //$NON-NLS-1$
 		if (checks[5])
@@ -97,7 +103,7 @@ public class FileStreamUtils {
 		    output.append("	public static IPublisher ipublisher=null;\n"); //$NON-NLS-1$
 		if (checks[7])
 		    output.append("	public static OSubscriber osubscriber=null;\n"); //$NON-NLS-1$
-	    } else if (line.contains("/*TAG:START*/")) { //$NON-NLS-1$
+	    } else if (line.contains(TAG_START)) { //$NON-NLS-1$
 		if (checks[4])
 		    output.append("		scallee=new SCallee(context);\n"); //$NON-NLS-1$
 		if (checks[5]) {
@@ -122,7 +128,7 @@ public class FileStreamUtils {
 		    output.append("		ipublisher=new IPublisher(context);\n"); //$NON-NLS-1$
 		if (checks[7])
 		    output.append("		osubscriber=new OSubscriber(context);\n"); //$NON-NLS-1$
-	    } else if (line.contains("/*TAG:STOP*/")) { //$NON-NLS-1$
+	    } else if (line.contains(TAG_STOP)) { //$NON-NLS-1$
 		if (checks[4])
 		    output.append("		scallee.close();\n"); //$NON-NLS-1$
 		if (checks[5])
@@ -139,10 +145,10 @@ public class FileStreamUtils {
 		    output.append("		ipublisher.close();\n"); //$NON-NLS-1$
 		if (checks[7])
 		    output.append("		osubscriber.close();\n"); //$NON-NLS-1$
-	    } else if (line.contains("/*TAG:CLASSNAME*/")) { //$NON-NLS-1$
+	    } else if (line.contains(TAG_CLASSNAME)) { //$NON-NLS-1$
 		line = line
 			.replace(
-				"/*TAG:CLASSNAME*/", filename.substring(filename.lastIndexOf("/") + 1)); //$NON-NLS-1$
+				TAG_CLASSNAME, filename.substring(filename.lastIndexOf("/") + 1)); //$NON-NLS-1$
 		output.append(line + "\n"); //$NON-NLS-1$
 	    } else {
 		output.append(line + "\n"); //$NON-NLS-1$
