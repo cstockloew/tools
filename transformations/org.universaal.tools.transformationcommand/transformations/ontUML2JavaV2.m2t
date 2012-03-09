@@ -28,7 +28,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
   var projectInfo: Hashtable
   var importedModels: Hashtable
   var javaBasePath:String
-
+  var datatypeImportMap:Hashtable 
  
    /**
    * Main (entry point)
@@ -52,7 +52,8 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
     StdOut.println("Namespace: "+ontologyNamespace) 
     ontologyNamespaceReference =  ontologyName +  'Ontology.NAMESPACE'  
   
-    
+  	// Initiate a hashmap that contains the supported datatypes and their corresponding java import statements
+    self.initDatatypeImportMap()
     //must create the import list.
     self.getImportList()
          
@@ -350,13 +351,29 @@ public final class ' ontologyName 'Ontology extends Ontology {
 '
   }
 		
+  uml.Model::initDatatypeImportMap() {
+    datatypeImportMap.put("Boolean", "")
+    datatypeImportMap.put("Integer", "")
+    datatypeImportMap.put("Float", "")
+    datatypeImportMap.put("UnlimitedNatural", "")
+    datatypeImportMap.put("String", "")
+    datatypeImportMap.put("Float", "")
+    datatypeImportMap.put("Double", "")
+    datatypeImportMap.put("XMLGregorianCalendar", "import javax.xml.datatype.XMLGregorianCalendar;\n")
+    datatypeImportMap.put("Duration", "import javax.xml.datatype.Duration;\n")
+    datatypeImportMap.put("Locale", "import java.util.Locale;\n")
+  }		
+		
+		
+		
   uml.Property::isDataType() {
 	var theTypeName:String = "String"	
 	
 	if (self.type != null) {
 		  theTypeName = self.type.name
 	}
-
+	return (datatypeImportMap.get(theTypeName) != null)
+/*
 	if (theTypeName == "Boolean") {
 	  return true
     }  		  
@@ -370,10 +387,17 @@ public final class ' ontologyName 'Ontology extends Ontology {
 	  return true
 	}
 	return false
-    
+  */  
   }
 
-
+  uml.Property::getDataTypeImport() {
+	var theTypeName:String = "String"	
+	
+	if (self.type != null) {
+		  theTypeName = self.type.name
+	}
+	return datatypeImportMap.get(theTypeName)
+  }
  
   uml.Package::generateFactory(ontologyClassList:Hashtable) {
 	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/' + ontologyName + "Factory.java" )
@@ -733,7 +757,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	var props:Hashtable = propertyHashtable.get(self.name)  
 	props->forEach(prop : uml.Property) {
 	  if (prop.isDataType()) {
-	    stdout.println("Prop " + prop.name + " type " + prop.datatype.name)
+	    stdout.println("Datatype " + prop.name + " type " + prop.datatype.name)
 	    // TODO: Handle datatypes
 	  }
 	  else {
