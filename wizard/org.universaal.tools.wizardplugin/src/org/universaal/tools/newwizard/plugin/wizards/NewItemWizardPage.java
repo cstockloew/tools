@@ -165,8 +165,8 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	    drop.add(Messages.getString("PageI.4"), 1); //$NON-NLS-1$
 	    drop.add(Messages.getString("PageI.5"), 2); //$NON-NLS-1$
 	    drop.add(Messages.getString("PageI.6"), 3); //$NON-NLS-1$
-	    drop.add(Messages.getString("Page2.25"), 4); //$NON-NLS-1$
-	    drop.add(Messages.getString("Page2.26"), 5); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.19"), 4); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.20"), 5); //$NON-NLS-1$
 	    drop.add(Messages.getString("PageI.9"), 6); //$NON-NLS-1$
 	} else {
 	    drop.deselectAll();
@@ -176,11 +176,11 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	    drop.add(Messages.getString("PageI.4"), 1); //$NON-NLS-1$
 	    drop.add(Messages.getString("PageI.5"), 2); //$NON-NLS-1$
 	    drop.add(Messages.getString("PageI.6"), 3); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.7"), 4); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.8"), 5); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.8"), 4); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.15"), 5); //$NON-NLS-1$
 	    drop.add(Messages.getString("PageI.9"), 6); //$NON-NLS-1$
 	    drop.add(Messages.getString("PageI.14"), 7); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.15"), 8); //$NON-NLS-1$
+	    drop.add(Messages.getString("PageI.7"), 8); //$NON-NLS-1$
 	}
 
     }
@@ -246,15 +246,15 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	case 3:
 	    return "SCaller.java"; //$NON-NLS-1$
 	case 4:
-	    return "ISubscriber.java"; //$NON-NLS-1$
-	case 5:
 	    return "OPublisher.java"; //$NON-NLS-1$
+	case 5:
+	    return "OSubscriber.java"; //$NON-NLS-1$
 	case 6:
 	    return "SCalleeProvidedService.java"; //$NON-NLS-1$
 	case 7:
 	    return "IPublisher.java"; //$NON-NLS-1$
 	case 8:
-	    return "OSubscriber.java"; //$NON-NLS-1$
+	    return "ISubscriber.java"; //$NON-NLS-1$
 	default:
 	    return null;
 	}
