@@ -1,9 +1,5 @@
 package org.universAAL.ucc.viewjambi.overview;
 
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
 import org.universAAL.ucc.viewjambi.impl.Activator;
 
 import com.trolltech.qt.core.QSize;
@@ -42,7 +38,7 @@ public class LabeledIcon extends QAbstractButton{
 		if (imgURL!=null) {
 			String jarPath = "classpath:"
 				+ Activator.getContext().getBundle().getLocation().substring(6)
-				+ "#images/" + icon;
+				+ "#icon/" + icon;
 			image.setPixmap(new QPixmap(jarPath));
 			//else
 				//image.setPixmap(new QPixmap(jarPath+"#icon\\"+icon));
@@ -64,7 +60,7 @@ public class LabeledIcon extends QAbstractButton{
 		this.setMinimumSize(new QSize(72,72));
 		this.setMaximumSize(new QSize(72,72));
 		this.setLayout(layout);
-//		this.show();
+		this.show();
 
 		
 	}

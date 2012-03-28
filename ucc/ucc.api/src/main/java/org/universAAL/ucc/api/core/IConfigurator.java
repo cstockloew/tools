@@ -1,7 +1,6 @@
 package org.universAAL.ucc.api.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.osgi.framework.Bundle;
 import org.universAAL.middleware.owl.ManagedIndividual;

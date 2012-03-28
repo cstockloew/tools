@@ -31,9 +31,10 @@ public class Activator implements BundleActivator {
 	private static IModel model = null;
 	private static IConfigurator configurator = null;
 	private static PluginBase pluginBase = null;
-	private static final String plugins="ucc_plugins/";
+	private static final String plugins="ucc/ucc_plugins/";
 	
 	public MainWindow mainWindow = null;
+	private boolean startCheck = false;
 
 	static final String libraryNames[] = { "qtjambi.dll",
 			"com_trolltech_qt_core.dll", "com_trolltech_qt_gui.dll", "com_trolltech_qt_network.dll",
@@ -42,15 +43,14 @@ public class Activator implements BundleActivator {
 
 	static {
 		for (int i = 0; i < libraryNames.length; i++)
-			extractDll(libraryNames[i]);
+			extractDll("/bin/",libraryNames[i]);
 	}
 
-	private static void extractDll(String name) {
-		InputStream inputStream = Activator.class.getClassLoader()
-				.getResourceAsStream(name);
-		File libraryFile = new File(name);
-		//libraryFile.deleteOnExit();
+	private static void extractDll(String path, String name) {
 		try {
+			InputStream inputStream = Activator.class.getClassLoader().getResource(path+name).openStream();
+			File libraryFile = new File(name);
+			//libraryFile.deleteOnExit();
 			FileOutputStream fileOutputStream = new FileOutputStream(
 					libraryFile);
 			byte[] buffer = new byte[8192];
@@ -93,35 +93,48 @@ public class Activator implements BundleActivator {
 		return Activator.configurator;
 	}
 
-	public void start(final BundleContext context) throws Exception {
-		Activator.context = context;
+	public void start(final BundleContext lcontext) throws Exception {
+		Activator.context = lcontext;
 		
 		Properties props = System.getProperties();
 		String path = ".;" + props.getProperty("java.library.path");
 		props.setProperty("java.library.path", path);
 		System.setProperties(props);
+		
+		System.err.println("started");
 
 		thread = new Thread(new Runnable() {
 			public void run() {
-				QApplication.initialize(new String[0]);
-
-				mainWindow = MainWindow.getInstance();
-				mainWindow.show();
-		
-				pluginBase =  new PluginBase(new GridView());
-				context.registerService(IPluginBase.class.getName(), pluginBase, null);
-				loadPlugins();
-				
-
-				QApplication.exec();
+				try {
+					QApplication.initialize(new String[0]);
+	
+					mainWindow = MainWindow.getInstance();
+					mainWindow.show();
+					
+					startCheck = true;
+			
+					pluginBase =  new PluginBase(new GridView());
+					Activator.context.registerService(IPluginBase.class.getName(), pluginBase, null);
+					loadPlugins();
+	
+					QApplication.exec();
+				}
+				finally {
+					startCheck = true;
+				}
 			}
 		});
 		thread.start();
 
-		while (mainWindow == null)
-			Thread.sleep(0);
+		while (!startCheck)
+			Thread.sleep(100);
 
-		context.registerService(MainWindow.class.getName(), mainWindow, null);
+		if (mainWindow != null) {
+			context.registerService(MainWindow.class.getName(), mainWindow, null);
+			System.err.println("Jambi-Main-View started");
+		}
+		else 
+			System.err.println("Jambi-Main-View NOT started");
 	}
 
 	@SuppressWarnings("deprecation")

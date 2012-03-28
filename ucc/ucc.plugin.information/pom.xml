@@ -15,24 +15,22 @@
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.data.representation</artifactId>
-			<version>0.3.1-SNAPSHOT</version>
+			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.tools.ucc</groupId>
 			<artifactId>ucc.api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.tools.ucc</groupId>
 			<artifactId>ucc.viewjambi</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.trolltech</groupId>
-		    <artifactId>jambi</artifactId>
-		    <version>4.5.2</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/src/main/resources/lib/qtjambi-4.5.2_01.jar</systemPath>
+			<groupId>net.sf.qtjambi</groupId>
+			<artifactId>qtjambi</artifactId>
+			<version>4.5.2_01</version>
 		</dependency>
 	</dependencies>
     <build>
@@ -89,5 +87,10 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
+		<repository>
+            <id>qtjambi</id>
+            <name>qtjambi</name>
+            <url>http://qtjambi.sourceforge.net/maven2/</url>
+        </repository>
 	</repositories>
 </project>
