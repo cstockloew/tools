@@ -1,0 +1,1 @@
+call juic -cp -d %cd%\..\..\java\ -a
