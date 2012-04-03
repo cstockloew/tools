@@ -22,42 +22,49 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.universaal.tools.newwizard.plugin.Activator;
+import org.universaal.tools.newwizard.plugin.versions.IMWVersion;
+import org.universaal.tools.newwizard.plugin.versions.MWVersion030;
+import org.universaal.tools.newwizard.plugin.versions.MWVersion100;
+import org.universaal.tools.newwizard.plugin.versions.MWVersion110;
 
 /**
  * The only wizard page allows setting the basic details for the new item, like
  * type, package and name.
  */
 public class NewItemWizardPage extends NewTypeWizardPage {
-    private Combo drop,drop1;
-    private Text clasname;
+    private Combo dropClass,dropMW;
+    private Text textClass;
+    private IMWVersion mwVersion;
 
+    /**
+     * Default constructor with arg.
+     * 
+     * @param selection
+     *            Used to determine where to create item.
+     */
     public NewItemWizardPage(ISelection selection) {
-	super(true, Messages.getString("PageI.0")); //$NON-NLS-1$
-	setTitle(Messages.getString("PageI.1")); //$NON-NLS-1$
-	setDescription(Messages.getString("PageI.2")); //$NON-NLS-1$
+	super(true, "projectItemPage1"); //$NON-NLS-1$
+	setTitle(Messages.getString("PageI.0")); //$NON-NLS-1$
+	setDescription(Messages.getString("PageI.1")); //$NON-NLS-1$
     }
 
     /**
      * Used to setup initial content of page
      * 
      * @param selection
+     *            Used to determine where to create item.
      */
     public void init(IStructuredSelection selection) {
 	IJavaElement jelem = getInitialJavaElement(selection);
 	initContainerPage(jelem);
 	initTypePage(jelem);
-//	doStatusUpdate();
 	validateInput();
-	// IDialogSettings dialogSettings = getDialogSettings();
-	// if (dialogSettings != null) {
-	// IDialogSettings section = dialogSettings.getSection("wizardPage");
-	// }
 	setPageComplete(false);
     }
 
     /**
      * Used to update and validate content, because of extending
-     * NewTypeWizardPage
+     * NewTypeWizardPage.
      */
     private void doStatusUpdate() {
 	IStatus[] status = new IStatus[] { fContainerStatus, fPackageStatus };
@@ -65,146 +72,122 @@ public class NewItemWizardPage extends NewTypeWizardPage {
     }
 
     public void createControl(Composite parent) {
+	//Set default package thanks to NewTypeWizardPage
 	initializeDialogUnits(parent);
-	Composite containerP = new Composite(parent, SWT.NULL);
-	GridLayout layoutP = new GridLayout();
-	containerP.setLayout(layoutP);
-	layoutP.numColumns = 1;
-	layoutP.verticalSpacing = 9;
+	
+	Composite containerParent = new Composite(parent, SWT.NULL);
+	
+	GridLayout layoutParent = new GridLayout();
+	layoutParent.numColumns = 1;
+	layoutParent.verticalSpacing = 9;
+	containerParent.setLayout(layoutParent);
+	
 	// Set the help
 	PlatformUI.getWorkbench().getHelpSystem()
 		.setHelp(parent, Activator.PLUGIN_ID + ".help_item");
-	// First layout with the name of the package
-	Composite container1 = new Composite(containerP, SWT.NULL);
-	GridLayout layout2 = new GridLayout();
-	container1.setLayout(layout2);
-	container1.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	layout2.numColumns = 4;
-	layout2.verticalSpacing = 9;
-	// provided by NewTypeWizardPage
-	createContainerControls(container1, 4);
-	createPackageControls(container1, 4);
+	
+	// First layout with the name of the package___________________
+	Composite containerInfo = new Composite(containerParent, SWT.NULL);
+	GridLayout layoutInfo = new GridLayout();
+	layoutInfo.numColumns = 4;
+	layoutInfo.verticalSpacing = 9;
+	containerInfo.setLayout(layoutInfo);
+	containerInfo.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+	
+	// this is provided by NewTypeWizardPage
+	createContainerControls(containerInfo, 4);
+	createPackageControls(containerInfo, 4);
+	
 	// Dropdown with middleware versions
-	Label label6 = new Label(container1, SWT.NULL);
-	label6.setText(Messages.getString("Page2.23")); //$NON-NLS-1$
-	drop1 = new Combo(container1, SWT.READ_ONLY);
-	drop1.select(0);
-	GridData layoutInfo3 = new GridData(GridData.FILL_HORIZONTAL);
-	drop1.setLayoutData(layoutInfo3);
-	drop1.add(NewProjectWizardPage2.VER_030_S, 0);
-	drop1.add(NewProjectWizardPage2.VER_031_S, 1);
-	drop1.add(NewProjectWizardPage2.VER_110, 2);
-	drop1.addSelectionListener(new SelectionAdapter() {
+	Label label6 = new Label(containerInfo, SWT.NULL);
+	label6.setText(Messages.getString("PageI.2")); //$NON-NLS-1$
+	dropMW = new Combo(containerInfo, SWT.READ_ONLY);
+	dropMW.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+	dropMW.add(getVERname(IMWVersion.VER_030), 0);
+	dropMW.add(getVERname(IMWVersion.VER_100), 1);
+	dropMW.add(getVERname(IMWVersion.VER_110), 2);
+	dropMW.select(2);//Default: last
+	mwVersion=new MWVersion110();//Default: last
+	dropMW.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
-		changeClasses();
+		switch (dropMW.getSelectionIndex()) {
+		case IMWVersion.VER_030:
+		    mwVersion=new MWVersion030();
+		    break;
+		case IMWVersion.VER_100:
+		    mwVersion=new MWVersion100();
+		    break;
+		case IMWVersion.VER_110:
+		    mwVersion=new MWVersion110();
+		    break;
+		default:
+		    mwVersion=new MWVersion110();
+		    break;
+		}
+		updateDropClass();
 		validateInput();
 	    }
 	});
+	
 	//TODO: Remove this when we auto-select compliance
-	Label label7 = new Label(containerP, SWT.NULL);
-	label7.setText(Messages.getString("PageI.18")); //$NON-NLS-1$
+	Label label7 = new Label(containerParent, SWT.NULL);
+	label7.setText(Messages.getString("PageI.3")); //$NON-NLS-1$
 
-	// Second layout with the checkboxes of classes
-	Group container2 = new Group(containerP, SWT.NONE);
-	container2.setText(Messages.getString("PageI.16")); //$NON-NLS-1$
-	GridLayout layout = new GridLayout();
-	container2.setLayout(layout);
-	container2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-		| GridData.HORIZONTAL_ALIGN_CENTER));
-	layout.numColumns = 3;
-	layout.verticalSpacing = 9;
+	// Second layout with class selector_____________________________
+	Group containerClass = new Group(containerParent, SWT.NONE);
+	containerClass.setText(Messages.getString("PageI.4")); //$NON-NLS-1$
+	GridLayout layoutClass = new GridLayout();
+	layoutClass.numColumns = 3;
+	layoutClass.verticalSpacing = 9;
+	containerClass.setLayout(layoutClass);
+	containerClass.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
 
 	// Name of the class
-	Label label4 = new Label(container2, SWT.NULL);
-	label4.setText(Messages.getString("PageI.17")); //$NON-NLS-1$
-	clasname = new Text(container2, SWT.BORDER | SWT.SINGLE);
-	GridData gd0 = new GridData(GridData.FILL_HORIZONTAL);
-	clasname.setLayoutData(gd0);
-	clasname.addPaintListener(new PaintListener() {
+	Label label4 = new Label(containerClass, SWT.NULL);
+	label4.setText(Messages.getString("PageI.5")); //$NON-NLS-1$
+	textClass = new Text(containerClass, SWT.BORDER | SWT.SINGLE);
+	textClass.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+	textClass.addPaintListener(new PaintListener() {
 	    public void paintControl(PaintEvent arg0) {
 		validateInput();
 	    }
 	});
-	clasname.addModifyListener(new ModifyListener() {
+	textClass.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
 		validateInput();
 	    }
 	});
 
 	// Dropdown with type of item
-	drop = new Combo(container2, SWT.READ_ONLY);
-	drop.select(0);
-	GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
-	drop.setLayoutData(gd1);
-	drop.add(Messages.getString("PageI.3"), 0); //$NON-NLS-1$
-	drop.add(Messages.getString("PageI.4"), 1); //$NON-NLS-1$
-	drop.add(Messages.getString("PageI.5"), 2); //$NON-NLS-1$
-	drop.add(Messages.getString("PageI.6"), 3); //$NON-NLS-1$
-	drop.add(Messages.getString("PageI.7"), 4); //$NON-NLS-1$
-	drop.add(Messages.getString("PageI.8"), 5); //$NON-NLS-1$
-	drop.add(Messages.getString("PageI.9"), 6); //$NON-NLS-1$
-	drop.add(Messages.getString("PageI.14"), 7); //$NON-NLS-1$
-	drop.add(Messages.getString("PageI.15"), 8); //$NON-NLS-1$
-	drop.addSelectionListener(new SelectionAdapter() {
+	dropClass = new Combo(containerClass, SWT.READ_ONLY);
+	dropClass.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+	dropClass.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		validateInput();
 	    }
 	});
-	drop.setEnabled(false);
+	
+	// Start and validate
+	setControl(containerParent);
+	updateDropClass();
 	validateInput();
-	setControl(container2);
     }
     
-    private void changeClasses() {
-	drop.setEnabled(true);
-	if (drop1.getSelectionIndex() > 1) {
-	    drop.deselectAll();
-	    drop.clearSelection();
-	    drop.removeAll();
-	    drop.add(Messages.getString("PageI.3"), 0); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.4"), 1); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.5"), 2); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.6"), 3); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.19"), 4); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.20"), 5); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.9"), 6); //$NON-NLS-1$
-	} else {
-	    drop.deselectAll();
-	    drop.clearSelection();
-	    drop.removeAll();
-	    drop.add(Messages.getString("PageI.3"), 0); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.4"), 1); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.5"), 2); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.6"), 3); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.8"), 4); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.15"), 5); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.9"), 6); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.14"), 7); //$NON-NLS-1$
-	    drop.add(Messages.getString("PageI.7"), 8); //$NON-NLS-1$
-	}
-
-    }
-
-    public Combo getDrop() {
-	return drop;
-    }
-
-    public Text getClasname() {
-	return clasname;
-    }
-
     private void validateInput() {
-	if (clasname == null || drop == null) {
-	    setMessage(Messages.getString("PageI.10")); //$NON-NLS-1$
+	//Check selectors not null
+	if (textClass == null || dropClass == null) {
+	    setMessage(Messages.getString("PageI.6")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
 	}
-	if (clasname.getText().isEmpty()) {
-	    setErrorMessage(Messages.getString("PageI.11")); //$NON-NLS-1$
+	//Check class name not empty
+	if (textClass.getText().isEmpty()) {
+	    setErrorMessage(Messages.getString("PageI.7")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
 	}
-	String clsName = clasname.getText() + ".class"; //$NON-NLS-1$
+	//Check valid class name
+	String clsName = textClass.getText() + ".class"; //$NON-NLS-1$
 	if (clsName.trim().length() != 0) {
 	    IStatus status = JavaConventions.validateClassFileName(clsName);
 	    // TODO: Use new method to check class naming.
@@ -214,18 +197,19 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 		return;
 	    }
 	} else {
-	    setErrorMessage(Messages.getString("PageI.12")); //$NON-NLS-1$
+	    setErrorMessage(Messages.getString("PageI.8")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
 	}
-
-	if (drop.getSelectionIndex() < 0) {
-	    setErrorMessage(Messages.getString("PageI.13")); //$NON-NLS-1$
+	//Check selected class
+	if (dropClass.getSelectionIndex() < 0) {
+	    setErrorMessage(Messages.getString("PageI.9")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
 	}
-	if(drop1.getSelectionIndex() < 0){
-	    setMessage(Messages.getString("Page2.24")); //$NON-NLS-1$
+	//Check selected MW
+	if(dropMW.getSelectionIndex() < 0){
+	    setMessage(Messages.getString("PageI.10")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
 	}
@@ -234,41 +218,73 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	setMessage(null);
 	doStatusUpdate();
     }
-
-    public String getFileTemplateName() {
-	switch (drop.getSelectionIndex()) {
-	case 0:
-	    return "CSubscriber.java"; //$NON-NLS-1$
-	case 1:
-	    return "CPublisher.java"; //$NON-NLS-1$
-	case 2:
-	    return "SCallee.java"; //$NON-NLS-1$
-	case 3:
-	    return "SCaller.java"; //$NON-NLS-1$
-	case 4:
-	    return "OPublisher.java"; //$NON-NLS-1$
-	case 5:
-	    return "OSubscriber.java"; //$NON-NLS-1$
-	case 6:
-	    return "SCalleeProvidedService.java"; //$NON-NLS-1$
-	case 7:
-	    return "IPublisher.java"; //$NON-NLS-1$
-	case 8:
-	    return "ISubscriber.java"; //$NON-NLS-1$
-	default:
-	    return null;
+    
+    /**
+     * Reload available types of classes when MW is changed.
+     */
+    private void updateDropClass() {
+	dropClass.deselectAll();
+	dropClass.clearSelection();
+	dropClass.removeAll();
+	String[] clas = mwVersion.getClassesLabels();
+	for (int i = 0; i < clas.length; i++) {
+	    dropClass.add(Messages.getString(clas[i]));
 	}
     }
-
+    
     protected void handleFieldChanged(String fieldName) {
-	// TODO Auto-generated method stub
 	super.handleFieldChanged(fieldName);
-//	doStatusUpdate();
 	validateInput();
     }
     
-    public Combo getVersionDropDown() {
-	return drop1;
+    /**
+     * Gets the name of the MW version to display.
+     * 
+     * @param version
+     *            MW Version number, as in IMWversion.
+     * @return The String with the name.
+     */
+    private static String getVERname(int version){
+	switch (version) {
+	case IMWVersion.VER_030:
+	    return "0.3.0-SNAPSHOT";
+	case IMWVersion.VER_100:
+	    return "1.0.0";
+	case IMWVersion.VER_110:
+	    return "1.1.0";
+	default:
+	    return "1.1.0";
+	}
     }
+    
+    //________GETTERS________
+
+    /**
+     * Getter for DropClass.
+     * 
+     * @return The Dropdown object for class selector.
+     */
+    public Combo getDropClass() {
+	return dropClass;
+    }
+
+    /**
+     * Getter for TextClass.
+     * 
+     * @return The Text object with the name of the class.
+     */
+    public Text getTextClass() {
+	return textClass;
+    }
+    
+    /**
+     * Getter for the MWVersion
+     * 
+     * @return The IMWVersion controlling the version-specific commands
+     */
+    public IMWVersion getMWVersion() {
+	return mwVersion;
+    }
+    
 
 }

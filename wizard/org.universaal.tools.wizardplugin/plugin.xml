@@ -8,8 +8,8 @@
             id="org.universaal.tools.AALStudio.wizards">
       </category>
       <wizard
-            name="universAAL Template Project"
-            icon="icons/uAALmicro.png"
+            name="universAAL Project"
+            icon="icons/newuaal_proj.gif"
             category="org.universaal.tools.AALStudio.wizards"
             class="org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard"
             id="org.universaal.tools.newwizard.plugin.wizards.NewProjectWizard"
@@ -18,9 +18,9 @@
       <wizard
             category="org.universaal.tools.AALStudio.wizards"
             class="org.universaal.tools.newwizard.plugin.wizards.NewItemWizard"
-            icon="icons/uAALmicro.png"
+            icon="icons/newuaal_clss.gif"
             id="org.universaal.tools.newwizard.plugin.wizards.NewItemWizard"
-            name="Add uAAL file">
+            name="universAAL Class">
       </wizard>
    </extension>
    <extension

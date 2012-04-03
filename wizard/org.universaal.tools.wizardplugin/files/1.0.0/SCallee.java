@@ -15,7 +15,7 @@ public class /*TAG:CLASSNAME*/ extends ServiceCallee {
 	// TODO Auto-generated constructor stub
     }
 
-    protected SCallee(ModuleContext context) {
+    protected /*TAG:CLASSNAME*/(ModuleContext context) {
 	super(context, /*TAG:CLASSNAME*/ProvidedService.profiles);
 	// TODO Auto-generated constructor stub
     }

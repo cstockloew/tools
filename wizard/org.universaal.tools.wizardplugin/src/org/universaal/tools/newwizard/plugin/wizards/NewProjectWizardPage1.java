@@ -18,109 +18,119 @@ import org.universaal.tools.newwizard.plugin.Activator;
  * by the basic data for the maven POM, the name of the project and the
  * description.
  */
-
 public class NewProjectWizardPage1 extends WizardPage {
 
-    private Text groupId;
-    private Text artifactId;
-    private Text version;
-    private Text name;
-    private Text description;
+    private Text textGroupId;
+    private Text textArtifactId;
+    private Text textVersion;
+    private Text textName;
+    private Text textDescription;
 
+    /**
+     * Default constructor with arg.
+     * 
+     * @param selection
+     *            Used to determine working set(?).
+     */
     public NewProjectWizardPage1(ISelection selection) {
-	super("wizardPage"); //$NON-NLS-1$
+	super("projectWizardPage1"); //$NON-NLS-1$
 	setTitle(Messages.getString("Page1.0")); //$NON-NLS-1$
 	setDescription(Messages.getString("Page1.9")); //$NON-NLS-1$
     }
 
-    /**
-     * @see IDialogPage#createControl(Composite)
-     */
     public void createControl(Composite parent) {
-	Composite container = new Composite(parent, SWT.NULL);
-	GridLayout layout = new GridLayout();
-	container.setLayout(layout);
-	layout.numColumns = 2;
-	layout.verticalSpacing = 9;
+	Composite containerParent = new Composite(parent, SWT.NULL);
+
+	GridLayout layoutParent = new GridLayout();
+	layoutParent.numColumns = 2;
+	layoutParent.verticalSpacing = 9;
+	containerParent.setLayout(layoutParent);
+
 	// Set the help
 	PlatformUI.getWorkbench().getHelpSystem()
 		.setHelp(parent, Activator.PLUGIN_ID + ".help_project");
+
 	// Group Id
-	Label label1 = new Label(container, SWT.NULL);
+	Label label1 = new Label(containerParent, SWT.NULL);
 	label1.setText(Messages.getString("Page1.1")); //$NON-NLS-1$
-	groupId = new Text(container, SWT.BORDER | SWT.SINGLE);
-	GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
-	groupId.setLayoutData(gd1);
-	groupId.addModifyListener(new ModifyListener() {
+	textGroupId = new Text(containerParent, SWT.BORDER | SWT.SINGLE);
+	textGroupId.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+	textGroupId.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
 		validate();
-	    }
-	});
-	// Artifact Id
-	Label label2 = new Label(container, SWT.NULL);
-	label2.setText(Messages.getString("Page1.2")); //$NON-NLS-1$
-	artifactId = new Text(container, SWT.BORDER | SWT.SINGLE);
-	GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);
-	artifactId.setLayoutData(gd2);
-	artifactId.addModifyListener(new ModifyListener() {
-	    public void modifyText(ModifyEvent e) {
-		validate();
-	    }
-	});
-	// Version
-	Label label3 = new Label(container, SWT.NULL);
-	label3.setText(Messages.getString("Page1.3")); //$NON-NLS-1$
-	version = new Text(container, SWT.BORDER | SWT.SINGLE);
-	GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
-	version.setLayoutData(gd3);
-	version.addModifyListener(new ModifyListener() {
-	    public void modifyText(ModifyEvent e) {
-		validate();
-	    }
-	});
-	// Name
-	Label label4 = new Label(container, SWT.NULL);
-	label4.setText(Messages.getString("Page1.4")); //$NON-NLS-1$
-	name = new Text(container, SWT.BORDER | SWT.SINGLE);
-	GridData gd4 = new GridData(GridData.FILL_HORIZONTAL);
-	name.setLayoutData(gd4);
-	name.addModifyListener(new ModifyListener() {
-	    public void modifyText(ModifyEvent e) {
-		// TODO: Need to validate the name?
-	    }
-	});
-	// Description
-	Label label5 = new Label(container, SWT.NULL);
-	label5.setText(Messages.getString("Page1.5")); //$NON-NLS-1$
-	description = new Text(container, SWT.V_SCROLL | SWT.BORDER | SWT.WRAP);
-	GridData gd5 = new GridData(SWT.FILL, SWT.FILL, false, true);
-	gd5.minimumHeight = 20;
-	description.setLayoutData(gd5);
-	description.addModifyListener(new ModifyListener() {
-	    public void modifyText(ModifyEvent e) {
-		// TODO: Need to validate description?
 	    }
 	});
 
+	// Artifact Id
+	Label label2 = new Label(containerParent, SWT.NULL);
+	label2.setText(Messages.getString("Page1.2")); //$NON-NLS-1$
+	textArtifactId = new Text(containerParent, SWT.BORDER | SWT.SINGLE);
+	textArtifactId.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+	textArtifactId.addModifyListener(new ModifyListener() {
+	    public void modifyText(ModifyEvent e) {
+		validate();
+	    }
+	});
+
+	// Version
+	Label label3 = new Label(containerParent, SWT.NULL);
+	label3.setText(Messages.getString("Page1.3")); //$NON-NLS-1$
+	textVersion = new Text(containerParent, SWT.BORDER | SWT.SINGLE);
+	textVersion.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+	textVersion.addModifyListener(new ModifyListener() {
+	    public void modifyText(ModifyEvent e) {
+		validate();
+	    }
+	});
+
+	// Name
+	Label label4 = new Label(containerParent, SWT.NULL);
+	label4.setText(Messages.getString("Page1.4")); //$NON-NLS-1$
+	textName = new Text(containerParent, SWT.BORDER | SWT.SINGLE);
+	textName.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+	// name.addModifyListener(new ModifyListener() {
+	// public void modifyText(ModifyEvent e) {
+	// // TODO: Need to validate the name?
+	// }
+	// });
+
+	// Description
+	Label label5 = new Label(containerParent, SWT.NULL);
+	label5.setText(Messages.getString("Page1.5")); //$NON-NLS-1$
+	textDescription = new Text(containerParent, SWT.V_SCROLL | SWT.BORDER | SWT.WRAP);
+	GridData gd5 = new GridData(SWT.FILL, SWT.FILL, false, true);
+	gd5.minimumHeight = 15;
+	textDescription.setLayoutData(gd5);
+	// description.addModifyListener(new ModifyListener() {
+	// public void modifyText(ModifyEvent e) {
+	// // TODO: Need to validate description?
+	// }
+	// });
+
+	// Start and validate
+	setControl(containerParent);
 	validate();
-	setControl(container);
     }
 
+    /**
+     * Check that needed info is not empty.
+     */
     void validate() {
-	// These must not be empty
-	if (groupId.getText().trim().length() == 0) {
+	// TODO: Use BindingContext like Ontology wizard? For now not here, this
+	// is easier. These must not be empty
+	if (textGroupId.getText().trim().length() == 0) {
 	    setErrorMessage(Messages.getString("Page1.6")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
 	}
 
-	if (artifactId.getText().trim().length() == 0) {
+	if (textArtifactId.getText().trim().length() == 0) {
 	    setErrorMessage(Messages.getString("Page1.7")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
 	}
 
-	if (version.getText().trim().length() == 0) {
+	if (textVersion.getText().trim().length() == 0) {
 	    setErrorMessage(Messages.getString("Page1.8")); //$NON-NLS-1$
 	    setPageComplete(false);
 	    return;
@@ -129,24 +139,51 @@ public class NewProjectWizardPage1 extends WizardPage {
 	setErrorMessage(null);
 	setMessage(null);
     }
+    
+    //________GETTERS________
 
+    /**
+     * Getter for Maven Group.
+     * 
+     * @return The text object for Maven group.
+     */
     public Text getMavenGroupId() {
-	return groupId;
+	return textGroupId;
     }
 
+    /**
+     * Getter for Maven Artifact.
+     * 
+     * @return The text object for Maven artifact.
+     */
     public Text getMavenArtifactId() {
-	return artifactId;
+	return textArtifactId;
     }
 
+    /**
+     * Getter for Maven Version.
+     * 
+     * @return The text object for Maven version.
+     */
     public Text getMavenVersion() {
-	return version;
+	return textVersion;
     }
 
+    /**
+     * Getter for Maven Name.
+     * 
+     * @return The text object for Maven name.
+     */
     public Text getMavenName() {
-	return name;
+	return textName;
     }
 
+    /**
+     * Getter for Maven Description.
+     * 
+     * @return The text object for Maven description.
+     */
     public Text getMavenDescription() {
-	return description;
+	return textDescription;
     }
 }

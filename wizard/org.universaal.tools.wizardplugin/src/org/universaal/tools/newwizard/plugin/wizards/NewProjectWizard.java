@@ -25,6 +25,7 @@ import org.eclipse.ui.*;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.universaal.tools.newwizard.plugin.Activator;
+import org.universaal.tools.newwizard.plugin.versions.IMWVersion;
 
 /**
  * This is a sample new wizard. Its role is to create a new file project
@@ -40,38 +41,52 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	    "src/main/resources", "target/classes"); //$NON-NLS-1$ //$NON-NLS-2$
     private static final ProjectFolder RESOURCES_TEST = new ProjectFolder(
 	    "src/test/resources", "target/test-classes"); //$NON-NLS-1$ //$NON-NLS-2$
-
-    private static final String[] classNames = { "CPublisher", "CSubscriber",
-	    "ISubscriber", "OPublisher", "SCallee", "SCaller", "IPublisher",
-	    "OSubscriber" };
+    /**
+     * List of Maven folders. It could be possible to use String[] instead of
+     * own ProjectFodler class, but htis is copied from Maven plugin, and could
+     * be helpful in the future for test folders.
+     */
     private static final ProjectFolder[] JAR_DIRS = { JAVA, JAVA_TEST,
 	    RESOURCES, RESOURCES_TEST };
+    /**
+     * First page with Maven info.
+     */
     private NewProjectWizardPage1 page1;
+    /**
+     * Second page with uAAL info.
+     */
     private NewProjectWizardPage2 page2;
+    /**
+     * Not really used yet, but could be used, in theory, to set the Working
+     * Set.
+     */
     private ISelection selection;
+    /**
+     * Maven utility to setup new projects.
+     */
     ProjectImportConfiguration configuration;
-    short[][] templateMatrix100 = { { 1, 1, 1, 1, 1, 1, 0, 0, 1 },
-		{ 1, 1, 0, 0, 2, 1, 0, 0, 2 }, 
-		{ 3, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 1, 0, 0, 0, 2, 0, 0, 0, 2 }, 
-		{ 4, 4, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
-    short[][] templateMatrix110 = { { 1, 1, 0, 1, 1, 1, 0, 0, 1 },
-		{ 1, 1, 0, 0, 2, 1, 0, 0, 2 }, 
-		{ 3, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 1, 0, 0, 0, 2, 0, 0, 0, 2 }, 
-		{ 4, 4, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
+    /**
+     * Default constructor.
+     */
     public NewProjectWizard() {
-	// Some details about the wizard...
 	super();
 	setNeedsProgressMonitor(true);
 	ImageDescriptor image = AbstractUIPlugin.imageDescriptorFromPlugin(
 		"org.universaal.tools.newwizard.plugin", //$NON-NLS-1$
 		"icons/ic-uAAL-hdpi.png"); //$NON-NLS-1$
 	setDefaultPageImageDescriptor(image);
-	setWindowTitle(Messages.getString("Project.6"));
+	setWindowTitle(Messages.getString("Project.0"));
+    }
+    
+    /**
+     * We will accept the selection in the workbench to see if we can initialize
+     * from it. Should use this for working sets...
+     * 
+     * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
+     */
+    public void init(IWorkbench workbench, IStructuredSelection sel) {
+	selection = sel;
     }
 
     public void addPages() {
@@ -81,13 +96,17 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	addPage(page1);
 	addPage(page2);
     }
+    
+    public boolean canFinish() {
+	return page1.isPageComplete() && page2.isPageComplete();
+    }
 
     /**
      * This method is called when 'Finish' button is pressed in the wizard. We
      * will create an operation and run it using wizard as execution context.
      */
     public boolean performFinish() {
-	// These instructions build up the model of the maven project
+	// Build up maven model from wizard p1
 	final Model model = new Model();
 	model.setModelVersion("4.0.0"); //$NON-NLS-1$
 	model.setGroupId(page1.getMavenGroupId().getText());
@@ -95,41 +114,32 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	model.setVersion(page1.getMavenVersion().getText());
 	model.setName(page1.getMavenName().getText());
 	model.setDescription(page1.getMavenDescription().getText());
-	// This is the rest of the info coming from the wizard
-	final String pack = page2.getPackaging().getText();
-	final boolean[] checks = { false, false, false, false, false, false,
-		false, false, false, false };
-	checks[0] = page2.getCpublisher().getSelection();
-	checks[1] = page2.getCsubscriber().getSelection();
-	checks[2] = page2.getIsubscriber().getSelection();
-	checks[3] = page2.getOpublisher().getSelection();
-	checks[4] = page2.getScallee().getSelection();
-	checks[5] = page2.getScaller().getSelection();
-	checks[6] = page2.getIpublisher().getSelection();
-	checks[7] = page2.getOsubscriber().getSelection();
-	checks[8] = page2.getDefCpublisher().getSelection();
-	checks[9] = page2.getDefScaller().getSelection();
-	final boolean template=page2.getTemplate().getSelection();
-	final int templateIndex=page2.getTemplateDropDown().getSelectionIndex();
-	final int mwVer=page2.getVersionDropDown().getSelectionIndex();
-	final String mwVersion=page2.getVersionDropDown().getItem(mwVer);
-
+	
+	// This is the rest of the info coming from wizard p2
+	final IMWVersion mwVersion=page2.getMWVersion();
+	final boolean[] checks = new boolean[10];
+	for(int i=0;i<checks.length;i++){
+	    checks[i] = page2.getCheckClasses()[i].getSelection();
+	}
+	final String pack = page2.getTextPackage().getText();
+	final boolean template=page2.getCheckTemp().getSelection();
+	final int templateIndex=page2.getDropTemp().getSelectionIndex();
+	
 	// I use deprecated methods because I haven´t found the new way to
 	// create a new project
 	// TODO: Use the latest methods -> Latest version of Maven plugin keeps
 	// using them!
-	// final String projectName = configuration.getProjectName(model);
 	IStatus nameStatus = configuration.validateProjectName(model);
 	if (!nameStatus.isOK()) {
-	    MessageDialog.openError(getShell(),
-		    org.universaal.tools.newwizard.plugin.wizards.Messages
+	    MessageDialog.openError(getShell(),Messages
 			    .getString("Project.1"), //$NON-NLS-1$
 		    nameStatus.getMessage());
 	    return false;
 	}
 
+	//Get access to workspace
 	IWorkspace workspace = ResourcesPlugin.getWorkspace();
-	final IPath location = null;
+	final IPath location = null;//TODO use this
 	final IWorkspaceRoot root = workspace.getRoot();
 	final IProject project = configuration.getProject(root, model);
 
@@ -138,29 +148,22 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		.append(IMavenConstants.POM_FILE_NAME).toFile().exists();
 	if (pomExists) {
 	    MessageDialog.openError(getShell(),
-		    org.universaal.tools.newwizard.plugin.wizards.Messages
-			    .getString("Project.2"), //$NON-NLS-1$
-		    org.universaal.tools.newwizard.plugin.wizards.Messages
-			    .getString("Project.3")); //$NON-NLS-1$
+		    Messages.getString("Project.2"), //$NON-NLS-1$
+		    Messages.getString("Project.3")); //$NON-NLS-1$
 	    return false;
 	}
 
-	final Job job, job2;
-
-	// This job creates a blank maven project with the POM as defined in the
-	// wizard
-	job = new WorkspaceJob(
-		org.universaal.tools.newwizard.plugin.wizards.Messages
-			.getString("Project.8")) { //$NON-NLS-1$
+	// Create a blank maven project with POM as defined in wizard
+	final Job job1 = new WorkspaceJob(Messages
+			.getString("Project.4")) { //$NON-NLS-1$
 	    public IStatus runInWorkspace(IProgressMonitor monitor) {
 		setProperty(IProgressConstants.ACTION_PROPERTY,
 			new OpenMavenConsoleAction());
 		try {
-		    // Here we use the maven plugin to create and shape the
-		    // project
+		    // Use maven plugin to create the project
 		    MavenPlugin.getProjectConfigurationManager()
 			    .createSimpleProject(project, location, model,
-				    getFolders(), //
+				    getFolders(),
 				    configuration, monitor);
 		    return Status.OK_STATUS;
 		} catch (CoreException e) {
@@ -171,161 +174,81 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	    }
 	};
 
-	// This job modifies the newly created blank maven project to be
-	// uaal-compliant
-	job2 = new WorkspaceJob(
-		org.universaal.tools.newwizard.plugin.wizards.Messages
-			.getString("Project.9")) { //$NON-NLS-1$
+	// Modify newly created project to be uaal-compliant
+	final Job job2 = new WorkspaceJob(Messages
+			.getString("Project.5")) { //$NON-NLS-1$
 	    public IStatus runInWorkspace(IProgressMonitor monitor) {
 		setProperty(IProgressConstants.ACTION_PROPERTY,
 			new OpenMavenConsoleAction());
-		try {
-		    // Set the name & create the package
-		    IFolder src = project.getFolder(JAVA.getPath());
-		    String[] folders = pack.replace(".", "#").split("#"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		    for (int i = 0; i < folders.length; i++) {
-			IFolder packFold = src.getFolder(folders[i]);
-			packFold.create(true, true, monitor);
-			src = packFold;
-		    }
-		    // create the activator
-		    IFile f1 = src.getFile("Activator.java"); //$NON-NLS-1$
-		    f1.create(FileStreamUtils.customizeFileStream(
-			    mwVersion + "/" + "Activator", pack, //$NON-NLS-1$
-			    checks), true, monitor);
-		    if (template) {//Copy the template classes. Watch for indices
-			for (int i = 0; i < classNames.length; i++) {
-			    String folder = getTemplateFolder(templateIndex, i, mwVer);// Get origin folder for this file
-			    if (!folder.isEmpty()) {// If folder is "" means there is no such file for this template
-				IFile f = src.getFile(classNames[i] + ".java"); //$NON-NLS-1$
-				f.create(FileStreamUtils.customizeFileStream(
-					 mwVersion + "/templates/" + folder + "/" + classNames[i], pack, //$NON-NLS-1$
-					checks), true, monitor);//This copies template file from right folder
-				if (i == 4) {//If SCee, add ProvidedServ
-				    IFile faux = src
-					    .getFile("SCalleeProvidedService.java"); //$NON-NLS-1$
-				    faux.create(FileStreamUtils
-					    .customizeFileStream(mwVersion + "/templates/" +  folder + "/"
-						    + "SCalleeProvidedService", //$NON-NLS-1$
-						    pack, checks), true,
-					    monitor);
-				}
-			    }
+		setProperty(IProgressConstants.ACTION_PROPERTY,
+			    new OpenMavenConsoleAction());
+		    try {
+			// Create the package folders
+			IFolder src = project.getFolder(JAVA.getPath());
+			String[] folders = pack.replace(".", "#").split("#"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			for (int i = 0; i < folders.length; i++) {
+			    IFolder packFold = src.getFolder(folders[i]);
+			    packFold.create(true, true, monitor);
+			    src = packFold;
+			}
 
+			//Create the uaal files
+			if (template) {
+			    //If it was a template, just copy the files from folder
+			    mwVersion.createTemplateFiles(src, templateIndex, pack, monitor);
+			} else {
+			    // If not template, create files according to checks
+			    mwVersion.createEmptyFiles(src, checks, pack, monitor);
 			}
-		    } else {
-			// Watch out here for indices
-			for (int i = 0; i < 8; i++) {
-			    if (checks[i] && !((i == 0) && (checks[8]))// check default CPer
-				    && !((i == 5) && (checks[9]))) {// check default SCer
-				IFile f = src.getFile(classNames[i] + ".java"); //$NON-NLS-1$
-				f.create(FileStreamUtils.customizeFileStream(
-					mwVersion + "/" + classNames[i], pack, //$NON-NLS-1$
-					checks), true, monitor);
-				if (i == 4) {// If SCee, add ProvidedServ
-				    IFile faux = src
-					    .getFile("SCalleeProvidedService.java"); //$NON-NLS-1$
-				    faux.create(FileStreamUtils
-					    .customizeFileStream(
-						    mwVersion + "/" + "SCalleeProvidedService", //$NON-NLS-1$
-						    pack, checks), true,
-					    monitor);
-				}
-			    }
+			
+			// Now edit the POM file
+			IFile pom = project.getFile("pom.xml"); //$NON-NLS-1$
+			if (pom.exists()) {
+			    mwVersion.modifyPOMFile(pom, checks, pack, monitor);
+			} else {
+			    return new Status(Status.ERROR, Activator.PLUGIN_ID,
+				    Messages.getString("Project.6"));
 			}
+			
+			// This is like refreshing, because we changed the pom
+			MavenPlugin.getProjectConfigurationManager()
+				.updateProjectConfiguration(project, monitor);
+			return Status.OK_STATUS;
+		    } catch (CoreException e) {
+			return e.getStatus();
+		    } catch (Exception e) {
+			e.printStackTrace();
+			return new Status(Status.ERROR, Activator.PLUGIN_ID,
+				e.getMessage());
+		    } finally {
+			monitor.done();
 		    }
-		    // Now edit the POM file
-		    IFile pom = project.getFile("pom.xml"); //$NON-NLS-1$
-		    if (pom.exists()) {
-			//This is to add phWorld and/or ont.profile deps, if template
-			boolean[] templateDeps={template, templateIndex==0};
-			// Modify the pom to be uaal-compliant
-			pom.setContents(
-				FileStreamUtils.customizePomStream(pack,
-					pom.getContents(), checks, templateDeps, mwVersion), true, true,
-				monitor);
-		    } else {
-			return new Status(
-				    Status.ERROR,
-				    Activator.PLUGIN_ID,
-				    org.universaal.tools.newwizard.plugin.wizards.Messages
-					    .getString("Project.7"));
-		    }
-		    // This is like refreshing, because we changed the pom
-		    MavenPlugin.getProjectConfigurationManager()
-			    .updateProjectConfiguration(project, monitor);
-		    return Status.OK_STATUS;
-		} catch (CoreException e) {
-		    return e.getStatus();
-		} catch (Exception e) {
-		    e.printStackTrace();
-		    return new Status(
-			    Status.ERROR,
-			    Activator.PLUGIN_ID,
-			    e.getMessage());
-		} finally {
-		    monitor.done();
-		}
 	    }
 	};
-	// Listener in case job fails
-	job.addJobChangeListener(new JobChangeAdapter() {
-	    public void done(IJobChangeEvent event) {
-		final IStatus result = event.getResult();
-		if (!result.isOK()) {
-		    Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-			    MessageDialog
-				    .openError(
-					    getShell(), //
-					    org.universaal.tools.newwizard.plugin.wizards.Messages
-						    .getString("Project.4"), result //$NON-NLS-1$
-						    .getMessage());
-			}
-		    });
-		}
-	    }
-	});
-	// Listener in case job fails
-	job2.addJobChangeListener(new JobChangeAdapter() {
-	    public void done(IJobChangeEvent event) {
-		final IStatus result = event.getResult();
-		if (!result.isOK()) {
-		    Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-			    MessageDialog
-				    .openError(
-					    getShell(), //
-					    org.universaal.tools.newwizard.plugin.wizards.Messages
-						    .getString("Project.5"), result //$NON-NLS-1$
-						    .getMessage());
-			}
-		    });
-		}
-	    }
-	});
+	// Listeners in case job fails
+	job1.addJobChangeListener(new JobFailureListener(Messages.getString("Project.7")));
+	job2.addJobChangeListener(new JobFailureListener(Messages.getString("Project.8")));
 
+	// Now execute the Jobs
 	ProjectListener listener = new ProjectListener();
 	workspace.addResourceChangeListener(listener,
 		IResourceChangeEvent.POST_CHANGE);
 	try {
 	    // Execute the first job (create maven)
-	    job.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
-	    job.schedule();
-
+	    job1.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
+	    job1.schedule();
 	    // MNGECLIPSE-766 wait until new project is created
 	    while (listener.getNewProject() == null
-		    && (job.getState() & (Job.WAITING | Job.RUNNING)) > 0) {
+		    && (job1.getState() & (Job.WAITING | Job.RUNNING)) > 0) {
 		try {
 		    Thread.sleep(100L);
 		} catch (InterruptedException ex) {
 		    // ignore
 		}
 	    }
+	    
 	    // Execute the second job (modify to uaal)
-	    // job2.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
 	    job2.schedule();
-
 	    // MNGECLIPSE-766 wait until new project is created
 	    while (listener.getNewProject() == null
 		    && (job2.getState() & (Job.WAITING | Job.RUNNING)) > 0) {
@@ -340,42 +263,14 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	}
 	return true;
     }
-
+    
+    //________HELPERS________
+    
     /**
-     * We will accept the selection in the workbench to see if we can initialize
-     * from it.
+     * Returns the Maven default folders.
      * 
-     * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
+     * @return Array with the names of folders
      */
-    public void init(IWorkbench workbench, IStructuredSelection selection) {
-	this.selection = selection;
-    }
-
-    public boolean canFinish() {
-	return page1.isPageComplete() && page2.isPageComplete();
-    }
-
-    static class ProjectListener implements IResourceChangeListener {
-	private IProject newProject = null;
-
-	public void resourceChanged(IResourceChangeEvent event) {
-	    IResourceDelta root = event.getDelta();
-	    IResourceDelta[] projectDeltas = root.getAffectedChildren();
-	    for (int i = 0; i < projectDeltas.length; i++) {
-		IResourceDelta delta = projectDeltas[i];
-		IResource resource = delta.getResource();
-		if (delta.getKind() == IResourceDelta.ADDED) {
-		    newProject = (IProject) resource;
-		}
-	    }
-	}
-
-	public IProject getNewProject() {
-	    return newProject;
-	}
-    }
-
-    // Returns the maven default folders
     public String[] getFolders() {
 	ProjectFolder[] mavenDirectories = JAR_DIRS;
 	String[] directories = new String[mavenDirectories.length];
@@ -385,7 +280,9 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	return directories;
     }
 
-    // Class for folder representation
+    /**
+     * Helper Class for Maven folder representation
+     */
     final static class ProjectFolder {
 	/** Folder path */
 	private String path = null;
@@ -408,44 +305,52 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	boolean isSourceEntry() {
 	    return this.getOutputPath() != null;
 	}
-
     }
     
     /**
-     * Returns the template folder from where to get the right template file for
-     * a desired wrapper class <code>colClass</code> for a full template
-     * project, which type is identified by <code>rowTemplate</code>.
-     * 
-     * @param rowTemplate
-     *            The index of type of full template project, according to the
-     *            dropdown combo of the second page of wizard
-     * @param colClass
-     *            The index of the desired wrapper class, according to
-     *            <code>classNames</code> vector.
-     * @return The name of the folder so it can be used with
-     *         <code>FileStreamUtils.customizeFileStream</code>. Returns empty
-     *         string if there is not supposed to be any <code>colClass</code>
-     *         wrapper class for this type of template.
+     * Helper Class listener to detect failures when creating project.
      */
-    private String getTemplateFolder(int rowTemplate,int colClass,int mwVer){
-	int k;
-	if(mwVer>1){
-	    k=templateMatrix110[rowTemplate][colClass];
-	}else{
-	    k=templateMatrix100[rowTemplate][colClass];
+    private class JobFailureListener extends JobChangeAdapter {
+	private String msg;
+
+	JobFailureListener(String message) {
+	    msg = message;
 	}
-	switch (k) {
-	case 1:
-	    return "generic_and_app";
-	case 2:
-	    return "actuator_and_appnogui";
-	case 3:
-	    return "gauge";
-	case 4:
-	    return "reasoner";
-	default:
-	    return "";
+
+	public void done(IJobChangeEvent event) {
+	    final IStatus result = event.getResult();
+	    if (!result.isOK()) {
+		Display.getDefault().asyncExec(new Runnable() {
+		    public void run() {
+			MessageDialog.openError(getShell(),
+				msg, result //$NON-NLS-1$
+					.getMessage());
+		    }
+		});
+	    }
 	}
     }
 
+    /**
+     * Helper Class listener to detect changes in projects (like finishing).
+     */
+    static class ProjectListener implements IResourceChangeListener {
+	private IProject newProject = null;
+	
+	public IProject getNewProject() {
+	    return newProject;
+	}
+
+	public void resourceChanged(IResourceChangeEvent event) {
+	    IResourceDelta root = event.getDelta();
+	    IResourceDelta[] projectDeltas = root.getAffectedChildren();
+	    for (int i = 0; i < projectDeltas.length; i++) {
+		IResourceDelta delta = projectDeltas[i];
+		IResource resource = delta.getResource();
+		if (delta.getKind() == IResourceDelta.ADDED) {
+		    newProject = (IProject) resource;
+		}
+	    }
+	}
+    }
 }
