@@ -30,12 +30,12 @@
             id="org.universaal.tools.newwizard.plugin.command">
       </category>
       <command
-            name="Create a new Project"
+            name="Create a new application project"
             categoryId="org.universaal.tools.newwizard.plugin.command"
             id="org.universaal.tools.newwizard.plugin.command.startNewWizard">
       </command>
       <command
-            name="Create a new Item"
+            name="Create a new wrapper class"
             categoryId="org.universaal.tools.newwizard.plugin.command"
             id="org.universaal.tools.newwizard.plugin.command.startNewItemWizard">
       </command>
@@ -58,12 +58,14 @@
          <command
                commandId="org.universaal.tools.newwizard.plugin.command.startNewWizard"
                id="org.universaal.tools.newwizard.plugin.menu.newproject"
-               mnemonic="P">
+               mnemonic="P"
+               icon="icons/newuaal_proj.gif">
          </command>
          <command
                commandId="org.universaal.tools.newwizard.plugin.command.startNewItemWizard"
                id="org.universaal.tools.newwizard.plugin.menu.newitem"
-               mnemonic="I">
+               mnemonic="C"
+               icon="icons/newuaal_clss.gif">
          </command>
       </menuContribution>
    </extension >
