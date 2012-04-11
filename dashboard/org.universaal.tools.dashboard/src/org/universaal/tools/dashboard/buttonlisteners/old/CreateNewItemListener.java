@@ -16,59 +16,57 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
  */
-package org.universaal.tools.dashboard.buttonlisteners;
+package org.universaal.tools.dashboard.buttonlisteners.old;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * Class that calls the Upload Open Source command when that button is pressed on 
+ * Class that calls the Create New Item command when that button is pressed on 
  * the Dashboard.
  * @author Adrian
  *
  */
-public class UploadOpenSourceListener implements SelectionListener {
-
+public class CreateNewItemListener implements SelectionListener{
+	
 	ViewPart view;
 	
-	public UploadOpenSourceListener(ViewPart input) {
-		this.view = input;
+	public CreateNewItemListener(ViewPart view){
+		this.view = view;
 	}
 
 	@Override
-	public void widgetSelected(SelectionEvent e) {
+	public void widgetDefaultSelected(SelectionEvent arg0) {
+		
+	}
+
+	@Override
+	public void widgetSelected(SelectionEvent arg0) {
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
 		try {
-			handlerService.executeCommand("org.universaal.tools.uploadopensourceplugin.commands.uploadopensource", null);
-		} catch (ExecutionException e1) {
-			e1.printStackTrace();
-		} catch (NotDefinedException e1) {
+			handlerService.executeCommand("org.universaal.tools.newwizard.plugin.command.startNewItemWizard", null);
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (NotDefinedException e) {
 			MessageDialog.openInformation(view.getSite().getShell(),
 					"Command not defined.",
 					"This command was not available. " +
-					"Please install AAL Studio Developer Depot plugin.");
-			e1.printStackTrace();
-		} catch (NotEnabledException e1) {
-			e1.printStackTrace();
-		} catch (NotHandledException e1) {
-			e1.printStackTrace();
+					"Please install AAL Studio New Wizards Plugin.");
+			e.printStackTrace();
+		} catch (NotEnabledException e) {
+			e.printStackTrace();
+		} catch (NotHandledException e) {
+			e.printStackTrace();
 		}
-
-	}
-
-	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
 		
-		
-		
-
 	}
 
 }

@@ -16,7 +16,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
  */
-package org.universaal.tools.dashboard.buttonlisteners;
+package org.universaal.tools.dashboard.buttonlisteners.old;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
@@ -29,42 +29,45 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * Class that calls the Import AAL Studio Example command when that button 
+ * Class that calls the Import Third Party Application command when that button 
  * is pressed on the Dashboard.
  * @author Adrian
  *
  */
-public class ImportExampleListener implements SelectionListener {
-	
+public class ImportThirdPartyListener implements SelectionListener {
+
 	ViewPart view;
-	
-	public ImportExampleListener(ViewPart view){
+
+	public ImportThirdPartyListener(ViewPart view) {
 		this.view = view;
 	}
 
 	@Override
-	public void widgetDefaultSelected(SelectionEvent arg0) {
-
-	}
-
-	@Override
-	public void widgetSelected(SelectionEvent arg0) {
+	public void widgetSelected(SelectionEvent e) {
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
+
 		try {
-			handlerService.executeCommand("org.universaal.importexternalproject.commands.importexample", null);
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (NotDefinedException e) {
+			handlerService.executeCommand("org.universaal.importexternalproject.commands.importthirdparty", null);
+		} catch (ExecutionException e1) {
+			e1.printStackTrace();
+		} catch (NotDefinedException e1) {
 			MessageDialog.openInformation(view.getSite().getShell(),
 					"Command not defined.",
 					"This command was not available. " +
 					"Please install AAL Studio Developer Depot Client Plugin.");
-			e.printStackTrace();
-		} catch (NotEnabledException e) {
-			e.printStackTrace();
-		} catch (NotHandledException e) {
-			e.printStackTrace();
+			e1.printStackTrace();
+		} catch (NotEnabledException e1) {
+			e1.printStackTrace();
+		} catch (NotHandledException e1) {
+			e1.printStackTrace();
 		}
+
+
+
+	}
+
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
 
 	}
 

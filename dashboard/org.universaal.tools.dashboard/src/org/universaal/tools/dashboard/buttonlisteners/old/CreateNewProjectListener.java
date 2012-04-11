@@ -16,7 +16,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
  */
-package org.universaal.tools.dashboard.buttonlisteners;
+package org.universaal.tools.dashboard.buttonlisteners.old;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;

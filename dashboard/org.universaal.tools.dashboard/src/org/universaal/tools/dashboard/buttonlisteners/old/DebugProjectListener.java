@@ -16,7 +16,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
  */
-package org.universaal.tools.dashboard.buttonlisteners;
+package org.universaal.tools.dashboard.buttonlisteners.old;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
@@ -29,29 +29,29 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * Class that calls the Upload Project command when that button is pressed on 
+ * Class that calls the Debug Project command when that button is pressed on 
  * the Dashboard.
  * @author Adrian
  *
  */
-public class UploadProjectListener implements SelectionListener {
-	
-	ViewPart view;
+public class DebugProjectListener implements SelectionListener{
 
-	public UploadProjectListener(ViewPart view) {
+	ViewPart view;
+	
+	public DebugProjectListener(ViewPart view){
 		this.view = view;
 	}
-
+	
 	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
-
+		
 	}
 
 	@Override
 	public void widgetSelected(SelectionEvent arg0) {
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
 		try {
-			handlerService.executeCommand("org.universaal.tools.buildserviceapplication.actions.UploadAction", null);
+			handlerService.executeCommand("org.universaal.tools.buildserviceapplication.actions.DebugAction", null);
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (NotDefinedException e) {
@@ -65,7 +65,9 @@ public class UploadProjectListener implements SelectionListener {
 		} catch (NotHandledException e) {
 			e.printStackTrace();
 		}
-
+		
 	}
+	
+	
 
 }

@@ -16,49 +16,42 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
  */
-package org.universaal.tools.dashboard.buttonlisteners;
-
+package org.universaal.tools.dashboard.buttonlisteners.old;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * Class that calls the Build Project command when that button is pressed on 
+ * Class that calls the Run Project command when that button is pressed on 
  * the Dashboard.
  * @author Adrian
  *
  */
-public class BuildProjectListener implements MouseListener{
+public class RunProjectListener implements SelectionListener {
 
 	ViewPart view;
 	
-	public BuildProjectListener(ViewPart view){
-		this.view=view;
+	public RunProjectListener(ViewPart view) {
+		this.view = view;
 	}
 
 	@Override
-	public void mouseDoubleClick(MouseEvent arg0) {
+	public void widgetDefaultSelected(SelectionEvent arg0) {
+
 	}
 
 	@Override
-	public void mouseDown(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mouseUp(MouseEvent arg0) {
+	public void widgetSelected(SelectionEvent arg0) {
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
-		
 		try {
-			handlerService.executeCommand("org.universaal.tools.buildserviceapplication.actions.BuildAction", null);
-			
+			handlerService.executeCommand("org.universaal.tools.buildserviceapplication.actions.RunAction", null);
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (NotDefinedException e) {
@@ -72,7 +65,7 @@ public class BuildProjectListener implements MouseListener{
 		} catch (NotHandledException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

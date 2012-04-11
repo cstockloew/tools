@@ -36,13 +36,13 @@ import org.universaal.tools.dashboard.views.DashboardView;
  * @author Adrian
  *
  */
-public class ProjectNameListener implements ISelectionListener {
+public class ProjectElementSelectionListener implements ISelectionListener {
 	
 	IWorkbenchPart part;
 	IWorkbenchPart source;
 	ISelection selection;
 	
-	public ProjectNameListener(IWorkbenchPart source){
+	public ProjectElementSelectionListener(IWorkbenchPart source){
 		this.source = source;
 	}
 
@@ -71,24 +71,42 @@ public class ProjectNameListener implements ISelectionListener {
 		Object element;
 		IPath path;
 		
+		
+		String resString = "";
+		
 		element = sel.getFirstElement();
 		
 		if(element instanceof IResource){
+			resString = "Resource: " + ((IResource) element).getFullPath();
 			project = ((IResource)element).getProject();
+//			resString = "Resource ";
 		}else if (element instanceof PackageFragment){
+			resString = "PackageFragment: " + ((PackageFragment) element).getPath().toString();
 			IJavaProject jProject = ((PackageFragment)element).getJavaProject();
 			project = jProject.getProject();
+			//resString = "PackageFragement ";
 		}else if (element instanceof IJavaElement){
+			resString = "Java: " + ((IJavaElement) element).getPath().toString();
 			IJavaProject jProject = ((IJavaElement)element).getJavaProject();
-			project = jProject.getProject();
+			project = jProject.getProject();			
 		}
-		
+		else {
+			//if (element != null)
+			//	resString = "Other: " + element.toString();
+			return;
+		}
+/*		
 		if(project!=null){
 			path = project.getFullPath();
-			((DashboardView)source).setProjectName(path.toPortableString());
+//			((DashboardView)source).setProjectName(resString + path.toPortableString());
+//			element.
 		}
+*/		
+		((DashboardView)source).setSelectedElementWithContext(element, resString, project, part);
 		
-		((DashboardView)source).setCurrentProject(project);
+		
+		//((DashboardView)source).setProjectName(part.getTitle() + " " + part.getSite().getId() + " " + resString);				
+		//((DashboardView)source).setCurrentProject(project);
 		
 		
 		

@@ -16,55 +16,67 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
  */
-package org.universaal.tools.dashboard.buttonlisteners;
+package org.universaal.tools.dashboard.buttonlisteners.old;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * Class that calls the Publish Project command when that button is pressed on 
+ * Class that calls the Transform command when that button is pressed on 
  * the Dashboard.
  * @author Adrian
  *
  */
-public class PublishProjectListener implements SelectionListener {
+public class TransformListener implements MouseListener {
 
 	ViewPart view;
-	
-	public PublishProjectListener(ViewPart view) {
+
+
+	public TransformListener(ViewPart view){
 		this.view = view;
 	}
 
 	@Override
-	public void widgetDefaultSelected(SelectionEvent arg0) {
+	public void mouseDoubleClick(MouseEvent e) {
 
 	}
 
 	@Override
-	public void widgetSelected(SelectionEvent arg0) {
+	public void mouseDown(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseUp(MouseEvent e) {
 		IHandlerService handlerService = (IHandlerService)view.getSite().getService(IHandlerService.class);
+
 		try {
-			handlerService.executeCommand("org.universaal.tools.buildserviceapplication.actions.PublishAction", null);
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (NotDefinedException e) {
-			MessageDialog.openInformation(view.getSite().getShell(),
+			handlerService.executeCommand("org.universaal.tools.transformationcommand.commands.ontUML2Java", null);
+		} catch (ExecutionException e1) {
+			e1.printStackTrace();
+		} catch (NotDefinedException e1) {
+			MessageDialog.openError(view.getSite().getShell(),
 					"Command not defined.",
 					"This command was not available. " +
-					"Please install AAL Studio BuildPlugin.");
-			e.printStackTrace();
-		} catch (NotEnabledException e) {
-			e.printStackTrace();
-		} catch (NotHandledException e) {
-			e.printStackTrace();
+					"Please install AAL Studio Transform Plugin.");
+			e1.printStackTrace();
+		} catch (NotEnabledException e1) {
+			e1.printStackTrace();
+		} catch (NotHandledException e1) {
+			MessageDialog.openError(view.getSite().getShell(),
+					"Not a valid selection.",
+					"Please select a valid target for the transformation command.");
+			e1.printStackTrace();
 		}
+
+
 
 	}
 
