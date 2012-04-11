@@ -95,33 +95,24 @@ public class DashboardView extends ViewPart {
 			TabItem tbtmCreatingAnAal = new TabItem(tabFolder, SWT.NONE);
 			tbtmCreatingAnAal.setText("Creating an AAL Service");
 			
-			MySWT mySWT = new MySWT(tabFolder, SWT.NONE);
-			tbtmCreatingAnAal.setControl(mySWT);
+			ApplicationView applicationView = new ApplicationView(tabFolder, SWT.NONE);
+			applicationView.createActions(this);
+			tbtmCreatingAnAal.setControl(applicationView);
 			
 			TabItem tbtmOntologyProject = new TabItem(tabFolder, SWT.NONE);
 			tbtmOntologyProject.setText("Creating an Ontology");
 			
-			OntologyView ontologyView2 = new OntologyView(tabFolder, SWT.NONE);
-			ontologyView2.createActions(this);
-			tbtmOntologyProject.setControl(ontologyView2);			
-			new Label(ontologyView2, SWT.NONE);
-
+			OntologyView ontologyView = new OntologyView(tabFolder, SWT.NONE);
+			ontologyView.createActions(this);
+			tbtmOntologyProject.setControl(ontologyView);			
 		}
 		scrolledComposite.setContent(tabFolder);
 		scrolledComposite.setMinSize(tabFolder.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-		createActions();
 		initializeToolBar();
 		initializeMenu();
 		hookPageSelection();
 
-	}
-
-	/**
-	 * Use this method to create all the buttonlisteners, and assign them to 
-	 * their respective buttons.
-	 */
-	private void createActions() {
 	}
 
 	/**

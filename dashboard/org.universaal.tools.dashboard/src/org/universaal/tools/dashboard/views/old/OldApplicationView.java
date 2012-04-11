@@ -41,7 +41,7 @@ import org.universaal.tools.dashboard.buttonlisteners.old.UploadOpenSourceListen
 import org.universaal.tools.dashboard.listeners.ProjectElementSelectionListener;
 
 
-public class ApplicationView extends Composite {
+public class OldApplicationView extends Composite {
 
 	private Button btnImportProject;
 	private Button btnCreateClass;
@@ -71,7 +71,7 @@ public class ApplicationView extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public ApplicationView(Composite parent, int style) {
+	public OldApplicationView(Composite parent, int style) {
 		super(parent, style);
 		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledComposite.setExpandHorizontal(true);
