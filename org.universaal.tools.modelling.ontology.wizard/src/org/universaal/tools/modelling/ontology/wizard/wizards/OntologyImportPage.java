@@ -32,7 +32,7 @@ public class OntologyImportPage extends WizardPage {
 		setControl(container);
 		container.setLayout(new GridLayout(1, false));
 		
-		ListViewer listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
+		ListViewer listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
 		List list = listViewer.getList();
 		list.setItems(new String[] {"org.universaal.middleware.owl", "org.universaal.middleware.service.owl", "org.universaal.ontology.phThing"});
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
