@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -146,12 +147,21 @@ public class DuplicateUMLTemplate extends AbstractHandler {
 
 			package_ = (org.eclipse.uml2.uml.Package) EcoreUtil.getObjectByType(resource.getContents(),
 					UMLPackage.Literals.PACKAGE);
+			
+			
+			
 		} catch (WrappedException we) {
 			err(we.getMessage());
 		}
 
 		return package_;
 	}
+	
+	
+	protected void replaceTemplateNames() {
+//		Collection<NamedElement> elements = 		findNamedElements(org.eclipse.emf.ecore.resource.ResourceSet resourceSet, java.lang.String qualifiedName)
+	}
+	
 	
 	protected void importPrimitiveTypes(org.eclipse.uml2.uml.Package model) {
 		Model umlLibrary = (Model) load(URI
@@ -161,6 +171,8 @@ public class DuplicateUMLTemplate extends AbstractHandler {
 		umlBoolean = (PrimitiveType) umlLibrary.getOwnedType("Boolean");
 		model.createElementImport(umlString);
 		model.createElementImport(umlBoolean);
+		Package importedPackage = umlLibrary.getNestedPackage("");
+		model.createPackageImport(importedPackage);
 	}	
 	
 	
