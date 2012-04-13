@@ -38,8 +38,9 @@ public class CPublisher extends ContextPublisher {
 	 */
 	ContextProvider cp = new ContextProvider(CONTEXT_OWN_NAMESPACE
 		+ "ContextProvider");
-	// TODO: Change Namespace
+	// TODO: Change Namespace and define published events
 	cp.setType(ContextProviderType.reasoner);
+	cp.setProvidedEvents(new ContextEventPattern[] { new ContextEventPattern() });
 	return cp;
     }
 
