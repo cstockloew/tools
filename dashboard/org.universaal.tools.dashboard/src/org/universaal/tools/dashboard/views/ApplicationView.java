@@ -109,7 +109,7 @@ public class ApplicationView extends Composite {
 		grpApplicationBinary.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		btnTestConformance = new Button(grpApplicationBinary, SWT.NONE);
-		btnTestConformance.setEnabled(false);
+		btnTestConformance.setEnabled(true);
 		btnTestConformance.setText("Test Conformance");
 		
 		btnRun = new Button(grpApplicationBinary, SWT.NONE);
@@ -199,7 +199,7 @@ public class ApplicationView extends Composite {
 		addCommandCallingListener(btnExtractParameters, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
 		
 		//Application Binary
-		//		btnTestConformance.addSelectionListener(new TemporaryListener(this, "Test Conformance"));
+		addCommandCallingListener(btnTestConformance, "org.universaal.tools.conformanceTools.commands.ConformanceToolsRun", "AAL Studio Conformance Tools");
 		addCommandCallingListener(btnRun,"org.universaal.tools.buildserviceapplication.actions.RunAction", "AAL Studio Build");
 		addCommandCallingListener(btnDebug,"org.universaal.tools.buildserviceapplication.actions.DebugAction", "AAL Studio Build");
 
