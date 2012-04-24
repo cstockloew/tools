@@ -1,12 +1,15 @@
 package org.universAAL.ucc.core.configuration;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -85,6 +88,12 @@ public class Configurator implements IConfigurator {
 			return "App Registration failed!";
 		if(!Activator.getModel().getApplicationRegistration().writeToConfigFile(appName,Activator.getInformation().getRunDir()))
 			return "Error writing Configuration File!";
+		String[] order=readStartupOrder(install_base);
+		if(order!=null){
+			ArrayList<Bundle> orderedbundles=sortBundles(bundles, order);
+			if(orderedbundles!=null) bundles=orderedbundles;
+		}
+		
 		Iterator<Bundle> itr=bundles.iterator();
 		while(itr.hasNext()){
 			Bundle b=itr.next();
@@ -300,5 +309,50 @@ public class Configurator implements IConfigurator {
 
 	public boolean checkEnteredValues(){
 		return configuration.checkEnteredValues();
+	}
+	
+	private String[] readStartupOrder(String path){
+		 	String[] order = new String[9];
+		    
+		    
+		    FileInputStream fis=null;
+			try {
+				fis=new FileInputStream(path+"/startup.txt");
+			} catch (FileNotFoundException e) {
+					System.out.println("Couldn't find startup.txt");
+					return null;
+			}
+			Scanner scanner = new Scanner(fis, "UTF-8");
+			int i=0;
+		    try {
+		      while (scanner.hasNextLine()){
+		        order[i]=scanner.nextLine();
+		        i++;
+		      }
+		    }
+		    finally{
+		      scanner.close();
+		    }
+		    return order;
+	}
+	private ArrayList<Bundle> sortBundles(ArrayList<Bundle> bundles, String[] order){
+		ArrayList<Bundle> orderedBundles = new ArrayList<Bundle>();
+		if(order.length!=bundles.size()) return null;
+		Bundle current;
+		for(int i=0;i<order.length;i++){
+			current=findBySymbolicName(order[i], bundles);
+			if(current==null) return null;
+			orderedBundles.add(current);
+		}
+		return orderedBundles;
+	}
+	private Bundle findBySymbolicName(String sn, ArrayList<Bundle> bundles){
+		Iterator<Bundle>itr=bundles.iterator();
+		Bundle current;
+		while(itr.hasNext()){
+			current=itr.next();
+			if(current.getSymbolicName().equals(sn)) return current;
+		}
+		return null;
 	}
 }
