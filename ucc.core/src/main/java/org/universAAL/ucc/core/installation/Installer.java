@@ -1,5 +1,7 @@
 package org.universAAL.ucc.core.installation;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -11,6 +13,10 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 
 import org.osgi.framework.Bundle;
@@ -86,7 +92,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 		}
 		if(!jarok) throw new Exception("There is no installable jar File in uaal Package!");
 		if(!configok) throw new Exception("config.owl file not found!");
-		if(!eulaok) throw new Exception("No License agreement found!");
+		//if(!eulaok) throw new Exception("No License agreement found!");
 	}
 	
 
@@ -139,7 +145,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 private String extractBundles(String path) {
       
 	String destDir = path.substring(path.lastIndexOf(File.separator) + 1,path.lastIndexOf("."));
-	destDir =Activator.getInformation().getRunDir()+Activator.getInformation().getBundleDir()+ destDir;
+	destDir =Activator.getInformation().getBundleDir()+"/"+ destDir;
 	File appDir=new File(destDir);
 	int suffix=1;
 	int slength=0;
@@ -151,26 +157,16 @@ private String extractBundles(String path) {
 	}
 	appDir.mkdir();
 	try {
-		JarFile jar;
-		jar = new JarFile(path);
-	Enumeration<JarEntry> e = jar.entries();
-	while (e.hasMoreElements()) {
-		JarEntry file = (JarEntry) e.nextElement();
-		File f = new File(destDir + File.separator + file.getName());
-		InputStream is = jar.getInputStream(file); // get the input stream
-		FileOutputStream fos = new java.io.FileOutputStream(f);
-		while (is.available() > 0) {  // write contents of 'is' to 'fos'
-			fos.write(is.read());
-		}
-		fos.close();
-		is.close();
+		extractFolder(path, destDir);
+	} catch (ZipException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
-	return destDir;
-	} catch (IOException e1) {
-		Deinstaller.deleteFolder(appDir);
-		return null;
-	}	
-    }
+		return destDir;
+	}
 
 public void revertInstallation(File folder){
 	Iterator<Bundle> itr=installedBundles.iterator();
@@ -185,5 +181,55 @@ public void revertInstallation(File folder){
 		}
 	}
 	Deinstaller.deleteFolder(folder);
+}
+
+static public void extractFolder(String zipFile, String destdir) throws ZipException, IOException 
+{
+    System.out.println(zipFile);
+    int BUFFER = 2048;
+    File file = new File(zipFile);
+
+    ZipFile zip = new ZipFile(file);
+    String newPath = destdir;
+
+    new File(newPath).mkdir();
+    Enumeration zipFileEntries = zip.entries();
+
+    // Process each entry
+    while (zipFileEntries.hasMoreElements())
+    {
+        // grab a zip file entry
+        ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
+        String currentEntry = entry.getName();
+        File destFile = new File(newPath, currentEntry);
+        //destFile = new File(newPath, destFile.getName());
+        File destinationParent = destFile.getParentFile();
+
+        // create the parent directory structure if needed
+        destinationParent.mkdirs();
+
+        if (!entry.isDirectory())
+        {
+            BufferedInputStream is = new BufferedInputStream(zip
+            .getInputStream(entry));
+            int currentByte;
+            // establish buffer for writing file
+            byte data[] = new byte[BUFFER];
+
+            // write the current file to disk
+            FileOutputStream fos = new FileOutputStream(destFile);
+            BufferedOutputStream dest = new BufferedOutputStream(fos,
+            BUFFER);
+
+            // read and write until last byte is encountered
+            while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
+                dest.write(data, 0, currentByte);
+            }
+            dest.flush();
+            dest.close();
+            is.close();
+        }
+
+    }
 }
 }

@@ -20,12 +20,13 @@ public class Information implements IInformation {
 	
 		if(countOccurrences(bundlePath)==2){
 			rundir= bundlePath.substring(bundlePath.indexOf(":")+2, bundlePath.lastIndexOf("/"));
+			bundledir=rundir;
 			System.out.println(rundir);
 			rundir= rundir.substring(0, rundir.lastIndexOf("/"));
 			System.out.println(rundir);
 			rundir= rundir.substring(0, rundir.lastIndexOf("/")+1);
 			System.out.println(rundir);
-			bundledir="plugins/";
+	
 		}else{
 			/*rundir= bundlePath.substring(bundlePath.indexOf(":")+1, bundlePath.lastIndexOf("/")+1);
 			System.out.println(rundir);*/
