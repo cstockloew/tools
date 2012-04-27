@@ -860,9 +860,6 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
 	if (classesReferredTo.isEmpty())
 	  classesReferredTo.put("org.universAAL.middleware.owl.ManagedIndividual", " ")
 	  
-	//get import for  root package
-    //var myRootImport:String = self.getFullOwnerPackageName() + '.*'
-    //classesReferredTo.put(myRootImport," ")
     
 	// Next, find properties  
 	var props:Hashtable = propertyHashtable.get(self.name)  
@@ -1135,7 +1132,7 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
         newList.add(propList); // Handle special case of a single previous item not contained in a list
     }
     newList.add(newValue);
-    setProperty('propertyLongName', newList);
+    changeProperty('propertyLongName', newList);
   }
 '
   } else {
@@ -1151,7 +1148,7 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
     for (int i = 0; i < propertyValue.length; i++) {
       propList.add(propertyValue[i]);
     }
-    setProperty('propertyLongName', propList);
+    changeProperty('propertyLongName', propList);
   }
 '		
  
@@ -1170,7 +1167,7 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
   }		
 
   public void set'methodName'(boolean newPropValue) {
-      setProperty('propertyLongName', new Boolean(newPropValue));
+      changeProperty('propertyLongName', new Boolean(newPropValue));
   }		
 '		
    }
@@ -1186,7 +1183,7 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
   }		
 
   public void set'methodName'(int newPropValue) {
-      setProperty('propertyLongName', new Integer(newPropValue));
+      changeProperty('propertyLongName', new Integer(newPropValue));
   }		
 '		
    }
@@ -1202,7 +1199,7 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
   }		
 
   public void set'methodName'(long newPropValue) {
-      setProperty('propertyLongName', new Long(newPropValue));
+      changeProperty('propertyLongName', new Long(newPropValue));
   }		
 '		
    }
@@ -1218,7 +1215,7 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
   }		
 
   public void set'methodName'(float newPropValue) {
-      setProperty('propertyLongName', new Float(newPropValue));
+      changeProperty('propertyLongName', new Float(newPropValue));
   }		
 '		
    }
@@ -1235,7 +1232,7 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
 
   public void set'methodName'('typeName' newPropValue) {
     if (newPropValue != null)
-      setProperty('propertyLongName', newPropValue);
+      changeProperty('propertyLongName', newPropValue);
   }		
 '		
    }
