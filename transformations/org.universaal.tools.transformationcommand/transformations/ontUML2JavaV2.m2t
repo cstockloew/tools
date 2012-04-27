@@ -32,6 +32,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
   
   var ontologyClassList:Hashtable 
   var ontologyEnumerationList:Hashtable 
+  var subPackageList:Hashtable
   
   
  
@@ -67,6 +68,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
   	self.ownedMember -> forEach( p:uml.Package ){   
   	   ontologyClassList = null
        ontologyEnumerationList = null
+       subPackageList = null
         
   	   if (!p.hasStereotype("owlOntology")) {
 			StdOut.println("WARNING!!! The model must be stereotyped with owlOntology and default namespace must be set!")  
@@ -89,10 +91,12 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
       
         //recursively create the ontology classes and enumerations
         p.processOntologyPackage()  
+		subPackageList.remove(p.getFullPackageName().trim()) //remove own reference      
         StdOut.println("RETURNED from process main with C/E sizes:" + ontologyClassList.size() + "/" + ontologyEnumerationList.size()) 
            
 		//then the main ontology class and the factories for each package.		
 		StdOut.println("Handling main ontology class for :" + p.name) 
+		
    		p.generateMainOntologyClass(ontologyClassList, ontologyEnumerationList)
   	
    		
@@ -100,6 +104,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
    		
    		//at the package to list of ontologies
    		ontologyNameList.put(p.name.trim(), ontologyName)
+   		
   	}
 
 
@@ -112,6 +117,8 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
   }
  
  	uml.Package::processOntologyPackage() {
+			//add package name to list of packages
+			subPackageList.put(self.getFullPackageName().trim(), "") 	    
  	    
  	      	//Create a hashtable containing the properties of the classes in the model.  		
    			StdOut.println("Handling properties of classes (not interfaces) in the package: " + self.name)
@@ -171,7 +178,7 @@ public class Activator implements BundleActivator {
   '
   ontNameList.keys()->forEach(oName:String){
   '
-  'ontNameList.get(oName)'Ontology _' ontNameList.get(oName) 'ontology = new ' ontNameList.get(oName) 'Ontology();
+  'ontNameList.get(oName).firstToUpper()'Ontology _' ontNameList.get(oName) 'ontology = new ' ontNameList.get(oName).firstToUpper() 'Ontology();
   
   '
   }
@@ -205,11 +212,15 @@ public class Activator implements BundleActivator {
 
   uml.Package::generateMainOntologyClass(ontologyClassList:Hashtable, ontologyEnumerationList:Hashtable) {
    
-	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/' + ontologyName + "Ontology.java" )
+	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/' + ontologyName.firstToUpper() + "Ontology.java" )
 	Stdout.println("MAIN: creating main ontology class. Should contain " + ontologyClassList.size() + " classes and " + ontologyEnumerationList.size() + " enumerations" )
 
+	var importName:String
+	importName= self.getFullPackageName()
+    
+		
 '
-package ' self.name ';
+package ' importName ';
 
 import org.universAAL.middleware.owl.BoundingValueRestriction;
 import org.universAAL.middleware.owl.DataRepOntology;
@@ -228,42 +239,41 @@ import org.universAAL.ontology.location.LocationOntology;
 
 var factoryImportList: Hashtable
 
-ontologyClassList->forEach(c : uml.Class) {
-	var importList:Hashtable = c.getImportsForClass()
-	importList.keys()->forEach(impString:String) {
-    	//insert the key into the factoryImportList
-    	factoryImportList.put(impString, c)
+	ontologyClassList->forEach(c : uml.Class) {
+		var importList:Hashtable = c.getImportsForClass()
+		importList.keys()->forEach(impString:String) {
+    		//insert the key into the factoryImportList
+    		factoryImportList.put(impString, c)
     	}
-    
+    }
+
+	subPackageList.keys()->forEach(impString:String) {
+    	//insert the key into the factoryImportList
+    	factoryImportList.put(impString + ".*", "")
     }
     
-//now print the import statements
-factoryImportList.keys()->forEach(impString:String) {
- 	'import 'impString';\n'
- }
+    
+	//now print the import statements
+    factoryImportList.keys()->forEach(impString:String) {
+ 		'import 'impString';\n'
+ 	}
  
-'\n\n'
+	'\n'
 
-/**
-import org.universAAL.middleware.owl.ManagedIndividual; 
-import org.universAAL.middleware.service.owl.Service;
-import org.universAAL.ontology.location.Location;
-import org.universAAL.ontology.phThing.Device; 
-*/
 '
-
-import ' self.name '.' ontologyName 'Factory;
+//import the factory for this ontology
+import ' importName.substring(0, importName.lastIndexOf(".")).replace("\\.", "/")  '.' ontologyName.firstToUpper() 'Factory;
 
 
 /**
  * @author AAL Studio: UML2Java transformation
  */
-public final class ' ontologyName 'Ontology extends Ontology {
+public final class ' ontologyName.firstToUpper() 'Ontology extends Ontology {
 
-  private static ' ontologyName 'Factory factory = new ' ontologyName 'Factory();
+  private static ' ontologyName.firstToUpper() 'Factory factory = new ' ontologyName.firstToUpper() 'Factory();
   public static final String NAMESPACE ="' ontologyNamespace '#";
 	
-  public ' ontologyName 'Ontology() {
+  public ' ontologyName.firstToUpper() 'Ontology() {
     super(NAMESPACE);
   }
 
@@ -454,17 +464,29 @@ public final class ' ontologyName 'Ontology extends Ontology {
           
     var pName:String = self.getFullPackageName()
     
-	file( javaBasePath + "/" + pName.substring(0, pName.lastIndexOf(".")).replace("\\.", "/") + '/' + ontologyName + "Factory.java" )
+	file( javaBasePath + "/" + pName.substring(0, pName.lastIndexOf(".")).replace("\\.", "/") + '/' + ontologyName.firstToUpper() + "Factory.java" )
     
 '
-package ' pName ';
+package ' pName.substring(0, pName.lastIndexOf(".")).replace("\\.", "/")  ';
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.impl.ResourceFactoryImpl;
 
-public class ' ontologyName 'Factory extends ResourceFactoryImpl {
+'
+//The factory is now in another package than the classes. Must import the classes.
+//At the time this rule is invoked, all the relevant classes are in ontologyClassList and the enums in ontologyEnumList
+
+ontologyClassList->forEach(c : uml.Class) {
+	'
+import ' + c.getFullPackageName() + ';'
+}
+
+
+'
+
+public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl {
 
 
   public Resource createInstance(String classURI, String instanceURI, int factoryIndex) {
@@ -652,7 +674,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
   private int order;
 
   private 'self.name'(int order) {
-    super('ontologyName'Ontology.NAMESPACE + names[order]);
+    super('ontologyName.firstToUpper()'Ontology.NAMESPACE + names[order]);
     this.order = order;
   }
 
@@ -692,8 +714,8 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	if (name == null)
 	    return null;
 
-	if (name.startsWith('ontologyName'Ontology.NAMESPACE))
-	    name = name.substring('ontologyName'Ontology.NAMESPACE.length());
+	if (name.startsWith('ontologyName.firstToUpper()'Ontology.NAMESPACE))
+	    name = name.substring('ontologyName.firstToUpper()'Ontology.NAMESPACE.length());
 
 	for (int i = 'self.ownedLiteral.first().toUpperFormat()'; i <= 'self.ownedLiteral.last().toUpperFormat()'; i++)
 	    if (names[i].equals(name))
@@ -804,14 +826,24 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
     'import java.util.Hashtable;\n'
 	'import java.util.ArrayList;\n'
 	'import java.util.List;\n\n'
-    
+	
+	//must import the main ontology class package. As we support n levels we need to get the name of the root package
+	//hence, we must get the name of the root package. This name is in the qualified name variable, but must be extrakted
+	var mainPackageName:String 
+	mainPackageName = self.qualifiedName.substringAfter("::").substringBefore("::")
+	if (!self.package.name.trim().equals(mainPackageName)){
+	'import ' mainPackageName '.' ontologyName.firstToUpper() 'Ontology;\n'
+	}
+
+    //get the other imports. Duplicate imports for classes in main ont package may occur
     var importList:Hashtable = self.getImportsForClass()
     importList.keys()->forEach(impString:String) {
-    	'import 'impString';\n'
+      	if (!self.package.name.trim().equals(impString)){
+	    	'import 'impString';\n'
+    	}
     }
     '\n\n'
   }
-
 
 
   uml.Class::getImportsForClass():Hashtable {
@@ -829,8 +861,8 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	  classesReferredTo.put("org.universAAL.middleware.owl.ManagedIndividual", " ")
 	  
 	//get import for  root package
-    var myRootImport:String = self.getFullOwnerPackageName() + '.*'
-    classesReferredTo.put(myRootImport," ")
+    //var myRootImport:String = self.getFullOwnerPackageName() + '.*'
+    //classesReferredTo.put(myRootImport," ")
     
 	// Next, find properties  
 	var props:Hashtable = propertyHashtable.get(self.name)  
@@ -850,6 +882,9 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	}
 	return classesReferredTo  
   } 
+
+
+  
 
   //get the full name of the root package
   uml.Classifier::getFullOwnerPackageName():String {
@@ -877,7 +912,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
   }
 
   uml.Class::genPropertyDeclaration() {
-    '  public static final String MY_URI = ' ontologyNamespaceReference '\n'
+    '  public static final String MY_URI = ' ontologyNamespaceReference.firstToUpper() '\n'
     '    + "' self.name.trim() '";\n' 
     
     //get the property's hashtable and intialize the properties
@@ -885,7 +920,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
     
     //properties first
     props->forEach(att: uml.Property) {
-  	    '  public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference '\n'
+  	    '  public static final String PROP_' att.toUpperFormat() ' = ' ontologyNamespaceReference.firstToUpper() '\n'
   	    '    + "' att.name.trim() '";\n'
 	}
 
@@ -893,7 +928,7 @@ public class ' ontologyName 'Factory extends ResourceFactoryImpl {
 	props->forEach (ass : uml.Association) // | ass.endType.first().name.trim().equals(self.name.trim()) ) 
 	{
 	  //stdout.println("INFO: Generating static for associations: " + ass.name)
-	  '  public static final String PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference '\n'
+	  '  public static final String PROP_' ass.toUpperFormat() ' = ' ontologyNamespaceReference.firstToUpper() '\n'
 	  '    + "' ass.name.trim() '";\n'
 	  
 	}
