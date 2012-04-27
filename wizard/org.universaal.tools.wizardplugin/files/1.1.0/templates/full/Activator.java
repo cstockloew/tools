@@ -12,7 +12,7 @@ public class Activator implements BundleActivator {
 
 	public static SCallee scallee=null;
 	public static SCaller scaller=null;
-	public static OPublisher opublisher=null;
+	public static UIfCaller uifcaller=null;
 	public static CSubscriber csubscriber=null;
 	public static CPublisher cpublisher=null;
 
@@ -22,7 +22,7 @@ public class Activator implements BundleActivator {
 		.registerModule(new Object[] { bcontext });
 		scallee=new SCallee(context);
 		scaller=new SCaller(context);
-		opublisher=new OPublisher(context);
+		uifcaller=new UIfCaller(context);
 		csubscriber=new CSubscriber(context);
 		cpublisher=new CPublisher(context);
     }
@@ -30,7 +30,7 @@ public class Activator implements BundleActivator {
     public void stop(BundleContext arg0) throws Exception {
 		scallee.close();
 		scaller.close();
-		opublisher.close();
+		uifcaller.close();
 		csubscriber.close();
 		cpublisher.close();
     }

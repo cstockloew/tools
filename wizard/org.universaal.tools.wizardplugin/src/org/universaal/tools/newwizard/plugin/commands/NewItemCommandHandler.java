@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.wizards.IWizardDescriptor;
+import org.universaal.tools.newwizard.plugin.wizards.Messages;
 
 public class NewItemCommandHandler extends AbstractHandler {
 
@@ -33,9 +34,8 @@ public class NewItemCommandHandler extends AbstractHandler {
 		wd.setTitle(wizard.getWindowTitle());
 		wd.open();
 	    } else {
-		MessageDialog.openInformation(window.getShell(), "New Item",
-			"Could not find the New Item Wizard");
-		// TODO Externalize this?
+		MessageDialog.openInformation(window.getShell(), Messages.getString("Command.2"),
+			Messages.getString("Command.3"));
 	    }
 	} catch (CoreException e) {
 	    e.printStackTrace();

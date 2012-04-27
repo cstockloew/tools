@@ -3,6 +3,7 @@
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextPublisher;
+import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.context.owl.ContextProviderType;
 import org.universAAL.ontology.phThing.OnOffActuator;

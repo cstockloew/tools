@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.wizards.IWizardDescriptor;
+import org.universaal.tools.newwizard.plugin.wizards.Messages;
 
 public class NewProjectCommandHandler extends AbstractHandler {
 
@@ -33,9 +34,8 @@ public class NewProjectCommandHandler extends AbstractHandler {
 		wd.setTitle(wizard.getWindowTitle());
 		wd.open();
 	    } else {
-		MessageDialog.openInformation(window.getShell(), "New Project",
-			"Could not find the New Project Wizard");
-		// TODO Externalize this?
+		MessageDialog.openInformation(window.getShell(), Messages.getString("Command.0"),
+			Messages.getString("Command.1"));
 	    }
 	} catch (CoreException e) {
 	    e.printStackTrace();

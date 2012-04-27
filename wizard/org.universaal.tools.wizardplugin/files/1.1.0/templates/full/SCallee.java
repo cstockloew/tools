@@ -64,7 +64,7 @@ public class SCallee extends ServiceCallee {
 	    } else {
 		user = (User) inputUser;
 	    }
-	    Activator.opublisher.showMainDialog(user);
+	    Activator.uifcaller.showMainDialog(user);
 	    ServiceResponse response = new ServiceResponse(CallStatus.succeeded);
 	    return response;
 	}

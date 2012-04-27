@@ -23,7 +23,7 @@ import org.universAAL.middleware.ui.rdf.SimpleOutput;
 import org.universAAL.middleware.ui.rdf.Submit;
 import org.universAAL.ontology.profile.User;
 
-public class OPublisher extends UICaller {
+public class UIfCaller extends UICaller {
 
     /* -Example- URI Constants for handling and identifying inputs and submits */
     protected static final String INPUT_1 = SCalleeProvidedService.SERVICE_OWN_NAMESPACE
@@ -55,7 +55,7 @@ public class OPublisher extends UICaller {
     protected static final String SUBMIT_5 = SCalleeProvidedService.SERVICE_OWN_NAMESPACE
 	    + "submit5";
 
-    protected OPublisher(ModuleContext context) {
+    protected UIfCaller(ModuleContext context) {
 	super(context);
 	// TODO Auto-generated constructor stub
     }
@@ -195,7 +195,7 @@ public class OPublisher extends UICaller {
 	User user = (User) response.getUser();
 	String submit = response.getSubmissionID();
 	try {
-	    if (submit.equals(OPublisher.SUBMIT_1)) {
+	    if (submit.equals(UIfCaller.SUBMIT_1)) {
 		/*
 		 * -Example- Button pressed was "Test Input Forms"
 		 */
@@ -204,49 +204,49 @@ public class OPublisher extends UICaller {
 			"Text Area", "Range" };
 		String[] formsResults = new String[5];
 		formsResults[0] = response.getUserInput(
-			new String[] { (OPublisher.INPUT_1) }).toString();
+			new String[] { (UIfCaller.INPUT_1) }).toString();
 		formsResults[1] = response.getUserInput(
-			new String[] { (OPublisher.INPUT_2) }).toString();
+			new String[] { (UIfCaller.INPUT_2) }).toString();
 		formsResults[2] = response.getUserInput(
-			new String[] { (OPublisher.INPUT_3) }).toString();
+			new String[] { (UIfCaller.INPUT_3) }).toString();
 		formsResults[3] = response.getUserInput(
-			new String[] { (OPublisher.INPUT_4) }).toString();
+			new String[] { (UIfCaller.INPUT_4) }).toString();
 		formsResults[4] = response.getUserInput(
-			new String[] { (OPublisher.INPUT_9) }).toString();
-		Activator.opublisher.showResponseDialog(user, formsNames,
+			new String[] { (UIfCaller.INPUT_9) }).toString();
+		Activator.uifcaller.showResponseDialog(user, formsNames,
 			formsResults);
 	    }
-	    if (submit.equals(OPublisher.SUBMIT_2)) {
+	    if (submit.equals(UIfCaller.SUBMIT_2)) {
 		/* -Example- Button pressed was "Set Actuator On" */
 		if (Activator.scaller.callSetStatus(true).booleanValue()) {
-		    Activator.opublisher.showStatusDialog(user,
+		    Activator.uifcaller.showStatusDialog(user,
 			    "Actuator set to On");
 		} else {
-		    Activator.opublisher.showStatusDialog(user,
+		    Activator.uifcaller.showStatusDialog(user,
 			    "Actuator not responding");
 		}
 	    }
-	    if (submit.equals(OPublisher.SUBMIT_3)) {
+	    if (submit.equals(UIfCaller.SUBMIT_3)) {
 		/* -Example- Button pressed was "Set Actuator Off" */
 		if (Activator.scaller.callSetStatus(false).booleanValue()) {
-		    Activator.opublisher.showStatusDialog(user,
+		    Activator.uifcaller.showStatusDialog(user,
 			    "Actuator set to Off");
 		} else {
-		    Activator.opublisher.showStatusDialog(user,
+		    Activator.uifcaller.showStatusDialog(user,
 			    "Actuator not responding");
 		}
 	    }
-	    if (submit.equals(OPublisher.SUBMIT_4)) {
+	    if (submit.equals(UIfCaller.SUBMIT_4)) {
 		/* -Example- Button pressed was "Get Actuator Status" */
 		if (Activator.scaller.callGetStatus().booleanValue()) {
-		    Activator.opublisher.showStatusDialog(user,
+		    Activator.uifcaller.showStatusDialog(user,
 			    "Actuator is set to On");
 		} else {
-		    Activator.opublisher.showStatusDialog(user,
+		    Activator.uifcaller.showStatusDialog(user,
 			    "Actuator is set to Off");
 		}
 	    }
-	    if (submit.equals(OPublisher.SUBMIT_5)) {
+	    if (submit.equals(UIfCaller.SUBMIT_5)) {
 		/*
 		 * -Example- Button pressed was "OK" after viewing the Form
 		 * results. Do nothing: it will return to main menu
