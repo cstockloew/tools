@@ -66,7 +66,7 @@ public class VerifierHandler extends AbstractHandler {
 		selectedPrj = ((IProject) selected);
 	    } else {
 		MessageDialog.openInformation(window.getShell(),
-			"Verify Conformance", "Not a Project");
+			"Verify Conformance", "Selection is not a valid project. You must select a valid Maven project first.");
 		return null;
 	    }
 
@@ -75,7 +75,7 @@ public class VerifierHandler extends AbstractHandler {
 
 	} else {
 	    MessageDialog.openInformation(window.getShell(),
-		    "Verify Conformance", "Not a structured selection");
+		    "Verify Conformance", "No selection was made. You must select a valid Maven project first.");
 	}
 	return null;
     }
