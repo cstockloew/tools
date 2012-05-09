@@ -129,14 +129,16 @@ public class ApplicationView extends Composite {
 		
 		btnCombine = new Button(composite_2, SWT.NONE);
 		btnCombine.setEnabled(false);
-		btnCombine.setText("Combine");
+		btnCombine.setText("Package");
 		
 		Group grpPublishableOntology = new Group(this, SWT.BORDER);
 		grpPublishableOntology.setFont(SWTResourceManager.getFont("Lucida Grande", 11, SWT.BOLD));
 		grpPublishableOntology.setBackground(SWTResourceManager.getColor(135, 206, 250));
 		grpPublishableOntology.setLayout(new FillLayout(SWT.VERTICAL));
-		grpPublishableOntology.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
-		grpPublishableOntology.setText("Publishable Ontology");
+		GridData gd_grpPublishableOntology = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2);
+		gd_grpPublishableOntology.widthHint = 154;
+		grpPublishableOntology.setLayoutData(gd_grpPublishableOntology);
+		grpPublishableOntology.setText("Publishable Application");
 		
 		btnPublishToUStore = new Button(grpPublishableOntology, SWT.NONE);
 		btnPublishToUStore.setText("Publish to uStore");
