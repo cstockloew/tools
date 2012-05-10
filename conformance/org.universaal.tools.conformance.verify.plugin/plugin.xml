@@ -19,6 +19,21 @@
       <handler
             commandId="org.universaal.tools.conformance.verify.plugin.commands.sampleCommand"
             class="org.universaal.tools.conformance.verify.plugin.handlers.VerifierHandler">
+            <enabledWhen
+                   checkEnabled="false">
+                <with
+                      variable="selection">
+                   <iterate
+                         ifEmpty="false"
+                         operator="or">
+                         <or>
+                          <instanceof value="org.eclipse.core.resources.IProject" />
+	                      <instanceof value="org.eclipse.jdt.internal.core.JavaProject" />
+                         </or>
+                   </iterate>
+                   <count value="1" />
+                </with>
+             </enabledWhen>
       </handler>
    </extension>
    <extension
@@ -30,21 +45,6 @@
                   mnemonic="V"
                   id="org.universaal.tools.conformance.verify.plugin.menus.sampleCommand"
                   icon="icons/chckuaal_file.gif">
-	              <visibleWhen
-	                   checkEnabled="false">
-	                <with
-	                      variable="selection">
-	                   <iterate
-	                         ifEmpty="false"
-	                         operator="or">
-	                         <or>
-	                          <instanceof value="org.eclipse.core.resources.IProject" />
-		                      <instanceof value="org.eclipse.jdt.internal.core.JavaProject" />
-	                         </or>
-	                   </iterate>
-	                   <count value="1" />
-	                </with>
-	             </visibleWhen>
             </command>
       </menuContribution>
    </extension>
