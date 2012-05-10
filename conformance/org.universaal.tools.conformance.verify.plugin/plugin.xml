@@ -19,8 +19,7 @@
       <handler
             commandId="org.universaal.tools.conformance.verify.plugin.commands.sampleCommand"
             class="org.universaal.tools.conformance.verify.plugin.handlers.VerifierHandler">
-            <enabledWhen
-                   checkEnabled="false">
+            <enabledWhen>
                 <with
                       variable="selection">
                    <iterate
