@@ -7,9 +7,8 @@
       plugin="org.universaal.tools.aalstudio.core">
 
    <description url="http://www.universaal.org/">
-      This AAL Studio Perspective gives the developer a custom 
-Eclipse perspecive configure with views that are frequently
-used when developing AAL applications using the AAL Studio tools.
+      This AAL Studio Perspective gives the developer a custom Eclipse perspecive configured with
+views that are frequently used when developing AAL applications using the AAL Studio tools.
    </description>
 
    <copyright url="http://www.sintef.no/">
@@ -234,6 +233,11 @@ limitations under the License.
    <url>
       <update url="http://depot.universaal.org/eclipse-update/"/>
    </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+   </requires>
 
    <plugin
          id="org.universaal.tools.perspective"
