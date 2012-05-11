@@ -49,6 +49,7 @@ public class UML2Parser {
 	private Set<String> visitedObjectProperty;
 
 	public UML2Parser() {
+		Information.printInfo("\t type... UML2");
 
 	}
 
@@ -530,22 +531,25 @@ public class UML2Parser {
 
 	private void addObjectProperties() {
 
+		Resource res3 = null;
+		Resource res2 = null;
+
 		Information
 				.printInfo("\t--- Adding Object Properties --------------------- ");
 
 		Set<ObjectPropertyRepresentation> directPropertiesObj = new HashSet<ObjectPropertyRepresentation>(
 				5);
 
+		// containing super-range...
 		String queryString = "PREFIX  rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n"
 				+ "PREFIX  owl:  <http://www.w3.org/2002/07/owl#> \n"
 				+ "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
-				+ "PREFIX : <"
-				+ NS
-				+ "> \n"
-				+ "SELECT ?proper ?domain ?range \n"
-				+ "WHERE { ?proper rdf:type owl:ObjectProperty ."
-				+ " ?proper rdfs:domain ?domain ."
-				+ " OPTIONAL{?proper rdfs:range ?range}} \n";
+				+ "PREFIX : <#> \n"
+				+ "SELECT ?proper ?domain ?range ?super_property ?sp_domain ?sp_range \n"
+				+ "WHERE { ?proper rdf:type owl:ObjectProperty  ."
+				+ "OPTIONAL{?proper rdfs:subPropertyOf ?super_property. ?super_property rdf:type owl:ObjectProperty. ?super_property rdfs:range ?sp_range}."
+				+ "OPTIONAL{?proper rdfs:subPropertyOf ?super_property. ?super_property rdf:type owl:ObjectProperty. ?super_property rdfs:domain ?sp_domain}."
+				+ "OPTIONAL {?proper rdfs:domain ?domain}. OPTIONAL{?proper rdfs:range ?range}} \n";
 
 		Information.printInfo(queryString);
 
@@ -587,52 +591,100 @@ public class UML2Parser {
 				obj.setCardinalityTarget(minCardTarget, maxCardTarget);
 
 				Information.printInfo("\tDomain: ");
-				Resource res3 = (Resource) soln.get("domain");
-				OntResource res = model.getOntResource(res3);
-				if (res.isClass()) {
-					OntClass tmp = res.asClass();
-					if (tmp.isUnionClass()) {
-						Information.printInfo("\t  asUnionClass:");
 
-						UnionClass uclass = tmp.asUnionClass();
-						ExtendedIterator uIt = uclass.listOperands();
-						while (uIt.hasNext()) {
-							OntResource cl = (OntResource) uIt.next();
-							Information.printInfo("\t\t" + cl.getLocalName());
-							obj.putDomain(cl.getLocalName());
-
-						}
-
+				if ((Resource) soln.get("domain") != null) {
+					res3 = (Resource) soln.get("domain");
+				} else {
+					Information
+							.printInfo("\t\t Property domain is null checking super-property");
+					if ((Resource) soln.get("sp_domain") != null) {
+						res3 = (Resource) soln.get("sp_domain");
 					} else {
-						Information.printInfo("\t\t" + res.getLocalName());
-						obj.putDomain(tmp.getLocalName());
+						Information
+								.printInfo("\t\t Super-property domain is also null");
+						res3 = null;
 					}
 				}
+				OntResource res = null;
+				if (res3 != null) {
+					res = model.getOntResource(res3);
+					if (res.isClass()) {
+						OntClass tmp = res.asClass();
+						if (tmp.isUnionClass()) {
+							Information.printInfo("\t  asUnionClass:");
 
+							UnionClass uclass = tmp.asUnionClass();
+							ExtendedIterator uIt = uclass.listOperands();
+							while (uIt.hasNext()) {
+								OntResource cl = (OntResource) uIt.next();
+								Information.printInfo("\t\t"
+										+ cl.getLocalName());
+								obj.putDomain(cl.getLocalName());
+
+							}
+
+						} else {
+							Information.printInfo("\t\t" + res.getLocalName());
+							obj.putDomain(tmp.getLocalName());
+						}
+					}
+				}
 				Information.printInfo("\tRange: ");
-				Resource res2 = (Resource) soln.get("range");
-				res = model.getOntResource(res2);
-				if (res.isClass()) {
-					OntClass tmp = res.asClass();
-					if (tmp.isUnionClass()) {
-						Information.printInfo("\t  asUnionClass:");
-
-						UnionClass uclass = tmp.asUnionClass();
-						ExtendedIterator uIt = uclass.listOperands();
-						while (uIt.hasNext()) {
-							OntResource cl = (OntResource) uIt.next();
-							Information.printInfo("\t\t" + cl.getLocalName());
-							obj.putRange(cl.getLocalName());
-
-						}
+				if ((Resource) soln.get("range") != null) {
+					res2 = (Resource) soln.get("range");
+				} else {
+					Information
+							.printInfo("\t\t [WARNING]: Property range is null for "
+									+ p + " . Checking super-property...");
+					if ((Resource) soln.get("sp_range") != null) {
+						res2 = (Resource) soln.get("sp_range");
 
 					} else {
-						Information.printInfo("\t\t" + res.getLocalName());
-						obj.putRange(tmp.getLocalName());
+						Information
+								.printInfo("\t\t [WARNING]: Super-property range is also null.");
+						res2 = null;
+
 					}
 				}
 
-				directPropertiesObj.add(obj);
+				if (res2 != null) {
+
+					res = model.getOntResource(res2);
+
+					if (res.isClass()) {
+						OntClass tmp = res.asClass();
+						if (tmp.isUnionClass()) {
+							Information.printInfo("\t  asUnionClass:");
+
+							UnionClass uclass = tmp.asUnionClass();
+							ExtendedIterator uIt = uclass.listOperands();
+							while (uIt.hasNext()) {
+								OntResource cl = (OntResource) uIt.next();
+								Information.printInfo("\t\t"
+										+ cl.getLocalName());
+								obj.putRange(cl.getLocalName());
+
+							}
+
+						}
+
+						else {
+							Information.printInfo("\t\t" + res.getLocalName());
+							obj.putRange(tmp.getLocalName());
+						}
+					}
+				}
+				if ((res2 == null)) {
+					Information
+							.printInfo("\t\t [WARNING]: Property "
+									+ p
+									+ " and its super-property has null range and/or null domain.");
+				} else {
+					if (res3 == null) {
+						obj.putDomain("Thing");
+					}
+					directPropertiesObj.add(obj);
+				}
 
 			}
 
@@ -661,7 +713,7 @@ public class UML2Parser {
 		ResultSet results = qexec.execSelect();
 		// ResultSetFormatter.out(System.out, results, query);
 
-		Information.printInfo("\tAnalysing datatypesproperties: ");
+		Information.printInfo("\tAnalysing datatypes properties: ");
 
 		while (results.hasNext()) {
 
@@ -680,13 +732,27 @@ public class UML2Parser {
 
 					DatatypeProperty hg = model.getDatatypeProperty(p);
 					OntResource hgRange = hg.getRange();
-					DataRange dr = hgRange.asDataRange();
-					Iterator i = dr.listOneOf();
-					while (i.hasNext()) {
-						Literal l = (Literal) i.next();
-						System.out.println("-------------------------------"
-								+ l.getLexicalForm());
-						rangeProp.add(l.getLexicalForm());
+					if (hgRange == null) {
+						Information
+								.printInfo("[WARNING]: Unidentified datatype property range for "
+										+ p + " .");
+						rangeProp.add("any");
+					}
+					try {
+						DataRange dr = hgRange.asDataRange();
+						Iterator i = dr.listOneOf();
+						while (i.hasNext()) {
+							Literal l = (Literal) i.next();
+							Information
+									.printInfo("-------------------------------"
+											+ l.getLexicalForm());
+							rangeProp.add(l.getLexicalForm());
+						}
+					} catch (Exception e) {
+						Information
+								.printInfo("[WARNING]: Unidentified datatype property range for "
+										+ p + " .");
+						rangeProp.add("any");
 					}
 				} else {
 
