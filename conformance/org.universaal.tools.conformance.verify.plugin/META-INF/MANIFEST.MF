@@ -7,8 +7,8 @@ Bundle-Activator: org.universaal.tools.conformance.verify.plugin.Activator
 Bundle-Vendor: universAAL
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.m2e.core;bundle-version="1.0.200",
- org.eclipse.m2e.core.ui
+ org.eclipse.m2e.core.ui,
+ org.eclipse.m2e.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.maven.execution,
