@@ -5,6 +5,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="org.universaal.tools.perspective.AALStudioPerspective"
+            icon="icons/logo_16x16.png"
             id="org.universaal.tools.perspective.AALStudioPerspective"
             name="AAL Studio">
       </perspective>
