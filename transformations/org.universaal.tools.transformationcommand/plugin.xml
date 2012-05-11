@@ -47,6 +47,10 @@
       <handler
             commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java">
+      </handler>
+      <handler
+            class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java"
+            commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java">
          <activeWhen>
             <with
                   variable="selection">

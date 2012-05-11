@@ -53,6 +53,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
       StdOut.println("WARNING!!! The owlOntology stereotype should NOW be applied to the root package(s).")
       StdOut.println("Remember to set all required values (defaultnamespace and name) for each package!") 
       StdOut.println("Continuing with transformation...") 
+      StdOut.println("");
       
       defaultOntologyName = self.name 
       defaultOntologyNamespace = self.getStereotypeValue("owlOntology", "defaultNamespace")
@@ -71,20 +72,27 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
        subPackageList = null
         
   	   if (!p.hasStereotype("owlOntology")) {
-			StdOut.println("WARNING!!! The model must be stereotyped with owlOntology and default namespace must be set!")  
-			StdOut.println("To perform the transformation, add this information to the model")
+			StdOut.println("WARNING!!! The package " + p.name + " is not stereotyped with owlOntology!")  
 			if(defaultOntologyName==null) {
-				StdOut.println("It is required to set the owlOntology stereotype to ALL root package")
+				StdOut.println("It is required to set the owlOntology stereotype on ALL root package.")
+				StdOut.println("To perform the transformation, add this information to the model.")
 				StdOut.println("Skipping package " + p.name.trim())
-				break
+     			StdOut.println("");
+ 				break
+			}
+			else {
+				StdOut.println("Continuing transformation of package with information from the owlOntology sterotype of the model root.")
 			}
 		}
     	//TODO: HANDLE unset packages
     
     	ontologyName = p.name.substring(p.name.lastIndexOf(".")+1, p.name.size()) //get the last segment of the packagename 
-    	StdOut.println("Generating Java classes for ontology: " + ontologyName)
+    	StdOut.println("Generating Java classes for package: " + ontologyName)
     
     	ontologyNamespace = p.getStereotypeValue("owlOntology", "defaultNamespace")
+    	if (ontologyNamespace.equals("")) {
+    	  ontologyNamespace = defaultOntologyNamespace
+    	}
     	StdOut.println("Namespace: "+ontologyNamespace) 
     	ontologyNamespaceReference =  ontologyName +  'Ontology.NAMESPACE'       
        
@@ -92,7 +100,6 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
         //recursively create the ontology classes and enumerations
         p.processOntologyPackage()  
 		subPackageList.remove(p.getFullPackageName().trim()) //remove own reference      
-        StdOut.println("RETURNED from process main with C/E sizes:" + ontologyClassList.size() + "/" + ontologyEnumerationList.size()) 
            
 		//then the main ontology class and the factories for each package.		
 		StdOut.println("Handling main ontology class for :" + p.name) 
@@ -145,7 +152,6 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
  	 		self.ownedMember->forEach(subPack : uml.Package) {
  	 			subPack.processOntologyPackage()
  	 		}
- 	 		Stdout.println("\nRETURNING from ProcessPackage with class/enums:" + ontologyClassList.size() + ", " + ontologyEnumerationList.size())
  	}
  
 	uml.Package::generateActivator(ontNameList:Hashtable) {
@@ -213,7 +219,7 @@ public class Activator implements BundleActivator {
   uml.Package::generateMainOntologyClass(ontologyClassList:Hashtable, ontologyEnumerationList:Hashtable) {
    
 	file( javaBasePath + "/" + self.name.replace("\\.", "/") + '/' + ontologyName.firstToUpper() + "Ontology.java" )
-	Stdout.println("MAIN: creating main ontology class. Should contain " + ontologyClassList.size() + " classes and " + ontologyEnumerationList.size() + " enumerations" )
+	//Stdout.println("MAIN: creating main ontology class. Should contain " + ontologyClassList.size() + " classes and " + ontologyEnumerationList.size() + " enumerations" )
 
 	var importName:String
 	importName= self.getFullPackageName()
@@ -262,7 +268,7 @@ var factoryImportList: Hashtable
 
 '
 //import the factory for this ontology
-import ' importName.substring(0, importName.lastIndexOf(".")).replace("\\.", "/")  '.' ontologyName.firstToUpper() 'Factory;
+import ' importName.substring(0, importName.lastIndexOf(".")) '.' ontologyName.firstToUpper() 'Factory;
 
 
 /**
@@ -467,7 +473,7 @@ public final class ' ontologyName.firstToUpper() 'Ontology extends Ontology {
 	file( javaBasePath + "/" + pName.substring(0, pName.lastIndexOf(".")).replace("\\.", "/") + '/' + ontologyName.firstToUpper() + "Factory.java" )
     
 '
-package ' pName.substring(0, pName.lastIndexOf(".")).replace("\\.", "/")  ';
+package ' pName.substring(0, pName.lastIndexOf(".")) ';
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -581,7 +587,7 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
      return self.getValue(mySType, tag)
    }
    else {
-     StdOut.println("The class "+self.name+" do not have the expected stereotype : " + stereotypeName)
+     //StdOut.println(self.name+" do not have the expected stereotype : " + stereotypeName)
      return ""
    }
   }
@@ -1257,9 +1263,9 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
  uml.Model::getImportList() {
    //get the imported packages
   self.packageImport->forEach(c : uml.PackageImport) {
-   	stdout.println("Found imported elements: " + c.importedPackage.name + " - " + c.importedPackage.getAppliedStereotypes())
+   	//stdout.println("Found imported elements: " + c.importedPackage.name + " - " + c.importedPackage.getAppliedStereotypes())
    	if (c.importedPackage.hasStereotype("owlOntology")) {
-   		stdout.println("Found owlOntology import. Adding import to list")
+   		//stdout.println("Found owlOntology import. Adding import to list")
    		
    		//get the import name, default namespace and version to local hashtable
    		var modelImport:Hashtable

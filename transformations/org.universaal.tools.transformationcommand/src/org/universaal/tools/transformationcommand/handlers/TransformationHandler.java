@@ -75,6 +75,7 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	private MessageConsole myConsole;
 	private MessageConsoleStream stream;
 
+	private static final String SOURCE_FILE_SUFFIX = ".uml";
 
 	/**
 	 * Finally, I am subversive
@@ -92,22 +93,34 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	 * from the application context.
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-
+//org.eclipse.ui.internal.handlers.WizardHandler
 		// First, retrieve the current selection and check whether it is a file
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		ISelection selection = window.getSelectionService().getSelection();
+//		ISelection selection = window.getSelectionService().getSelection();
+		ISelection selection = HandlerUtil.getCurrentSelection(event);
+		if (selection == null)
+			selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
+		if (selection == null)
+			selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
+		
+		
 		if ((selection != null) && (selection instanceof StructuredSelection)) {
 			Object selectedFile = ((StructuredSelection)selection).getFirstElement();
-			if (selectedFile instanceof IFile) {
+			if ((selectedFile instanceof IFile) && ((IFile)selectedFile).getName().endsWith(SOURCE_FILE_SUFFIX)){
 				// If the selection is a file, start the transformation
 				doTransform((IFile)selectedFile, event);
+			} else {
+				MessageDialog.openInformation(
+					window.getShell(),
+					"Transformation Command",
+					"Please fist select a " + SOURCE_FILE_SUFFIX + " file in the package or project explorer." );		
 			}
 		}			
 		else {
 			MessageDialog.openInformation(
 					window.getShell(),
 					"Transformation Command",
-					"The selection is not a valid source for transformation" );			
+					"Please fist select a " + SOURCE_FILE_SUFFIX + " file in the package or project explorer." );			
 		}		
 
 		return null;
