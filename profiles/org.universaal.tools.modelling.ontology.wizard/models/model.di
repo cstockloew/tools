@@ -14,6 +14,9 @@
         <children>
           <emfPageIdentifier href="model.notation#_1_7sEDuGEeGemd2yvbYdUw"/>
         </children>
+        <children>
+          <emfPageIdentifier href="model.notation#_m27soDuGEeGemd2yvbYdUw"/>
+        </children>
       </children>
     </windows>
   </sashModel>

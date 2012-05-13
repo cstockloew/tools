@@ -210,15 +210,16 @@ public class OntologyUMLArtefactFactory {
 					((NamedElement) element).setName(newName);					
 				}
 				if (element instanceof org.eclipse.uml2.uml.Model) {
-					//String str = UMLUtil.getStereotype(((NamedElement) element).getStereotypeApplications().get(0)).getQualifiedName();
+					Comment comm = ((NamedElement) element).getOwnedComments().get(0);
+					if (comm != null) {
+						comm.setBody(model.getMavenModel().getDescription());			
+					}
+				}
+				if (element instanceof org.eclipse.uml2.uml.Package) {
 					Stereotype s = ((NamedElement) element).getAppliedStereotype("OWL::owlOntology");
 					if (s != null) {
 						UMLUtil.setTaggedValue((Element) element, s, "defaultNamespace", model.getOntologyNamespace());
 						UMLUtil.setTaggedValue((Element) element, s, "versionInfo", model.getMavenModel().getVersion());
-					}
-					Comment comm = ((NamedElement) element).getOwnedComments().get(0);
-					if (comm != null) {
-						comm.setBody(model.getMavenModel().getDescription());			
 					}
 				}
 			}

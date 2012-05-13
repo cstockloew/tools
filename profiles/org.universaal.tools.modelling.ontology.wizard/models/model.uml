@@ -46,5 +46,5 @@
       <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
     </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_sW7i8DuxEeGwdc6BTx-7Jw" base_Package="_m1fiMDuGEeGemd2yvbYdUw"/>
+  <OWL:owlOntology xmi:id="_XNtcYJ0rEeGkYq_huG5oug" base_Package="_thSEwDuGEeGemd2yvbYdUw"/>
 </xmi:XMI>

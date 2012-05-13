@@ -55,7 +55,7 @@
       <element xmi:type="uml:Comment" href="model.uml#_FbSYQDuyEeGwdc6BTx-7Jw"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_FcU6ETuyEeGwdc6BTx-7Jw" x="17" y="220" width="310" height="115"/>
     </children>
-    <children xmi:type="notation:Shape" xmi:id="_KElywEzWEeG-B--gQQeYyw" type="Note" fontName="Lucida Grande" fontHeight="14" description="This diagram shows the packages you have in your ontology model. Usually  a single package is used, and you will not need to update this diagram. Use the ontology overview diagram to edit the content of your ontology - this can be opened from the tab below or by double-clicking on the package symbol in this diagram." fillColor="8905185" transparency="0" lineColor="0" lineWidth="1">
+    <children xmi:type="notation:Shape" xmi:id="_KElywEzWEeG-B--gQQeYyw" type="Note" fontName="Lucida Grande" fontHeight="14" description="This diagram shows the packages you have in your ontology model. Usually  a single package is used, and you will not need to update this diagram. Use the ontology overview diagram to edit the content of your ontology - this can be opened from the tab below or by double-clicking on the package symbol in this diagram. If you use multiple root packages to model closely related ontologies, each of these should be stereotyped with owlOntology, and properties such as default namespace must be defined. See the tools wiki for further documentation, at:&#xA;&#xA;http://forge.universaal.org/wiki/uaaltools:Ontology_modelling" fillColor="8905185" transparency="0" lineColor="0" lineWidth="1">
       <children xmi:type="notation:BasicDecorationNode" xmi:id="_KEqEMEzWEeG-B--gQQeYyw" type="DiagramName">
         <element xsi:nil="true"/>
       </children>
@@ -65,7 +65,7 @@
       <styles xmi:type="notation:TextStyle" xmi:id="_KElywUzWEeG-B--gQQeYyw"/>
       <styles xmi:type="notation:LineTypeStyle" xmi:id="_KElywkzWEeG-B--gQQeYyw"/>
       <element xsi:nil="true"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KElyw0zWEeG-B--gQQeYyw" x="468" y="72" width="271" height="226"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KElyw0zWEeG-B--gQQeYyw" x="351" y="108" width="469" height="199"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_m27soTuGEeGemd2yvbYdUw"/>
     <element xmi:type="uml:Model" href="model.uml#_m1fiMDuGEeGemd2yvbYdUw"/>
@@ -77,6 +77,13 @@
     </edges>
   </notation:Diagram>
   <notation:Diagram xmi:id="_1_7sEDuGEeGemd2yvbYdUw" type="PapyrusUMLClassDiagram" name="Ontology overview" measurementUnit="Pixel">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_XOffgJ0rEeGkYq_huG5oug" source="Stereotype_Annotation">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_XOffgZ0rEeGkYq_huG5oug" key="StereotypeWithQualifiedNameList" value=""/>
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_XOgGkJ0rEeGkYq_huG5oug" key="StereotypeList" value="OWL::owlOntology"/>
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_XOgGkZ0rEeGkYq_huG5oug" key="Stereotype_Presentation_Kind" value="HorizontalStereo"/>
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_XOgGkp0rEeGkYq_huG5oug" key="PropStereoDisplay" value=""/>
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_XOgGk50rEeGkYq_huG5oug" key="StereotypePropertyLocation" value="Compartment"/>
+    </eAnnotations>
     <children xmi:type="notation:Shape" xmi:id="_4fbNUDuGEeGemd2yvbYdUw" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4fb0YDuGEeGemd2yvbYdUw" source="ShadowFigure">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4fb0YTuGEeGemd2yvbYdUw" key="ShadowFigure_Value" value="false"/>
