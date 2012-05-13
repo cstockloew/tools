@@ -1251,8 +1251,8 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
      projectInfo.put("name", self.name.trim())
      projectInfo.put("artefactId", self.name.trim())
      projectInfo.put("groupId", self.name.trim())  //TODO: Find what this should be - was previously package name
-     projectInfo.put("versionInfo",  self.getValue("owlOntology", "versionInfo").trim())
-     
+     //projectInfo.put("versionInfo",  self.getValue("owlOntology", "versionInfo").trim())
+     projectInfo.put("versionInfo", "0.1.0-SNAPSHOT") //TODO: find where to get the verison info from with multiple packages
      self.genPOMFileHeader()
    }
  
