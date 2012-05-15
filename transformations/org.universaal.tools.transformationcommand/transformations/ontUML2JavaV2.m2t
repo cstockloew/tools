@@ -118,9 +118,9 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
 	StdOut.println("Handling activator of :" + self.name) 
    	self.generateActivator(ontologyNameList)
 
-	StdOut.println("Generating the POM file")
+	//StdOut.println("Generating the POM file")
 	//create the POM file for the project
-	self.generatePOMFile() 
+	//self.generatePOMFile() 
   }
  
  	uml.Package::processOntologyPackage() {

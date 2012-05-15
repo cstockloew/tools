@@ -48,29 +48,6 @@
             commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java">
       </handler>
-      <handler
-            class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java"
-            commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java">
-         <activeWhen>
-            <with
-                  variable="selection">
-               <iterate
-                     ifEmpty="false"
-                     operator="or">
-                  <instanceof
-                        value="org.eclipse.core.resources.IFile">
-                  </instanceof>
-                  <test
-                        property="org.eclipse.core.resources.extension "
-                        value="uml">
-                  </test>
-               </iterate>
-               <count
-                     value="1">
-               </count>
-            </with>
-         </activeWhen>
-      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
