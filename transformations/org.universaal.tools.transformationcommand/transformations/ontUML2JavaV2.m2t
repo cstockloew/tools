@@ -854,11 +854,14 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
 
   uml.Class::getImportsForClass():Hashtable {
     var classesReferredTo:Hashtable
+    var ownPackageName:String = self.package.getFullPackageName()
     
     //get superclasses to import
 	self.generalization->forEach(gen:uml.Generalization) {
-		if (!self.package.name.equals(gen.general.package.name)) {
-			var importName:String = gen.general.package.name + "." + gen.general.name
+	 	var genPackageName:String = gen.general.package.getFullPackageName() 
+	 	 	
+		if (!ownPackageName.equals(genPackageName)) {
+			var importName:String = genPackageName + "." + gen.general.name
 			classesReferredTo.put(importName,gen.general)
 		}
 	}
@@ -870,6 +873,8 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
 	// Next, find properties  
 	var props:Hashtable = propertyHashtable.get(self.name)  
 	props->forEach(prop : uml.Property) {
+	  
+	  
 	  if (prop.isDataType()) {
 	    var importStr:String = prop.getDataTypeImport()
 	    if (!importStr.equals(" ")) {
@@ -877,8 +882,9 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
 	    }
 	  }
 	  else {
-		if (!self.package.name.equals(prop.type.package.name)) {
-			var importName:String = prop.type.package.name + "." + prop.type.name
+	    var propTypePackageName:String = prop.type.package.getFullPackageName()
+		if (!ownPackageName.equals(propTypePackageName)) {
+			var importName:String = propTypePackageName + "." + prop.type.name
 			classesReferredTo.put(importName,prop)
 		}
 	  }
