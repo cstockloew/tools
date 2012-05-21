@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: universAAL New Project Wizard
 Bundle-SymbolicName: org.universaal.tools.newwizard.plugin;singleton:=true
-Bundle-Version: 0.7.0
+Bundle-Version: 0.7.1
 Bundle-Activator: org.universaal.tools.newwizard.plugin.Activator
 Bundle-Vendor: universAAL ITACA-TSB UPV
 Require-Bundle: org.eclipse.ui,

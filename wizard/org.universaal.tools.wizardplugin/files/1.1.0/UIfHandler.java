@@ -14,6 +14,16 @@ public class /*TAG:CLASSNAME*/ extends UIHandler {
 	super(context, initialSubscription);
 	// TODO Auto-generated constructor stub
     }
+    
+    protected /*TAG:CLASSNAME*/(ModuleContext context) {
+	super(context, getInitialSubscription());
+	// TODO Auto-generated constructor stub
+    }
+    
+    private static UIHandlerProfile getInitialSubscription() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
     public void adaptationParametersChanged(String dialogID,
 	    String changedProp, Object newVal) {

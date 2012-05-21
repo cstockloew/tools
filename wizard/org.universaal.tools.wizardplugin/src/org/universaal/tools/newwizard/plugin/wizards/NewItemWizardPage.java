@@ -23,9 +23,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.universaal.tools.newwizard.plugin.Activator;
 import org.universaal.tools.newwizard.plugin.versions.IMWVersion;
-import org.universaal.tools.newwizard.plugin.versions.MWVersion030;
-import org.universaal.tools.newwizard.plugin.versions.MWVersion100;
-import org.universaal.tools.newwizard.plugin.versions.MWVersion110;
+import org.universaal.tools.newwizard.plugin.versions.MWVersionFactory;
 
 /**
  * The only wizard page allows setting the basic details for the new item, like
@@ -103,27 +101,12 @@ public class NewItemWizardPage extends NewTypeWizardPage {
 	label6.setText(Messages.getString("PageI.2")); //$NON-NLS-1$
 	dropMW = new Combo(containerInfo, SWT.READ_ONLY);
 	dropMW.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
-	dropMW.add(getVERname(IMWVersion.VER_030), 0);
-	dropMW.add(getVERname(IMWVersion.VER_100), 1);
-	dropMW.add(getVERname(IMWVersion.VER_110), 2);
-	dropMW.select(2);//Default: last
-	mwVersion=new MWVersion110();//Default: last
+	dropMW.setItems(MWVersionFactory.getAllVERnames());
+	dropMW.select(MWVersionFactory.getAllVERnames().length-1);//Default: last
+	mwVersion=MWVersionFactory.getMWVersion(dropMW.getSelectionIndex());
 	dropMW.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
-		switch (dropMW.getSelectionIndex()) {
-		case IMWVersion.VER_030:
-		    mwVersion=new MWVersion030();
-		    break;
-		case IMWVersion.VER_100:
-		    mwVersion=new MWVersion100();
-		    break;
-		case IMWVersion.VER_110:
-		    mwVersion=new MWVersion110();
-		    break;
-		default:
-		    mwVersion=new MWVersion110();
-		    break;
-		}
+		mwVersion=MWVersionFactory.getMWVersion(dropMW.getSelectionIndex());
 		updateDropClass();
 		validateInput();
 	    }
@@ -235,26 +218,6 @@ public class NewItemWizardPage extends NewTypeWizardPage {
     protected void handleFieldChanged(String fieldName) {
 	super.handleFieldChanged(fieldName);
 	validateInput();
-    }
-    
-    /**
-     * Gets the name of the MW version to display.
-     * 
-     * @param version
-     *            MW Version number, as in IMWversion.
-     * @return The String with the name.
-     */
-    private static String getVERname(int version){
-	switch (version) {
-	case IMWVersion.VER_030:
-	    return "0.3.0-SNAPSHOT";
-	case IMWVersion.VER_100:
-	    return "1.0.0";
-	case IMWVersion.VER_110:
-	    return "1.1.0";
-	default:
-	    return "1.1.0";
-	}
     }
     
     //________GETTERS________

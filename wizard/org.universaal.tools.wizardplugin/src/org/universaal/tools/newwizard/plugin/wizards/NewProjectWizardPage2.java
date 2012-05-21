@@ -20,9 +20,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.jdt.core.JavaConventions;
 import org.universaal.tools.newwizard.plugin.Activator;
 import org.universaal.tools.newwizard.plugin.versions.IMWVersion;
-import org.universaal.tools.newwizard.plugin.versions.MWVersion030;
-import org.universaal.tools.newwizard.plugin.versions.MWVersion100;
-import org.universaal.tools.newwizard.plugin.versions.MWVersion110;
+import org.universaal.tools.newwizard.plugin.versions.MWVersionFactory;
 
 /**
  * The second wizard page allows setting the name of the root package, where all
@@ -87,27 +85,12 @@ public class NewProjectWizardPage2 extends WizardPage {
 	label6.setText(Messages.getString("Page2.3")); //$NON-NLS-1$
 	dropMW = new Combo(containerInfo, SWT.READ_ONLY);
 	dropMW.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
-	dropMW.add(getVERname(IMWVersion.VER_030), 0);
-	dropMW.add(getVERname(IMWVersion.VER_100), 1);
-	dropMW.add(getVERname(IMWVersion.VER_110), 2);
-	dropMW.select(2);//Default: last
-	mwVersion=new MWVersion110();//Default: last
+	dropMW.setItems(MWVersionFactory.getAllVERnames());
+	dropMW.select(MWVersionFactory.getAllVERnames().length-1);//Default: last
+	mwVersion=MWVersionFactory.getMWVersion(dropMW.getSelectionIndex());
 	dropMW.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
-		switch (dropMW.getSelectionIndex()) {
-		case IMWVersion.VER_030:
-		    mwVersion=new MWVersion030();
-		    break;
-		case IMWVersion.VER_100:
-		    mwVersion=new MWVersion100();
-		    break;
-		case IMWVersion.VER_110:
-		    mwVersion=new MWVersion110();
-		    break;
-		default:
-		    mwVersion=new MWVersion110();
-		    break;
-		}
+		mwVersion=MWVersionFactory.getMWVersion(dropMW.getSelectionIndex());
 		updateCheckClasses();
 		validateInput();
 	    }
@@ -284,26 +267,6 @@ public class NewProjectWizardPage2 extends WizardPage {
     }
 
     /**
-     * Gets the name of the MW version to display.
-     * 
-     * @param version
-     *            MW Version number, as in IMWversion.
-     * @return The String with the name.
-     */
-    public static String getVERname(int version){
-	switch (version) {
-	case IMWVersion.VER_030:
-	    return "0.3.0-SNAPSHOT";
-	case IMWVersion.VER_100:
-	    return "1.0.0";
-	case IMWVersion.VER_110:
-	    return "1.1.0";
-	default:
-	    return "1.1.0";
-	}
-    }
-
-    /**
      * Gets the name of the template application to display.
      * 
      * @param version
@@ -325,7 +288,7 @@ public class NewProjectWizardPage2 extends WizardPage {
 	case IMWVersion.APP_HANDLER:
 	    return Messages.getString("Page2.45");
 	default:
-	    return "1.1.0";
+	    return "Unknown";
 	}
     }
 
