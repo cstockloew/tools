@@ -30,11 +30,16 @@ import org.universAAL.ucc.core.Activator;
  * @author Alex
  * @version 1.0
  * @created 11-Jul-2011 15:57:26
+ * 
+ * modified 31-05-2012 by Shanshan
+ * 
  */
 public class Installer extends ApplicationManager implements IInstaller {
 
 	private BundleContext context;
 	private ArrayList<Bundle> installedBundles=new ArrayList<Bundle>();
+	private boolean mpa = false; // flag to indicate if the application is MPA
+	
 	public Installer(BundleContext con) {
 		context=con;
 	}
@@ -59,6 +64,8 @@ public class Installer extends ApplicationManager implements IInstaller {
 		if(exdir==null)throw new Exception("Error extracting uaal Package");
 		File appDir=new File(exdir);
 		checkApplicationForInstall(appDir);
+		if (!mpa) {			
+			// install on local node / OSGi container
 		String[] bundlelist=appDir.list();
 		for(int i=0;i<bundlelist.length;i++){
 			if(bundlelist[i].endsWith(".jar")){
@@ -70,12 +77,16 @@ public class Installer extends ApplicationManager implements IInstaller {
 				installedBundles.add(temp);
 			}
 		}
+		}
 		return exdir;
+		
 	}
 
 	/**
 	 * Is bundle valid? All need files available? Dependencies to check and all
-	 * right? Check if concrete instances available (but how)?
+	 * right? Check if concrete instances available (but how)? 
+	 * 
+	 * Check if the application is MPA?
 	 * 
 	 * @param Path
 	 * @throws Exception 
@@ -89,10 +100,12 @@ public class Installer extends ApplicationManager implements IInstaller {
 			if(content[i].endsWith(".jar")) jarok=true;
 			if(content[i].equals("config.owl")) configok=true;
 			if(content[i].equals("EULA.txt")) eulaok=true;
+			if(content[i].endsWith(".mpa")) mpa=true;
 		}
 		if(!jarok) throw new Exception("There is no installable jar File in uaal Package!");
 		if(!configok) throw new Exception("config.owl file not found!");
 		//if(!eulaok) throw new Exception("No License agreement found!");
+		if(mpa) System.out.println("This is a multi-part application...");
 	}
 	
 
@@ -145,7 +158,8 @@ public class Installer extends ApplicationManager implements IInstaller {
 private String extractBundles(String path) {
       
 	String destDir = path.substring(path.lastIndexOf(File.separator) + 1,path.lastIndexOf("."));
-	destDir =Activator.getInformation().getBundleDir()+"/"+ destDir;
+	//destDir =Activator.getInformation().getBundleDir()+"/"+ destDir; Does this work only on Linux/Unix?
+	destDir =Activator.getInformation().getBundleDir()+"\\"+ destDir;  // For windows version
 	File appDir=new File(destDir);
 	int suffix=1;
 	int slength=0;
@@ -232,4 +246,5 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 
     }
 }
+	
 }
