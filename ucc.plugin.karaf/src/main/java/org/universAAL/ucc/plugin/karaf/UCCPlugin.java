@@ -44,7 +44,7 @@ public class UCCPlugin implements IPlugin {
 		});
 	}
 	public void createGridViewItem(){
-		PluginGridViewItem gv= new PluginGridViewItem("Deploy To\nKaraf", "addressbook2.png",	new Runnable() {
+		PluginGridViewItem gv= new PluginGridViewItem("Deploy To\nKaraf", "karaf-logo.png",	new Runnable() {
 
 			public void run() {
 				uCCPluginBase.getMainView().showSubWindow(karafView);

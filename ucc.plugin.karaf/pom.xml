@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.universAAL.tools.ucc</groupId>
   <artifactId>ucc.plugin.karaf</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>UCC Karaf Deploy plugin for Karaf</name>
   <description>The deployment plugin for Karaf</description>
   <packaging>bundle</packaging>
