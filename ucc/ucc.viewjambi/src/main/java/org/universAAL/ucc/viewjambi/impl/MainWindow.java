@@ -10,6 +10,7 @@ import org.universAAL.ucc.viewjambi.common.SubWindow;
 import org.universAAL.ucc.viewjambi.information.InformationView;
 import org.universAAL.ucc.viewjambi.install.ConfigView;
 import org.universAAL.ucc.viewjambi.install.DeinstallView;
+import org.universAAL.ucc.viewjambi.install.DeployConfigView;
 import org.universAAL.ucc.viewjambi.install.InstallView;
 import org.universAAL.ucc.viewjambi.install.LicenseView;
 import org.universAAL.ucc.viewjambi.juic.Ui_MainWindow;
@@ -101,6 +102,9 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	}
 	public void deinstallApp(){
 		new DeinstallView();
+	}
+	public void deployConfigure(String path){
+		new DeployConfigView(path);
 	}
 	
 	protected void uninstallApp() {

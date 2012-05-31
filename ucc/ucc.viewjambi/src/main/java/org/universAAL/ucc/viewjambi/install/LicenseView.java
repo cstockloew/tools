@@ -16,10 +16,12 @@ public class LicenseView extends SubWindow {
 	
 	private static Ui_License install_base = new Ui_License();
 	private static String appDir;
+	private static boolean mpa=false;
 	
 	public LicenseView(String path) throws IOException {
 		super(LicenseView.install_base);
 		appDir=path;
+		mpa=isMPA();
 		StringBuffer l=readLicense(path+ File.separator +"EULA.txt");
 		
 		install_base.license.setText(l.toString());
@@ -31,7 +33,9 @@ public class LicenseView extends SubWindow {
 	
 	protected void accept() {
 		MainWindow.getInstance().removeSubWindow(this);
-		MainWindow.getInstance().configureApp(appDir);
+		// check if this is MPA
+		if (mpa) MainWindow.getInstance().deployConfigure(appDir);
+		else MainWindow.getInstance().configureApp(appDir);
 	}
 
     private StringBuffer readLicense(String path) throws IOException {
@@ -51,15 +55,23 @@ public class LicenseView extends SubWindow {
             }
         
                     reader.close();
-                
-       
         
         return contents;
     }
 	
 	protected void cancel() {
-		Activator.getInstaller().revertInstallation(new File(appDir));
+		if (!mpa)
+			Activator.getInstaller().revertInstallation(new File(appDir));
 		MainWindow.getInstance().removeSubWindow(this);
 	}
 	
+	private boolean isMPA()  {
+		File folder=new File(appDir);
+		String[] content = folder.list();
+		for(int i=0;i<content.length;i++){
+			if(content[i].endsWith(".mpa")) 
+				return true;
+		}
+		return false;
+	}
 }
