@@ -83,6 +83,10 @@ public class DeployConfigView extends SubWindow {
 	   currentScreen = screenId;
 	   ui.lineEdit_appId.setReadOnly(true); // disable text input (display only)
 	   ui.radioButton_all.setChecked(true);
+	   if (screenId==0) 
+		   ui.pushButton_previous.setDisabled(true);
+	   else 
+		   ui.pushButton_previous.setDisabled(false);
 	   onAllNodes();
    }
     
@@ -161,11 +165,18 @@ public class DeployConfigView extends SubWindow {
     	// initialize the next screen if any
     	if (currentScreen==screens.size()-1)  {
     		// already the last screen - start to call DeployManager!
-    		QMessageBox.information(this, "Info", "start deploying the multi-part application...");
-    		// TODO: change to option panel like function.. QInputDialog.
-    		//TODO write all the deploy configure setting to a configFile
-    		// saveDeployConfigToFile();
-    		//TODO call MW deploy manager requestToInstall(zip, configFile)
+    		String[] options = {"YES - continue to deploy", "NO - Go back"};
+    		String op = QInputDialog.getItem(this, "Deploy", "This is the last application part to configure. Start deploying?", Arrays.asList(options), 0, false);
+    		if (options[0].equals(op)) {
+    			MainWindow.getInstance().removeSubWindow(this);
+    			System.out.println("Start deploying...");
+    			QMessageBox.information(this, "Deploy", "start deploying the multi-part application...");
+    			//TODO write all the deploy configure setting to a configFile or use just the HashMap?
+        		// saveDeployConfigToFile();
+        		//TODO call MW deploy manager requestToInstall(zip, configFile) or requestToInstall(zip, HashMap configs)
+    			
+    		} 
+    		
     		return;
     	}
     	initGuiForAppPart(currentScreen+1);
