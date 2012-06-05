@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.TypeMapper;
+import org.universAAL.middleware.rdf.UnmodifiableResource;
 
 /**
  * A node in the graphical view. Every
@@ -183,7 +184,10 @@ public class Node {
 		if (node == null) {
 			// node does not exist -> create it here
 			node = new Node(r.getURI());
-			node.theClass = r.getClass();
+			if (r instanceof UnmodifiableResource)
+			    node.theClass = ((UnmodifiableResource)r).getClassOfUnmodifiable();
+			else
+			    node.theClass = r.getClass();
 			visitedElements.put(r, node);
 
 			// enum children and save all in 'temp'

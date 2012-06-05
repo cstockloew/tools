@@ -7,7 +7,7 @@ package org.universAAL.tools.logmonitor;
 import java.util.LinkedList;
 
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.util.LogListener;
+import org.universAAL.middleware.container.LogListener;
 
 /**
  * Implementation of the {@link org.universAAL.middleware.util.LogListener}
@@ -25,10 +25,10 @@ public class LogMonitor implements LogListener {
 	private RDFVis vis = new RDFVis();
 
 	/**
-	 * @see org.universAAL.middleware.util.LogListener
+	 * @see org.universAAL.middleware.container.LogListener
 	 */
-	public void logDebug(String cls, String method, Object[] msgPart,
-			Throwable t) {
+	public void log(int logLevel, String module, String pkg, String cls,
+		String method, Object[] msgPart, Throwable t) {
 		
 		// TODO: put this in a separate thread?
 		String msg = "";

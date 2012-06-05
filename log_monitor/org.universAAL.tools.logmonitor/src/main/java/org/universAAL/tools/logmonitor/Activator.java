@@ -7,7 +7,7 @@ package org.universAAL.tools.logmonitor;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.universAAL.middleware.util.LogListener;
+import org.universAAL.middleware.container.LogListener;
 
 /**
  * The bundle activator to create the log monitor and register this OSGi
