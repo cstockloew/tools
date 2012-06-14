@@ -17,3 +17,4 @@ Import-Package: org.apache.maven.execution,
  org.eclipse.jdt.internal.core,
  org.eclipse.m2e.core.ui.internal,
  org.eclipse.ui.console
+Export-Package: org.universaal.tools.conformance.verify.plugin.handlers
