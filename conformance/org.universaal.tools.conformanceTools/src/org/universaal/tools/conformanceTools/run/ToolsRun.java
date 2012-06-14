@@ -108,7 +108,6 @@ public class ToolsRun {
 						goals.add("checkstyle:checkstyle");
 
 					//goals.add("dashboard:dashboard");
-					//goals.add("site:deploy");
 
 					request.setGoals(goals);
 					MavenExecutionResult result = maven.execute(request, monitor);
@@ -153,15 +152,8 @@ public class ToolsRun {
 							//props.setProperty("checkstyle.outputDirectory", Activator.absolutePath+"/target/");
 						}
 
-						//goals.add("site:site");
-						//goals.add("site:site");
-						//goals.add("site:deploy");
 						//goals.add("dashboard:dashboard");
 						//props.setProperty("dashboard.outputDirectory ", Activator.absolutePath+"/target/");
-						//goals.add("site:stage");
-
-						//goals.add("site:deploy");
-						//props.setProperty("site.inputDirectory", Activator.absolutePath+"/target/site/");
 
 						request2.setUserProperties(props);
 						request2.setGoals(goals);
@@ -179,7 +171,7 @@ public class ToolsRun {
 							return new Status(Status.ERROR, Activator.PLUGIN_ID, "CT: "+errors);
 						}
 
-						// visualize report
+						// visualize report - open report file
 						window.getWorkbench().getDisplay().syncExec(new Runnable() {
 
 							@Override
@@ -231,119 +223,6 @@ public class ToolsRun {
 
 				monitor.done();
 				return new Status(Status.OK, Activator.PLUGIN_ID, "All ok.");
-			}
-		};
-
-		job.setUser(true);
-		job.schedule();	
-	}
-
-	private void verify(final IStructuredSelection selected) {
-
-		Job job = new Job("AAL Studio") {
-			protected IStatus run(IProgressMonitor monitor) {
-				try {
-					// Continuous progress bar
-					monitor.beginTask("Verifying conformance", IProgressMonitor.UNKNOWN);
-
-					IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
-
-					if (project != null && !project.hasNature(IMavenConstants.NATURE_ID)) {
-						monitor.done();
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, "Not a Maven project!");
-					}
-
-					IFile pomResource = project.getFile(IMavenConstants.POM_FILE_NAME);
-					if (pomResource == null) {
-						monitor.done();
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, "POM file missing!");
-					}
-
-					IMavenProjectFacade projectFacade = projectManager.create(project, monitor);
-					IMaven maven = MavenPlugin.getMaven();
-					MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource,
-							projectFacade.getResolverConfiguration(), monitor);
-					/*Properties props=new Properties();
-					props.setProperty("outputDirectory", "");
-					request.setUserProperties(props);*/
-					List<String> goals = new ArrayList<String>();
-					goals.add("compiler:compile");
-					goals.add("site");
-
-					if(plugin == RunPlugin.FindBugs){
-
-						goals.add("findbugs:findbugs");
-						goals.add("findbugs:check");
-
-						/*window.getWorkbench().getDisplay().syncExec(new Runnable() {
-
-							@Override
-							public void run() {
-
-								IEditorReference ref[] =
-										PlatformUI.getWorkbench().getActiveWorkbenchWindow().
-										getActivePage().getEditorReferences();
-
-								IWorkbenchPart a = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart();
-								IWorkbenchPartReference b = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePartReference();
-
-								//PackageExplorerPart pp = PackageExplorerPart.getFromActivePerspective(); 
-								IPreferenceStore store = FindbugsPlugin.getDefault().getPreferenceStore();
-								store.setValue(FindBugsConstants.SWITCH_PERSPECTIVE_AFTER_ANALYSIS, true);
-
-								FindBugsAction newAction = new FindBugsAction();
-								newAction.setActivePart(null, window.getActivePage().getActivePart());
-								newAction.selectionChanged(null, selected);
-								newAction.run(null);
-
-								IWorkbenchPage page = window.getActivePage();
-								IAdaptable input;
-								if (page != null) {
-									input = page.getInput();
-								} else {
-									input = ResourcesPlugin.getWorkspace().getRoot();
-								}
-								try {
-									PlatformUI.getWorkbench().showPerspective("de.tobject.findbugs.FindBugsPerspective", window, input);
-								} catch (WorkbenchException e) {
-									//FindbugsPlugin.getDefault().logException(e, "Failed to open FindBugs Perspective");
-								}
-							}
-						});*/
-					}
-					else if(plugin == RunPlugin.CheckStyle){
-
-						goals.add("checkstyle:checkstyle");
-						goals.add("checkstyle:check");
-					}
-					else
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, "Not a valid choice.");
-
-					goals.add("dashboard:dashboard");
-					goals.add("site:deploy");
-
-					request.setGoals(goals);
-					MavenExecutionResult result = maven.execute(request, monitor);
-
-					if(result.hasExceptions()) {
-						String errors = "Results: \n";
-						for(Throwable e : result.getExceptions()) {
-
-							if(e.getCause() != null && e.getCause().getMessage() != null)
-								errors += e.getCause().getMessage();
-						}
-
-						monitor.done();
-
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, "Check finished.\nYou can find further information into *target* folder of the selected project.\n\n"+errors);
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					monitor.done();
-					return new Status(Status.ERROR, Activator.PLUGIN_ID, ex.getMessage());
-				}
-				monitor.done();
-				return new Status(Status.OK, Activator.PLUGIN_ID, "Check finished without errors. Very good!");
 			}
 		};
 
