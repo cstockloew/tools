@@ -43,6 +43,7 @@ public class Handler extends UIHandler {
 
 	Handler (ModuleContext context){
 		super(context, getPermanentSubscriptions());
+		System.out.println("Creating UI Handler");
 	}
 	
 	/**
@@ -74,7 +75,9 @@ public class Handler extends UIHandler {
      * the user's circumstances.
      */
     public void handleUICall(UIRequest event) {
-        Renderer.getInstance().getFormManagement().addDialog(event);
+    	// System.out.println("Handling UI call with stdbtn.len = " + event.getDialogForm().getStandardButtons().getChildren().length);
+    	System.out.println("Handling UI call");
+    	Renderer.getInstance().getFormManagement().addDialog(event);
     }
 
     /**
@@ -118,7 +121,7 @@ public class Handler extends UIHandler {
      * @param submit
      *       the {@link Submit} button model.
      */
-    public void summit(Submit submit) {
+    public void submit(Submit submit) {
         dialogFinished(
                 new UIResponse(
                         currentUser,

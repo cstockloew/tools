@@ -12,22 +12,36 @@ import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
 import org.universAAL.ucc.api.core.IInformation;
 import org.universAAL.ucc.api.plugin.IPluginBase;
 import org.universAAL.ucc.plugin.ui.jambi.Renderer;
+import org.universAAL.ucc.plugin.ui.jambi.defaultLookAndFeel.BorderLayout;
+import org.universAAL.ucc.plugin.ui.jambi.defaultLookAndFeel.FormLAF;
 
 import com.trolltech.qt.QThread;
+import com.trolltech.qt.gui.QApplication;
+import com.trolltech.qt.gui.QFrame;
+import com.trolltech.qt.gui.QLabel;
+import com.trolltech.qt.gui.QPushButton;
+import com.trolltech.qt.gui.QScrollArea;
+import com.trolltech.qt.gui.QSizePolicy;
+import com.trolltech.qt.gui.QTextEdit;
+import com.trolltech.qt.gui.QSizePolicy.Policy;
 
 public class Activator implements BundleActivator {
 	public static BundleContext context = null;
 	private static int max_retry = 10;
 
-	static UCCPlugin uCCPlugin = null;
+	// static UCCPlugin uCCPlugin = null;
 	static IPluginBase uCCPluginBase = null;
 	static IInformation information = null;
 
-	static final String libraryNames[] = { "com_trolltech_research_qtjambiawtbridge_generated.dll" };
+	static final String libraryNames[] = { /* "com_trolltech_research_qtjambiawtbridge_generated.dll"*/};
 
 	static {
 		for (int i = 0; i < libraryNames.length; i++)
 			extractDll("/bin/", libraryNames[i]);
+	}
+	
+	public static IPluginBase pluginBase() {
+		return uCCPluginBase;
 	}
 
 	private static void extractDll(String path, String name) {
@@ -50,7 +64,6 @@ public class Activator implements BundleActivator {
 		}
 	}
 	
-	private Renderer render;
 	public BundleConfigHome home = null;
 
 	public static IInformation getInformation() {
@@ -73,11 +86,12 @@ public class Activator implements BundleActivator {
 		new QThread(new Runnable() {
 			public void run() {
 				 
-				render = Renderer.getInstance();
+				Renderer.getInstance();
 			        
 				if (Activator.uCCPluginBase != null && information != null) {
-					Activator.uCCPlugin = new UCCPlugin(Activator.uCCPluginBase);
-					Activator.uCCPluginBase.registerPlugin(Activator.uCCPlugin);
+					// Activator.uCCPlugin = new UCCPlugin(Activator.uCCPluginBase);
+					// Activator.uCCPlugin = new UCCPlugin(Activator.uCCPluginBase);
+					// Activator.uCCPluginBase.registerPlugin(Activator.uCCPlugin);
 					// Activator.uCCPlugin.createGridViewItem();
 					System.out.println("Plugin started!");
 				} else {

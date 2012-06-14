@@ -16,55 +16,69 @@
 package org.universAAL.ucc.plugin.ui.jambi.formManagement;
 
 import org.universAAL.middleware.ui.rdf.Form;
+import org.universAAL.ucc.plugin.ui.Activator;
 import org.universAAL.ucc.plugin.ui.jambi.ModelMapper;
 import org.universAAL.ucc.plugin.ui.jambi.model.FormModel;
+import org.universAAL.ucc.viewjambi.common.SubWindow;
 
+import com.trolltech.qt.core.QObject;
+import com.trolltech.qt.core.QSize;
+import com.trolltech.qt.gui.QApplication;
+import com.trolltech.qt.gui.QCloseEvent;
+import com.trolltech.qt.gui.QHideEvent;
 import com.trolltech.qt.gui.QMainWindow;
+import com.trolltech.qt.gui.QShowEvent;
+import com.trolltech.qt.gui.QWidget;
 
 /**
- * Manage a single {@link JFrame} corresponding to a
- * {@link Form}
- *
+ * Manage a single {@link JFrame} corresponding to a {@link Form}
+ * 
  * @author amedrano
  */
 public class FrameManager {
 
-    /**
-     * The frame being displayed
-     */
-    private QMainWindow frame;
+	/**
+	 * The frame being displayed
+	 */
+	private SubWindow frame;
 
-    /**
-     * the {@link Form} for which {@link FrameManager#frame}
-     * corresponds to.
-     */
-    private FormModel model;
+	/**
+	 * the {@link Form} for which {@link FrameManager#frame} corresponds to.
+	 */
+	private FormModel model;
 
-    /**
-     * Constructor.
-     * Sets the actual rendering of the {@link Form} in motion
-     * @param f
-     *         {@link Form} to be rendered
-     */
-    public FrameManager(Form f) {
-        model = ModelMapper.getModelFor(f);
-        frame = model.getFrame();
-        if (frame != null) {
-            frame.setVisible(true);
-        }
-        /*
-         *  TODO add a close action
-         *  closing = log off
-         *  if closing while in logging screen or no log required
-         *   = closing
-         */
-    }
+	/**
+	 * Constructor. Sets the actual rendering of the {@link Form} in motion
+	 * 
+	 * @param f
+	 *            {@link Form} to be rendered
+	 */
+	public FrameManager(final Form f) {
+		model = ModelMapper.getModelFor(f);
 
-    /**
-     * close the Frame and command the finalization of the form
-     * @see FormModel#finalizeForm()
-     */
-    public void disposeFrame() {
-        model.finalizeForm();
-    }
+		System.out.println("creating form manager");
+		
+		QApplication.invokeAndWait(new Runnable() {
+			public void run() {
+				frame = model.getFrame();
+				Activator.pluginBase().getMainView().showSubWindow(frame);
+				
+				frame.parentWidget().resize(new QSize(500, 400));
+			}
+		});
+
+		/*
+		 * TODO add a close action closing = log off if closing while in logging
+		 * screen or no log required = closing
+		 */
+	}
+
+	/**
+	 * close the Frame and command the finalization of the form
+	 * 
+	 * @see FormModel#finalizeForm()
+	 */
+	public void disposeFrame() {
+		model.finalizeForm();
+	}
 }

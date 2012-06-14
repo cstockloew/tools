@@ -48,10 +48,10 @@ public class LabelModel {
      */
     public QLabel getComponent() {
         QLabel jl = new QLabel(label.getText());
-        QImage icon = new QImage(label.getIconURL());
+        /* QImage icon = new QImage(label.getIconURL());
         if (icon != null) {
             jl.setPixmap(QPixmap.fromImage(icon));
-        }
+        } */
         return jl;
     }
 

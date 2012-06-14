@@ -34,11 +34,6 @@
 			<version>4.5.2_01</version>
 		</dependency>
 		<dependency>
-			<groupId>com.trolltech</groupId>
-			<artifactId>jambibridge</artifactId>
-			<version>4.5.2_01</version>
-		</dependency>
-		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.bus.ui</artifactId>
 			<version>1.1.1-SNAPSHOT</version>
@@ -62,26 +57,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>install-awtbridge</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>install-file</goal>
-						</goals>
-						<configuration>
-							<groupId>com.trolltech</groupId>
-							<artifactId>jambibridge</artifactId>
-							<version>4.5.2_01</version>
-							<file>${project.basedir}/src/main/resources/lib/qtjambiawtbridge.jar</file>
-							<packaging>jar</packaging>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
@@ -92,7 +67,7 @@
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Private-Package>org.universAAL.ucc.plugin.ui.*</Private-Package>
-						<Export-Package>com.trolltech.research.*</Export-Package>
+						<Export-Package>org.universAAL.ucc.plugin.ui.jambi.defaultLookAndFeel.*,org.universAAL.ucc.plugin.ui.jambi.defaultLookAndFeel.BorderLayout.Position</Export-Package>
 						<Include-Resource>
 							{maven-resources}
 						</Include-Resource>
