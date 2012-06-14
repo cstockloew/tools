@@ -3,18 +3,19 @@
 	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
  */
 
-package org.universAAL.tools.logmonitor;
+package org.universAAL.tools.logmonitor.rdfvis;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.tools.logmonitor.rdfvis.gui.GraphPanel;
 
 /**
  * An edge in the graphical view connecting two nodes. Every
  * {@link org.universAAL.middleware.rdf.Resource} corresponds to a
- * {@link org.universAAL.tools.logmonitor.Node} in the visualization and every
+ * {@link org.universAAL.tools.logmonitor.rdfvis.Node} in the visualization and every
  * property to an Edge.
  * 
  * @author cstockloew
@@ -35,7 +36,7 @@ public class Edge implements Comparable<Object> {
     /**
      * True, if the child node has been visited before.
      */
-    boolean visited = false;
+    public boolean visited = false;
 
     /**
      * The width of the text for this edge in the Graphics context.
@@ -95,7 +96,7 @@ public class Edge implements Comparable<Object> {
      * 
      * @return The child.
      */
-    Node getChild() {
+    public Node getChild() {
 	return child;
     }
 
@@ -125,7 +126,7 @@ public class Edge implements Comparable<Object> {
      *            prevent drawing over an existing node.
      * @return The bottom-right corner.
      */
-    Point drawEdge(Graphics2D g, Node parent, int x, int y, int currentWidth) {
+    public Point drawEdge(Graphics2D g, Node parent, int x, int y, int currentWidth) {
 	y += GraphPanel.nodeBorder;
 
 	// draw text

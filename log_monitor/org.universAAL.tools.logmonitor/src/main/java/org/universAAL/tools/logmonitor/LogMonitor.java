@@ -4,45 +4,32 @@
  */
 package org.universAAL.tools.logmonitor;
 
-import java.util.LinkedList;
-
-import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.container.LogListener;
 
 /**
  * Implementation of the {@link org.universAAL.middleware.util.LogListener}
- * interface to be called from {@link org.universAAL.middleware.util.LogUtils}
- * in the bundle mw.data.representation.
+ * interface to be called from
+ * {@link org.universAAL.middleware.container.utils.LogUtils}
  * 
  * @author cstockloew
  * 
  */
 public class LogMonitor implements LogListener {
 
-    /**
-     * The main frame.
-     */
-    private RDFVis vis = new RDFVis();
+    LogListenerEx listeners[] = new LogListenerEx[2];
+    MainGui gui = new MainGui();
 
-    /**
-     * @see org.universAAL.middleware.container.LogListener
-     */
+    LogMonitor() {
+	listeners[0] = new org.universAAL.tools.logmonitor.all_log.LogMonitor();
+	listeners[1] = new org.universAAL.tools.logmonitor.rdfvis.LogMonitor();
+
+	for (int i = 0; i < listeners.length; i++)
+	    gui.addPanel(listeners[i].getTitle(), listeners[i].getPanel());
+    }
+
     public void log(int logLevel, String module, String pkg, String cls,
 	    String method, Object[] msgPart, Throwable t) {
-
-	// TODO: put this in a separate thread?
-	String msg = "";
-	LinkedList<Resource> lst = new LinkedList<Resource>();
-	for (int i = 0; i < msgPart.length; i++) {
-	    if (i > 0)
-		msg += " ";
-	    Object o = msgPart[i];
-	    msg += o;
-	    if (o instanceof Resource)
-		lst.add((Resource) o);
-	}
-	for (Resource r : lst)
-	    vis.addMessage(cls, method, msg, r, ResourceInterpreter
-		    .getShortDescription(r));
+	for (int i = 0; i < listeners.length; i++)
+	    listeners[i].log(logLevel, module, pkg, cls, method, msgPart, t);
     }
 }

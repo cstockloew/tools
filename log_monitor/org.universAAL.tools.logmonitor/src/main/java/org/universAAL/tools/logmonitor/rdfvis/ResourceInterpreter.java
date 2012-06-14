@@ -1,4 +1,4 @@
-package org.universAAL.tools.logmonitor;
+package org.universAAL.tools.logmonitor.rdfvis;
 
 import java.util.List;
 

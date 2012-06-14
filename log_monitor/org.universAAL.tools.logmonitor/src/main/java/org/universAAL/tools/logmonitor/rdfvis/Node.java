@@ -3,7 +3,7 @@
 	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
  */
 
-package org.universAAL.tools.logmonitor;
+package org.universAAL.tools.logmonitor.rdfvis;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -19,12 +19,13 @@ import java.util.List;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.TypeMapper;
 import org.universAAL.middleware.rdf.UnmodifiableResource;
+import org.universAAL.tools.logmonitor.rdfvis.gui.GraphPanel;
 
 /**
  * A node in the graphical view. Every
  * {@link org.universAAL.middleware.rdf.Resource} corresponds to a Node in the
  * visualization and every property to an
- * {@link org.universAAL.tools.logmonitor.Edge}.
+ * {@link org.universAAL.tools.logmonitor.rdfvis.Edge}.
  * 
  * @author cstockloew
  * 
@@ -34,7 +35,7 @@ public class Node {
     /**
      * The resource is an instance of this class.
      */
-    Class<?> theClass = null;
+    public Class<?> theClass = null;
 
     /**
      * For literals: denotes the type of this literal.
@@ -49,28 +50,28 @@ public class Node {
     /**
      * The list of all children.
      */
-    LinkedList<Edge> children = new LinkedList<Edge>();
+    public LinkedList<Edge> children = new LinkedList<Edge>();
 
     /**
      * The x-coordinate of the top left corner of this node, or -1 if the
      * coordinates are not yet calculated.
      */
-    int x = -1;
+    public int x = -1;
 
     /**
      * The y-coordinate of the top left corner of this node.
      */
-    int y;
+    public int y;
 
     /**
      * The width of this node.
      */
-    int width;
+    public int width;
 
     /**
      * The height of this node.
      */
-    int height;
+    public int height;
 
     /**
      * Denotes whether this node represents an RDF Literal.
@@ -268,7 +269,7 @@ public class Node {
      *            The offset in y-direction.
      * @return The bottom-right corner
      */
-    Point drawNode(Graphics2D g, int xoff, int yoff) {
+    public Point drawNode(Graphics2D g, int xoff, int yoff) {
 	if (x == -1) {
 	    // calculate coordinates, only done once
 	    x = xoff;

@@ -9,6 +9,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.container.LogListener;
 
+
 /**
  * The bundle activator to create the log monitor and register this OSGi
  * service.
@@ -30,5 +31,10 @@ public class Activator implements BundleActivator {
     }
 
     public void stop(BundleContext arg0) throws Exception {
+    }
+    
+    public static void main(String[] args) {
+	LogMonitor lm = new LogMonitor();
+	lm.log(0, "module", "pkg", "cls", "method", new Object[] {""}, null);
     }
 }

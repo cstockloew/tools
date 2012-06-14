@@ -3,7 +3,7 @@
 	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
  */
 
-package org.universAAL.tools.logmonitor;
+package org.universAAL.tools.logmonitor.rdfvis.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,7 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -29,6 +29,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.tools.logmonitor.rdfvis.Node;
 
 /**
  * The main frame containing the list of all messages/log entry and the panel
@@ -37,7 +38,7 @@ import org.universAAL.middleware.rdf.Resource;
  * @author cstockloew
  * 
  */
-public class RDFVis extends JFrame implements ListSelectionListener {
+public class RDFVis extends JPanel implements ListSelectionListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -121,7 +122,7 @@ public class RDFVis extends JFrame implements ListSelectionListener {
      * Create the main frame.
      */
     public RDFVis() {
-	super("RDF Visualizer");
+	this.setLayout(new BorderLayout());
 
 	// RDF View
 	JScrollPane scrollpane = new JScrollPane(panel);
@@ -149,12 +150,7 @@ public class RDFVis extends JFrame implements ListSelectionListener {
 	// Split pane
 	JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 		scrollpaneTable, scrollpane);
-	getContentPane().add(split, BorderLayout.CENTER);
-	// split.setDividerLocation(300);
-
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	setSize(1000, 700);
-	setVisible(true);
+	add(split, BorderLayout.CENTER);
 
 	instance = this;
     }

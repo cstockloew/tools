@@ -3,7 +3,7 @@
 	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
  */
 
-package org.universAAL.tools.logmonitor;
+package org.universAAL.tools.logmonitor.rdfvis.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,6 +20,9 @@ import javax.swing.AbstractAction;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.universAAL.tools.logmonitor.rdfvis.Edge;
+import org.universAAL.tools.logmonitor.rdfvis.Node;
+
 /**
  * The graphical panel showing the node graph.
  * 
@@ -33,27 +36,27 @@ public class GraphPanel extends JPanel {
     /**
      * The distance between elements.
      */
-    static int nodeBorder = 6;
+    public static int nodeBorder = 6;
 
     /**
      * The font for normal text.
      */
-    static Font fontNormal = new Font("Verdana", 0, 12);
+    public static Font fontNormal = new Font("Verdana", 0, 12);
 
     /**
      * The font for bold text (e.g. java class names shown in nodes).
      */
-    static Font fontBold = new Font("Verdana", Font.BOLD, 12);
+    public static Font fontBold = new Font("Verdana", Font.BOLD, 12);
 
     /**
      * Font metrics for normal text. Stored for performance reasons.
      */
-    static FontMetrics fmNormal;
+    public static FontMetrics fmNormal;
 
     /**
      * Font metrics for bold text. Stored for performance reasons.
      */
-    static FontMetrics fmBold;
+    public static FontMetrics fmBold;
 
     /**
      * The root node of the graph.
@@ -64,7 +67,7 @@ public class GraphPanel extends JPanel {
      * The currently selected node, or null, if no node is selected. The
      * selected node and all of its edges are shown in bold.
      */
-    static Node selectedNode;
+    public static Node selectedNode;
 
     /**
      * The coordinates of the bottom-right corner. Stored to set the slider
