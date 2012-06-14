@@ -103,10 +103,10 @@ public class SimpleOutputModel extends OutputModel {
         // getTypeURI returns null
         if (content instanceof String) {
             if (((String) content).length() >= TOO_LONG) {
-                return new QTextEdit();
+                return new QTextEdit((String) content);
             }
             else {
-                return new QLineEdit();
+                return new QLineEdit((String) content);
             }
         }
         //if (fc.getTypeURI() == (TypeMapper.getDatatypeURI(Boolean.class))) {

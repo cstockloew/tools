@@ -98,7 +98,7 @@ public class SubdialogTriggerModel extends SubmitModel {
          *  TODO use needsSelection() in case of SubdialogTriggers in
          *  Repeat Tables, to check if the submitID is ready
          */
-    Renderer.getInstance().handler.summit((Submit) fc);
+    Renderer.getInstance().handler.submit((Submit) fc);
         //Renderer.getInstance().getFormManagement().closeCurrentDialog();
     }
 

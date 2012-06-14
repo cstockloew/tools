@@ -53,8 +53,10 @@ public class SimpleFormManager implements FormManager {
 
     /** {@inheritDoc} */
     public void closeCurrentDialog() {
+    	
         if (frame != null) {
             frame.disposeFrame();
+            frame = null;
         }
         //FormModelMapper.unRegister(
         //        currentForm.getDialogForm().getURI());
@@ -71,7 +73,7 @@ public class SimpleFormManager implements FormManager {
 
     /** {@inheritDoc} */
     public Resource cutDialog(String dialogID) {
-    closeCurrentDialog();
+    	closeCurrentDialog();
         // TODO Auto-generated method stub, What to return?
         return null;
     }

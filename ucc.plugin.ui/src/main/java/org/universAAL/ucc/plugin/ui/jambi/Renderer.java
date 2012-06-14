@@ -144,6 +144,7 @@ public final class Renderer extends Thread {
         }
         else {
             fm = new SimpleFormManager();
+        	// fm = new QueuedFormManager();
         }
     }
 

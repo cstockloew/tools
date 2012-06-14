@@ -18,11 +18,13 @@ package org.universAAL.ucc.plugin.ui.jambi.model.FormControl;
 import org.universAAL.middleware.ui.rdf.FormControl;
 import org.universAAL.middleware.ui.rdf.Input;
 import org.universAAL.middleware.ui.rdf.Submit;
+import org.universAAL.ucc.plugin.ui.Activator;
 import org.universAAL.ucc.plugin.ui.jambi.Renderer;
 import org.universAAL.ucc.plugin.ui.jambi.model.Model;
 
 import com.trolltech.qt.QSignalEmitter;
 import com.trolltech.qt.gui.QIcon;
+import com.trolltech.qt.gui.QMessageBox;
 import com.trolltech.qt.gui.QPushButton;
 import com.trolltech.qt.gui.QWidget;
 
@@ -32,46 +34,54 @@ import com.trolltech.qt.gui.QWidget;
  */
 public class SubmitModel extends Model {
 
-    /**
-     * Constructor.
-     * @param control
-     *     the {@link FormControl} which to model.
-     */
-    public SubmitModel(Submit control) {
-        super(control);
-        needsLabel = false;
-    }
+	/**
+	 * Constructor.
+	 * 
+	 * @param control
+	 *            the {@link FormControl} which to model.
+	 */
+	public SubmitModel(Submit control) {
+		super(control);
+		needsLabel = false;
+	}
 
-    /**
-     * {@inheritDoc}
-     * @return
-     *      a {@link JButton}
-     */
-    public QWidget getNewComponent() {
-        QPushButton s = new QPushButton(fc.getLabel().getText());
-        s.setIcon(new QIcon(fc.getLabel().getIconURL()));
-        s.pressed.connect(this, "actionPerformed()");
-        return s;
-    }
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @return a {@link JButton}
+	 */
+	public QWidget getNewComponent() {
+		QPushButton s = new QPushButton(fc.getLabel().getText());
+		s.setIcon(new QIcon(fc.getLabel().getIconURL()));
+		s.clicked.connect(this, "actionPerformed()");
+		return s;
+	}
 
-    /**
-     * a Submit is allways valid.
-     * @return <code>true</code>
-     */
-    public boolean isValid(QWidget component) {
-        //always valid
-        return true;
-    }
+	/**
+	 * a Submit is allways valid.
+	 * 
+	 * @return <code>true</code>
+	 */
+	public boolean isValid(QWidget component) {
+		// always valid
+		return true;
+	}
 
-    public void actionPerformed() {
-        Input missing = ((Submit) fc).getMissingInputControl();
-        QSignalEmitter emitter = QWidget.signalSender();
-    	if (!(emitter instanceof QWidget))
-    		return;
-        if (isValid((QWidget) emitter) && missing == null) {
-            Renderer.getInstance().handler.summit((Submit) fc);
-            Renderer.getInstance().getFormManagement().closeCurrentDialog();
-        }
-    }
+	public void actionPerformed() {
+		Input missing = ((Submit) fc).getMissingInputControl();
+		QSignalEmitter emitter = QWidget.signalSender();
+		if (!(emitter instanceof QWidget))
+			return;
+		else if (missing != null) {
+			String str = "";
+			if(missing.getLabel() != null)
+				str = " for " + missing.getLabel().getText();
+			
+			QMessageBox.information((QWidget)emitter, "Input is missing" + str, missing.getAlertString());
+		} else if (isValid((QWidget) emitter) && missing == null) {
+			Renderer.getInstance().getFormManagement().closeCurrentDialog();
+			Renderer.getInstance().handler.submit((Submit) fc);
+		}
+	}
 
 }
