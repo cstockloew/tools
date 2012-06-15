@@ -1,5 +1,6 @@
 package org.universaal.tools.conformanceTools.run;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -46,25 +47,30 @@ public class ToolsRun {
 		this.window = window;
 
 		this.selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
+		if(this.selection == null){ // maybe you're using Project Explorer
+			this.selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
+			System.out.println("uAAL CT: using selection from Project Explorer.");
+		}
 
 		if ((selection != null) && (selection instanceof StructuredSelection)) {
-			Object selected = ((StructuredSelection) selection)
-					.getFirstElement();
-			if (selected instanceof JavaProject) {
-				this.project = ((JavaProject) selected).getProject();
-			} else if (selected instanceof IProject) {
-				this.project = ((IProject) selected);
-			} 
+
+			Object selected = ((StructuredSelection) selection).getFirstElement();
+
+			if (selected instanceof JavaProject)
+				this.project = ((JavaProject) selected).getProject();			
+			else if (selected instanceof IProject)
+				this.project = ((IProject) selected);			
 			else {
 				MessageDialog.openInformation(window.getShell(),
-						"Conformance Tools", "Not a project.");
+						"uAAL Conformance Tools", "Not a project.");
 
 				return;
 			}
 
-			test((StructuredSelection) selection);
-
+			test((StructuredSelection) selection); // launch chosen plugin
 		}
+		else
+			System.out.println("uAAL CT: no valid selection.");
 	}
 
 	private void test(IStructuredSelection selected){
@@ -74,19 +80,19 @@ public class ToolsRun {
 
 				try{
 					// Continuous progress bar
-					monitor.beginTask("Verifying conformance", IProgressMonitor.UNKNOWN);
+					monitor.beginTask("uAAL - verifying conformance", IProgressMonitor.UNKNOWN);
 
 					IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 
 					if (project != null && !project.hasNature(IMavenConstants.NATURE_ID)) {
 						monitor.done();
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, "Not a Maven project.");
+						return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL - not a Maven project.");
 					}
 
 					IFile pomResource = project.getFile(IMavenConstants.POM_FILE_NAME);
 					if (pomResource == null) {
 						monitor.done();
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, "Missing POM file.");
+						return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL - missing POM file.");
 					}
 
 					IMavenProjectFacade projectFacade = projectManager.create(project, monitor);
@@ -121,9 +127,9 @@ public class ToolsRun {
 						}
 
 						monitor.done();
-						System.out.println("CT: report blocked - "+errors);
+						System.out.println("uAAL CT: report blocked - "+errors);
 						if(errors.contains("java.lang.OutOfMemoryError"))
-							System.out.println("CT: verify start parameter [-XX:MaxPermSize] of AAL Studio and increase value.");
+							System.out.println("uAAL CT: verify start parameter [-XX:MaxPermSize] of AAL Studio and increase the value.");
 
 						return new Status(Status.ERROR, Activator.PLUGIN_ID, errors);
 					}
@@ -131,7 +137,7 @@ public class ToolsRun {
 						monitor.done(); // old one
 
 						// generate report and visualize it
-						monitor.beginTask("Reporting conformance tests", IProgressMonitor.UNKNOWN);
+						monitor.beginTask("uAAL - reporting conformance tests.", IProgressMonitor.UNKNOWN);
 
 						goals.clear();
 						MavenExecutionRequest request2 = projectManager.createExecutionRequest(pomResource,
@@ -168,34 +174,40 @@ public class ToolsRun {
 							}
 
 							monitor.done();
-							return new Status(Status.ERROR, Activator.PLUGIN_ID, "CT: "+errors);
+							return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL CT: "+errors);
 						}
 
 						// visualize report - open report file
+						// TODO is there a way to force project refresh via source code? 
+						// Resolved referencing files directly on filesystem and not workspace resources
 						window.getWorkbench().getDisplay().syncExec(new Runnable() {
 
 							@Override
 							public void run() {
 
 								try{
-									IFile fileToOpen = null;
-									IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(project.getDescription().getName());
+									//IFile fileToOpen = null;
+									String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+project.getDescription().getName();
+									File f = null;
+									//IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(project.getDescription().getName());
 
 									if(plugin == RunPlugin.CheckStyle)
-										fileToOpen = p.getFile("/target/site/checkstyle.html");
+										//fileToOpen = p.getFile("/target/site/checkstyle.html");
+										f = new File(path_+"/target/site/checkstyle.html");
 
 									if(plugin == RunPlugin.FindBugs)
-										fileToOpen = p.getFile("/target/findbugsXml.xml");
+										//fileToOpen = p.getFile("/target/findbugsXml.xml");
+										f = new File(path_+"/target/findbugsXml.xml");
 
-									if (fileToOpen != null && fileToOpen.exists() ){
-										org.eclipse.core.filesystem.IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.getLocationURI());
+									if (f != null && f.exists() ){
+										org.eclipse.core.filesystem.IFileStore fileStore = EFS.getLocalFileSystem().getStore(f.toURI());//fileToOpen.getLocationURI());
 										IWorkbenchPage page = window.getActivePage();
 
 										try {
 											if(page != null && fileStore != null)
 												IDE.openEditorOnFileStore( page, fileStore );
 											else
-												System.out.println("CT: can't open report file.");
+												System.out.println("uAAL CT: can't open report file - "+plugin);
 										} 
 										catch ( PartInitException e ) {
 											e.printStackTrace();
@@ -203,9 +215,9 @@ public class ToolsRun {
 									} 
 									else {
 										if(plugin == RunPlugin.CheckStyle)
-											System.out.println("CT: does file "+ResourcesPlugin.getWorkspace().getRoot().getProject(project.getDescription().getName())+"/target/site/checkstyle.html"+" exist?");
+											System.out.println("uAAL CT: does file "+ResourcesPlugin.getWorkspace().getRoot().getProject(project.getDescription().getName())+"/target/site/checkstyle.html"+" exist?");
 										if(plugin == RunPlugin.FindBugs)
-											System.out.println("CT: does file "+ResourcesPlugin.getWorkspace().getRoot().getProject(project.getDescription().getName())+"/target/findbugsXml.xml"+" exist?");
+											System.out.println("uAAL CT: does file "+ResourcesPlugin.getWorkspace().getRoot().getProject(project.getDescription().getName())+"/target/findbugsXml.xml"+" exist?");
 									}
 								}
 								catch(Exception ex){
@@ -218,11 +230,11 @@ public class ToolsRun {
 				catch(Exception ex){
 					ex.printStackTrace();
 					monitor.done();
-					return new Status(Status.ERROR, Activator.PLUGIN_ID, "See console log.");
+					return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL CT - save console log and send it for debugging purpose.");
 				}
 
 				monitor.done();
-				return new Status(Status.OK, Activator.PLUGIN_ID, "All ok.");
+				return new Status(Status.OK, Activator.PLUGIN_ID, "uAAL CT - all ok!");
 			}
 		};
 
