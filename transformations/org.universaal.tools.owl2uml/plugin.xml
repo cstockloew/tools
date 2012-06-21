@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            name="OWL2UML Transformation Tool"
+            categoryId="org.universaal.tools.owl2uml.commands.category"
+            id="org.universaal.tools.owl2uml.commands.sampleCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.universaal.tools.owl2uml.commands.sampleCommand"
+            class="org.universaal.tools.owl2uml.handlers.SampleHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=transform">
+         <command
+               commandId="org.universaal.tools.owl2uml.actions.SampleAction"
+               label="&amp;OWL2UML Tranformation"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <command
+               commandId="org.universaal.tools.owl2uml.commands.sampleCommand"
+               icon="icons/transform.png"
+               label="Transform2UML"
+               style="push">
+               <visibleWhen>
+      <with variable="activeMenuSelection">
+         <iterate ifEmpty="false">
+            <adapt type="org.eclipse.core.resources.IFile">
+               <test property="org.eclipse.core.resources.name" value="*.owl" />
+            </adapt>
+         </iterate>
+      </with>
+   </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="org.universaal.tools.owl2uml.actionSet">
+         <action
+               label="&amp;OWL2UML Tranformation Tool"
+               icon="icons/transform.png"
+               class="org.universaal.tools.owl2uml.actions.SampleAction"
+               tooltip="Please right-click on a selected .owl file and choose the Transform2UML option."
+               menubarPath="org.universaal.tools.AALStudio.menu/transform"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.owl2uml.actions.SampleAction">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>
