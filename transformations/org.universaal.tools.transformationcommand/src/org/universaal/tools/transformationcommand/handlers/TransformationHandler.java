@@ -36,6 +36,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -128,6 +129,12 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 
 	public void doTransform(IFile inputFile, ExecutionEvent event) {
+		IWorkbenchWindow window = null;
+		try {
+			 window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+		} catch (ExecutionException e2) {
+			e2.printStackTrace();
+		}
 		myConsole = findConsole("MOFScript2 Console");
 		try {
 			FontData data = new FontData ("Arial", 9, 9);
@@ -139,8 +146,14 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		}
 		stream = myConsole.newMessageStream();
 		stream.setActivateOnWrite(true);
-
-
+		
+		// check if OWLSupport should be generated. TODO: I do not think that persistent properties are the best solution
+		String generateOWLSupport = "false";
+		try {
+			generateOWLSupport = inputFile.getProject().getPersistentProperty(new QualifiedName("generateJavaToOWL", "generateJavaToOWL"));
+		} catch (CoreException e1) {
+			e1.printStackTrace();
+		}
 		
 		IPath path = new Path(transformationFileName);
 		URL l = FileLocator.find(Platform.getBundle(thisBundleName), path, null);
@@ -243,6 +256,8 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		execMgr.setRootDirectory(findRootDirectory(project));		
 		System.setProperty("org.universaal.tools.transformationcommand.javadir", 
 				getTrimmedJavaDirectoryFromPreferences() );
+		System.setProperty("org.universaal.tools.transformationcommand.javaowlsupport", 
+				generateOWLSupport);
 
 		// if true, files are not generated to the file system, but populated into a filemodel
 		// which can be fetched afterwards. Value false will result in standard file generation

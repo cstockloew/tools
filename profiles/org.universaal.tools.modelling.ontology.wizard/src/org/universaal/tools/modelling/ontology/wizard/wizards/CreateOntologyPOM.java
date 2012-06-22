@@ -57,7 +57,8 @@ public class CreateOntologyPOM {
 	
 	static Dependency[] dependencies = new Dependency[] {
 			dep("org.apache.felix", "org.osgi.core", "1.0.1"),
-			dep("org.universAAL.middleware","mw.data.representation", "1.1.0"),
+			dep("org.universAAL.middleware", "mw.data.serialization", "1.1.0"),
+			dep("org.universAAL.middleware", "mw.data.representation", "1.1.0"),
 			dep("org.universAAL.middleware", "mw.bus.model", "1.1.0"),
 			dep("org.universAAL.middleware", "mw.container.xfaces", "1.1.0"),
 			dep("org.universAAL.middleware", "mw.container.osgi","1.1.0" ),
@@ -65,8 +66,7 @@ public class CreateOntologyPOM {
 			dep("org.universAAL.middleware", "mw.bus.context", "1.1.0"),
 			dep("org.universAAL.middleware", "mw.bus.ui", "1.1.0"),
 			dep("org.universAAL.ontology", "ont.phWorld", "1.1.0"),
-			dep("org.universAAL.ontology", "ont.profile", "1.1.0")
-					
+			dep("org.universAAL.ontology", "ont.profile", "1.1.0")		
 	};	
 	
 	static Repository[] repositories = new Repository[] {

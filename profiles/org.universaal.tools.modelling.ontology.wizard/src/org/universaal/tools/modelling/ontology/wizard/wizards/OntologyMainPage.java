@@ -147,6 +147,14 @@ public class OntologyMainPage extends WizardPage {
 		txtMavendescription = new Text(container, SWT.BORDER);
 		txtMavendescription.setText("mavenDescription");
 		txtMavendescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		
+		Label label_2 = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
+		label_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		
+		btnGenerateJavaToOWL = new Button(container, SWT.CHECK);
+		btnGenerateJavaToOWL.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+		btnGenerateJavaToOWL.setText("Generate Java to OWL support file");
+		
 		m_bindingContext = initDataBindings();
 	}
 	
@@ -160,6 +168,7 @@ public class OntologyMainPage extends WizardPage {
 	private Label lblMavenVersion;
 	private Label lblJavaPackageName;
 	private Text txtJavaPackageName;
+	private Button btnGenerateJavaToOWL;
 	
 	public void setModel(OntologyProjectModel model) {
 		this.model = model;
@@ -214,6 +223,10 @@ public class OntologyMainPage extends WizardPage {
 		IObservableValue txtJavaPackageNameObserveTextObserveWidget = SWTObservables.observeText(txtJavaPackageName, SWT.Modify);
 		IObservableValue modelPackageNameObserveValue_1 = BeansObservables.observeValue(model, "packageName");
 		bindingContext.bindValue(txtJavaPackageNameObserveTextObserveWidget, modelPackageNameObserveValue_1, null, null);
+		//
+		IObservableValue btnGenerateJavaToOWLObserveSelectionObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeSelection(btnGenerateJavaToOWL));
+		IObservableValue modelbtnGenerateJavaToOWLObserveValue = BeansObservables.observeValue(model, "generateJavaToOWL");
+		bindingContext.bindValue(btnGenerateJavaToOWLObserveSelectionObserveWidget, modelbtnGenerateJavaToOWLObserveValue, null, null);
 		//
 		return bindingContext;
 	}

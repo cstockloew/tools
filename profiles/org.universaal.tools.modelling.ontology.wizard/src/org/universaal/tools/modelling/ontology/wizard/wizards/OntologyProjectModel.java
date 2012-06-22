@@ -15,6 +15,7 @@ public class OntologyProjectModel  {
 	String parentPackageName = "pck";
 	
 	boolean useSimpleMode = true;
+	boolean generateJavaToOWL = true;
 
 	String projectName;
 	String packageName;
@@ -73,6 +74,16 @@ public class OntologyProjectModel  {
 	public void setUseSimpleMode(boolean useDerivedValues) {
 		if (this.useSimpleMode != useDerivedValues) {
 			support.firePropertyChange("useSimpleMode", this.useSimpleMode, this.useSimpleMode = useDerivedValues);			
+		}
+	}
+	
+	public boolean isGenerateJavaToOWL() {
+		return generateJavaToOWL;
+	}
+	
+	public void setGenerateJavaToOWL(boolean useDerivedValues) {
+		if (this.generateJavaToOWL != useDerivedValues) {
+			support.firePropertyChange("generateJavaToOWL", this.generateJavaToOWL, this.generateJavaToOWL = useDerivedValues);			
 		}
 	}
 

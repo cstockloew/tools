@@ -1,5 +1,11 @@
 package org.universaal.tools.modelling.ontology.wizard.wizards;
 
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.maven.model.Model;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -13,6 +19,7 @@ import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
@@ -227,6 +234,12 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 			    // ignore
 			}
 		    }
+		    
+	    	try {
+				listener.getNewProject().setPersistentProperty(new QualifiedName("generateJavaToOWL", "generateJavaToOWL"), ontologyProjectModel.isGenerateJavaToOWL() ? "true" : "false");
+	    	} catch (CoreException e) {
+				e.printStackTrace();
+			}
 		} finally {
 		    workspace.removeResourceChangeListener(listener);
 		}
