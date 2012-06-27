@@ -483,8 +483,18 @@ public final class ' ontologyName.firstToUpper() 'Ontology extends Ontology {
 package ' pName.substring(0, pName.lastIndexOf(".")) '.creator;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyFormat;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
 import org.universAAL.middleware.owl.OntologyManagement;
 import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
@@ -506,6 +516,28 @@ public class ' ontologyName.firstToUpper() 'OWLCreator {
 		} catch (IOException e) {
 			System.out.println("Exception ");
 
+		}
+		
+		File file = new File("' ontologyName.firstToUpper() '.owl");
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		IRI documentIRI = IRI.create(file);
+		OWLOntology owlOntology;
+		try {
+			owlOntology = manager.loadOntologyFromOntologyDocument(documentIRI);
+			System.out.println("Loaded ontology: " + owlOntology);
+			
+			OWLOntologyFormat format = manager.getOntologyFormat(owlOntology);
+			 
+			OWLXMLOntologyFormat owlxmlFormat = new OWLXMLOntologyFormat();
+			if(format.isPrefixOWLOntologyFormat()) {
+				owlxmlFormat.copyPrefixesFrom(format.asPrefixOWLOntologyFormat());
+			}
+			manager.saveOntology(owlOntology, owlxmlFormat, IRI.create(file));
+			System.out.println("Saved ontology " + owlOntology + " in file ' ontologyName.firstToUpper() '.owl");
+		} catch (OWLOntologyCreationException e1) {
+			e1.printStackTrace();
+		} catch (OWLOntologyStorageException e) {
+			e.printStackTrace();
 		}
 
 		return;

@@ -66,14 +66,16 @@ public class CreateOntologyPOM {
 			dep("org.universAAL.middleware", "mw.bus.context", "1.1.0"),
 			dep("org.universAAL.middleware", "mw.bus.ui", "1.1.0"),
 			dep("org.universAAL.ontology", "ont.phWorld", "1.1.0"),
-			dep("org.universAAL.ontology", "ont.profile", "1.1.0")		
+			dep("org.universAAL.ontology", "ont.profile", "1.1.0"),
+			dep("org.coode.owlapi", "owlapi", "3.2.4")
 	};	
 	
 	static Repository[] repositories = new Repository[] {
 			rep("central","Central Maven Repository", "http://repo1.maven.org/maven2", true, false, null ),
 			rep("apache-snapshots", "Apache Snapshots","http://people.apache.org/repo/m2-snapshot-repository", false, true, "daily" ),
 			rep("uaal", "universAAL Repositories", "http://depot.universaal.org/maven-repo/releases/", true, false, null ),
-			rep("uaal-snapshots", "universAAL Snapshot Repositories", "http://depot.universaal.org/maven-repo/snapshots/", false, true, null)
+			rep("uaal-snapshots", "universAAL Snapshot Repositories", "http://depot.universaal.org/maven-repo/snapshots/", false, true, null),
+			rep("uaal-thirdparty", "universAAL Third Party Repositories", "http://depot.universaal.org/maven-repo/thirdparty/", true, false, null)
 	};
 	
 	protected static Repository rep(String id, String name, String url, boolean releases, boolean snapshots, String snapshotPolicy ) {
