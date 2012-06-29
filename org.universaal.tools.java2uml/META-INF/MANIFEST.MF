@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Java2uml
+Bundle-SymbolicName: org.universaal.tools.java2uml
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: java2uml.jar,
+ lib/org.eclipse.uml2.uml_3.2.100.v201108110105.jar
+Export-Package: 
+ org.universaal.tools.modelling.java2uml,
+ org.universaal.tools.modelling.osgi
+Import-Package: org.eclipse.uml2.uml
+Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.7.0"
