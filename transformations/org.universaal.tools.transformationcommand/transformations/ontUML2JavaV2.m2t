@@ -488,7 +488,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -528,11 +528,11 @@ public class ' ontologyName.firstToUpper() 'OWLCreator {
 			
 			OWLOntologyFormat format = manager.getOntologyFormat(owlOntology);
 			 
-			OWLXMLOntologyFormat owlxmlFormat = new OWLXMLOntologyFormat();
+			RDFXMLOntologyFormat rdfxmlFormat = new RDFXMLOntologyFormat();
 			if(format.isPrefixOWLOntologyFormat()) {
-				owlxmlFormat.copyPrefixesFrom(format.asPrefixOWLOntologyFormat());
+				rdfxmlFormat.copyPrefixesFrom(format.asPrefixOWLOntologyFormat());
 			}
-			manager.saveOntology(owlOntology, owlxmlFormat, IRI.create(file));
+			manager.saveOntology(owlOntology, rdfxmlFormat, IRI.create(file));
 			System.out.println("Saved ontology " + owlOntology + " in file ' ontologyName.firstToUpper() '.owl");
 		} catch (OWLOntologyCreationException e1) {
 			e1.printStackTrace();

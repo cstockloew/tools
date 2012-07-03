@@ -148,9 +148,10 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		stream.setActivateOnWrite(true);
 		
 		// check if OWLSupport should be generated. TODO: I do not think that persistent properties are the best solution
-		String generateOWLSupport = "false";
+		String generateOWLSupport = "true";
 		try {
-			generateOWLSupport = inputFile.getProject().getPersistentProperty(new QualifiedName("generateJavaToOWL", "generateJavaToOWL"));
+			String tmpParamCheck = inputFile.getProject().getPersistentProperty(new QualifiedName("generateJavaToOWL", "generateJavaToOWL"));
+			generateOWLSupport = tmpParamCheck != null ? tmpParamCheck : generateOWLSupport;
 		} catch (CoreException e1) {
 			e1.printStackTrace();
 		}

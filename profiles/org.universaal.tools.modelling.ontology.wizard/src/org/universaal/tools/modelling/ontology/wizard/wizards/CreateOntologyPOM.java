@@ -67,7 +67,7 @@ public class CreateOntologyPOM {
 			dep("org.universAAL.middleware", "mw.bus.ui", "1.1.0"),
 			dep("org.universAAL.ontology", "ont.phWorld", "1.1.0"),
 			dep("org.universAAL.ontology", "ont.profile", "1.1.0"),
-			dep("org.coode.owlapi", "owlapi", "3.2.4")
+			dep("org.coode.owlapi", "owlapi", "3.3")
 	};	
 	
 	static Repository[] repositories = new Repository[] {
