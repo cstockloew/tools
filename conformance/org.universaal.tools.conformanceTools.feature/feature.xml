@@ -49,9 +49,7 @@ http://sourceforge.net/projects/findbugs/
 
    <includes
          id="org.eclipse.m2e.feature"
-         version="1.0.200"
-         name="m2e"
-         search-location="both"/>
+         version="0.0.0"/>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
@@ -66,7 +64,7 @@ http://sourceforge.net/projects/findbugs/
       <import plugin="org.eclipse.m2e.maven.runtime"/>
       <import plugin="org.eclipse.m2e.core.ui"/>
       <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.m2e.core" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.m2e.core" version="1.0.200" match="greaterOrEqual"/>
    </requires>
 
    <plugin
