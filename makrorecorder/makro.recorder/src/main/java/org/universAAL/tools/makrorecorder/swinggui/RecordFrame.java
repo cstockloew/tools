@@ -53,7 +53,11 @@ import org.universAAL.tools.makrorecorder.Activator;
 import org.universAAL.tools.makrorecorder.makrorecorder.Pattern;
 import org.universAAL.tools.makrorecorder.makrorecorder.myContextSubscriber;
 
-
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public class RecordFrame extends JFrame implements ActionListener,MouseListener, ListSelectionListener{
 	private static final long serialVersionUID = 8508553212473882557L;
 	

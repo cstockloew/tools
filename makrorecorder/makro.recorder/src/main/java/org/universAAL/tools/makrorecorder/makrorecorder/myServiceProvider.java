@@ -42,6 +42,11 @@ import org.universAAL.middleware.service.owls.process.ProcessOutput;
 import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
 import org.universAAL.tools.makrorecorder.Activator;
 
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public class myServiceProvider {
 	
 	public static String NAMESPACE_MY_SERVICE_PROVIDER = "http://ontology.igd.fhg.de/myServiceProvider.owl#";

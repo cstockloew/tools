@@ -21,6 +21,11 @@ import org.osgi.service.log.LogService;
 
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public class myLogger {
 	
 //	static LogUtils log;

@@ -16,6 +16,11 @@
  */
 package org.universAAL.tools.makrorecorder.makrorecorder;
 
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public interface ServiceCallHandler {
 	/**
 	 * @param progress between 0 and 1

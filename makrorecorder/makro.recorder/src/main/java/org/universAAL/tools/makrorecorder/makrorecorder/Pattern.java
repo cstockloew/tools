@@ -35,6 +35,11 @@ import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.util.ResourceComparator;
 import org.universAAL.tools.makrorecorder.Activator;
 
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public class Pattern {
 	private BufferedReader reader;
 	private BufferedWriter writer;

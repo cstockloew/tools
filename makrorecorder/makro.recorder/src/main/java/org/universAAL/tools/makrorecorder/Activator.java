@@ -30,6 +30,11 @@ import org.universAAL.tools.makrorecorder.makrorecorder.myLogger;
 import org.universAAL.tools.makrorecorder.makrorecorder.myServiceProvider;
 import org.universAAL.tools.makrorecorder.swinggui.MainFrame;
 
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public class Activator implements BundleActivator {
 
 	public static myLogger logger;

@@ -25,6 +25,11 @@ import java.util.Vector;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.tools.makrorecorder.Activator;
 
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public class ResourceOrginazer {
 
 	Vector<Pattern> patterns;

@@ -48,7 +48,11 @@ import org.universAAL.tools.makrorecorder.Activator;
 import org.universAAL.tools.makrorecorder.makrorecorder.Pattern;
 import org.universAAL.tools.makrorecorder.makrorecorder.ServiceCallHandler;
 
-
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public class MainFrame extends JFrame implements ListSelectionListener, MouseListener, ServiceCallHandler {
 	
 	// Menubar is not working with Sensekit o:O

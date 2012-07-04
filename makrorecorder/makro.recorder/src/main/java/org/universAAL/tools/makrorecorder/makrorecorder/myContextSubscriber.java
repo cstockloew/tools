@@ -30,6 +30,11 @@ import org.universAAL.middleware.owl.MergedRestriction;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.tools.makrorecorder.Activator;
 
+/**
+ * 
+ * @author Alexander Marinc, Mark Prediger
+ *
+ */
 public class myContextSubscriber extends ContextSubscriber {
 
 	static Long startTime;
