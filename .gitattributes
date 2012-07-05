@@ -65,6 +65,53 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.configurationExtractor.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.configurationExtractor/.classpath -text
+org.universaal.tools.configurationExtractor/.project -text
+org.universaal.tools.configurationExtractor/.settings/org.eclipse.jdt.core.prefs -text
+org.universaal.tools.configurationExtractor/META-INF/MANIFEST.MF -text
+org.universaal.tools.configurationExtractor/OSGI-INF/l10n/bundle.properties -text
+org.universaal.tools.configurationExtractor/build.properties -text
+org.universaal.tools.configurationExtractor/icons/DeleteIcon1.png -text
+org.universaal.tools.configurationExtractor/icons/addPanelIcon.png -text
+org.universaal.tools.configurationExtractor/icons/expertModeIcon.png -text
+org.universaal.tools.configurationExtractor/icons/exportIcon.png -text
+org.universaal.tools.configurationExtractor/icons/normalModeIcon.png -text
+org.universaal.tools.configurationExtractor/icons/openFromDirectoryIcon.png -text
+org.universaal.tools.configurationExtractor/icons/openFromWorkspaceIcon.png -text
+org.universaal.tools.configurationExtractor/icons/wizardIcon.jpg -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/arq-2.8.7.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/icu4j-3.4.4.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/iri-0.8.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/jena-2.6.4-javadoc.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/jena-2.6.4-tests.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/jena-2.6.4.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/junit-4.5.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/log4j-1.2.13.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/lucene-core-2.3.1.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/slf4j-api-1.5.8.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/slf4j-log4j12-1.5.8.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/stax-api-1.0.1.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/wstx-asl-3.2.9.jar -text
+org.universaal.tools.configurationExtractor/lib/lib_jena/xercesImpl-2.7.1.jar -text
+org.universaal.tools.configurationExtractor/lib/rcptoolbox.1.0.10.jar -text
+org.universaal.tools.configurationExtractor/plugin.xml -text
+org.universaal.tools.configurationExtractor/src/FileWithComments.java -text
+org.universaal.tools.configurationExtractor/src/org/eclipse/wb/swt/ResourceManager.java -text
+org.universaal.tools.configurationExtractor/src/org/eclipse/wb/swt/SWTResourceManager.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/Activator.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/CommentsExtractor.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/ConfigChecker.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/actions/ExtractorAction.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/data/ConfigItem.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/data/GeneralUCConfig.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/data/ItemType.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/handlers/ExtractorHandler.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/ontology/OntologyCreator.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/ontology/OntologyReader.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/view/CEView.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/view/DragnDropHelper.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/view/ItemDetails.java -text
+org.universaal.tools.configurationExtractor/src/org/universaal/tools/configurationExtractor/view/TreeItemDataTransfer.java -text
 org.universaal.tools.conformanceTools.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools.feature/feature.xml -text svneol=unset#text/plain
