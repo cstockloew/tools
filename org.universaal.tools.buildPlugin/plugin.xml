@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="org.universaal.tools.buildServiceApplication.actionSet">   
+         <action
+               label="&amp;Publish universAAL application"
+               icon="icons/publish.png"
+               class="org.universaal.tools.buildserviceapplication.actions.PublishAction"
+               tooltip="Publish application to uStore"
+               menubarPath="org.universaal.tools.AALStudio.menu/build"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.PublishAction">			
+         </action>  
+           <action
+               label="&amp;Upload application to Developer Depot"
+               icon="icons/upload.png"
+               class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
+               tooltip="Upload application to Developer Depot"
+               menubarPath="org.universaal.tools.AALStudio.menu/build"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
+         </action>
+         <action
+               label="&amp;Debug universAAL application"
+               icon="icons/run.png"
+               class="org.universaal.tools.buildserviceapplication.actions.DebugAction"
+               tooltip="Debug universAAL application"
+               menubarPath="org.universaal.tools.AALStudio.menu/build"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.DebugAction" >			
+         </action>
+          <action
+               label="&amp;Run universAAL application"
+               icon="icons/run.png"
+               class="org.universaal.tools.buildserviceapplication.actions.RunAction"
+               tooltip="Run universAAL application"
+               menubarPath="org.universaal.tools.AALStudio.menu/build"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.RunAction" >			
+         </action>
+           <action
+               label="&amp;Build universAAL application"
+               icon="icons/compile.png"
+               class="org.universaal.tools.buildserviceapplication.actions.BuildAction"
+               tooltip="Build universAAL application"
+               menubarPath="org.universaal.tools.AALStudio.menu/build"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.buildserviceapplication.actions.BuildAction">				
+         </action>      
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="universAAL"
+            id="org.universaal.tools.buildserviceapplication.commands">
+      </category>
+      <command
+            name="Build application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.BuildAction">
+      </command>
+      <command
+            name="Run application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.RunAction">
+      </command>
+      <command
+            name="Debug application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.DebugAction">
+      </command>
+      <command
+            name="Upload application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.UploadAction">
+      </command>
+      <command
+            name="Publish application"
+            categoryId="org.universaal.tools.buildserviceapplication.commands"
+            id="org.universaal.tools.buildserviceapplication.actions.PublishAction">
+      </command>            
+   </extension> 
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.universaal.tools.buildserviceapplication.actions.BuildAction"
+            class="org.universaal.tools.buildserviceapplication.handlers.BuildApplicationHandler">
+      </handler>
+      <handler
+            commandId="org.universaal.tools.buildserviceapplication.actions.RunAction"
+            class="org.universaal.tools.buildserviceapplication.handlers.RunApplicationHandler">
+      </handler>
+      <handler
+            commandId="org.universaal.tools.buildserviceapplication.actions.DebugAction"
+            class="org.universaal.tools.buildserviceapplication.handlers.DebugApplicationHandler">
+      </handler>
+      <handler
+            commandId="org.universaal.tools.buildserviceapplication.actions.UploadAction"
+            class="org.universaal.tools.buildserviceapplication.handlers.UploadApplicationHandler">
+      </handler>
+      <handler
+            commandId="org.universaal.tools.buildserviceapplication.actions.PublishAction"
+            class="org.universaal.tools.buildserviceapplication.handlers.PublishApplicationHandler">
+      </handler>
+   </extension> 
+   <extension point="org.eclipse.ui.startup">
+     <startup class="org.universaal.tools.buildserviceapplication.StartupClass"/>
+   </extension>
+</plugin>
+    
