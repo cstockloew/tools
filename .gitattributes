@@ -46,6 +46,9 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.configurationExtractor.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools.feature/.project -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools.feature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools.feature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools/.classpath -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools/.classpath.html -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools/.project -text svneol=unset#text/plain

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.universaal.tools.conformanceTools.feature"
+      label="AAL Studio Conformance Tools"
+      version="0.1.0"
+      provider-name="universAAL"
+      plugin="org.universaal.tools.aalstudio.core">
+
+   <description url="http://www.example.com/description">
+      This AAL Studio tool provides conformance tools helping the developer
+to debug and to optimize source code of developing AAL applications.
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      Copyright 2011, SINTEF. http://www.sintef.no/
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied.
+See the License for the specific language governing permissions
+and
+limitations under the License.
+
+CheckStyle included libraries released under LGPL license, as
+in:
+http://sourceforge.net/projects/eclipse-cs/
+
+FindBugs included libraries released under LGPL license, as in:
+http://sourceforge.net/projects/findbugs/
+   </copyright>
+
+   <license url="http://www.apache.org/licenses/LICENSE-2.0">
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.apache.ant" version="1.8.2" match="greaterOrEqual"/>
+      <import plugin="org.apache.xerces" version="2.9.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.core" version="3.7.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.resources" version="3.7.100" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="org.universaal.tools.conformanceTools"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
