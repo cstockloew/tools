@@ -257,6 +257,18 @@ public class LaunchConfiguration extends AbstractPDELaunchConfiguration
                                 throw new PlatformException( "Problem starting platform", e );
                             }
                         }
+                        public void exec( final String[] vmOptions,
+                                final String[] classpath,
+                                final String mainClass,
+                                final String[] programOptions,
+                                final String javaHome,
+                                final File workingDir,
+                                String[] environmentVariables )
+                            throws PlatformException
+                        {
+                        	exec(vmOptions, classpath, mainClass, programOptions, javaHome, workingDir);
+                        }
+  
                     }, configuration.getProgramArguments()
                     );
                 }
