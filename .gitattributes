@@ -123,6 +123,23 @@ org.universaal.tools.perspective.feature/feature.xml -text svneol=unset#text/pla
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/.classpath -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/.project -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/LICENSE.txt -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/build.properties -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/icons/sample.gif -text
+org.universaal.tools.uploadopensourceplugin/mail.jar -text
+org.universaal.tools.uploadopensourceplugin/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/src/org/universaal/tools/uploadopensourceplugin/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/src/org/universaal/tools/uploadopensourceplugin/email/SendEmail.java -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/src/org/universaal/tools/uploadopensourceplugin/handlers/GenerateAalApp.java -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/src/org/universaal/tools/uploadopensourceplugin/handlers/SendEmailHandler.java -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/src/org/universaal/tools/uploadopensourceplugin/handlers/UploadHandler.java -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/src/org/universaal/tools/uploadopensourceplugin/wizards/UploadOpenSourceWizard.java -text svneol=unset#text/plain
+org.universaal.tools.uploadopensourceplugin/src/org/universaal/tools/uploadopensourceplugin/wizards/UploadOpenSourceWizardPage1.java -text svneol=unset#text/plain
 org.universaal.tools.wizardplugin/.classpath -text
 org.universaal.tools.wizardplugin/.project -text
 org.universaal.tools.wizardplugin/.settings/org.eclipse.jdt.core.prefs -text
