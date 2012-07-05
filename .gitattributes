@@ -252,6 +252,10 @@ org.universaal.tools.samples.lighting/models/lighting.di -text
 org.universaal.tools.samples.lighting/models/lighting.notation -text
 org.universaal.tools.samples.lighting/models/lighting.uml -text svneol=unset#text/plain
 org.universaal.tools.samples.lighting/pom.xml -text
+org.universaal.tools.thirdpartyphp/.buildpath -text
+org.universaal.tools.thirdpartyphp/.project -text
+org.universaal.tools.thirdpartyphp/main.php -text
+org.universaal.tools.thirdpartyphp/projects.xml -text
 org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
