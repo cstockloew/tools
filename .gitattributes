@@ -215,6 +215,9 @@ org.universaal.tools.transformationcommand/src/org/universaal/tools/transformati
 org.universaal.tools.transformationcommand/transformations/ListUMLClasses.m2t -text
 org.universaal.tools.transformationcommand/transformations/ontUML2Java.m2t -text
 org.universaal.tools.transformationcommand/transformations/ontUML2JavaV2.m2t -text
+org.universaal.tools.transformationfeature/.project -text svneol=unset#text/plain
+org.universaal.tools.transformationfeature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.transformationfeature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.updatesite/.project -text svneol=unset#text/plain
 org.universaal.tools.updatesite/artifacts.jar -text
 org.universaal.tools.updatesite/content.jar -text
