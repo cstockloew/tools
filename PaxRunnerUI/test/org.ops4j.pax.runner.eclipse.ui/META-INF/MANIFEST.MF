@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OPS4J Pax Runner - Eclipse Plugin UI
+Bundle-SymbolicName: org.ops4j.pax.runner.eclipse.ui;singleton:=true
+Bundle-Version: 1.6.0
+Bundle-ClassPath: pax-runner-eclipse-ui
+Bundle-Vendor: OPS4J.org
+Fragment-Host: org.eclipse.pde.ui;bundle-version="3.3.0"
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.forms
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
