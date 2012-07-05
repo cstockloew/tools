@@ -7,6 +7,53 @@ org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/Lo
 org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/Node.java -text
 org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/RDFVis.java -text
 org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/ResourceInterpreter.java -text
+org.universaal.tools.conformanceTools/.classpath -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.classpath.html -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.project -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.project.html -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.settings/org.sonar.ide.eclipse.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/build.properties -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/icons/sample.gif -text
+org.universaal.tools.conformanceTools/lib/checkstyle-5.5-all.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/.ignorethis -text
+org.universaal.tools.conformanceTools/lib/findbugs/AppleJavaExtensions.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/LICENSE_AppleJavaExtensions.txt -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/lib/findbugs/ant.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/asm-3.3.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/asm-analysis-3.3.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/asm-commons-3.3.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/asm-tree-3.3.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/asm-util-3.3.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/asm-xml-3.3.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/bcel.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/bug-logo.icns -text
+org.universaal.tools.conformanceTools/lib/findbugs/buggy.icns -text
+org.universaal.tools.conformanceTools/lib/findbugs/commons-lang-2.4.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/dom4j-1.6.1.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/findbugs.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/jFormatString.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/jaxen-1.1.1.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/jcip-annotations.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/jdepend-2.9.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/jsr305.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/junit.jar -text
+org.universaal.tools.conformanceTools/lib/findbugs/yjp-controller-api-redist.jar -text
+org.universaal.tools.conformanceTools/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/handlers/ConformanceToolsHandler.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/run/ToolsRun.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/Builder.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/EssentialFiles.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/ExitCodes.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/OptionsParser.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/RunPlugin.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/checkstyle_checks.xml -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/findbugs.properties -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/options.properties -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/sun_checks.xml -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/windows/MainFrame.java -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
