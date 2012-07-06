@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OntologyWizard
 Bundle-SymbolicName: org.universaal.tools.modelling.ontology.wizard; singleton:=true
-Bundle-Version: 0.3.2
+Bundle-Version: 0.3.3
 Bundle-Activator: org.universaal.tools.modelling.ontology.wizard.Activator
 Bundle-Vendor: universAAL
 Require-Bundle: org.eclipse.ui,

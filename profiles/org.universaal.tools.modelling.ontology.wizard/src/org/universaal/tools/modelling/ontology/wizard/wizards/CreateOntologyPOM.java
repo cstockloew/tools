@@ -118,8 +118,8 @@ public class CreateOntologyPOM {
 		instr.addChild(dom("Bundle-Activator", ontologyProjectModel.getParentPackageName() + ".osgi.Activator")); 
 		instr.addChild(dom("Bundle-Description", "${project.description}"));
 		instr.addChild(dom("Bundle-SymbolicName", "${project.artifactId}"));
-		instr.addChild(dom("Export-Package", ontologyProjectModel.getPackageName() + ".*")); 
-		instr.addChild(dom("Private-Package", ontologyProjectModel.getParentPackageName() + ".osgi.*")); 
+		instr.addChild(dom("Export-Package", ontologyProjectModel.getPackageName() + ", " + ontologyProjectModel.getPackageName() + ".*")); 
+		instr.addChild(dom("Private-Package", ontologyProjectModel.getParentPackageName() + ", " + ontologyProjectModel.getParentPackageName() + ".osgi")); 
 		conf.addChild(instr);
 		plugin.setConfiguration(conf);
 		build.addPlugin(plugin);

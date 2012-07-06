@@ -9,7 +9,7 @@ import org.apache.maven.model.Model;
 
 public class OntologyProjectModel  {
 	public static final String DEFAULT_ONTOLOGY_NAME = "MyOntology";
-	public static final String DEFAULT_PARENT_PACKAGE_NAME = "org.universaal.ontology";
+	public static final String DEFAULT_PARENT_PACKAGE_NAME = "org.universAAL.ontology";
 
 	String ontologyName = "ont";
 	String parentPackageName = "pck";
