@@ -109,9 +109,11 @@
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.eclipse.pde</groupId>
       <artifactId>ui</artifactId>
     </dependency>
+
   </dependencies>
 </project>

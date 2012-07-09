@@ -6,4 +6,10 @@ Bundle-Version: 1.7.6
 Bundle-Vendor: OPS4J.org
 Fragment-Host: org.eclipse.pde.ui;bundle-version="3.3.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-ClassPath: .,
+ org.eclipse.pde.launching_3.6.0.v20110506.jar,
+ pax-runner-1.7.6.jar
+Import-Package: org.eclipse.pde.ui,
+ org.eclipse.pde.ui.launcher,
+ org.eclipse.pde.internal.launching.launcher
 
