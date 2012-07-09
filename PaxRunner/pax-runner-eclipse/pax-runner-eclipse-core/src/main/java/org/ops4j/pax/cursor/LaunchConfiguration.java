@@ -244,6 +244,14 @@ public class LaunchConfiguration extends AbstractPDELaunchConfiguration
                                           final File workingDir )
                             throws PlatformException
                         {
+                        	exec(vmOptions, classpath, mainClass, programOptions, javaHome, workingDir, null);
+                        }
+
+						public void exec(String[] vmOptions,
+								String[] classpath, String mainClass,
+								String[] programOptions, String javaHome,
+								File workingDir, String[] environmentVariables)
+								throws PlatformException {
                             VMRunnerConfiguration paxConfig = new VMRunnerConfiguration( mainClass, classpath );
 
                             paxConfig.setVMArguments( vmOptions );
@@ -251,6 +259,8 @@ public class LaunchConfiguration extends AbstractPDELaunchConfiguration
                             paxConfig.setWorkingDirectory( configuration.getWorkingDirectory() );
                             paxConfig.setEnvironment( configuration.getEnvironment() );
                             paxConfig.setVMSpecificAttributesMap( configuration.getVMSpecificAttributesMap() );
+                            if (environmentVariables != null)
+                            	paxConfig.setEnvironment(environmentVariables);
 
                             try
                             {
@@ -260,14 +270,6 @@ public class LaunchConfiguration extends AbstractPDELaunchConfiguration
                             {
                                 throw new PlatformException( "Problem starting platform", e );
                             }
-                        }
-
-						public void exec(String[] vmOptions,
-								String[] classpath, String mainClass,
-								String[] programOptions, String javaHome,
-								File workingDir, String[] environmentVariables)
-								throws PlatformException {
-							exec(vmOptions, classpath, mainClass, programOptions, javaHome, workingDir);
 						}
 
 						
