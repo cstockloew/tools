@@ -240,22 +240,7 @@ public class LaunchConfiguration extends AbstractPDELaunchConfiguration
                                           final File workingDir )
                             throws PlatformException
                         {
-                            VMRunnerConfiguration paxConfig = new VMRunnerConfiguration( mainClass, classpath );
-
-                            paxConfig.setVMArguments( vmOptions );
-                            paxConfig.setProgramArguments( programOptions );
-                            paxConfig.setWorkingDirectory( configuration.getWorkingDirectory() );
-                            paxConfig.setEnvironment( configuration.getEnvironment() );
-                            paxConfig.setVMSpecificAttributesMap( configuration.getVMSpecificAttributesMap() );
-
-                            try
-                            {
-                                eclipseRunner.run( paxConfig, launch, monitor );
-                            }
-                            catch( CoreException e )
-                            {
-                                throw new PlatformException( "Problem starting platform", e );
-                            }
+                        	exec(vmOptions, classpath, mainClass, programOptions, javaHome, workingDir, null);
                         }
                         public void exec( final String[] vmOptions,
                                 final String[] classpath,
@@ -266,7 +251,23 @@ public class LaunchConfiguration extends AbstractPDELaunchConfiguration
                                 String[] environmentVariables )
                             throws PlatformException
                         {
-                        	exec(vmOptions, classpath, mainClass, programOptions, javaHome, workingDir);
+                            VMRunnerConfiguration paxConfig = new VMRunnerConfiguration( mainClass, classpath );
+
+                            paxConfig.setVMArguments( vmOptions );
+                            paxConfig.setProgramArguments( programOptions );
+                            paxConfig.setWorkingDirectory( configuration.getWorkingDirectory() );
+                            paxConfig.setEnvironment( configuration.getEnvironment() );
+                            paxConfig.setVMSpecificAttributesMap( configuration.getVMSpecificAttributesMap() );
+                            if (environmentVariables != null)
+                            	paxConfig.setEnvironment(environmentVariables);
+                            try
+                            {
+                                eclipseRunner.run( paxConfig, launch, monitor );
+                            }
+                            catch( CoreException e )
+                            {
+                                throw new PlatformException( "Problem starting platform", e );
+                            }
                         }
   
                     }, configuration.getProgramArguments()
