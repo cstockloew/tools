@@ -41,9 +41,9 @@ import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.PDECore;
 import org.eclipse.pde.internal.core.exports.FeatureExportInfo;
+import org.eclipse.pde.internal.launching.launcher.LaunchArgumentsHelper;
+import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
-import org.eclipse.pde.internal.ui.launcher.LaunchArgumentsHelper;
-import org.eclipse.pde.internal.ui.launcher.LauncherUtils;
 import org.eclipse.pde.ui.launcher.IPDELauncherConstants;
 import org.eclipse.ui.progress.IProgressConstants;
 
