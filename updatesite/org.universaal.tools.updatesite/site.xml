@@ -144,6 +144,12 @@
    <feature url="features/org.ops4j.pax.runner.eclipse.ui.feature_1.7.6.jar" id="org.ops4j.pax.runner.eclipse.ui.feature" version="1.7.6">
       <category name="universaal_prereq"/>
    </feature>
+   <feature url="features/org.ops4j.pax.runner.eclipse.core.feature_1.7.6.v20120710.jar" id="org.ops4j.pax.runner.eclipse.core.feature" version="1.7.6.v20120710">
+      <category name="universaal_prereq"/>
+   </feature>
+   <feature url="features/org.ops4j.pax.runner.eclipse.ui.feature_1.7.6.v20120710.jar" id="org.ops4j.pax.runner.eclipse.ui.feature" version="1.7.6.v20120710">
+      <category name="universaal_prereq"/>
+   </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
          Tools for development of AAL applications using the universAAL platform
