@@ -92,6 +92,9 @@ public class LogMonitor implements LogListenerEx {
      * 1011: ProcessResult "requested effect not offered" (none available)
      * 1012: ProcessResult "number of effects do not match"
      * 1013: ProcessResult "requested effect not offered"
+     * 1020: ServiceRealization "no subset relationship for restricted property"
+     * 1021: ServiceRealization "no subset relationship for restricted property"
+     * 1022: ServiceRealization "no subset relationship for restricted property"
      */
     public void log(int logLevel, String module, String pkg, String cls,
 	    String method, Object[] msgPart, Throwable t) {
@@ -150,7 +153,7 @@ public class LogMonitor implements LogListenerEx {
 	    return;
 
 	if (ServiceBus.LOG_MATCHING_MISMATCH.equals(msgPart[0])) {
-	    String restrictedProperty = (String) msgPart[2];
+	    String restrictedProperty = (String) msgPart[3];
 	    Matchmaking m = (Matchmaking) threads.get(id);
 	    if (m == null) {
 		System.out
@@ -158,9 +161,9 @@ public class LogMonitor implements LogListenerEx {
 		return;
 	    }
 	    SingleMatching single = (SingleMatching) m.matchings.getLast();
+	    single.processStandardMessage(msgPart);
 	    single.reason = SingleMatching.REASON_INPUT;
 	    single.restrictedProperty = restrictedProperty;
-	    single.msgPart = msgPart;
 	}
     }
 
@@ -168,6 +171,9 @@ public class LogMonitor implements LogListenerEx {
 	Long id = (Long) msgPart[msgPart.length - 1];
 	if (id == null)
 	    return;
+
+//	System.out.println("--- ServiceBus.LOG_MATCHING_SUCCESS: "
+//		+ ServiceBus.LOG_MATCHING_SUCCESS);
 
 	if (ServiceBus.LOG_MATCHING_START.equals(msgPart[0])) {
 	    // start matching a request
