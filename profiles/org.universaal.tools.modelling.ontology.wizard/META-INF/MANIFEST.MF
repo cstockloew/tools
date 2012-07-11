@@ -5,23 +5,13 @@ Bundle-SymbolicName: org.universaal.tools.modelling.ontology.wizard; singleton:=
 Bundle-Version: 0.3.3
 Bundle-Activator: org.universaal.tools.modelling.ontology.wizard.Activator
 Bundle-Vendor: universAAL
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.m2e.core;bundle-version="1.0.100",
- org.eclipse.m2e.core.ui;bundle-version="1.0.100",
- org.eclipse.core.databinding,
+Require-Bundle: org.eclipse.m2e.core;bundle-version="1.0.0",
+ org.eclipse.m2e.core.ui;bundle-version="1.0.0",
  org.eclipse.core.databinding.beans,
- org.eclipse.core.databinding.observable,
- org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
- com.ibm.icu,
- org.eclipse.core.resources;bundle-version="3.5.0",
  org.eclipse.papyrus.core;bundle-version="0.8.0",
- org.eclipse.papyrus.core.resourceloading;bundle-version="0.8.0",
- org.eclipse.papyrus.wizards;bundle-version="0.8.0",
  org.eclipse.uml2.uml;bundle-version="3.2.100",
  org.eclipse.emf.databinding,
- org.eclipse.m2e.maven.runtime
+ org.eclipse.m2e.maven.runtime;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.maven.model
