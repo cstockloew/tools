@@ -7,15 +7,6 @@
             label="Sample Action Set"
             visible="true"
             id="org.universaal.tools.buildServiceApplication.actionSet">   
-         <action
-               label="&amp;Publish universAAL application"
-               icon="icons/publish.png"
-               class="org.universaal.tools.buildserviceapplication.actions.PublishAction"
-               tooltip="Publish application to uStore"
-               menubarPath="org.universaal.tools.AALStudio.menu/build"
-               toolbarPath="uAALGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.PublishAction">			
-         </action>  
            <action
                label="&amp;Upload application to Developer Depot"
                icon="icons/upload.png"
@@ -80,11 +71,6 @@
             categoryId="org.universaal.tools.buildserviceapplication.commands"
             id="org.universaal.tools.buildserviceapplication.actions.UploadAction">
       </command>
-      <command
-            name="Publish application"
-            categoryId="org.universaal.tools.buildserviceapplication.commands"
-            id="org.universaal.tools.buildserviceapplication.actions.PublishAction">
-      </command>            
    </extension> 
    <extension
          point="org.eclipse.ui.handlers">
@@ -103,10 +89,6 @@
       <handler
             commandId="org.universaal.tools.buildserviceapplication.actions.UploadAction"
             class="org.universaal.tools.buildserviceapplication.handlers.UploadApplicationHandler">
-      </handler>
-      <handler
-            commandId="org.universaal.tools.buildserviceapplication.actions.PublishAction"
-            class="org.universaal.tools.buildserviceapplication.handlers.PublishApplicationHandler">
       </handler>
    </extension> 
    <extension point="org.eclipse.ui.startup">
