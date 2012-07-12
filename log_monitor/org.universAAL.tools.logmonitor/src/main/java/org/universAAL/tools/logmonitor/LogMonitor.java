@@ -30,6 +30,10 @@ public class LogMonitor implements LogListener {
 
     public void log(int logLevel, String module, String pkg, String cls,
 	    String method, Object[] msgPart, Throwable t) {
+	
+	if (msgPart == null)
+	    msgPart = new Object[0];
+	
 	for (int i = 0; i < listeners.length; i++)
 	    listeners[i].log(logLevel, module, pkg, cls, method, msgPart, t);
     }
