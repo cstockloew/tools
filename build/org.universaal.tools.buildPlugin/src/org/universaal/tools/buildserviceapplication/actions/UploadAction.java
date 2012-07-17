@@ -1,12 +1,10 @@
 package org.universaal.tools.buildserviceapplication.actions;
 
-
-
-
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Our sample action implements workbench action delegate. The action proxy will
@@ -18,8 +16,6 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  */
 public class UploadAction implements IWorkbenchWindowActionDelegate {
 	static private String NEXUS_URL = "http://depot.universaal.org/maven-repo/";
-	static private String NEXUS_USERNAME = "deployment";
-	static private String NEXUS_PASSWORD = "uaal_49_nexus";
 	static public IWorkbenchWindow window;
 
 	/**
@@ -36,9 +32,16 @@ public class UploadAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		UploadArtifact uploadArtifact = new UploadArtifact(NEXUS_URL,
-				NEXUS_USERNAME, NEXUS_PASSWORD);
-		uploadArtifact.upload();
+		CredentialsDialog dialog = new CredentialsDialog(PlatformUI
+				.getWorkbench().getActiveWorkbenchWindow().getShell());
+
+		int result = dialog.open();
+		if (result == 0&&!dialog.isCanceled()) {
+			UploadArtifact uploadArtifact = new UploadArtifact(NEXUS_URL,
+					dialog.getUsernameText().getText(), dialog
+							.getPasswordText().getText());
+			uploadArtifact.upload();
+		}
 	}
 
 	/**
