@@ -287,9 +287,9 @@ public class CreateLaunchConfigurationFile {
 					"true@true@2@false");
 			map.put("wrap:mvn:org.ops4j.pax.confman/pax-confman-propsloader/0.2.2",
 					"true@true@3@false");
-			map.put("wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.4",
+			map.put("wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.6.0",
 					"true@true@2@false");
-			map.put("wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.4",
+			map.put("wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.6.0",
 					"true@true@3@false");
 			map.put("wrap:mvn:org.osgi/osgi_R4_compendium/1.0",
 					"true@true@2@false");
