@@ -210,7 +210,7 @@ public class ApplicationView extends Composite {
 
 		//Publishable Application
 		addCommandCallingListener(btnPublishOpenSource,"org.universaal.tools.uploadopensourceplugin.commands.uploadopensource", "AAL Studio integration with Developer Depot");
-		addCommandCallingListener(btnPublishToUStore,"org.universaal.tools.buildserviceapplication.actions.PublishAction", "AAL Studio Build");
+		addCommandCallingListener(btnPublishToUStore,"org.universaal.tools.uStoreClienteapplication.actions.PublishAction", "AAL Studio uStore Client");
 
 		// Transitions
 		addCommandCallingListener(btnBuild,"org.universaal.tools.buildserviceapplication.actions.BuildAction", "AAL Studio Build");
