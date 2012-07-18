@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BuildServiceApplication
 Bundle-SymbolicName: org.universaal.tools.buildPlugin;singleton:=true
-Bundle-Version: 0.6.5
+Bundle-Version: 0.6.6
 Bundle-ClassPath: org.universaal.tools.buildPlugin
 Bundle-Activator: org.universaal.tools.buildserviceapplication.Activator
 Bundle-Vendor: CERTH-ITI
