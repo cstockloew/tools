@@ -75,14 +75,13 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	public static Maven maven;
 	static public List<MavenProject> buildedProjects = new ArrayList<MavenProject>();
 	static public SettingsBuilder settingsBuilder;
-static public Map<MavenProject,Collection<ArtifactMetadata>> artifactMetadata=new HashMap<MavenProject,Collection<ArtifactMetadata>>();
-	
+	static public Map<MavenProject, Collection<ArtifactMetadata>> artifactMetadata = new HashMap<MavenProject, Collection<ArtifactMetadata>>();
+
 	private MavenExecutionResult installResult = null;
 	private static Shell activeShell = null;
 	private String selectedProjectName = "";
 	private String selectedProjectPath = "";
 	private static IProject iproject = null;
-	
 
 	/**
 	 * The constructor.
@@ -200,7 +199,10 @@ static public Map<MavenProject,Collection<ArtifactMetadata>> artifactMetadata=ne
 				public void run() {
 					activeShell = PlatformUI.getWorkbench()
 							.getActiveWorkbenchWindow().getShell();
-
+					if (window == null) {
+						window = PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow();
+					}
 					IWorkbenchPage page = window.getActivePage();
 					ISelection selection = null;
 					boolean packageExplorerActive = false;
@@ -323,8 +325,8 @@ static public Map<MavenProject,Collection<ArtifactMetadata>> artifactMetadata=ne
 									ImageDescriptor.createFromURL(url));
 							setUpMavenBuild();
 							monitor.worked(15);
-							installResult = install(selectedProjectPath);	
-							
+							installResult = install(selectedProjectPath);
+
 							monitor.worked(50);
 							if (installResult.hasExceptions()) {
 								return Status.CANCEL_STATUS;
@@ -349,9 +351,13 @@ static public Map<MavenProject,Collection<ArtifactMetadata>> artifactMetadata=ne
 											"Building of application \""
 													+ selectedProjectName
 													+ "\" succeeded.");
-									buildedProjects.add(installResult.getProject());
-									artifactMetadata.put(installResult.getProject(), installResult.getProject()
-											.getArtifact().getMetadataList());									
+									buildedProjects.add(installResult
+											.getProject());
+									artifactMetadata.put(
+											installResult.getProject(),
+											installResult.getProject()
+													.getArtifact()
+													.getMetadataList());
 								} else {
 									try {
 										String exceptions = "Errors found:\n";

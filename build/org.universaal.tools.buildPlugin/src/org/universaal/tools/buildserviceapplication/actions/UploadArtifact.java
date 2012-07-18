@@ -1,9 +1,11 @@
 package org.universaal.tools.buildserviceapplication.actions;
 
 import java.awt.Image;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -17,6 +19,8 @@ import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.Base64;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -31,6 +35,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressConstants;
+import org.universaal.tools.buildserviceapplication.Activator;
 
 public class UploadArtifact {
 	private String NEXUS_URL = "";
@@ -52,7 +57,10 @@ public class UploadArtifact {
 		this.NEXUS_PASSWORD = nexusPassword;
 	}
 
-	
+	public UploadArtifact(String nexusUrl) {
+		this.NEXUS_URL = nexusUrl;
+	}
+
 	public MavenProject getSelectedMavenProject() {
 		for (int i = 0; i < BuildAction.buildedProjects.size(); i++) {
 			MavenProject project = BuildAction.buildedProjects.get(i);
@@ -65,8 +73,7 @@ public class UploadArtifact {
 		}
 		return null;
 	}
-	
-	
+
 	public void upload() {
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
@@ -76,80 +83,136 @@ public class UploadArtifact {
 		});
 		if (!BuildAction.getSelectedProjectPath().equals("")) {
 			if (BuildAction.buildedProjects.contains(getSelectedMavenProject())) {
-
 				try {
 					String selectedProject = BuildAction
 							.getSelectedProjectPath();
 					final String projectName = BuildAction
 							.getSelectedProjectName();
 					if (!selectedProject.equals("")) {
-						isArtifactRelease = true;
-						if (artifactVersion.contains("SNAPSHOT")) {
-							isArtifactRelease = false;
-						}
-						Job job = new Job("AAL Studio") {
-							protected IStatus run(IProgressMonitor monitor) {
-								monitor.beginTask("Uploading application \""
-										+ projectName + "\"...", 50);
-								setProperty(IProgressConstants.KEEP_PROPERTY,
-										Boolean.FALSE);
-								try {
-									URL url = Platform.getBundle(
-											"org.universaal.tools.buildPlugin")
-											.getEntry("icons/upload.png");
-									setProperty(
-											IProgressConstants.ICON_PROPERTY,
-											ImageDescriptor.createFromURL(url));
-									postArtifact();
-									monitor.worked(25);
-									if (artifactUploaded) {
-										postMetadata();
-										monitor.worked(50);
-										if (!artifactUploaded) {
-											return Status.CANCEL_STATUS;
-										} else {
-											return Status.OK_STATUS;
-										}
-									} else {
-										return Status.CANCEL_STATUS;
+
+						CredentialsDialog dialog = new CredentialsDialog(
+								PlatformUI.getWorkbench()
+										.getActiveWorkbenchWindow().getShell());
+
+						int result = dialog.open();
+						if (result == 0 && !dialog.isCanceled()) {
+							// save credentials if checkbox is checked
+							if (dialog.isSaveCredentials()) {
+								IWorkspace workspace = ResourcesPlugin
+										.getWorkspace();
+								File workspaceDirectory = workspace.getRoot()
+										.getLocation().toFile();
+								File dir = new File(
+										workspaceDirectory.getAbsolutePath()
+												+ File.separator + ".metadata"
+												+ File.separator + ".plugins"
+												+ File.separator
+												+ Activator.PLUGIN_ID);
+								dir.mkdirs();
+								if (dir.exists()) {
+									try {
+										//delete file if exists
+										File fil=new File(dir
+												+ File.separator + ".dd");
+										fil.delete();
+										// Create file
+										FileWriter fstream = new FileWriter(dir
+												+ File.separator + ".dd");
+										BufferedWriter out = new BufferedWriter(
+												fstream);
+										// encrypt username and password
+										out.write(dialog
+												.getUsername());
+										out.write("\n");
+										out.write(dialog
+												.getPassword());
+										// Close the output stream
+										out.close();
+									} catch (Exception e) {
+										e.printStackTrace();
 									}
-								} catch (Exception ex) {
-									return Status.CANCEL_STATUS;
+
 								}
 							}
-						};
-
-						job.setUser(true);
-						job.schedule();
-						job.addJobChangeListener(new JobChangeAdapter() {
-							public void done(final IJobChangeEvent event) {
-								Display.getDefault().syncExec(new Runnable() {
-									public void run() {
-										if (event.getResult().isOK())
-											MessageDialog.openInformation(
-													activeShell,
-													"BuildServiceApplication",
-													"Uploading of application \""
-															+ projectName
-															+ "\" succeeded.");
-										else
-											MessageDialog.openInformation(
-													activeShell,
-													"BuildServiceApplication",
-													"Uploading of application \""
-															+ projectName
-															+ "\" failed.");
-									}
-								});
-
+							NEXUS_USERNAME=dialog.getUsername();
+							NEXUS_PASSWORD=dialog.getPassword();
+							isArtifactRelease = true;
+							if (artifactVersion.contains("SNAPSHOT")) {
+								isArtifactRelease = false;
 							}
-						});
+							Job job = new Job("AAL Studio") {
+								protected IStatus run(IProgressMonitor monitor) {
+									monitor.beginTask(
+											"Uploading application \""
+													+ projectName + "\"...", 50);
+									setProperty(
+											IProgressConstants.KEEP_PROPERTY,
+											Boolean.FALSE);
+									try {
+										URL url = Platform
+												.getBundle(
+														"org.universaal.tools.buildPlugin")
+												.getEntry("icons/upload.png");
+										setProperty(
+												IProgressConstants.ICON_PROPERTY,
+												ImageDescriptor
+														.createFromURL(url));
+										postArtifact();
+										monitor.worked(25);
+										if (artifactUploaded) {
+											postMetadata();
+											monitor.worked(50);
+											if (!artifactUploaded) {
+												return Status.CANCEL_STATUS;
+											} else {
+												return Status.OK_STATUS;
+											}
+										} else {
+											return Status.CANCEL_STATUS;
+										}
+									} catch (Exception ex) {
+										return Status.CANCEL_STATUS;
+									}
+								}
+							};
+
+							job.setUser(true);
+							job.schedule();
+							job.addJobChangeListener(new JobChangeAdapter() {
+								public void done(final IJobChangeEvent event) {
+									Display.getDefault().syncExec(
+											new Runnable() {
+												public void run() {
+													if (event.getResult()
+															.isOK())
+														MessageDialog
+																.openInformation(
+																		activeShell,
+																		"BuildServiceApplication",
+																		"Uploading of application \""
+																				+ projectName
+																				+ "\" succeeded.");
+													else
+														MessageDialog
+																.openInformation(
+																		activeShell,
+																		"BuildServiceApplication",
+																		"Uploading of application \""
+																				+ projectName
+																				+ "\" failed.");
+												}
+											});
+
+								}
+							});
+						}
 					} else {
 						MessageDialog
 								.openInformation(null,
 										"BuildServiceApplication",
 										"Please select a project in the Project Explorer tab.");
 					}
+
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					MessageDialog.openInformation(null,
@@ -166,7 +229,6 @@ public class UploadArtifact {
 		}
 	}
 
-	
 	private void getBundleProperties() {
 		try {
 
@@ -228,11 +290,8 @@ public class UploadArtifact {
 			File file = new File(repositoryPath + File.separator + "repository"
 					+ File.separator + groupId.replace(".", File.separator)
 					+ File.separator + artifactId + File.separator
-					+ artifactVersion + File.separator
-					+ artifactId
-					+"-"
-					+artifactVersion
-					+".jar");
+					+ artifactVersion + File.separator + artifactId + "-"
+					+ artifactVersion + ".jar");
 
 			FileInputStream fis = new FileInputStream(file);
 			char current;
@@ -257,14 +316,12 @@ public class UploadArtifact {
 		}
 	}
 
-
-	
-	
 	private void postMetadata() {
-		
-		Iterator<ArtifactMetadata> it = BuildAction.artifactMetadata.get(getSelectedMavenProject()).iterator();
+
+		Iterator<ArtifactMetadata> it = BuildAction.artifactMetadata.get(
+				getSelectedMavenProject()).iterator();
 		while (it.hasNext()) {
-			ArtifactMetadata metadata = it.next();			
+			ArtifactMetadata metadata = it.next();
 			try {
 				String webPage = "";
 				if (metadata.getRemoteFilename().endsWith(".pom")) {

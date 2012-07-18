@@ -1,10 +1,17 @@
 package org.universaal.tools.buildserviceapplication.actions;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
+import org.universaal.tools.buildserviceapplication.Activator;
 
 /**
  * Our sample action implements workbench action delegate. The action proxy will
@@ -31,17 +38,9 @@ public class UploadAction implements IWorkbenchWindowActionDelegate {
 	 * 
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
-	public void run(IAction action) {
-		CredentialsDialog dialog = new CredentialsDialog(PlatformUI
-				.getWorkbench().getActiveWorkbenchWindow().getShell());
-
-		int result = dialog.open();
-		if (result == 0&&!dialog.isCanceled()) {
-			UploadArtifact uploadArtifact = new UploadArtifact(NEXUS_URL,
-					dialog.getUsernameText().getText(), dialog
-							.getPasswordText().getText());
-			uploadArtifact.upload();
-		}
+	public void run(IAction action) {		
+			UploadArtifact uploadArtifact = new UploadArtifact(NEXUS_URL);
+			uploadArtifact.upload();		
 	}
 
 	/**
