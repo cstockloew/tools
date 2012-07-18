@@ -162,6 +162,9 @@
    <feature url="features/org.universaal.tools.dashboard.feature_0.5.1.jar" id="org.universaal.tools.dashboard.feature" version="0.5.1">
       <category name="universaal_tools"/>
    </feature>
+   <feature url="features/org.universaal.tools.buildFeature_0.6.7.jar" id="org.universaal.tools.buildFeature" version="0.6.7">
+      <category name="universaal_tools"/>
+   </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
          Tools for development of AAL applications using the universAAL platform
