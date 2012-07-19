@@ -66,6 +66,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -101,10 +103,6 @@ public class ProvisionBlock extends CursorTabBlock {
 	private List expandedNodes = new ArrayList();
 	private File m_lastUsedDir;
 
-	
-	
-	
-	
 	/**
 	 * @see Composite#Composite(Composite, int)
 	 */
@@ -114,7 +112,7 @@ public class ProvisionBlock extends CursorTabBlock {
 		setLayout(gridLayout);
 
 		final Group provisioningGroup = new Group(this, SWT.NONE);
-		
+
 		provisioningGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
 				true));
 		provisioningGroup.setText("Provisioning:");
@@ -126,18 +124,19 @@ public class ProvisionBlock extends CursorTabBlock {
 
 		final Composite treeComposite = new Composite(provisioningGroup,
 				SWT.NONE);
-		
+
 		final GridData treeGridData = new GridData(SWT.FILL, SWT.FILL, true,
 				true);
-		
+
 		treeComposite.setLayoutData(treeGridData);
-	
+
 		final GridLayout tableGridLayout = new GridLayout();
 		tableGridLayout.marginWidth = 0;
 		tableGridLayout.marginHeight = 0;
 		treeComposite.setLayout(tableGridLayout);
 
-		m_treeViewer = new CheckboxTreeViewer(treeComposite, SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER);
+		m_treeViewer = new CheckboxTreeViewer(treeComposite, SWT.MULTI
+				| SWT.FULL_SELECTION | SWT.BORDER);
 		// m_treeViewer.getTree().getVerticalBar().setEnabled(true);
 		m_treeViewer.setContentProvider(new ProvisionContentProvider());
 		m_treeViewer.setLabelProvider(new ProvisionLabelProvider());
@@ -170,11 +169,13 @@ public class ProvisionBlock extends CursorTabBlock {
 						}
 						if (allChecked) {
 							parent.setSelected(true);
-							m_treeViewer.setChecked(((ProvisionURL)event.getElement()).getParent(), true);
+							m_treeViewer.setChecked(((ProvisionURL) event
+									.getElement()).getParent(), true);
 						}
 						if (allUnchecked) {
-							parent.setSelected(false);		
-							m_treeViewer.setChecked(((ProvisionURL)event.getElement()).getParent(), false);
+							parent.setSelected(false);
+							m_treeViewer.setChecked(((ProvisionURL) event
+									.getElement()).getParent(), false);
 						}
 					}
 				} else {
@@ -184,15 +185,16 @@ public class ProvisionBlock extends CursorTabBlock {
 						for (int i = 0; i < provisionURL.getChildren().length; i++) {
 							provisionURL.getChildren()[i].setSelected(event
 									.getChecked());
-							
+
 							// m_treeViewer.setChecked(provisionURL.getChildren()[i],
 							// provisionURL.isSelected());
 						}
-						m_treeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
+						m_treeViewer.setSubtreeChecked(event.getElement(),
+								event.getChecked());
 					}
 				}
-				//updateSelectedItems();				
-				updateStartImages();			
+				// updateSelectedItems();
+				updateStartImages();
 				updateExpandedNodes();
 				notifyUpdate();
 			}
@@ -221,6 +223,82 @@ public class ProvisionBlock extends CursorTabBlock {
 
 		final Tree tree = m_treeViewer.getTree();
 
+		// add drag and drop functionality
+
+		DragSource ds = new DragSource(tree, DND.DROP_MOVE);
+		ds.setTransfer(new Transfer[] { TextTransfer.getInstance() });
+		ds.addDragListener(new DragSourceAdapter() {
+			public void dragSetData(DragSourceEvent event) {
+				if (tree.getSelection()[0].getItemCount() == 0
+						&& !tree.getSelection()[0].getText().contains("Level")) {
+					// url+parent+isupdate+isstart+isselected
+					event.data = tree.getSelection()[0].getText()
+							+ "@"
+							+ tree.getSelection()[0].getParentItem().getText()
+									.split(" ")[1]
+							+ "@"
+							+ ((ProvisionURL) tree.getSelection()[0].getData())
+									.isUpdate()
+							+ "@"
+							+ ((ProvisionURL) tree.getSelection()[0].getData())
+									.isStart()
+							+ "@"
+							+ ((ProvisionURL) tree.getSelection()[0].getData())
+									.isSelected();
+				}
+			}
+		});
+
+		DropTarget dt = new DropTarget(tree, DND.DROP_MOVE);
+
+		dt.setTransfer(new Transfer[] { TextTransfer.getInstance() });
+		dt.addDropListener(new DropTargetAdapter() {
+			public void drop(DropTargetEvent event) {
+				if (event.item != null&& !tree.getSelection()[0].getText().contains("Level")) {
+					String provisionUrl = ((String) event.data).split("@")[0];
+					String level = ((String) event.data).split("@")[1];
+					boolean isupdate = Boolean
+							.parseBoolean(((String) event.data).split("@")[2]);
+					boolean isstart = Boolean
+							.parseBoolean(((String) event.data).split("@")[3]);
+					boolean isselected = Boolean
+							.parseBoolean(((String) event.data).split("@")[4]);
+
+					Point pt = PlatformUI.getWorkbench().getDisplay()
+							.map(null, tree, event.x, event.y);
+					TreeItem item = (TreeItem) event.item;
+					Rectangle bounds = item.getBounds();
+					TreeItem parent = item.getParentItem();
+
+					if (parent != null&&!((ProvisionURL) parent.getData())
+							.getUrl().split(" ")[1].equals(level)) {
+						addURL(provisionUrl, ((ProvisionURL) parent.getData())
+								.getUrl().split(" ")[1], isstart, isupdate,
+								isselected);
+						// delete draged node
+						ProvisionURL prov = new ProvisionURL(provisionUrl,
+								isselected, isstart, Integer.parseInt(level),
+								isupdate);
+
+						findAndDeleteProvisionUrl(prov);
+
+					}
+					else
+						if(parent==null&&((ProvisionURL)item.getData()).getUrl().startsWith("Level")){
+							addURL(provisionUrl, ((ProvisionURL) item.getData())
+									.getUrl().split(" ")[1], isstart, isupdate,
+									isselected);
+							// delete draged node
+							ProvisionURL prov = new ProvisionURL(provisionUrl,
+									isselected, isstart, Integer.parseInt(level),
+									isupdate);
+
+							findAndDeleteProvisionUrl(prov);							
+						}
+				}
+			}
+		});
+
 		tree.addMouseListener(new MouseListener() {
 
 			public void mouseDown(MouseEvent e) {
@@ -228,7 +306,7 @@ public class ProvisionBlock extends CursorTabBlock {
 					if (item.getImage() != null) {
 						if ((e.x > item.getImageBounds(0).x)
 								&& (e.x < (item.getImageBounds(0).x + item
-										.getImage().getBounds().width/2))) {
+										.getImage().getBounds().width / 2))) {
 							if ((e.y > item.getImageBounds(0).y)
 									&& (e.y < (item.getImageBounds(0).y + item
 											.getImage().getBounds().height))) {
@@ -267,50 +345,49 @@ public class ProvisionBlock extends CursorTabBlock {
 								}
 								notifyUpdate();
 							}
-						}else
-							if ((e.x > item.getImageBounds(0).x+ item
-									.getImage().getBounds().width/2)
-									&& (e.x < (item.getImageBounds(0).x + item
-											.getImage().getBounds().width))) {
-								if ((e.y > item.getImageBounds(0).y)
-										&& (e.y < (item.getImageBounds(0).y + item
-												.getImage().getBounds().height))) {
-									if (item.getParentItem() != null) {
-										if (((ProvisionURL) item.getData())
-												.isUpdate()) {
-											((ProvisionURL) item.getData())
-													.setUpdate(false);
-										} else {
-											((ProvisionURL) item.getData())
-													.setUpdate(true);
+						} else if ((e.x > item.getImageBounds(0).x
+								+ item.getImage().getBounds().width / 2)
+								&& (e.x < (item.getImageBounds(0).x + item
+										.getImage().getBounds().width))) {
+							if ((e.y > item.getImageBounds(0).y)
+									&& (e.y < (item.getImageBounds(0).y + item
+											.getImage().getBounds().height))) {
+								if (item.getParentItem() != null) {
+									if (((ProvisionURL) item.getData())
+											.isUpdate()) {
+										((ProvisionURL) item.getData())
+												.setUpdate(false);
+									} else {
+										((ProvisionURL) item.getData())
+												.setUpdate(true);
+									}
+									updateStartImages();
+								} else {
+									if (((ProvisionURL) item.getData())
+											.isUpdate()) {
+										((ProvisionURL) item.getData())
+												.setUpdate(false);
+									} else {
+										((ProvisionURL) item.getData())
+												.setUpdate(true);
+									}
+									if (((ProvisionURL) item.getData())
+											.getChildren() != null) {
+										for (int i = 0; i < ((ProvisionURL) item
+												.getData()).getChildren().length; i++) {
+											ProvisionURL provisionURL = ((ProvisionURL) item
+													.getData()).getChildren()[i];
+											provisionURL
+													.setUpdate(((ProvisionURL) item
+															.getData())
+															.isUpdate());
 										}
 										updateStartImages();
-									} else {
-										if (((ProvisionURL) item.getData())
-												.isUpdate()) {
-											((ProvisionURL) item.getData())
-													.setUpdate(false);
-										} else {
-											((ProvisionURL) item.getData())
-													.setUpdate(true);
-										}
-										if (((ProvisionURL) item.getData())
-												.getChildren() != null) {
-											for (int i = 0; i < ((ProvisionURL) item
-													.getData()).getChildren().length; i++) {
-												ProvisionURL provisionURL = ((ProvisionURL) item
-														.getData()).getChildren()[i];
-												provisionURL
-														.setUpdate(((ProvisionURL) item
-																.getData())
-																.isUpdate());
-											}
-											updateStartImages();
-										}
 									}
-									notifyUpdate();
 								}
+								notifyUpdate();
 							}
+						}
 					}
 				}
 			}
@@ -326,35 +403,29 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 		});
 
-		
 		// D N D
-		
-//		 DragSource ds = new DragSource(tree, DND.DROP_MOVE);
-//		    ds.setTransfer(new Transfer[] { TextTransfer.getInstance() });
-//		    ds.addDragListener(new DragSourceAdapter() {
-//		      public void dragSetData(DragSourceEvent event) {
-//		        // Set the data to be the first selected item's text
-//		        event.data = ((TreeItem)tree.getSelection()[0]);
-//		       // System.out.println(event.data);
-//		      }
-//		    });
-//		
-//		
-//		    // Create the drop target on the button
-//		    DropTarget dt = new DropTarget(tree, DND.DROP_MOVE);
-//		    dt.setTransfer(new Transfer[] { TextTransfer.getInstance() });
-//		    dt.addDropListener(new DropTargetAdapter() {
-//		      public void drop(DropTargetEvent event) {
-//		        // Set the buttons text to be the text being dropped
-//		        System.out.println();
-//		      }
-//		    });
 
-		
-		
-		
-		
-		
+		// DragSource ds = new DragSource(tree, DND.DROP_MOVE);
+		// ds.setTransfer(new Transfer[] { TextTransfer.getInstance() });
+		// ds.addDragListener(new DragSourceAdapter() {
+		// public void dragSetData(DragSourceEvent event) {
+		// // Set the data to be the first selected item's text
+		// event.data = ((TreeItem)tree.getSelection()[0]);
+		// // System.out.println(event.data);
+		// }
+		// });
+		//
+		//
+		// // Create the drop target on the button
+		// DropTarget dt = new DropTarget(tree, DND.DROP_MOVE);
+		// dt.setTransfer(new Transfer[] { TextTransfer.getInstance() });
+		// dt.addDropListener(new DropTargetAdapter() {
+		// public void drop(DropTargetEvent event) {
+		// // Set the buttons text to be the text being dropped
+		// System.out.println();
+		// }
+		// });
+
 		tree.addListener(SWT.Expand, new Listener() {
 			public void handleEvent(Event event) {
 				updateStartImages();
@@ -508,27 +579,27 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 		});
 		m_deleteButton.setText("Delete");
-//		m_treeViewer.addCheckStateListener(new ICheckStateListener() {
-//
-//			public void checkStateChanged(CheckStateChangedEvent event) {
-//			//	getExpandedNodes();
-////				if (((ProvisionURL) event.getElement()).isSelected()) {
-////					((ProvisionURL) event.getElement()).setSelected(false);
-////					if (((ProvisionURL) event.getElement()).getParent() != null) {
-////						((ProvisionURL) event.getElement()).getParent()
-////								.setSelected(false);
-////					}
-////
-////				} else {
-////					((ProvisionURL) event.getElement()).setSelected(true);
-////				}
-////				updateExpandedNodes();
-//				
-//			}
-//		});
+		// m_treeViewer.addCheckStateListener(new ICheckStateListener() {
+		//
+		// public void checkStateChanged(CheckStateChangedEvent event) {
+		// // getExpandedNodes();
+		// // if (((ProvisionURL) event.getElement()).isSelected()) {
+		// // ((ProvisionURL) event.getElement()).setSelected(false);
+		// // if (((ProvisionURL) event.getElement()).getParent() != null) {
+		// // ((ProvisionURL) event.getElement()).getParent()
+		// // .setSelected(false);
+		// // }
+		// //
+		// // } else {
+		// // ((ProvisionURL) event.getElement()).setSelected(true);
+		// // }
+		// // updateExpandedNodes();
+		//
+		// }
+		// });
 
 		m_treeViewer.expandAll();
-	
+
 	}
 
 	private void getExpandedNodes() {
@@ -582,10 +653,10 @@ public class ProvisionBlock extends CursorTabBlock {
 								.getChildren().length + 1];
 						for (int j = 0; j < provisionURL1.getChildren().length; j++) {
 							tmp[j] = provisionURL1.getChildren()[j];
-							
+
 							if (tmp[j].isSelected()) {
 								selectedURLs.add(tmp[j]);
-							}							
+							}
 						}
 
 					} else {
@@ -610,9 +681,9 @@ public class ProvisionBlock extends CursorTabBlock {
 
 		updateStartImages();
 		// m_treeViewer.add( provisionURL );
-		
-			m_treeViewer.setCheckedElements(selectedURLs.toArray());
-		
+
+		m_treeViewer.setCheckedElements(selectedURLs.toArray());
+
 		notifyUpdate();
 	}
 
@@ -832,9 +903,6 @@ public class ProvisionBlock extends CursorTabBlock {
 						"Information",
 						"Not yet implemented, but will allow selection of a Maven artifact from local or remote repository");
 
-		
-		
-		
 	}
 
 	/**
@@ -890,11 +958,32 @@ public class ProvisionBlock extends CursorTabBlock {
 						for (int j = 0; j < provisionURL1.getChildren().length; j++) {
 							ProvisionURL provisionURL2 = provisionURL1
 									.getChildren()[j];
-							if (provisionURL != provisionURL2) {
-								if (provisionURL1.isSelected()) {
-									selectedURLs.add(provisionURL1);
+							if (provisionURL.equals(provisionURL2)) {
+								ProvisionURL[] provisionChildren = new ProvisionURL[provisionURL1
+										.getChildren().length - 1];
+								int kk = 0;
+								for (int k = 0; k < provisionURL1.getChildren().length; k++) {
+									if (!provisionURL1.getChildren()[k].equals( provisionURL)) {
+										provisionChildren[kk] = provisionURL1
+												.getChildren()[k];
+										kk++;
+										if (provisionURL1
+												.getChildren()[k].isSelected()) {
+											selectedURLs.add(provisionURL1
+													.getChildren()[k]);
+										}
+									}
 								}
-							} else {
+								provisionURL1.setChildren(provisionChildren);
+								break;
+
+							}else
+							if (provisionURL != provisionURL2) {
+								if (provisionURL2.isSelected()) {
+									selectedURLs.add(provisionURL2);
+								}
+							} else  {
+
 								ProvisionURL[] provisionChildren = new ProvisionURL[provisionURL1
 										.getChildren().length - 1];
 								int kk = 0;
@@ -903,6 +992,11 @@ public class ProvisionBlock extends CursorTabBlock {
 										provisionChildren[kk] = provisionURL1
 												.getChildren()[k];
 										kk++;
+										if (provisionURL1
+												.getChildren()[k].isSelected()) {
+											selectedURLs.add(provisionURL1
+													.getChildren()[k]);
+										}
 									}
 								}
 								provisionURL1.setChildren(provisionChildren);
@@ -1013,7 +1107,7 @@ public class ProvisionBlock extends CursorTabBlock {
 		List selectedURLs = new ArrayList();
 		getExpandedNodes();
 		ProvisionURL provisionURL = new ProvisionURL(url, true, true, null,
-				false);
+				true);
 		provisionURL.setStartLevel(Integer.parseInt(level));
 		provisionURL.setSelected(true);
 		final TreeItem[] items = m_treeViewer.getTree().getItems();
@@ -1046,6 +1140,74 @@ public class ProvisionBlock extends CursorTabBlock {
 						provisionURL.setParent(provisionURL1);
 						provisionURL1.setSelected(true);
 						selectedURLs.add(provisionURL1);
+					}
+					selectedURLs.add(provisionURL);
+				} else {
+					if (provisionURL1.getChildren() != null) {
+						for (int j = 0; j < provisionURL1.getChildren().length; j++) {
+							if (provisionURL1.getChildren()[j].isSelected()) {
+								selectedURLs
+										.add(provisionURL1.getChildren()[j]);
+							}
+						}
+					}
+				}
+			}
+		}
+		m_treeViewer.setInput(provisionURLs);
+
+		// m_treeViewer.update(provisionURL, null);
+		m_treeViewer.expandAll();
+		updateExpandedNodes();
+		updateStartImages();
+		// m_treeViewer.add( provisionURL );
+		if (selectedURLs.size() != 0) {
+			m_treeViewer.setCheckedElements(selectedURLs.toArray());
+		}
+		notifyUpdate();
+	}
+
+	private void addURL(final String url, final String level,
+			final boolean isStart, final boolean isUpdate,
+			final boolean isSelected) {
+		List provisionURLs = new ArrayList();
+		List selectedURLs = new ArrayList();
+		getExpandedNodes();
+		ProvisionURL provisionURL = new ProvisionURL(url, isSelected, isStart,
+				null, isUpdate);
+		provisionURL.setStartLevel(Integer.parseInt(level));
+
+		final TreeItem[] items = m_treeViewer.getTree().getItems();
+		if (items != null && items.length > 0) {
+			for (int i = 0; i < items.length; i++) {
+				final ProvisionURL provisionURL1 = (ProvisionURL) items[i]
+						.getData();
+				if (provisionURL1.isSelected()) {
+					selectedURLs.add(provisionURL1);
+				}
+				provisionURLs.add(provisionURL1);
+				if (provisionURL1.getUrl().startsWith("Level ")
+						&& provisionURL1.getUrl().endsWith(level)) {
+					// provisionURL1.add(provisionURL);
+					if (provisionURL1.getChildren() != null) {
+						ProvisionURL[] tmp = new ProvisionURL[provisionURL1
+								.getChildren().length + 1];
+						for (int j = 0; j < provisionURL1.getChildren().length; j++) {
+							tmp[j] = provisionURL1.getChildren()[j];
+							if (tmp[j].isSelected()) {
+								selectedURLs.add(tmp[j]);
+							}
+						}
+						tmp[provisionURL1.getChildren().length] = provisionURL;
+						provisionURL.setParent(provisionURL1);
+						provisionURL1.setChildren(tmp);
+					} else {
+						provisionURL1
+								.setChildren(new ProvisionURL[] { provisionURL });
+						provisionURL.setParent(provisionURL1);
+						provisionURL1.setSelected(true);
+						selectedURLs.add(provisionURL1);
+						
 					}
 					selectedURLs.add(provisionURL);
 				} else {
@@ -1296,56 +1458,50 @@ public class ProvisionBlock extends CursorTabBlock {
 		ImageData ideaImage4 = new ImageData(getClass().getResourceAsStream(
 				"/images/nn.jpg"));
 		Image nn = new Image(Display.getCurrent(), ideaImage4);
-		
+
 		for (int i = 0; i < m_treeViewer.getTree().getItems().length; i++) {
 			TreeItem it = m_treeViewer.getTree().getItems()[i];
 			boolean allChildrenStarted = true;
-		
+
 			boolean allChildrenUpdated = true;
-			
+
 			for (int j = 0; j < it.getItemCount(); j++) {
 				TreeItem it2 = it.getItems()[j];
-		 
+
 				if (((ProvisionURL) it2.getData()) != null
 						&& ((ProvisionURL) it2.getData()).isStart()
-						&&((ProvisionURL) it2.getData()).isUpdate()) {
-				//	allChildrenStarted = false;
-				//	allChildrenUpdated = false;
+						&& ((ProvisionURL) it2.getData()).isUpdate()) {					
 					it2.setImage(yy);
 				} else if (((ProvisionURL) it2.getData()) != null
 						&& ((ProvisionURL) it2.getData()).isStart()
-						&&!((ProvisionURL) it2.getData()).isUpdate()) {
-					//allChildrenStarted = false;
-					allChildrenUpdated=false;
+						&& !((ProvisionURL) it2.getData()).isUpdate()) {					
+					allChildrenUpdated = false;
 					it2.setImage(yn);
-				}
-				else if (((ProvisionURL) it2.getData()) != null
+				} else if (((ProvisionURL) it2.getData()) != null
 						&& !((ProvisionURL) it2.getData()).isStart()
-						&&((ProvisionURL) it2.getData()).isUpdate()) {
-					allChildrenStarted=false;
-					//allChildrenUpdated = false;
+						&& ((ProvisionURL) it2.getData()).isUpdate()) {
+					allChildrenStarted = false;
 					it2.setImage(ny);
-				}else{
+				} else {
 					allChildrenStarted = false;
 					allChildrenUpdated = false;
 					it2.setImage(nn);
-					
+
 				}
 			}
-			if (allChildrenStarted&&allChildrenUpdated) {
+			if (allChildrenStarted && allChildrenUpdated) {
 				it.setImage(yy);
 				((ProvisionURL) it.getData()).setStart(true);
 				((ProvisionURL) it.getData()).setUpdate(true);
-			} else if (allChildrenStarted&&!allChildrenUpdated) {
+			} else if (allChildrenStarted && !allChildrenUpdated) {
 				it.setImage(yn);
 				((ProvisionURL) it.getData()).setStart(true);
 				((ProvisionURL) it.getData()).setUpdate(false);
-			}else if (!allChildrenStarted&&allChildrenUpdated) {
+			} else if (!allChildrenStarted && allChildrenUpdated) {
 				it.setImage(ny);
 				((ProvisionURL) it.getData()).setStart(false);
 				((ProvisionURL) it.getData()).setUpdate(true);
-			}
-			else if (!allChildrenStarted&&!allChildrenUpdated){
+			} else if (!allChildrenStarted && !allChildrenUpdated) {
 				it.setImage(nn);
 				((ProvisionURL) it.getData()).setStart(false);
 				((ProvisionURL) it.getData()).setUpdate(false);
