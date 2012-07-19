@@ -41,9 +41,9 @@ public class MWVersionFactory {
 	case IMWVersion.VER_110:
 	    return "1.1.0";
 	case IMWVersion.VER_120:
-	    return "1.2.0 preview";
+	    return "1.2.0";
 	default:
-	    return "1.2.0 preview";
+	    return "1.2.0";
 	}
     }
 
