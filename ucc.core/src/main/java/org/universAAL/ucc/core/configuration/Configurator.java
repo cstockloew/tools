@@ -127,10 +127,13 @@ public class Configurator implements IConfigurator {
 		
 	}
 	
-	private static UCConfig readOntology(String filename) throws Exception {
+	private static UCConfig readOntology(String path) throws Exception {
 		// read the ontology from the file
-		OntModel m = readOntologyFromFile(filename);
+		OntModel m = readOntologyFromFile(path);
 		UCConfig ucconfig=null;
+		int index=path.lastIndexOf("\\")+1;
+		path=path.substring(0,index);
+		HashMap<String, String> defaultValues=readDefaultValues(path+"defaultValues.txt");
 		
 		// get UCConfig
 		ExtendedIterator<? extends OntResource> instances = getInstances(m,"UCConfigItem");
@@ -241,6 +244,7 @@ public class Configurator implements IConfigurator {
 				
 				UCConfigItem temp=new UCConfigItem(thisInstance.getLocalName());
 				
+				
 				DatatypeProperty pr = m.getDatatypeProperty(PREFIX + "hasLocationID");
 				if(thisInstance.getProperty(pr)!=null)
 					temp.setLocationID(thisInstance.getProperty(pr).getLiteral().getInt());
@@ -266,6 +270,8 @@ public class Configurator implements IConfigurator {
 				if(thisInstance.getProperty(p)!=null)
 					temp.setPanel(thisInstance.getProperty(p).getObject().asResource().getLocalName());
 				
+				if(defaultValues.containsKey(temp.getName()))
+					temp.setDefaultValue(defaultValues.get(temp.getName()));
 				//if(!temp.isValid()) throw new Exception("Malformed owl file: A ConfigItem is not proberly specified!");
 				
 				ucconfig.addConfigItem(temp);
@@ -310,6 +316,30 @@ public class Configurator implements IConfigurator {
 	public boolean checkEnteredValues(){
 		return configuration.checkEnteredValues();
 	}
+	private static HashMap<String, String> readDefaultValues(String path){
+	 	HashMap<String, String> defaultValues=new HashMap<String, String>();
+	    
+	    
+	    FileInputStream fis=null;
+		try {
+			fis=new FileInputStream(path);
+		} catch (FileNotFoundException e) {
+				System.out.println("Couldn't find defaultValues.txt");
+				return defaultValues;
+		}
+		Scanner scanner = new Scanner(fis, "UTF-8");
+		
+	    try {
+	      while (scanner.hasNextLine()){
+	        String current[]=scanner.nextLine().split("=");
+	        defaultValues.put(current[0], current[1]);
+	      }
+	    }
+	    finally{
+	      scanner.close();
+	    }
+	    return defaultValues;
+}
 	
 	private String[] readStartupOrder(String path){
 		 	String[] order = new String[9];
