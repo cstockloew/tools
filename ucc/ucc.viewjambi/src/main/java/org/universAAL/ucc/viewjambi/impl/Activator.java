@@ -10,6 +10,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 
 import org.universAAL.ucc.api.core.IConfigurator;
 import org.universAAL.ucc.api.core.IDeinstaller;
@@ -17,6 +18,7 @@ import org.universAAL.ucc.api.core.IInformation;
 import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.api.model.IModel;
 import org.universAAL.ucc.api.plugin.IPluginBase;
+import org.universAAL.ucc.api.view.IMainWindow;
 import org.universAAL.ucc.viewjambi.overview.GridView;
 
 import com.trolltech.qt.gui.QApplication;
@@ -92,6 +94,7 @@ public class Activator implements BundleActivator {
 		Activator.getServices();
 		return Activator.configurator;
 	}
+	
 
 	public void start(final BundleContext lcontext) throws Exception {
 		Activator.context = lcontext;
@@ -111,10 +114,15 @@ public class Activator implements BundleActivator {
 					mainWindow = MainWindow.getInstance();
 					mainWindow.show();
 					
-					startCheck = true;
-			
+					
+					
 					pluginBase =  new PluginBase(new GridView());
-					Activator.context.registerService(IPluginBase.class.getName(), pluginBase, null);
+//					Activator.context.registerService(IPluginBase.class.getName(), pluginBase, null);
+//					serviceReg=Activator.context.registerService(IMainWindow.class.getName(), mainWindow, null);
+					startCheck = true;
+					
+					
+					
 					loadPlugins();
 	
 					QApplication.exec();
@@ -130,11 +138,13 @@ public class Activator implements BundleActivator {
 			Thread.sleep(100);
 
 		if (mainWindow != null) {
-			context.registerService(MainWindow.class.getName(), mainWindow, null);
 			System.err.println("Jambi-Main-View started");
+			Activator.context.registerService(IPluginBase.class.getName(), pluginBase, null);
+			Activator.context.registerService(IMainWindow.class.getName(), mainWindow, null);
 		}
 		else 
 			System.err.println("Jambi-Main-View NOT started");
+		
 	}
 
 	@SuppressWarnings("deprecation")

@@ -1,5 +1,7 @@
 package org.universAAL.ucc.api.view;
 
+import java.io.IOException;
+
 /**
  * @author Alex
  * @version 1.0
@@ -15,4 +17,5 @@ public interface IMainWindow {
 
 	public boolean initialize();
 
+	public void installApp(String path);
 }

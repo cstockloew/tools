@@ -116,6 +116,97 @@ public class ApplicationRegistration implements IApplicationRegistration {
 	}
 	
 	public boolean writeToConfigFile(String appName, String rundir){
+		if(appName.equals("TTA")){
+			return writeTTA(appName, rundir);
+		}
+		if(appName.equals("Infoframe"))
+			return writeInfoFrame(appName);
+		if(appName.equals("Nutritional Advisor"))
+			return writeNutrionalAdvisor(appName, rundir);
+		return false;
+			
+	}
+		
+	
+	private boolean writeInfoFrame(String appName){
+		Map<String,String> attributes=Activator.getModel().getApplicationManagment().getConfiguration(appName);
+		Set<String> keys=attributes.keySet();
+		Iterator<String> itr=keys.iterator();
+		String path=attributes.get("install_base");
+		new File(path+"/config").mkdir();
+		File conf= new File(path+"/config/config.ini");
+		
+		
+		try{
+			  // Create file 
+			  FileWriter fstream = new FileWriter(conf);
+			  BufferedWriter out = new BufferedWriter(fstream);
+			  String key;
+			  while(itr.hasNext()){
+				  key=itr.next();
+				  if(!key.equals("appName")){
+					  if(!key.equals("install_base")){
+						  if(!key.equals("name")){
+							  out.write(key+" = "+attributes.get(key));
+							  out.newLine();
+						  }
+					  }
+				  }
+			  }
+			  
+			  out.close();
+		}catch (Exception e){//Catch exception if any
+			  System.err.println("Error: " + e.getMessage());
+			  }
+		return true;
+		
+	}
+	private boolean writeNutrionalAdvisor(String appName, String rundir){
+		Map<String,String> attributes=Activator.getModel().getApplicationManagment().getConfiguration(appName);
+		Set<String> keys=attributes.keySet();
+		Iterator<String> itr=keys.iterator();
+		new File(rundir+"/configurations/nutritional.uiclient/NutritionalAdvisor").mkdirs();
+		File conf= new File(rundir+"/configurations/nutritional.uiclient/NutritionalAdvisor/setup.properties");
+		
+		
+		try{
+			  // Create file 
+			  FileWriter fstream = new FileWriter(conf);
+			  BufferedWriter out = new BufferedWriter(fstream);
+			  String key;
+			  while(itr.hasNext()){
+				  key=itr.next();
+				  if(!key.equals("appName")){
+					  if(!key.equals("install_base")){
+						  if(!key.equals("name")){
+							  out.write(key+" = "+attributes.get(key));
+							  out.newLine();
+						  }
+					  }
+				  }
+			  }
+			  out.write("max_temperature=25");							out.newLine();
+			  out.write("avoid_ami=yes");								out.newLine();
+			  out.write("nutritional_folder=NutritionalAdvisor");		out.newLine();
+			  out.write("empty_cache=no");								out.newLine();
+			  out.write("ami_user_name=David_Shopland");				out.newLine();
+			  out.write("printer_conf_file=C\\:/Program Files/EPSON/JavaPOS/SetupPOS/jpos.xml");out.newLine();
+			  out.write("check_advises_delay_minutes=60");				out.newLine();
+			  out.write("scheduler_active=yes");						out.newLine();
+			  out.write("oasis_path=C\\:\\\\OASIS\\\\");				out.newLine();
+			  out.write("download_profile_on_start=yes");				out.newLine();
+			  out.write("social_comunity_use_web_services=no");			out.newLine();
+			  out.write("language_interface=EN");						out.newLine();
+			  out.write("TSF_active=yes");								out.newLine();
+			  out.close();
+		}catch (Exception e){//Catch exception if any
+			  System.err.println("Error: " + e.getMessage());
+			  }
+		return true;
+		
+	}
+	
+	private boolean writeTTA(String appName, String rundir){
 		String path=getConfPath(rundir);
 		if(!new File(path+appName).mkdirs())
 			return false;
@@ -151,7 +242,7 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		}catch (Exception e){//Catch exception if any
 			  System.err.println("Error: " + e.getMessage());
 			  }
-		return true;
+		return true;	
 	}
 	public boolean removeConfigFile(String appName, String rundir){
 		String path=getConfPath(rundir);

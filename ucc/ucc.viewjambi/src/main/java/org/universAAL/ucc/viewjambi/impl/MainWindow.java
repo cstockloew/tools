@@ -16,12 +16,15 @@ import org.universAAL.ucc.viewjambi.install.LicenseView;
 import org.universAAL.ucc.viewjambi.juic.Ui_MainWindow;
 import org.universAAL.ucc.viewjambi.overview.OverviewView;
 
+import com.trolltech.qt.QSignalEmitter;
+import com.trolltech.qt.QtBlockedSlot;
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.gui.QMessageBox.StandardButton;
 
 public class MainWindow extends QMainWindow implements IMainWindow {
 
+	private InstallSignal installSignal;
 	private Ui_MainWindow ui_base = new Ui_MainWindow();
 	private HashMap<ISubWindow,QMdiSubWindow> subWindows = new HashMap<ISubWindow,QMdiSubWindow>();
 	public static OverviewView overview;
@@ -45,6 +48,9 @@ public class MainWindow extends QMainWindow implements IMainWindow {
         ui_base.actionDeinstall.triggered.connect(this, "uninstallApp()");
         ui_base.actionOverview.triggered.connect(this, "overviewApp()");
         ui_base.actionSystem_Information.triggered.connect(this, "showInformation()");
+        
+        installSignal=new InstallSignal();
+        installSignal.valueChanged.connect(this, "showLicense(String)");
     }
     
     @Override
@@ -94,6 +100,9 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	protected void installApp() {
 		new InstallView();
 	}
+	public void installApp(String path){
+		installSignal.setValue(path);
+	}
 	public void configureApp(String path){
 		new ConfigView(path);
 	}
@@ -135,5 +144,28 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	
 	protected void showInformation() {
 		new InformationView();
+	}
+	
+	class InstallSignal extends QSignalEmitter 
+	{
+	   String value;
+	   public Signal1<String> valueChanged = new Signal1<String>();
+	   @QtBlockedSlot
+	   public String value()
+	   {
+	      return value;
+	    }
+	    public void setValue(String val)
+	    {
+	        if (value != val) 
+	        {
+	           value = val;
+	            valueChanged.emit(value);
+	        }
+	    }
+	    public InstallSignal()
+	    {
+	        value = "";
+	    }
 	}
 }

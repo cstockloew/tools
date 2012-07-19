@@ -20,12 +20,15 @@ public class UCConfigItem {
 	protected String uid;
 	protected String isInPanel;
 	protected QWidget uiElement;
+	protected String defaultValue;
 
 	
 	public UCConfigItem(String uid){
 		this.uid=uid;
 	}
-	
+	public void setDefaultValue(String defaultValue){
+		this.defaultValue=defaultValue;
+	}
 	public void setValue(String value){
 		this.value=value;
 	}
@@ -84,13 +87,24 @@ public class UCConfigItem {
 	public void generateUI(QVBoxLayout parent, int row){
 		QLabel curLabel= new QLabel();
 		QWidget current=new QWidget();
-		if(this.value.equals("int")||this.value.equals("String")) current = new QLineEdit();
-		if(this.value.equals("boolean")) current = new QCheckBox();
+		if(this.value.equals("int")||this.value.equals("String")){
+			current = new QLineEdit();
+			if(this.defaultValue!=null)
+				((QLineEdit)current).setText(this.defaultValue);
+		}
+		if(this.value.equals("boolean")){
+			current = new QCheckBox();
+			if(this.defaultValue!=null)
+				if(this.defaultValue.equals("TRUE"))
+					((QCheckBox)current).setChecked(true);
+		}
 		
 		current.setObjectName(this.name);
 		curLabel.setText(this.labelText);
 		curLabel.setToolTip(this.hoverText);
 		current.setToolTip(this.hoverText);
+		
+		
 		
 		 QHBoxLayout temp = new QHBoxLayout();
 		 //current.setParent(parent);

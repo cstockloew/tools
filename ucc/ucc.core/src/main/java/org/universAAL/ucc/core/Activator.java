@@ -6,6 +6,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
@@ -15,10 +16,12 @@ import org.universAAL.ucc.api.core.IDeinstaller;
 import org.universAAL.ucc.api.core.IInformation;
 import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.api.model.IModel;
+import org.universAAL.ucc.api.view.IMainWindow;
 import org.universAAL.ucc.core.configuration.Configurator;
 import org.universAAL.ucc.core.information.Information;
 import org.universAAL.ucc.core.installation.Deinstaller;
 import org.universAAL.ucc.core.installation.Installer;
+import org.universAAL.ucc.core.installation.SocketListener;
 
 /**
  * The uCCCore is the connection to the OSGi Framework and therefore need to have
@@ -36,11 +39,14 @@ public class Activator implements BundleActivator {
 	private static MessageContentSerializer contentSerializer = null;
 	
 	private static IModel model = null;
+	private static IMainWindow mainWindow = null;
 	
 	private IInstaller installer = null;
 	private IDeinstaller deinstaller = null;
 	private static IInformation information = null;
 	private IConfigurator configurator = null;
+	
+	private SocketListener socketListener = null;
 	
 	public static IModel getModel() {
 		return model;
@@ -48,7 +54,18 @@ public class Activator implements BundleActivator {
 	public static IInformation getInformation(){
 		return information;
 	}
-	
+	public static IMainWindow getMainWindow(){
+		if(mainWindow==null){
+			try {
+				Activator.mainWindow = (IMainWindow) getServiceObject(context, IMainWindow.class.getName());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		return mainWindow;
+	}
 	/*public static synchronized void testForm() {
 		//if (Constants.debugMode()) {
 			if (contentSerializer == null) {
@@ -85,6 +102,7 @@ public class Activator implements BundleActivator {
 		
 		//Activator.loadPlugins();
 		
+		
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -96,11 +114,20 @@ public class Activator implements BundleActivator {
 					System.err.println("Do not find uCC Model --> uCC Core not started");
 					return;
 				}
+//				if (Activator.mainWindow == null) {
+//					System.err.println("Do not find uCC MainWindow --> uCC Core not started");
+//					return;
+//				}
 				
 				installer = new Installer(context);
 				deinstaller = new Deinstaller(context);
 				information = new Information(context);
 				configurator = new Configurator(context);
+				
+				socketListener=new SocketListener(installer,context);
+				socketListener.startListening();
+				
+				
 				
 				context.registerService(new String[] { IInstaller.class.getName() }, installer, null);
 				context.registerService(new String[] { IDeinstaller.class.getName() }, deinstaller, null);
@@ -108,13 +135,14 @@ public class Activator implements BundleActivator {
 				context.registerService(new String[] { IConfigurator.class.getName() }, configurator, null);	
 			}
 		}).start();
+		
 	}
 
 	public void stop(BundleContext arg0) throws Exception {
-		
+		socketListener.stopListening();
 	}
 	
-	private Object getServiceObject(BundleContext context, String name) throws Exception {
+	private static Object getServiceObject(BundleContext context, String name) throws Exception {
 		ServiceReference sr = null;
 		int retry_count = 0;
 		while (sr == null && retry_count<max_retry) {
