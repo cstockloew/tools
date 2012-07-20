@@ -39,14 +39,19 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 import org.eclipse.swt.SWT;
@@ -221,6 +226,42 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 		});
 
+		
+		m_treeViewer.setSorter(new ViewerSorter(){
+
+			@Override
+			public int compare(Viewer viewer, Object e1, Object e2) {
+				   int cat1 = category(e1);
+				   int cat2 = category(e2);
+				   if (cat1 != cat2) return cat1 - cat2;
+				   String name1, name2;
+				   if (viewer == null || !(viewer instanceof ContentViewer)) {
+				       name1 = e1.toString();
+				       name2 = e2.toString();
+				   } else {
+				       IBaseLabelProvider prov = ((ContentViewer)viewer).getLabelProvider();
+				       if (prov instanceof ILabelProvider) {
+				           ILabelProvider lprov = (ILabelProvider)prov;
+				           name1 = lprov.getText(e1);
+				           name2 = lprov.getText(e2);
+				       } else {
+				           name1 = e1.toString();
+				           name2 = e2.toString();
+				       }
+				   }
+				   if(name1 == null) name1 = "";
+				   if(name2 == null) name2 = "";				  
+				   return collator.compare(name1, name2);
+			}
+			
+			
+			
+			
+			
+		}
+		);
+		
+		
 		final Tree tree = m_treeViewer.getTree();
 
 		// add drag and drop functionality
@@ -579,29 +620,18 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 		});
 		m_deleteButton.setText("Delete");
-		// m_treeViewer.addCheckStateListener(new ICheckStateListener() {
-		//
-		// public void checkStateChanged(CheckStateChangedEvent event) {
-		// // getExpandedNodes();
-		// // if (((ProvisionURL) event.getElement()).isSelected()) {
-		// // ((ProvisionURL) event.getElement()).setSelected(false);
-		// // if (((ProvisionURL) event.getElement()).getParent() != null) {
-		// // ((ProvisionURL) event.getElement()).getParent()
-		// // .setSelected(false);
-		// // }
-		// //
-		// // } else {
-		// // ((ProvisionURL) event.getElement()).setSelected(true);
-		// // }
-		// // updateExpandedNodes();
-		//
-		// }
-		// });
+
 
 		m_treeViewer.expandAll();
 
 	}
 
+	
+		
+	
+	
+	
+	
 	private void getExpandedNodes() {
 		expandedNodes = new ArrayList();
 		final TreeItem[] items = m_treeViewer.getTree().getItems();
