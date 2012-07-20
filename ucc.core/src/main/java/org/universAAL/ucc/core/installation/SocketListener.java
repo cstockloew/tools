@@ -1,6 +1,7 @@
 package org.universAAL.ucc.core.installation;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -91,11 +92,15 @@ public class SocketListener {
                     try {
                         Socket client = socket.accept();
                         BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream(),Charset.forName("UTF-8")));
+                        DataOutputStream out = new DataOutputStream(client.getOutputStream());
+          
                         String message = in.readLine();
                         char[] cbuf = new char[2048];
       
                         in.read(cbuf);
                         message=String.valueOf(cbuf);
+                        out.write(("HTTP/1.1 204 No Content").getBytes());
+                        //out.writeUTF("200");
                         onEventCatched(message);
                         
                         in.close();

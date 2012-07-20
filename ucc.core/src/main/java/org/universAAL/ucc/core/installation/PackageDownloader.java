@@ -15,7 +15,7 @@ public class PackageDownloader {
 	private static final String FILENAME_SEARCH_TAG="filename";
 	
 	public String download(String url){
-		String fileOnHardDrive="test.uaal";
+		String fileOnHardDrive=parseFileName(url);
 		
 		BufferedInputStream in;
 		try {
@@ -41,15 +41,15 @@ public class PackageDownloader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return parseFileName(url);
+		return fileOnHardDrive;
 	}
 	private String parseFileName(String url){
-		String result="infoframe.uaal";
-//		String[] values=url.split("&");
-//		for(int i=0;i<values.length;i++){
-//			if(values[i].startsWith(FILENAME_SEARCH_TAG))
-//				result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
-//		}
+		String result="package.uaal";
+		String[] values=url.split("&");
+		for(int i=0;i<values.length;i++){
+			if(values[i].startsWith(FILENAME_SEARCH_TAG))
+				result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
+		}
 		return result;
 	}
 }
