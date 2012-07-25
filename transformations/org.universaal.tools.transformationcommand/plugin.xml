@@ -18,6 +18,11 @@
             id="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             name="Transform UML ontology to Java">
       </command>
+      <command
+            categoryId="org.universaal.tools.transformation.category"
+            id="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
+            name="Transform Java ontology to OWL RDF/XML">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -48,6 +53,10 @@
             commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java">
       </handler>
+      <handler
+            commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
+            class="org.universaal.tools.transformationcommand.handlers.TransformOntJava2OWL">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -58,6 +67,11 @@
                id="org.universaal.tools.transformationcommand.menu.ontUML2Java"
                style="push">
          </command>
+         <command
+               commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
+               id="org.universaal.tools.transformationcommand.menu.ontJava2UML"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
@@ -65,6 +79,10 @@
                label="AAL Studio">
             <command
                   commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
                   style="push">
             </command>
          </menu>
@@ -113,6 +131,10 @@
       <initializer
             class="org.universaal.tools.transformationcommand.preferences.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup></startup>
    </extension>
 
 </plugin>

@@ -281,7 +281,11 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 			//New code
 			project.refreshLocal(IProject.DEPTH_INFINITE, new NullProgressMonitor());
 		    MavenPlugin.getProjectConfigurationManager()
-		    	.updateProjectConfiguration(project, new NullProgressMonitor());			
+		    	.updateProjectConfiguration(project, new NullProgressMonitor());	
+		    // Set flag for OWL to Java support if is not given
+			String tmpParamCheck = inputFile.getProject().getPersistentProperty(new QualifiedName("generateJavaToOWL", "generateJavaToOWL"));
+			if (tmpParamCheck == null)
+				project.setPersistentProperty(new QualifiedName("generateJavaToOWL", "generateJavaToOWL"), "false");
 		} catch (MofScriptExecutionException mex) {
 			
 			mex.printStackTrace();
