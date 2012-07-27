@@ -103,7 +103,7 @@ public class MWVersion030 implements IMWVersion{
     public void modifyPOMFile(IFile pom, boolean[] checks, String pack,
 	    IProgressMonitor monitor) throws CoreException, IOException {
 	pom.setContents(customizePom(pack,pom.getContents(), checks, true,true),
-		true, true, monitor);
+		true, true, monitor);//TODO: customizePom(,,true,true) set them properly to phworld and profile
     }
     
     public void modifyPOMFile(IFile pom, int clstype, IProgressMonitor monitor) throws CoreException, IOException {
