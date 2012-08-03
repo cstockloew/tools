@@ -2,6 +2,7 @@ package org.universAAL.ucc.viewjambi.impl;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.universAAL.ucc.api.core.IDeinstaller;
 import org.universAAL.ucc.api.view.IMainWindow;
@@ -11,8 +12,10 @@ import org.universAAL.ucc.viewjambi.information.InformationView;
 import org.universAAL.ucc.viewjambi.install.ConfigView;
 import org.universAAL.ucc.viewjambi.install.DeinstallView;
 import org.universAAL.ucc.viewjambi.install.DeployConfigView;
+import org.universAAL.ucc.viewjambi.install.DeployStrategyView;
 import org.universAAL.ucc.viewjambi.install.InstallView;
 import org.universAAL.ucc.viewjambi.install.LicenseView;
+import org.universAAL.ucc.viewjambi.install.MpaParser;
 import org.universAAL.ucc.viewjambi.juic.Ui_MainWindow;
 import org.universAAL.ucc.viewjambi.overview.OverviewView;
 
@@ -112,8 +115,11 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	public void deinstallApp(){
 		new DeinstallView();
 	}
-	public void deployConfigure(String path){
-		new DeployConfigView(path);
+	public void deployConfigure(String path, MpaParser mpa, Map peers){
+		new DeployConfigView(path, mpa, peers);
+	}
+	public void deployStrategy(String path){
+		new DeployStrategyView(path);
 	}
 	
 	protected void uninstallApp() {

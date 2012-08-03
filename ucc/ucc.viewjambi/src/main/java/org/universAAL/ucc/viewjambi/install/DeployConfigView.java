@@ -1,226 +1,203 @@
 package org.universAAL.ucc.viewjambi.install;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
+import java.util.Map;
+import java.util.Set;
 
+import org.universAAL.middleware.connectors.deploy.model.Part;
+import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.ucc.viewjambi.common.SubWindow;
+import org.universAAL.ucc.viewjambi.impl.Activator;
 import org.universAAL.ucc.viewjambi.impl.MainWindow;
 import org.universAAL.ucc.viewjambi.juic.Ui_DeployConfigView;
 
-
-import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.gui.*;
 
 public class DeployConfigView extends SubWindow {
 
-    private static Ui_DeployConfigView ui = new Ui_DeployConfigView();
-    
-    String[] deployNodes = {"node1", "node2", "node3", "node4"};
-    HashMap layout/*<String, List>*/ = new HashMap(); /* <ApplicationPartId, deployNodesId> */
-    //HashMap deployConfig = new HashMap();  // user selected configuration
-    // when the final screen "next" is pressed, the layout contains the updated config
-    
-    QStringListModel listModel = new QStringListModel(this); 
+	private static Ui_DeployConfigView ui = new Ui_DeployConfigView();
     
     int currentScreen = 0; // pointer to the application part; one part has one screen
-    ArrayList screens = new ArrayList(); // index - appId
-     
+    ArrayList screens = new ArrayList(); // index - Part
+    String deployPath;
+    MpaParser mpa;
+    Map<String, PeerCard> peers;
+    Map<PeerCard, Part> mpaLayout = new HashMap<PeerCard, Part>();  // the layout selected by the user - final version and sent to the MW for installation (one peer only for one part)
+    Map<Part, String> layout = new HashMap<Part, String>(); // layout selected by the user <Part, PeerId>- working version: ensures that each part has only one peer
 
-    /**
-     * 
-     * @param path The path of the extracted files from .uaal
-     */
-    public DeployConfigView(String path) {
-      super(DeployConfigView.ui);
-      
-      // call MW Deploy Manager to get the deploy layout based on the MPA manifest
-      // To integrate with MW: layout = checkDeployLayout
-      layout = getDeployLayout(path);
-      
-      // create screens for the list of app part ID
-      Iterator itr = layout.keySet().iterator();
-      while (itr.hasNext())  {
-    	  screens.add((String)itr.next());
-      }
-      
-      // test
-      for (int i=0; i<screens.size(); i++) 
-    	  System.out.println("the " + i + "th screen is for " + screens.get(i));
-      
-      
-      
-      // initialization of the ui components
-     ui.radioButton_all.clicked.connect(this, "onAllNodes()");
-     //ui.radioButton_all.setChecked(true);
-     //onAllNodes();
-     ui.radioButton_selected.clicked.connect(this, "onSelectedNodes()");
-      
-      
-      ui.pushButton_add.setCheckable(true);
-      ui.pushButton_add.clicked.connect(this, "addNode()");
-      ui.pushButton_remove.setCheckable(true); 
-      ui.pushButton_remove.clicked.connect(this, "removeNode()");    
-      
-      ui.pushButton_cancel.clicked.connect(this, "cancel()");
-      ui.pushButton_next.clicked.connect(this, "nextScreen()");
-      ui.pushButton_previous.clicked.connect(this, "previousScreen()");
-      
-      // initialize the first screen
-      initGuiForAppPart(0);
-          
+    public DeployConfigView(String path, MpaParser mpa, Map peers) {
+    	super(DeployConfigView.ui);
+    	this.deployPath = path;
+    	this.mpa = mpa;
+    	this.peers = peers;
+    	
+    	// get Parts and associate them with ScreenId
+    	List<Part> parts = mpa.getApplicationPart().getPart();
+    	for (int i=0; i<parts.size(); i++)
+    		screens.add(parts.get(i));
+    	   	
+    	// initialization of the ui components
+        ui.pushButton_cancel.clicked.connect(this, "cancel()");
+                ui.pushButton_previous.clicked.connect(this, "previousScreen()");
+        ui.pushButton_next.clicked.connect(this, "nextScreen()");
+        // initialize the ComboBox using data from peers (peer Id/String?)
+        Set keys = peers.keySet();
+        for (Iterator i = keys.iterator(); i.hasNext();) {
+          String peerId = (String) i.next();
+          ui.comboBox.addItem(peerId);
+        }
+        ui.comboBox.highlighted.connect(this, "peerSelected(String)");
+        // initialize the first screen
+        initGuiForAppPart(0);
+            
     }
-   
+    
     /**
      * initialize the GUI for one part
      * 
      */
    private void initGuiForAppPart(int screenId) {
-	   ui.lineEdit_appId.setText((String) screens.get(screenId));
+	   ui.lineEdit.setText(((Part) screens.get(screenId)).getPartId());
 	   currentScreen = screenId;
-	   ui.lineEdit_appId.setReadOnly(true); // disable text input (display only)
-	   ui.radioButton_all.setChecked(true);
+	   ui.lineEdit.setReadOnly(true); // disable text input (display only)
+	   	   
 	   if (screenId==0) 
 		   ui.pushButton_previous.setDisabled(true);
 	   else 
 		   ui.pushButton_previous.setDisabled(false);
-	   onAllNodes();
+	   // set the previously selected value to the screen if exists
+	   Part cPart = (Part) screens.get(currentScreen);
+	   if (layout.containsKey(cPart)) {
+		   String peerId = layout.get(cPart);
+		   int cIndex=0;
+		   for (int i=0; i<ui.comboBox.count(); i++) {
+			   if (ui.comboBox.itemText(i).equals(peerId)) {
+				   cIndex = i;
+				   break;
+			   }				   
+		   }
+		   ui.comboBox.setCurrentIndex(cIndex);
+	   }
+		   
+	   
    }
-    
-    private void addNode()  {
-    	String nodeId = QInputDialog.getItem(this, "Add node", "Please select a node to add", Arrays.asList(deployNodes));    	
-    	// check the uniqueness of the node (i.e., if the nodeId already exists)
-    	if (exists(nodeId)) {
-    		QMessageBox.warning(this, "Error", "The node " + nodeId + " already added!");
-    		return;
-    	}
-    	addSelectedNode(nodeId);
-    }
-    
-    private void addSelectedNode(String nodeId) {
-    	System.out.println("add a selected node: " + nodeId); 
-    	int row;
-    	
-    	if (listModel.rowCount()==0) row = 0; 
-    		else  {
-    			if (ui.listView.currentIndex()==null) 
-    				row = listModel.rowCount();    			
-    			else row = ui.listView.currentIndex().row();
-    		}
-    	
-    	listModel.insertRow(row);
-    			
-    	QModelIndex index = listModel.index(row, 0);     	
-        listModel.setData(index, nodeId); 
-        System.out.println("The list view after insert - the number of items: " + listModel.rowCount());
-        ui.listView.setCurrentIndex(index); 
-    }
-    
-    private void removeNode()  {    	
-    	if (ui.listView.currentIndex()==null) {
-    		QMessageBox.warning(this, "Error", "You should select one node to remove!");
-    		return;
-    	}
-    	int row = ui.listView.currentIndex().row();
-    	System.out.println("remove a node at row: " + row + " with id: " + listModel.data(row, 0));
-    	listModel.removeRow(row);   	
-    }
-       
-    private void onAllNodes() {
-    	listModel.setStringList((List<String>) layout.get(screens.get(currentScreen)));
-    	ui.listView.setModel(listModel);
-    	ui.listView.show();
-    }
-    
-    private void onSelectedNodes() {
-    	List<String> list = new Vector<String>();
-    	listModel.setStringList(list);
-    	ui.listView.setModel(listModel);
-    }
-    
-    private boolean exists(String nodeId)  {
-    	List data = listModel.stringList(); 
-        Iterator itr = data.iterator(); 
-        while(itr.hasNext()) {
-            String element = (String) itr.next(); 
-            if (element.equals(nodeId)) {
-            	return true;
-            }
-        } 
-    	
-    	return false;
-    }
-    
-    private void cancel()  {
-    	MainWindow.getInstance().removeSubWindow(this);
-    }
-    
-    private void nextScreen() {
-    	// save the current screen value first
-    	layout.put(screens.get(currentScreen), listModel.stringList());
-    	//TODO: show the saved results
-    	// initialize the next screen if any
-    	if (currentScreen==screens.size()-1)  {
-    		// already the last screen - start to call DeployManager!
-    		String[] options = {"YES - continue to deploy", "NO - Go back"};
-    		String op = QInputDialog.getItem(this, "Deploy", "This is the last application part to configure. Start deploying?", Arrays.asList(options), 0, false);
-    		if (options[0].equals(op)) {
-    			MainWindow.getInstance().removeSubWindow(this);
-    			System.out.println("Start deploying...");
-    			QMessageBox.information(this, "Deploy", "start deploying the multi-part application...");
-    			//TODO write all the deploy configure setting to a configFile or use just the HashMap?
-        		// saveDeployConfigToFile();
-        		//TODO call MW deploy manager requestToInstall(zip, configFile) or requestToInstall(zip, HashMap configs)
-    			
-    		} 
-    		
-    		return;
-    	}
-    	initGuiForAppPart(currentScreen+1);
-    }
-    
-    private void previousScreen()  {
-    	if (currentScreen==0)  {
-    		// already the first screen 
-    		QMessageBox.information(this, "Info", "Already the first screen - can not go back!");
-    		return;
-    	}
-    	initGuiForAppPart(currentScreen-1);
-    }
-    
-   /**
-    * call DeployManager to check deploy layout and 
-    * @param path
-    * @return
-    */
-    private HashMap getDeployLayout(String path)  {
-    	HashMap layouts = new HashMap();
-    	// TODO: get the mpa file
-    	
-    	
-    	// TO integrate with the MW use:
-    	// layout = checkDeployLayout(mpaFile);
-    	// create screens using the layout (the list of appId)
-    	
-    	// here only initialize data for test
-        String appId = "ApplicationPart1";
-        String[] deployNode1 = {"node1", "node2", "node3", "node4"};
-        layouts.put(appId, Arrays.asList(deployNode1));
-        //screens.add(appId);
-        
-        appId = "ApplicationPart2";
-        String[] deployNode2 = {"node1", "node2", "node3", "node4", "node5"};
-        layouts.put(appId, Arrays.asList(deployNode2));
-        //screens.add(appId);
-        
-        appId = "ApplicationPart3";
-        String[] deployNode3 = {"node2", "node5", "node6"};
-        layouts.put(appId, Arrays.asList(deployNode3));
-        //screens.add(appId);
-        
-        return layouts;
-    }
+   
+   private void cancel()  {
+   	MainWindow.getInstance().removeSubWindow(this);
+   }
+   
+   private void nextScreen() {  		
+	   // save the current screen value 
+	   layout.put((Part) screens.get(currentScreen), ui.comboBox.currentText());
+   		//show the saved results
+	   	System.out.println("[DeployConfigView.nextScreen] save a selection: " + ((Part)(screens.get(currentScreen))).getPartId() +
+	   			"/" + ui.comboBox.currentText());
+   		// initialize the next screen if any
+   		if (currentScreen==screens.size()-1)  {
+   			// already the last screen - start to call DeployManager!
+   			String[] options = {"YES - continue to deploy", "NO - Go back"};
+   			String op = QInputDialog.getItem(this, "Deploy", "This is the last application part to configure. Start deploying?", Arrays.asList(options), 0, false);
+   			if (options[0].equals(op)) {
+   				// check the validity of the configuration layout
+   				if (!checkLayout()) {
+   					// the selection is not valid   					
+   					QMessageBox.information(this, "Configure error", "The configuration is not valid. Please try again!");
+   					return;
+   				}   				
+   				MainWindow.getInstance().removeSubWindow(this);
+   				System.out.println("Start deploying...");
+   				QMessageBox.information(this, "Deploy", "start deploying the multi-part application...");
+   				//save the deploy configuration
+   				for(Part part : layout.keySet()){
+   					PeerCard card = peers.get(layout.get(part));
+   					System.out.println("[DeployConfigView.nextScreen] save the layouts: " + card.getPeerID()
+   							+ ":" + layout.get(part) + "/" + part.getPartId());
+   					mpaLayout.put(card, part);
+   				}
+   				// call MW deploy manager requestToInstall
+   				Activator.getInstaller().requestToInstall((new File(deployPath)).toURI(), mpaLayout);
+   			} 
+   		
+   			return;
+   		}
+   		initGuiForAppPart(currentScreen+1);
+
+   }
+   
+   private void previousScreen()  {
+   		if (currentScreen==0)  {
+   			// already the first screen 
+   			QMessageBox.information(this, "Info", "Already the first screen - can not go back!");
+   			return;
+   		}
+   		initGuiForAppPart(currentScreen-1);
+   }
+   
+
+   private void peerSelected(String peerId) {
+	   Part part = (Part) screens.get(currentScreen);
+	   //PeerCard card = peers.get(peerId);
+	   System.out.println("[DedployConfigView.peerSelected] the selected peer is: " + peerId + "/" 
+			   + peers.get(peerId).getPeerID() + " for part: " + part.getPartId());
+	   // TODO: do we need to check validity of the selection here?	   
+	   // save to the layout: each part appears just once in the layout
+	   layout.put(part, peerId);
+   }
+   
+  /**
+   * check the layout:
+   * - each Application part needs one peer to install
+   * - each peer is compatible with the part DeploymentUnit specification
+   * - each peer can only install one part
+   * @return
+   */
+   private boolean checkLayout()  {
+	   boolean valid = true;
+	   
+	   if (layout.size()==0) { 
+		   System.out.println("[DeployConfigView.checkLayout] You have not selected any node to deploy!");
+		   QMessageBox.information(this, "Validity check", "You have not selected any node to deploy!");
+		   return false;
+	   }
+	   // check if the peer is compatible with the part DeploymentUnit
+	   for(Part part: mpa.getApplicationPart().getPart()){
+		   if (!layout.containsKey(part)) {
+			   System.out.println("[DeployConfigView.checkLayout] You have not selected a node to deploy part " + part.getPartId() + "!");
+			   QMessageBox.information(this, "Validity check", "[DeployConfigView.checkLayout] You have not selected a node to deploy part " + part.getPartId() + "!");
+			   valid = false;
+		   } else
+		   if (!DeployStrategyView.checkDeployementUnit(part.getDeploymentUnit(), peers.get(layout.get(part)))) {
+			   QMessageBox.information(this, "Validity check", "The part " + part.getPartId() + " can not be installed on the peer " + layout.get(part) + "!");
+			   System.out.println("[DeployConfigView.checkLayout] The part " + part.getPartId() + " can not be installed on the peer " + layout.get(part) + "!");
+			   valid = false;
+		   }
+		   else System.out.println("[DeployConfigView.checkLayout] The part " + part.getPartId() + " can be installed on the peer " + layout.get(part));
+	   }   	   
+	   // check if a peer is associated with more than one part
+	   for (String peerId: layout.values()) {
+		   System.out.println("[DeployConfigView.checkLayout] check for peer " + peerId);
+		   if (countPeer(peerId)>1) {
+			   System.out.println("[DeployConfigView.checkLayout] " + peerId + " has been associated with more than one part!");
+			   QMessageBox.information(this, "Validity check", peerId + " has been associated with more than one part!");
+			   valid = false;
+		   }
+	   }
+	   return valid;
+   }
+   
+   private int countPeer(String peerId) {
+	   int count = 0;
+	   for (Part part: layout.keySet()) {
+		   if (layout.get(part).equals(peerId)) {
+			   System.out.println("[DeployConfigView.countPeer] part "+ part.getPartId() + " is associated with " + peerId);
+			   count++;
+		   }
+	   }
+	   return count;
+   }
 }

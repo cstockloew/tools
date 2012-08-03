@@ -8,9 +8,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -22,8 +27,16 @@ import java.util.zip.ZipInputStream;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.interfaces.PeerCard;
+import org.universAAL.middleware.interfaces.PeerRole;
+import org.universAAL.middleware.managers.api.DeployManager;
+import org.universAAL.middleware.managers.api.AALSpaceManager;
+import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.core.Activator;
+
 
 
 /**
@@ -39,6 +52,9 @@ public class Installer extends ApplicationManager implements IInstaller {
 	private BundleContext context;
 	private ArrayList<Bundle> installedBundles=new ArrayList<Bundle>();
 	private boolean mpa = false; // flag to indicate if the application is MPA
+	private boolean initialized = false;
+	private DeployManager deployManager;
+	private AALSpaceManager aalSpaceManager;
 	
 	public Installer(BundleContext con) {
 		context=con;
@@ -59,9 +75,11 @@ public class Installer extends ApplicationManager implements IInstaller {
 	 */
 	public String installApplication(String path) throws Exception {
 		//Activator.getModel().getApplicationRegistration().writeToConfigFile("test");
-
+		//System.out.println("[Installer.installApplication] the path for install is: " + path);
 		String exdir=extractBundles(path);
 		if(exdir==null)throw new Exception("Error extracting uaal Package");
+		// convert "/" to "\"
+		exdir = exdir.replaceAll("/", "\\");
 		File appDir=new File(exdir);
 		checkApplicationForInstall(appDir);
 		if (!mpa) {			
@@ -77,7 +95,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 				installedBundles.add(temp);
 			}
 		}
-		}
+		} 
 		return exdir;
 		
 	}
@@ -105,7 +123,11 @@ public class Installer extends ApplicationManager implements IInstaller {
 		if(!jarok) throw new Exception("There is no installable jar File in uaal Package!");
 		if(!configok) throw new Exception("config.owl file not found!");
 		//if(!eulaok) throw new Exception("No License agreement found!");
-		if(mpa) System.out.println("This is a multi-part application...");
+		if(mpa) {
+			System.out.println("This is a multi-part application, initialing...");
+			// initialization: get references to DeployManager and AALSpaceManager
+			initMpaInstallation();
+		}
 	}
 	
 
@@ -156,11 +178,14 @@ public class Installer extends ApplicationManager implements IInstaller {
 	
 	
 private String extractBundles(String path) {
-      
-	String destDir = path.substring(path.lastIndexOf(File.separator) + 1,path.lastIndexOf("."));
-	//destDir =Activator.getInformation().getBundleDir()+"/"+ destDir; Does this work only on Linux/Unix?
-	destDir =Activator.getInformation().getBundleDir()+"\\"+ destDir;  // For windows version
+    String destDir = path.substring(path.lastIndexOf(File.separator) + 1,path.lastIndexOf("."));
+	destDir =Activator.getInformation().getBundleDir() +"/"+ destDir; //Does this work only on Linux/Unix?
+	//System.out.println("[Installer.extractBundles] destDir is " + destDir);
+	destDir =destDir.replace("/", "\\");  // For windows version
+	//System.out.println("[Installer.extractBundles] destDir2 is " + destDir);
 	File appDir=new File(destDir);
+	System.out.println("[Installer.extractBundles] the path for zip file is: " + path + 
+			" and the destination path is: " + destDir);
 	int suffix=1;
 	int slength=0;
 	while(appDir.exists()){
@@ -199,7 +224,7 @@ public void revertInstallation(File folder){
 
 static public void extractFolder(String zipFile, String destdir) throws ZipException, IOException 
 {
-    System.out.println(zipFile);
+    //System.out.println("[Installer.extractFolder] the zip file is: " + zipFile);
     int BUFFER = 2048;
     File file = new File(zipFile);
 
@@ -244,7 +269,110 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
             is.close();
         }
 
-    }
+    }       
 }
+
+	/**
+	 * initiation for MPA installation
+	 * - get AALSpaceManager
+	 * - get DeployManager
+	 */
+	private boolean initMpaInstallation()  {
+		System.out.println("[Installer.initMpaInstallation]");
+		ModuleContext moduleContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
+		
+		Object[] aalManagers = (Object[]) moduleContext.getContainer().fetchSharedObject(moduleContext,new Object[]{AALSpaceManager.class.getName().toString()});
+		if(aalManagers != null){
+			moduleContext.logDebug("AALSpaceManagers found...", null);
+			System.out.println("[MpaParser] AALSpaceManagers found...");
+			if(aalManagers[0] instanceof AALSpaceManager){
+				aalSpaceManager = (AALSpaceManager)aalManagers[0];				
+			}
+
+			else{
+				moduleContext.logWarn("No AALSpaceManagers found", null);
+				System.out.println("[Installer.initMpaInstallation]No AALSpaceManagers found");
+				initialized = false;
+				return initialized;
+			}
+		}else{
+			moduleContext.logWarn("No AALSpaceManagers found", null);
+			System.out.println("[MpaParser]No AALSpaceManagers found");
+			initialized = false;
+			return initialized;
+		}
+
+		
+		Object refs = moduleContext.getContainer().fetchSharedObject(moduleContext,new Object[]{DeployManager.class.getName().toString()});
+		if(refs != null){
+			deployManager = (DeployManager)refs;
+			// -- just for testing
+			URI mpaUri = null;
+			try {
+				mpaUri = new URI("http://aaloa.isti.cnr.it/Ping-Pong-mpa.xml");
+				Map layout = new HashMap();
+				PeerCard card1= new PeerCard("DeployNode1", PeerRole.PEER);
+				layout.put(card1, "Part1");
+				System.out.println("[Installer] call deploy manager to install " + mpaUri.toString() + " for " 
+						+ layout.toString());
+				deployManager.requestToInstall(mpaUri, layout);
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			// -- end for testing
+			
+			initialized = true;
+			return initialized;
+		}else{
+			moduleContext.logWarn("No DeployManager found", null);
+			System.out.println("No DeployManager found");
+			initialized = false;
+			return initialized;
+		}
+	}
+
+	/**
+	 * call DeployManager to install MPA using the specified layout
+	 * 
+	 */
+	public InstallationResults requestToInstall(URI deployFolder, Map layout) {
+		System.out.println("[Installer.requestToInstall] deployFolder: " + deployFolder);		
+		if (deployManager==null) {
+			System.out.println("[Installer.requestToInstall] No deploy manager exists!");
+			return InstallationResults.FAILED;
+		}
+		System.out.println("[Installer.requestToInstall] Call deploy manager to install...");
+		return deployManager.requestToInstall(deployFolder, layout);
+	}
+
+	/**
+	 * get peers in AALSpace from the AALSpaceManager
+	 * 
+	 */
+	public Map<String, PeerCard> getPeers() {
+		Map peers = new HashMap();
+		if (aalSpaceManager!=null) {
+			peers = aalSpaceManager.getPeers();
+			System.out.println("[Installer.getPeers()]" + peers.toString());
+		} else {
+			// use faked data to test without really connected to DeployManager
+			PeerCard card= new PeerCard(PeerRole.PEER, "karaf", "Java");
+			System.out.println("[Installer.getPeers] peerCard1 for testing: " + card.getPeerID() + "/"
+					+ card.getOS() + "/" + card.getPLATFORM_UNIT() + "/" + card.getCONTAINER_UNIT() + "/" + card.getRole());
+			peers.put("Node1", card);
+			card= new PeerCard(PeerRole.PEER, "karaf", "Java");		// to have a different unique PeerId	
+			peers.put("Node2", card);
+			System.out.println("[Installer.getPeers] peerCard2 for testing: " + card.getPeerID() + "/"
+					+ card.getOS() + "/" + card.getPLATFORM_UNIT() + "/" + card.getCONTAINER_UNIT() + "/" + card.getRole());
+			card= new PeerCard(PeerRole.PEER, "karaf", "C++");		// to have a different unique PeerId	
+			peers.put("Node3", card);
+			System.out.println("[Installer.getPeers] peerCard3 for testing: " + card.getPeerID() + "/"
+					+ card.getOS() + "/" + card.getPLATFORM_UNIT() + "/" + card.getCONTAINER_UNIT() + "/" + card.getRole());
+		}
+		return peers;
+	}
+	
 	
 }
