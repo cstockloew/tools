@@ -278,7 +278,7 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 	 * - get DeployManager
 	 */
 	private boolean initMpaInstallation()  {
-		System.out.println("[Installer.initMpaInstallation]");
+		//System.out.println("[Installer.initMpaInstallation]");
 		ModuleContext moduleContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
 		
 		Object[] aalManagers = (Object[]) moduleContext.getContainer().fetchSharedObject(moduleContext,new Object[]{AALSpaceManager.class.getName().toString()});

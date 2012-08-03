@@ -15,6 +15,8 @@ public interface IInstaller {
 	public ArrayList<Bundle> getInstalledBundles();
 	public void resetBundles();
 	public void revertInstallation(File folder);
+	// interface with MW: call AALSpaceManager
 	public Map getPeers();
+	// interface with MW: call DeployManager
 	public InstallationResults requestToInstall(URI deployFolder, Map layout);
 }
