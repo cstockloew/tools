@@ -27,8 +27,10 @@ public class DeployConfigView extends SubWindow {
     String deployPath;
     MpaParser mpa;
     Map<String, PeerCard> peers;
-    Map<PeerCard, Part> mpaLayout = new HashMap<PeerCard, Part>();  // the layout selected by the user - final version and sent to the MW for installation (one peer only for one part)
-    Map<Part, String> layout = new HashMap<Part, String>(); // layout selected by the user <Part, PeerId>- working version: ensures that each part has only one peer
+    // the layout selected by the user - final version and sent to the MW for installation (one peer only for one part)
+    Map<PeerCard, Part> mpaLayout = new HashMap<PeerCard, Part>();  
+    // layout selected by the user <Part, PeerId>- working version: ensures that each part has only one peer
+    Map<Part, String> layout = new HashMap<Part, String>(); 
 
     public DeployConfigView(String path, MpaParser mpa, Map peers) {
     	super(DeployConfigView.ui);
