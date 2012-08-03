@@ -34,7 +34,7 @@ public class LicenseView extends SubWindow {
 	protected void accept() {
 		MainWindow.getInstance().removeSubWindow(this);
 		// check if this is MPA
-		if (mpa) MainWindow.getInstance().deployConfigure(appDir);
+		if (mpa) MainWindow.getInstance().deployStrategy(appDir);
 		else MainWindow.getInstance().configureApp(appDir);
 	}
 

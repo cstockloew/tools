@@ -22,6 +22,11 @@
 			<artifactId>qtjambi</artifactId>
 			<version>4.5.2_01</version>
 		</dependency>
+		<dependency>
+            <groupId>org.universAAL.middleware</groupId>
+            <artifactId>mw.managers.api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>		
 	</dependencies>
     <build>
 		<plugins>
