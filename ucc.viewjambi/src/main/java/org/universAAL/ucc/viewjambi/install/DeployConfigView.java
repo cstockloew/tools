@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.universAAL.middleware.connectors.deploy.model.Part;
 import org.universAAL.middleware.interfaces.PeerCard;
+import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.ucc.viewjambi.common.SubWindow;
 import org.universAAL.ucc.viewjambi.impl.Activator;
 import org.universAAL.ucc.viewjambi.impl.MainWindow;
@@ -122,7 +123,41 @@ public class DeployConfigView extends SubWindow {
    					mpaLayout.put(card, part);
    				}
    				// call MW deploy manager requestToInstall
-   				Activator.getInstaller().requestToInstall((new File(deployPath)).toURI(), mpaLayout);
+   				InstallationResults results = Activator.getInstaller().requestToInstall((new File(deployPath)).toURI(), mpaLayout);
+   				switch (results)  {
+				case SUCCESS: 
+					QMessageBox.information(this, "Installation result", "The multi-part application has been successfully installed!");
+					System.out.println("[DeployConfigView.nextScreen] The multi-part application has been successfully installed!");
+					break;
+					
+				case FAILED:
+					QMessageBox.information(this, "Installation result", "The installation of the multi-part application has been failed!");
+					System.out.println("[DeployConfigView.nextScreen] The installation of the multi-part application has been failed!");
+					break;
+					
+				case NO_AALSPACE_JOINED:
+					QMessageBox.information(this, "Installation result", "Error in the installation of the multi-part application: no AALspace joined!");
+					System.out.println("[DeployConfigView.nextScreen] Error in the installation of the multi-part application: no AALspace joined!");
+					break;
+					
+				case MPA_URI_INVALID:
+					QMessageBox.information(this, "Installation result", "Error in the installation of the multi-part application: MPA uri is invalid!");
+					System.out.println("[DeployConfigView.nextScreen] Error in the installation of the multi-part application: MPA uri is invalid!");
+					break;
+					
+				case DELEGATED:
+					QMessageBox.information(this, "Installation result", "The installation of the multi-part application is delegated...");
+					System.out.println("[DeployConfigView.nextScreen] The installation of the multi-part application is delegated...");
+					break;
+					
+				case LOCALLY_DELEGATED:
+					QMessageBox.information(this, "Installation result", "The installation of the multi-part application is locally delegated...");
+					System.out.println("[DeployConfigView.nextScreen] The installation of the multi-part application is locally delegated...");
+					break;
+					
+				default:
+					break;
+				}
    			} 
    		
    			return;
