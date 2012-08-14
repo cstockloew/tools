@@ -132,7 +132,7 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
 	self.generateServiceProfileHeader()
 	
 	//generate imports
-	self.generateServiceProfileImports()
+//	self.generateServiceProfileImports()
 	
 	
 	//declare and initialize properties
@@ -152,15 +152,13 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
  uml.Package::generateServiceProfileHeader() {
  // First, find package/interface? name to become service name?	
  
- self.ownedElement->forEach(interface : uml.Interface)
- var serviceName
+ self.ownedElement->forEach(interface : uml.Interface) {}
+/* var serviceName
 file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + serviceName ".java" )
     
 '
 package ' mainPacakageName '.osgi;'
-   
- }
- 
+  
  uml.Package::generateServiceProfileImports() {
 '
 import java.util.Hashtable;
@@ -181,7 +179,8 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 '
  }
  
- 
+*/
+ }
 
 }
 
