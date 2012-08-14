@@ -57,6 +57,10 @@
             class="org.universaal.tools.transformationcommand.handlers.TransformServiceModelUML2Java"
             commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java">
       </handler>
+      <handler
+            commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
+            class="org.universaal.tools.transformationcommand.handlers.TransformOntJava2OWL">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -72,6 +76,11 @@
                id="org.universaal.tools.transformationcommand.menu.serviceModelUML2Java"
                style="push">
          </command>
+         <command
+               commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
+               id="org.universaal.tools.transformationcommand.menu.ontJava2UML"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
@@ -83,6 +92,10 @@
             </command>
             <command
                   commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
                   style="push">
             </command>
          </menu>
