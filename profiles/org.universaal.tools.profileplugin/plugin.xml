@@ -4,8 +4,8 @@
    <extension
          point="org.eclipse.papyrus.extensionpoints.uml2.UMLProfile">
        <profile
-            name="AalML"
-            path="pathmap://UAAL/uaal_ml.profile.uml">
+            name="ODM_SoaML"
+            path="pathmap://UAAL/ODM_SoaML.profile.uml">
       </profile>
        <profile
              name="SoaML"
