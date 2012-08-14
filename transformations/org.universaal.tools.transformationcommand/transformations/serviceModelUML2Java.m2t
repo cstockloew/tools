@@ -10,6 +10,7 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
 
 /**
  * TODO: Clean up all copied code and write what we really need 
+ * 
  */
 
   var ontologyNamespace:String
@@ -41,18 +42,18 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
     javaBasePath = getEnv("org.universaal.tools.transformationcommand.javadir")
     javaOWLSupport = getEnv("org.universaal.tools.transformationcommand.javaowlsupport")
     
-    if (self.hasStereotype("owlOntology")) {
-      
-      StdOut.println("WARNING!!! The owlOntology stereotype should NOW be applied to the root package(s).")
-      StdOut.println("Remember to set all required values (defaultnamespace and name) for each package!") 
-      StdOut.println("Continuing with transformation...") 
-      StdOut.println("");
-      
-      defaultOntologyName = self.name 
-      defaultOntologyNamespace = self.getStereotypeValue("owlOntology", "defaultNamespace")
- 
+    self.ownedMember -> forEach( p:uml.Package ){  
+      	//need a guard to control package type/stereotype 
+   		
+   		//generate activator
+   		self.generateActivator(ontologyNameList)
+   	
+   		//generate provider (serviceprofile)
+   		self.generateServiceProfile()
+   	
+   		//generateServiceCallee
+   		self.generateServiceCallee()
     }
-    
     /*
   	// Initiate a hashmap that contains the supported datatypes and their corresponding java import statements
     self.initDatatypeImportMap()
@@ -119,6 +120,67 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
 	//self.generatePOMFile() 
 	*/
   }
+ 
+ uml.Package::generateActivator(ontNameList : Hashtable) {
+   //generate the activatorfile based on the ontologies applied and project name
+ 
+ }
+ 
+ 
+ uml.Package::generateServiceProfile() {
+	//generate header
+	self.generateServiceProfileHeader()
+	
+	//generate imports
+	self.generateServiceProfileImports()
+	
+	
+	//declare and initialize properties
+	
+	//register ontology classes
+	
+	//
+	
+	 
+  
+ }
+ 
+ uml.Class::generateServiceCallee() {
+ 
+ }
+ 
+ uml.Package::generateServiceProfileHeader() {
+ // First, find package/interface? name to become service name?	
+ 
+ self.ownedElement->forEach(interface : uml.Interface)
+ var serviceName
+file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + serviceName ".java" )
+    
+'
+package ' mainPacakageName '.osgi;'
+   
+ }
+ 
+ uml.Package::generateServiceProfileImports() {
+'
+import java.util.Hashtable;
+
+import org.universAAL.middleware.owl.Enumeration;
+import org.universAAL.middleware.owl.MergedRestriction;
+import org.universAAL.middleware.owl.OntologyManagement;
+import org.universAAL.middleware.owl.SimpleOntology;
+import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.rdf.TypeMapper;
+import org.universAAL.middleware.rdf.impl.ResourceFactoryImpl;
+import org.universAAL.middleware.service.owls.profile.ServiceProfile;
+import org.universAAL.ontology.lighting.ElectricLight;
+import org.universAAL.ontology.lighting.LightSource;
+import org.universAAL.ontology.lighting.Lighting;
+import org.universAAL.ontology.location.Location;
+import org.universAAL.ontology.phThing.PhysicalThing;
+'
+ }
+ 
  
 
 }
