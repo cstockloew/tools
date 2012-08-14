@@ -9,14 +9,14 @@
             id="org.universaal.tools.transformation.category">
       </category>
       <command
-            name="List UML classes"
-            categoryId="org.universaal.tools.transformation.category"
-            id="org.universaal.tools.transformationcommand.commands.listClasses">
-      </command>
-      <command
             categoryId="org.universaal.tools.transformation.category"
             id="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             name="Transform UML ontology to Java">
+      </command>
+      <command
+            categoryId="org.universaal.tools.transformation.category"
+            id="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
+            name="Transform UML service model to Java">
       </command>
       <command
             categoryId="org.universaal.tools.transformation.category"
@@ -54,8 +54,8 @@
             class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java">
       </handler>
       <handler
-            commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
-            class="org.universaal.tools.transformationcommand.handlers.TransformOntJava2OWL">
+            class="org.universaal.tools.transformationcommand.handlers.TransformServiceModelUML2Java"
+            commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java">
       </handler>
    </extension>
    <extension
@@ -68,8 +68,8 @@
                style="push">
          </command>
          <command
-               commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
-               id="org.universaal.tools.transformationcommand.menu.ontJava2UML"
+               commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
+               id="org.universaal.tools.transformationcommand.menu.serviceModelUML2Java"
                style="push">
          </command>
       </menuContribution>
@@ -82,7 +82,7 @@
                   style="push">
             </command>
             <command
-                  commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
+                  commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
                   style="push">
             </command>
          </menu>
