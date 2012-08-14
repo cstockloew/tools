@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SoaML="http:///schemas/SoaML/_75OOsIdgEeC7CqIglefdNg/13" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/SoaML/_75OOsIdgEeC7CqIglefdNg/13 pathmap://UAAL/SoaML.profile.uml#_75THMIdgEeC7CqIglefdNg">
+  <uml:Model xmi:id="_KN6xYOVGEeGv6r5c91SNXw" name="model">
+    <packageImport xmi:id="_hbfrQOVGEeGv6r5c91SNXw">
+      <importedPackage xmi:type="uml:Model" href="lighting.uml#_qb8akM37EdqwVrslYOdUDA"/>
+    </packageImport>
+    <packageImport xmi:id="_hbgSUOVGEeGv6r5c91SNXw">
+      <importedPackage href="lighting.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_6TlmMOVGEeGv6r5c91SNXw" name="LightingService" clientDependency="_MJ-Y8OVHEeGv6r5c91SNXw">
+      <ownedOperation xmi:id="_XMJF4OVHEeGv6r5c91SNXw" name="getControlledLamps"/>
+      <ownedOperation xmi:id="_Y6sSYOVHEeGv6r5c91SNXw" name="getLampInfo"/>
+      <ownedOperation xmi:id="_aPN1UOVHEeGv6r5c91SNXw" name="turnOff"/>
+      <ownedOperation xmi:id="_cBC_UOVHEeGv6r5c91SNXw" name="turnOn"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Realization" xmi:id="_MJ-Y8OVHEeGv6r5c91SNXw" name="Realization0" client="_6TlmMOVGEeGv6r5c91SNXw">
+      <supplier xmi:type="uml:Class" href="lighting.uml#_hI5GcJv-EeCgJ7sXDd2E1w"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_kY-6oOVHEeGv6r5c91SNXw" name="LightingServiceProvider"/>
+    <packagedElement xmi:type="uml:Component" xmi:id="_flPCUOVIEeGv6r5c91SNXw" name="Component0"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_2k1xoOVIEeGv6r5c91SNXw" name="Class0">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_3u8NQOVIEeGv6r5c91SNXw" name="Port0" aggregation="composite"/>
+      <nestedClassifier xmi:type="uml:Class" xmi:id="_BmBnIOVJEeGv6r5c91SNXw" name="Class0"/>
+    </packagedElement>
+    <profileApplication xmi:id="_lcZqAOVIEeGv6r5c91SNXw">
+      <eAnnotations xmi:id="_lc0gwOVIEeGv6r5c91SNXw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UAAL/SoaML.profile.uml#_75THMIdgEeC7CqIglefdNg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UAAL/SoaML.profile.uml#_TcMJlwUAEd6gvp-4SWRwrA"/>
+    </profileApplication>
+  </uml:Model>
+  <SoaML:Participant xmi:id="_pYz1MOVIEeGv6r5c91SNXw" base_Class="_flPCUOVIEeGv6r5c91SNXw"/>
+</xmi:XMI>
