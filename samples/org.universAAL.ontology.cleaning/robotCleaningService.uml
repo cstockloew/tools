@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Profile="http:///schemas/Profile/_UrcjIOXpEeGWIIxXDvlnFA/0" xmlns:SoaML="http:///schemas/SoaML/_75OOsIdgEeC7CqIglefdNg/13" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/Profile/_UrcjIOXpEeGWIIxXDvlnFA/0 pathmap://UAAL/ODM_SoaML.profile.uml#_Ure_YOXpEeGWIIxXDvlnFA http:///schemas/SoaML/_75OOsIdgEeC7CqIglefdNg/13 pathmap://UAAL/SoaML.profile.uml#_75THMIdgEeC7CqIglefdNg">
+  <uml:Model xmi:id="_VA6f8OuTEeGuTLROGSgZCA" name="serviceModel">
+    <packageImport xmi:id="_-UPeQOuTEeGuTLROGSgZCA">
+      <importedPackage xmi:type="uml:Model" href="Cleaning.uml#_miHI0OtyEeGMCrzGqfLIRA"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_lGy-YOuTEeGuTLROGSgZCA" name="org.universAAL.samples.robotCleaning">
+      <packagedElement xmi:type="uml:Class" xmi:id="_v-MlwOuTEeGuTLROGSgZCA" name="robotCleaning"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_y0sRwOuTEeGuTLROGSgZCA" name="vacuumCleanerService" clientDependency="_GnCa4OuUEeGuTLROGSgZCA">
+        <ownedOperation xmi:id="_mxl20OuUEeGuTLROGSgZCA" name="startVacuumCleaning">
+          <ownedParameter xmi:id="_jUoV0OuWEeGuTLROGSgZCA" name="vacuumCleaner"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_pGDMwOuUEeGuTLROGSgZCA" name="stopVacuumCleaning">
+          <ownedParameter xmi:id="_8W3EMOuWEeGuTLROGSgZCA" name="vacuumCleaner" effect="delete"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_3JerQOuUEeGuTLROGSgZCA" name="getAllVacuumCleaners">
+          <ownedParameter xmi:id="_be6MMOuVEeGuTLROGSgZCA" name="vacuumCleanerList" direction="out" effect="read">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EWZtoOuXEeGuTLROGSgZCA" value="*"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ES2DUOuXEeGuTLROGSgZCA"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Realization" xmi:id="_GnCa4OuUEeGuTLROGSgZCA" name="Realization1" client="_y0sRwOuTEeGuTLROGSgZCA">
+        <supplier xmi:type="uml:Class" href="Cleaning.uml#_PU8pMOtzEeGMCrzGqfLIRA"/>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:id="_RFtZMOuUEeGuTLROGSgZCA">
+      <eAnnotations xmi:id="_RHHucOuUEeGuTLROGSgZCA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UAAL/ODM_SoaML.profile.uml#_Ure_YOXpEeGWIIxXDvlnFA"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UAAL/ODM_SoaML.profile.uml#_kAtu4OXnEeGWIIxXDvlnFA"/>
+    </profileApplication>
+    <profileApplication xmi:id="_RHIVgOuUEeGuTLROGSgZCA">
+      <eAnnotations xmi:id="_RH5KgOuUEeGuTLROGSgZCA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UAAL/SoaML.profile.uml#_75THMIdgEeC7CqIglefdNg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UAAL/SoaML.profile.uml#_TcMJlwUAEd6gvp-4SWRwrA"/>
+    </profileApplication>
+  </uml:Model>
+  <SoaML:ServiceInterface xmi:id="_Sv8tcOuUEeGuTLROGSgZCA" base_Interface="_y0sRwOuTEeGuTLROGSgZCA"/>
+  <SoaML:Participant xmi:id="_X3To0OuUEeGuTLROGSgZCA" base_Class="_v-MlwOuTEeGuTLROGSgZCA"/>
+  <Profile:PropertyBinding xmi:id="_Xykn4OuWEeGuTLROGSgZCA" base_Parameter="_be6MMOuVEeGuTLROGSgZCA">
+    <properties href="Cleaning.uml#_C19SwOuQEeGMCrzGqfLIRA"/>
+  </Profile:PropertyBinding>
+  <Profile:PropertyBinding xmi:id="_naYqQOuWEeGuTLROGSgZCA" base_Parameter="_jUoV0OuWEeGuTLROGSgZCA">
+    <properties href="Cleaning.uml#_C19SwOuQEeGMCrzGqfLIRA"/>
+  </Profile:PropertyBinding>
+  <Profile:PropertyBinding xmi:id="_--IBYOuWEeGuTLROGSgZCA" base_Parameter="_8W3EMOuWEeGuTLROGSgZCA">
+    <properties href="Cleaning.uml#_C19SwOuQEeGMCrzGqfLIRA"/>
+  </Profile:PropertyBinding>
+</xmi:XMI>
