@@ -34,6 +34,14 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_29JicetzEeGMCrzGqfLIRA" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_29JicutzEeGMCrzGqfLIRA" value="1"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_hBI9IOt-EeGMCrzGqfLIRA" name="robotStatus" type="_xenRoOt9EeGMCrzGqfLIRA" association="_hBLZYOt-EeGMCrzGqfLIRA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hBI9Iet-EeGMCrzGqfLIRA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_hBI9Iut-EeGMCrzGqfLIRA" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_qX3b8Ot-EeGMCrzGqfLIRA" name="cleaningQuality" type="_LFtnoOt-EeGMCrzGqfLIRA" association="_qX4qEOt-EeGMCrzGqfLIRA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qX3b8et-EeGMCrzGqfLIRA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qX3b8ut-EeGMCrzGqfLIRA" value="1"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_miHv6etyEeGMCrzGqfLIRA" name="MyConcept">
         <generalization xmi:id="_miHv6utyEeGMCrzGqfLIRA">
@@ -62,6 +70,32 @@
         <ownedEnd xmi:id="_29L-setzEeGMCrzGqfLIRA" name="cleaningRobot" type="_miHv5-tyEeGMCrzGqfLIRA" association="_29L-sOtzEeGMCrzGqfLIRA">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_29L-sutzEeGMCrzGqfLIRA" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_29L-s-tzEeGMCrzGqfLIRA" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_xenRoOt9EeGMCrzGqfLIRA" name="RobotStatus">
+        <ownedLiteral xmi:id="_zDMp0Ot9EeGMCrzGqfLIRA" name="charging"/>
+        <ownedLiteral xmi:id="_2oumEOt9EeGMCrzGqfLIRA" name="idle"/>
+        <ownedLiteral xmi:id="_4WHU8Ot9EeGMCrzGqfLIRA" name="cleaning"/>
+        <ownedLiteral xmi:id="_-fAl0Ot9EeGMCrzGqfLIRA" name="returning"/>
+        <ownedLiteral xmi:id="_IuG3EOt-EeGMCrzGqfLIRA" name="stuck"/>
+        <ownedLiteral xmi:id="_aHtnMOt-EeGMCrzGqfLIRA" name="full"/>
+        <ownedLiteral xmi:id="_cNVP4Ot-EeGMCrzGqfLIRA" name="maintenanceNeeded"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_LFtnoOt-EeGMCrzGqfLIRA" name="CleaningQuality">
+        <ownedLiteral xmi:id="_Ot85oOt-EeGMCrzGqfLIRA" name="quick"/>
+        <ownedLiteral xmi:id="_P9a9cOt-EeGMCrzGqfLIRA" name="normal"/>
+        <ownedLiteral xmi:id="_QwPhgOt-EeGMCrzGqfLIRA" name="full"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_hBLZYOt-EeGMCrzGqfLIRA" name="cleaningRobot_robotStatus_0" memberEnd="_hBLZYet-EeGMCrzGqfLIRA _hBI9IOt-EeGMCrzGqfLIRA">
+        <ownedEnd xmi:id="_hBLZYet-EeGMCrzGqfLIRA" name="cleaningRobot" type="_miHv5-tyEeGMCrzGqfLIRA" association="_hBLZYOt-EeGMCrzGqfLIRA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hBLZYut-EeGMCrzGqfLIRA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_hBLZY-t-EeGMCrzGqfLIRA" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_qX4qEOt-EeGMCrzGqfLIRA" name="cleaningRobot_cleaningQuality_0" memberEnd="_qX4qEet-EeGMCrzGqfLIRA _qX3b8Ot-EeGMCrzGqfLIRA">
+        <ownedEnd xmi:id="_qX4qEet-EeGMCrzGqfLIRA" name="cleaningRobot" type="_miHv5-tyEeGMCrzGqfLIRA" association="_qX4qEOt-EeGMCrzGqfLIRA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qX4qEut-EeGMCrzGqfLIRA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qX4qE-t-EeGMCrzGqfLIRA" value="1"/>
         </ownedEnd>
       </packagedElement>
     </packagedElement>
