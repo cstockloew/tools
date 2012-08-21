@@ -39,6 +39,8 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
   	
   	var ontologyNameList:Hashtable
    
+   	'Transforming UML service model to Java...
+   	'
     javaBasePath = getEnv("org.universaal.tools.transformationcommand.javadir")
     javaOWLSupport = getEnv("org.universaal.tools.transformationcommand.javaowlsupport")
     
@@ -46,13 +48,17 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
       	//need a guard to control package type/stereotype 
    		
    		//generate activator
-   		self.generateActivator(ontologyNameList)
+   		p.generateActivator(ontologyNameList)
    	
    		//generate provider (serviceprofile)
-   		self.generateServiceProfile()
-   	
-   		//generateServiceCallee
-   		self.generateServiceCallee()
+   		p.ownedMember->forEach( interf : uml.Interface) {
+ 			interf.generateServiceProfile()
+
+   			//generateServiceCallee
+   			interf.generateServiceCallee()
+   		  
+   		}
+   		
     }
     /*
   	// Initiate a hashmap that contains the supported datatypes and their corresponding java import statements
@@ -127,7 +133,11 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
  }
  
  
- uml.Package::generateServiceProfile() {
+ uml.Interface::generateServiceProfile() {
+   
+   	var serviceName:String = self.name.trim()
+	file( javaBasePath + "/" + self.getFullPackageName().replace("\\.", "/") + serviceName + ".java" )
+   
 	//generate header
 	self.generateServiceProfileHeader()
 	
@@ -145,22 +155,16 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
   
  }
  
- uml.Class::generateServiceCallee() {
+ uml.Interface::generateServiceCallee() {
  
  }
  
- uml.Package::generateServiceProfileHeader() {
+ uml.Interface::generateServiceProfileHeader() {
  // First, find package/interface? name to become service name?	
  
- self.ownedElement->forEach(interface : uml.Interface) {}
-/* var serviceName
-file( javaBasePath + "/" + self.package.name.replace("\\.", "/") + serviceName ".java" )
-    
 '
-package ' mainPacakageName '.osgi;'
-  
- uml.Package::generateServiceProfileImports() {
-'
+package ' self.getFullPackageName() '; 
+
 import java.util.Hashtable;
 
 import org.universAAL.middleware.owl.Enumeration;
@@ -177,10 +181,44 @@ import org.universAAL.ontology.lighting.Lighting;
 import org.universAAL.ontology.location.Location;
 import org.universAAL.ontology.phThing.PhysicalThing;
 '
+	self.generateServiceProfileImports()
+	
  }
+
+ uml.Interface::generateServiceProfileImports() { 
+  
+ }
+
+
+
+// Reuse from ontUML2JavaV2
+
+  //get the full name of the root package
+  uml.Classifier::getFullOwnerPackageName():String {
+    if (self.owner!=null) {
+      return self.owner.getFullPackageName()
+    }
+  	return ""
+  }
+  
  
-*/
- }
+  uml.Classifier::getFullPackageName():String {
+  	if(self.owner !=null) {
+  	  var targetName:String
+  	  targetName = self.owner.getFullPackageName() 
+  	  if (targetName.equals("")) {
+  	  	return self.name.trim()
+  	  }
+  	  else {
+  	  	return targetName.trim() + "." + self.name
+  	  }
+  	}
+  	else {
+  		return ""
+  	}
+  }
+
+
 
 }
 
