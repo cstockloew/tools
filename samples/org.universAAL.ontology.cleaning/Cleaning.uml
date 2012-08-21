@@ -39,11 +39,10 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qX3b8ut-EeGMCrzGqfLIRA" value="1"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_LkqOcOtzEeGMCrzGqfLIRA" name="Class0"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_N1WesOtzEeGMCrzGqfLIRA" name="Washing">
         <generalization xmi:id="_SVY7YOtzEeGMCrzGqfLIRA" general="_miHv5etyEeGMCrzGqfLIRA"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_PU8pMOtzEeGMCrzGqfLIRA" name="Vacuum Cleaning">
+      <packagedElement xmi:type="uml:Class" xmi:id="_PU8pMOtzEeGMCrzGqfLIRA" name="VacuumCleaning">
         <generalization xmi:id="_S3YOIOtzEeGMCrzGqfLIRA" general="_miHv5etyEeGMCrzGqfLIRA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_mJXcMOtzEeGMCrzGqfLIRA" name="CleaningManagement">
