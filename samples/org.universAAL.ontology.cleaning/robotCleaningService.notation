@@ -65,14 +65,35 @@
     </children>
     <children xmi:type="notation:BasicCompartment" xmi:id="_y0v8LOuTEeGuTLROGSgZCA" type="7007">
       <children xmi:type="notation:Shape" xmi:id="_mxskgOuUEeGuTLROGSgZCA" type="3007" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4mbKUOxYEeGQO8paGV-1Fg" source="Stereotype_Annotation">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4mbxYOxYEeGQO8paGV-1Fg" key="StereotypeWithQualifiedNameList" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4mbxYexYEeGQO8paGV-1Fg" key="StereotypeList" value="ODM_SoaML::ServiceProfile"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4mbxYuxYEeGQO8paGV-1Fg" key="Stereotype_Presentation_Kind" value="HorizontalStereo"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4mbxY-xYEeGQO8paGV-1Fg" key="PropStereoDisplay" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4mbxZOxYEeGQO8paGV-1Fg" key="StereotypePropertyLocation" value="Compartment"/>
+        </eAnnotations>
         <element xmi:type="uml:Operation" href="robotCleaningService.uml#_mxl20OuUEeGuTLROGSgZCA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_mxskgeuUEeGuTLROGSgZCA"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_pGIsUOuUEeGuTLROGSgZCA" type="3007" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_5gN5EOxYEeGQO8paGV-1Fg" source="Stereotype_Annotation">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5gN5EexYEeGQO8paGV-1Fg" key="StereotypeWithQualifiedNameList" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5gN5EuxYEeGQO8paGV-1Fg" key="StereotypeList" value="ODM_SoaML::ServiceProfile"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5gN5E-xYEeGQO8paGV-1Fg" key="Stereotype_Presentation_Kind" value="HorizontalStereo"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5gN5FOxYEeGQO8paGV-1Fg" key="PropStereoDisplay" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5gN5FexYEeGQO8paGV-1Fg" key="StereotypePropertyLocation" value="Compartment"/>
+        </eAnnotations>
         <element xmi:type="uml:Operation" href="robotCleaningService.uml#_pGDMwOuUEeGuTLROGSgZCA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_pGIsUeuUEeGuTLROGSgZCA"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_3JlY8OuUEeGuTLROGSgZCA" type="3007" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6ayD4OxYEeGQO8paGV-1Fg" source="Stereotype_Annotation">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6ayD4exYEeGQO8paGV-1Fg" key="StereotypeWithQualifiedNameList" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6ayD4uxYEeGQO8paGV-1Fg" key="StereotypeList" value="ODM_SoaML::ServiceProfile"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6ayD4-xYEeGQO8paGV-1Fg" key="Stereotype_Presentation_Kind" value="HorizontalStereo"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6ayD5OxYEeGQO8paGV-1Fg" key="PropStereoDisplay" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6ayD5exYEeGQO8paGV-1Fg" key="StereotypePropertyLocation" value="Compartment"/>
+        </eAnnotations>
         <element xmi:type="uml:Operation" href="robotCleaningService.uml#_3JerQOuUEeGuTLROGSgZCA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_3JlY8euUEeGuTLROGSgZCA"/>
       </children>
