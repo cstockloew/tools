@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projects>
+<project>
+  <name>Lighting</name>
+  <developer>Fraunhofer</developer>
+  <date>26.08.2011</date>
+  <url>http://www.igd.fraunhofer.de</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.2.0/samples/lighting</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>true</subprojects>
+  <description>Sample Lighting Client using dialog package</description>
+  <tags>
+    <tag>Lighting</tag>
+  </tags>
+</project>
+<project>
+  <name>Ontology tutorial</name>
+  <developer>Alvaro Fides, ITACA</developer>
+  <date>17.07.2012</date>
+  <url>http://www.tsb.upv.es/</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.2.0/samples/ont.tutorial</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>false</subprojects>
+  <description>This is an example for how to develop an ontology in universAAL</description>
+  <tags>
+    <tag>ontology</tag>
+  </tags>
+</project>
+<project>
+  <name>simple.ui</name>
+  <developer>Alejandro Medrano, UPM</developer>
+  <date>17.07.2012</date>
+  <url>http://www.upm.es/</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.2.0/samples/simple.ui</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>false</subprojects>
+  <description>The purpose of this project is to help in the creation of UI Callers, and it is not a complete example in itself</description>
+  <tags>
+    <tag>ui</tag>
+  </tags>
+</project>
+<project>
+  <name>simple.ui.run</name>
+  <developer>Alejandro Medrano, UPM</developer>
+  <date>17.07.2012</date>
+  <url>http://www.upm.es/</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.2.0/samples/simple.ui.run</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>false</subprojects>
+  <description>The purpose of this project is to run the simple.ui project, and it is not a complete example in itself</description>
+  <tags>
+    <tag>ui</tag>
+  </tags>
+</project>
+</projects>

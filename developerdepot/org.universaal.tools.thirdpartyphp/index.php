@@ -1,16 +1,16 @@
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<Title>Third Party Applications</Title></head>
+<Title>Official and Third Party universAAL Examples</Title></head>
 <body>
 <?php
 
 echo <<<EOF
 	<div>
-		Her er det mulighet til å skrive mer informasjon om hva som står på denne sida.
+		This page contains an overview official and third party universAAL example applications.
 		
 	</div>
 EOF;
-$projects = simplexml_load_file('projects.xml');
+$projects = simplexml_load_file('official.xml');
 
 $skyblue = "#76BDDA";
 $lightblue = "#ADD8E6";
