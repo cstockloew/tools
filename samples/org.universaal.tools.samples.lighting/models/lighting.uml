@@ -67,13 +67,25 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_3IPqIO0eEeGt5ZlpyxcN5w" name="Beaming">
         <generalization xmi:id="_VtTu8O0fEeGt5ZlpyxcN5w" general="_zqV91-uHEeGyN_aDBopvUQ"/>
+        <ownedAttribute xmi:id="_KPFHIPBLEeGBSYAd8AmI4Q" name="controls" type="_JRLQUO0dEeGt5ZlpyxcN5w" redefinedProperty="_vGDf4O0fEeGt5ZlpyxcN5w" association="_KPFuMPBLEeGBSYAd8AmI4Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KPFHIfBLEeGBSYAd8AmI4Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KPFHIvBLEeGBSYAd8AmI4Q" value="1"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_4F0FoO0eEeGt5ZlpyxcN5w" name="BlinkableLighting">
         <generalization xmi:id="_VBEUAO0fEeGt5ZlpyxcN5w" general="_zqV91-uHEeGyN_aDBopvUQ"/>
+        <ownedAttribute xmi:id="_RCMhEPBIEeGBSYAd8AmI4Q" name="controls" type="_pjg50O0eEeGt5ZlpyxcN5w" redefinedProperty="_vGDf4O0fEeGt5ZlpyxcN5w" association="_RCXgMPBIEeGBSYAd8AmI4Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RCMhEfBIEeGBSYAd8AmI4Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RCMhEvBIEeGBSYAd8AmI4Q" value="1"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_5nAyoO0eEeGt5ZlpyxcN5w" name="BlinkableBeaming">
         <generalization xmi:id="_Wj28cO0fEeGt5ZlpyxcN5w" general="_4F0FoO0eEeGt5ZlpyxcN5w"/>
         <generalization xmi:id="_XEqjcO0fEeGt5ZlpyxcN5w" general="_3IPqIO0eEeGt5ZlpyxcN5w"/>
+        <ownedAttribute xmi:id="_6ikyAPBKEeGBSYAd8AmI4Q" name="controls" type="_7bSMoO0eEeGt5ZlpyxcN5w" redefinedProperty="_vGDf4O0fEeGt5ZlpyxcN5w" association="_6imAIPBKEeGBSYAd8AmI4Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6ikyAfBKEeGBSYAd8AmI4Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6ikyAvBKEeGBSYAd8AmI4Q" value="1"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_7bSMoO0eEeGt5ZlpyxcN5w" name="BlinkableBeamingSource">
         <generalization xmi:id="_b7BOYO0fEeGt5ZlpyxcN5w" general="_pjg50O0eEeGt5ZlpyxcN5w"/>
@@ -110,6 +122,24 @@
         <ownedLiteral xmi:id="_oe4awO0jEeGt5ZlpyxcN5w" name="halogenLamp"/>
         <ownedLiteral xmi:id="_qwFoYO0jEeGt5ZlpyxcN5w" name="ledLamp"/>
         <ownedLiteral xmi:id="_r8gYMO0jEeGt5ZlpyxcN5w" name="lightBulb"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_RCXgMPBIEeGBSYAd8AmI4Q" name="blink" memberEnd="_RCXgMfBIEeGBSYAd8AmI4Q _RCMhEPBIEeGBSYAd8AmI4Q">
+        <ownedEnd xmi:id="_RCXgMfBIEeGBSYAd8AmI4Q" name="controlledBy" type="_4F0FoO0eEeGt5ZlpyxcN5w" association="_RCXgMPBIEeGBSYAd8AmI4Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RCXgMvBIEeGBSYAd8AmI4Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RCXgM_BIEeGBSYAd8AmI4Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_6imAIPBKEeGBSYAd8AmI4Q" name="blinkBeam" memberEnd="_6imAIfBKEeGBSYAd8AmI4Q _6ikyAPBKEeGBSYAd8AmI4Q">
+        <ownedEnd xmi:id="_6imAIfBKEeGBSYAd8AmI4Q" name="controlledBy" type="_5nAyoO0eEeGt5ZlpyxcN5w" association="_6imAIPBKEeGBSYAd8AmI4Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6imAIvBKEeGBSYAd8AmI4Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6imAI_BKEeGBSYAd8AmI4Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_KPFuMPBLEeGBSYAd8AmI4Q" name="beam" memberEnd="_KPFuMfBLEeGBSYAd8AmI4Q _KPFHIPBLEeGBSYAd8AmI4Q">
+        <ownedEnd xmi:id="_KPFuMfBLEeGBSYAd8AmI4Q" name="controlledBy" type="_3IPqIO0eEeGt5ZlpyxcN5w" association="_KPFuMPBLEeGBSYAd8AmI4Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KPFuMvBLEeGBSYAd8AmI4Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KPFuM_BLEeGBSYAd8AmI4Q" value="1"/>
+        </ownedEnd>
       </packagedElement>
     </packagedElement>
     <profileApplication xmi:id="_zqV93euHEeGyN_aDBopvUQ">
