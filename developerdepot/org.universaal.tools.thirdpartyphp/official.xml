@@ -23,7 +23,7 @@
   <license>Apache License, Version 2.0</license>
   <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
   <subprojects>false</subprojects>
-  <description>This is an example for how to develop an ontology in universAAL</description>
+  <description>This example shows how to convert an ontology concept into its java representation for uAAL</description>
   <tags>
     <tag>ontology</tag>
   </tags>
