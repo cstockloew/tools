@@ -50,7 +50,7 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ABO8sO0iEeGt5ZlpyxcN5w"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_JewoMOuPEeGuTLROGSgZCA" name="LightType"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_JewoMOuPEeGuTLROGSgZCA" name="LightType" isAbstract="true"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_JRLQUO0dEeGt5ZlpyxcN5w" name="BeamingSource">
         <generalization xmi:id="_aeov8O0fEeGt5ZlpyxcN5w" general="_zqV92euHEeGyN_aDBopvUQ"/>
         <ownedAttribute xmi:id="_BusO8O0gEeGt5ZlpyxcN5w" name="beamingDirection">
