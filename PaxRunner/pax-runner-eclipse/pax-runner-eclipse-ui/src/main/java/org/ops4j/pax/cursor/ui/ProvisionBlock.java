@@ -220,6 +220,7 @@ public class ProvisionBlock extends CursorTabBlock {
 						return;
 					} else {
 						onEditButtonSelected();
+						updateStartImages();
 					}
 
 				}
