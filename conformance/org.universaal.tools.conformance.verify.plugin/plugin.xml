@@ -16,7 +16,7 @@
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
-      <handler
+      <!--<handler
             commandId="org.universaal.tools.conformance.verify.plugin.commands.sampleCommand"
             class="org.universaal.tools.conformance.verify.plugin.handlers.VerifierHandler">
             <enabledWhen>
@@ -33,7 +33,7 @@
                    <count value="1" />
                 </with>
              </enabledWhen>
-      </handler>
+      </handler>-->
    </extension>
    <extension
          point="org.eclipse.ui.menus">
