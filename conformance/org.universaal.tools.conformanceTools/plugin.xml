@@ -9,7 +9,7 @@
             id="org.universaal.tools.conformanceTools.plugin.command">
       </category>
       <command
-            name="Test for conformance"
+            name="Verify project conformance"
             categoryId="org.universaal.tools.conformanceTools.plugin.command"
             id="org.universaal.tools.conformanceTools.commands.ConformanceToolsRun">
       </command>
@@ -19,44 +19,32 @@
       <handler
             commandId="org.universaal.tools.conformanceTools.commands.ConformanceToolsRun"
             class="org.universaal.tools.conformanceTools.handlers.ConformanceToolsHandler">
+            <enabledWhen>
+                <with
+                      variable="selection">
+                   <iterate
+                         ifEmpty="false"
+                         operator="or">
+                         <or>
+                          <instanceof value="org.eclipse.core.resources.IProject" />
+	                      <instanceof value="org.eclipse.jdt.internal.core.JavaProject" />
+                         </or>
+                   </iterate>
+                   <count value="1" />
+                </with>
+             </enabledWhen>
       </handler>
    </extension>
-   <!--<extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="org.universaal.tools.conformanceTools.commands.sampleCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            sequence="M1+6"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
-      </key>
-   </extension>-->
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
-         <!--<menu
-               label="Sample Menu"
-               mnemonic="M"
-               id="org.universaal.tools.conformanceTools.menus.sampleMenu">-->
             <command
                   commandId="org.universaal.tools.conformanceTools.commands.ConformanceToolsRun"
                   mnemonic="T"
-                  id="org.universaal.tools.conformanceTools.menus.conformancetest">
+                  id="org.universaal.tools.conformanceTools.menus.conformancetest" icon="icons/chckuaal_file.gif">
             </command>
-         <!--</menu>-->
       </menuContribution>
-      <!--<menuContribution
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-         <toolbar
-               id="org.universaal.tools.conformanceTools.toolbars.sampleToolbar">
-            <command
-                  commandId="org.universaal.tools.conformanceTools.commands.sampleCommand"
-                  icon="icons/sample.gif"
-                  tooltip="Say hello world"
-                  id="org.universaal.tools.conformanceTools.toolbars.sampleCommand">
-            </command>
-         </toolbar>
-      </menuContribution>-->
    </extension>
 
 </plugin>
