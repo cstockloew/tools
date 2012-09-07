@@ -86,7 +86,7 @@ public class MainFrame {
 		Button five = new Button(shell, SWT.PUSH);
 		//four.setText("Run findbugs plugin - default configuration");
 		five.setText("Maven Verifier plugin");
-		five.setEnabled(true);
+		five.setEnabled(false);
 		five.addMouseListener(new MouseListener() {
 
 			public void mouseUp(MouseEvent e) {
