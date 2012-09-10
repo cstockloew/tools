@@ -41,16 +41,18 @@ public class ToolsRun {
 	private IWorkbenchWindow window;
 	private ISelection selection;
 
-	public void run(IWorkbenchWindow window, RunPlugin plugin){//, ExecutionEvent event){
+	public void run(IWorkbenchWindow window, RunPlugin plugin){
 
 		this.plugin = plugin;
 		this.window = window;
 
 		this.selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
-		if(this.selection == null){ // maybe you're using Project Explorer
+		if(this.selection == null){
 			this.selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
 			System.out.println("uAAL CT: using selection from Project Explorer.");
 		}
+		else
+			System.out.println("uAAL CT: using selection from Package Explorer.");
 
 		if ((selection != null) && (selection instanceof StructuredSelection)) {
 
@@ -67,7 +69,7 @@ public class ToolsRun {
 				return;
 			}
 
-			test((StructuredSelection) selection); // launch chosen plugin
+			test((StructuredSelection) selection);
 		}
 		else
 			System.out.println("uAAL CT: no valid selection.");
@@ -113,8 +115,6 @@ public class ToolsRun {
 					else if(plugin == RunPlugin.CheckStyle)
 						goals.add("checkstyle:checkstyle");
 
-					//goals.add("dashboard:dashboard");
-
 					request.setGoals(goals);
 					MavenExecutionResult result = maven.execute(request, monitor);
 
@@ -129,12 +129,12 @@ public class ToolsRun {
 						monitor.done();
 						System.out.println("uAAL CT: report blocked - "+errors);
 						if(errors.contains("java.lang.OutOfMemoryError"))
-							System.out.println("uAAL CT: verify start parameter [-XX:MaxPermSize] of AAL Studio and increase the value.");
+							System.out.println("uAAL CT: verify start parameter [-XX:MaxPermSize] of AAL Studio and increase the value set.");
 
 						return new Status(Status.ERROR, Activator.PLUGIN_ID, errors);
 					}
 					else{
-						monitor.done(); // old one
+						monitor.done(); // test monitor
 
 						// generate report and visualize it
 						monitor.beginTask("uAAL - reporting conformance tests.", IProgressMonitor.UNKNOWN);
@@ -154,12 +154,7 @@ public class ToolsRun {
 							goals.add("checkstyle:check");
 							props.setProperty("checkstyle.failOnViolation", "false");
 							props.setProperty("checkstyle.failsOnError", "false");
-							//goals.add("checkstyle:checkstyle-aggregate");
-							//props.setProperty("checkstyle.outputDirectory", Activator.absolutePath+"/target/");
 						}
-
-						//goals.add("dashboard:dashboard");
-						//props.setProperty("dashboard.outputDirectory ", Activator.absolutePath+"/target/");
 
 						request2.setUserProperties(props);
 						request2.setGoals(goals);
@@ -179,28 +174,24 @@ public class ToolsRun {
 
 						// visualize report - open report file
 						// TODO is there a way to force project refresh via source code? 
-						// Resolved referencing files directly on filesystem and not workspace resources
+						// Resolved referencing files directly on filesystem and not as workspace resources
 						window.getWorkbench().getDisplay().syncExec(new Runnable() {
 
 							@Override
 							public void run() {
 
 								try{
-									//IFile fileToOpen = null;
 									String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+project.getDescription().getName();
 									File f = null;
-									//IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(project.getDescription().getName());
 
 									if(plugin == RunPlugin.CheckStyle)
-										//fileToOpen = p.getFile("/target/site/checkstyle.html");
 										f = new File(path_+"/target/site/checkstyle.html");
 
 									if(plugin == RunPlugin.FindBugs)
-										//fileToOpen = p.getFile("/target/findbugsXml.xml");
 										f = new File(path_+"/target/findbugsXml.xml");
 
 									if (f != null && f.exists() ){
-										org.eclipse.core.filesystem.IFileStore fileStore = EFS.getLocalFileSystem().getStore(f.toURI());//fileToOpen.getLocationURI());
+										org.eclipse.core.filesystem.IFileStore fileStore = EFS.getLocalFileSystem().getStore(f.toURI());
 										IWorkbenchPage page = window.getActivePage();
 
 										try {
@@ -230,7 +221,7 @@ public class ToolsRun {
 				catch(Exception ex){
 					ex.printStackTrace();
 					monitor.done();
-					return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL CT - save console log and send it for debugging purpose.");
+					return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL CT - save console log and e-mail it for debugging purpose.");
 				}
 
 				monitor.done();
