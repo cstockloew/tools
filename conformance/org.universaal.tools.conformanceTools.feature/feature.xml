@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.conformanceTools.feature"
       label="AAL Studio Conformance Tools"
-      version="0.2.0"
+      version="0.3.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -50,28 +50,31 @@ http://sourceforge.net/projects/findbugs/
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.m2e.core.ui"/>
+      <import plugin="org.eclipse.m2e.core"/>
+      <import plugin="org.eclipse.m2e.maven.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.ui.console"/>
       <import plugin="org.apache.ant" version="1.8.2" match="greaterOrEqual"/>
       <import plugin="org.apache.xerces" version="2.9.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.core" version="3.7.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.core.resources" version="3.7.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.m2e.core" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.ui"/>
       <import plugin="org.eclipse.core.filesystem" version="1.3.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.m2e.maven.runtime"/>
-      <import plugin="org.eclipse.m2e.core.ui"/>
-      <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.m2e.core" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="org.universaal.tools.conformanceTools"
+         id="org.universaal.tools.conformance.verify.plugin"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.universaal.tools.conformance.verify.plugin"
+         id="org.universaal.tools.conformanceTools"
          download-size="0"
          install-size="0"
          version="0.0.0"
