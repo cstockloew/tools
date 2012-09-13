@@ -1,4 +1,4 @@
-package org.universaal.tools.conformanceTools.utils;
+package org.universaal.tools.conformanceTools.utils.old;
 
 import java.io.File;
 
@@ -11,6 +11,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.universaal.tools.conformanceTools.utils.RunPlugin;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

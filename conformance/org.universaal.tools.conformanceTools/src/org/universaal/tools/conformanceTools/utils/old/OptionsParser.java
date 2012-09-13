@@ -1,4 +1,4 @@
-package org.universaal.tools.conformanceTools.utils;
+package org.universaal.tools.conformanceTools.utils.old;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

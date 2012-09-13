@@ -1,4 +1,4 @@
-package org.universaal.tools.conformanceTools.utils;
+package org.universaal.tools.conformanceTools.utils.old;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.universaal.tools.conformanceTools.Activator;
+import org.universaal.tools.conformanceTools.utils.RunPlugin;
 
 public class EssentialFiles {
 
