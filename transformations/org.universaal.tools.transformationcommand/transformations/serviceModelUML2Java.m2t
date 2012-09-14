@@ -219,6 +219,34 @@ import org.universAAL.ontology.phThing.PhysicalThing;
   }
 
 
+  uml.Operation::generateAnnotated() {
+'
+	@ServiceOperation
+'
+	// Print any outputs 
+	
+	
+	// Print any change effects
+	
+	// Print the method signature
+'	public '
+
+'('
+    self.ownedParameter->forEach(par:uml.Parameter) {
+      if (par.direction == "out") {
+        '!!'
+      }
+	  par.direction + ' ' + par.type.name + ' ' par.name ','
+      //uml.ParameterDirectionKind._getFeature("return")
+    }
+')
+'	
+	
+    
+  }  
+
+
+
 
 }
 
