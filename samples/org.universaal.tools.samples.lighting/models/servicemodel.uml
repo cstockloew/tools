@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Profile="http:///schemas/Profile/_UrcjIOXpEeGWIIxXDvlnFA/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/Profile/_UrcjIOXpEeGWIIxXDvlnFA/0 pathmap://UAAL/ODM_SoaML.profile.uml#_Ure_YOXpEeGWIIxXDvlnFA">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ODM_SoaML="http:///schemas/ODM_SoaML/_sQmU0AGbEeKHRu2Cvk-PXA/8" xmlns:SoaML="http:///schemas/SoaML/_75OOsIdgEeC7CqIglefdNg/13" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/ODM_SoaML/_sQmU0AGbEeKHRu2Cvk-PXA/8 pathmap://UAAL/ODM_SoaML.profile.uml#_sQpYIAGbEeKHRu2Cvk-PXA http:///schemas/SoaML/_75OOsIdgEeC7CqIglefdNg/13 pathmap://UAAL/SoaML.profile.uml#_75THMIdgEeC7CqIglefdNg">
   <uml:Model xmi:id="_KN6xYOVGEeGv6r5c91SNXw" name="model">
-    <packageImport xmi:id="_hbfrQOVGEeGv6r5c91SNXw">
-      <importedPackage xmi:type="uml:Model" href="lighting.uml#_qb8akM37EdqwVrslYOdUDA"/>
-    </packageImport>
-    <packageImport xmi:id="_hbgSUOVGEeGv6r5c91SNXw">
-      <importedPackage href="lighting.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    <packageImport xmi:id="_7Cz30AGOEeKHRu2Cvk-PXA">
+      <importedPackage xmi:type="uml:Model" href="lighting.uml#_zqV90OuHEeGyN_aDBopvUQ"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_wfOgUObfEeGdp7PD1Qr6Nw" name="org.universAAL.samples.lighting">
-      <packagedElement xmi:type="uml:Interface" xmi:id="_6TlmMOVGEeGv6r5c91SNXw" name="LightingService" clientDependency="_MJ-Y8OVHEeGv6r5c91SNXw">
+      <packagedElement xmi:type="uml:Interface" xmi:id="_6TlmMOVGEeGv6r5c91SNXw" name="LightingService" clientDependency="_MJ-Y8OVHEeGv6r5c91SNXw _A3DuYAGPEeKHRu2Cvk-PXA">
         <ownedOperation xmi:id="_XMJF4OVHEeGv6r5c91SNXw" name="getControlledLamps">
           <ownedParameter xmi:id="_5BMX4OYPEeG-SKUL6h5S7g" name="controlledLamps" direction="out"/>
         </ownedOperation>
-        <ownedOperation xmi:id="_Y6sSYOVHEeGv6r5c91SNXw" name="getLampInfo"/>
+        <ownedOperation xmi:id="_Y6sSYOVHEeGv6r5c91SNXw" name="getLampInfo">
+          <ownedParameter xmi:id="_HeSEkAGQEeKHRu2Cvk-PXA" name="lampURI"/>
+          <ownedParameter xmi:id="_o285cAGQEeKHRu2Cvk-PXA" name="brightness" direction="out"/>
+        </ownedOperation>
         <ownedOperation xmi:id="_aPN1UOVHEeGv6r5c91SNXw" name="turnOff"/>
         <ownedOperation xmi:id="_cBC_UOVHEeGv6r5c91SNXw" name="turnOn"/>
       </packagedElement>
@@ -20,21 +20,47 @@
         <supplier xmi:type="uml:Class" href="lighting.uml#_hI5GcJv-EeCgJ7sXDd2E1w"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_kY-6oOVHEeGv6r5c91SNXw" name="LightingServiceProvider"/>
+      <packagedElement xmi:type="uml:Realization" xmi:id="_A3DuYAGPEeKHRu2Cvk-PXA" name="Realization1" client="_6TlmMOVGEeGv6r5c91SNXw">
+        <supplier xmi:type="uml:Class" href="lighting.uml#_zqV91-uHEeGyN_aDBopvUQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_wPH8sAGXEeKHRu2Cvk-PXA" name="BrightnessOff"/>
+      <profileApplication xmi:id="_5__OQAGhEeKdZq5AaXTeOQ">
+        <eAnnotations xmi:id="_6AQUAAGhEeKdZq5AaXTeOQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <references xmi:type="ecore:EPackage" href="pathmap://UAAL/ODM_SoaML.profile.uml#_sQpYIAGbEeKHRu2Cvk-PXA"/>
+        </eAnnotations>
+        <appliedProfile href="pathmap://UAAL/ODM_SoaML.profile.uml#_kAtu4OXnEeGWIIxXDvlnFA"/>
+      </profileApplication>
     </packagedElement>
+    <profileApplication xmi:id="_M9iXAAGaEeKHRu2Cvk-PXA">
+      <eAnnotations xmi:id="_M-agwAGaEeKHRu2Cvk-PXA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UAAL/ODM_SoaML.profile.uml#_QVMQQexaEeGHytfy1ZrHqA"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UAAL/ODM_SoaML.profile.uml#_kAtu4OXnEeGWIIxXDvlnFA"/>
+    </profileApplication>
     <profileApplication xmi:id="_lcZqAOVIEeGv6r5c91SNXw">
       <eAnnotations xmi:id="_lc0gwOVIEeGv6r5c91SNXw" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://UAAL/SoaML.profile.uml#_75THMIdgEeC7CqIglefdNg"/>
       </eAnnotations>
       <appliedProfile href="pathmap://UAAL/SoaML.profile.uml#_TcMJlwUAEd6gvp-4SWRwrA"/>
     </profileApplication>
-    <profileApplication xmi:id="_mLqcUOYPEeG-SKUL6h5S7g">
-      <eAnnotations xmi:id="_mMF6IOYPEeG-SKUL6h5S7g" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://UAAL/ODM_SoaML.profile.uml#_Ure_YOXpEeGWIIxXDvlnFA"/>
-      </eAnnotations>
-      <appliedProfile href="pathmap://UAAL/ODM_SoaML.profile.uml#_kAtu4OXnEeGWIIxXDvlnFA"/>
-    </profileApplication>
   </uml:Model>
-  <Profile:PropertyBinding xmi:id="_9DcFUOYPEeG-SKUL6h5S7g" base_Parameter="_5BMX4OYPEeG-SKUL6h5S7g">
-    <properties href="lighting.uml#_dIvpQObeEeGdp7PD1Qr6Nw"/>
-  </Profile:PropertyBinding>
+  <ODM_SoaML:PropertyBinding xmi:id="_9DcFUOYPEeG-SKUL6h5S7g" base_Parameter="_5BMX4OYPEeG-SKUL6h5S7g">
+    <properties href="lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
+  </ODM_SoaML:PropertyBinding>
+  <ODM_SoaML:PropertyBinding xmi:id="_MpbTwAGQEeKHRu2Cvk-PXA" base_Parameter="_HeSEkAGQEeKHRu2Cvk-PXA">
+    <properties href="lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
+  </ODM_SoaML:PropertyBinding>
+  <ODM_SoaML:PropertyBinding xmi:id="_qXb0wAGQEeKHRu2Cvk-PXA" base_Parameter="_o285cAGQEeKHRu2Cvk-PXA">
+    <properties href="lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
+    <properties href="lighting.uml#_tAJ4cO0hEeGt5ZlpyxcN5w"/>
+  </ODM_SoaML:PropertyBinding>
+  <SoaML:ServiceInterface xmi:id="_IYtg8AGaEeKHRu2Cvk-PXA" base_Interface="_6TlmMOVGEeGv6r5c91SNXw"/>
+  <ODM_SoaML:ServiceProfile xmi:id="_PlwWcAGaEeKHRu2Cvk-PXA" base_Operation="_XMJF4OVHEeGv6r5c91SNXw"/>
+  <ODM_SoaML:ServiceProfile xmi:id="_Q73NwAGaEeKHRu2Cvk-PXA" base_Operation="_Y6sSYOVHEeGv6r5c91SNXw"/>
+  <ODM_SoaML:ServiceProfile xmi:id="_SDXBUAGaEeKHRu2Cvk-PXA" base_Operation="_aPN1UOVHEeGv6r5c91SNXw" effects="_-kJV8AGhEeKdZq5AaXTeOQ"/>
+  <ODM_SoaML:ServiceProfile xmi:id="_TKSNIAGaEeKHRu2Cvk-PXA" base_Operation="_cBC_UOVHEeGv6r5c91SNXw"/>
+  <ODM_SoaML:ServiceEffect xmi:id="_-kJV8AGhEeKdZq5AaXTeOQ" base_Class="_wPH8sAGXEeKHRu2Cvk-PXA" effectValue="0">
+    <effectProperties href="lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
+    <effectProperties href="lighting.uml#_tAJ4cO0hEeGt5ZlpyxcN5w"/>
+  </ODM_SoaML:ServiceEffect>
 </xmi:XMI>
