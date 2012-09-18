@@ -101,10 +101,6 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_7GgbVuuxEeGHytfy1ZrHqA" type="1034"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_7GhCYOuxEeGHytfy1ZrHqA" type="1071">
-      <children xmi:type="notation:Shape" xmi:id="__EKuQOuyEeGHytfy1ZrHqA" type="3002" fontName="Lucida Grande" fontHeight="11" lineColor="0">
-        <element xmi:type="uml:Property" href="ODM_SoaML.profile.uml#__EISAOuyEeGHytfy1ZrHqA"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="__EKuQeuyEeGHytfy1ZrHqA"/>
-      </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_7GhCYeuxEeGHytfy1ZrHqA"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_7GhCYuuxEeGHytfy1ZrHqA"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_7GhCY-uxEeGHytfy1ZrHqA"/>
@@ -241,30 +237,6 @@
     <element xmi:type="uml:Extension" href="ODM_SoaML.profile.uml#_9OKrYOuxEeGHytfy1ZrHqA"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_9ONusuuxEeGHytfy1ZrHqA" points="[-4, -50, 6, 98]$[-10, -123, 0, 25]"/>
   </edges>
-  <edges xmi:type="notation:Connector" xmi:id="_-_DaMOuxEeGHytfy1ZrHqA" type="4001" source="_7Gf0QOuxEeGHytfy1ZrHqA" target="_v97HwOXnEeGWIIxXDvlnFA" lineColor="0">
-    <children xmi:type="notation:DecorationNode" xmi:id="_-_DaM-uxEeGHytfy1ZrHqA" visible="false" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_-_DaNOuxEeGHytfy1ZrHqA" y="60"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_-_DaNeuxEeGHytfy1ZrHqA" visible="false" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_-_EBQOuxEeGHytfy1ZrHqA" y="20"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_-_EBQeuxEeGHytfy1ZrHqA" type="6003">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_-_EBQuuxEeGHytfy1ZrHqA" x="-50" y="39"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_-_EBQ-uxEeGHytfy1ZrHqA" visible="false" type="6005">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_-_EBROuxEeGHytfy1ZrHqA" y="-20"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_-_EBReuxEeGHytfy1ZrHqA" visible="false" type="6033">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_-_EBRuuxEeGHytfy1ZrHqA" y="20"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_-_EBR-uxEeGHytfy1ZrHqA" visible="false" type="6034">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_-_EBSOuxEeGHytfy1ZrHqA" y="-20"/>
-    </children>
-    <styles xmi:type="notation:FontStyle" xmi:id="_-_DaMeuxEeGHytfy1ZrHqA" fontName="Lucida Grande" fontHeight="11"/>
-    <element xmi:type="uml:Association" href="ODM_SoaML.profile.uml#_-_BlAOuxEeGHytfy1ZrHqA"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-_DaMuuxEeGHytfy1ZrHqA" points="[-24, 28, 463, 42]$[-60, 69, 427, 83]$[-429, 69, 58, 83]$[-470, 11, 17, 25]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_-_I5wOuxEeGHytfy1ZrHqA" id="(0.2,0.66)"/>
-  </edges>
   <edges xmi:type="notation:Connector" xmi:id="_McJRcOuyEeGHytfy1ZrHqA" type="1013" source="_KKoh0OuyEeGHytfy1ZrHqA" target="_JYBZIOuyEeGHytfy1ZrHqA" lineColor="0">
     <styles xmi:type="notation:FontStyle" xmi:id="_McJRceuyEeGHytfy1ZrHqA" fontName="Lucida Grande" fontHeight="11"/>
     <element xmi:type="uml:Extension" href="ODM_SoaML.profile.uml#_McIDUeuyEeGHytfy1ZrHqA"/>
@@ -312,38 +284,14 @@
     <children xmi:type="notation:DecorationNode" xmi:id="_PWQ5OOuyEeGHytfy1ZrHqA" visible="false" type="6033">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_PWQ5OeuyEeGHytfy1ZrHqA" y="20"/>
     </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_PWQ5OuuyEeGHytfy1ZrHqA" visible="false" type="6034">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_PWQ5O-uyEeGHytfy1ZrHqA" y="-20"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_PWQ5OuuyEeGHytfy1ZrHqA" type="6034">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_PWQ5O-uyEeGHytfy1ZrHqA" x="66" y="21"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_PWQSIeuyEeGHytfy1ZrHqA" fontName="Lucida Grande" fontHeight="11"/>
     <element xmi:type="uml:Association" href="ODM_SoaML.profile.uml#_PWPEAOuyEeGHytfy1ZrHqA"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PWQSIuuyEeGHytfy1ZrHqA" points="[0, 1, 769, 34]$[0, 189, 769, 222]$[-769, 189, 0, 222]$[-769, -22, 0, 11]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_PWVKoOuyEeGHytfy1ZrHqA" id="(0.7258064516129032,0.99)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_PWVKoeuyEeGHytfy1ZrHqA" id="(0.32,0.78)"/>
-  </edges>
-  <edges xmi:type="notation:Connector" xmi:id="_dTwu0OuyEeGHytfy1ZrHqA" type="4001" source="_7Gf0QOuxEeGHytfy1ZrHqA" target="__soR4OuxEeGHytfy1ZrHqA" lineColor="0">
-    <children xmi:type="notation:DecorationNode" xmi:id="_dTxV4OuyEeGHytfy1ZrHqA" visible="false" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_dTxV4euyEeGHytfy1ZrHqA" y="60"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_dTxV4uuyEeGHytfy1ZrHqA" visible="false" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_dTxV4-uyEeGHytfy1ZrHqA" y="20"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_dTxV5OuyEeGHytfy1ZrHqA" type="6003">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_dTxV5euyEeGHytfy1ZrHqA" y="75"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_dTxV5uuyEeGHytfy1ZrHqA" visible="false" type="6005">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_dTxV5-uyEeGHytfy1ZrHqA" y="-20"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_dTx88OuyEeGHytfy1ZrHqA" visible="false" type="6033">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_dTx88euyEeGHytfy1ZrHqA" y="20"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_dTx88uuyEeGHytfy1ZrHqA" visible="false" type="6034">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_dTx88-uyEeGHytfy1ZrHqA" y="-20"/>
-    </children>
-    <styles xmi:type="notation:FontStyle" xmi:id="_dTwu0euyEeGHytfy1ZrHqA" fontName="Lucida Grande" fontHeight="11"/>
-    <element xmi:type="uml:Association" href="ODM_SoaML.profile.uml#_dTvgsOuyEeGHytfy1ZrHqA"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_dTwu0uuyEeGHytfy1ZrHqA" points="[6, 50, -14, -95]$[15, 112, -5, -33]"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_dT7t8OuyEeGHytfy1ZrHqA" id="(0.61,0.03)"/>
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_Whkz4OuzEeGHytfy1ZrHqA" type="4001" source="_7Gf0QOuxEeGHytfy1ZrHqA" target="_KKoh0OuyEeGHytfy1ZrHqA" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_WhmCAOuzEeGHytfy1ZrHqA" visible="false" type="6001">
