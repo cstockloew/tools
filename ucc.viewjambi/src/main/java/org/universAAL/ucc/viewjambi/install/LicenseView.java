@@ -17,6 +17,7 @@ public class LicenseView extends SubWindow {
 	private static Ui_License install_base = new Ui_License();
 	private static String appDir;
 	private static boolean mpa=false;
+	private static String MPA_EXTENSION="-mpa";
 	
 	public LicenseView(String path) throws IOException {
 		super(LicenseView.install_base);
@@ -69,7 +70,7 @@ public class LicenseView extends SubWindow {
 		File folder=new File(appDir);
 		String[] content = folder.list();
 		for(int i=0;i<content.length;i++){
-			if(content[i].endsWith(".mpa")) 
+			if(content[i].contains(MPA_EXTENSION)) 
 				return true;
 		}
 		return false;

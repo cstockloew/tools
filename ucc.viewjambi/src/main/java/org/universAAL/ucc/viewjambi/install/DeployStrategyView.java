@@ -16,6 +16,7 @@ import org.universAAL.ucc.viewjambi.impl.Activator;
 import org.universAAL.ucc.viewjambi.impl.MainWindow;
 import org.universAAL.ucc.viewjambi.juic.Ui_DeployStrategyView;
 
+import com.trolltech.qt.core.QTimer;
 import com.trolltech.qt.gui.*;
 
 public class DeployStrategyView extends SubWindow {
@@ -25,7 +26,7 @@ public class DeployStrategyView extends SubWindow {
     String deployPath;
     MpaParser mpaParser;
     Map<String, PeerCard> peers;
-
+    
     /**
      * 
      * @param path deployPath, i.e., path of the extracted files from .uaal
@@ -68,7 +69,11 @@ public class DeployStrategyView extends SubWindow {
     	if (defaultStrategy) {
 			
 				Map config = buildDefaultInstallationLayout();
-				InstallationResults results = Activator.getInstaller().requestToInstall((new File(deployPath)).toURI(), config);				
+				MainWindow.getInstance().removeSubWindow(this);
+				ProgressThread progress = new ProgressThread();
+				progress.start();
+				InstallationResults results = Activator.getInstaller().requestToInstall((new File(deployPath)).toURI(), config);
+				progress.finished = true;
 				switch (results)  {
 				case SUCCESS: 
 					QMessageBox.information(this, "Installation result", "The multi-part application has been successfully installed!");
@@ -76,17 +81,17 @@ public class DeployStrategyView extends SubWindow {
 					break;
 					
 				case FAILED:
-					QMessageBox.information(this, "Installation result", "The installation of the multi-part application has been failed!");
+					QMessageBox.warning(this, "Installation result", "The installation of the multi-part application has been failed!");
 					System.out.println("[DeployStrategyView.ok] The installation of the multi-part application has been failed!");
 					break;
 					
 				case NO_AALSPACE_JOINED:
-					QMessageBox.information(this, "Installation result", "Error in the installation of the multi-part application: no AALspace joined!");
+					QMessageBox.warning(this, "Installation result", "Error in the installation of the multi-part application: no AALspace joined!");
 					System.out.println("[DeployStrategyView.ok] Error in the installation of the multi-part application: no AALspace joined!");
-					break;
+				break;
 					
 				case MPA_URI_INVALID:
-					QMessageBox.information(this, "Installation result", "Error in the installation of the multi-part application: MPA uri is invalid!");
+					QMessageBox.warning(this, "Installation result", "Error in the installation of the multi-part application: MPA uri is invalid!");
 					System.out.println("[DeployStrategyView.ok] Error in the installation of the multi-part application: MPA uri is invalid!");
 					break;
 					
@@ -175,8 +180,6 @@ public class DeployStrategyView extends SubWindow {
     
 	private void cancel()  {
     	MainWindow.getInstance().removeSubWindow(this);    	
-    }
-    
-    
-   
+    }      
 }
+

@@ -12,6 +12,7 @@ import org.universAAL.middleware.connectors.deploy.model.ObjectFactory;
 
 public class MpaParser {
 	AalMpa mpa = null;
+	private static String MPA_EXTENSION="-mpa";
 	
 	private JAXBContext jc;
 	private Unmarshaller unmarshaller;
@@ -29,7 +30,7 @@ public class MpaParser {
 		File appDir=new File(deployPath);
     	String[] filelist=appDir.list();
 		for(int i=0;i<filelist.length;i++){
-			if(filelist[i].endsWith(".mpa")){
+			if(filelist[i].contains(MPA_EXTENSION)){
 				String mpaName = deployPath+File.separator+filelist[i];
 				System.out.println("[MpaParser] the mpa file is: " + mpaName);
 				// convert"\" to "//" -- this is OS dependent, solve later

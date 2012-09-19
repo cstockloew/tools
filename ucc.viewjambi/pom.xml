@@ -51,7 +51,7 @@
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Private-Package>org.universAAL.ucc.viewjambi.impl,org.universAAL.ucc.viewjambi.information,org.universAAL.ucc.viewjambi.install,org.universAAL.ucc.viewjambi.juic,org.universAAL.ucc.viewjambi.layouts,org.universAAL.ucc.viewjambi.overview,org.universAAL.ucc.viewjambi.store</Private-Package>
-						<Export-Package>org.universAAL.ucc.viewjambi.common,com.trolltech.qt.*</Export-Package>
+						<Export-Package>org.universAAL.ucc.viewjambi.common, com.trolltech.qt.*</Export-Package>
 						<Include-Resource>
 							{maven-resources}
 						</Include-Resource>			
