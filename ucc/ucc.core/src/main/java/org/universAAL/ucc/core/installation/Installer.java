@@ -44,7 +44,7 @@ import org.universAAL.ucc.core.Activator;
  * @version 1.0
  * @created 11-Jul-2011 15:57:26
  * 
- * modified 31-05-2012 by Shanshan
+ * modified 19-09-2012 by Shanshan
  * 
  */
 public class Installer extends ApplicationManager implements IInstaller {
@@ -55,6 +55,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 	private boolean initialized = false;
 	private DeployManager deployManager;
 	private AALSpaceManager aalSpaceManager;
+	private static String MPA_EXTENSION="-mpa";
 	
 	public Installer(BundleContext con) {
 		context=con;
@@ -118,7 +119,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 			if(content[i].endsWith(".jar")) jarok=true;
 			if(content[i].equals("config.owl")) configok=true;
 			if(content[i].equals("EULA.txt")) eulaok=true;
-			if(content[i].endsWith(".mpa")) mpa=true;
+			if(content[i].contains(MPA_EXTENSION)) mpa=true;
 		}
 		if(!jarok) throw new Exception("There is no installable jar File in uaal Package!");
 		if(!configok) throw new Exception("config.owl file not found!");
@@ -278,25 +279,32 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 	 * - get DeployManager
 	 */
 	private boolean initMpaInstallation()  {
-		//System.out.println("[Installer.initMpaInstallation]");
+		System.out.println("[Installer.initMpaInstallation]");
 		ModuleContext moduleContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
 		
-		Object[] aalManagers = (Object[]) moduleContext.getContainer().fetchSharedObject(moduleContext,new Object[]{AALSpaceManager.class.getName().toString()});
+		if (moduleContext==null)
+			System.out.println("[Installer.initMpaInstallation] moduleContext is null!");
+		else {
+			System.out.println("[Installer.initMpaInstallation] moduleContext exists!");
+			moduleContext.logDebug("[Installer.initMpaInstallation] moduleContext exists", null, null);
+		}
+		//Object[] aalManagers = (Object[]) moduleContext.getContainer().fetchSharedObject(moduleContext,new Object[]{AALSpaceManager.class.getName().toString()});
+		Object aalManagers = moduleContext.getContainer().fetchSharedObject(moduleContext,new Object[]{AALSpaceManager.class.getName().toString()});
 		if(aalManagers != null){
-			moduleContext.logDebug("AALSpaceManagers found...", null);
-			System.out.println("[MpaParser] AALSpaceManagers found...");
-			if(aalManagers[0] instanceof AALSpaceManager){
-				aalSpaceManager = (AALSpaceManager)aalManagers[0];				
+			moduleContext.logDebug("[Installer.initMpaInstallation] AALSpaceManagers found...", null, null);
+			System.out.println("[Installer.initMpaInstallation] AALSpaceManagers found...");
+			if(aalManagers instanceof AALSpaceManager){
+				aalSpaceManager = (AALSpaceManager)aalManagers;				
 			}
 
 			else{
-				moduleContext.logWarn("No AALSpaceManagers found", null);
+				moduleContext.logWarn("Installer.initMpaInstallation] No AALSpaceManagers found", null, null);
 				System.out.println("[Installer.initMpaInstallation]No AALSpaceManagers found");
 				initialized = false;
 				return initialized;
 			}
 		}else{
-			moduleContext.logWarn("No AALSpaceManagers found", null);
+			moduleContext.logWarn("Installer.initMpaInstallation] No AALSpaceManagers found", null, null);
 			System.out.println("[MpaParser]No AALSpaceManagers found");
 			initialized = false;
 			return initialized;
@@ -305,29 +313,12 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 		
 		Object refs = moduleContext.getContainer().fetchSharedObject(moduleContext,new Object[]{DeployManager.class.getName().toString()});
 		if(refs != null){
-			deployManager = (DeployManager)refs;
-			// -- just for testing
-			URI mpaUri = null;
-			try {
-				mpaUri = new URI("http://aaloa.isti.cnr.it/Ping-Pong-mpa.xml");
-				Map layout = new HashMap();
-				PeerCard card1= new PeerCard("DeployNode1", PeerRole.PEER);
-				layout.put(card1, "Part1");
-				System.out.println("[Installer] call deploy manager to install " + mpaUri.toString() + " for " 
-						+ layout.toString());
-				deployManager.requestToInstall(mpaUri, layout);
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			// -- end for testing
-			
+			deployManager = (DeployManager)refs;						
 			initialized = true;
 			return initialized;
 		}else{
-			moduleContext.logWarn("No DeployManager found", null);
-			System.out.println("No DeployManager found");
+			moduleContext.logWarn("Installer.initMpaInstallation] No DeployManager found", null, null);
+			System.out.println("Installer.initMpaInstallation] No DeployManager found");
 			initialized = false;
 			return initialized;
 		}

@@ -109,12 +109,11 @@ public class DeployConfigView extends SubWindow {
    				// check the validity of the configuration layout
    				if (!checkLayout()) {
    					// the selection is not valid   					
-   					QMessageBox.information(this, "Configure error", "The configuration is not valid. Please try again!");
+   					QMessageBox.warning(this, "Configure error", "The configuration is not valid. Please try again!");
    					return;
    				}   				
    				MainWindow.getInstance().removeSubWindow(this);
    				System.out.println("Start deploying...");
-   				QMessageBox.information(this, "Deploy", "start deploying the multi-part application...");
    				//save the deploy configuration
    				for(Part part : layout.keySet()){
    					PeerCard card = peers.get(layout.get(part));
@@ -122,8 +121,11 @@ public class DeployConfigView extends SubWindow {
    							+ ":" + layout.get(part) + "/" + part.getPartId());
    					mpaLayout.put(card, part);
    				}
+   				ProgressThread progress = new ProgressThread();
+				progress.start();
    				// call MW deploy manager requestToInstall
    				InstallationResults results = Activator.getInstaller().requestToInstall((new File(deployPath)).toURI(), mpaLayout);
+   				progress.finished=true;
    				switch (results)  {
 				case SUCCESS: 
 					QMessageBox.information(this, "Installation result", "The multi-part application has been successfully installed!");
@@ -131,17 +133,17 @@ public class DeployConfigView extends SubWindow {
 					break;
 					
 				case FAILED:
-					QMessageBox.information(this, "Installation result", "The installation of the multi-part application has been failed!");
+					QMessageBox.warning(this, "Installation result", "The installation of the multi-part application has been failed!");
 					System.out.println("[DeployConfigView.nextScreen] The installation of the multi-part application has been failed!");
 					break;
 					
 				case NO_AALSPACE_JOINED:
-					QMessageBox.information(this, "Installation result", "Error in the installation of the multi-part application: no AALspace joined!");
+					QMessageBox.warning(this, "Installation result", "Error in the installation of the multi-part application: no AALspace joined!");
 					System.out.println("[DeployConfigView.nextScreen] Error in the installation of the multi-part application: no AALspace joined!");
 					break;
 					
 				case MPA_URI_INVALID:
-					QMessageBox.information(this, "Installation result", "Error in the installation of the multi-part application: MPA uri is invalid!");
+					QMessageBox.warning(this, "Installation result", "Error in the installation of the multi-part application: MPA uri is invalid!");
 					System.out.println("[DeployConfigView.nextScreen] Error in the installation of the multi-part application: MPA uri is invalid!");
 					break;
 					
@@ -215,15 +217,15 @@ public class DeployConfigView extends SubWindow {
 		   }
 		   else System.out.println("[DeployConfigView.checkLayout] The part " + part.getPartId() + " can be installed on the peer " + layout.get(part));
 	   }   	   
-	   // check if a peer is associated with more than one part
-	   for (String peerId: layout.values()) {
+	   // check if a peer is associated with more than one part -- no need for such check
+/*	   for (String peerId: layout.values()) {
 		   System.out.println("[DeployConfigView.checkLayout] check for peer " + peerId);
 		   if (countPeer(peerId)>1) {
 			   System.out.println("[DeployConfigView.checkLayout] " + peerId + " has been associated with more than one part!");
 			   QMessageBox.information(this, "Validity check", peerId + " has been associated with more than one part!");
 			   valid = false;
 		   }
-	   }
+	   } */
 	   return valid;
    }
    
