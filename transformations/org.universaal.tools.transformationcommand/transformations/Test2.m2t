@@ -11,9 +11,22 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 '
 	@ServiceOperation
 '
+	var separator:String = ""
+
 	// Print any outputs 
+	var outList:List = self.ownedParameter->select(par:uml.Parameter | par.direction == "out")
+	if (!outList.isEmpty()) {
 	
-	
+		'	@Outputs(value = { '
+		separator = ""
+		outList->forEach(outParam:uml.Parameter) {
+			separator + '@Output(name = "' + outParam.name + '")'  // TODO: replace name with correct value
+			separator = ", "
+		}
+		'})
+'
+	}	
+
 	// Print any change effects
 
 	if (self.hasStereotype("ServiceProfile")) {
@@ -35,9 +48,13 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 '	public '
 
 '('
-    self.ownedParameter->forEach( par : uml.Parameter) {
-		par.direction + " " + par.name
-    
+	separator = ""
+    self.ownedParameter->forEach(par:uml.Parameter) {
+    	if (par.direction == "out") {
+    	}
+    	separator + par.direction + ' ' + par.type.name + ' ' par.name 
+		separator = ", "
+      //uml.ParameterDirectionKind._getFeature("return")
     }
 ')
 '	
