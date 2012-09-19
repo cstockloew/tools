@@ -1,0 +1,46 @@
+/**
+ * transformation Test2
+ * date: 19/8/2012
+ * author: null
+ * description: 
+ */
+
+texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
+
+  uml.Operation::main () {
+'
+	@ServiceOperation
+'
+	// Print any outputs 
+	
+	
+	// Print any change effects
+
+	if (self.hasStereotype("ServiceProfile")) {
+		var effectList:List = self.getValue("ServiceProfile", "effects")
+		effectList->forEach(c) {
+			var effectCls:uml.Class = c._getFeature("base_Class")
+			effectCls.getValue("ServiceEffect", "effectType").name ' '
+			var effectProps:List = effectCls.getValue("ServiceEffect", "effectProperties")
+			effectProps->forEach(p) {
+				var effectProp:uml.Property = c._getFeature("base_Class")
+				'prop:' + effectProp.name + ' '
+			}
+			effectCls.getValue("ServiceEffect", "effectValue") 			
+		}
+'
+'		
+	}
+	// Print the method signature
+'	public '
+
+'('
+    self.ownedParameter->forEach( par : uml.Parameter) {
+		par.direction + " " + par.name
+    
+    }
+')
+'	
+     
+  }
+}
