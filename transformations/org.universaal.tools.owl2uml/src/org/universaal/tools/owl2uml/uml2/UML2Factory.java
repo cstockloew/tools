@@ -18,23 +18,36 @@
  */
 package org.universaal.tools.owl2uml.uml2;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gmf.runtime.emf.core.resources.GMFResourceFactory;
+import org.eclipse.papyrus.resource.ModelSet;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -47,50 +60,69 @@ import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.uml2.uml.util.UMLUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author joemoul, billyk
  * 
  */
 public class UML2Factory {
-
-	private Model owl2Model;
+	private static String packageName = "";
+	private org.eclipse.uml2.uml.Package rootModel;
+	private org.eclipse.uml2.uml.Package owl2Model;
 	private Profile profileTypes;
 	private PrimitiveType booleanPrimitive, stringPrimitive, integerPrimitive,
 			unlimitedNaturalPrimitive;
 	public File file;
-
+	public static Map<String, String> XMLHeader = new HashMap<String, String>();
+	public static Map<String, String> XMLAbstractClasses = new HashMap<String, String>();
 	protected static final ResourceSet RESOURCE_SET = new ResourceSetImpl();
+	public static String XMLFilePath;
 
-	public UML2Factory(String nameModel) {
+	public UML2Factory(String owlURI) {
+		if (!readXML()) {
+			System.out
+					.println("Additional properties from XML file were Ignored!");
+		}
+		;
+		String modelName = owlURI.substring(owlURI.lastIndexOf("/") + 1,
+				owlURI.lastIndexOf("."));
+		packageName = "org.universaal.ontology." + modelName;
 
-		registerResourceFactories();
+		// registerResourceFactories();
+		// Registering pathmaps dynamically
+
+		/*
+		 * final String profile = "profiles/UML2.profile.uml"; java.net.URL url
+		 * = getClass().getClassLoader().getResource(profile); if (url == null)
+		 * { throw new RuntimeException("Error getting UML2.profile.uml"); }
+		 * String urlString = url.toString(); if (!urlString.endsWith(profile))
+		 * { throw new RuntimeException("Error getting UML2.profile.uml. Got: "
+		 * + urlString); } urlString = urlString.substring(0, urlString.length()
+		 * - profile.length());
+		 */
+
+		// URI uri = URI.createURI(urlString);
+		// registerPathmaps(uri);
+		/*
+		 * uri=URI.createURI(
+		 * "jar:file:/C:/eclipse/plugins/org.universaal.tools.profileplugin_0.2.3.jar!/"
+		 * ); registerUAALPathmaps(uri);
+		 */
 
 		System.out.println("Creating model...");
-		owl2Model = createModel(nameModel);
-		registerResourceFactories();
 
-		// Registering pathmaps dynamically
-		final String profile = "profiles/UML2.profile.uml";
-		java.net.URL url = getClass().getClassLoader().getResource(profile);
-		if (url == null) {
-			throw new RuntimeException("Error getting UML2.profile.uml");
-		}
-		String urlString = url.toString();
-		if (!urlString.endsWith(profile)) {
-			throw new RuntimeException("Error getting UML2.profile.uml. Got: "
-					+ urlString);
-		}
-		urlString = urlString.substring(0,
-				urlString.length() - profile.length());
-		URI uri = URI.createURI(urlString);
+		owl2Model = createModel(modelName, owlURI);
 
-		registerPathmaps(uri);
+		// registerResourceFactories();
 
 		profileTypes = createProfile("profileTypes");
 		booleanPrimitive = importPrimitiveType(profileTypes, "Boolean");
@@ -103,12 +135,113 @@ public class UML2Factory {
 
 		PackageImport prims = UMLFactory.eINSTANCE.createPackageImport();
 		prims.setImportedPackage(owl2Model);
+
+		rootModel = owl2Model;
+		owl2Model = (org.eclipse.uml2.uml.Package) getPackage(rootModel,
+				packageName);
 		createClass(owl2Model, "Thing", false);
 	}
 
-	public static Model createModel(String name) {
-		Model model = UMLFactory.eINSTANCE.createModel();
-		model.setName(name);
+	protected static ModelSet createAndInitResourceSet() {
+		ModelSet resourceSet = new ModelSet();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put(".notation", new GMFResourceFactory());
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put(".uml", new GMFResourceFactory());
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put(".di", new GMFResourceFactory());
+		return resourceSet;
+	}
+
+	public static Model createModel(String name, String owlURI) {
+
+		ResourceSet resourceSet = createAndInitResourceSet();
+
+		resourceSet.getPackageRegistry().put(EcorePackage.eNS_URI,
+				EcorePackage.eINSTANCE);
+		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI,
+				UMLPackage.eINSTANCE);
+
+		URL url = null;
+		try {
+			url = new URL(
+					"platform:/plugin/org.universaal.tools.owl2uml/profiles/model.uml");
+			InputStream inputStream = url.openConnection().getInputStream();
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					inputStream));
+			String inputLine;
+
+			while ((inputLine = in.readLine()) != null) {
+				System.out.println(inputLine);
+			}
+
+			in.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		java.net.URI javaURI = null;
+		try {
+			javaURI = url.toURI();
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		// URI uriPath = URI.createFileURI("../../profiles/model.uml");
+		org.eclipse.emf.common.util.URI URIPath = org.eclipse.emf.common.util.URI
+				.createURI(javaURI.toString());
+
+		Resource resource = resourceSet.getResource(URIPath, true);
+		// Resource resource = resourceSet.getResource(uriPath, true);
+		EcoreUtil.resolveAll(resourceSet);
+		HashMap<String, String> replaceMap = new HashMap<String, String>();
+		replaceMap.put("$$MODEL_NAME$$", name);
+		replaceMap.put("$$PACKAGE_NAME$$", packageName);
+
+		for (Iterator it = resourceSet.getAllContents(); it.hasNext();) {
+			Object element = it.next();
+			if (element instanceof NamedElement) {
+				String newName = replaceMap.get(((NamedElement) element)
+						.getName());
+				if (newName != null) {
+					((NamedElement) element).setName(newName);
+				}
+				if (element instanceof org.eclipse.uml2.uml.Model) {
+					EList<Comment> c = ((NamedElement) element)
+							.getOwnedComments();
+					Comment comm = null;
+					if (!c.isEmpty()) {
+						comm = c.get(0);
+					}
+					if (comm != null) {
+						comm.setBody(XMLHeader.get("XMLComment"));
+					}
+				}
+				if (element instanceof org.eclipse.uml2.uml.Package) {
+					Stereotype s = ((NamedElement) element)
+							.getAppliedStereotype("OWL::owlOntology");
+					if (s != null) {
+
+						UMLUtil.setTaggedValue((Element) element, s,
+								"defaultNamespace", owlURI);
+						UMLUtil.setTaggedValue((Element) element, s,
+								"versionInfo", XMLHeader.get("XMLVersionInfo"));
+					}
+				}
+			}
+		}
+
+		EList<EObject> el = null;
+		try {
+			resource.load(null);
+			el = resource.getContents();
+		} catch (Exception e) {
+			System.out.println("failed to load content of file : " + URIPath);
+		}
+
+		Model model = (Model) EcoreUtil.getObjectByType(el,
+				UMLPackage.eINSTANCE.getModel());
 
 		System.out.println("Model '" + model.getQualifiedName() + "' created.");
 
@@ -185,6 +318,20 @@ public class UML2Factory {
 		return (Classifier) pe;
 	}
 
+	protected static org.eclipse.uml2.uml.Package getPackage(
+			org.eclipse.uml2.uml.Package package_, String name) {
+		PackageableElement pe = null;
+		System.out.println("Trying to get Class with name " + name);
+
+		pe = package_.getPackagedElement(name);
+		if (pe != null) {
+			System.out.println("Trying to get Class with name '" + name
+					+ "'... Found:" + pe.getQualifiedName());
+		}
+
+		return (org.eclipse.uml2.uml.Package) pe;
+	}
+
 	public void write(String file) throws IOException {
 
 		System.out.println("Saving model...");
@@ -193,7 +340,7 @@ public class UML2Factory {
 		String umlFile = file.substring(file.lastIndexOf("\\") + 1,
 				file.lastIndexOf("."));
 
-		save(owl2Model, URI.createFileURI(umlPath).appendSegment(umlFile)
+		save(rootModel, URI.createFileURI(umlPath).appendSegment(umlFile)
 				.appendFileExtension(UMLResource.FILE_EXTENSION));
 	}
 
@@ -202,7 +349,6 @@ public class UML2Factory {
 		if (nameParent != null) {
 
 			createClass(owl2Model, name, false);
-			getClass(owl2Model, nameParent);
 
 		}
 
@@ -211,13 +357,21 @@ public class UML2Factory {
 	public static org.eclipse.uml2.uml.Classifier createClass(
 			org.eclipse.uml2.uml.Package package_, String name,
 			boolean isAbstract) {
-		org.eclipse.uml2.uml.Class class_ = package_.createOwnedClass(name,
-				isAbstract);
+		if (XMLAbstractClasses.get(name) != null) {
+			org.eclipse.uml2.uml.Class class_ = package_.createOwnedClass(name,
+					true);
+			System.out.println("Abstract Class '" + class_.getQualifiedName()
+					+ "' created.");
+			return class_;
+		} else {
+			org.eclipse.uml2.uml.Class class_ = package_.createOwnedClass(name,
+					isAbstract);
 
-		System.out
-				.println("Class '" + class_.getQualifiedName() + "' created.");
+			System.out.println("Class '" + class_.getQualifiedName()
+					+ "' created.");
+			return class_;
+		}
 
-		return class_;
 	}
 
 	public void createClass(String name, String nameParent,
@@ -291,6 +445,13 @@ public class UML2Factory {
 
 	}
 
+	/**
+	 * Creating class with multiple parents.
+	 * 
+	 * @param name
+	 * @param parents
+	 * @param dataProperties
+	 */
 	public void createClass(String name, Iterator<String> parents,
 			Iterator<String> dataProperties) {
 
@@ -545,21 +706,17 @@ public class UML2Factory {
 		return association;
 	}
 
-	public static void registerResourceFactories() {
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-				UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-	}
-
-	public static void registerPathmaps(URI uri) {
-		URIConverter.URI_MAP.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP),
-				uri.appendSegment("libraries").appendSegment(""));
-
-		URIConverter.URI_MAP.put(URI.createURI(UMLResource.METAMODELS_PATHMAP),
-				uri.appendSegment("metamodels").appendSegment(""));
-
-		URIConverter.URI_MAP.put(URI.createURI(UMLResource.PROFILES_PATHMAP),
-				uri.appendSegment("profiles").appendSegment(""));
-	}
+	/*
+	 * public static void registerPathmaps(URI uri) {
+	 * URIConverter.URI_MAP.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP),
+	 * uri.appendSegment("libraries").appendSegment(""));
+	 * 
+	 * URIConverter.URI_MAP.put(URI.createURI(UMLResource.METAMODELS_PATHMAP),
+	 * uri.appendSegment("metamodels").appendSegment(""));
+	 * 
+	 * URIConverter.URI_MAP.put(URI.createURI(UMLResource.PROFILES_PATHMAP),
+	 * uri.appendSegment("profiles").appendSegment("")); }
+	 */
 
 	public static void save(org.eclipse.uml2.uml.Package package_, URI uri) {
 		Resource resource = RESOURCE_SET.createResource(uri);
@@ -605,5 +762,70 @@ public class UML2Factory {
 
 	protected static void err(String error) {
 		System.err.println(error);
+	}
+
+	/**
+	 * Read and validate XML file before transformation
+	 * 
+	 */
+	public static boolean readXML() {
+
+		try {
+
+			File XMLFile = new File(XMLFilePath);
+
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
+			dbFactory.setNamespaceAware(true);
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(XMLFile);
+
+			doc.getDocumentElement().normalize();
+			String validXML = XMLvalidate.validateXML(doc);
+			if (!validXML.equals("OK")) {
+				System.out.println(validXML);
+				return false;
+
+			} else {
+				System.out.println("XML Validated against Schema");
+			}
+
+			System.out.println("for ontology "
+					+ doc.getDocumentElement().getAttribute("Name")
+					+ " of "
+					+ doc.getDocumentElement().getAttribute("Package")
+					+ " Version Info: "
+					+ doc.getDocumentElement().getAttribute("versionInfo")
+					+ " Comment: "
+					+ doc.getElementsByTagName("Comment").item(0)
+							.getFirstChild().getNodeValue());
+
+			XMLHeader.put("XMLName",
+					doc.getDocumentElement().getAttribute("Name"));
+			XMLHeader.put("XMLPackage",
+					doc.getDocumentElement().getAttribute("Package"));
+			XMLHeader.put("XMLVersionInfo", doc.getDocumentElement()
+					.getAttribute("versionInfo"));
+			XMLHeader.put("XMLComment", doc.getElementsByTagName("Comment")
+					.item(0).getFirstChild().getNodeValue());
+
+			NodeList nList = doc.getElementsByTagName("Name");
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+
+				Node nNode = nList.item(temp);
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+					System.out.println(" Abstract Class Name: "
+							+ nNode.getFirstChild().getNodeValue());
+					XMLAbstractClasses.put(
+							nNode.getFirstChild().getNodeValue(), "Abstract");
+
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 }

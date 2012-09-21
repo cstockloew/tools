@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension point="org.eclipse.uml2.uml.dynamic_package">
+    <profile
+       	uri="http:///schemas/RDF/_0R6hACqWEd6tAp0dWJ5sSg/0" 
+    	location="pathmap://TwoUse_Profiles/RDF.profile.uml#_0"/>
+  </extension>
 
+  <extension
+     point="org.eclipse.uml2.uml.dynamic_package">
+    <profile 
+    	uri="http:///schemas/OWL/_V6llIH23Ed6vG7X4YNOLYQ/4" 
+    	location="pathmap://TwoUse_Profiles/OWL.profile.uml#_4"/>
+  </extension>
+  <extension
+     point="org.eclipse.uml2.uml.dynamic_package">
+    <profile 
+    	uri="http:///schemas/SWRLprofile/_fKvyMKeWEd6XOZ-lFJtlZg/5" 
+    	location="pathmap://TwoUse_Profiles/SWRL.profile.uml#_5"/>
+  </extension>
    <extension
          point="org.eclipse.ui.commands">
       <command
-            name="OWL2UML Transformation Tool"
             categoryId="org.universaal.tools.owl2uml.commands.category"
-            id="org.universaal.tools.owl2uml.commands.sampleCommand">
+            id="org.universaal.tools.owl2uml.commands.sampleCommand"
+            name="OWL2UML Transformation Tool">
       </command>
    </extension>
    <extension

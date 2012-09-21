@@ -40,13 +40,13 @@ public class ObjectPropertyRepresentation {
 	public ObjectPropertyRepresentation(String name) {
 		uri = name;
 		isInferred = true; // this param always will change whether the domain
-							// doesnt contain the property
+							// doesn't contain the property
 	}
 
 	public ObjectPropertyRepresentation(String name, boolean inferred) {
 		uri = name;
 		isInferred = inferred; // this param always will change whether the
-								// domain doesnt contain the property
+								// domain doesn't contain the property
 	}
 
 	public String getLocalName() {

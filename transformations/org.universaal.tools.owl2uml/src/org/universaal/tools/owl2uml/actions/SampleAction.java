@@ -30,8 +30,11 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		MessageDialog.openInformation(window.getShell(), "OWL2UML Transformation",
-				"Please right-click on a selected .owl file and select the Transform2UML option.");
+		MessageDialog
+				.openInformation(
+						window.getShell(),
+						"OWL2UML Transformation",
+						"Please right-click on a selected .owl file and select the Transform2UML option.");
 	}
 
 	/**

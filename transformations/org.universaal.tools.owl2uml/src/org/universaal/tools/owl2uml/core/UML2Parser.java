@@ -50,7 +50,6 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.hp.hpl.jena.vocabulary.OWL;
 
 /**
  * @author joemoul, billyk
@@ -154,15 +153,6 @@ public class UML2Parser {
 			addObjectProperties();
 		} else {
 
-			OntClass owlThing = model.getOntClass(OWL.Thing.getURI());
-			OntClass owlNothing = model.getOntClass(OWL.Nothing.getURI());
-
-			unsatConcepts = collect(owlNothing.listEquivalentClasses());
-
-			CreateTree(owlThing);
-
-			uml2Factory.createClass("Thing", null);
-
 			Set<String> concepts = parents.keySet();
 			Iterator<String> it = concepts.iterator();
 			while (it.hasNext()) {
@@ -232,7 +222,7 @@ public class UML2Parser {
 		System.out.println("\t\t\t---Object Property --------------------- ");
 		System.out.println("\t\t\tName:" + obj.getLocalName());
 		String minCardSource = "0";
-		String maxCardSource = "-1"; // equivale a n , por defecto card.
+		String maxCardSource = "-1"; // equals n
 		// 0..n
 
 		String minCardTarget = "0";
@@ -531,8 +521,8 @@ public class UML2Parser {
 					}
 				}
 			}
-			System.out.println("\t adding CLASS: Thing");
-			uml2Factory.createClass("Thing", null);
+			// System.out.println("\t adding CLASS: Thing");
+			// UML2Factory.createClass("Thing", null);
 
 		} finally {
 			qexec2.close();
@@ -711,9 +701,6 @@ public class UML2Parser {
 		String queryString = "PREFIX  rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n"
 				+ "PREFIX  owl:  <http://www.w3.org/2002/07/owl#> \n"
 				+ "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
-				// + "PREFIX myonto: <"
-				// + NS
-				// + "> \n"
 				+ "SELECT ?proper ?range ?domain \n"
 				+ "WHERE { ?proper rdf:type owl:DatatypeProperty ."
 				+ " ?proper rdfs:domain ?domain ."
