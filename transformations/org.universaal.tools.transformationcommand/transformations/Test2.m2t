@@ -37,19 +37,24 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 		effectList->forEach(c) {
 			var effectCls:uml.Class = c._getFeature("base_Class")
 			var effectType:String = effectCls.getValue("ServiceEffect", "effectType").name
+			'	' + effectTypeMap.get(effectType) + '(propertyPaths = { '
 			
 			var effectProps:List = effectCls.getValue("ServiceEffect", "effectProperties")
-			effectProps->forEach(p) {
-				var effectProp:uml.Property = c._getFeature("base_Class")
-				'prop:' + effectProp.name + ' '
+			separator = ""
+			effectProps->forEach(p:uml.Property) {
+			    separator + p.owner.name + '.' + p.name
+				separator = ", "
 			}
-			effectCls.getValue("ServiceEffect", "effectValue") 			
+			' },\n'
+			'		value = "' + effectCls.getValue("ServiceEffect", "effectValue") + '",'
+			' valueType = ' + ')\n'
+			// TODO: find what to use for value type
 		}
 '
 '		
 	}
 	// Print the method signature
-'	public '
+'	public ' self.name
 
 '('
 	separator = ""
