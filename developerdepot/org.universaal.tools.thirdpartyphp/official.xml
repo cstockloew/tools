@@ -12,7 +12,7 @@
   <description>Sample Lighting Client using dialog package</description>
   <tags>
     <tag>Lighting</tag>
-  </tags>
+ <tag>caller</tag> <tag>callee</tag> <tag>service</tag> <tag>context</tag> <tag>publisher</tag> <tag>subscriber</tag> <tag>ui caller</tag> <tag>ui</tag> <tag>example</tag> <tag>server</tag> <tag>client</tag> </tags>
 </project>
 <project>
   <name>Ontology tutorial</name>
@@ -26,6 +26,9 @@
   <description>This example shows how to convert an ontology concept into its java representation for uAAL</description>
   <tags>
     <tag>ontology</tag>
+    <tag>tutorial</tag>
+    <tag>example</tag>
+    <tag>data representation</tag>
   </tags>
 </project>
 <project>
@@ -40,6 +43,8 @@
   <description>The purpose of this project is to help in the creation of UI Callers, and it is not a complete example in itself</description>
   <tags>
     <tag>ui</tag>
+    <tag>ui caller</tag>
+    <tag>help</tag>
   </tags>
 </project>
 <project>
@@ -54,6 +59,8 @@
   <description>The purpose of this project is to run the simple.ui project, and it is not a complete example in itself</description>
   <tags>
     <tag>ui</tag>
+    <tag>run</tag>
+    <tag>runner</tag>
   </tags>
 </project>
 </projects>
