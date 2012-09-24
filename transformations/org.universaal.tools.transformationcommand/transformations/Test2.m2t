@@ -7,7 +7,10 @@
 
 texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 
+  var effectTypeMap:Hashtable
+
   uml.Operation::main () {
+    self.createEffectTypeMap()
 '
 	@ServiceOperation
 '
@@ -33,7 +36,8 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 		var effectList:List = self.getValue("ServiceProfile", "effects")
 		effectList->forEach(c) {
 			var effectCls:uml.Class = c._getFeature("base_Class")
-			effectCls.getValue("ServiceEffect", "effectType").name ' '
+			var effectType:String = effectCls.getValue("ServiceEffect", "effectType").name
+			
 			var effectProps:List = effectCls.getValue("ServiceEffect", "effectProperties")
 			effectProps->forEach(p) {
 				var effectProp:uml.Property = c._getFeature("base_Class")
@@ -60,4 +64,13 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 '	
      
   }
+  
+  uml.Operation::createEffectTypeMap() {
+    effectTypeMap.put("CHANGE_EFFECT","@ChangeEffect")
+    effectTypeMap.put("ADD_EFFECT","@AddEffect")
+    effectTypeMap.put("REMOVE_EFFECT","@RemoveEffect")    
+  }
+
+
+  
 }
