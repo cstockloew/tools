@@ -5,7 +5,7 @@
       <importedPackage xmi:type="uml:Model" href="lighting.uml#_zqV90OuHEeGyN_aDBopvUQ"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_wfOgUObfEeGdp7PD1Qr6Nw" name="org.universAAL.samples.lighting">
-      <packagedElement xmi:type="uml:Interface" xmi:id="_6TlmMOVGEeGv6r5c91SNXw" name="LightingService" clientDependency="_MJ-Y8OVHEeGv6r5c91SNXw _A3DuYAGPEeKHRu2Cvk-PXA">
+      <packagedElement xmi:type="uml:Interface" xmi:id="_6TlmMOVGEeGv6r5c91SNXw" name="LightingService" clientDependency="_A3DuYAGPEeKHRu2Cvk-PXA">
         <ownedOperation xmi:id="_XMJF4OVHEeGv6r5c91SNXw" name="getControlledLamps">
           <ownedParameter xmi:id="_5BMX4OYPEeG-SKUL6h5S7g" name="controlledLamps" direction="out"/>
         </ownedOperation>
@@ -15,9 +15,6 @@
         </ownedOperation>
         <ownedOperation xmi:id="_aPN1UOVHEeGv6r5c91SNXw" name="turnOff"/>
         <ownedOperation xmi:id="_cBC_UOVHEeGv6r5c91SNXw" name="turnOn"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Realization" xmi:id="_MJ-Y8OVHEeGv6r5c91SNXw" name="Realization0" client="_6TlmMOVGEeGv6r5c91SNXw">
-        <supplier xmi:type="uml:Class" href="lighting.uml#_hI5GcJv-EeCgJ7sXDd2E1w"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_kY-6oOVHEeGv6r5c91SNXw" name="LightingServiceProvider"/>
       <packagedElement xmi:type="uml:Realization" xmi:id="_A3DuYAGPEeKHRu2Cvk-PXA" name="Realization1" client="_6TlmMOVGEeGv6r5c91SNXw">

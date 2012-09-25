@@ -135,6 +135,10 @@
     </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_-dl8ogGOEeKHRu2Cvk-PXA" type="5029"/>
     <children xmi:type="notation:BasicCompartment" xmi:id="_-dl8owGOEeKHRu2Cvk-PXA" type="7017">
+      <children xmi:type="notation:Shape" xmi:id="_6h1xUAJVEeK3Q5lYlQsSFA" type="3012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+        <element xmi:type="uml:Property" href="lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_6h1xUQJVEeK3Q5lYlQsSFA"/>
+      </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_-dl8pAGOEeKHRu2Cvk-PXA"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_-dl8pQGOEeKHRu2Cvk-PXA"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_-dl8pgGOEeKHRu2Cvk-PXA"/>
