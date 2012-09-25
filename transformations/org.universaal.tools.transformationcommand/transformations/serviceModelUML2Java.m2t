@@ -8,10 +8,7 @@
 texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 
 
-/**
- * TODO: Clean up all copied code and write what we really need 
- * 
- */
+
 
   var ontologyNamespace:String
   var ontologyName:String
@@ -26,7 +23,9 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
   var ontologyClassList:Hashtable 
   var ontologyEnumerationList:Hashtable 
   var subPackageList:Hashtable
+  var ontologyClass:String //the name of the ontology service class being realized
   
+   var effectTypeMap:Hashtable //for change effects
   
  
    /**
@@ -34,98 +33,138 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
    */
     
   uml.Model::main() {
-    var defaultOntologyNamespace:String
-  	var defaultOntologyName:String
+    //var defaultOntologyNamespace:String
+  	//var defaultOntologyName:String
   	
   	var ontologyNameList:Hashtable
+  	
    
    	'Transforming UML service model to Java...
    	'
-    javaBasePath = getEnv("org.universaal.tools.transformationcommand.javadir")
-    javaOWLSupport = getEnv("org.universaal.tools.transformationcommand.javaowlsupport")
+    javaBasePath = "./" //getEnv("org.universaal.tools.transformationcommand.javadir")
+    javaOWLSupport = "/src/main/java" //getEnv("org.universaal.tools.transformationcommand.javaowlsupport")
     
     self.ownedMember -> forEach( p:uml.Package ){  
       	//need a guard to control package type/stereotype 
-   		
+      	      	   		
    		//generate activator
-   		p.generateActivator(ontologyNameList)
+   		//p.generateActivator(ontologyNameList)
    	
    		//generate provider (serviceprofile)
    		p.ownedMember->forEach( interf : uml.Interface) {
- 			interf.generateServiceProfile()
-
-   			//generateServiceCallee
-   			interf.generateServiceCallee()
-   		  
+ 			//generate the file and content
+ 			interf.generateLevel2Interface()
+		  
    		}
    		
     }
-    /*
-  	// Initiate a hashmap that contains the supported datatypes and their corresponding java import statements
-    self.initDatatypeImportMap()
-    //must create the import list.
-    self.getImportList()
-         
-  	self.ownedMember -> forEach( p:uml.Package ){   
-  	   ontologyClassList = null
-       ontologyEnumerationList = null
-       subPackageList = null
-        
-  	   if (!p.hasStereotype("owlOntology")) {
-			StdOut.println("WARNING!!! The package " + p.name + " is not stereotyped with owlOntology!")  
-			if(defaultOntologyName==null) {
-				StdOut.println("It is required to set the owlOntology stereotype on ALL root package.")
-				StdOut.println("To perform the transformation, add this information to the model.")
-				StdOut.println("Skipping package " + p.name.trim())
-     			StdOut.println("");
- 				break
-			}
-			else {
-				StdOut.println("Continuing transformation of package with information from the owlOntology sterotype of the model root.")
-			}
-		}
-    	//TODO: HANDLE unset packages
-    
-    	ontologyName = p.name.substring(p.name.lastIndexOf(".")+1, p.name.size()) //get the last segment of the packagename 
-    	StdOut.println("Generating Java classes for package: " + ontologyName)
-    
-    	ontologyNamespace = p.getStereotypeValue("owlOntology", "defaultNamespace")
-    	if (ontologyNamespace.equals("")) {
-    	  ontologyNamespace = defaultOntologyNamespace
-    	}
-    	StdOut.println("Namespace: "+ontologyNamespace) 
-    	ontologyNamespaceReference =  ontologyName +  'Ontology.NAMESPACE'       
-       
-      
-        //recursively create the ontology classes and enumerations
-        p.processOntologyPackage()  
-		subPackageList.remove(p.getFullPackageName().trim()) //remove own reference      
-           
-		//then the main ontology class and the factories for each package.		
-		StdOut.println("Handling main ontology class for :" + p.name) 
-		
-   		p.generateMainOntologyClass(ontologyClassList, ontologyEnumerationList)
+}
+  
+ /*
+  * This operation will handle the level 2 interface generation
+  */
+uml.Interface::generateLevel2Interface() {
+  	//create the file
+  	var interfaceName:String = self.name.trim()
+	file( javaBasePath + "/" + self.getFullOwnerPackageName().replace("\\.", "/") + '/' + interfaceName + ".java" )
+  	  
+	//create the header for the level2 interface
+	self.generateLevel2InterfaceHeader()
+			
+	//create the operations for the level2 interface
+	self.generateLevel2InterfaceOperations()
+
+}  
+ 
+ /*
+  * This operation will create the 
+  */
+uml.Interface::generateLevel2InterfaceHeader() {
+   
+    'package ' self.getFullOwnerPackageName() ';	'
+	//static imports
+	'\n
+import org.universAAL.middleware.api.annotation.ChangeEffect;
+import org.universAAL.middleware.api.annotation.Input;
+import org.universAAL.middleware.api.annotation.OntologyClasses;
+import org.universAAL.middleware.api.annotation.Output;
+import org.universAAL.middleware.api.annotation.Outputs;
+import org.universAAL.middleware.api.annotation.ServiceOperation;
+import org.universAAL.middleware.api.annotation.UniversAALService;'
+	
+	//dynamic imports. Must get the service that is implemented as well as the classes that are used as properties
+	//get realization class
+	String realizationService = self.clientDependency.first().supplier.first().qualifiedName.substringAfter("::").replace("::", ".")
+	'\nimport ' realizationService ';'
+	
+	//get the realization class' ownedattributes' type
+	var propertyImportHash: Hashtable
+	self.clientDependency.first().supplier->forEach( prop : uml.Property) {
+		propertyImportHash.put(prop.name, prop)
+	}
+	
+	//get the realization class' properties
+	//assuming that the interface realizes at least one ontology service class.
+	var serviceClass: uml.Class
+	serviceClass = self.clientDependency.first().supplier.first()
+	//set the ontologyClass name
+	ontologyClass = serviceClass.name
+	
+	while (!serviceClass.general.isEmpty()) {
+	  	serviceClass.ownedElement->forEach(prop: uml.Property){
+	  		propertyImportHash.put(prop.name, prop)
+	  	}
+	  	serviceClass = serviceClass.general.first()
+	}
+	
+    //print the import statements
+	propertyImportHash->forEach(prop : uml.Property) {
+	  if (!prop.type==null) {
+	    if (prop.type.oclIsTypeOf(uml.Class)) {
+	    '\nimport ' prop.type.getFullPackageName() ';'
+	    }
+	  }
+	}
+			
+	//declare the service
+	'\n\n@UniversAALService(namespace = ' self.name '.namespace, name="' self.name '")\n'
+	'@OntologyClasses(values = {' ontologyClass '.class})\n'
+	'public interface ' self.name ' {\n'
+	
+	 /*
   	
-   		
-   		p.generateFactory(ontologyClassList)
-   		
-   		if (javaOWLSupport.equals("true"))
-   			p.generateCreator(ontologyClassList)
-   		
-   		//at the package to list of ontologies
-   		ontologyNameList.put(p.name.trim(), ontologyName)
-   		
-  	}
+	@UniversAALService(namespace = LightingInterfaceLevel2.namespace, name = "LightingService")
+	@OntologyClasses(value = { Lighting.class })
+	public interface LightingInterfaceLevel2 {
+
+    public final static String namespace = "http://ontology.igd.fhg.de/LightingServer.owl#";
+    
+    */
+    
+	
+	//make references to ontology/ies used
+	
+	//set the namespace
+	var serviceNamespace:String = ""
+	
+	'\n\npublic final static String namespace = "' serviceNamespace '";'
+	 
+    
+}
 
 
-	StdOut.println("Handling activator of :" + self.name) 
-   	self.generateActivator(ontologyNameList)
 
-	//StdOut.println("Generating the POM file")
-	//create the POM file for the project
-	//self.generatePOMFile() 
-	*/
-  }
+    
+    /*
+     * This operation will generate the annotated operations of the level 2 interface
+     * It uses the information set on the operations to decide input/output/changeeffect paramters
+     */
+uml.Interface::generateLevel2InterfaceOperations() {
+    //call generate annotated
+    self.ownedOperation->forEach(op : uml.Operation){
+    	op.generateAnnotated()
+    }
+}
  
  uml.Package::generateActivator(ontNameList : Hashtable) {
    //generate the activatorfile based on the ontologies applied and project name
@@ -139,7 +178,7 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
 	file( javaBasePath + "/" + self.getFullPackageName().replace("\\.", "/") + serviceName + ".java" )
    
 	//generate header
-	self.generateServiceProfileHeader()
+	//self.generateServiceProfileHeader()
 	
 	//generate imports
 //	self.generateServiceProfileImports()
@@ -160,8 +199,9 @@ texttransformation ServiceModelUML2Java (in uml:"http://www.eclipse.org/uml2/3.0
  }
  
  uml.Interface::generateServiceProfileHeader() {
- // First, find package/interface? name to become service name?	
+ // First, find package/interface? name to become service name	
  
+
 '
 package ' self.getFullPackageName() '; 
 
@@ -220,6 +260,77 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 
 
   uml.Operation::generateAnnotated() {
+    self.createEffectTypeMap()
+'
+	@ServiceOperation
+'
+	var separator:String = ""
+
+	// Print any outputs 
+	var outList:List = self.ownedParameter->select(par:uml.Parameter | par.direction == "out")
+	if (!outList.isEmpty()) {
+	
+		'	@Outputs(value = { '
+		separator = ""
+		outList->forEach(outParam:uml.Parameter) {
+			separator + '@Output(name = "' + outParam.name + '")'  // TODO: replace name with correct value
+			separator = ", "
+		}
+		'})
+'
+	}	
+
+	// Print any change effects
+
+	if (self.hasStereotype("ServiceProfile")) {
+		var effectList:List = self.getValue("ServiceProfile", "effects")
+		effectList->forEach(c) {
+			var effectCls:uml.Class = c._getFeature("base_Class")
+			var effectType:String = effectCls.getValue("ServiceEffect", "effectType").name
+			'	' + effectTypeMap.get(effectType) + '(propertyPaths = { '
+			
+			var effectProps:List = effectCls.getValue("ServiceEffect", "effectProperties")
+			separator = ""
+			effectProps->forEach(p:uml.Property) {
+			    separator + p.owner.name + '.' + p.name
+				separator = ", "
+			}
+			' },\n'
+			'		value = "' + effectCls.getValue("ServiceEffect", "effectValue") + '",'
+			' valueType = ' + ')\n'
+			// TODO: find what to use for value type
+		}
+'
+'		
+	}
+	// Print the method signature
+'	public ' self.name
+
+'('
+	separator = ""
+    self.ownedParameter->forEach(par:uml.Parameter) {
+    	if (par.direction == "out") {
+    	}
+    	separator + par.direction + ' ' + par.type.name + ' ' par.name 
+		separator = ", "
+      //uml.ParameterDirectionKind._getFeature("return")
+    }
+')
+'	
+     
+  }
+  
+  uml.Operation::createEffectTypeMap() {
+    effectTypeMap.put("CHANGE_EFFECT","@ChangeEffect")
+    effectTypeMap.put("ADD_EFFECT","@AddEffect")
+    effectTypeMap.put("REMOVE_EFFECT","@RemoveEffect")    
+  }
+
+
+  //ORIG COMMENTED
+  /*
+
+  uml.Operation::generateAnnotated() {
 '
 	@ServiceOperation
 '
@@ -243,10 +354,8 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 '	
 	
     
-  }  
-
-
-
+  }
+  */  
 
 }
 
