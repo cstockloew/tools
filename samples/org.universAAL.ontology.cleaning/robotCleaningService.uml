@@ -29,6 +29,12 @@
         </eAnnotations>
         <appliedProfile href="pathmap://UAAL/ODM_SoaML.profile.uml#_kAtu4OXnEeGWIIxXDvlnFA"/>
       </profileApplication>
+      <profileApplication xmi:id="_oobXcAGfEeK-_fmF9Vg9Qg">
+        <eAnnotations xmi:id="_opS6IAGfEeK-_fmF9Vg9Qg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww"/>
+        </eAnnotations>
+        <appliedProfile href="pathmap://TwoUse_Profiles/OWL.profile.uml#_0"/>
+      </profileApplication>
     </packagedElement>
     <profileApplication xmi:id="_RFtZMOuUEeGuTLROGSgZCA">
       <eAnnotations xmi:id="_RHHucOuUEeGuTLROGSgZCA" source="http://www.eclipse.org/uml2/2.0.0/UML">
