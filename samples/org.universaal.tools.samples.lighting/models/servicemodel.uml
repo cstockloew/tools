@@ -7,20 +7,35 @@
     <packagedElement xmi:type="uml:Package" xmi:id="_wfOgUObfEeGdp7PD1Qr6Nw" name="org.universAAL.samples.lighting">
       <packagedElement xmi:type="uml:Interface" xmi:id="_6TlmMOVGEeGv6r5c91SNXw" name="LightingService" clientDependency="_A3DuYAGPEeKHRu2Cvk-PXA">
         <ownedOperation xmi:id="_XMJF4OVHEeGv6r5c91SNXw" name="getControlledLamps">
-          <ownedParameter xmi:id="_5BMX4OYPEeG-SKUL6h5S7g" name="controlledLamps" direction="out"/>
+          <ownedParameter xmi:id="_5BMX4OYPEeG-SKUL6h5S7g" name="controlledLamps" direction="out">
+            <type xmi:type="uml:Class" href="lighting.uml#_zqV92euHEeGyN_aDBopvUQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_H8jvsA07EeKm1MjwBA1e-A" value="*"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_H8eQIA07EeKm1MjwBA1e-A"/>
+          </ownedParameter>
         </ownedOperation>
         <ownedOperation xmi:id="_Y6sSYOVHEeGv6r5c91SNXw" name="getLampInfo">
-          <ownedParameter xmi:id="_HeSEkAGQEeKHRu2Cvk-PXA" name="lampURI"/>
+          <ownedParameter xmi:id="_HeSEkAGQEeKHRu2Cvk-PXA" name="lampURI">
+            <type xmi:type="uml:Class" href="lighting.uml#_zqV92euHEeGyN_aDBopvUQ"/>
+          </ownedParameter>
           <ownedParameter xmi:id="_o285cAGQEeKHRu2Cvk-PXA" name="brightness" direction="out"/>
         </ownedOperation>
-        <ownedOperation xmi:id="_aPN1UOVHEeGv6r5c91SNXw" name="turnOff"/>
-        <ownedOperation xmi:id="_cBC_UOVHEeGv6r5c91SNXw" name="turnOn"/>
+        <ownedOperation xmi:id="_aPN1UOVHEeGv6r5c91SNXw" name="turnOff">
+          <ownedParameter xmi:id="_0f9-sA07EeKm1MjwBA1e-A" name="lampURI">
+            <type xmi:type="uml:Class" href="lighting.uml#_zqV92euHEeGyN_aDBopvUQ"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_cBC_UOVHEeGv6r5c91SNXw" name="turnOn">
+          <ownedParameter xmi:id="_ELI3EA08EeKm1MjwBA1e-A" name="lampURI">
+            <type xmi:type="uml:Class" href="lighting.uml#_zqV92euHEeGyN_aDBopvUQ"/>
+          </ownedParameter>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_kY-6oOVHEeGv6r5c91SNXw" name="LightingServiceProvider"/>
       <packagedElement xmi:type="uml:Realization" xmi:id="_A3DuYAGPEeKHRu2Cvk-PXA" name="Realization1" client="_6TlmMOVGEeGv6r5c91SNXw">
         <supplier xmi:type="uml:Class" href="lighting.uml#_zqV91-uHEeGyN_aDBopvUQ"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_wPH8sAGXEeKHRu2Cvk-PXA" name="BrightnessOff"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_GwAAgA08EeKm1MjwBA1e-A" name="BrightnessOn"/>
       <profileApplication xmi:id="_5__OQAGhEeKdZq5AaXTeOQ">
         <eAnnotations xmi:id="_6AQUAAGhEeKdZq5AaXTeOQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
           <references xmi:type="ecore:EPackage" href="pathmap://UAAL/ODM_SoaML.profile.uml#_sQpYIAGbEeKHRu2Cvk-PXA"/>
@@ -57,6 +72,11 @@
   <ODM_SoaML:ServiceProfile xmi:id="_SDXBUAGaEeKHRu2Cvk-PXA" base_Operation="_aPN1UOVHEeGv6r5c91SNXw" effects="_-kJV8AGhEeKdZq5AaXTeOQ"/>
   <ODM_SoaML:ServiceProfile xmi:id="_TKSNIAGaEeKHRu2Cvk-PXA" base_Operation="_cBC_UOVHEeGv6r5c91SNXw"/>
   <ODM_SoaML:ServiceEffect xmi:id="_-kJV8AGhEeKdZq5AaXTeOQ" base_Class="_wPH8sAGXEeKHRu2Cvk-PXA" effectValue="0">
+    <effectProperties href="lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
+    <effectProperties href="lighting.uml#_tAJ4cO0hEeGt5ZlpyxcN5w"/>
+  </ODM_SoaML:ServiceEffect>
+  <ODM_SoaML:PropertyBinding xmi:id="_3Ld7oA07EeKm1MjwBA1e-A" base_Parameter="_0f9-sA07EeKm1MjwBA1e-A"/>
+  <ODM_SoaML:ServiceEffect xmi:id="_IpLvsA08EeKm1MjwBA1e-A" base_Class="_GwAAgA08EeKm1MjwBA1e-A" effectValue="100">
     <effectProperties href="lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
     <effectProperties href="lighting.uml#_tAJ4cO0hEeGt5ZlpyxcN5w"/>
   </ODM_SoaML:ServiceEffect>
