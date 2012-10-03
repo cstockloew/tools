@@ -250,6 +250,17 @@ import org.universAAL.ontology.phThing.PhysicalThing;
   }
 
 
+  uml.Parameter::getTypeFromParameter():String {
+    if (self.hasStereotype("PropertyBinding")) {
+		var paramProperties:List = self.getValue("PropertyBinding", "properties")
+		paramProperties->forEach(p:uml.Property) {
+		    return p.type.name
+		}
+    }
+    return "<unset property binding for " + self.name + ">"
+  }
+
+
   uml.Operation::generateAnnotated() {
     self.createEffectTypeMap()
 '
@@ -281,17 +292,22 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 			'	' + effectTypeMap.get(effectType) + '(propertyPaths = { '
 			
 			var effectProps:List = effectCls.getValue("ServiceEffect", "effectProperties")
+			var valueType:String = ""
 			separator = ""
 			effectProps->forEach(p:uml.Property) {
 			    separator + p.owner.name + '.' + p.name
 				separator = ", "
+				valueType = p.type.name // Use type of last property
 			}
 			' },\n'
 			'		value = "' + effectCls.getValue("ServiceEffect", "effectValue") + '",'
-			' valueType = ' + ')\n'
+			' valueType = ' + valueType + '.class)\n'
+					
 			// TODO: find what to use for value type
 		}
 	}
+	
+	 
 	// Print the method signature
 	'	public ' 
 	// Determine return type
@@ -300,8 +316,12 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 	} else if (outList.size() > 1) {
 	  'Object[] '
 	} else {
-	  var returnParam:uml.Parameter =outList.first()
-	  returnParam.name ' '
+	  var returnParam:uml.Parameter = outList.first()
+	  var arrayAdd: String = ""
+	  if (returnParam.upperValue <> 1) {
+	    arrayAdd = '[]'
+	  }
+	  returnParam.getTypeFromParameter() + arrayAdd +  ' '
 	}
 	
 	self.name
@@ -310,7 +330,7 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 	separator = ""
     self.ownedParameter->forEach(par:uml.Parameter) {
     	if (par.direction == "in") {
- 	   		separator + '@Input(name = "'par.name'") '+ par.type.name + ' ' par.name 
+ 	   		separator + '@Input(name = "'par.name'") '+ par.getTypeFromParameter() + ' ' par.name  //par.type.name
 			separator = ", "
     	}
     }
