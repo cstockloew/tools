@@ -74,6 +74,8 @@ uml.Interface::generateLevel2Interface() {
 	//create the operations for the level2 interface
 	self.generateLevel2InterfaceOperations()
 
+	//close the interface
+	'}'
 }  
  
  /*
@@ -132,7 +134,7 @@ import org.universAAL.middleware.api.annotation.UniversAALService;'
 	'public interface ' self.name ' {\n'
 	
 	//set the namespace based on the packagename reversed
-	'\n\npublic final static String namespace = "http://' reverseDelimitedString(self.getFullOwnerPackageName(), ".") '/' self.name '.owl#";'
+	'\n\tpublic final static String namespace = "http://' reverseDelimitedString(self.getFullOwnerPackageName(), ".") '/' self.name '.owl#";'
 	 
     
 }
@@ -222,10 +224,6 @@ import org.universAAL.ontology.phThing.PhysicalThing;
   
  }
 
-
-
-// Reuse from ontUML2JavaV2
-
   //get the full name of the root package
   uml.Classifier::getFullOwnerPackageName():String {
     if (self.owner!=null) {
@@ -293,24 +291,31 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 			' valueType = ' + ')\n'
 			// TODO: find what to use for value type
 		}
-'
-'		
 	}
 	// Print the method signature
-'	public ' self.name
+	'	public ' 
+	// Determine return type
+	if (outList.size() == 0) {
+		'void '
+	} else if (outList.size() > 1) {
+	  'Object[] '
+	} else {
+	  var returnParam:uml.Parameter =outList.first()
+	  returnParam.name ' '
+	}
+	
+	self.name
 
-'('
+	'('
 	separator = ""
     self.ownedParameter->forEach(par:uml.Parameter) {
-    	if (par.direction == "out") {
+    	if (par.direction == "in") {
+ 	   		separator + '@Input(name = "'par.name'") '+ par.type.name + ' ' par.name 
+			separator = ", "
     	}
-    	separator + par.direction + ' ' + par.type.name + ' ' par.name 
-		separator = ", "
-      //uml.ParameterDirectionKind._getFeature("return")
     }
-')
+	')
 '	
-     
   }
   
   uml.Operation::createEffectTypeMap() {
@@ -320,35 +325,7 @@ import org.universAAL.ontology.phThing.PhysicalThing;
   }
 
 
-  //ORIG COMMENTED
-  /*
 
-  uml.Operation::generateAnnotated() {
-'
-	@ServiceOperation
-'
-	// Print any outputs 
-	
-	
-	// Print any change effects
-	
-	// Print the method signature
-'	public '
-
-'('
-    self.ownedParameter->forEach(par:uml.Parameter) {
-      if (par.direction == "out") {
-        '!!'
-      }
-	  par.direction + ' ' + par.type.name + ' ' par.name ','
-      //uml.ParameterDirectionKind._getFeature("return")
-    }
-')
-'	
-	
-    
-  }
-  */  
 
 }
 
