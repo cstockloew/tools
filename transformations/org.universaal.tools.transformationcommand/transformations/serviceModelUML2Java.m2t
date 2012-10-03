@@ -131,30 +131,12 @@ import org.universAAL.middleware.api.annotation.UniversAALService;'
 	'@OntologyClasses(values = {' ontologyClass '.class})\n'
 	'public interface ' self.name ' {\n'
 	
-	 /*
-  	
-	@UniversAALService(namespace = LightingInterfaceLevel2.namespace, name = "LightingService")
-	@OntologyClasses(value = { Lighting.class })
-	public interface LightingInterfaceLevel2 {
-
-    public final static String namespace = "http://ontology.igd.fhg.de/LightingServer.owl#";
-    
-    */
-    
-	
-	//make references to ontology/ies used
-	
-	//set the namespace
-	var serviceNamespace:String = ""
-	
-	'\n\npublic final static String namespace = "' serviceNamespace '";'
+	//set the namespace based on the packagename reversed
+	'\n\npublic final static String namespace = "http://' reverseDelimitedString(self.getFullOwnerPackageName(), ".") '/' self.name '.owl#";'
 	 
     
 }
-
-
-
-    
+  
     /*
      * This operation will generate the annotated operations of the level 2 interface
      * It uses the information set on the operations to decide input/output/changeeffect paramters
@@ -171,27 +153,38 @@ uml.Interface::generateLevel2InterfaceOperations() {
  
  }
  
+ reverseDelimitedString(ds:String, delimiter:String):String {
+   	var retString: String = ""
+  	var tempString:String = ds
+	  	
+  	while (tempString.IndexOf(delimiter)>0) {  //checking for occurance of delimiter
+  	  	if (retString.size()=0) {
+  	  	  retString =  tempString.substringBefore(delimiter) 
+  	  	}
+  	  	else {
+  	  	   retString =  tempString.substringBefore(delimiter) + delimiter + retString
+  	  	}
+  	  	//shrink tempString.
+  	  	tempString = tempString.substringAfter(delimiter)
+  	  	
+  	
+  	}
+   	if (retString ="") { //case where ds (input) does not have a delimiter
+   	  	retString = tempString
+   	}
+   	else {
+   		retString = tempString + delimiter + retString
+   	}
+   	return retString  	
+  	
+  
+  }
  
  uml.Interface::generateServiceProfile() {
-   
    	var serviceName:String = self.name.trim()
 	file( javaBasePath + "/" + self.getFullPackageName().replace("\\.", "/") + serviceName + ".java" )
    
-	//generate header
-	//self.generateServiceProfileHeader()
-	
-	//generate imports
-//	self.generateServiceProfileImports()
-	
-	
-	//declare and initialize properties
-	
-	//register ontology classes
-	
-	//
-	
-	 
-  
+ 
  }
  
  uml.Interface::generateServiceCallee() {
