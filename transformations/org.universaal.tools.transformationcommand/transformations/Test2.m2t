@@ -74,14 +74,42 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
     	}
     }
 	')
-'	
-     
+'
+    self.reverseDelimitedString("www.sintef.no", ".") '\n'
+    self.reverseDelimitedString2("www.sintef.no", ".") '\n'
+    self.reverseDelimitedString("sintef", ".") '\n'
   }
   
   uml.Operation::createEffectTypeMap() {
     effectTypeMap.put("CHANGE_EFFECT","@ChangeEffect")
     effectTypeMap.put("ADD_EFFECT","@AddEffect")
     effectTypeMap.put("REMOVE_EFFECT","@RemoveEffect")    
+  }
+
+  uml.Operation::reverseDelimitedString(ds:String, delimiter:String):String {
+    var rest:String = ds
+    var reversed:String = ""
+	while (rest.indexOf(".") > 0) {
+	  	if (reversed != "") {
+	  		reversed = delimiter + reversed
+	  	}
+	 	reversed = rest.substringBefore(delimiter) + reversed
+	 	rest = rest.substringAfter(delimiter) 
+	}
+  	if (reversed != "") {
+  		reversed = delimiter + reversed
+  	}
+	return rest + reversed
+  }
+
+  uml.Operation::reverseDelimitedString2(ds:String, delimiter:String):String {
+    var reversed:String = ds.substringBefore(delimiter)
+    var rest:String = ds.substringAfter(delimiter)
+	while (rest.size() > 0) {
+	  	reversed = rest.substringBefore(delimiter) + delimiter + reversed
+	 	rest = rest.substringAfter(delimiter) 
+	}
+	return reversed
   }
 
 }
