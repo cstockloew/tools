@@ -25,18 +25,31 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.m2e.core.MavenPlugin;
+import org.eclipse.m2e.core.internal.IMavenConstants;
+import org.eclipse.m2e.core.project.IProjectConfigurationManager;
+import org.eclipse.m2e.core.project.ProjectImportConfiguration;
+import org.eclipse.m2e.core.project.ResolverConfiguration;
 import org.eclipse.team.svn.core.connector.ISVNConnector;
 import org.eclipse.team.svn.core.connector.SVNConnectorException;
 import org.eclipse.team.svn.core.connector.SVNRevision;
@@ -185,6 +198,56 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 		return false;
 	}
 
+	
+	public void enableMavenNature(final IProject project) {
+	    Job job = new Job("ConvertToMavenProject") {
+
+	        protected IStatus run(IProgressMonitor monitor) {
+	          try {
+	            ResolverConfiguration configuration = new ResolverConfiguration();
+	            configuration.setResolveWorkspaceProjects(true);
+	            configuration.setActiveProfiles("");
+	            //configuration.setSelectedProfiles(""); //$NON-NLS-1$
+
+	            //boolean hasMavenNature = project.hasNature(IMavenConstants.NATURE_ID);
+
+	            IProjectConfigurationManager configurationManager = MavenPlugin.getProjectConfigurationManager();
+
+	            configurationManager.enableMavenNature(project, configuration, monitor);
+
+	            //if(!hasMavenNature) {
+	            configurationManager.updateProjectConfiguration(project, monitor);
+	            //}
+	          } catch(CoreException ex) {
+	            //log.error(ex.getMessage(), ex);
+	          }
+	          return Status.OK_STATUS;
+	        }
+	      };
+	      job.schedule();		
+	}
+	
+	public void enableJavaNature(final IProject project) {
+	    Job job = new Job("ConvertToJavaProject") {
+
+	        protected IStatus run(IProgressMonitor monitor) {
+	          try {
+	        	  IProjectDescription descr = project.getDescription();
+	        	  List<String> natures = new ArrayList<String>();
+	        	  natures.addAll(Arrays.asList(descr.getNatureIds()));
+	        	  natures.add(JavaCore.NATURE_ID);
+	        	  descr.setNatureIds(natures.toArray(new String[natures.size()]));
+	        	  project.setDescription(descr, monitor);
+	          } catch(CoreException ex) {
+	            //log.error(ex.getMessage(), ex);
+	          }
+	          return Status.OK_STATUS;
+	        }
+	      };
+	      job.schedule();		
+	}
+		
+	
 	/**
 	 * Checks first if the chosen project has a registered SVN URL. If it does
 	 * not, the project can not be checked out.
@@ -246,6 +309,8 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 					e.printStackTrace();
 					return false;
 				}
+				enableMavenNature(project[0]);
+				enableJavaNature(project[0]);
 				return true;
 
 			}else{
@@ -300,6 +365,12 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 						e.printStackTrace();
 						return false;
 					}
+					
+					for (IProject proj : projects) {
+						enableMavenNature(proj);
+						enableJavaNature(proj);
+					}
+					
 					return true;
 				} catch (SVNConnectorException e) {
 					e.printStackTrace();
@@ -348,6 +419,7 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 			arg0.done();
 		}
 	}
+	
 
 	@Override
 	public void addPages(){
