@@ -130,7 +130,7 @@ import org.universAAL.middleware.api.annotation.UniversAALService;'
 			
 	//declare the service
 	'\n\n@UniversAALService(namespace = ' self.name '.namespace, name="' self.name '")\n'
-	'@OntologyClasses(values = {' ontologyClass '.class})\n'
+	'@OntologyClasses(value = {' ontologyClass '.class})\n'
 	'public interface ' self.name ' {\n'
 	
 	//set the namespace based on the packagename reversed
@@ -295,7 +295,7 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 			var valueType:String = ""
 			separator = ""
 			effectProps->forEach(p:uml.Property) {
-			    separator + p.owner.name + '.' + p.name
+			    separator + p.owner.name + '.PROP_' p.toUpperFormat()
 				separator = ", "
 				valueType = p.type.name // Use type of last property
 			}
@@ -334,7 +334,7 @@ import org.universAAL.ontology.phThing.PhysicalThing;
 			separator = ", "
     	}
     }
-	')
+	');
 '	
   }
   
@@ -345,7 +345,22 @@ import org.universAAL.ontology.phThing.PhysicalThing;
   }
 
 
+  uml.Classifier::toUpperFormat():String {
+    var txt:String
+    var res:String
+  
+    txt = self.name.trim()
+    res = ""
 
+    txt->forEach(aChar:String) {
+      if (aChar.isUpperCase(0)) {
+        res = res + "_";
+      }
+      res = res + aChar;
+    }  
+
+  	return res.toUpper()
+  }   
 
 }
 
