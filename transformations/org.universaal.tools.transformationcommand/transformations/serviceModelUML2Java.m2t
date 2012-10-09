@@ -94,27 +94,38 @@ import org.universAAL.middleware.api.annotation.Outputs;
 import org.universAAL.middleware.api.annotation.ServiceOperation;
 import org.universAAL.middleware.api.annotation.UniversAALService;'
 	
-	//dynamic imports. Must get the service that is implemented as well as the classes that are used as properties
-	//get realization class
-	String realizationService = self.clientDependency.first().supplier.first().qualifiedName.substringAfter("::").replace("::", ".")
-	'\nimport ' realizationService ';'
-	
-	//get the realization class' ownedattributes' type
+	//dynamic imports. Must import the service that is implemented as well as the classes that are used as properties
 	var propertyImportHash: Hashtable
-	self.clientDependency.first().supplier->forEach( prop : uml.Property) {
-		propertyImportHash.put(prop.name, prop)
-	}
 	
-	//get the realization class' properties
-	//assuming that the interface realizes at least one ontology service class.
+	//get realization class
 	var serviceClass: uml.Class
 	serviceClass = self.clientDependency.first().supplier.first()
+	
 	//set the ontologyClass name
 	ontologyClass = serviceClass.name
 	
+	//get the name of the realizationService and format it for import
+	String realizationService = serviceClass.qualifiedName.substringAfter("::").replace("::", ".")
+	'\nimport ' realizationService ';'
+	
+	//get the serviceclass' ownedattributes' type
+	
+	serviceClass->forEach( prop : uml.Property) {
+		propertyImportHash.put(prop.name, prop)
+		//stdout.println("Found property on serviceClass: " + prop.name + ":" + prop.type)
+	}
+	
+	//import the superclasses 	
 	while (!serviceClass.general.isEmpty()) {
 	  	serviceClass.ownedElement->forEach(prop: uml.Property){
 	  		propertyImportHash.put(prop.name, prop)
+	  		//if property is an objecttype (class), import its property types as well
+	  		if (prop.type.oclIsTypeOf(uml.Class)) {
+	  			prop.type.ownedElement->forEach(subProp: uml.Property) {
+	  				propertyImportHash.put(subProp.name,subProp)
+	  				//stdout.println("SubProperty: " + subProp.name + " inserted")
+	  			}
+	  		}
 	  	}
 	  	serviceClass = serviceClass.general.first()
 	}
@@ -122,7 +133,7 @@ import org.universAAL.middleware.api.annotation.UniversAALService;'
     //print the import statements
 	propertyImportHash->forEach(prop : uml.Property) {
 	  if (!prop.type==null) {
-	    if (prop.type.oclIsTypeOf(uml.Class)) {
+	    if (prop.type.oclIsTypeOf(uml.Class) || prop.type.oclIsTypeOf(uml.Enumeration)) {
 	    '\nimport ' prop.type.getFullPackageName() ';'
 	    }
 	  }
