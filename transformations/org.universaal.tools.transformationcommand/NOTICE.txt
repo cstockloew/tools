@@ -24,6 +24,10 @@ This product uses software developed at
 Junit (http://www.junit.org/).
 Licensed under Common Public License 1.0.
 
+This product uses icons developed at:
+FatCow
+Licensed under the Creative Commons Attribution 3.0 License from:
+http://www.fatcow.com/free-icons
 
 III. License Summary
 - Apache License 2.0

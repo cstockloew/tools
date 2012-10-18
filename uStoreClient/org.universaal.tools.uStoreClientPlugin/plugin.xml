@@ -12,7 +12,7 @@
                icon="icons/publish.png"
                class="org.universaal.tools.uStoreClientapplication.actions.PublishAction"
                tooltip="Publish application to uStore"
-               menubarPath="org.universaal.tools.AALStudio.menu/uStore"
+               menubarPath="org.universaal.tools.AALStudio.menu/publish"
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.PublishAction">			
          </action>  

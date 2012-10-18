@@ -27,6 +27,7 @@
             locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
          <command
                commandId="org.universaal.tools.modelling.ontology.wizard.commands.newOntologyProject"
+               icon="icons/newuaal_proj.gif"
                id="org.universaal.tools.modelling.ontology.wizard.menus.sampleCommand"
                mnemonic="S">
          </command>

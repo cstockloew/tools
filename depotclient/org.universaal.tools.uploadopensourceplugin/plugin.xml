@@ -39,14 +39,16 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.universaal.tools.AALStudio.menu?after=additions">
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=publish">
          <command
                commandId="org.universaal.tools.uploadopensourceplugin.commands.uploadopensource"
+               icon="icons/upload.png"
                id="org.universaal.tools.uploadopensourceplugin.menus.uploadsourcecommand"
                style="push">
          </command>
          <command
                commandId="org.universaal.tools.uploadopensourceplugin.openemail"
+               icon="icons/question.png"
                id="org.universaal.tools.uploadopensourceplugin.menus.generateemail"
                style="push">
          </command>
@@ -56,6 +58,7 @@
             locationURI="menu:org.universaal.tools.AALStudio.menu?endof=new">
          <command
                commandId="org.universaal.tools.uploadopensourceplugin.generateaalapp"
+               icon="icons/newuaal_clss.gif"
                id="org.universaal.tools.uploadopensourceplugin.menus.generateaalapp"
                style="push">
          </command>

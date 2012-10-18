@@ -38,11 +38,11 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=test">
             <command
                   commandId="org.universaal.tools.conformanceTools.commands.ConformanceToolsRun"
                   mnemonic="T"
-                  id="org.universaal.tools.conformanceTools.menus.conformancetest" icon="icons/chckuaal_file.gif">
+                  id="org.universaal.tools.conformanceTools.menus.conformancetest" icon="icons/test.png">
             </command>
       </menuContribution>
    </extension>

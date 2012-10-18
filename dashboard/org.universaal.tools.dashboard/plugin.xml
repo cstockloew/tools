@@ -11,6 +11,7 @@
       <view
             category="org.universaal.tools.dashboard"
             class="org.universaal.tools.dashboard.views.DashboardView"
+            icon="icons/control_panel.png"
             id="org.universaal.tools.dashboard.views.DashboardView"
             name="Dashboard">
       </view>
@@ -48,6 +49,7 @@
             locationURI="menu:org.universaal.tools.AALStudio.menu?before=new">
          <command
                commandId="org.universaal.tools.dashboard.opendashboard"
+               icon="icons/control_panel.png"
                id="org.universaal.tools.dashboard.menu.opendashboard"
                style="push">
          </command>

@@ -12,13 +12,13 @@
                icon="icons/upload.png"
                class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
                tooltip="Upload application to Developer Depot"
-               menubarPath="org.universaal.tools.AALStudio.menu/build"
+               menubarPath="org.universaal.tools.AALStudio.menu/publish"
                toolbarPath="uAALGroup"
                id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
          </action>
          <action
                label="&amp;Debug universAAL application"
-               icon="icons/run.png"
+               icon="icons/debug.png"
                class="org.universaal.tools.buildserviceapplication.actions.DebugAction"
                tooltip="Debug universAAL application"
                menubarPath="org.universaal.tools.AALStudio.menu/build"

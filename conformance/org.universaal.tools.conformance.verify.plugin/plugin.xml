@@ -38,7 +38,7 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=test">
             <command
                   commandId="org.universaal.tools.conformance.verify.plugin.commands.sampleCommand"
                   mnemonic="V"

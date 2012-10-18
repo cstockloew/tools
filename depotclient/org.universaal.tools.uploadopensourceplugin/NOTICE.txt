@@ -22,6 +22,11 @@ Polarion Software (www.polarion.com)
 Copyright (c) Polarion Software
 Licensed under Eclipse Public License v1.0
 
+This product uses icons developed at:
+FatCow
+Licensed under the Creative Commons Attribution 3.0 License from:
+http://www.fatcow.com/free-icons
+
 III. License Summary
 - Apache License 2.0
 - Eclipse Public License v1.0

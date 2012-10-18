@@ -22,6 +22,7 @@
             locationURI="menu:org.universaal.tools.AALStudio.menu?endof=import">
          <command
                commandId="org.universaal.importexternalproject.commands.importexample"
+               icon="icons/document_import.png"
                id="org.universaal.importexternalproject.menus.importthirdparty">
          </command>
       </menuContribution>

@@ -37,6 +37,10 @@
                   name="test"
                   visible="true">
             </separator>
+            <separator
+                  name="publish"
+                  visible="true">
+            </separator>
          </menu>
       </menuContribution>
    </extension>
