@@ -16,8 +16,7 @@ public class MyPageOne extends WizardPage {
 	private Text usernameText;
 	private Text passwordText;
 	private Composite container;
-	static private String USTORE_USERNAME = "admin";
-	static private String USTORE_PASSWORD = "bigim222";
+
 
 	public MyPageOne() {
 		super("Publish to uStore");

@@ -30,8 +30,6 @@ public class MyPageThree extends WizardPage {
 	private Text versionText;
 	private Text fileNameText;
 	private Composite container;
-	static private String USTORE_USERNAME = "admin";
-	static private String USTORE_PASSWORD = "bigim222";
 	private byte[] fullImageByte;
 	private byte[] thumbnailImageByte;
 	private byte[] fileImageByte;

@@ -22,8 +22,7 @@ import org.universaal.tools.uStoreClientapplication.wizzard.PublishWizard;
  */
 public class PublishAction implements IWorkbenchWindowActionDelegate {
 
-	static private String USTORE_USERNAME = "admin";
-	static private String USTORE_PASSWORD = "bigim222";
+
 	private IWorkbenchWindow window;
 
 	/**

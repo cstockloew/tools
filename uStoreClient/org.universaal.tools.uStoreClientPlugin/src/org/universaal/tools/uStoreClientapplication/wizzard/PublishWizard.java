@@ -17,7 +17,7 @@ import org.universaal.tools.uStoreClientapplication.actions.Metadata;
 
 public class PublishWizard extends Wizard{
 	static private String USTORE_USERNAME = "admin";
-	static private String USTORE_PASSWORD = "bigim222";
+	static private String USTORE_PASSWORD = "bigim333";
 	protected MyPageOne one;
 	protected MyPageTwo two;
 	protected MyPageThree three;
