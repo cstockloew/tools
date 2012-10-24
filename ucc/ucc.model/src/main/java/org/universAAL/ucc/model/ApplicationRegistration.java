@@ -2,9 +2,12 @@ package org.universAAL.ucc.model;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -116,9 +119,8 @@ public class ApplicationRegistration implements IApplicationRegistration {
 	}
 	
 	public boolean writeToConfigFile(String appName, String rundir){
-		if(appName.equals("TTA")){
+		if(appName.equals("TTA"))
 			return writeTTA(appName, rundir);
-		}
 		if(appName.equals("Infoframe"))
 			return writeInfoFrame(appName);
 		if(appName.equals("Nutritional Advisor"))
@@ -165,8 +167,9 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		Map<String,String> attributes=Activator.getModel().getApplicationManagment().getConfiguration(appName);
 		Set<String> keys=attributes.keySet();
 		Iterator<String> itr=keys.iterator();
-		new File(rundir+"/configurations/nutritional.uiclient/NutritionalAdvisor").mkdirs();
-		File conf= new File(rundir+"/configurations/nutritional.uiclient/NutritionalAdvisor/setup.properties");
+		new File("configurations/nutritional.uiclient/NutritionalAdvisor").mkdirs();
+		File conf= new File("configurations/nutritional.uiclient/NutritionalAdvisor/setup.properties");	
+
 		
 		
 		try{
@@ -202,9 +205,40 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		}catch (Exception e){//Catch exception if any
 			  System.err.println("Error: " + e.getMessage());
 			  }
+//		writeMenuEntries();
 		return true;
 		
 	}
+	
+//	private void writeMenuEntries(){
+//		File menu[]= new File[3];
+//		menu[0] = new File("configurations/ui.dm.mobile/main_menu_saied_en.txt");
+//		menu[1] = new File("configurations/ui.dm.mobile/main_menu_saied_es.txt");
+//		menu[2] = new File("configurations/ui.dm.mobile/main_menu_saied_hr.txt");
+//		for(File m : menu){
+//			if(m.exists()){
+//				 FileInputStream fis=null;
+//					try {
+//						fis=new FileInputStream(m);
+//					} catch (FileNotFoundException e) {
+//							break;
+//					}
+//					Scanner scanner = new Scanner(fis, "UTF-8");
+//				
+//				    try {
+//				      while (scanner.hasNextLine()){
+//				        String current=scanner.nextLine();
+//				        if(current.equals("")){
+//				        	scanner.
+//				        }
+//				      }
+//				    }
+//				    finally{
+//				      scanner.close();
+//				    }
+//			}
+//		}
+//	}
 	
 	private boolean writeTTA(String appName, String rundir){
 		String path=getConfPath(rundir);
