@@ -1,5 +1,6 @@
 package org.universAAL.ucc.core.information;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.osgi.framework.Bundle;
@@ -16,21 +17,21 @@ public class Information implements IInformation {
 	public Information(BundleContext context) {
 		this.context = context;
 		String bundlePath = context.getBundle().getLocation();
-		System.out.println(bundlePath);
 	
 		if(countOccurrences(bundlePath)==2){
 			rundir= bundlePath.substring(bundlePath.indexOf(":")+2, bundlePath.lastIndexOf("/"));
 			bundledir=rundir;
 			rundir= rundir.substring(0, rundir.lastIndexOf("/"));
 			rundir= rundir.substring(0, rundir.lastIndexOf("/")+1);
-			System.out.println(rundir);
 	
 		}else{
 			/*rundir= bundlePath.substring(bundlePath.indexOf(":")+1, bundlePath.lastIndexOf("/")+1);
 			System.out.println(rundir);*/
+	
 			rundir="";
 			bundledir="bundles/";
 		}
+		
 	}
 
 	public String[] activeBundles() {
