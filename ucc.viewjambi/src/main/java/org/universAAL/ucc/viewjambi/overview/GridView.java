@@ -40,19 +40,19 @@ public class GridView extends SubWindow {
 				overview=new OverviewView();
 			}
 		};
-		items.put(new LabeledIcon("Overview", "explorer.png"), temp);
+		items.put(new LabeledIcon("Overview", "overview.png"), temp);
 		temp=new Runnable(){
 			public void run() {
 				new InstallView();
 			}
 		};
-		items.put(new LabeledIcon("Install App", "3dsmax.png"), temp);
+		items.put(new LabeledIcon("Install App", "install.png"), temp);
 		temp=new Runnable(){
 			public void run() {
 				MainWindow.getInstance().deinstallApp();
 			}
 		};
-		items.put(new LabeledIcon("Uninstall App", "aimp 4.png"), temp);
+		items.put(new LabeledIcon("Uninstall App", "uninstall.png"), temp);
 		/*temp=new Runnable(){
 			public void run() {
 				new StoreView();

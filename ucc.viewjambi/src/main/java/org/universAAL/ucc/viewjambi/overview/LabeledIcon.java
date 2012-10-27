@@ -34,7 +34,7 @@ public class LabeledIcon extends QAbstractButton{
 		//String test=Activator.getContext().getBundle().getLocation();
 		//if(test.startsWith("file"))
 			image.setPixmap(new QPixmap(Activator.getInformation().getRunDir()+"icons/"+icon));
-		
+//			System.out.println("---->Icon location: " + Activator.getInformation().getRunDir()+"icons/"+icon);
 		//This does not work with the runner
 //		java.net.URL imgURL = (Activator.class.getClassLoader().getResource("/icons/"+icon));
 //		if (imgURL!=null) {

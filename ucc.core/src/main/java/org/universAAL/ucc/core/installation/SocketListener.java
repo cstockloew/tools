@@ -59,6 +59,27 @@ public class SocketListener {
 	}
 	
 	public void onEventCatched(String post){
+		String url = parseURL(post);
+		if(url.equals("http://please.open.gui")){
+			System.out.println("Open uCC GUI");
+			//TODO Open UI from uCC
+		}else{
+			PackageDownloader downloader = new PackageDownloader();
+			String fileOnHardDrive=downloader.download(url);
+			System.out.println("Start Download: " + url);
+			if(new File(fileOnHardDrive).exists()){
+				String appDir;
+				try{
+					appDir = installer.installApplication(fileOnHardDrive);
+				}catch(Exception e){
+					e.printStackTrace();
+					return;
+				}
+				Activator.getMainWindow().installApp(appDir);
+			}
+			
+		}
+		/*
 		String url=parseURL(post);
         if(url!=null){
         	PackageDownloader downloader=new PackageDownloader();
@@ -77,8 +98,8 @@ public class SocketListener {
     			}
     				
         	}
-        	
-        }
+        	*/
+    }
     	
 	
 	Thread socketListenerThread = new Thread(new Runnable() {
