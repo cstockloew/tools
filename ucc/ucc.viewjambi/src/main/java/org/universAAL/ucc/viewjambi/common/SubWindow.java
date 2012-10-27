@@ -15,7 +15,7 @@ public class SubWindow extends QWidget implements ISubWindow {
 	private Ui_SubWindow ui_base = new Ui_SubWindow();
 	protected IMainWindow parent = null;
 
-	protected SubWindow(QUiForm<QWidget> ui_content) {
+	public SubWindow(QUiForm<QWidget> ui_content) {
 		super(MainWindow.getInstance());
 		this.parent = MainWindow.getInstance();
 		
@@ -36,7 +36,7 @@ public class SubWindow extends QWidget implements ISubWindow {
 		this.show();
 	}
 	
-	protected QWidget getContentWidget() {
+	public QWidget getContentWidget() {
 		return ui_base.content;
 	}
 
