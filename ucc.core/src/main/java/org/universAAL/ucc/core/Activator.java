@@ -1,3 +1,23 @@
+/*
+	Copyright 2007-2014 FZI, http://www.fzi.de
+	Forschungszentrum Informatik - Information Process Engineering (IPE)
+
+	See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	  http://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+ */
+
 package org.universAAL.ucc.core;
 
 import java.io.File;
@@ -28,8 +48,9 @@ import org.universAAL.ucc.core.installation.SocketListener;
  * an Activator. Other part of the uCC (View and Plug-Ins) not necessary need to
  * be valid bundles and maybe can get there information from the core (if needed).
  * @author amarinc
+ * @author tzentek - <a href="mailto:zentek@fzi.de">Tom Zentek</a>
  * @version 1.0
- * @updated 11-Jul-2011 16:37:33
+ * @updated 27-Okt-2012
  */
 public class Activator implements BundleActivator {
 	private static BundleContext context = null;

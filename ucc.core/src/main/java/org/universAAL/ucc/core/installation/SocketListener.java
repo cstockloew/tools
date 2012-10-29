@@ -1,3 +1,23 @@
+/*
+	Copyright 2007-2014 FZI, http://www.fzi.de
+	Forschungszentrum Informatik - Information Process Engineering (IPE)
+
+	See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	  http://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+ */
+
 package org.universAAL.ucc.core.installation;
 
 import java.io.BufferedReader;
@@ -18,6 +38,13 @@ import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.api.view.IMainWindow;
 import org.universAAL.ucc.core.Activator;
+
+/**
+ * 
+ * @author tzentek - <a href="mailto:zentek@fzi.de">Tom Zentek</a>
+ * @author mfrigge
+ * 
+ */
 
 public class SocketListener {
 
@@ -60,6 +87,7 @@ public class SocketListener {
 	
 	public void onEventCatched(String post){
 		String url = parseURL(post);
+		System.out.println("Event Catched: " + url);
 		if(url.equals("http://please.open.gui")){
 			System.out.println("Open uCC GUI");
 			//TODO Open UI from uCC

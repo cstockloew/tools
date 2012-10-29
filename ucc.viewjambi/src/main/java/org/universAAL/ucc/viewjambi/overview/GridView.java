@@ -41,6 +41,7 @@ import com.trolltech.qt.gui.QWidget;
 /**
  * 
  * @author tzentek - <a href="mailto:zentek@fzi.de">Tom Zentek</a>
+ * @author mfrigge
  * 
  */
 public class GridView extends SubWindow {
