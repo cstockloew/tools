@@ -4,7 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
@@ -22,7 +25,26 @@ import org.w3c.dom.Node;
 
 public class ApplicationRegistration implements IApplicationRegistration {
 
+	private String[] naBundles = new String[]{
+			"com.itextpdf_5.1.1.jar",
+			"jaxrpc-api-1.1.jar",
+			"nutritional.uiclient.basic_0.0.1.SNAPSHOT.jar",
+			"ont.nutrition_0.1.2.SNAPSHOT.jar"
+	}; 
+	private String[] infoframeBundles = new String[]{
+			"com.springsource.org.jdom_1.1.0.jar",
+			"infoframe-1.0.0-SNAPSHOT.jar",
+			"javax.servlet_2.5.0.v201103041518.jar",
+			"jetty-6.1.26.jar",
+			"jetty-util-6.1.26.jar",
+			"net.java.dev.rome_1.0.1.SNAPSHOT.jar",
+			"org.apache.felix.dependencymanager_2.0.1.jar",
+			"org.eclipse.equinox.http.jetty_2.0.100.v20110502.jar",
+			"org.eclipse.equinox.http.servlet_1.1.200.v20110502.jar"
+	}; 
+	
 	public boolean unregisterApplication(String appName) {
+		
 		Document doc = Model.getDocument();
 		doc.removeChild(ApplicationManagment.getApplication(appName, doc));
 
@@ -135,6 +157,7 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		Set<String> keys=attributes.keySet();
 		Iterator<String> itr=keys.iterator();
 		String path=attributes.get("install_base");
+		copyToBundlesFolder(path, infoframeBundles);
 		new File(path+"/config").mkdir();
 		File conf= new File(path+"/config/config.ini");
 		
@@ -167,6 +190,7 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		Map<String,String> attributes=Activator.getModel().getApplicationManagment().getConfiguration(appName);
 		Set<String> keys=attributes.keySet();
 		Iterator<String> itr=keys.iterator();
+		copyToBundlesFolder(attributes.get("install_base"), naBundles);
 		new File("configurations/nutritional.uiclient/NutritionalAdvisor").mkdirs();
 		File conf= new File("configurations/nutritional.uiclient/NutritionalAdvisor/setup.properties");	
 
@@ -298,6 +322,52 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		}
 		folder.delete();
 		
+	}
+	private void copyToBundlesFolder(String appDir,String[] bundles){
+		String bundleDir = appDir.substring(0, appDir.lastIndexOf("\\"));
+		for(int i=0; i<bundles.length;i++){
+			try {
+				copyFile(new File(appDir+"/"+bundles[i]), new File(bundleDir+"/"+bundles[i]));
+			} catch (IOException e) {
+				
+			}
+		}
+	}
+	public void removeFromBundlesFolder(String appName, String bundleDir){
+		if(appName.equals("Infoframe"))
+			removeFromBundlesFolder(bundleDir, infoframeBundles);
+		if(appName.equals("Nutritional Advisor"))
+			removeFromBundlesFolder(bundleDir, naBundles);
+	}
+	private void removeFromBundlesFolder(String bundleDir, String[] bundles){
+		for(int i=0; i<bundles.length;i++){
+			File current = new File(bundleDir+"/"+bundles[i]);
+			if(current.exists())
+				current.delete();
+		}
+	}
+	private static void copyFile(File sourceFile, File destFile) throws IOException {
+	    if(!destFile.exists()) {
+	        destFile.createNewFile();
+	    }
+
+	    FileChannel source = null;
+	    FileChannel destination = null;
+	    try {
+	        source = new FileInputStream(sourceFile).getChannel();
+	        destination = new FileOutputStream(destFile).getChannel();
+	        long count = 0;
+	        long size = source.size();              
+	        while((count += destination.transferFrom(source, count, size-count))<size);
+	    }
+	    finally {
+	        if(source != null) {
+	            source.close();
+	        }
+	        if(destination != null) {
+	            destination.close();
+	        }
+	    }
 	}
 	private String getConfPath(String rundir){
 		if(Activator.context.getBundle().getLocation().startsWith("file"))

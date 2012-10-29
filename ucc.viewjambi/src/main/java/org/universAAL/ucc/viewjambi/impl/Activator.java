@@ -19,6 +19,7 @@ import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.api.model.IModel;
 import org.universAAL.ucc.api.plugin.IPluginBase;
 import org.universAAL.ucc.api.view.IMainWindow;
+import org.universAAL.ucc.api.view.IUILauncher;
 import org.universAAL.ucc.viewjambi.overview.GridView;
 
 import com.trolltech.qt.gui.QApplication;
@@ -33,9 +34,10 @@ public class Activator implements BundleActivator {
 	private static IModel model = null;
 	private static IConfigurator configurator = null;
 	private static PluginBase pluginBase = null;
+	private static IUILauncher uiLauncher = null;
 	private static final String plugins="ucc/ucc_plugins/";
 	
-	public MainWindow mainWindow = null;
+	public static MainWindow mainWindow = null;
 	private boolean startCheck = false;
 
 	static final String libraryNames[] = { "qtjambi.dll",
@@ -94,6 +96,12 @@ public class Activator implements BundleActivator {
 		Activator.getServices();
 		return Activator.configurator;
 	}
+	public static PluginBase getPluginBase(){
+		return Activator.pluginBase;
+	}
+	public static void setPluginBase(PluginBase pluginbase){
+		Activator.pluginBase=pluginbase;
+	}
 	
 
 	public void start(final BundleContext lcontext) throws Exception {
@@ -106,45 +114,8 @@ public class Activator implements BundleActivator {
 		
 		System.err.println("started");
 
-		thread = new Thread(new Runnable() {
-			public void run() {
-				try {
-					QApplication.initialize(new String[0]);
-	
-					mainWindow = MainWindow.getInstance();
-					mainWindow.show();
-					
-					
-					
-					pluginBase =  new PluginBase(new GridView());
-//					Activator.context.registerService(IPluginBase.class.getName(), pluginBase, null);
-//					serviceReg=Activator.context.registerService(IMainWindow.class.getName(), mainWindow, null);
-					startCheck = true;
-					
-					
-					
-					loadPlugins();
-	
-					QApplication.exec();
-				}
-				finally {
-					startCheck = true;
-				}
-			}
-		});
-		thread.start();
-
-		while (!startCheck)
-			Thread.sleep(100);
-
-		if (mainWindow != null) {
-			System.err.println("Jambi-Main-View started");
-			Activator.context.registerService(IPluginBase.class.getName(), pluginBase, null);
-			Activator.context.registerService(IMainWindow.class.getName(), mainWindow, null);
-		}
-		else 
-			System.err.println("Jambi-Main-View NOT started");
-		
+		uiLauncher=new UILauncher();
+		Activator.context.registerService(IUILauncher.class.getName(), uiLauncher, null);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -177,7 +148,7 @@ public class Activator implements BundleActivator {
 		}
 	}
 	
-	private static boolean loadPlugins(){
+	public static boolean loadPlugins(){
 		if (Activator.getInformation() == null) {
 			System.err.println("Could not load plugins! Information-Service not found!");
 			return false;

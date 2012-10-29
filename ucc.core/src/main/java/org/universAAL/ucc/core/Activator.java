@@ -37,6 +37,7 @@ import org.universAAL.ucc.api.core.IInformation;
 import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.api.model.IModel;
 import org.universAAL.ucc.api.view.IMainWindow;
+import org.universAAL.ucc.api.view.IUILauncher;
 import org.universAAL.ucc.core.configuration.Configurator;
 import org.universAAL.ucc.core.information.Information;
 import org.universAAL.ucc.core.installation.Deinstaller;
@@ -61,6 +62,7 @@ public class Activator implements BundleActivator {
 	
 	private static IModel model = null;
 	private static IMainWindow mainWindow = null;
+	private static IUILauncher uiLauncher = null;
 	
 	private IInstaller installer = null;
 	private IDeinstaller deinstaller = null;
@@ -86,6 +88,18 @@ public class Activator implements BundleActivator {
 		}
 			
 		return mainWindow;
+	}
+	public static IUILauncher getUILauncher(){
+		if(uiLauncher==null){
+			try {
+				Activator.uiLauncher = (IUILauncher) getServiceObject(context, IUILauncher.class.getName());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		return uiLauncher;
 	}
 	/*public static synchronized void testForm() {
 		//if (Constants.debugMode()) {

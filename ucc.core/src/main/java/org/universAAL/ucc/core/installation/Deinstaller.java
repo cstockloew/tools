@@ -32,9 +32,11 @@ public class Deinstaller extends ApplicationManager implements IDeinstaller {
 //				if(!deinstallBundle(appName, bundleName))
 //				return false;
 //			}
+			
 			removeData(appName, bundles);
 			Activator.getModel().getApplicationRegistration().removeConfigFile(appName,Activator.getInformation().getRunDir());
 			register.unregisterApplication(appName);
+			register.removeFromBundlesFolder(appName, Activator.getInformation().getBundleDir());
 			System.out.println("Deinstalled  "+appName);
 			return true;
 		}else{
@@ -50,7 +52,7 @@ public class Deinstaller extends ApplicationManager implements IDeinstaller {
 //		return register.unregisterBundle(appName, bundleName);
 //	}
 	
-	private boolean removeData(String appDir, List<String> bundles){
+	private boolean removeData(String appName, List<String> bundles){
 		Bundle[] installedBundles=context.getBundles();
 		Iterator<String> itr= bundles.iterator();
 		String version,name;
@@ -67,21 +69,26 @@ public class Deinstaller extends ApplicationManager implements IDeinstaller {
 					try {
 						installedBundles[i].uninstall();
 					} catch (BundleException e) {
+						System.out.println("Error deinstalling bundle "+ nameInstalled);
 						return false;
 					}
 			}	
 		}
-//		if(!appDir.endsWith("bundles"))
-//			deleteFolder(new File(appDir));
+		deleteFolder(new File(Activator.getModel().getApplicationManagment().getConfiguration(appName).get("install_base")));
 		return true;
 	}
-	public static void deleteFolder(File folder){
-		File[] df=folder.listFiles();
-		if(df==null) return;
-		for(int i=0;i<df.length;i++){
-			df[i].delete();
-		}
-		folder.delete();
+	public static void deleteFolder(File folder) {
+	    File[] files = folder.listFiles();
+	    if(files!=null) { //some JVMs return null for empty dirs
+	        for(File f: files) {
+	            if(f.isDirectory()) {
+	                deleteFolder(f);
+	            } else {
+	                f.delete();
+	            }
+	        }
+	    }
+	    folder.delete();
 	}
 
 }

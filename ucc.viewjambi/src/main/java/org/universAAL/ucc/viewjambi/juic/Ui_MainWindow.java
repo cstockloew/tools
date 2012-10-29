@@ -9,6 +9,9 @@
 
 package org.universAAL.ucc.viewjambi.juic;
 
+import java.io.File;
+import java.rmi.activation.Activator;
+
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.gui.*;
 

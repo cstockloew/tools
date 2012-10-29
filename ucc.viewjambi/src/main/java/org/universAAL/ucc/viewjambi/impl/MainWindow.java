@@ -49,6 +49,11 @@ public class MainWindow extends QMainWindow implements IMainWindow {
         ui_base.actionOverview.triggered.connect(this, "overviewApp()");
         ui_base.actionSystem_Information.triggered.connect(this, "showInformation()");
         
+        String jarPath = "classpath:"
+				+ Activator.getContext().getBundle().getLocation().substring(6)
+				+ "#images/logo_bg_t.png";
+		this.setWindowIcon(new QIcon(jarPath));
+        
         installSignal=new InstallSignal();
         installSignal.valueChanged.connect(this, "showLicense(String)");
     }

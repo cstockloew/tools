@@ -50,6 +50,7 @@ public class SocketListener {
 
 	public static final int SINGLE_INSTANCE_NETWORK_SOCKET = 9988;
 	public static final String URL_SEARCH_TAG="url";
+	public static final String OPEN_GUI_TAG="http://please.open.gui";
 	public ServerSocket socket;
 	private IInstaller installer;
 	private BundleContext context;
@@ -88,10 +89,19 @@ public class SocketListener {
 	public void onEventCatched(String post){
 		String url = parseURL(post);
 		System.out.println("Event Catched: " + url);
-		if(url.equals("http://please.open.gui")){
-			System.out.println("Open uCC GUI");
-			//TODO Open UI from uCC
+		
+		if(url.equals(OPEN_GUI_TAG)){
+			if(!Activator.getUILauncher().isUiOpen()){
+				System.out.println("Open uCC GUI");
+				Activator.getUILauncher().showUi();
+			}else
+				System.out.println("uCC GUI already opened");
 		}else{
+			if(!Activator.getUILauncher().isUiOpen()){
+				System.out.println("Open uCC GUI");
+				Activator.getUILauncher().showUi();
+			}else
+				System.out.println("uCC GUI already opened");
 			PackageDownloader downloader = new PackageDownloader();
 			String fileOnHardDrive=downloader.download(url);
 			System.out.println("Start Download: " + url);
@@ -104,29 +114,8 @@ public class SocketListener {
 					return;
 				}
 				Activator.getMainWindow().installApp(appDir);
-			}
-			
+			}	
 		}
-		/*
-		String url=parseURL(post);
-        if(url!=null){
-        	PackageDownloader downloader=new PackageDownloader();
-        	String fileOnHardDrive=downloader.download(url);
-        	if(new File(fileOnHardDrive).exists()){
-        		String appDir;
-				try {
-					appDir = installer.installApplication(fileOnHardDrive);
-				} catch (Exception e) {
-					e.printStackTrace();
-					return;
-				}
-        		
-        		Activator.getMainWindow().installApp(appDir);
-					
-    			}
-    				
-        	}
-        	*/
     }
     	
 	
