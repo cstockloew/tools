@@ -16,7 +16,7 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[3];
+        _operations = new org.apache.axis.description.OperationDesc[4];
         _initOperationDesc1();
     }
 
@@ -55,9 +55,15 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "parentcategoryid"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "fullimagefilename"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "fullimage"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
         param.setOmittable(true);
         param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "thumbnailimagefilename"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
         oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "thumbnailimage"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
         param.setOmittable(true);
@@ -66,13 +72,10 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "listprice"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "groupid"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
-        param.setOmittable(true);
-        oper.addParameter(param);
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "artifactid"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
-        param.setOmittable(true);
-        oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "version"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "versionnotes"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "filename"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -93,6 +96,8 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
         oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "uploadtimetonexus"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "dateTime"), java.util.Calendar.class, false, false);
         param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "isforpurchase"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         oper.setReturnClass(java.lang.String.class);
@@ -142,9 +147,15 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "parentcategoryid"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "fullimagefilename"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "fullimage"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
         param.setOmittable(true);
         param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "thumbnailimagefilename"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
         oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "thumbnailimage"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
         param.setOmittable(true);
@@ -153,13 +164,10 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "listprice"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "groupid"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
-        param.setOmittable(true);
-        oper.addParameter(param);
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "artifactid"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
-        param.setOmittable(true);
-        oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "version"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "versionnotes"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "filename"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -180,6 +188,8 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
         oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "uploadtimetonexus"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "dateTime"), java.util.Calendar.class, false, false);
         param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "isforpurchase"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
         oper.addParameter(param);
         oper.setReturnType(org.apache.axis.encoding.XMLType.AXIS_VOID);
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
@@ -213,6 +223,30 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
                       true
                      ));
         _operations[2] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("getAALApplications");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "username"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "password"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "parentcategoryid"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        oper.setReturnClass(java.lang.String.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("", "return"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        oper.addFault(new org.apache.axis.description.FaultDesc(
+                      new javax.xml.namespace.QName("http://tools.ustore.commerce.universaal.org/", "uAALException"),
+                      "org.universaal.commerce.ustore.tools.UAALException",
+                      new javax.xml.namespace.QName("http://tools.ustore.commerce.universaal.org/", "uAALException"), 
+                      true
+                     ));
+        _operations[3] = oper;
 
     }
 
@@ -318,7 +352,7 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
         }
     }
 
-    public java.lang.String addApplication(java.lang.String username, java.lang.String password, java.lang.String applicationname, java.lang.String shortdescription, java.lang.String longdescription, java.lang.String keywords, java.lang.String manufacturer, java.lang.String manufacturerpartnumber, java.lang.String applicationURL, java.lang.String parentcategoryid, byte[] fullimage, byte[] thumbnailimage, java.lang.String listprice, java.lang.String groupid, java.lang.String artifactid, java.lang.String version, java.lang.String filename, byte[] fileinputstream, java.lang.String hardwarereq, java.lang.String softwarereq, java.lang.String developercontactdetails, java.util.Calendar uploadtimetonexus) throws java.rmi.RemoteException, org.universaal.commerce.ustore.tools.UAALException {
+    public java.lang.String addApplication(java.lang.String username, java.lang.String password, java.lang.String applicationname, java.lang.String shortdescription, java.lang.String longdescription, java.lang.String keywords, java.lang.String manufacturer, java.lang.String manufacturerpartnumber, java.lang.String applicationURL, java.lang.String parentcategoryid, java.lang.String fullimagefilename, byte[] fullimage, java.lang.String thumbnailimagefilename, byte[] thumbnailimage, java.lang.String listprice, java.lang.String version, java.lang.String versionnotes, java.lang.String filename, byte[] fileinputstream, java.lang.String hardwarereq, java.lang.String softwarereq, java.lang.String developercontactdetails, java.util.Calendar uploadtimetonexus, boolean isforpurchase) throws java.rmi.RemoteException, org.universaal.commerce.ustore.tools.UAALException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -334,7 +368,7 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
 
         setRequestHeaders(_call);
         setAttachments(_call);
- try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {username, password, applicationname, shortdescription, longdescription, keywords, manufacturer, manufacturerpartnumber, applicationURL, parentcategoryid, fullimage, thumbnailimage, listprice, groupid, artifactid, version, filename, fileinputstream, hardwarereq, softwarereq, developercontactdetails, uploadtimetonexus});
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {username, password, applicationname, shortdescription, longdescription, keywords, manufacturer, manufacturerpartnumber, applicationURL, parentcategoryid, fullimagefilename, fullimage, thumbnailimagefilename, thumbnailimage, listprice, version, versionnotes, filename, fileinputstream, hardwarereq, softwarereq, developercontactdetails, uploadtimetonexus, new java.lang.Boolean(isforpurchase)});
 
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
@@ -360,7 +394,7 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
 }
     }
 
-    public void updateApplication(java.lang.String username, java.lang.String password, java.lang.String applicationid, java.lang.String applicationname, java.lang.String shortdescription, java.lang.String longdescription, java.lang.String keywords, java.lang.String manufacturer, java.lang.String manufacturerpartnumber, java.lang.String applicationURL, java.lang.String parentcategoryid, byte[] fullimage, byte[] thumbnailimage, java.lang.String listprice, java.lang.String groupid, java.lang.String artifactid, java.lang.String version, java.lang.String filename, byte[] fileinputstream, java.lang.String hardwarereq, java.lang.String softwarereq, java.lang.String developercontactdetails, java.util.Calendar uploadtimetonexus) throws java.rmi.RemoteException, org.universaal.commerce.ustore.tools.UAALException {
+    public void updateApplication(java.lang.String username, java.lang.String password, java.lang.String applicationid, java.lang.String applicationname, java.lang.String shortdescription, java.lang.String longdescription, java.lang.String keywords, java.lang.String manufacturer, java.lang.String manufacturerpartnumber, java.lang.String applicationURL, java.lang.String parentcategoryid, java.lang.String fullimagefilename, byte[] fullimage, java.lang.String thumbnailimagefilename, byte[] thumbnailimage, java.lang.String listprice, java.lang.String version, java.lang.String versionnotes, java.lang.String filename, byte[] fileinputstream, java.lang.String hardwarereq, java.lang.String softwarereq, java.lang.String developercontactdetails, java.util.Calendar uploadtimetonexus, boolean isforpurchase) throws java.rmi.RemoteException, org.universaal.commerce.ustore.tools.UAALException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -376,7 +410,7 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
 
         setRequestHeaders(_call);
         setAttachments(_call);
- try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {username, password, applicationid, applicationname, shortdescription, longdescription, keywords, manufacturer, manufacturerpartnumber, applicationURL, parentcategoryid, fullimage, thumbnailimage, listprice, groupid, artifactid, version, filename, fileinputstream, hardwarereq, softwarereq, developercontactdetails, uploadtimetonexus});
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {username, password, applicationid, applicationname, shortdescription, longdescription, keywords, manufacturer, manufacturerpartnumber, applicationURL, parentcategoryid, fullimagefilename, fullimage, thumbnailimagefilename, thumbnailimage, listprice, version, versionnotes, filename, fileinputstream, hardwarereq, softwarereq, developercontactdetails, uploadtimetonexus, new java.lang.Boolean(isforpurchase)});
 
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
@@ -417,6 +451,48 @@ public class AALApplicationManagerPortBindingStub extends org.apache.axis.client
             throw (java.rmi.RemoteException)_resp;
         }
         extractAttachments(_call);
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+    if (axisFaultException.detail != null) {
+        if (axisFaultException.detail instanceof java.rmi.RemoteException) {
+              throw (java.rmi.RemoteException) axisFaultException.detail;
+         }
+        if (axisFaultException.detail instanceof org.universaal.commerce.ustore.tools.UAALException) {
+              throw (org.universaal.commerce.ustore.tools.UAALException) axisFaultException.detail;
+         }
+   }
+  throw axisFaultException;
+}
+    }
+
+    public java.lang.String getAALApplications(java.lang.String username, java.lang.String password, java.lang.String parentcategoryid) throws java.rmi.RemoteException, org.universaal.commerce.ustore.tools.UAALException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[3]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://tools.ustore.commerce.universaal.org/", "getAALApplications"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {username, password, parentcategoryid});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (java.lang.String) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
+            }
+        }
   } catch (org.apache.axis.AxisFault axisFaultException) {
     if (axisFaultException.detail != null) {
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {

@@ -23,16 +23,19 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.universaal.tools.uStoreClientapplication.Activator;
+import org.eclipse.swt.widgets.Combo;
 
 public class MyPageThree extends WizardPage {
-	private Text groupIdText;
-	private Text artifactIdText;
+	private Text versionNotesText;
 	private Text versionText;
-	private Text fileNameText;
 	private Composite container;
 	private byte[] fullImageByte;
 	private byte[] thumbnailImageByte;
 	private byte[] fileImageByte;
+	private Combo isForPurchasecombo;
+	private String fileName;
+	private String imageName;
+	private String thumbnailName;
 
 	public MyPageThree() {
 		super("Publish to uStore");
@@ -49,11 +52,11 @@ public class MyPageThree extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 2;
 		Label label1 = new Label(container, SWT.NULL);
-		label1.setText("Group Id");
+		label1.setText("Version notes");
 
-		groupIdText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		groupIdText.setText("");
-		groupIdText.addKeyListener(new KeyListener() {
+		versionNotesText = new Text(container, SWT.BORDER | SWT.SINGLE);
+		versionNotesText.setText("");
+		versionNotesText.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -61,10 +64,10 @@ public class MyPageThree extends WizardPage {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (!groupIdText.getText().isEmpty()
-						&& !artifactIdText.getText().isEmpty()
+				if (!versionNotesText.getText().isEmpty()
+						&& !isForPurchasecombo.getText().isEmpty()
 						&& !versionText.getText().isEmpty()
-						&& !fileNameText.getText().isEmpty()
+						
 						&& fullImageByte != null && thumbnailImageByte != null
 						&& fileImageByte != null) {
 					setPageComplete(true);
@@ -75,40 +78,18 @@ public class MyPageThree extends WizardPage {
 			}
 
 		});
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		groupIdText.setLayoutData(gd);
+		versionNotesText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		// password field
 		Label label2 = new Label(container, SWT.NULL);
-		label2.setText("Artifact Id");
-
-		artifactIdText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		artifactIdText.setText("");
-		artifactIdText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!groupIdText.getText().isEmpty()
-						&& !artifactIdText.getText().isEmpty()
-						&& !versionText.getText().isEmpty()
-						&& !fileNameText.getText().isEmpty()
-						&& fullImageByte != null && thumbnailImageByte != null
-						&& fileImageByte != null) {
-					setPageComplete(true);
-
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-
-		artifactIdText.setLayoutData(gd);
-
+		label2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		label2.setText("Purchase by users");
+		
+		isForPurchasecombo  = new Combo(container, SWT.NONE|SWT.READ_ONLY);
+		isForPurchasecombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		isForPurchasecombo.add("Yes");
+		isForPurchasecombo.add("No");
+		isForPurchasecombo.select(0);
 		Label label3 = new Label(container, SWT.NULL);
 		label3.setText("Version");
 
@@ -122,10 +103,9 @@ public class MyPageThree extends WizardPage {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (!groupIdText.getText().isEmpty()
-						&& !artifactIdText.getText().isEmpty()
-						&& !versionText.getText().isEmpty()
-						&& !fileNameText.getText().isEmpty()
+				if (!versionNotesText.getText().isEmpty()
+						&& !isForPurchasecombo.getText().isEmpty()
+						&& !versionText.getText().isEmpty()						
 						&& fullImageByte != null && thumbnailImageByte != null
 						&& fileImageByte != null) {
 					setPageComplete(true);
@@ -136,38 +116,7 @@ public class MyPageThree extends WizardPage {
 			}
 
 		});
-
-		versionText.setLayoutData(gd);
-
-		Label label4 = new Label(container, SWT.NULL);
-		label4.setText("File name");
-
-		fileNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		fileNameText.setText("");
-		fileNameText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!groupIdText.getText().isEmpty()
-						&& !artifactIdText.getText().isEmpty()
-						&& !versionText.getText().isEmpty()
-						&& !fileNameText.getText().isEmpty()
-						&& fullImageByte != null && thumbnailImageByte != null
-						&& fileImageByte != null) {
-					setPageComplete(true);
-
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-
-		fileNameText.setLayoutData(gd);
+		versionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label label5 = new Label(container, SWT.NULL);
 		label5.setText("File");
@@ -207,12 +156,13 @@ public class MyPageThree extends WizardPage {
 					}
 					fileText.setText(buf.toString());
 					File file = new File(buf.toString());
+					fileName=file.getName();
 					try {
 						fileImageByte = getBytesFromFile(file);
-						if (!groupIdText.getText().isEmpty()
-								&& !artifactIdText.getText().isEmpty()
+						if (!versionNotesText.getText().isEmpty()
+								&& !isForPurchasecombo.getText().isEmpty()
 								&& !versionText.getText().isEmpty()
-								&& !fileNameText.getText().isEmpty()
+								
 								&& fullImageByte != null
 								&& thumbnailImageByte != null
 								&& fileImageByte != null) {
@@ -267,12 +217,13 @@ public class MyPageThree extends WizardPage {
 					}
 					thumbnailText.setText(buf.toString());
 					File file = new File(buf.toString());
+					thumbnailName=file.getName();
 					try {
 						thumbnailImageByte = getBytesFromFile(file);
-						if (!groupIdText.getText().isEmpty()
-								&& !artifactIdText.getText().isEmpty()
+						if (!versionNotesText.getText().isEmpty()
+								&& !isForPurchasecombo.getText().isEmpty()
 								&& !versionText.getText().isEmpty()
-								&& !fileNameText.getText().isEmpty()
+								
 								&& fullImageByte != null
 								&& thumbnailImageByte != null
 								&& fileImageByte != null) {
@@ -326,12 +277,13 @@ public class MyPageThree extends WizardPage {
 					}
 					fullImageText.setText(buf.toString());
 					File file = new File(buf.toString());
+					imageName=file.getName();
 					try {
 						fullImageByte = getBytesFromFile(file);
-						if (!groupIdText.getText().isEmpty()
-								&& !artifactIdText.getText().isEmpty()
+						if (!versionNotesText.getText().isEmpty()
+								&& !isForPurchasecombo.getText().isEmpty()
 								&& !versionText.getText().isEmpty()
-								&& !fileNameText.getText().isEmpty()
+								
 								&& fullImageByte != null
 								&& thumbnailImageByte != null
 								&& fileImageByte != null) {
@@ -392,19 +344,21 @@ public class MyPageThree extends WizardPage {
 	}
 
 	public Text getGroupIdText() {
-		return groupIdText;
+		return versionNotesText;
 	}
 
 	public void setGroupIdText(Text groupIdText) {
-		this.groupIdText = groupIdText;
+		this.versionNotesText = groupIdText;
 	}
 
-	public Text getArtifactIdText() {
-		return artifactIdText;
+	
+
+	public Combo getIsForPurchasecombo() {
+		return isForPurchasecombo;
 	}
 
-	public void setArtifactIdText(Text artifactIdText) {
-		this.artifactIdText = artifactIdText;
+	public void setIsForPurchasecombo(Combo isForPurchasecombo) {
+		this.isForPurchasecombo = isForPurchasecombo;
 	}
 
 	public Text getVersionText() {
@@ -415,12 +369,38 @@ public class MyPageThree extends WizardPage {
 		this.versionText = versionText;
 	}
 
-	public Text getFileNameText() {
-		return fileNameText;
+
+
+	public Text getVersionNotesText() {
+		return versionNotesText;
 	}
 
-	public void setFileNameText(Text fileNameText) {
-		this.fileNameText = fileNameText;
+	public void setVersionNotesText(Text versionNotesText) {
+		this.versionNotesText = versionNotesText;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public String getThumbnailName() {
+		return thumbnailName;
+	}
+
+	public void setThumbnailName(String thumbnailName) {
+		this.thumbnailName = thumbnailName;
 	}
 
 	public byte[] getFullImageByte() {

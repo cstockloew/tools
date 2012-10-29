@@ -15,7 +15,7 @@ import org.universaal.tools.uStoreClientapplication.actions.ApplicationCategory;
 import org.universaal.tools.uStoreClientapplication.actions.ApplicationCategoryParser;
 import org.universaal.tools.uStoreClientapplication.actions.Metadata;
 
-public class PublishWizard extends Wizard{
+public class PublishWizard extends Wizard {
 	static private String USTORE_USERNAME = "admin";
 	static private String USTORE_PASSWORD = "bigim222";
 	protected MyPageOne one;
@@ -75,14 +75,18 @@ public class PublishWizard extends Wizard{
 
 		metadata.setCategory(categoryList.get(
 				two.getCategoryCombo().getSelectionIndex()).getCategoryNumber());
-
+		metadata.setVersionNotes(three.getVersionNotesText().getText());
+		metadata.setForPurchase(Boolean.valueOf(three.getIsForPurchasecombo()
+				.getText()));
 		metadata.setFullImage(three.getFullImageByte());
 		metadata.setThumbnail(three.getThumbnailImageByte());
 		metadata.setListPrice(two.getListPriceText().getText());
-		metadata.setArtifactId(three.getArtifactIdText().getText());
-		metadata.setGroupId(three.getGroupIdText().getText());
+		metadata.setThumbnailImageFileName(three.getThumbnailName());
+		metadata.setFullImageFileName(three.getImageName());
+		// metadata.setArtifactId(three.getArtifactIdText().getText());
+		// metadata.setGroupId(three.getGroupIdText().getText());
 		metadata.setVersion(three.getVersionText().getText());
-		metadata.setFileName(three.getFileNameText().getText());
+		metadata.setFileName(three.getFileName());
 		metadata.setFile(three.getFileImageByte());
 		metadata.setHardwareRequirements(two.getHardwareRequirementsText()
 				.getText());
@@ -103,7 +107,5 @@ public class PublishWizard extends Wizard{
 	public Metadata getMetadata() {
 		return metadata;
 	}
-
-	
 
 }

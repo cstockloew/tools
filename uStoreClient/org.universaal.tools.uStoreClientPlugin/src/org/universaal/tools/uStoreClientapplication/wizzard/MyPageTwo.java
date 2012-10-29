@@ -119,8 +119,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		applicationShortDescriptionText.setLayoutData(gd);
+		GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
+		applicationShortDescriptionText.setLayoutData(gd1);
 
 		Label applicationFullDescriptionLabel = new Label(container, SWT.NULL);
 		applicationFullDescriptionLabel.setText("Application full description");
@@ -156,8 +156,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		applicationFullDescriptionText.setLayoutData(gd);
+		GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);
+		applicationFullDescriptionText.setLayoutData(gd2);
 
 		Label keywordsLabel = new Label(container, SWT.NULL);
 		keywordsLabel.setText("Keywords");
@@ -192,8 +192,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		keywordsText.setLayoutData(gd);
+		GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
+		keywordsText.setLayoutData(gd3);
 
 		Label manufacturerLabel = new Label(container, SWT.NULL);
 		manufacturerLabel.setText("Manufacturer");
@@ -228,8 +228,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		manufacturerText.setLayoutData(gd);
+		GridData gd4 = new GridData(GridData.FILL_HORIZONTAL);
+		manufacturerText.setLayoutData(gd4);
 
 		Label manufacturerPartNumberLabel = new Label(container, SWT.NULL);
 		manufacturerPartNumberLabel.setText("Manufacturer part number");
@@ -265,8 +265,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		manufacturerPartNumberText.setLayoutData(gd);
+		GridData gd5 = new GridData(GridData.FILL_HORIZONTAL);
+		manufacturerPartNumberText.setLayoutData(gd5);
 
 		Label developerContactDetailsLabel = new Label(container, SWT.NULL);
 		developerContactDetailsLabel.setText("Developer contact details");
@@ -302,8 +302,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		developerContactDetailsText.setLayoutData(gd);
+		GridData gd6 = new GridData(GridData.FILL_HORIZONTAL);
+		developerContactDetailsText.setLayoutData(gd6);
 
 		Label applicationURLLabel = new Label(container, SWT.NULL);
 		applicationURLLabel.setText("Application URL");
@@ -338,8 +338,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		applicationURLText.setLayoutData(gd);
+		GridData gd7 = new GridData(GridData.FILL_HORIZONTAL);
+		applicationURLText.setLayoutData(gd7);
 
 		Label listPriceLabel = new Label(container, SWT.NULL);
 		listPriceLabel.setText("List price");
@@ -374,8 +374,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		listPriceText.setLayoutData(gd);
+		GridData gd8 = new GridData(GridData.FILL_HORIZONTAL);
+		listPriceText.setLayoutData(gd8);
 
 		Label hardwareRequirementsLabel = new Label(container, SWT.NULL);
 		hardwareRequirementsLabel.setText("Hardware requirements");
@@ -410,8 +410,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		hardwareRequirementsText.setLayoutData(gd);
+		GridData gd9 = new GridData(GridData.FILL_HORIZONTAL);
+		hardwareRequirementsText.setLayoutData(gd9);
 
 		Label softwareRequirementsLabel = new Label(container, SWT.NULL);
 		softwareRequirementsLabel.setText("Software requirements");
@@ -446,8 +446,8 @@ public class MyPageTwo extends WizardPage {
 			}
 
 		});
-
-		softwareRequirementsText.setLayoutData(gd);
+		GridData gd10 = new GridData(GridData.FILL_HORIZONTAL);
+		softwareRequirementsText.setLayoutData(gd10);
 
 		Label categoryLabel = new Label(container, SWT.NULL);
 		categoryLabel.setText("Category");
@@ -458,8 +458,8 @@ public class MyPageTwo extends WizardPage {
 		}
 		if (categoryCombo.getItemCount() != 0)
 			categoryCombo.select(0);
-
-		categoryCombo.setLayoutData(gd);
+		GridData gd11 = new GridData(GridData.FILL_HORIZONTAL);
+		categoryCombo.setLayoutData(gd11);
 
 		// Required to avoid an error in the system
 		setControl(container);
