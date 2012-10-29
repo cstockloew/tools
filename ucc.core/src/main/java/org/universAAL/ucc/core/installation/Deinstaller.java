@@ -33,10 +33,10 @@ public class Deinstaller extends ApplicationManager implements IDeinstaller {
 //				return false;
 //			}
 			
+			register.removeFromBundlesFolder(Activator.getModel().getApplicationManagment().getConfiguration(appName).get("install_base"));
 			removeData(appName, bundles);
 			Activator.getModel().getApplicationRegistration().removeConfigFile(appName,Activator.getInformation().getRunDir());
 			register.unregisterApplication(appName);
-			register.removeFromBundlesFolder(appName, Activator.getInformation().getBundleDir());
 			System.out.println("Deinstalled  "+appName);
 			return true;
 		}else{

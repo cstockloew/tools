@@ -157,7 +157,7 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		Set<String> keys=attributes.keySet();
 		Iterator<String> itr=keys.iterator();
 		String path=attributes.get("install_base");
-		copyToBundlesFolder(path, infoframeBundles);
+		copyToBundlesFolder(path);
 		new File(path+"/config").mkdir();
 		File conf= new File(path+"/config/config.ini");
 		
@@ -190,7 +190,7 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		Map<String,String> attributes=Activator.getModel().getApplicationManagment().getConfiguration(appName);
 		Set<String> keys=attributes.keySet();
 		Iterator<String> itr=keys.iterator();
-		copyToBundlesFolder(attributes.get("install_base"), naBundles);
+		copyToBundlesFolder(attributes.get("install_base"));
 		new File("configurations/nutritional.uiclient/NutritionalAdvisor").mkdirs();
 		File conf= new File("configurations/nutritional.uiclient/NutritionalAdvisor/setup.properties");	
 
@@ -323,27 +323,30 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		folder.delete();
 		
 	}
-	private void copyToBundlesFolder(String appDir,String[] bundles){
+	private void copyToBundlesFolder(String appDir){
 		String bundleDir = appDir.substring(0, appDir.lastIndexOf("\\"));
-		for(int i=0; i<bundles.length;i++){
-			try {
-				copyFile(new File(appDir+"/"+bundles[i]), new File(bundleDir+"/"+bundles[i]));
-			} catch (IOException e) {
-				
+		File[] files = new File(appDir).listFiles();
+		for(File file : files){
+			if(file.isFile()&&file.getName().endsWith(".jar")){
+				try {
+					copyFile(file, new File(bundleDir+"/"+file.getName()));
+				} catch (IOException e) {
+					
+				}	
 			}
 		}
 	}
-	public void removeFromBundlesFolder(String appName, String bundleDir){
-		if(appName.equals("Infoframe"))
-			removeFromBundlesFolder(bundleDir, infoframeBundles);
-		if(appName.equals("Nutritional Advisor"))
-			removeFromBundlesFolder(bundleDir, naBundles);
-	}
-	private void removeFromBundlesFolder(String bundleDir, String[] bundles){
-		for(int i=0; i<bundles.length;i++){
-			File current = new File(bundleDir+"/"+bundles[i]);
-			if(current.exists())
-				current.delete();
+	
+	public void removeFromBundlesFolder(String appDir){
+		String bundleDir = appDir.substring(0, appDir.lastIndexOf("\\"));
+		File[] appFiles = new File(appDir).listFiles();
+		File[] bundleFiles = new File(bundleDir).listFiles();
+		for(File appFile : appFiles){
+			for(File bundleFile : bundleFiles){
+				if(appFile.isFile()&&bundleFile.isFile()&&bundleFile.getName().equals(appFile.getName())){
+					bundleFile.delete();		
+				}
+			}
 		}
 	}
 	private static void copyFile(File sourceFile, File destFile) throws IOException {
