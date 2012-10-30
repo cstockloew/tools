@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns="http://amigo.gforge.inria.fr/owl/Amigo.owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xml:base="http://amigo.gforge.inria.fr/owl/Amigo.owl">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="ContentNature">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ContentMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="IntelligentHomeSupport">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="HomeInformationAndEntertainment"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ExtendedHomeSupport"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="HomeCareAndSafetySupport"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="FunctionalCapability"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Object">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="PhysicalEntity"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Authors">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#ContentMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Content">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ContentConcept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="ServiceContext">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ContextConcept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Information">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="NonPhysicalEntity"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Media"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Film">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ContentSubject"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="ParentalPermission">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#ContentMetadata"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#ContextConcept">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="AmigoConcept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="DeviceContext">
+    <rdfs:subClassOf rdf:resource="#ContextConcept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Furniture">
+    <rdfs:subClassOf rdf:resource="#Object"/>
+  </owl:Class>
+  <owl:Class rdf:ID="QualityConcept">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Models any quality related concept 
+</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#AmigoConcept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Commercial">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#ContentSubject"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Person">
+    <rdfs:subClassOf rdf:resource="#PhysicalEntity"/>
+  </owl:Class>
+  <owl:Class rdf:about="#ContentMetadata">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: To be moved to ContentAndMultimedia</owl:versionInfo>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#ContentConcept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="QoSConcept">
+    <rdfs:subClassOf rdf:resource="#QualityConcept"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Models provided Quality Of Service </rdfs:comment>
+  </owl:Class>
+  <owl:Class rdf:ID="Axiom_1">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Object"/>
+          <owl:Class rdf:ID="Service"/>
+          <owl:Class rdf:ID="Application"/>
+        </owl:unionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="Music">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#ContentSubject"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="StoredContent">
+    <rdfs:subClassOf rdf:resource="#ContentNature"/>
+  </owl:Class>
+  <owl:Class rdf:about="#ContentConcept">
+    <rdfs:subClassOf rdf:resource="#AmigoConcept"/>
+  </owl:Class>
+  <owl:Class rdf:about="#ContentSubject">
+    <rdfs:subClassOf rdf:resource="#ContentMetadata"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Education">
+    <rdfs:subClassOf rdf:resource="#ContentSubject"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Sports">
+    <rdfs:subClassOf rdf:resource="#ContentSubject"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Service">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The properties of service are defined in Amigo Service language that extends OWL-S. </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#NonPhysicalEntity"/>
+  </owl:Class>
+  <owl:Class rdf:about="#HomeCareAndSafetySupport">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#FunctionalCapability"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Book">
+    <rdfs:subClassOf rdf:resource="#Object"/>
+  </owl:Class>
+  <owl:Class rdf:about="#HomeInformationAndEntertainment">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#FunctionalCapability"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="NetworkingTechnology">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Platform"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="UserContext">
+    <rdfs:subClassOf rdf:resource="#ContextConcept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Dishware">
+    <rdfs:subClassOf rdf:resource="#Object"/>
+  </owl:Class>
+  <owl:Class rdf:ID="LiveContent">
+    <rdfs:subClassOf rdf:resource="#ContentNature"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Network">
+    <rdfs:subClassOf rdf:resource="#Object"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Media">
+    <rdfs:subClassOf rdf:resource="#Content"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Status">
+    <rdfs:subClassOf rdf:resource="#NonPhysicalEntity"/>
+  </owl:Class>
+  <owl:Class rdf:ID="MediaResource">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ContentResource"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="NetworkContext">
+    <rdfs:subClassOf rdf:resource="#ContextConcept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Device">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Device concept helps to model  types of devices that share similar characteristics.
+ </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Object"/>
+  </owl:Class>
+  <owl:Class rdf:ID="SocialContext">
+    <rdfs:subClassOf rdf:resource="#ContextConcept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="PhysicalContext">
+    <rdfs:subClassOf rdf:resource="#ContextConcept"/>
+  </owl:Class>
+  <owl:Class rdf:about="#ContentResource">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: To be moved to ContentAndMultimedia</owl:versionInfo>
+    <rdfs:subClassOf rdf:resource="#ContentConcept"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Application">
+    <rdfs:subClassOf rdf:resource="#Content"/>
+    <rdfs:subClassOf rdf:resource="#NonPhysicalEntity"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ApplicationResource">
+    <rdfs:subClassOf rdf:resource="#ContentResource"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Platform">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The platform concept helps to define different kind of SW, HW and communication properties hosted by device. Optionally this could be named as DeviceTechnology.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#NonPhysicalEntity"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Event">
+    <rdfs:subClassOf rdf:resource="#NonPhysicalEntity"/>
+  </owl:Class>
+  <owl:Class rdf:ID="TextualDescription">
+    <rdfs:subClassOf rdf:resource="#ContentMetadata"/>
+  </owl:Class>
+  <owl:Class rdf:about="#FunctionalCapability">
+    <rdfs:subClassOf rdf:resource="#NonPhysicalEntity"/>
+  </owl:Class>
+  <owl:Class rdf:about="#ExtendedHomeSupport">
+    <rdfs:subClassOf rdf:resource="#FunctionalCapability"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Vechicle">
+    <rdfs:subClassOf rdf:resource="#Object"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="displays">
+    <rdfs:range rdf:resource="#Content"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="isDisplayedOn"/>
+    </owl:inverseOf>
+    <rdfs:domain rdf:resource="#Device"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="owns">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="isOwnedBy"/>
+    </owl:inverseOf>
+    <rdfs:range rdf:resource="#Object"/>
+    <rdfs:domain rdf:resource="#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#isOwnedBy">
+    <rdfs:domain rdf:resource="#Object"/>
+    <owl:inverseOf rdf:resource="#owns"/>
+    <rdfs:range rdf:resource="#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasPhysicalContext">
+    <rdfs:domain rdf:resource="#Object"/>
+    <rdfs:range rdf:resource="#PhysicalContext"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:ID="hasContext"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="deploysService">
+    <rdfs:range rdf:resource="#Service"/>
+    <rdfs:domain rdf:resource="#Device"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="deployedOn"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasUserContext">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasContext"/>
+    </rdfs:subPropertyOf>
+    <rdfs:domain rdf:resource="#Person"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasQoSParameters">
+    <rdfs:domain rdf:resource="#Network"/>
+    <rdfs:range rdf:resource="#QoSConcept"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:ID="hasQuality"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasStatus">
+    <rdfs:domain rdf:resource="#PhysicalEntity"/>
+    <rdfs:range rdf:resource="#Status"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="deploysContent">
+    <rdfs:domain rdf:resource="#Service"/>
+    <rdfs:range rdf:resource="#ContentConcept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasFunctionalCapabilities">
+    <rdfs:range rdf:resource="#FunctionalCapability"/>
+    <rdfs:domain rdf:resource="#Service"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isBasedOnTechnology">
+    <rdfs:range rdf:resource="#NetworkingTechnology"/>
+    <rdfs:domain rdf:resource="#Network"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasSocialContext">
+    <rdfs:domain rdf:resource="#Person"/>
+    <rdfs:range rdf:resource="#SocialContext"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasContext"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasRelativeLocation">
+    <rdfs:subPropertyOf rdf:resource="#hasPhysicalContext"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#deployedOn">
+    <rdfs:domain rdf:resource="#Service"/>
+    <rdfs:range rdf:resource="#Device"/>
+    <owl:inverseOf rdf:resource="#deploysService"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#isDisplayedOn">
+    <rdfs:domain rdf:resource="#Content"/>
+    <owl:inverseOf rdf:resource="#displays"/>
+    <rdfs:range rdf:resource="#Device"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasAbsoluteLocation">
+    <rdfs:subPropertyOf rdf:resource="#hasPhysicalContext"/>
+    <rdfs:range rdf:resource="#PhysicalContext"/>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: Not needed?</owl:versionInfo>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="supportsTechnology">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >TODO: </owl:versionInfo>
+    <rdfs:domain rdf:resource="#Platform"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasQuality">
+    <rdfs:range rdf:resource="#QualityConcept"/>
+    <rdfs:domain rdf:resource="#Object"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasContext">
+    <rdfs:range rdf:resource="#ContextConcept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasDeviceContext">
+    <rdfs:range rdf:resource="#DeviceContext"/>
+    <rdfs:subPropertyOf rdf:resource="#hasContext"/>
+    <rdfs:domain rdf:resource="#Device"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isLocatedIn">
+    <rdfs:subPropertyOf rdf:resource="#hasPhysicalContext"/>
+    <rdfs:domain rdf:resource="#PhysicalEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="presents">
+    <rdfs:range rdf:resource="#FunctionalCapability"/>
+    <rdfs:domain rdf:resource="#Service"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="HardwareProperties"/>
+  <owl:ObjectProperty rdf:ID="hasQoSParameter">
+    <rdfs:range rdf:resource="#QoSConcept"/>
+    <rdfs:domain rdf:resource="#Service"/>
+  </owl:ObjectProperty>
+  <owl:TransitiveProperty rdf:ID="hostsPlatform">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Device"/>
+          <owl:Class rdf:about="#Platform"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#Platform"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:ID="hasDevice">
+    <rdfs:range rdf:resource="#Device"/>
+    <rdfs:domain rdf:resource="#Platform"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:TransitiveProperty>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.2, Build 311)  http://protege.stanford.edu -->
