@@ -36,48 +36,47 @@ import com.trolltech.qt.gui.QApplication;
 public class UILauncher implements IUILauncher{
 
 	private boolean isUIOpen=false;
-	
 	public void showUi() {
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					QApplication.initialize(new String[0]);
-	
-					Activator.mainWindow = MainWindow.getInstance();
-					Activator.mainWindow.show();
-					
-					Activator.setPluginBase(new PluginBase(new GridView()));
-					isUIOpen = true;
-					Activator.loadPlugins();
-					QApplication.exec();
-				}
-				finally {
-					isUIOpen = true;
-				}
-			}
-		}).start();
-
-		while (!isUIOpen){
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-			
-
-		if (Activator.mainWindow != null) {
-			System.err.println("Jambi-Main-View started");
-			Activator.getContext().registerService(IPluginBase.class.getName(), Activator.getPluginBase(), null);
-			Activator.getContext().registerService(IMainWindow.class.getName(), Activator.mainWindow, null);
-		}
-		else 
-			System.err.println("Jambi-Main-View NOT started");
+		if(Activator.mainWindow==null){
+			System.out.println("Open uCC GUI");
+			new Thread(new Runnable() {
+				public void run() {
+				
+						QApplication.initialize(new String[0]);
 		
-	}
+						Activator.mainWindow = MainWindow.getInstance();
+						Activator.mainWindow.show();
+						
+						Activator.setPluginBase(new PluginBase(new GridView()));
+						Activator.loadPlugins();
+						isUIOpen=true;
+						QApplication.exec();					
+				}
+			}).start();
 
-	public boolean isUiOpen() {
-		return isUIOpen;
+			while (!isUIOpen){
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+				
+
+			if (Activator.mainWindow != null) {
+				System.err.println("Jambi-Main-View started");
+				Activator.getContext().registerService(IPluginBase.class.getName(), Activator.getPluginBase(), null);
+				Activator.getContext().registerService(IMainWindow.class.getName(), Activator.mainWindow, null);
+			}
+			else 
+				System.err.println("Jambi-Main-View NOT started");	
+			isUIOpen=false;	
+		}else{
+			System.out.println("uCC GUI already opened");
+			
+		}
+		
+		
 	}
 
 }

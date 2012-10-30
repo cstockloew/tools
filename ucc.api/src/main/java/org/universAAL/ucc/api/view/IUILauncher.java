@@ -30,5 +30,5 @@ package org.universAAL.ucc.api.view;
 public interface IUILauncher {
 
 	public void showUi();
-	public boolean isUiOpen();
+
 }

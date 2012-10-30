@@ -102,7 +102,9 @@ public class Activator implements BundleActivator {
 	public static void setPluginBase(PluginBase pluginbase){
 		Activator.pluginBase=pluginbase;
 	}
-	
+	public static IUILauncher getUILauncher(){
+		return uiLauncher;
+	}
 
 	public void start(final BundleContext lcontext) throws Exception {
 		Activator.context = lcontext;
@@ -117,7 +119,7 @@ public class Activator implements BundleActivator {
 		uiLauncher=new UILauncher();
 		Activator.context.registerService(IUILauncher.class.getName(), uiLauncher, null);
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	public void stop(BundleContext context) throws Exception {
 		thread.stop();

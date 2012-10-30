@@ -1,6 +1,10 @@
 package org.universAAL.ucc.viewjambi.impl;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.io.File;
 
@@ -40,6 +44,9 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 		}
 		return instance;
 	}
+	public static void resetMainWindow(){
+		instance=null;
+	}
 	
 	
     protected MainWindow() {
@@ -47,7 +54,7 @@ public class MainWindow extends QMainWindow implements IMainWindow {
         
         ui_base.setupUi(this);
         
-        ui_base.actionExit.triggered.connect(this, "close()");
+        ui_base.actionExit.triggered.connect(this, "closeUI()");
         ui_base.actionInstall.triggered.connect(this, "installApp()");
         ui_base.actionDeinstall.triggered.connect(this, "uninstallApp()");
         ui_base.actionOverview.triggered.connect(this, "overviewApp()");
@@ -68,6 +75,12 @@ public class MainWindow extends QMainWindow implements IMainWindow {
     @Override
     protected void resizeEvent(QResizeEvent event) {
     	super.resizeEvent(event);
+    }
+	public void closeUI(){
+		this.close();
+		QApplication.exit();
+		MainWindow.resetMainWindow();
+		Activator.mainWindow=null;
     }
 
 	public void addSubWindow(ISubWindow subWindow) {
@@ -157,6 +170,7 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	protected void showInformation() {
 		new InformationView();
 	}
+	
 	
 	class InstallSignal extends QSignalEmitter 
 	{
