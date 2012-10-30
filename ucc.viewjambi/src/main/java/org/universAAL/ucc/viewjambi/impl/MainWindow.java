@@ -2,7 +2,9 @@ package org.universAAL.ucc.viewjambi.impl;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.io.File;
 
+import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
 import org.universAAL.ucc.api.core.IDeinstaller;
 import org.universAAL.ucc.api.view.IMainWindow;
 import org.universAAL.ucc.api.view.ISubWindow;
@@ -30,6 +32,8 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	public static OverviewView overview;
 	private static MainWindow instance = null;
 	
+	private String separator;
+	
 	public static MainWindow getInstance() {
 		if (instance == null) {
 			instance = new MainWindow();
@@ -49,9 +53,12 @@ public class MainWindow extends QMainWindow implements IMainWindow {
         ui_base.actionOverview.triggered.connect(this, "overviewApp()");
         ui_base.actionSystem_Information.triggered.connect(this, "showInformation()");
         
-        String jarPath = "classpath:"
-				+ Activator.getContext().getBundle().getLocation().substring(6)
-				+ "#images/logo_bg_t.png";
+ //       String jarPath = "classpath:" + Activator.getContext().getBundle().getLocation().substring(6) + "#images/logo_bg_t.png";
+        
+        File confHome = new File(new BundleConfigHome("ucc").getAbsolutePath());
+        separator = System.getProperty("file.separator");
+              
+        String jarPath = confHome.getPath()+separator+"icons"+separator+"logo_bg_t.png";
 		this.setWindowIcon(new QIcon(jarPath));
         
         installSignal=new InstallSignal();

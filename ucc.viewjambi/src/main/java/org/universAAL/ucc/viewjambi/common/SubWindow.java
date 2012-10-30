@@ -1,5 +1,8 @@
 package org.universAAL.ucc.viewjambi.common;
 
+import java.io.File;
+
+import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
 import org.universAAL.ucc.api.view.IMainWindow;
 import org.universAAL.ucc.api.view.ISubWindow;
 import org.universAAL.ucc.viewjambi.impl.Activator;
@@ -14,6 +17,8 @@ public class SubWindow extends QWidget implements ISubWindow {
 
 	private Ui_SubWindow ui_base = new Ui_SubWindow();
 	protected IMainWindow parent = null;
+	
+	private String separator;
 
 	protected SubWindow(QUiForm<QWidget> ui_content) {
 		super(MainWindow.getInstance());
@@ -21,9 +26,12 @@ public class SubWindow extends QWidget implements ISubWindow {
 		
 		ui_base.setupUi(this);
 
-		String jarPath = "classpath:"
-				+ Activator.getContext().getBundle().getLocation().substring(6)
-				+ "#images/uaal.bmp";
+        File confHome = new File(new BundleConfigHome("ucc").getAbsolutePath());
+        separator = System.getProperty("file.separator");    
+        String jarPath = confHome.getPath()+separator+"icons"+separator+"uaal.bmp";
+
+		
+//		String jarPath = "classpath:" + Activator.getContext().getBundle().getLocation().substring(6) + "#images/uaal.bmp";
 		QPixmap pixmap = new QPixmap(jarPath);
 		ui_base.headerLogo.setPixmap(pixmap);
 		

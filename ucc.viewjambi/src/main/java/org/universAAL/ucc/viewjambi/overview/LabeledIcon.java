@@ -20,6 +20,9 @@
 
 package org.universAAL.ucc.viewjambi.overview;
 
+import java.io.File;
+
+import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
 import org.universAAL.ucc.viewjambi.impl.Activator;
 
 import com.trolltech.qt.core.QSize;
@@ -44,6 +47,9 @@ public class LabeledIcon extends QAbstractButton{
 	public QLabel label;
 	public QLabel image;
 	
+	private String dataDir;
+	private String separator;
+	
 	
 	public LabeledIcon(String text, String icon){
 		super();
@@ -59,7 +65,13 @@ public class LabeledIcon extends QAbstractButton{
 //		label.setAlignment(com.trolltech.qt.core.Qt.AlignmentFlag.createQFlags(com.trolltech.qt.core.Qt.AlignmentFlag.AlignCenter));
 		//String test=Activator.getContext().getBundle().getLocation();
 		//if(test.startsWith("file"))
-			image.setPixmap(new QPixmap(Activator.getInformation().getRunDir()+"icons/"+icon));
+		File confHome = new File(new BundleConfigHome("ucc").getAbsolutePath());
+		dataDir = confHome.getPath();
+		separator = System.getProperty("file.separator");
+		
+		System.err.println("DATA DIR " + confHome.getPath()+separator+"icons"+separator+icon);
+		image.setPixmap(new QPixmap(confHome.getPath()+separator+"icons"+separator+icon));
+	//		image.setPixmap(new QPixmap(Activator.getInformation().getRunDir()+"icons/"+icon));
 //			System.out.println("---->Icon location: " + Activator.getInformation().getRunDir()+"icons/"+icon);
 		//This does not work with the runner
 //		java.net.URL imgURL = (Activator.class.getClassLoader().getResource("/icons/"+icon));
