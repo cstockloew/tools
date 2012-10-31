@@ -2,7 +2,7 @@
 <feature
       id="org.ops4j.pax.runner.eclipse.ui.feature"
       label="Pax Runner Plugin for Eclipse UI"
-      version="1.7.6.v20120710"
+      version="1.7.6.v20121031"
       provider-name="OPS4j.org">
 
    <copyright url="http://www.ops4j.org">
