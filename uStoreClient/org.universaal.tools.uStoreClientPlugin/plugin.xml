@@ -41,7 +41,7 @@
       </handler>
    </extension> 
    <extension point="org.eclipse.ui.startup">
-     <startup class="org.universaal.tools.uStoreClienteapplication.StartupClass"/>
+     <startup class="org.universaal.tools.uStoreClientapplication.StartupClass"/>
    </extension>
       <extension point="org.eclipse.help.contexts">
       <contexts file="helpdoc.xml"  />
