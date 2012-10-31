@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CodeAssistant
 Bundle-SymbolicName: org.universAAL.CodeAssistant;singleton:=true
-Bundle-Version: 1.1.0
+Bundle-Version: 0.8.0
 Bundle-Activator: org.universAAL.codeassistant.Activator
 Bundle-Vendor: CERTH
 Require-Bundle: org.eclipse.ui,
