@@ -13,12 +13,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.osgi.framework.Bundle;
 import org.universAAL.codeassistant.editor.model.TreeNode;
 
 import com.hp.hpl.jena.ontology.OntClass;
@@ -34,6 +32,7 @@ public class TreeConstruction{
 	private static String codeAssistantDir = new String("CodeAssistantFiles");
 	private static String iconsDir = new String("icons");
 	private static String filesDir = new String("owlfiles");
+	private static URL owlFilesDir = null;
 	private static Image repoImage=null;
 	private static Image classImage=null;
 	private static Image propImage=null;
@@ -43,9 +42,10 @@ public class TreeConstruction{
 	private static TreeNode tn;
 	
 	public TreeConstruction(){
-		repoImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universAAL.CodeAssistant").getEntry("CodeAssistantFiles/icons/repo.gif")).createImage();
-		classImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universAAL.CodeAssistant").getEntry("CodeAssistantFiles/icons/class.gif")).createImage();
-		propImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universAAL.CodeAssistant").getEntry("CodeAssistantFiles/icons/properties.gif")).createImage();
+		repoImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universAAL.CodeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"repo.gif")).createImage();
+		classImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universAAL.CodeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"class.gif")).createImage();
+		propImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universAAL.CodeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"properties.gif")).createImage();
+		owlFilesDir = (URL)Platform.getBundle("org.universAAL.CodeAssistant").getEntry(codeAssistantDir+File.separator+filesDir+File.separator);
 	}
 
 	public static TreeNode getRootNode() {
@@ -53,28 +53,28 @@ public class TreeConstruction{
 		String currentDir = System.getProperty("user.dir");
 		System.out.println("Current directory's canonical path: "+currentDir);
 		URL url = Platform.getBundle("org.universAAL.CodeAssistant").getEntry("CodeAssistantFiles/icons/repo.gif");
-		
-		
 		try{
-			File[] files = getDirectoryFiles(currentDir + File.separator + codeAssistantDir + File.separator + filesDir);
-			String[] fileNames = getFileNames(files);
-			for (int i=0; i<files.length; i++) {
-				// parent node contains the file node
-				tn = new TreeNode("",new Entity(""));
-				Entity q = new Entity(fileNames[i]);
-				tn.setName(fileNames[i]);
-				tn.setQ(q);
-				tn.setImage(repoImage);
-				root.addChild(tn);
-				System.out.println("File: "+fileNames[i]);
-				loadOntology(files[i].toString());
-				ArrayList owlClasses = (ArrayList)getOntologyClassesStructured();
-				for (int j=0; j<owlClasses.size(); j++){
-					OntologyClass c = (OntologyClass)owlClasses.get(j);
-					constructTreeNode(tn, c);
-					getChildrenStructured(c);
+			//File[] files = getDirectoryFiles(currentDir + File.separator + codeAssistantDir + File.separator + filesDir);
+			File[] files = getDirectoryFiles(owlFilesDir);
+			if (files!=null){
+				String[] fileNames = getFileNames(files);
+				for (int i=0; i<files.length; i++) {
+					tn = new TreeNode("",new Entity(""));
+					Entity q = new Entity(fileNames[i]);
+					tn.setName(fileNames[i]);
+					tn.setQ(q);
+					tn.setImage(repoImage);
+					root.addChild(tn);
+					System.out.println("File: "+fileNames[i]);
+					loadOntology(files[i].toString());
+					ArrayList owlClasses = (ArrayList)getOntologyClassesStructured();
+					for (int j=0; j<owlClasses.size(); j++){
+						OntologyClass c = (OntologyClass)owlClasses.get(j);
+						constructTreeNode(tn, c);
+						getChildrenStructured(c);
+					}
+					owlClasses.clear();
 				}
-				owlClasses.clear();
 			}
 		}
 		catch(Exception e){ e.printStackTrace(); }
@@ -284,19 +284,26 @@ public class TreeConstruction{
 	}
 	
 	
-	private static File[] getDirectoryFiles(String directoryName) throws IOException{
-		File directory = new File(directoryName);      
-		File[] files;  
-		files=directory.listFiles();
-		for (int i=0; i<files.length; i++){
-			File path=files[i];
-			FileReader fr = new FileReader(path);
-			BufferedReader br = new BufferedReader(fr);
-			String s = "";
-			while (br.ready()) {
-				s += br.readLine() + "\n";
+	//private static File[] getDirectoryFiles(String directoryName) throws IOException{
+	private static File[] getDirectoryFiles(URL directoryName) throws IOException{
+		File[] files = null;  
+		try {
+			File directory = new File(FileLocator.resolve(directoryName).toURI());
+			if (directory.isDirectory()){
+				files=directory.listFiles();
+				for (int i=0; i<files.length; i++){
+					File path=files[i];
+					FileReader fr = new FileReader(path);
+					BufferedReader br = new BufferedReader(fr);
+					String s = "";
+					while (br.ready()) {
+						s += br.readLine() + "\n";
+					}
+				}	
 			}
-		}	
+		} 
+		catch (Exception e) { e.printStackTrace(); }    
+
 		return files;
 	}
 
