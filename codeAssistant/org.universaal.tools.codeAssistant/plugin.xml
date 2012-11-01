@@ -3,13 +3,13 @@
 <plugin>
 	<extension point="org.eclipse.ui.views">
 		<category
-			name="Code Assistant Category"
-			id="org.universaal.tools.codeassistant">
+			name="AAL Studio"
+			id="org.universaal.tools.aalstudio">
 		</category>
 		<view
 			name="Code Assistant View"
 			icon="CodeAssistantFiles/icons/sample.gif"
-			category="org.universaal.tools.codeassistant"
+			category="org.universaal.tools.aalstudio"
 			class="org.universaal.tools.codeassistantapplication.CodeAssistantView"
 			id="org.universAAL.codeassistant.CodeAssistantView">
 		</view>
