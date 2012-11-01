@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -36,26 +38,21 @@ public class TreeConstruction{
 	private static Image repoImage=null;
 	private static Image classImage=null;
 	private static Image propImage=null;
-	//private static Image repoImage = new Image(Display.getCurrent(), System.getProperty("user.dir") + File.separator + codeAssistantDir + File.separator + iconsDir + File.separator + "repo.gif");
-	//private static Image classImage = new Image(Display.getCurrent(), System.getProperty("user.dir") + File.separator + codeAssistantDir + File.separator + iconsDir + File.separator + "class.gif");				
-	//private static Image propImage = new Image(Display.getCurrent(), System.getProperty("user.dir") + File.separator + codeAssistantDir + File.separator + iconsDir + File.separator + "properties.gif");				
 	private static TreeNode tn;
 	
 	public TreeConstruction(){
 		repoImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"repo.gif")).createImage();
 		classImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"class.gif")).createImage();
 		propImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"properties.gif")).createImage();
-		owlFilesDir = (URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+filesDir+File.separator);
+		//owlFilesDir = (URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+filesDir+File.separator);
 	}
 
 	public static TreeNode getRootNode() {
 		TreeNode root = new TreeNode("root",new Entity("root"));
 		String currentDir = System.getProperty("user.dir");
-		//System.out.println("Current directory's canonical path: "+currentDir);
-		URL url = Platform.getBundle("org.universaal.tools.codeAssistant").getEntry("CodeAssistantFiles/icons/repo.gif");
 		try{
-			//File[] files = getDirectoryFiles(currentDir + File.separator + codeAssistantDir + File.separator + filesDir);
-			File[] files = getDirectoryFiles(owlFilesDir);
+			//File[] files = getDirectoryFiles(owlFilesDir);
+			File[] files = getDirectoryFiles();
 			if (files!=null){
 				String[] fileNames = getFileNames(files);
 				for (int i=0; i<files.length; i++) {
@@ -284,11 +281,20 @@ public class TreeConstruction{
 	}
 	
 	
-	//private static File[] getDirectoryFiles(String directoryName) throws IOException{
-	private static File[] getDirectoryFiles(URL directoryName) throws IOException{
+	//private static File[] getDirectoryFiles(URL directoryName) throws IOException{
+	private static File[] getDirectoryFiles() throws IOException{
 		File[] files = null;  
+		IPath ipath = new Path(codeAssistantDir+File.separator+filesDir+File.separator);
+		owlFilesDir = FileLocator.find(Platform.getBundle("org.universaal.tools.codeAssistant"), ipath, null);
+		//owlFilesDir = (URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+filesDir+File.separator);
 		try {
-			File directory = new File(FileLocator.resolve(directoryName).toURI());
+			//File directory = new File(FileLocator.resolve(directoryName).toURI());
+			owlFilesDir = FileLocator.toFileURL(owlFilesDir);
+			String tmp = owlFilesDir.toString();
+			if (tmp.indexOf(" ")!=-1)
+				tmp = (owlFilesDir.toString()).replaceAll(" ", "%20");
+			owlFilesDir = new URL(tmp);
+			File directory = new File(FileLocator.resolve(owlFilesDir).toURI());
 			if (directory.isDirectory()){
 				files=directory.listFiles();
 				for (int i=0; i<files.length; i++){
