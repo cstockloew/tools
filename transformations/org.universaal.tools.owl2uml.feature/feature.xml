@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.owl2uml.feature"
-      label="AAL Studio Transformations"
+      label="AAL Studio OWL to UML Transformations"
       version="0.3.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">

@@ -40,6 +40,7 @@
             locationURI="menu:org.universaal.tools.AALStudio.menu?after=transform">
          <command
                commandId="org.universaal.tools.owl2uml.actions.SampleAction"
+               icon="icons/cog_go.png"
                label="&amp;OWL2UML Tranformation"
                style="push">
          </command>
@@ -49,7 +50,7 @@
             locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
          <command
                commandId="org.universaal.tools.owl2uml.commands.sampleCommand"
-               icon="icons/transform.png"
+               icon="icons/cog_go.png"
                label="Transform2UML"
                style="push">
                <visibleWhen>
@@ -72,7 +73,7 @@
             id="org.universaal.tools.owl2uml.actionSet">
          <action
                label="&amp;OWL2UML Tranformation Tool"
-               icon="icons/transform.png"
+               icon="icons/cog_go.png"
                class="org.universaal.tools.owl2uml.actions.SampleAction"
                tooltip="Please right-click on a selected .owl file and choose the Transform2UML option."
                menubarPath="org.universaal.tools.AALStudio.menu/transform"

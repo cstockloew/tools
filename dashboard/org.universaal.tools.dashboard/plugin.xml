@@ -6,10 +6,10 @@
          point="org.eclipse.ui.views">
       <category
             name="AAL Studio"
-            id="org.universaal.tools.dashboard">
+            id="org.universaal.tools.aalstudio">
       </category>
       <view
-            category="org.universaal.tools.dashboard"
+            category="org.universaal.tools.aalstudio"
             class="org.universaal.tools.dashboard.views.DashboardView"
             icon="icons/control_panel.png"
             id="org.universaal.tools.dashboard.views.DashboardView"

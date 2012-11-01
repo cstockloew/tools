@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.codeAssistantFeature"
-      label="CodeAssistantFeature"
+      label="AAL Studio Code Assistant"
       version="0.8.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">

@@ -8,10 +8,10 @@
          point="org.eclipse.ui.views">
       <category
             name="AAL Studio"
-            id="org.universaal.tools.configurationExtractor">
+            id="org.universaal.tools.aalstudio">
       </category>
       <view
-            category="org.universaal.tools.configurationExtractor"
+            category="org.universaal.tools.aalstudio"
             class="org.universaal.tools.configurationExtractor.view.CEView"
             id="org.universaal.tools.configurationExtractor.CEView"
             name="Configuration Extractor">
