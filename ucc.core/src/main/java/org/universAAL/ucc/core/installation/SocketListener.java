@@ -98,11 +98,7 @@ public class SocketListener {
 		System.out.println("Event Catched: " + url);
 		
 		if(url!=null){
-//			if(Activator.getMainWindow()==null||!Activator.getMainWindow().isUIShowing()){
-//				System.out.println("Open uCC GUI");
 				Activator.getUILauncher().showUi();
-//			}else
-//				System.out.println("uCC GUI already opened");
 			
 			if(!url.equals(OPEN_GUI_TAG)){
 				PackageDownloader downloader = new PackageDownloader();

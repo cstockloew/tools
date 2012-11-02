@@ -60,8 +60,11 @@ public class PackageDownloader {
 		String result="package.uaal";
 		String[] values=url.split("&");
 		for(int i=0;i<values.length;i++){
-			if(values[i].startsWith(FILENAME_SEARCH_TAG))
-				result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
+			String[] current = values[i].split("\\?");
+			for(int j=0;j<current.length;j++){
+				if(current[j].startsWith(FILENAME_SEARCH_TAG))
+					result=current[j].substring(FILENAME_SEARCH_TAG.length()+1);	
+			}		
 		}
 		return result;
 	}
