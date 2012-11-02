@@ -1,4 +1,7 @@
 * text=auto !eol
+org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
+org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.classpath -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.project -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
