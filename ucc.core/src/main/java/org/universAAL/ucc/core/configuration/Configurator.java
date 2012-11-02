@@ -18,6 +18,7 @@ import org.universAAL.middleware.owl.ManagedIndividual;
 import org.universAAL.ucc.api.core.IConfigurator;
 import org.universAAL.ucc.core.Activator;
 
+/* remove jena dependency to temporarily avoid runner issue
 import com.hp.hpl.jena.ontology.AllValuesFromRestriction;
 import com.hp.hpl.jena.ontology.DatatypeProperty;
 import com.hp.hpl.jena.ontology.Individual;
@@ -31,6 +32,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+*/
 import com.trolltech.qt.gui.QBoxLayout;
 
 
@@ -127,6 +129,7 @@ public class Configurator implements IConfigurator {
 		
 	}
 	
+	/*
 	private static UCConfig readOntology(String path) throws Exception {
 		// read the ontology from the file
 		OntModel m = readOntologyFromFile(path);
@@ -235,6 +238,11 @@ public class Configurator implements IConfigurator {
 			}
 		}
 		
+		// This temporarily replaces the original readOntotloy (see above)
+		private static UCConfig readOntology(String path) throws Exception {
+			
+		}
+		
 		//get ConfigItems
 		instances.close();
 		instances = getInstances(m,"UCConfigItem");
@@ -279,27 +287,106 @@ public class Configurator implements IConfigurator {
 		}
 		instances.close();
 		return ucconfig;
-	}
+	}*/
 	
-	private static ExtendedIterator<? extends OntResource> getInstances(OntModel m, String uri){
-		ExtendedIterator<OntClass> classes = m.listClasses();
-		
-		// loop through all classes in the ontology
-	    while (classes.hasNext()) {
-	      OntClass thisClass = (OntClass) classes.next();
-	      // only accept an instance of UCConfigItem
-	      if (thisClass.getURI().equals(PREFIX + uri)) {
-	    	  System.out.println("Found class: " + thisClass.toString());
-		      ExtendedIterator<? extends OntResource> instances = thisClass.listInstances();
-		      return instances;
-	      }
-	   }
-	    return null;
-	}
+	// This temporarily replaces the original readOntotloy (see above)
+			private static UCConfig readOntology(String path) throws Exception {
+				int index=path.lastIndexOf("\\")+1;
+				path=path.substring(0,index);
+				HashMap<String, String> defaultValues=readDefaultValues(path+"defaultValues.txt");
+				
+				//set ucconfig
+				UCConfig ucconfig= new UCConfig("059badd0-beca-4bf6-9233-331f6ebbc8fb");	
+				ucconfig.setVersionNumber("0.0.1-SNAPSHOT");
+				ucconfig.setName("Nutritional Advisor");
+				ucconfig.setAuthor("Gema");
+						
+				//add panels
+				ConfigPanel item0= new ConfigPanel("Item_0");
+				item0.setCaption("Server configuration");
+				item0.setLocationID(1);
+				ucconfig.addConfigPanel(item0);
+				
+				ConfigPanel item4= new ConfigPanel("Item_4");
+				item4.setCaption("End user preferences for Nutritional Advisor");
+				item4.setLocationID(5);
+				ucconfig.addConfigPanel(item4);
+				
+				//add items
+				UCConfigItem item1=new UCConfigItem("Item_1");
+				item1.setLocationID(2);
+				item1.setHoverText("Insert the IP of your Nutritional Advisor web server.");
+				item1.setLabelText("IP:");
+				item1.setName("web_server_ip_address");
+				item1.setValue("String");
+				item1.setPanel("Item_0");
+				if(defaultValues.containsKey(item1.getName()))
+					item1.setDefaultValue(defaultValues.get(item1.getName()));				
+				ucconfig.addConfigItem(item1);
+				
+				UCConfigItem item5=new UCConfigItem("Item_5");
+				item5.setLocationID(6);
+				item5.setHoverText("Should the Nutritional Advisor start in fullscreen. [true|false]");
+				item5.setLabelText("Fullscreen:");
+				item5.setName("maximize_window");
+				item5.setValue("String");
+				item5.setPanel("Item_4");
+				if(defaultValues.containsKey(item5.getName()))
+					item5.setDefaultValue(defaultValues.get(item5.getName()));				
+				ucconfig.addConfigItem(item5);
+				
+				UCConfigItem item3=new UCConfigItem("Item_3");
+				item3.setLocationID(4);
+				item3.setHoverText("Insert the web service address of your Nutritional Advisor.");
+				item3.setLabelText("Service Address:");
+				item3.setName("web_server_service_address");
+				item3.setValue("String");
+				item3.setPanel("Item_0");
+				if(defaultValues.containsKey(item3.getName()))
+					item3.setDefaultValue(defaultValues.get(item3.getName()));				
+				ucconfig.addConfigItem(item3);
+				
+				UCConfigItem item7=new UCConfigItem("Item_7");
+				item7.setLocationID(8);
+				item7.setHoverText("Please set the screensaver delay in seconds.");
+				item7.setLabelText("Set screensaver delay:");
+				item7.setName("screensaver_delay_second");
+				item7.setValue("String");
+				item7.setPanel("Item_4");
+				if(defaultValues.containsKey(item7.getName()))
+					item7.setDefaultValue(defaultValues.get(item7.getName()));				
+				ucconfig.addConfigItem(item7);
+				
+				UCConfigItem item2=new UCConfigItem("Item_2");
+				item2.setLocationID(3);
+				item2.setHoverText("Insert the Port of your Nutritional Advisor web server.");
+				item2.setLabelText("Port:");
+				item2.setName("web_server_port");
+				item2.setValue("int");
+				item2.setPanel("Item_0");
+				if(defaultValues.containsKey(item2.getName()))
+					item2.setDefaultValue(defaultValues.get(item2.getName()));				
+				ucconfig.addConfigItem(item2);
+				
+				UCConfigItem item6=new UCConfigItem("Item_6");
+				item6.setLocationID(7);
+				item6.setHoverText("Activate screensaver for Nutritional Advisor. [true|false]");
+				item6.setLabelText("Enable Screensaver:");
+				item6.setName("screensaver_enabled");
+				item6.setValue("String");
+				item6.setPanel("Item_4");
+				if(defaultValues.containsKey(item6.getName()))
+					item6.setDefaultValue(defaultValues.get(item6.getName()));				
+				ucconfig.addConfigItem(item6);
+				
+			return ucconfig;
+			}
+	
 	/**
 	 * @param filename file to read
 	 * @return OntModel for the ontology in a given file
 	 */
+	/* remove jena dependency to temporarily avoid runner issue
 	private static OntModel readOntologyFromFile(String filename) {
 		OntModel m = ModelFactory.createOntologyModel();
 
@@ -311,7 +398,7 @@ public class Configurator implements IConfigurator {
 		m.read(in, null);
 		
 		return m;
-	}
+	}*/
 
 	public boolean checkEnteredValues(){
 		return configuration.checkEnteredValues();
