@@ -36,7 +36,7 @@ public class UCCPlugin implements IPlugin {
 		});
 	}
 	public void createGridViewItem(){
-		PluginGridViewItem gv= new PluginGridViewItem("System\nInformation", "addressbook.png",	new Runnable() {
+		PluginGridViewItem gv= new PluginGridViewItem("System\nInformation", "system.png",	new Runnable() {
 
 			public void run() {
 				uCCPluginBase.getMainView().showSubWindow(informationView);
