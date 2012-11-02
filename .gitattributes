@@ -65,6 +65,9 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/PublishApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/RunApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/UploadApplicationHandler.java -text
+org.universaal.tools.codeAssistantFeature/.project -text
+org.universaal.tools.codeAssistantFeature/build.properties -text
+org.universaal.tools.codeAssistantFeature/feature.xml -text
 org.universaal.tools.configurationExtractor.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/feature.xml -text svneol=unset#text/plain
