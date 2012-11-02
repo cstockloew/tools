@@ -1,0 +1,17 @@
+<verifications xmlns="http://maven.apache.org/verifications/1.0.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://maven.apache.org/verifications/1.0.0 http://maven.apache.org/xsd/verifications-1.0.0.xsd">
+  <files>
+    <file>
+      <location>src/main/resources/file1.txt</location>
+    </file>
+    <file>
+      <location>src/main/resources/file2.txt</location>
+      <contains>aaaabbbb</contains>
+    </file>
+    <file>
+      <location>src/main/resources/file3.txt</location>
+      <exists>false</exists>
+    </file>
+  </files>
+</verifications>

@@ -122,6 +122,18 @@ org.universaal.tools.codeAssistantFeature/feature.xml -text
 org.universaal.tools.configurationExtractor.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.conformance.verify.plugin/.classpath -text
+org.universaal.tools.conformance.verify.plugin/.project -text
+org.universaal.tools.conformance.verify.plugin/.settings/org.eclipse.jdt.core.prefs -text
+org.universaal.tools.conformance.verify.plugin/META-INF/MANIFEST.MF -text
+org.universaal.tools.conformance.verify.plugin/build.properties -text
+org.universaal.tools.conformance.verify.plugin/files/verify.xml -text
+org.universaal.tools.conformance.verify.plugin/icons/chckuaal_file.gif -text
+org.universaal.tools.conformance.verify.plugin/icons/ic-uAAL-hdpi.png -text
+org.universaal.tools.conformance.verify.plugin/icons/uaal.gif -text
+org.universaal.tools.conformance.verify.plugin/plugin.xml -text
+org.universaal.tools.conformance.verify.plugin/src/org/universaal/tools/conformance/verify/plugin/Activator.java -text
+org.universaal.tools.conformance.verify.plugin/src/org/universaal/tools/conformance/verify/plugin/handlers/VerifierHandler.java -text
 org.universaal.tools.conformanceTools.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools.feature/feature.xml -text svneol=unset#text/plain

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="universAAL"
+            id="org.universaal.tools.conformance.verify.plugin.commands.category">
+      </category>
+      <command
+            name="Verify File Conformance"
+            categoryId="org.universaal.tools.conformance.verify.plugin.commands.category"
+            id="org.universaal.tools.conformance.verify.plugin.commands.sampleCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <!--<handler
+            commandId="org.universaal.tools.conformance.verify.plugin.commands.sampleCommand"
+            class="org.universaal.tools.conformance.verify.plugin.handlers.VerifierHandler">
+            <enabledWhen>
+                <with
+                      variable="selection">
+                   <iterate
+                         ifEmpty="false"
+                         operator="or">
+                         <or>
+                          <instanceof value="org.eclipse.core.resources.IProject" />
+	                      <instanceof value="org.eclipse.jdt.internal.core.JavaProject" />
+                         </or>
+                   </iterate>
+                   <count value="1" />
+                </with>
+             </enabledWhen>
+      </handler>-->
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=test">
+            <command
+                  commandId="org.universaal.tools.conformance.verify.plugin.commands.sampleCommand"
+                  mnemonic="V"
+                  id="org.universaal.tools.conformance.verify.plugin.menus.sampleCommand"
+                  icon="icons/chckuaal_file.gif">
+            </command>
+      </menuContribution>
+   </extension>
+
+</plugin>
