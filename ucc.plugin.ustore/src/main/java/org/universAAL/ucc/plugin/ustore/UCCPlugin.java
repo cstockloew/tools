@@ -36,7 +36,7 @@ public class UCCPlugin implements IPlugin {
 		});
 	}
 	public void createGridViewItem(){
-		PluginGridViewItem gv= new PluginGridViewItem("Download App", "utorrent2.png",	new Runnable() {
+		PluginGridViewItem gv= new PluginGridViewItem("uStore", "ustore.png",	new Runnable() {
 
 			public void run() {
 				uCCPluginBase.getMainView().showSubWindow(storeView);

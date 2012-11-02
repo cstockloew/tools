@@ -25,9 +25,7 @@ public class Ui_StoreView implements com.trolltech.qt.QUiForm<QWidget>
     {
        horizontalLayout = new QHBoxLayout(Install);
        webView = new QWebView();
-   	   webView.load(new QUrl("http://wiki.openaal.de/index.php/Download"));
-       
-    	   //webView.load(new QUrl("http://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/StoreView?storeId=10001"));
+   	   webView.load(new QUrl("http://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/en/ustore"));
        horizontalLayout.addWidget(webView);
 
         retranslateUi(Install);
