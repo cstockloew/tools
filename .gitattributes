@@ -33,6 +33,35 @@ org.universAAL.tools.logmonitor/src/main/resources/img/OK_48.png -text
 org.universaal.tools.buildFeature/.project -text
 org.universaal.tools.buildFeature/build.properties -text
 org.universaal.tools.buildFeature/feature.xml -text
+org.universaal.tools.buildPlugin/.classpath -text
+org.universaal.tools.buildPlugin/.project -text
+org.universaal.tools.buildPlugin/.settings/org.eclipse.jdt.core.prefs -text
+org.universaal.tools.buildPlugin/META-INF/MANIFEST.MF -text
+org.universaal.tools.buildPlugin/build.properties -text
+org.universaal.tools.buildPlugin/files/sodapop.key -text svneol=unset#application/octet-stream
+org.universaal.tools.buildPlugin/icons/Thumbs.db -text
+org.universaal.tools.buildPlugin/icons/compile.png -text
+org.universaal.tools.buildPlugin/icons/debug.png -text
+org.universaal.tools.buildPlugin/icons/publish.png -text
+org.universaal.tools.buildPlugin/icons/run.png -text
+org.universaal.tools.buildPlugin/icons/sample.gif -text
+org.universaal.tools.buildPlugin/icons/upload.png -text
+org.universaal.tools.buildPlugin/plugin.xml -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/Activator.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/StartupClass.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/actions/BuildAction.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/actions/CreateLaunchConfigurationFile.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/actions/CredentialsDialog.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/actions/DebugAction.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/actions/PublishAction.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/actions/RunAction.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/actions/UploadAction.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/actions/UploadArtifact.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/BuildApplicationHandler.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/DebugApplicationHandler.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/PublishApplicationHandler.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/RunApplicationHandler.java -text
+org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/UploadApplicationHandler.java -text
 org.universaal.tools.configurationExtractor.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.configurationExtractor.feature/feature.xml -text svneol=unset#text/plain
