@@ -30,6 +30,9 @@ org.universAAL.tools.logmonitor/src/main/resources/img/OK_16.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_24.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_32.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_48.png -text
+org.universaal.tool.wizardfeature/.project -text
+org.universaal.tool.wizardfeature/build.properties -text
+org.universaal.tool.wizardfeature/feature.xml -text
 org.universaal.tools.aalstudio.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.aalstudio.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.aalstudio.feature/feature.xml -text svneol=unset#text/plain
