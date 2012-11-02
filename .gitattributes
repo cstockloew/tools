@@ -30,6 +30,37 @@ org.universAAL.tools.logmonitor/src/main/resources/img/OK_16.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_24.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_32.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_48.png -text
+org.universaal.tools.conformanceTools/.classpath -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.classpath.html -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.project -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.project.html -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/.settings/org.sonar.ide.eclipse.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/build.properties -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/icons/chckuaal_file.gif -text
+org.universaal.tools.conformanceTools/icons/ic-uAAL-hdpi.png -text
+org.universaal.tools.conformanceTools/icons/icon_error_sml.gif -text
+org.universaal.tools.conformanceTools/icons/icon_info_sml.gif -text
+org.universaal.tools.conformanceTools/icons/icon_warning_sml.gif -text
+org.universaal.tools.conformanceTools/icons/maven-feather.png -text
+org.universaal.tools.conformanceTools/icons/test.png -text
+org.universaal.tools.conformanceTools/icons/uaal.gif -text
+org.universaal.tools.conformanceTools/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/handlers/ConformanceToolsHandler.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/run/ToolsRun.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/ExitCodes.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/HtmlPage.java -text
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/RunPlugin.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/old/Builder.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/old/EssentialFiles.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/old/OptionsParser.java -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/old/checkstyle_checks.xml -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/old/findbugs.properties -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/old/options.properties -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/old/sun_checks.xml -text svneol=unset#text/plain
+org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/windows/MainFrame.java -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
