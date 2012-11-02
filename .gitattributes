@@ -379,6 +379,25 @@ org.universaal.tools.profileplugin/palettes/Palette_org.universaal.tools.profile
 org.universaal.tools.profileplugin/palettes/Palette_org.universaal.tools.profileplugin.serviceModelPalette.xml -text svneol=unset#text/plain
 org.universaal.tools.profileplugin/plugin.xml -text svneol=unset#text/plain
 org.universaal.tools.profileplugin/src/icons/patient_ns16.gif -text
+org.universaal.tools.subversivePlugin/.classpath -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/.project -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/LICENSE.txt -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/build.properties -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/icons/compile.png -text
+org.universaal.tools.subversivePlugin/icons/sample.gif -text
+org.universaal.tools.subversivePlugin/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/eclipse/wb/swt/ResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/eclipse/wb/swt/SWTResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/handlers/ImportExampleHandler.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/preferences/PreferenceConstants.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/preferences/PreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/wizards/ImportExampleWizard.java -text svneol=unset#text/plain
+org.universaal.tools.subversivePlugin/src/org/universaal/tools/subversiveplugin/wizards/ImportExampleWizardPage.java -text svneol=unset#text/plain
 org.universaal.tools.thirdpartyphp/.buildpath -text
 org.universaal.tools.thirdpartyphp/.project -text
 org.universaal.tools.thirdpartyphp/index.php -text
