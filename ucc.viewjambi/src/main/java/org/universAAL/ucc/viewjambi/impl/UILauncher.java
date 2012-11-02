@@ -48,6 +48,7 @@ public class UILauncher implements IUILauncher{
 						Activator.mainWindow.show();
 						
 						Activator.setPluginBase(new PluginBase(new GridView()));
+						Activator.getContext().registerService(IPluginBase.class.getName(), Activator.getPluginBase(), null);
 						Activator.loadPlugins();
 						isUIOpen=true;
 						QApplication.exec();					
@@ -65,7 +66,6 @@ public class UILauncher implements IUILauncher{
 
 			if (Activator.mainWindow != null) {
 				System.err.println("Jambi-Main-View started");
-				Activator.getContext().registerService(IPluginBase.class.getName(), Activator.getPluginBase(), null);
 				Activator.getContext().registerService(IMainWindow.class.getName(), Activator.mainWindow, null);
 			}
 			else 

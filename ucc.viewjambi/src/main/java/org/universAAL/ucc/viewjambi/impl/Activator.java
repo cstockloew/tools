@@ -12,6 +12,7 @@ import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
+import org.universAAL.middleware.container.osgi.util.BundleConfigHome;
 import org.universAAL.ucc.api.core.IConfigurator;
 import org.universAAL.ucc.api.core.IDeinstaller;
 import org.universAAL.ucc.api.core.IInformation;
@@ -156,7 +157,9 @@ public class Activator implements BundleActivator {
 			return false;
 		}
 		
-		File pluginFolder = new File(Activator.getInformation().getRunDir()+plugins);
+		File confHome = new File(new BundleConfigHome("ucc").getAbsolutePath());
+        String separator = System.getProperty("file.separator");    
+        File pluginFolder = new File(confHome.getPath()+separator+"plugins");
 		if(pluginFolder.exists()){
 		
 			String[] pluginlist=pluginFolder.list();
