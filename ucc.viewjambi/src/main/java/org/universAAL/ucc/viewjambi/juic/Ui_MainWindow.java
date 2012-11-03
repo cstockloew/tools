@@ -88,7 +88,7 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
 
     void retranslateUi(QMainWindow MainWindow)
     {
-        MainWindow.setWindowTitle(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "universAAL Control Center (UCC)", null));
+        MainWindow.setWindowTitle(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "universAAL Control Center (uCC)", null));
         actionExit.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Exit", null));
         actionInstall.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Install", null));
         actionSystem_Information.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "System Information", null));

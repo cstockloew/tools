@@ -101,8 +101,8 @@ public class Ui_Install implements com.trolltech.qt.QUiForm<QWidget>
 
         gridLayout.addWidget(widget, 5, 0, 1, 2);
 
-        label_2 = new QLabel(Install);
-        label_2.setObjectName("label_2");
+//        label_2 = new QLabel(Install);
+//        label_2.setObjectName("label_2");
 
         gridLayout.addWidget(label_2, 3, 0, 1, 1);
 
@@ -117,11 +117,11 @@ public class Ui_Install implements com.trolltech.qt.QUiForm<QWidget>
     void retranslateUi(QWidget Install)
     {
         Install.setWindowTitle(com.trolltech.qt.core.QCoreApplication.translate("Install", "Install a new application", null));
-        label.setText(com.trolltech.qt.core.QCoreApplication.translate("Install", "Please select a application to install:", null));
+        label.setText(com.trolltech.qt.core.QCoreApplication.translate("Install", "Please select an AAL application to install:", null));
         fileChoise.setText(com.trolltech.qt.core.QCoreApplication.translate("Install", "...", null));
         okButton.setText(com.trolltech.qt.core.QCoreApplication.translate("Install", "OK", null));
         cancelButton.setText(com.trolltech.qt.core.QCoreApplication.translate("Install", "Cancel", null));
-        label_2.setText(com.trolltech.qt.core.QCoreApplication.translate("Install", "I want to try this out to!", null));
+//        label_2.setText(com.trolltech.qt.core.QCoreApplication.translate("Install", "I want to try this out to!", null));
     } // retranslateUi
 
 }

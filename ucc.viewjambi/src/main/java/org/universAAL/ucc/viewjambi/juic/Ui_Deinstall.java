@@ -99,10 +99,10 @@ public class Ui_Deinstall implements com.trolltech.qt.QUiForm<QWidget>
 
     void retranslateUi(QWidget Deinstall)
     {
-        Deinstall.setWindowTitle(com.trolltech.qt.core.QCoreApplication.translate("Deinstall", "Deinstall an application", null));
-        okButton.setText(com.trolltech.qt.core.QCoreApplication.translate("Deinstall", "Deinstall", null));
+        Deinstall.setWindowTitle(com.trolltech.qt.core.QCoreApplication.translate("Deinstall", "Choose an AAL application for uninstallation.", null));
+        okButton.setText(com.trolltech.qt.core.QCoreApplication.translate("Deinstall", "Uninstall", null));
         cancelButton.setText(com.trolltech.qt.core.QCoreApplication.translate("Deinstall", "Cancel", null));
-        label.setText(com.trolltech.qt.core.QCoreApplication.translate("Deinstall", "Select an application: ", null));
+        label.setText(com.trolltech.qt.core.QCoreApplication.translate("Deinstall", "Select an AAL application for uninstallation: ", null));
     } // retranslateUi
 
 }
