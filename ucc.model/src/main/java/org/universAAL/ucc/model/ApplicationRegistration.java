@@ -18,6 +18,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.universAAL.middleware.util.Constants;
 import org.universAAL.ucc.api.model.IApplicationRegistration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -229,40 +230,22 @@ public class ApplicationRegistration implements IApplicationRegistration {
 		}catch (Exception e){//Catch exception if any
 			  System.err.println("Error: " + e.getMessage());
 			  }
-//		writeMenuEntries();
+//		uncomment to enable menu creation
+//		writeNAMenuEntry();
 		return true;
 		
 	}
-	
-//	private void writeMenuEntries(){
-//		File menu[]= new File[3];
-//		menu[0] = new File("configurations/ui.dm.mobile/main_menu_saied_en.txt");
-//		menu[1] = new File("configurations/ui.dm.mobile/main_menu_saied_es.txt");
-//		menu[2] = new File("configurations/ui.dm.mobile/main_menu_saied_hr.txt");
-//		for(File m : menu){
-//			if(m.exists()){
-//				 FileInputStream fis=null;
-//					try {
-//						fis=new FileInputStream(m);
-//					} catch (FileNotFoundException e) {
-//							break;
-//					}
-//					Scanner scanner = new Scanner(fis, "UTF-8");
-//				
-//				    try {
-//				      while (scanner.hasNextLine()){
-//				        String current=scanner.nextLine();
-//				        if(current.equals("")){
-//				        	scanner.
-//				        }
-//				      }
-//				    }
-//				    finally{
-//				      scanner.close();
-//				    }
-//			}
-//		}
+
+//	uncomment to enable menu creation
+//	private void writeNAMenuEntry(){
+//		addEntry(
+//		         Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX + "saied",
+//		         "Nutritional Advisor",
+//		         "http://www.tsb.upv.es",
+//		         "http://ontology.persona.ima.igd.fhg.de/Nutritional.owl#Nutritional",
+//		         null);
 //	}
+	
 	
 	private boolean writeTTA(String appName, String rundir){
 		String path=getConfPath(rundir);
