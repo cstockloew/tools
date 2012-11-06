@@ -22,6 +22,9 @@ package org.universAAL.ucc.model;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.ucc.api.model.IModel;
 
 /**
@@ -32,11 +35,15 @@ import org.universAAL.ucc.api.model.IModel;
 
 
 public class Activator implements BundleActivator {
+	public static ModuleContext mc;
+    public static DefaultServiceCaller sc;
 	public static BundleContext context=null;
 	
 	private static IModel model;
 
 	public void start(BundleContext context) throws Exception {
+		mc = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
+	    sc = new DefaultServiceCaller(mc);
 		Activator.context=context;
 		
 		model = new Model();

@@ -18,7 +18,19 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.service.CallStatus;
+import org.universAAL.middleware.service.ServiceCall;
+import org.universAAL.middleware.service.ServiceRequest;
+import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.middleware.util.Constants;
+import org.universAAL.ontology.profile.Profilable;
+import org.universAAL.ontology.profile.Profile;
+import org.universAAL.ontology.profile.User;
+import org.universAAL.ontology.profile.service.ProfilingService;
+import org.universAAL.ontology.profile.ui.mainmenu.MenuEntry;
+import org.universAAL.ontology.profile.ui.mainmenu.MenuProfile;
 import org.universAAL.ucc.api.model.IApplicationRegistration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -231,20 +243,48 @@ public class ApplicationRegistration implements IApplicationRegistration {
 			  System.err.println("Error: " + e.getMessage());
 			  }
 //		uncomment to enable menu creation
-//		writeNAMenuEntry();
+		writeNAMenuEntry();
 		return true;
 		
 	}
 
 //	uncomment to enable menu creation
-//	private void writeNAMenuEntry(){
-//		addEntry(
-//		         Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX + "saied",
-//		         "Nutritional Advisor",
-//		         "http://www.tsb.upv.es",
-//		         "http://ontology.persona.ima.igd.fhg.de/Nutritional.owl#Nutritional",
-//		         null);
-//	}
+	private void writeNAMenuEntry(){
+		addEntry(
+		         Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX + "saied",
+		         "Nutritional Advisor",
+		         "http://www.tsb.upv.es",
+		         "http://ontology.persona.ima.igd.fhg.de/Nutritional.owl#Nutritional",
+		         null);
+	}
+	
+	private void addEntry(String userID, String entryName, String vendor,
+	         String serviceClass, String iconURL) {
+
+	     MenuEntry me = new MenuEntry(null);
+	     me.setVendor(new Resource(vendor));
+	     me.setServiceClass(new Resource(serviceClass));
+	     Resource pathElem = new Resource(iconURL);
+	     pathElem.setResourceLabel(entryName);
+	     me.setPath(new Resource[] { pathElem });
+
+	     ServiceRequest sr = new ServiceRequest(new ProfilingService(), null);
+	     sr.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS },
+	         new User(userID));
+	     sr.addAddEffect(new String[] { ProfilingService.PROP_CONTROLS,
+	         Profilable.PROP_HAS_PROFILE, Profile.PROP_HAS_SUB_PROFILE,
+	         MenuProfile.PROP_ENTRY }, me);
+
+	     ServiceResponse res = Activator.sc.call(sr);
+	     if (res.getCallStatus() == CallStatus.succeeded) {
+	         LogUtils.logDebug(Activator.mc, Activator.class, "addEntry",
+	             new Object[] { "new user ", userID, " added." }, null);
+	     } else {
+	         LogUtils.logDebug(Activator.mc, Activator.class, "addEntry",
+	             new Object[] { "callstatus is not succeeded" }, null);
+	     }
+	     }
+
 	
 	
 	private boolean writeTTA(String appName, String rundir){
