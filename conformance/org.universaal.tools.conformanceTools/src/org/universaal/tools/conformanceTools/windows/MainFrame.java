@@ -1,7 +1,6 @@
 package org.universaal.tools.conformanceTools.windows;
 
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -27,13 +26,8 @@ public class MainFrame {
 		shell.setLayout(layout);
 
 		GridData data = new GridData(GridData.FILL_BOTH);
-		/*Button one = new Button(shell, SWT.PUSH);
-		one.setText("Run checkstyle plugin - advanced configuration");
-		one.setEnabled(false);
-		one.setLayoutData(data);*/
 
 		Button two = new Button(shell, SWT.PUSH);
-		//two.setText("Run checkstyle plugin - default configuration");
 		two.setText("CheckStyle plugin");
 		two.setEnabled(true);
 		two.addMouseListener(new MouseListener() {
@@ -42,26 +36,18 @@ public class MainFrame {
 
 				shell.close();
 				shell.dispose();
-				instance.run(window, RunPlugin.CheckStyle);//, event);
+				instance.run(window, RunPlugin.CheckStyle);
 			}
 
 			public void mouseDown(MouseEvent e) {
-				// Auto-generated method stub
 			}
 
 			public void mouseDoubleClick(MouseEvent e) {
-				// Auto-generated method stub
 			}
 		});
 		two.setLayoutData(data);
 
-		/*Button three = new Button(shell, SWT.PUSH);
-		three.setText("Run findbugs plugin - advanced configuration");
-		three.setEnabled(false);
-		three.setLayoutData(data);*/
-
 		Button four = new Button(shell, SWT.PUSH);
-		//four.setText("Run findbugs plugin - default configuration");
 		four.setText("FindBugs plugin");
 		four.setEnabled(true);
 		four.addMouseListener(new MouseListener() {
@@ -70,21 +56,18 @@ public class MainFrame {
 
 				shell.close();
 				shell.dispose();
-				instance.run(window, RunPlugin.FindBugs);//, event);
+				instance.run(window, RunPlugin.FindBugs);
 			}
 
 			public void mouseDown(MouseEvent e) {
-				// Auto-generated method stub
 			}
 
 			public void mouseDoubleClick(MouseEvent e) {
-				// Auto-generated method stub
 			}
 		});
 		four.setLayoutData(data);
 
 		Button five = new Button(shell, SWT.PUSH);
-		//four.setText("Run findbugs plugin - default configuration");
 		five.setText("Maven Verifier plugin");
 		five.setEnabled(false);
 		five.addMouseListener(new MouseListener() {
@@ -103,11 +86,9 @@ public class MainFrame {
 			}
 
 			public void mouseDown(MouseEvent e) {
-				// Auto-generated method stub
 			}
 
 			public void mouseDoubleClick(MouseEvent e) {
-				// Auto-generated method stub
 			}
 		});
 		five.setLayoutData(data);
