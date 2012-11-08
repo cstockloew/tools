@@ -3,7 +3,6 @@ package org.universaal.tools.conformanceTools.handlers;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.conformanceTools.windows.MainFrame;
@@ -27,11 +26,6 @@ public class ConformanceToolsHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		/*MessageDialog.openInformation(
-				window.getShell(),
-				"universAAL Conformance Tools",
-				"Welcome to universAAL Conformance Tool");*/
-		
 		MainFrame.draw(window, event);
 
 		return null;
