@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ConformanceTools
 Bundle-SymbolicName: org.universaal.tools.conformanceTools;singleton:=true
-Bundle-Version: 0.4.0
+Bundle-Version: 0.4.5
 Bundle-Activator: org.universaal.tools.conformanceTools.Activator
 Bundle-Vendor: universAAL
 Require-Bundle: org.eclipse.ui,

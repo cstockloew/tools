@@ -46,17 +46,40 @@
       </menuContribution>
    </extension>
    
-   <extension point="org.eclipse.core.resources.markers" id="org.universaal.tools.conformanceTools.marker" name="marker">
-	<super type="org.eclipse.core.resources.marker"/>
-	<persistent value="false"/>
-	<attribute name="description"/>
+   <extension point="org.eclipse.core.resources.markers" id="org.universaal.tools.conformanceTools.ctMarker" name="uAAL Conformance Tools Marker">
+		<super type="org.eclipse.core.resources.textmarker"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors.annotationTypes">
+		<type super="org.eclipse.ui.workbench.texteditor.warning" 
+          markerType="org.universaal.tools.conformanceTools.ctMarker"
+          name="org.universaal.tools.conformanceTools.ctAnn" />
+  	</extension>
+
+  	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
+		<specification label="uAAL CT" 
+         annotationType="org.universaal.tools.conformanceTools.ctAnn"
+         quickFixIcon="icons/test.png" symbolicIcon="task" 
+         verticalRulerPreferenceKey="myMarkerIndicationInVerticalRuler"
+         verticalRulerPreferenceValue="true"/>
+  	</extension>
+	
+	<extension point="org.eclipse.ui.ide.markerResolution">
+		<markerResolutionGenerator
+ 			markerType="org.universaal.tools.conformanceTools.ctMarker" 
+  			class="org.universaal.tools.conformanceTools.markers.BugResolution">
+		</markerResolutionGenerator>
 	</extension>
 	
 	<!--<extension point="org.eclipse.ui.menus">
-      <menuContribution
-            class="org.universaal.tools.conformanceTools.markers.MarkerResolution"
-            locationURI="menu:org.eclipse.ui.main.menu">
-      </menuContribution>
-   </extension>-->
-
+		<menuContribution
+    	 class="org.universaal.tools.conformanceTools.markers.MarkerResolution"
+    	 locationURI="popup:#AbstractTextEditorRulerContext?after=additions">
+  			<dynamic
+         	 class="org.universaal.tools.conformanceTools.markers.MarkerResolution.MarkerMenuContribution"
+         	 id="org.universaal.tools.conformanceTools.ctMarker">
+  			</dynamic>
+		</menuContribution>
+	</extension>-->
+	
 </plugin>

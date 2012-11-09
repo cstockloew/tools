@@ -16,9 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
-import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.internal.registry.Contribution;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -38,7 +36,6 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JavaProject;
-import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -51,11 +48,9 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.menus.IContributionRoot;
 import org.osgi.framework.Bundle;
 import org.universaal.tools.conformanceTools.Activator;
 import org.universaal.tools.conformanceTools.markers.CTMarker;
-import org.universaal.tools.conformanceTools.markers.MarkerResolution;
 import org.universaal.tools.conformanceTools.markers.Markers;
 import org.universaal.tools.conformanceTools.utils.HtmlPage;
 import org.universaal.tools.conformanceTools.utils.HtmlPage.Table;
@@ -76,13 +71,12 @@ public class ToolsRun {
 	private ArrayList<BugDescriptor> bugsMap = new ArrayList<BugDescriptor>();
 	private ArrayList<BugDescriptor> orderderbugsMap = new ArrayList<BugDescriptor>();
 
-	private CTMarker markers = new Markers();
-	
+	private CTMarker markers = Markers.getInstance();
+
 	private final String no_severity = "HINT";
 	private final String low_severity = "INFO";
 	private final String normal_severity = "WARNING";
 	private final String high_severity = "ERROR";
-	
 	private final int lineNotPresent = -1;
 
 	public void run(IWorkbenchWindow window, RunPlugin plugin) {
@@ -462,31 +456,24 @@ public class ToolsRun {
 							attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
 							attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_LOW);
 
-							System.out.println("uAAL CT: generating marker BOOKMARK as SEVERITY_INFO and priority PRIORITY_LOW for "+orderderbugsMap.get(j).getDescr()+" at line "+orderderbugsMap.get(j).getLine());
-							if(orderderbugsMap.get(j).getLine() != lineNotPresent) // no line to refer, no marker
-								orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.BOOKMARK));
+							//orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.BOOKMARK));
 						}
 						else if(orderderbugsMap.get(j).getSeverityDescription().equals(normal_severity)){
 							attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 							attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
 
-							System.out.println("uAAL CT: generating marker TASK as SEVERITY_WARNING and priority PRIORITY_NORMAL for "+orderderbugsMap.get(j).getDescr()+" at line "+orderderbugsMap.get(j).getLine());
-							if(orderderbugsMap.get(j).getLine() != lineNotPresent) // no line to refer, no marker
-								orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.TASK));
+							//orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.TASK));
 						}
 						else if(orderderbugsMap.get(j).getSeverityDescription().equals(high_severity)){
 							attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);			
 							attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
 
-							System.out.println("uAAL CT: generating marker PROBLEM as SEVERITY_ERROR and PRIORITY_HIGH for "+orderderbugsMap.get(j).getDescr()+" at line "+orderderbugsMap.get(j).getLine());
-							if(orderderbugsMap.get(j).getLine() != lineNotPresent) // no line to refer, no marker
-								orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.PROBLEM, true));
+							//orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.PROBLEM, true));
 						}
+						orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, /*CTMarker.PROBLEM,*/ true));
 					}
 				}
 			}
-
-			//??force opening task list view
 
 		} catch (CoreException e1) {
 			e1.printStackTrace();
@@ -513,7 +500,7 @@ public class ToolsRun {
 		return result;
 	}
 
-	public void visualizeFindBugsResults(){
+	private void visualizeFindBugsResults(){
 
 		try{
 			HtmlPage page = new HtmlPage("FINDBUGS ANALYSIS RESULTS");
@@ -551,7 +538,7 @@ public class ToolsRun {
 		}
 	}
 
-	public void verifyImages(){
+	private void verifyImages(){
 
 		try{
 			String errFN = "icon_error_sml.gif";
