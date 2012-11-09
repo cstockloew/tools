@@ -25,7 +25,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 public class MarkerResolution extends ExtensionContributionFactory {
 
 	@Override
-	public void createContributionItems(final IServiceLocator serviceLocator,	final IContributionRoot additions) {
+	public void createContributionItems(final IServiceLocator serviceLocator, final IContributionRoot additions) {
 
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 
@@ -35,7 +35,9 @@ public class MarkerResolution extends ExtensionContributionFactory {
 				if((PlatformUI.getWorkbench().isStarting()))			
 					Display.getDefault().timerExec(500, this); // delay if workbench is starting
 				else{
-					if(PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
+					if(PlatformUI.getWorkbench() != null 
+							&& PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null 
+							&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() != null
 							&& PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart() != null){
 
 						ITextEditor editor = (ITextEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
@@ -55,23 +57,35 @@ public class MarkerResolution extends ExtensionContributionFactory {
 	public class MarkerMenuContribution extends ContributionItem {
 
 		private ITextEditor editor;
-		private IVerticalRulerInfo rulerInfo;
-		private List<IMarker> markers;
+		private volatile IVerticalRulerInfo rulerInfo;
+		private List<IMarker> markers = new ArrayList<IMarker>();
+		private CTMarker mks = Markers.getInstance();
 
 		public MarkerMenuContribution(ITextEditor editor) throws CoreException{
 			this.editor = editor;
 			this.rulerInfo = getRulerInfo();
-			this.markers = getMarkers();
+
+			mks.subscribe(new NewCTmarkerListener() {
+
+				@Override
+				public void newMarker(IMarker marker) {
+					try {
+						markers = getMarkers(marker);
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				}
+			});
 		}
 
 		private IVerticalRulerInfo getRulerInfo(){
-			return (IVerticalRulerInfo) editor.getAdapter(IVerticalRulerInfo.class);
+			return (IVerticalRulerInfo) editor.getAdapter(IVerticalRulerInfo.class);					
 		}
 
-		private List<IMarker> getMarkers() throws CoreException{
+		private List<IMarker> getMarkers(IMarker m) throws CoreException{
 			List<IMarker> clickedOnMarkers = new ArrayList<IMarker>();
-			for (IMarker marker : getAllMarkers()){
-				if (markerHasBeenClicked(marker)){
+			for (IMarker marker : getAllMarkers(m)){
+				if(markerHasBeenClicked(marker)){
 					clickedOnMarkers.add(marker);
 				}
 			}
@@ -80,54 +94,34 @@ public class MarkerResolution extends ExtensionContributionFactory {
 		}
 
 		//Determine whether the marker has been clicked using the ruler's mouse listener
-		private boolean markerHasBeenClicked(IMarker marker){
-			if(marker != null && rulerInfo.getLineOfLastMouseButtonActivity() != -1)
-				return (marker.getAttribute(IMarker.LINE_NUMBER, 0)) == (rulerInfo.getLineOfLastMouseButtonActivity() + 1);
+		private boolean markerHasBeenClicked(final IMarker marker){
+			if(marker != null)
+				return (marker.getAttribute(IMarker.LINE_NUMBER, 0) == (rulerInfo.getLineOfLastMouseButtonActivity() + 1));
 			return false;
 		}
 
 		//Get all My Markers for this source file
-		private IMarker[] getAllMarkers() throws CoreException{
+		private IMarker[] getAllMarkers(IMarker m) throws CoreException{
 
 			List<IMarker> ctMarkers = new ArrayList<IMarker>();
+			ctMarkers.add(m);
 
-			IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects(); // search in projects in workspace
+			//** search in projects in workspace only the first time, new markers added by me are already tracked
+			IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+
 			for(int i = 0; i < ps.length; i++){
 				if(ps[i] != null){
 					IMarker[] ms = ps[i].findMarkers(null, true, IResource.DEPTH_ZERO);
 					for(int j = 0; j < ms.length; j++){
-						if(ms[i] != null && ((String)ms[i].getAttribute(IMarker.SOURCE_ID)).equals("uAAL_CT")){
+						if(ms[i] != null && /*ms[i].getAttribute(IMarker.SOURCE_ID) != null && ((String)ms[i].getAttribute(IMarker.SOURCE_ID)).equals(CTMarker.ID)*/
+								ms[i].getType().equals(CTMarker.ID)){
 							ctMarkers.add(ms[i]);
 						}
 					}
 				}
-			}
+			} 
 
-			//IMarker[] ms = ((FileEditorInput) editor.getEditorInput()).getFile().findMarkers(null, true, IResource.DEPTH_ZERO);
-
-			return ctMarkers.toArray(new IMarker[0]);
-
-			/*IMarker[] bk = ((FileEditorInput) editor.getEditorInput()).getFile().findMarkers(CTMarker.BOOKMARK, true, IResource.DEPTH_ZERO);
-			IMarker[] pb = ((FileEditorInput) editor.getEditorInput()).getFile().findMarkers(CTMarker.PROBLEM, true, IResource.DEPTH_ZERO);
-			IMarker[] tsk = ((FileEditorInput) editor.getEditorInput()).getFile().findMarkers(CTMarker.TASK, true, IResource.DEPTH_ZERO);
-
-			IMarker[] ret = new IMarker[bk.length + pb.length + tsk.length];
-
-			int r = -1;
-			for(int i = 0; i < bk.length; i++){
-				if(bk[i] != null)
-					ret[++r] = bk[i];
-			}
-			for(int i = 0; i < pb.length; i++){
-				if(pb[i] != null)
-					ret[++r] = pb[i];
-			}
-			for(int i = 0; i < tsk.length; i++){
-				if(tsk[i] != null)
-					ret[++r] = tsk[i];
-			}
-
-			return ret;*/
+			return ctMarkers.toArray(new IMarker[ctMarkers.size()]);
 		}
 
 		@Override
@@ -135,7 +129,7 @@ public class MarkerResolution extends ExtensionContributionFactory {
 		public void fill(Menu menu, int index){
 			for (final IMarker marker : markers){
 				MenuItem menuItem = new MenuItem(menu, SWT.CHECK, index);
-				menuItem.setText(marker.getAttribute(IMarker.MESSAGE, "PROVA PROVA"));
+				menuItem.setText(marker.getAttribute(IMarker.MESSAGE, ""));
 				menuItem.addSelectionListener(createDynamicSelectionListener(marker));
 			}
 		}
@@ -144,7 +138,7 @@ public class MarkerResolution extends ExtensionContributionFactory {
 		private SelectionAdapter createDynamicSelectionListener(final IMarker marker){
 			return new SelectionAdapter(){
 				public void widgetSelected(SelectionEvent e){
-					System.out.println(marker.getAttribute(IMarker.MESSAGE, "PROVA PROVA"));
+					System.out.println(marker.getAttribute(IMarker.MESSAGE, ""));
 				}
 			};
 		}
