@@ -62,22 +62,38 @@ import org.w3c.dom.NodeList;
 
 public class ToolsRun {
 
+	private static ToolsRun instance;
+
 	private RunPlugin plugin;
 	private IProject projectToAnalyze;
 	private IWorkbenchWindow window;
 	private ISelection selection;
 
 	private int bugIdCounter = -1;
-	private ArrayList<BugDescriptor> bugsMap = new ArrayList<BugDescriptor>();
-	private ArrayList<BugDescriptor> orderderbugsMap = new ArrayList<BugDescriptor>();
+	private ArrayList<BugDescriptor> bugsMap;
+	private ArrayList<BugDescriptor> orderderbugsMap;
 
-	private CTMarker markers = Markers.getInstance();
+	private CTMarker markers;
 
+	private final String fileNameResults = "uAAL_CTanalysisResult.html";
 	private final String no_severity = "HINT";
 	private final String low_severity = "INFO";
 	private final String normal_severity = "WARNING";
 	private final String high_severity = "ERROR";
-	private final int lineNotPresent = -1;
+
+	private final int lineNotPresent = -1;	
+
+	private ToolsRun(){
+		orderderbugsMap = new ArrayList<BugDescriptor>();
+		markers = Markers.getInstance();
+	}
+
+	public static synchronized ToolsRun getInstance(){
+		if(instance == null)
+			instance = new ToolsRun();
+
+		return instance;
+	}
 
 	public void run(IWorkbenchWindow window, RunPlugin plugin) {
 
@@ -87,10 +103,10 @@ public class ToolsRun {
 		this.selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
 		if(this.selection == null){
 			this.selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
-			System.out.println("uAAL CT: using selection from Project Explorer.");
+			System.out.println("uAAL CT - using selection from Project Explorer.");
 		}
 		else
-			System.out.println("uAAL CT: using selection from Package Explorer.");
+			System.out.println("uAAL CT - using selection from Package Explorer.");
 
 		if ((selection != null) && (selection instanceof StructuredSelection)) {
 
@@ -107,13 +123,13 @@ public class ToolsRun {
 				return;
 			}
 			try{
-				markers.deleteAll(this.projectToAnalyze);
+				removeOldBugs();
 				testConformance();
 			}
 			catch(Exception ex){ ex.printStackTrace(); }
 		}
 		else
-			System.out.println("uAAL CT: no valid selection.");
+			System.out.println("uAAL CT - no valid selection.");
 	}
 
 	private void testConformance() throws CoreException {
@@ -232,14 +248,14 @@ public class ToolsRun {
 											f = new File(path_+"/target/findbugsXml.xml"); 
 
 										if (f != null && f.exists() ){
-											if(plugin == RunPlugin.FindBugs){ 
+
+											if(plugin == RunPlugin.FindBugs) 
 												parseFindBugsResults(f);
-												f = new File(path_+"/target/site/findbugs.html");
-											}
-											else if(plugin == RunPlugin.CheckStyle){
+											else if(plugin == RunPlugin.CheckStyle)
 												parseCheckstyleResult(f);
-												f = new File(path_+"/target/site/checkstyle.html");
-											}
+
+											visualizeResults();
+											f = new File(path_+"/target/site/"+fileNameResults);
 
 											org.eclipse.core.filesystem.IFileStore fileStore = EFS.getLocalFileSystem().getStore(f.toURI());
 											IWorkbenchPage page = window.getActivePage();
@@ -256,12 +272,9 @@ public class ToolsRun {
 											}
 
 										} 
-										else {
-											if(plugin == RunPlugin.CheckStyle)
-												System.out.println("uAAL CT: does file "+path_+"/target/site/checkstyle.html"+" exist?");
-											if(plugin == RunPlugin.FindBugs)
-												System.out.println("uAAL CT: does file "+path_+"/target/site/findbugs.html"+" exist?");
-										}
+										else
+											System.out.println("uAAL CT: does file "+path_+"/target/site/"+"fileNameResults"+" exist?");
+
 									}
 									catch(Exception ex){
 										ex.printStackTrace();
@@ -304,6 +317,8 @@ public class ToolsRun {
 
 					BugDescriptor bd = new BugDescriptor();
 
+					bd.setPlugin(RunPlugin.FindBugs);
+
 					if(bug.getNodeType() == Node.ELEMENT_NODE){
 						Element bug_ = (Element) bug;
 
@@ -315,7 +330,7 @@ public class ToolsRun {
 						}
 						bd.setClazz(getNodesContent(bug_.getChildNodes(), "SourceLine", "sourcepath").get(0));
 						bd.setDescr(getNodesContent(bug_.getChildNodes(), "LongMessage", null).get(0));
-						bd.setErrorType(bug_.getAttribute("type"));
+						bd.setErrorType(bug_.getAttribute("type").toLowerCase());
 						try{
 							bd.setSeverity(Integer.parseInt(bug_.getAttribute("rank"))); 
 						}
@@ -336,8 +351,6 @@ public class ToolsRun {
 
 			orderBySeverity(maxSeverity, minSeverity);
 			markClasses();
-
-			visualizeFindBugsResults();
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -346,6 +359,7 @@ public class ToolsRun {
 
 	private void parseCheckstyleResult(File xml){
 
+		int min = 0, max = 0;
 		try{
 			if(xml != null){
 				DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -365,6 +379,8 @@ public class ToolsRun {
 								Element error_ = (Element) error;
 
 								BugDescriptor bd = new BugDescriptor();
+								bd.setPlugin(RunPlugin.CheckStyle);
+
 								String separator = "\\\\";
 								String[] path = fileName.trim().split(separator);
 								bd.setClazz(path[path.length-1]);
@@ -376,18 +392,21 @@ public class ToolsRun {
 									bd.setLine(lineNotPresent);
 								}
 								String severity = error_.getAttribute("severity"); //severity -> number
-								if(severity.equalsIgnoreCase("ignore"))
-									bd.setSeverity(3);
+								if(severity.equalsIgnoreCase("ignore")){
+									bd.setSeverity(0); min = 0; //3
+								}
 								else if(severity.equalsIgnoreCase("info"))
-									bd.setSeverity(8);
+									bd.setSeverity(3); //8
 								else if(severity.equalsIgnoreCase("warning"))
-									bd.setSeverity(13);
-								else if(severity.equalsIgnoreCase("error"))
-									bd.setSeverity(19);
+									bd.setSeverity(8); //13
+								else if(severity.equalsIgnoreCase("error")){
+									bd.setSeverity(13); max = 13; // 19
+								}
 								bd.setSeverityDescription(getSeverityDescription(bd.getSeverity()));
 
 								bd.setDescr(error_.getAttribute("message"));
-								bd.setErrorType(error_.getAttribute("source")); //errorType
+								String[] type = error_.getAttribute("source").trim().split("\\."); //errorType
+								bd.setErrorType(type[type.length - 1]); 
 
 								bugsMap.add(bd);
 							}
@@ -396,10 +415,30 @@ public class ToolsRun {
 				}
 			}
 
-			orderBySeverity(19, 3);
+			orderBySeverity(max, min);
 			markClasses();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 
-			//visualizaCheckStyleResults(); //html page already done
+	private void removeOldBugs(){
+
+		try{
+			bugsMap = new ArrayList<BugDescriptor>();
+
+			int k = 0; 
+			for(int i = 0; i < orderderbugsMap.size(); i++){
+				if(orderderbugsMap.get(i) != null)
+					if(orderderbugsMap.get(i).getPlugin() == this.plugin){
+						orderderbugsMap.set(i, null);
+						k++;
+					}
+			}
+			System.out.println("uAAL CT - deleted "+k+" bug instances.");
+
+			markers.deleteAll(this.plugin);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -422,9 +461,6 @@ public class ToolsRun {
 					}									
 				}
 
-				if(orderderbugsMap.size() == bugsMap.size())
-					break;
-
 				k--;
 			}
 		}
@@ -439,39 +475,35 @@ public class ToolsRun {
 			ArrayList<ICompilationUnit> cus = getAllClasses();
 			for(int i = 0; i < cus.size(); i++){
 				for(int j = 0; j < orderderbugsMap.size(); j++){
-					if(cus.get(i).getCorrespondingResource().getName().equalsIgnoreCase(orderderbugsMap.get(j).getClazz())){
-						orderderbugsMap.get(j).setCu(cus.get(i));				
+					if(orderderbugsMap.get(j) != null && orderderbugsMap.get(j).getMarkerID() == -1)
+						if(cus.get(i).getCorrespondingResource().getName().equalsIgnoreCase(orderderbugsMap.get(j).getClazz())){
+							orderderbugsMap.get(j).setCu(cus.get(i));				
 
-						// marker types: TASK, PROBLEM, TEXT, BOOKMARK
-						Map<String, Object> attributes = new HashMap<String, Object>();
-						attributes.put(IMarker.LINE_NUMBER, orderderbugsMap.get(j).getLine());
-						attributes.put(IMarker.MESSAGE, orderderbugsMap.get(j).getDescr());
-						attributes.put(IMarker.SOURCE_ID, orderderbugsMap.get(j).getFrontEndID());
-						attributes.put(IMarker.LINE_NUMBER, orderderbugsMap.get(j).getLine());
+							Map<String, Object> attributes = new HashMap<String, Object>();
+							attributes.put(IMarker.LINE_NUMBER, orderderbugsMap.get(j).getLine());
+							attributes.put(IMarker.MESSAGE, orderderbugsMap.get(j).getDescr());
+							attributes.put(IMarker.LOCATION, orderderbugsMap.get(j).getFrontEndID());
+							attributes.put(IMarker.LINE_NUMBER, orderderbugsMap.get(j).getLine());
 
-						if(orderderbugsMap.get(j).getSeverityDescription().equals(no_severity)){
-							// ignore
+							if(!orderderbugsMap.get(j).getSeverityDescription().equals(no_severity)){
+
+								attributes.put(IMarker.SOURCE_ID, orderderbugsMap.get(j).getPlugin());
+
+								if(orderderbugsMap.get(j).getSeverityDescription().equals(low_severity)){
+									attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+									attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_LOW);
+								}
+								else if(orderderbugsMap.get(j).getSeverityDescription().equals(normal_severity)){
+									attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+									attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
+								}
+								else if(orderderbugsMap.get(j).getSeverityDescription().equals(high_severity)){
+									attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);			
+									attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+								}
+								orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, false));
+							}
 						}
-						else if(orderderbugsMap.get(j).getSeverityDescription().equals(low_severity)){
-							attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-							attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_LOW);
-
-							//orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.BOOKMARK));
-						}
-						else if(orderderbugsMap.get(j).getSeverityDescription().equals(normal_severity)){
-							attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-							attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
-
-							//orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.TASK));
-						}
-						else if(orderderbugsMap.get(j).getSeverityDescription().equals(high_severity)){
-							attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);			
-							attributes.put(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-
-							//orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, CTMarker.PROBLEM, true));
-						}
-						orderderbugsMap.get(j).setMarkerID(markers.createMarker(this.projectToAnalyze, cus.get(i).getCorrespondingResource(), attributes, /*CTMarker.PROBLEM,*/ true));
-					}
 				}
 			}
 
@@ -500,42 +532,57 @@ public class ToolsRun {
 		return result;
 	}
 
-	private void visualizeFindBugsResults(){
+	private void visualizeResults(){
 
 		try{
-			HtmlPage page = new HtmlPage("FINDBUGS ANALYSIS RESULTS");
+			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - ANALYSIS RESULTS");
 			String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/images/logos/maven-feather.png";
 			page.getBody().addElement("<img src='"+path_+"' alt='Maven Logo'><br/><br/>");
 
-			Table t = page.new Table(orderderbugsMap.size()+2, 5);
+			Table t = page.new Table(getBugsNumber()+2, 6);
 
 			// table header
-			t.addContent("<font size='5'><b><center>ERROR TYPE</center></b></font>", 0, 0);
-			t.addContent("<font size='5'><b><center>SEVERITY</center></b></font>", 0, 1);
-			t.addContent("<font size='5'><b><center>CLASS</center></b></font>", 0, 2);
-			t.addContent("<font size='5'><b><center>DESCRIPTION</center></b></font>", 0, 3);
-			t.addContent("<font size='5'><b><center>LINE</center></b></font>", 0, 4);
+			t.addContentCentered("<font size='5'><b>MARK NUMBER</b></font>", 0, 0);
+			t.addContentCentered("<font size='5'><b>ERROR TYPE</b></font>", 0, 1);
+			t.addContentCentered("<font size='5'><b>SEVERITY</b></font>", 0, 2);
+			t.addContentCentered("<font size='5'><b>CLASS</b></font>", 0, 3);
+			t.addContentCentered("<font size='5'><b>DESCRIPTION</b></font>", 0, 4);
+			t.addContentCentered("<font size='5'><b>LINE</b></font>", 0, 5);
 
-			int j = 0;
+			int j = 0, mark = 0;
 			for(int i = 0; i < orderderbugsMap.size(); i++){
-				t.addContent("<center>"+orderderbugsMap.get(i).getErrorType()+"</center>", i+2, j);
-				t.addContent("<center>"+orderderbugsMap.get(i).getSeverity()+"</center>", i+2, ++j);
-				t.addContent("<center>"+orderderbugsMap.get(i).getClazz()+"</center>", i+2, ++j);
-				t.addContent("<center>"+orderderbugsMap.get(i).getDescr()+"</center>", i+2, ++j);
-				if(orderderbugsMap.get(i).getLine() != lineNotPresent)
-					t.addContent("<center>"+orderderbugsMap.get(i).getLine()+"</center>", i+2, ++j);
-				else
-					t.addContent("<center>n.a.</center>", i+2, ++j);
-				j = 0;
+				if(orderderbugsMap.get(i) != null){					
+					t.addContentCentered(++mark+"", mark, j);			
+					t.addContentCentered(orderderbugsMap.get(i).getErrorType(), mark, ++j);
+					t.addContentCentered(orderderbugsMap.get(i).getSeverityDescription(), mark, ++j);
+					t.addContentCentered(orderderbugsMap.get(i).getClazz(), mark, ++j);
+					t.addContentCentered(orderderbugsMap.get(i).getDescr(), mark, ++j);
+					if(orderderbugsMap.get(i).getLine() != lineNotPresent)
+						t.addContentCentered(orderderbugsMap.get(i).getLine()+"", mark, ++j);
+					else
+						t.addContentCentered("n.a.", mark, ++j);
+					j = 0;
+				}
 			}
 
 			page.getBody().addElement(t.getTable());
-			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/findbugs.html";
+			page.getBody().addElement("<br/><br/><p>Total: "+getBugsNumber()+" marks.</p>");
+			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/"+fileNameResults;
 			page.write(new File(path));
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+
+	private int getBugsNumber(){
+		int j = 0;
+
+		for(int i = 0; i < orderderbugsMap.size(); i++) 
+			if(orderderbugsMap.get(i) != null)
+				j++;
+
+		return j;
 	}
 
 	private void verifyImages(){
@@ -629,7 +676,7 @@ public class ToolsRun {
 	private class BugDescriptor{
 
 		private int frontEndID;
-		private int markerID;
+		private int markerID = -1;
 		private int severity;
 		private String severityDescription;
 		private int line;
@@ -637,7 +684,14 @@ public class ToolsRun {
 		private String clazz;
 		private String errorType;
 		private ICompilationUnit cu;
+		private RunPlugin plugin;
 
+		public RunPlugin getPlugin() {
+			return plugin;
+		}
+		public void setPlugin(RunPlugin plugin) {
+			this.plugin = plugin;
+		}
 		public ICompilationUnit getCu() {
 			return cu;
 		}

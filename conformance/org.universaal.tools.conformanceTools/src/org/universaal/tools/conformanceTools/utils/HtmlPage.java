@@ -112,6 +112,10 @@ public class HtmlPage {
 		public void addContent(String content, int row, int column){
 			this.arrayTable[row][column] = content;
 		}
+		
+		public void addContentCentered(String content, int row, int column){
+			addContent("<center>"+content+"</center>", row, column);
+		}
 
 		public String getTable(){
 			

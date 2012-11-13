@@ -9,7 +9,9 @@ public class BugResolution implements IMarkerResolutionGenerator2 {
 
 	@Override
 	public IMarkerResolution[] getResolutions(IMarker marker) {
-		Solution s = new Solution("uAAL CT, double-click to ignore - "+marker.getAttribute(IMarker.MESSAGE, ""));
+
+		Solution s = new Solution("[uAAL CT] double-click to ignore - "+marker.getAttribute(IMarker.MESSAGE, "")/*+" "+marker.getAttribute(IMarker.SOURCE_ID)+" "+marker.getAttribute(IMarker.LOCATION)*/);
+
 		IMarkerResolution[] ret = new IMarkerResolution[1];
 		ret[0] = s;
 
@@ -27,9 +29,11 @@ public class BugResolution implements IMarkerResolutionGenerator2 {
 	public class Solution implements IMarkerResolution{
 
 		private String label;
+		private CTMarker markers;
 
 		public Solution(String label){
 			this.label = label;
+			markers = Markers.getInstance();
 		}
 
 		@Override
@@ -40,7 +44,7 @@ public class BugResolution implements IMarkerResolutionGenerator2 {
 		@Override
 		public void run(IMarker marker) {
 			try {
-				marker.delete();
+				markers.deleteMarker(marker);
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}

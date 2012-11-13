@@ -17,7 +17,7 @@ public class MainFrame {
 
 	public static void draw(final IWorkbenchWindow window, final ExecutionEvent event){
 
-		final ToolsRun instance = new ToolsRun();
+		final ToolsRun instance = ToolsRun.getInstance();
 
 		final Shell shell = new Shell(window.getShell());
 		GridLayout layout = new GridLayout();
