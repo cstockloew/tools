@@ -20,15 +20,23 @@
 
 package org.universaal.uaalpax.ui;
 
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.IColorProvider;
+import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.universaal.uaalpax.model.BundleEntry;
 
-public class ProjectLabelProvider extends LabelProvider implements ITableLabelProvider {
+public class ProjectLabelProvider extends LabelProvider implements ITableLabelProvider, IColorProvider, IFontProvider {
 	private static Image[] icons;
+	
+	final private CheckboxTableViewer parentViewer;
 	
 	static {
 		icons = new Image[4];
@@ -41,6 +49,13 @@ public class ProjectLabelProvider extends LabelProvider implements ITableLabelPr
 		icons[2] = new Image(Display.getCurrent(), ideaImage3);
 		ImageData ideaImage4 = new ImageData(ProjectLabelProvider.class.getResourceAsStream("/images/nn.jpg"));
 		icons[0] = new Image(Display.getCurrent(), ideaImage4);
+	}
+	
+	public ProjectLabelProvider(CheckboxTableViewer parentViewer) {
+		if (parentViewer == null)
+			throw new NullPointerException("parentViewer must not be null");
+		
+		this.parentViewer = parentViewer;
 	}
 	
 	/**
@@ -87,4 +102,21 @@ public class ProjectLabelProvider extends LabelProvider implements ITableLabelPr
 		return icons[i];
 	}
 	
+	public Color getForeground(Object element) {
+		if (parentViewer.getGrayed(element))
+			return new Color(Display.getCurrent(), 127, 127, 127);
+		else
+			return null;
+	}
+	
+	public Color getBackground(Object element) {
+		return null; // always use default
+	}
+	
+	public Font getFont(Object element) {
+		if (parentViewer.getGrayed(element))
+			return JFaceResources.getFontRegistry().getItalic(JFaceResources.TEXT_FONT);
+		else
+			return null;
+	}
 }

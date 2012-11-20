@@ -42,10 +42,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Layout;
 import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleSet;
 
@@ -65,7 +68,7 @@ public class WorkspaceProjectsBlock extends UIBlock {
 	@Override
 	public void initBlock(Composite parent) {
 		// parent is the Group of UIBlock, so setting it's layout here is appropriate
-		parent.setLayout(new GridLayout(3, false));
+		// parent.setLayout(new GridLayout(3, false));
 		
 		// order left table, buttons, right table is intended, since buttons should be in the middle between both tables
 		leftTable = new ProjectTable(parent, SWT.NONE);
@@ -73,7 +76,7 @@ public class WorkspaceProjectsBlock extends UIBlock {
 		leftTable.setChangeListener(this);
 		leftTable.setModel(getUAALTab().getModel());
 		
-		Composite buttonContainer = new Composite(parent, SWT.NONE);
+		final Composite buttonContainer = new Composite(parent, SWT.NONE);
 		buttonContainer.setLayout(new GridLayout());
 		
 		toLeft = new Button(buttonContainer, SWT.PUSH);
@@ -113,7 +116,25 @@ public class WorkspaceProjectsBlock extends UIBlock {
 		toRight.addSelectionListener(listener);
 		allToLeft.addSelectionListener(listener);
 		allToRight.addSelectionListener(listener);
-	}
+		
+		parent.setLayout(new Layout() {
+			@Override
+			protected void layout(Composite composite, boolean flushCache) {
+				Rectangle rect = composite.getClientArea();
+				Point buttonsSize = buttonContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
+				int w1 = (rect.width - buttonsSize.x) / 2;
+				
+				leftTable.setBounds(0, 0, w1, rect.height);
+				buttonContainer.setBounds(w1, (rect.height - buttonsSize.y) / 2, buttonsSize.x, rect.height);
+				rightTable.setBounds(w1 + buttonsSize.x, 0, rect.width - buttonsSize.x - w1, rect.height);
+			}
+			
+			@Override
+			protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
+				return new Point(wHint, hHint);
+			}
+		}); 
+	} 
 	
 	private void moveItemsToLeft(IStructuredSelection sel) {
 		if (sel == null || sel.isEmpty())
@@ -147,7 +168,7 @@ public class WorkspaceProjectsBlock extends UIBlock {
 	public void moveAllToLeft() {
 		List<BundleEntry> pus = new ArrayList<BundleEntry>(rightTable.getElements());
 		// rightTable.removeAll();
-		//leftTable.addAll(pus);
+		// leftTable.addAll(pus);
 		getUAALTab().getModel().removeAll(pus);
 		
 		notifyChanged();
@@ -186,19 +207,15 @@ public class WorkspaceProjectsBlock extends UIBlock {
 					MavenProject project = new MavenProject(model);
 					
 					/*
-					try {
-						CollectResult deps = getUAALTab().getDependencyResolver().resolve(project.getArtifact());
-						
-						System.out.println("----------------------------------------------------------------------------");
-						System.out.println(deps);
-					} catch (DependencyCollectionException e) {
-						// TODO Auto-generated catch block
-						// e.printStackTrace();
-					}
-					*/
+					 * try { CollectResult deps = getUAALTab().getDependencyResolver().resolve(project.getArtifact());
+					 * 
+					 * System.out.println("----------------------------------------------------------------------------");
+					 * System.out.println(deps); } catch (DependencyCollectionException e) { // TODO Auto-generated catch block //
+					 * e.printStackTrace(); }
+					 */
 					String launchUrl = "mvn:" + project.getGroupId() + "/" + project.getArtifactId() + "/" + project.getVersion();
 					
-					// TODO cache provious settings
+					// TODO cache previous settings
 					BundleEntry pu = new BundleEntry(launchUrl, p.getName(), 12, true);
 					leftSet.add(pu);
 					

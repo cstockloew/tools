@@ -62,8 +62,14 @@ public class BundleComparator extends ViewerComparator {
 			
 			if (sortProperty == BundleEntry.PROP_PROJECT)
 				comp = be1.getURL().compareToIgnoreCase(be2.getURL());
-			else if (sortProperty == BundleEntry.PROP_LEVEL)
-				comp = Integer.compare(be1.getLevel(), be2.getLevel());
+			else if (sortProperty == BundleEntry.PROP_LEVEL) {
+				if (be1.getLevel() < be2.getLevel())
+					comp = -1;
+				else if (be1.getLevel() == be2.getLevel())
+					comp = 0;
+				else
+					comp = 1;
+			}
 			
 			if (sortDirection == SWT.UP)
 				comp *= -1;

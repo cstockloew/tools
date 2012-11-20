@@ -145,7 +145,7 @@ public class BundleModel {
 				ConsoleDependencyGraphDumper dumper = new ConsoleDependencyGraphDumper();
 				deps.accept(dumper);
 				
-				insertDependencies(deps, 1); // deps contains already be as root, so no need to insert it second time
+				insertDependencies(deps /* , 1 */); // deps contains already be as root, so no need to insert it second time
 				insterted = true;
 			} catch (DependencyCollectionException e1) {
 				// TODO Auto-generated catch block
@@ -175,12 +175,12 @@ public class BundleModel {
 	 *            min start level of child bundles, begin at 1 on very upper call
 	 * @return start level of the node, i.e. dependent bundles have to start at a higher level
 	 */
-	private int insertDependencies(DependencyNode node, int minStartLevel) {
-		// int minStartLevel = 1;
+	private int insertDependencies(DependencyNode node /* , int minStartLevel */) {
+		int minStartLevel = 1;
 		
 		// traverse postorder
 		for (DependencyNode child : node.getChildren())
-			minStartLevel = Math.max(minStartLevel, insertDependencies(child, minStartLevel));
+			minStartLevel = Math.max(minStartLevel, insertDependencies(child /* , minStartLevel */));
 		
 		Dependency d = node.getDependency();
 		if (d != null) {
@@ -188,13 +188,17 @@ public class BundleModel {
 			String url = BundleEntry.urlFromArtifact(a);
 			
 			// check if bundle is already included
+			// TODO FIXME gaanz fieser Hack
+			if (url.contains(".core"))
+				url = url.replace(".core", ".osgi");
+			
 			BundleEntry be = currentBundles.find(url);
 			if (be != null) {
 				minStartLevel = Math.max(minStartLevel, be.getLevel());
 			} else {
 				minStartLevel++;
 				be = new BundleEntry(a);
-				if(versionProvider.isIgnoreBundleOfVersion(be, currentVersion))
+				if (versionProvider.isIgnoreBundleOfVersion(be, currentVersion))
 					return minStartLevel;
 				
 				be.setLevel(minStartLevel);

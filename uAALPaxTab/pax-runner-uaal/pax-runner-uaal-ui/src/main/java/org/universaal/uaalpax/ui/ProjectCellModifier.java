@@ -36,6 +36,7 @@ package org.universaal.uaalpax.ui;/*
  * limitations under the License.
  */
 
+import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.swt.widgets.TableItem;
 import org.universaal.uaalpax.model.BundleEntry;
@@ -43,6 +44,14 @@ import org.universaal.uaalpax.model.BundleEntry;
 public class ProjectCellModifier implements ICellModifier {
 	
 	private boolean enabled = false;
+	
+	private final CheckboxTableViewer viewer;
+	
+	public ProjectCellModifier(CheckboxTableViewer viewer) {
+		if(viewer == null)
+			throw new NullPointerException("viewer must not be null");
+		this.viewer = viewer;
+	}
 	
 	/**
 	 * Modify listener.
@@ -55,7 +64,7 @@ public class ProjectCellModifier implements ICellModifier {
 	 * @see ICellModifier#canModify(Object, String)
 	 */
 	public boolean canModify(Object element, String property) {
-		return enabled && !BundleEntry.PROP_PROJECT.equals(property);
+		return enabled && !BundleEntry.PROP_PROJECT.equals(property) && !viewer.getGrayed(element);
 	}
 	
 	/**

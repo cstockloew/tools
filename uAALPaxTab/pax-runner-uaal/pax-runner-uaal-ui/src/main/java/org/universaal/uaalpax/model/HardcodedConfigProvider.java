@@ -77,7 +77,6 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 			new BundleEntry("mvn:org.universAAL.middleware/mw.data.representation.osgi/1.2.1-SNAPSHOT", "true@true@1@false"),
 			new BundleEntry("mvn:org.universAAL.middleware/mw.bus.service.osgi/1.2.1-SNAPSHOT", "true@true@1@false"),
 			new BundleEntry("mvn:org.universAAL.middleware/mw.bus.context.osgi/1.2.1-SNAPSHOT", "true@true@1@false"),
-			new BundleEntry("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.2.1-SNAPSHOT", "true@true@1@false"),
 			new BundleEntry("mvn:org.universAAL.middleware/mw.data.serialization.osgi/1.2.1-SNAPSHOT", "true@true@1@false"),
 			new BundleEntry("wrap:mvn:java3d/vecmath/1.3.1", "true@true@1@false"),
 			new BundleEntry("wrap:mvn:java3d/j3d-core/1.3.1", "true@true@1@false"),
@@ -119,6 +118,10 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 		ignoreSet.add(new BundleEntry("mvn:org.bouncycastle/jce.jdk13/144", true, true, 1, true));
 		
 		ignoreSet.add(new BundleEntry("mvn:org.universAAL.middleware/mw.composite", true, true, 1, true));
+		
+		ignoreSet.add(new BundleEntry("mvn:javax.media/jmf", true, true, 1, true));
+		ignoreSet.add(new BundleEntry("mvn:org.apache.felix/org.osgi.foundation", true, true, 1, true));
+		ignoreSet.add(new BundleEntry("mvn:org.apache.felix/org.apache.felix.log", true, true, 1, true));
 	}
 	
 	public Set<String> getAvailableVersions() {
@@ -154,12 +157,16 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 			if (be.getURL().startsWith(ignore.getURL()))
 				return true;
 		
+		if(be.getURL().contains(".core"))
+			return true; // TODO
+		
 		// check if it is a .core bundle and the corresponding .osgi bundle is already contained in version
-		int pos = be.getURL().lastIndexOf(".core");
-		if (pos >= 0
-				&& getBundlesOfVersion(version).containsURL(
-						be.getURL().substring(0, pos).concat(".osgi").concat(be.getURL().substring(pos + 5, be.getURL().length()))))
-			return true;
+		// TODO
+//		int pos = be.getURL().lastIndexOf(".core");
+//		if (pos >= 0
+//				&& getBundlesOfVersion(version).containsURL(
+//						be.getURL().substring(0, pos).concat(".osgi").concat(be.getURL().substring(pos + 5, be.getURL().length()))))
+//			return true;
 		
 		return false;
 	}

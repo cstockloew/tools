@@ -23,7 +23,7 @@ package org.universaal.uaalpax.model;
 import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
 
-public class BundleEntry implements BundleIdentifier {
+public class BundleEntry {
 	private String url;
 	private boolean selected;
 	private boolean start;

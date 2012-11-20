@@ -36,7 +36,8 @@ public abstract class UIBlock extends Composite implements LaunchChangeListener,
 		
 		setLayout(new GridLayout());
 		final Group group = new Group(this, SWT.NONE);
-		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		// group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		group.setLayoutData(new GridData(GridData.FILL_BOTH));
 		group.setText(getBlockName());
 		
 		initBlock(group);

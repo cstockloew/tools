@@ -93,11 +93,11 @@ public class AdditionalLibsBlock extends UIBlock implements ProjectTable.BundleD
 		SelectionListener listener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (e.widget == remove) 
+				if (e.widget == remove)
 					onRemove((IStructuredSelection) table.getSelection());
-				else if(e.widget == addURL) 
+				else if (e.widget == addURL)
 					onAddURL();
-				else if(e.widget == edit)
+				else if (e.widget == edit)
 					onEdit((IStructuredSelection) table.getSelection());
 			}
 		};
@@ -118,7 +118,8 @@ public class AdditionalLibsBlock extends UIBlock implements ProjectTable.BundleD
 		
 		for (Iterator<?> i = selection.iterator(); i.hasNext();) {
 			Object be = i.next();
-			getUAALTab().getModel().remove((BundleEntry) be);
+			if (!table.isBundleGrayed((BundleEntry) be))
+				getUAALTab().getModel().remove((BundleEntry) be);
 		}
 		
 		notifyChanged();
@@ -128,7 +129,7 @@ public class AdditionalLibsBlock extends UIBlock implements ProjectTable.BundleD
 		AddEditUrlDialog d = new AddEditUrlDialog(getShell());
 		int code = d.open();
 		
-		if(code == Window.OK) {
+		if (code == Window.OK) {
 			BundleEntry be = new BundleEntry(d.getURL(), true, true, d.getLevel(), true);
 			getUAALTab().getModel().add(be);
 			notifyChanged();
@@ -139,10 +140,13 @@ public class AdditionalLibsBlock extends UIBlock implements ProjectTable.BundleD
 	}
 	
 	private void editBundle(BundleEntry be) {
+		if (table.isBundleGrayed(be))
+			return;
+		
 		AddEditUrlDialog d = new AddEditUrlDialog(getShell(), be);
 		int code = d.open();
 		
-		if(code == Window.OK) {
+		if (code == Window.OK) {
 			getUAALTab().getModel().remove(be);
 			BundleEntry newBe = new BundleEntry(d.getURL(), be.isSelected(), be.isStart(), d.getLevel(), be.isUpdate());
 			getUAALTab().getModel().add(newBe);
@@ -162,18 +166,27 @@ public class AdditionalLibsBlock extends UIBlock implements ProjectTable.BundleD
 	}
 	
 	public BundleSet updateProjectList(BundleSet launchProjects) {
-		table.removeAll();
-		// store all projects in a collection first and then add them all at once
-		// to table to avoid flickering
-		List<BundleEntry> projects = new ArrayList<BundleEntry>(launchProjects.size());
-		for (BundleEntry e : launchProjects)
+		// create list of all bundles and an array of bundles which should be gray out since they are already in an other
+		// project list
+		BundleSet allBundles = getUAALTab().getModel().getBundles();
+		BundleEntry[] grayOut = new BundleEntry[allBundles.size() - launchProjects.size()];
+		int i = 0;
+		List<BundleEntry> projects = new ArrayList<BundleEntry>(allBundles.size());
+		for (BundleEntry e : allBundles) {
 			projects.add(e);
+			if (!launchProjects.containsURL(e.getURL()))
+				grayOut[i++] = e;
+		}
+		
+		table.removeAll();
 		table.addAll(projects);
+		table.setGrayed(grayOut);
+		table.getViewer().refresh(true);
 		
 		return new BundleSet(new HashMap<String, String>()); // return empty map since all projects which were passed to here are additional
 																// libraries
 	}
-
+	
 	public void onBundleClicked(BundleEntry be) {
 		editBundle(be);
 	}

@@ -5,13 +5,13 @@
  <parent>
     <groupId>org.universaal.igd</groupId>
     <artifactId>pax-runner-uaal</artifactId>
-    <version>1.7.6</version>
+    <version>0.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>org.universaal.igd</groupId>
   <artifactId>pax-runner-uaal-ui-feature</artifactId>
-  <version>1.7.6</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>OPS4J Pax Runner - Eclipse Plugin UI - Feature</name>

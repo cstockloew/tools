@@ -87,7 +87,6 @@ public class MavenDependencyResolver {
 				collectRequest.addDependency(new Dependency(a, JavaScopes.COMPILE));
 			collectRequest.setRepositories(repos);
 			
-			
 			artifactResults = system.collectDependencies(session, collectRequest).getRoot();
 			
 			cacheDependencies(artifactResults);

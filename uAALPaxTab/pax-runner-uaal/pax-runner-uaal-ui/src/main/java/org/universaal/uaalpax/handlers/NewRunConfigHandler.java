@@ -25,10 +25,16 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.internal.ui.DebugUIPlugin;
+import org.eclipse.debug.ui.DebugUITools;
+import org.eclipse.debug.ui.ILaunchGroup;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.universaal.uaalpax.ui.dialogs.NewRunconfigDialog;
 
@@ -101,7 +107,13 @@ public class NewRunConfigHandler extends AbstractHandler {
 		
 		configuration.doSave();
 		
+		// IStructuredSelection selection = new StructuredSelection(configuration);
+		
+		DebugUITools.openLaunchConfigurationDialog(DebugUIPlugin.getShell(), configuration, DebugUIPlugin.getDefault()
+				.getLaunchConfigurationManager().getLaunchGroup(type, ILaunchManager.RUN_MODE).getIdentifier(), null);
+		
 		// TODO
-		// DebugUITools.openLaunchConfigurationDialog(null, configuration, DebugUIPlugin.getDefault().getLaunchConfigurationManager().getLaunchGroup("org.eclipse.pde.ui.EquinoxLauncher"), null);
+		// DebugUITools.openLaunchConfigurationDialog(null, configuration,
+		// DebugUIPlugin.getDefault().getLaunchConfigurationManager().getLaunchGroup("org.eclipse.pde.ui.EquinoxLauncher"), null);
 	}
 }

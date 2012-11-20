@@ -5,13 +5,13 @@
   <parent>
     <groupId>org.universaal.igd</groupId>
     <artifactId>uaal-pax-runner</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>org.universaal.igd</groupId>
   <artifactId>pax-runner-uaal</artifactId>
-  <version>1.7.6</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>uAAL Pax Runner tab</name>

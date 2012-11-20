@@ -22,7 +22,6 @@ import org.sonatype.aether.repository.RepositoryPolicy;
 
 import aether.demo.manual.ManualRepositorySystemFactory;
 
-
 /**
  * A helper to boot the repository system and a repository system session.
  */
@@ -63,27 +62,56 @@ public class Booter {
 		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
 		repos.add(r);
 		
-//		 r = new RemoteRepository("uaal_releases", "default", "http://depot.universaal.org/maven-repo/releases/");
-//		 r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-//		 r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-//		 repos.add(r);
-//		
-		 r = new RemoteRepository("uaal_snapshots", "default", "http://depot.universaal.org/maven-repo/snapshots/");
-		 r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		 r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		 repos.add(r);
+		r = new RemoteRepository("uaal", "default", "http://depot.universaal.org/maven-repo/releases/");
+		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		repos.add(r);
 		
-//		r = new RemoteRepository("igd_releases", "default", "http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/releases/");
-//		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-//		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-//		repos.add(r);
-//		
-//		r = new RemoteRepository("igd_snapshots", "default", "http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/snapshots/");
-//		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-//		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-//		repos.add(r);
+		r = new RemoteRepository("uaal-snapshots", "default", "http://depot.universaal.org/maven-repo/snapshots/");
+		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		repos.add(r);
+		
+		r = new RemoteRepository("uaal-thirdparty", "default", "http://depot.universaal.org/maven-repo/thirdparty/");
+		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		repos.add(r);
+		
+		r = new RemoteRepository(">maven2-repository.java.net", "default", "http://download.java.net/maven/2");
+		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		repos.add(r);
+		
+		r = new RemoteRepository("apache-snapshots", "default", "http://people.apache.org/repo/m2-snapshot-repository");
+		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		repos.add(r);
+		
+		r = new RemoteRepository("ima-thirdparty", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/thirdparty/");
+		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		repos.add(r);
+		
+		r = new RemoteRepository("ima-release", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/releases/");
+		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		repos.add(r);
+		
+		r = new RemoteRepository("ima-snapshot", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/snapshots/");
+		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		repos.add(r);
+		
+		// r = new RemoteRepository("igd_releases", "default", "http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/releases/");
+		// r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		// r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		// repos.add(r);
+		//
+		// r = new RemoteRepository("igd_snapshots", "default", "http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/snapshots/");
+		// r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		// r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+		// repos.add(r);
 		
 		return repos;
 	}
-	
 }

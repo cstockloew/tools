@@ -73,25 +73,25 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		versionBlock = new VersionBlock(this, container, SWT.NONE);
 		versionBlock.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		// Group featureGroup = new Group(container, SWT.NONE);
-		// featureGroup.setText("Features");
-		// featureGroup.setLayout(new RowLayout(SWT.HORIZONTAL));
-		// featureGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		//
-		// String[] features = new String[] { "UI-Framework", "CHE", "SE", "Foo ..." };
-		//
-		// SelectionListener featuresListener = new SelectionAdapter() {
-		// public void widgetSelected(SelectionEvent e) {
-		// Button btn = (Button) e.widget;
-		// onFeatureSelected(btn.getText(), btn.getSelection());
-		// }
-		// };
-		//
-		// for (String f : features) {
-		// Button btn = new Button(featureGroup, SWT.CHECK);
-		// btn.setText(f);
-		// btn.addSelectionListener(featuresListener);
-		// }
+		Group featureGroup = new Group(container, SWT.NONE);
+		featureGroup.setText("Features");
+		featureGroup.setLayout(new RowLayout(SWT.HORIZONTAL));
+		featureGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		String[] features = new String[] { "UI-Framework", "CHE", "SE", "Foo ..." };
+		
+		SelectionListener featuresListener = new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Button btn = (Button) e.widget;
+				onFeatureSelected(btn.getText(), btn.getSelection());
+			}
+		};
+		
+		for (String f : features) {
+			Button btn = new Button(featureGroup, SWT.CHECK);
+			btn.setText(f);
+			btn.addSelectionListener(featuresListener);
+		}
 		
 		SashForm sf = new SashForm(container, SWT.VERTICAL);
 		sf.setLayoutData(new GridData(GridData.FILL_BOTH));

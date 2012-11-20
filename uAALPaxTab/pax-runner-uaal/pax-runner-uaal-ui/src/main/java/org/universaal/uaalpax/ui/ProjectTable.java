@@ -69,11 +69,17 @@ public class ProjectTable extends Composite {
 		
 		final CheckboxTableViewer viewer = tableViewer;
 		viewer.setContentProvider(new ProjectContentProvider());
-		viewer.setLabelProvider(new ProjectLabelProvider());
+		viewer.setLabelProvider(new ProjectLabelProvider(viewer));
 		
 		viewer.addCheckStateListener(new ICheckStateListener() {
 			public void checkStateChanged(final CheckStateChangedEvent event) {
 				BundleEntry be = (BundleEntry) event.getElement();
+				if(tableViewer.getGrayed(be)) {
+					if(!event.getChecked())
+						tableViewer.setChecked(be, true); // assume grayed elements as always checked
+					return;
+				}
+					
 				be.setSelected(event.getChecked());
 				notifyElementChanged(be);
 			}
@@ -99,7 +105,8 @@ public class ProjectTable extends Composite {
 				}
 				table.setSortColumn(urlTableColumn);
 				table.setSortDirection(comparator.getSortDirection());
-				viewer.refresh();
+				// viewer.refresh(true);
+				inputChanged();
 			}
 		});
 		
@@ -116,11 +123,12 @@ public class ProjectTable extends Composite {
 				}
 				table.setSortColumn(levelTableColumn);
 				table.setSortDirection(comparator.getSortDirection());
-				viewer.refresh();
+				//viewer.refresh(true);
+				inputChanged();
 			}
 		});
 		
-		final ProjectCellModifier cellModifier = new ProjectCellModifier();
+		final ProjectCellModifier cellModifier = new ProjectCellModifier(viewer);
 		cellModifier.setModifyListener(new ProjectCellModifier.ModifyListener() {
 			public void modified(BundleEntry element) {
 				viewer.update(element, null);
@@ -200,6 +208,8 @@ public class ProjectTable extends Composite {
 	private void notifyChanged() {
 		if (changeListener != null)
 			changeListener.notifyChanged();
+		
+		model.updatePresenters();
 	}
 	
 	private void notifyElementChanged(BundleEntry be) {
@@ -248,13 +258,24 @@ public class ProjectTable extends Composite {
 	}
 	
 	private void inputChanged() {
+		Object[] grayed = tableViewer.getGrayedElements();
 		tableViewer.setInput(allElements);
 		for (BundleEntry pu : allElements)
 			tableViewer.setChecked(pu, pu.isSelected());
+		tableViewer.setGrayed(grayed, true);
+		tableViewer.refresh(true);
 	}
 	
 	public TableViewer getViewer() {
 		return tableViewer;
+	}
+	
+	public void setGrayed(BundleEntry[] bundles) {
+		tableViewer.setGrayedElements(bundles);	
+	}
+	
+	public boolean isBundleGrayed(BundleEntry be) {
+		return tableViewer.getGrayed(be);
 	}
 	
 	public interface BundleDoubleClickListener {
