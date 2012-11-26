@@ -50,6 +50,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.Bundle;
 import org.universaal.tools.conformanceTools.Activator;
+import org.universaal.tools.conformanceTools.checks.impl.NameGroupID;
 import org.universaal.tools.conformanceTools.markers.CTMarker;
 import org.universaal.tools.conformanceTools.markers.Markers;
 import org.universaal.tools.conformanceTools.utils.HtmlPage;
@@ -118,13 +119,16 @@ public class ToolsRun {
 				this.projectToAnalyze = ((IProject) selected);			
 			else {
 				MessageDialog.openInformation(window.getShell(),
-						"uAAL Conformance Tools", "Not a project.");
+						"uAAL Conformance Tools", "the selection is not a project or is broken.");
 
 				return;
 			}
 			try{
-				removeOldBugs();
-				testConformance();
+				//removeOldBugs();
+				//testConformance();
+
+				NameGroupID t = new NameGroupID();
+				t.check(this.projectToAnalyze);
 			}
 			catch(Exception ex){ ex.printStackTrace(); }
 		}
@@ -141,19 +145,19 @@ public class ToolsRun {
 
 				try{					
 					// Continuous progress bar
-					monitor.beginTask("uAAL - verifying conformance", IProgressMonitor.UNKNOWN);
+					monitor.beginTask("uAAL CT - verifying conformance", IProgressMonitor.UNKNOWN);
 
 					IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 
 					if (projectToAnalyze != null && !projectToAnalyze.hasNature(IMavenConstants.NATURE_ID)) {
 						monitor.done();
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL - not a Maven project.");
+						return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL CT - not a Maven project.");
 					}
 
 					IFile pomResource = projectToAnalyze.getFile(IMavenConstants.POM_FILE_NAME);
 					if (pomResource == null) {
 						monitor.done();
-						return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL - missing POM file.");
+						return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL CT - missing POM file.");
 					}
 					IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, monitor);
 
@@ -186,9 +190,9 @@ public class ToolsRun {
 							}
 
 							monitor.done();
-							System.out.println("uAAL CT: report blocked - "+errors);
-							if(errors.contains("java.lang.OutOfMemoryError"))
-								System.out.println("uAAL CT: verify start parameter [-XX:MaxPermSize] of AAL Studio and increase the value set.");
+							System.out.println("uAAL CT - report blocked - "+errors);
+							//if(errors.contains("java.lang.OutOfMemoryError"))
+							//System.out.println("uAAL CT: verify start parameter [-XX:MaxPermSize] of AAL Studio and increase the value set.");
 
 							return new Status(Status.ERROR, Activator.PLUGIN_ID, errors);
 						}
@@ -196,7 +200,7 @@ public class ToolsRun {
 							monitor.done(); // test monitor
 
 							// generate report and visualize it
-							monitor.beginTask("uAAL - reporting conformance tests.", IProgressMonitor.UNKNOWN);
+							monitor.beginTask("uAAL CT - reporting conformance tests.", IProgressMonitor.UNKNOWN);
 
 							goals.clear();
 							MavenExecutionRequest request2 = projectManager.createExecutionRequest(pomResource,
@@ -228,7 +232,7 @@ public class ToolsRun {
 								}
 
 								monitor.done();
-								return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL CT: "+errors);
+								return new Status(Status.ERROR, Activator.PLUGIN_ID, "uAAL CT - "+errors);
 							}
 
 							// visualize report - open report file
@@ -265,7 +269,7 @@ public class ToolsRun {
 												if(page != null && fileStore != null)
 													IDE.openEditorOnFileStore( page, fileStore );
 												else
-													System.out.println("uAAL CT: can't open report file - "+plugin);
+													System.out.println("uAAL CT - can't open report file - "+plugin);
 											} 
 											catch ( PartInitException e ) {
 												e.printStackTrace();
@@ -273,7 +277,7 @@ public class ToolsRun {
 
 										} 
 										else
-											System.out.println("uAAL CT: does file "+path_+"/target/site/"+"fileNameResults"+" exist?");
+											System.out.println("uAAL CT - does file "+path_+"/target/site/"+"fileNameResults"+" exist?");
 
 									}
 									catch(Exception ex){
@@ -293,7 +297,7 @@ public class ToolsRun {
 				}
 
 				monitor.done();
-				return new Status(Status.OK, Activator.PLUGIN_ID, "uAAL CT - all ok!");
+				return new Status(Status.OK, Activator.PLUGIN_ID, "uAAL CT - good!");
 			}
 		};
 
@@ -483,7 +487,8 @@ public class ToolsRun {
 							attributes.put(IMarker.LINE_NUMBER, orderderbugsMap.get(j).getLine());
 							attributes.put(IMarker.MESSAGE, orderderbugsMap.get(j).getDescr());
 							attributes.put(IMarker.LOCATION, orderderbugsMap.get(j).getFrontEndID());
-							attributes.put(IMarker.LINE_NUMBER, orderderbugsMap.get(j).getLine());
+							attributes.put(IMarker.LINE_NUMBER, orderderbugsMap.get(j).getLine()); 
+							attributes.put(IMarker.TEXT, orderderbugsMap.get(j).getErrorType());
 
 							if(!orderderbugsMap.get(j).getSeverityDescription().equals(no_severity)){
 

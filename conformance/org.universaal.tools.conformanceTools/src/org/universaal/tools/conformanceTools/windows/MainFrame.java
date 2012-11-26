@@ -28,7 +28,7 @@ public class MainFrame {
 		GridData data = new GridData(GridData.FILL_BOTH);
 
 		Button two = new Button(shell, SWT.PUSH);
-		two.setText("CheckStyle plugin");
+		two.setText("Check against code style rules");
 		two.setEnabled(true);
 		two.addMouseListener(new MouseListener() {
 
@@ -48,7 +48,7 @@ public class MainFrame {
 		two.setLayoutData(data);
 
 		Button four = new Button(shell, SWT.PUSH);
-		four.setText("FindBugs plugin");
+		four.setText("Identify the most common bugs");
 		four.setEnabled(true);
 		four.addMouseListener(new MouseListener() {
 
@@ -68,7 +68,7 @@ public class MainFrame {
 		four.setLayoutData(data);
 
 		Button five = new Button(shell, SWT.PUSH);
-		five.setText("Maven Verifier plugin");
+		five.setText("Verify files in project");
 		five.setEnabled(false);
 		five.addMouseListener(new MouseListener() {
 
