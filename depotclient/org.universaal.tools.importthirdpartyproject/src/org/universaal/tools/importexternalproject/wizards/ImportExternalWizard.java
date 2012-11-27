@@ -199,52 +199,61 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 	}
 
 	
-	public void enableMavenNature(final IProject project) {
-	    Job job = new Job("ConvertToMavenProject") {
+	public void scheduleEnableMavenNature(final IProject[] projects) {
+		Job job = new Job("ConvertToMavenProject") {
 
-	        protected IStatus run(IProgressMonitor monitor) {
-	          try {
-	            ResolverConfiguration configuration = new ResolverConfiguration();
-	            configuration.setResolveWorkspaceProjects(true);
-	            configuration.setActiveProfiles("");
-	            //configuration.setSelectedProfiles(""); //$NON-NLS-1$
+			protected IStatus run(IProgressMonitor monitor) {
+				try {
+					ResolverConfiguration configuration = new ResolverConfiguration();
+					configuration.setResolveWorkspaceProjects(true);
+					configuration.setActiveProfiles("");
+					//configuration.setSelectedProfiles(""); //$NON-NLS-1$
 
-	            //boolean hasMavenNature = project.hasNature(IMavenConstants.NATURE_ID);
+					// boolean hasMavenNature =
+					// project.hasNature(IMavenConstants.NATURE_ID);
 
-	            IProjectConfigurationManager configurationManager = MavenPlugin.getProjectConfigurationManager();
+					IProjectConfigurationManager configurationManager = MavenPlugin
+							.getProjectConfigurationManager();
 
-	            configurationManager.enableMavenNature(project, configuration, monitor);
+					for (IProject project : projects) {
+						configurationManager.enableMavenNature(project,
+								configuration, monitor);
 
-	            //if(!hasMavenNature) {
-	            configurationManager.updateProjectConfiguration(project, monitor);
-	            //}
-	          } catch(CoreException ex) {
-	            //log.error(ex.getMessage(), ex);
-	          }
-	          return Status.OK_STATUS;
-	        }
-	      };
-	      job.schedule();		
+						// if(!hasMavenNature) {
+						configurationManager.updateProjectConfiguration(
+								project, monitor);
+						// }
+					}
+				} catch (CoreException ex) {
+					ex.printStackTrace();
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.schedule();
 	}
 	
-	public void enableJavaNature(final IProject project) {
-	    Job job = new Job("ConvertToJavaProject") {
+	public void scheduleEnableJavaNature(final IProject[] projects) {
+		Job job = new Job("ConvertToJavaProject") {
 
-	        protected IStatus run(IProgressMonitor monitor) {
-	          try {
-	        	  IProjectDescription descr = project.getDescription();
-	        	  List<String> natures = new ArrayList<String>();
-	        	  natures.addAll(Arrays.asList(descr.getNatureIds()));
-	        	  natures.add(JavaCore.NATURE_ID);
-	        	  descr.setNatureIds(natures.toArray(new String[natures.size()]));
-	        	  project.setDescription(descr, monitor);
-	          } catch(CoreException ex) {
-	            //log.error(ex.getMessage(), ex);
-	          }
-	          return Status.OK_STATUS;
-	        }
-	      };
-	      job.schedule();		
+			protected IStatus run(IProgressMonitor monitor) {
+				try {
+					for (IProject project : projects) {
+						IProjectDescription descr = project.getDescription();
+						List<String> natures = new ArrayList<String>();
+						natures.addAll(Arrays.asList(descr.getNatureIds()));
+						natures.add(JavaCore.NATURE_ID);
+						descr.setNatureIds(natures.toArray(new String[natures
+								.size()]));
+						project.setDescription(descr, monitor);
+					}
+				} catch (CoreException ex) {
+					ex.printStackTrace();
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.schedule();
 	}
 		
 	
@@ -300,6 +309,8 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 				op2.add(disc);
 				op2.add(discard);
 				Job job = ProgressMonitorUtility.doTaskScheduled(op2);
+				job.schedule();
+				/*
 				try {
 					getContainer().run(true, true, new Progress(job));
 				} catch (InvocationTargetException e) {
@@ -309,8 +320,9 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 					e.printStackTrace();
 					return false;
 				}
-				enableMavenNature(project[0]);
-				enableJavaNature(project[0]);
+				*/
+				scheduleEnableMavenNature(project);
+				//scheduleEnableJavaNature(project);
 				return true;
 
 			}else{
@@ -356,7 +368,8 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 					comOp2.add(discard);
 					
 					Job job2 = ProgressMonitorUtility.doTaskScheduled(comOp2);
-					try {
+					job2.schedule();
+					/*try {
 						getContainer().run(true, true, new Progress(job2));
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
@@ -365,11 +378,9 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 						e.printStackTrace();
 						return false;
 					}
-					
-					for (IProject proj : projects) {
-						enableMavenNature(proj);
-						enableJavaNature(proj);
-					}
+					*/
+					scheduleEnableMavenNature(projects);
+					//scheduleEnableJavaNature(projects);
 					
 					return true;
 				} catch (SVNConnectorException e) {
