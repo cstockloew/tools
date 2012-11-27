@@ -39,10 +39,10 @@ import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleSet;
 import org.universaal.uaalpax.ui.dialogs.AddEditUrlDialog;
 
-public class AdditionalLibsBlock extends UIBlock implements ProjectTable.BundleDoubleClickListener {
+public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleClickListener {
 	private ProjectTable table;
 	
-	public AdditionalLibsBlock(UniversAALTab uAALTab, Composite parent, int style) {
+	public AllLibsBlock(UniversAALTab uAALTab, Composite parent, int style) {
 		super(uAALTab, parent, style);
 	}
 	

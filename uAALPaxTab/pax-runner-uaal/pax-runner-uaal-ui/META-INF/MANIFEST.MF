@@ -7,17 +7,10 @@ Bundle-Vendor: OPS4J.org
 Fragment-Host: org.eclipse.pde.ui;bundle-version="3.3.0"
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.ui.forms
+ org.eclipse.ui.forms,
+ org.eclipse.m2e.maven.runtime
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.universaal.uaalpax.shared,
  org.universaal.uaalpax.ui
-Import-Package: 
- org.apache.maven.cli,
- org.apache.maven.model,
- org.apache.maven.model.io.xpp3,
- org.apache.maven.project,
- org.apache.maven.repository.internal,
- org.sonatype.aether.connector.wagon
-Bundle-ClassPath: lib/aether-connector-file-1.13.1.jar,
- lib/wagon-http-lightweight-2.2.jar,
- .
+Bundle-ClassPath: .,
+ lib/aether.jar

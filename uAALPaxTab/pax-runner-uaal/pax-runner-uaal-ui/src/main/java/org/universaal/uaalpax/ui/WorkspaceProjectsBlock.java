@@ -124,9 +124,9 @@ public class WorkspaceProjectsBlock extends UIBlock {
 				Point buttonsSize = buttonContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
 				int w1 = (rect.width - buttonsSize.x) / 2;
 				
-				leftTable.setBounds(0, 0, w1, rect.height);
-				buttonContainer.setBounds(w1, (rect.height - buttonsSize.y) / 2, buttonsSize.x, rect.height);
-				rightTable.setBounds(w1 + buttonsSize.x, 0, rect.width - buttonsSize.x - w1, rect.height);
+				leftTable.setBounds(rect.x, rect.y, w1, rect.height);
+				buttonContainer.setBounds(rect.x + w1, rect.y + (rect.height - buttonsSize.y) / 2, buttonsSize.x, rect.height);
+				rightTable.setBounds(rect.x + w1 + buttonsSize.x, rect.y, rect.width - buttonsSize.x - w1, rect.height);
 			}
 			
 			@Override

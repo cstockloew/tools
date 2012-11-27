@@ -43,7 +43,7 @@ import org.universaal.uaalpax.shared.MavenDependencyResolver;
 
 public class UniversAALTab extends AbstractLauncherTab implements BundleChangeListener {
 	private WorkspaceProjectsBlock managerTable;
-	private AdditionalLibsBlock additionalLibsBlock;
+	private AllLibsBlock additionalLibsBlock;
 	private VersionBlock versionBlock;
 	private ILaunchConfiguration launchConfig;
 	private UAALVersionProvider versionProvider;
@@ -97,7 +97,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		sf.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		managerTable = new WorkspaceProjectsBlock(this, sf, SWT.NONE);
-		additionalLibsBlock = new AdditionalLibsBlock(this, sf, SWT.NONE);
+		additionalLibsBlock = new AllLibsBlock(this, sf, SWT.NONE);
 		
 		setControl(container);
 		
