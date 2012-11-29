@@ -52,7 +52,7 @@ public class ImportWSDL implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		InputDialog levelDialog = new InputDialog(PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getShell(),
-				"Enter a valid WSDL URL", "URL:", "http://", null);
+				"Enter a valid WSDL URL", "URL:", "http://160.40.63.90:8084/axis2/services/NutritionalAdvisorServices?wsdl", null);
 		if (levelDialog.open() != Window.OK) {
 			return;
 		}
@@ -68,29 +68,10 @@ public class ImportWSDL implements IWorkbenchWindowActionDelegate {
 				ParsedWSDLDefinition theParsedDefinition = ITIWSDLParser
 						.parseWSDLwithAxis(wsdlUrl, true, true);
 				if (theParsedDefinition != null) {
-					List<String> operationNames=new ArrayList<String>();
-					for (int i = 0; i < theParsedDefinition.getWsdlOperations()
-							.size(); i++) {
-						operationNames.add(((WSOperation) theParsedDefinition
-										.getWsdlOperations().get(i))
-										.getOperationName());
-					}
-
-					ListDialog ld = new ListDialog(PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getShell());
-					ld.setAddCancelButton(true);
-					ld.setContentProvider(new ArrayContentProvider());
-					ld.setLabelProvider(new LabelProvider());
-					ld.setInput(operationNames.toArray());
-					// ld.setInitialSelections(list.toArray());
-					ld.setTitle("Select the operation you want to import:");
-					ld.setHelpAvailable(false);
-					ld.open();
-					if(ld.getResult()!=null){
-						System.out.println("Selected "+ld.getResult()[0]);
-						//createOntologyProject newProject=new createOntologyProject(theParsedDefinition,(String)ld.getResult()[0]);
-						//newProject.createIProject();
-					}
+					WSOperationDialog dialog=new WSOperationDialog(PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getShell(),theParsedDefinition);
+					dialog.open();
+					
 
 				} else {
 					MessageDialog.openInformation(PlatformUI.getWorkbench()

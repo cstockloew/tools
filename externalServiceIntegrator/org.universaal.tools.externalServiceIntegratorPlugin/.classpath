@@ -70,5 +70,6 @@
 	<classpathentry kind="lib" path="lib/axis2/XmlSchema-1.4.2.jar"/>
 	<classpathentry kind="lib" path="lib/wsdl4j/qname.jar"/>
 	<classpathentry kind="lib" path="lib/wsdl4j/wsdl4j.jar"/>
+	<classpathentry kind="lib" path="swing2swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
