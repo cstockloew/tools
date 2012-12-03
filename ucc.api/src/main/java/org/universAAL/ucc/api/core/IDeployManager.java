@@ -22,7 +22,7 @@ public interface IDeployManager {
 	 * @param sessionKey: the sessionKey for the interaction obtained when uCC registers with uStore 
 	 * @param usrvfile: the link to download the .usrv file, serviceId from uStore is provided in .usrv file. 
 	 */
-	public void update(String username, String password, URL usrvfile);
+	public void update(String sessionKey, URL usrvfile);
 	
 	/**
 	 * uninstall a service 
@@ -35,9 +35,9 @@ public interface IDeployManager {
 	/**
 	 * get all installed services 
 	 * @param sessionKey: the sessionKey for the interaction obtained when uCC registers with uStore 
-	 * @return Map<serviceId, serviceVersion>: the list of services with uStore service Id (and its version?)
+	 * @return List<serviceId>: list of uStore service Ids
 	 */
-	public 	Map<String, String> getInstalledServices(String sessionKey);
+	public 	List<String> getInstalledServices(String sessionKey);
 
 	/**
 	 * get the installed application units for a service 
