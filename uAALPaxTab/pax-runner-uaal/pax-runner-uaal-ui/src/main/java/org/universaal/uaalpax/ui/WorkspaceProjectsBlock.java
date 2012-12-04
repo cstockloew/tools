@@ -159,7 +159,7 @@ public class WorkspaceProjectsBlock extends UIBlock {
 			Object pu = i.next();
 			// leftTable.remove(pu);
 			// rightTable.add((BundleEntry) pu);
-			getUAALTab().getModel().add((BundleEntry) pu);
+			getUAALTab().addBundle((BundleEntry) pu);
 		}
 		
 		notifyChanged();
@@ -178,7 +178,7 @@ public class WorkspaceProjectsBlock extends UIBlock {
 		List<BundleEntry> pus = new ArrayList<BundleEntry>(leftTable.getElements());
 		// leftTable.removeAll();
 		// rightTable.addAll(pus);
-		getUAALTab().getModel().addAll(pus);
+		getUAALTab().addAllBundles(pus);
 		
 		notifyChanged();
 	}

@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -43,6 +44,11 @@ import org.universaal.uaalpax.shared.MavenDependencyResolver;
 import aether.demo.util.ConsoleDependencyGraphDumper;
 
 public class BundleModel {
+	/** Threshold for assuming that a particular version is used */
+	private static final float VERSION_WEIGHT_THRESHOLD = 0.3f;
+	
+	public static final String UNKNOWN_VERSION = "Unknown";
+	
 	private BundleSet currentBundles;
 	
 	private List<BundlePresenter> allPresenters = new ArrayList<BundlePresenter>();
@@ -52,12 +58,16 @@ public class BundleModel {
 	private UAALVersionProvider versionProvider;
 	private String currentVersion;
 	
+	private ModelDialogProvider dialogProvider;
+	
 	private List<BundleChangeListener> changeListeners = new ArrayList<BundleChangeListener>();
 	
-	public BundleModel(MavenDependencyResolver depResolver, UAALVersionProvider versionProvider) {
+	public BundleModel(MavenDependencyResolver depResolver, UAALVersionProvider versionProvider,
+			ModelDialogProvider dialogProvider) {
 		currentBundles = new BundleSet(new HashMap<String, String>());
 		this.dependencyResolver = depResolver;
 		this.versionProvider = versionProvider;
+		this.dialogProvider = dialogProvider;
 	}
 	
 	public void addChangeListener(BundleChangeListener listener) {
@@ -78,7 +88,7 @@ public class BundleModel {
 	
 	public void updateModel(ILaunchConfiguration configuration) {
 		currentBundles.updateBundles(configuration);
-		currentVersion = "Unknown";
+		currentVersion = UNKNOWN_VERSION;
 		for (String version : versionProvider.getAvailableVersions()) {
 			if (containsAllBundles(currentBundles, version)) {
 				currentVersion = version;
@@ -90,13 +100,14 @@ public class BundleModel {
 	}
 	
 	public void removeAll(Collection<BundleEntry> entries) {
-		for (BundleEntry be : entries) {
+		/* for (BundleEntry be : entries) {
 			if (!currentBundles.containsURL(be.getURL()))
 				continue; // nothing to do
 				
 			removeUnneededDependencies(be);
 			currentBundles.remove(be);
-		}
+		} */
+		removeUnneededDependencies(entries);
 		updatePresenters();
 	}
 	
@@ -109,7 +120,9 @@ public class BundleModel {
 		if (!currentBundles.containsURL(be.getURL()))
 			return; // nothing to do
 			
-		removeUnneededDependencies(be);
+		Set<BundleEntry> bes = new HashSet<BundleEntry>();
+		bes.add(be);
+		removeUnneededDependencies(bes);
 		currentBundles.remove(be);
 	}
 	
@@ -124,37 +137,99 @@ public class BundleModel {
 		updatePresenters();
 	}
 	
-	public void addNoCheck(BundleEntry be) {
-		currentBundles.add(be);
-	}
-	
-	public void removeNoCheck(BundleEntry be) {
-		currentBundles.remove(be);
-	}
-	
 	public BundleSet getBundles() {
 		return currentBundles;
 	}
 	
 	private void insertBundleAndDeps(BundleEntry be) {
-		Artifact a = be.toArtifact();
-		boolean insterted = false;
-		if (a != null) {
-			try {
-				DependencyNode deps = dependencyResolver.resolve(a);
-				ConsoleDependencyGraphDumper dumper = new ConsoleDependencyGraphDumper();
-				deps.accept(dumper);
-				
-				insertDependencies(deps /* , 1 */); // deps contains already be as root, so no need to insert it second time
-				insterted = true;
-			} catch (DependencyCollectionException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+		while (true) {
+			
+			Artifact a = be.toArtifact();
+			boolean insterted = false;
+			
+			if (a != null) {
+				try {
+					DependencyNode deps = dependencyResolver.resolve(a);
+					ConsoleDependencyGraphDumper dumper = new ConsoleDependencyGraphDumper();
+					deps.accept(dumper);
+					
+					Set<String> depList = listDependencies(deps, null);
+					String approxVersion = checkVersion(depList);
+					
+					if (approxVersion != null) {
+						// no version is set, ask if one should be set
+						if (getCurrentVersion() == UNKNOWN_VERSION) {
+							int sel = dialogProvider
+									.openDialog(
+											"Set uAAL version",
+											"You have many bundles which are used by universAAL version "
+													+ approxVersion
+													+ ", but the version of this run config is not set. Do you want to set it to version "
+													+ approxVersion + "?", new String[] { "Yes", "Ignore" });
+							
+							if (sel == 0) {
+								// will always go right since no version is set yet
+								changeToVersion(approxVersion);
+							}
+						}
+						// version is set and differs from approximated one
+						else if (!getCurrentVersion().equals(approxVersion)) {
+							int sel = dialogProvider.openDialog("Version conflict", "The bundle \"" + be.getURL()
+									+ "\" which you want to add depends on " + "uAAL version " + approxVersion
+									+ ", but the current run config version is " + getCurrentVersion()
+									+ ". Do you really want to add this bundle with its all depencencies?",
+									new String[] { "No", "Yes", "Yes, but without depencencies" });
+							
+							if (sel == 0) // No
+								return;
+							else if (sel == 2) { // without depencencies
+								currentBundles.add(be);
+								return;
+							} // otherwise add with all depencencies
+						}
+					}
+					
+					insertDependencies(deps /* , 1 */); // deps contains already be
+														// as root, so no need to
+														// insert it second time
+					insterted = true;
+				} catch (DependencyCollectionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (TimeoutException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			
+			if (!insterted) {
+				int ret = dialogProvider.openDialog("Error during depencency resolution",
+						"There was an error resolvin depencencies for bundle " + be.getURL() + ". ", "Ignore", "Retry",
+						"Cancel");
+				
+				if (ret == 0) // ignore
+					currentBundles.add(be);
+				else if (ret == 1) // retry
+					continue;
+				// else break and do nothing
+			}
+			
+			break;
 		}
+	}
+	
+	private Set<String> listDependencies(DependencyNode node, Set<String> deps) {
+		if (deps == null)
+			deps = new HashSet<String>();
 		
-		if (!insterted)
-			currentBundles.add(be);
+		Dependency d = node.getDependency();
+		if (d != null)
+			deps.add(BundleEntry.urlFromArtifact(d.getArtifact()));
+		
+		for (DependencyNode child : node.getChildren())
+			listDependencies(child, deps);
+		
+		return deps;
 	}
 	
 	public Set<String> getAvailableVersion() {
@@ -209,55 +284,81 @@ public class BundleModel {
 		return minStartLevel;
 	}
 	
-	private void removeUnneededDependencies(BundleEntry be) {
-		Artifact beArt = be.toArtifact();
-		if (beArt != null) {
-			try {
-				// find out all dependencies of be (-> beDeps)
-				Set<String> beDeps = new HashSet<String>();
-				collectDepURLs(dependencyResolver.resolve(beArt), beDeps);
+	private void removeUnneededDependencies(Collection<BundleEntry> bes) {
+		Set<Artifact> arts = new HashSet<Artifact>();
+		for (BundleEntry be : bes) {
+			Artifact beArt = be.toArtifact();
+			if (beArt != null)
+				arts.add(beArt);
+		}
+		
+		try {
+			// find out all dependencies of be (-> beDeps)
+			Set<String> beDeps = listDependencies(dependencyResolver.resolve(arts), null);
+			
+			BundleSet mwBundles = getMiddlewareBundles();
+			if (mwBundles == null)
+				mwBundles = new BundleSet();
+			
+			// find out dependencies of all bundles in model except those of
+			// in beDeps but not in current version bundles (-> otherDeps)
+			Set<Artifact> otherArts = new HashSet<Artifact>();
+			for (BundleEntry oe : currentBundles) {
+				// !mwBundles.containsURL is to add mw bundles to otherDeps set,
+				// even if the seem only be needed for be
+				if (beDeps.contains(oe.getURL()) && !mwBundles.containsURL(oe.getURL()))
+					continue;
 				
-				BundleSet mwBundles = getMiddlewareBundles();
-				if (mwBundles == null)
-					mwBundles = new BundleSet();
-				
-				// find out dependencies of all bundles in model except those of in beDeps but not in current version bundles (-> otherDeps)
-				Set<Artifact> otherArts = new HashSet<Artifact>();
-				for (BundleEntry oe : currentBundles) {
-					if (beDeps.contains(oe.getURL()) && !mwBundles.containsURL(oe.getURL()))
-						continue;
-					
-					Artifact c = oe.toArtifact();
-					if (c != null)
-						otherArts.add(c);
-				}
-				
-				Set<String> otherDeps = new HashSet<String>();
-				collectDepURLs(dependencyResolver.resolve(otherArts), otherDeps);
-				
-				// find out which bundles in model are only dependencies of be, but not of any other bundle (-> unneededBundles as url set)
-				Set<String> unneededBundles = new HashSet<String>();
-				for (String d : beDeps)
-					if (!otherDeps.contains(d))
-						unneededBundles.add(d);
-				
-				// remove unneeded bundles from model
-				for (String url : unneededBundles)
-					currentBundles.removeURL(url);
-			} catch (DependencyCollectionException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				Artifact a = oe.toArtifact();
+				if (a != null)
+					otherArts.add(a);
 			}
+			
+			Set<String> otherDeps = listDependencies(dependencyResolver.resolve(otherArts), null);
+			
+			// find out which bundles in model are only dependencies of be,
+			// but not of any other bundle (-> unneededBundles as url set)
+			Set<String> unneededBundles = new HashSet<String>();
+			for (String d : beDeps)
+				if (!otherDeps.contains(d))
+					unneededBundles.add(d);
+			
+			// remove unneeded bundles from model
+			for (String url : unneededBundles)
+				currentBundles.removeURL(url);
+		} catch (DependencyCollectionException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (TimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	private void collectDepURLs(DependencyNode node, Set<String> urls) {
-		if (node.getDependency() != null)
-			urls.add(BundleEntry.urlFromArtifact(node.getDependency().getArtifact()));
-		
-		for (DependencyNode child : node.getChildren())
-			collectDepURLs(child, urls);
-	}
+	/*
+	 * private void removeUnneededDependencies(BundleEntry be) { Artifact beArt = be.toArtifact(); if (beArt != null) {
+	 * try { // find out all dependencies of be (-> beDeps) Set<String> beDeps =
+	 * listDependencies(dependencyResolver.resolve(beArt), null);
+	 * 
+	 * BundleSet mwBundles = getMiddlewareBundles(); if (mwBundles == null) mwBundles = new BundleSet();
+	 * 
+	 * // find out dependencies of all bundles in model except those of // in beDeps but not in current version bundles
+	 * (-> otherDeps) Set<Artifact> otherArts = new HashSet<Artifact>(); for (BundleEntry oe : currentBundles) { //
+	 * !mwBundles.containsURL is to add mw bundles to otherDeps set, // even if the seem only be needed for be if
+	 * (beDeps.contains(oe.getURL()) && !mwBundles.containsURL(oe.getURL())) continue;
+	 * 
+	 * Artifact a = oe.toArtifact(); if (a != null) otherArts.add(a); }
+	 * 
+	 * Set<String> otherDeps = listDependencies(dependencyResolver.resolve(otherArts), null);
+	 * 
+	 * // find out which bundles in model are only dependencies of be, // but not of any other bundle (->
+	 * unneededBundles as url set) Set<String> unneededBundles = new HashSet<String>(); for (String d : beDeps) if
+	 * (!otherDeps.contains(d)) unneededBundles.add(d);
+	 * 
+	 * // remove unneeded bundles from model for (String url : unneededBundles) currentBundles.removeURL(url); } catch
+	 * (DependencyCollectionException e1) { // TODO Auto-generated catch block e1.printStackTrace(); } catch
+	 * (TimeoutException e) { // TODO Auto-generated catch block e.printStackTrace(); } } }
+	 */
 	
 	public void updatePresenters() {
 		BundleSet projects = currentBundles;
@@ -283,6 +384,12 @@ public class BundleModel {
 			for (BundleEntry be : oldBS)
 				currentBundles.remove(be);
 		
+		for (Iterator<BundleEntry> iter = currentBundles.iterator(); iter.hasNext();) {
+			BundleEntry be = iter.next();
+			if (versionProvider.isIgnoreBundleOfVersion(be, newVersion))
+				iter.remove();
+		}
+		
 		// assume that the levels fit
 		BundleSet newBS = versionProvider.getBundlesOfVersion(newVersion);
 		if (newBS != null)
@@ -297,7 +404,9 @@ public class BundleModel {
 	
 	public boolean checkCompatibleWithVersion(String url, String version) {
 		BundleSet bundles = versionProvider.getBundlesOfVersion(version);
-		if (bundles == null || bundles.containsURL(url)) // url is in bundles for current version
+		if (bundles == null || bundles.containsURL(url)) // url is in bundles
+															// for current
+															// version
 			return true;
 		
 		for (String v : versionProvider.getAvailableVersions()) {
@@ -306,7 +415,8 @@ public class BundleModel {
 			
 			BundleSet otherBundles = versionProvider.getBundlesOfVersion(v);
 			if (otherBundles != null && otherBundles.containsURL(url))
-				return false; // bundles of an other version contains this url but not bundles of current version
+				return false; // bundles of an other version contains this url
+								// but not bundles of current version
 		}
 		
 		return true;
@@ -349,8 +459,8 @@ public class BundleModel {
 		Map<Object, Object> toSave = new HashMap<Object, Object>();
 		
 		for (BundleEntry be : currentBundles) {
-			StringBuffer options = new StringBuffer().append(be.isSelected()).append("@").append(be.isStart()).append("@")
-					.append(be.getLevel()).append("@").append(be.isUpdate());
+			StringBuffer options = new StringBuffer().append(be.isSelected()).append("@").append(be.isStart())
+					.append("@").append(be.getLevel()).append("@").append(be.isUpdate());
 			toSave.put(be.getURL(), options.toString());
 			
 			if (be.isSelected()) {
@@ -405,7 +515,8 @@ public class BundleModel {
 					configuration,
 					"org.eclipse.jdt.launching.VM_ARGUMENTS",
 					"-Dosgi.noShutdown=true -Dfelix.log.level=4 -Dorg.universAAL.middleware.peer.is_coordinator=true -Dorg.universAAL.middleware.peer.member_of=urn:org.universAAL.aal_space:test_env -Dbundles.configuration.location=${workspace_loc}/rundir/confadmin");
-			trySetAttribute(configuration, "org.eclipse.jdt.launching.WORKING_DIRECTORY", "${workspace_loc}/rundir/demo.config");
+			trySetAttribute(configuration, "org.eclipse.jdt.launching.WORKING_DIRECTORY",
+					"${workspace_loc}/rundir/demo.config");
 			trySetAttribute(configuration, "org.ops4j.pax.cursor.hotDeployment", false);
 			trySetAttribute(configuration, "org.ops4j.pax.cursor.logLevel", "DEBUG");
 			trySetAttribute(configuration, "org.ops4j.pax.cursor.overwrite", false);
@@ -433,12 +544,14 @@ public class BundleModel {
 		}
 	}
 	
-	private static void trySetAttribute(ILaunchConfigurationWorkingCopy configuration, String attribute, int value) throws CoreException {
+	private static void trySetAttribute(ILaunchConfigurationWorkingCopy configuration, String attribute, int value)
+			throws CoreException {
 		if (!configuration.hasAttribute(attribute))
 			configuration.setAttribute(attribute, value);
 	}
 	
-	private static void trySetAttribute(ILaunchConfigurationWorkingCopy configuration, String attribute, String value) throws CoreException {
+	private static void trySetAttribute(ILaunchConfigurationWorkingCopy configuration, String attribute, String value)
+			throws CoreException {
 		if (!configuration.hasAttribute(attribute))
 			configuration.setAttribute(attribute, value);
 	}
@@ -447,5 +560,23 @@ public class BundleModel {
 			throws CoreException {
 		if (!configuration.hasAttribute(attribute))
 			configuration.setAttribute(attribute, value);
+	}
+	
+	private String checkVersion(Set<String> deps) {
+		String maxVersion = null;
+		
+		float maxWeight = 0;
+		for (String version : versionProvider.getAvailableVersions()) {
+			float weight = versionProvider.getVersionScore(version, deps);
+			if (weight > maxWeight) {
+				maxWeight = weight;
+				maxVersion = version;
+			}
+		}
+		
+		if (maxWeight < VERSION_WEIGHT_THRESHOLD)
+			maxVersion = null;
+		
+		return maxVersion;
 	}
 }

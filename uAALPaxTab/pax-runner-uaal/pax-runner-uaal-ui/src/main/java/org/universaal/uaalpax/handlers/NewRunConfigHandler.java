@@ -19,13 +19,18 @@
  */
 package org.universaal.uaalpax.handlers;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -33,23 +38,21 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.internal.ui.DebugUIPlugin;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.ILaunchGroup;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.uaalpax.ui.dialogs.NewRunconfigDialog;
 
 public class NewRunConfigHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		try {
-			createNewLaunchConfiguration();
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		createNewLaunchConfiguration(HandlerUtil.getActiveWorkbenchWindow(event).getShell());
 		return null;
 	}
 	
-	private void createNewLaunchConfiguration() throws CoreException {
+	private void createNewLaunchConfiguration(Shell shell) {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.pde.ui.EquinoxLauncher");
 		
@@ -57,63 +60,74 @@ public class NewRunConfigHandler extends AbstractHandler {
 		if (d.open() != Window.OK)
 			return;
 		
-		ILaunchConfigurationWorkingCopy configuration = type.newInstance(d.getContainer(), d.getName());
-		configuration.setAttribute("append.args", true);
-		configuration.setAttribute("automaticAdd", true);
-		configuration.setAttribute("automaticValidate", false);
-		configuration.setAttribute("bootstrap", "");
-		configuration.setAttribute("checked", "");
-		configuration.setAttribute("default_start_level", 40);
-		configuration.setAttribute("clearConfig", false);
-		// TODO
-		configuration.setAttribute("configLocation", "${workspace_loc}/rundir/smp.lighting");
-		configuration.setAttribute("default", true);
-		configuration.setAttribute("default_auto_start", true);
-		configuration.setAttribute("includeOptional", true);
-		configuration.setAttribute("org.eclipse.debug.core.source_locator_id", "org.eclipse.pde.ui.launcher.PDESourceLookupDirector");
-		
-		configuration.setAttribute("org.eclipse.jdt.launching.JRE_CONTAINER",
-				"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5");
-		configuration
-				.setAttribute(
-						"org.eclipse.jdt.launching.PROGRAM_ARGUMENTS",
-						"-console --obrRepositories=http://depot.universaal.org/nexus/content/repositories/snapshots/repository.xml,http://depot.universaal.org/nexus/content/repositories/releases/repository.xml,http://bundles.osgi.org/obr/browse?_xml=1&amp;amp;cmd=repository --org.ops4j.pax.url.mvn.repositories=+http://depot.universaal.org/nexus/content/groups/public,http://depot.universaal.org/nexus/content/repositories/snapshots@snapshots@noreleases --log=DEBUG");
-		configuration
-				.setAttribute(
-						"org.eclipse.jdt.launching.VM_ARGUMENTS",
-						"-Dosgi.noShutdown=true -Dfelix.log.level=4 -Dorg.universAAL.middleware.peer.is_coordinator=true -Dorg.universAAL.middleware.peer.member_of=urn:org.universAAL.aal_space:test_env -Dbundles.configuration.location=${workspace_loc}/rundir/confadmin");
-		configuration.setAttribute("org.eclipse.jdt.launching.WORKING_DIRECTORY", "${workspace_loc}/rundir/demo.config");
-		configuration.setAttribute("org.ops4j.pax.cursor.hotDeployment", false);
-		configuration.setAttribute("org.ops4j.pax.cursor.logLevel", "DEBUG");
-		configuration.setAttribute("org.ops4j.pax.cursor.overwrite", false);
-		configuration.setAttribute("org.ops4j.pax.cursor.overwriteSystemBundles", false);
-		configuration.setAttribute("org.ops4j.pax.cursor.overwriteUserBundles", false);
-		configuration.setAttribute("default", true);
-		configuration.setAttribute("default", true);
-		
-		if (!configuration.hasAttribute("org.ops4j.pax.cursor.profiles")) {
-			ArrayList<Object> classpath = new ArrayList<Object>();
-			classpath.add("obr");
-			configuration.setAttribute("org.ops4j.pax.cursor.profiles", classpath);
+		try {
+			
+			ILaunchConfigurationWorkingCopy configuration = type.newInstance(d.getContainer(), d.getName());
+			configuration.setAttribute("append.args", true);
+			configuration.setAttribute("automaticAdd", true);
+			configuration.setAttribute("automaticValidate", false);
+			configuration.setAttribute("bootstrap", "");
+			configuration.setAttribute("checked", "");
+			configuration.setAttribute("default_start_level", 40);
+			configuration.setAttribute("clearConfig", false);
+			// TODO
+			configuration.setAttribute("configLocation", "${workspace_loc}/rundir/smp.lighting");
+			configuration.setAttribute("default", true);
+			configuration.setAttribute("default_auto_start", true);
+			configuration.setAttribute("includeOptional", true);
+			configuration.setAttribute("org.eclipse.debug.core.source_locator_id",
+					"org.eclipse.pde.ui.launcher.PDESourceLookupDirector");
+			
+			configuration
+					.setAttribute("org.eclipse.jdt.launching.JRE_CONTAINER",
+							"org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5");
+			configuration
+					.setAttribute(
+							"org.eclipse.jdt.launching.PROGRAM_ARGUMENTS",
+							"-console --obrRepositories=http://depot.universaal.org/nexus/content/repositories/snapshots/repository.xml,http://depot.universaal.org/nexus/content/repositories/releases/repository.xml,http://bundles.osgi.org/obr/browse?_xml=1&amp;amp;cmd=repository --org.ops4j.pax.url.mvn.repositories=+http://depot.universaal.org/nexus/content/groups/public,http://depot.universaal.org/nexus/content/repositories/snapshots@snapshots@noreleases --log=DEBUG");
+			configuration
+					.setAttribute(
+							"org.eclipse.jdt.launching.VM_ARGUMENTS",
+							"-Dosgi.noShutdown=true -Dfelix.log.level=4 -Dorg.universAAL.middleware.peer.is_coordinator=true -Dorg.universAAL.middleware.peer.member_of=urn:org.universAAL.aal_space:test_env -Dbundles.configuration.location=${workspace_loc}/rundir/confadmin");
+			configuration.setAttribute("org.eclipse.jdt.launching.WORKING_DIRECTORY",
+					"${workspace_loc}/rundir/demo.config");
+			configuration.setAttribute("org.ops4j.pax.cursor.hotDeployment", false);
+			configuration.setAttribute("org.ops4j.pax.cursor.logLevel", "DEBUG");
+			configuration.setAttribute("org.ops4j.pax.cursor.overwrite", false);
+			configuration.setAttribute("org.ops4j.pax.cursor.overwriteSystemBundles", false);
+			configuration.setAttribute("org.ops4j.pax.cursor.overwriteUserBundles", false);
+			configuration.setAttribute("default", true);
+			configuration.setAttribute("default", true);
+			
+			if (!configuration.hasAttribute("org.ops4j.pax.cursor.profiles")) {
+				ArrayList<Object> classpath = new ArrayList<Object>();
+				classpath.add("obr");
+				configuration.setAttribute("org.ops4j.pax.cursor.profiles", classpath);
+			}
+			
+			configuration.setAttribute("pde.version", "3.3");
+			configuration.setAttribute("show_selected_only", false);
+			configuration.setAttribute("tracing", false);
+			configuration.setAttribute("useCustomFeatures", false);
+			configuration.setAttribute("useDefaultConfigArea", false);
+			
+			configuration.removeAttribute("target_bundles");
+			
+			configuration.doSave();
+			
+			// IStructuredSelection selection = new StructuredSelection(configuration);
+			
+			DebugUITools.openLaunchConfigurationDialog(shell, configuration, DebugUIPlugin.getDefault()
+					.getLaunchConfigurationManager().getLaunchGroup(type, ILaunchManager.RUN_MODE).getIdentifier(),
+					null);
+			
+			// TODO
+			// DebugUITools.openLaunchConfigurationDialog(null, configuration,
+			// DebugUIPlugin.getDefault().getLaunchConfigurationManager().getLaunchGroup("org.eclipse.pde.ui.EquinoxLauncher"),
+			// null);
+		} catch (CoreException e) {
+			 ErrorDialog.openError(shell, "Error creating launch config",
+			 		"An unenspected error has occured. Launch config could not be created.", new Status(Status.ERROR, "org.ops4j.pax.runner.uaal.ui", "See below", e));
 		}
-		
-		configuration.setAttribute("pde.version", "3.3");
-		configuration.setAttribute("show_selected_only", false);
-		configuration.setAttribute("tracing", false);
-		configuration.setAttribute("useCustomFeatures", false);
-		configuration.setAttribute("useDefaultConfigArea", false);
-		
-		configuration.removeAttribute("target_bundles");
-		
-		configuration.doSave();
-		
-		// IStructuredSelection selection = new StructuredSelection(configuration);
-		
-		DebugUITools.openLaunchConfigurationDialog(DebugUIPlugin.getShell(), configuration, DebugUIPlugin.getDefault()
-				.getLaunchConfigurationManager().getLaunchGroup(type, ILaunchManager.RUN_MODE).getIdentifier(), null);
-		
-		// TODO
-		// DebugUITools.openLaunchConfigurationDialog(null, configuration,
-		// DebugUIPlugin.getDefault().getLaunchConfigurationManager().getLaunchGroup("org.eclipse.pde.ui.EquinoxLauncher"), null);
 	}
 }

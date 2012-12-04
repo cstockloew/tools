@@ -131,7 +131,7 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 		
 		if (code == Window.OK) {
 			BundleEntry be = new BundleEntry(d.getURL(), true, true, d.getLevel(), true);
-			getUAALTab().getModel().add(be);
+			getUAALTab().addBundle(be);
 			notifyChanged();
 			
 			// TODO: select created bundle
@@ -149,7 +149,7 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 		if (code == Window.OK) {
 			getUAALTab().getModel().remove(be);
 			BundleEntry newBe = new BundleEntry(d.getURL(), be.isSelected(), be.isStart(), d.getLevel(), be.isUpdate());
-			getUAALTab().getModel().add(newBe);
+			getUAALTab().addBundle(newBe);
 			notifyChanged();
 			
 			// TODO: select created bundle

@@ -28,6 +28,7 @@
             locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
          <command
                commandId="org.universaal.uaalpax.command.newRunConfig"
+               icon="icons/newuaal_config.gif"
                id="org.universaal.uaalpax.menu.newRunConfig"
                style="push">
          </command>

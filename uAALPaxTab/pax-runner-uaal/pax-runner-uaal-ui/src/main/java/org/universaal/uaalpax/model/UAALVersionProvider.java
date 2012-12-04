@@ -20,6 +20,7 @@
 
 package org.universaal.uaalpax.model;
 
+import java.util.Collection;
 import java.util.Set;
 
 
@@ -73,4 +74,13 @@ public interface UAALVersionProvider {
 	 * @return true if bundle should be ignored, otherwise false
 	 */
 	public boolean isIgnoreBundleOfVersion(BundleEntry be, String version);
+	
+	/**
+	 * Computes how probably the given bundle urls represent a run config of a certain uaal version.
+	 * 
+	 * @param version version to check against
+	 * @param urls set of bundle urls in run config
+	 * @return version hit score for given version, between 0.0 and 1.0
+	 */
+	public float getVersionScore(String version, Collection<String> urls);
 }

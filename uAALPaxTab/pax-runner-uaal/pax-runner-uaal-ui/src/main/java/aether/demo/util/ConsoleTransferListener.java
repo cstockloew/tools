@@ -42,7 +42,7 @@ public class ConsoleTransferListener extends AbstractTransferListener {
 	public void transferInitiated(TransferEvent event) {
 		String message = event.getRequestType() == TransferEvent.RequestType.PUT ? "Uploading" : "Downloading";
 		
-		out.println(message + ": " + event.getResource().getRepositoryUrl() + event.getResource().getResourceName());
+		// out.println(message + ": " + event.getResource().getRepositoryUrl() + event.getResource().getResourceName());
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class ConsoleTransferListener extends AbstractTransferListener {
 		pad(buffer, pad);
 		buffer.append('\r');
 		
-		out.print(buffer);
+		// out.print(buffer);
 	}
 	
 	private String getStatus(long complete, long total) {
@@ -106,7 +106,7 @@ public class ConsoleTransferListener extends AbstractTransferListener {
 				throughput = " at " + format.format(kbPerSec) + " KB/sec";
 			}
 			
-			out.println(type + ": " + resource.getRepositoryUrl() + resource.getResourceName() + " (" + len + throughput + ")");
+			// out.println(type + ": " + resource.getRepositoryUrl() + resource.getResourceName() + " (" + len + throughput + ")");
 		}
 	}
 	
@@ -114,7 +114,7 @@ public class ConsoleTransferListener extends AbstractTransferListener {
 	public void transferFailed(TransferEvent event) {
 		transferCompleted(event);
 		
-		event.getException().printStackTrace(out);
+		// event.getException().printStackTrace(out);
 	}
 	
 	private void transferCompleted(TransferEvent event) {
@@ -123,11 +123,11 @@ public class ConsoleTransferListener extends AbstractTransferListener {
 		StringBuilder buffer = new StringBuilder(64);
 		pad(buffer, lastLength);
 		buffer.append('\r');
-		out.print(buffer);
+		// out.print(buffer);
 	}
 	
 	public void transferCorrupted(TransferEvent event) {
-		event.getException().printStackTrace(out);
+		// event.getException().printStackTrace(out);
 	}
 	
 	protected long toKB(long bytes) {

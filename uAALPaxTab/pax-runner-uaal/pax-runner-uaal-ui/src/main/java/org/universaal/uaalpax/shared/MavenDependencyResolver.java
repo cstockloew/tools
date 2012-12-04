@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
@@ -38,8 +39,9 @@ import org.universaal.uaalpax.model.BundleEntry;
 
 import aether.demo.util.Booter;
 
-
 public class MavenDependencyResolver {
+	private final static int RESOLVE_TIMEOUT = 10000;
+	
 	private RepositorySystem system;
 	private RepositorySystemSession session;
 	private List<RemoteRepository> repos;
@@ -54,7 +56,11 @@ public class MavenDependencyResolver {
 		resolvingCache = new HashMap<Object, DependencyNode>();
 	}
 	
-	public DependencyNode resolve(Artifact artifact) throws DependencyCollectionException {
+	public void clearCache() {
+		resolvingCache.clear();
+	}
+	
+	public DependencyNode resolve(Artifact artifact) throws DependencyCollectionException, TimeoutException {
 		String url = BundleEntry.urlFromArtifact(artifact);
 		
 		DependencyNode artifactResults = resolvingCache.get(url);
@@ -63,8 +69,7 @@ public class MavenDependencyResolver {
 			collectRequest.setRoot(new Dependency(artifact, JavaScopes.COMPILE));
 			collectRequest.setRepositories(repos);
 			
-			artifactResults = system.collectDependencies(session, collectRequest).getRoot();
-			cacheDependencies(artifactResults);
+			artifactResults = doCollectDependencies(collectRequest);
 		}
 		
 		return artifactResults;
@@ -72,14 +77,14 @@ public class MavenDependencyResolver {
 	
 	private void cacheDependencies(DependencyNode node) {
 		Dependency d = node.getDependency();
-		if(d != null && d.getArtifact() != null) 
+		if (d != null && d.getArtifact() != null)
 			resolvingCache.put(BundleEntry.urlFromArtifact(d.getArtifact()), node);
 		
-		for(DependencyNode child: node.getChildren())
+		for (DependencyNode child : node.getChildren())
 			cacheDependencies(child);
 	}
 	
-	public DependencyNode resolve(Set<Artifact> artifacts) throws DependencyCollectionException {
+	public DependencyNode resolve(Set<Artifact> artifacts) throws DependencyCollectionException, TimeoutException {
 		DependencyNode artifactResults = resolvingCache.get(artifacts);
 		if (artifactResults == null) {
 			CollectRequest collectRequest = new CollectRequest();
@@ -87,11 +92,42 @@ public class MavenDependencyResolver {
 				collectRequest.addDependency(new Dependency(a, JavaScopes.COMPILE));
 			collectRequest.setRepositories(repos);
 			
-			artifactResults = system.collectDependencies(session, collectRequest).getRoot();
-			
-			cacheDependencies(artifactResults);
+			artifactResults = doCollectDependencies(collectRequest);
 		}
 		
 		return artifactResults;
+	}
+	
+	private DependencyNode doCollectDependencies(final CollectRequest collectRequest)
+			throws DependencyCollectionException, TimeoutException {
+		final DependencyNode[] artifactResults = new DependencyNode[1];
+		final DependencyCollectionException[] exception = new DependencyCollectionException[1];
+		
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					artifactResults[0] = system.collectDependencies(session, collectRequest).getRoot();
+				} catch (DependencyCollectionException e) {
+					exception[0] = e;
+				}
+			}
+		});
+		
+		t.start();
+		// t.run();
+		try {
+			t.join(RESOLVE_TIMEOUT);
+			
+			if (t.isAlive()) {
+				t.interrupt();
+				throw new TimeoutException();
+			} else if (artifactResults[0] != null)
+				return artifactResults[0];
+			
+			cacheDependencies(artifactResults[0]);
+			return artifactResults[0];
+		} catch (InterruptedException e) {
+			throw new TimeoutException();
+		}
 	}
 }

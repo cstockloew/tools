@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.ops4j.pax.runner.uaal.ui.feature"
-      label="Pax Runner Plugin for Eclipse UI"
-      version="1.7.6.v20120710"
-      provider-name="OPS4j.org">
+      id="org.universaal.igd.uaal.runner.ui.feature"
+      label="universAAL Pax Runner UI"
+      version="0.0.1.snapshot"
+      provider-name="universAAL">
 
    <copyright url="http://www.ops4j.org">
       Copyright 2009 Alin Dreghiciu.
@@ -244,19 +244,15 @@ and
 limitations under the License.
    </license>
 
-   <url>
-      <update label="OPS4J Pax Eclipse Update Site" url="http://www.ops4j.org/eclipse/update"/>
-   </url>
-
    <requires>
       <import plugin="org.eclipse.pde.ui" version="3.3.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="org.ops4j.pax.runner.uaal.ui"
+         id="org.universaal.igd.uaal.runner.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.0.1.snapshot"
          fragment="true"
          unpack="false"/>
 

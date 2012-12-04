@@ -20,8 +20,11 @@
 
 package org.universaal.uaalpax.ui;
 
+import java.util.Collection;
+
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.pde.ui.launcher.AbstractLauncherTab;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -36,12 +39,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.MessageBox;
 import org.universaal.uaalpax.model.BundleChangeListener;
+import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleModel;
 import org.universaal.uaalpax.model.HardcodedConfigProvider;
+import org.universaal.uaalpax.model.ModelDialogProvider;
 import org.universaal.uaalpax.model.UAALVersionProvider;
 import org.universaal.uaalpax.shared.MavenDependencyResolver;
 
-public class UniversAALTab extends AbstractLauncherTab implements BundleChangeListener {
+public class UniversAALTab extends AbstractLauncherTab implements BundleChangeListener, ModelDialogProvider {
 	private WorkspaceProjectsBlock managerTable;
 	private AllLibsBlock additionalLibsBlock;
 	private VersionBlock versionBlock;
@@ -59,7 +64,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		dependencyResolver = new MavenDependencyResolver();
 		versionProvider = new HardcodedConfigProvider();
 		
-		model = new BundleModel(dependencyResolver, versionProvider);
+		model = new BundleModel(dependencyResolver, versionProvider, this);
 		model.addChangeListener(this);
 	}
 	
@@ -113,6 +118,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		m_initializing = true;
 		try {
+			dependencyResolver.clearCache();
 			launchConfig = configuration;
 			model.updateModel(configuration);
 		} finally {
@@ -154,5 +160,24 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	
 	public void notifyChanged() {
 		updateLaunchConfigurationDialog();
+	}
+	
+	public void addBundle(BundleEntry be) {
+		getModel().add(be);
+	}
+	
+	public void addAllBundles(Collection<BundleEntry> entries) {
+		getModel().addAll(entries);
+	}
+	
+	public int openDialog(String title, String message, String... buttons) {
+		return new MessageDialog(getShell(), title, null, message, MessageDialog.QUESTION, buttons, 0).open();
+	}
+
+	public void showErrorMessage(String title, String message) {
+		MessageBox mb = new MessageBox(getShell(), SWT.ICON_ERROR);
+		mb.setMessage(message);
+		mb.setText(title);
+		mb.open();
 	}
 }

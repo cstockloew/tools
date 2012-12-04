@@ -112,7 +112,7 @@ public class VersionBlock extends UIBlock {
 			getUAALTab().getModel().updatePresenters();
 	}
 	
-	private boolean tryChangeToVersion(String newVersion) {
+	public boolean tryChangeToVersion(String newVersion) {
 		BundleModel model = getUAALTab().getModel();
 		// find out which projects have to be checked for compatibility
 		Set<String> toCheck = model.getIncompatibleProjects(newVersion);
