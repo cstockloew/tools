@@ -6,15 +6,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.core.resources.IResource;
-import org.universaal.tools.conformanceTools.checks.api.Check;
+import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Activator implements Check {
-
-	private String result = "Test not yet performed.";
+public class ActivatorCheck extends CheckImpl {
 
 	@Override
 	public String getCheckName() {
@@ -52,10 +50,5 @@ public class Activator implements Check {
 
 		result = "This project has not a proper Activator class.";
 		return ko;
-	}
-
-	@Override
-	public String getCheckResultDescription() {
-		return result;
 	}
 }

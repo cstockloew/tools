@@ -4,9 +4,9 @@ import org.eclipse.core.resources.IResource;
 
 public interface Check {
 
-	public final String ok = ""; //image path
-	public final String ko = ""; //image path
-	public final String maybe = ""; //image path
+	public final String ok = "icon_success_sml.gif";
+	public final String ko = "icon_error_sml.gif"; 
+	public final String unknown = "icon_question_sml.gif"; 
 
 	public String getCheckName();
 

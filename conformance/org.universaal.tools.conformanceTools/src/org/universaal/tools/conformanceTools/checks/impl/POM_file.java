@@ -5,11 +5,10 @@ import java.io.File;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.m2e.core.internal.IMavenConstants;
-import org.universaal.tools.conformanceTools.checks.api.Check;
+import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
+import org.universaal.tools.conformanceTools.checks.api.SubInterfaces;
 
-public class POM_file implements Check {
-
-	private String result = "Test not yet performed.";
+public class POM_file extends CheckImpl {
 
 	@Override
 	public String getCheckName() {
@@ -35,11 +34,6 @@ public class POM_file implements Check {
 
 		result = "Selected project has not a POM file";
 		return ko;
-	}
-
-	@Override
-	public String getCheckResultDescription() {
-		return result;
 	}
 
 	public File getPOMfile(IResource resource) throws Exception{

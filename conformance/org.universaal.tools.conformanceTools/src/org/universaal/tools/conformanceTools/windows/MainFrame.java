@@ -9,7 +9,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.universaal.tools.conformance.verify.plugin.handlers.VerifierHandler;
 import org.universaal.tools.conformanceTools.run.ToolsRun;
 import org.universaal.tools.conformanceTools.utils.RunPlugin;
 
@@ -21,14 +20,14 @@ public class MainFrame {
 
 		final Shell shell = new Shell(window.getShell());
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 3;
+		layout.numColumns = 2; // buttons number
 		layout.makeColumnsEqualWidth = true;
 		shell.setLayout(layout);
 
 		GridData data = new GridData(GridData.FILL_BOTH);
 
 		Button two = new Button(shell, SWT.PUSH);
-		two.setText("Check against code style rules");
+		two.setText("Code style rules");
 		two.setEnabled(true);
 		two.addMouseListener(new MouseListener() {
 
@@ -36,7 +35,7 @@ public class MainFrame {
 
 				shell.close();
 				shell.dispose();
-				instance.run(window, RunPlugin.CheckStyle);
+				instance.run(window, RunPlugin.CodeStyle);
 			}
 
 			public void mouseDown(MouseEvent e) {
@@ -48,7 +47,7 @@ public class MainFrame {
 		two.setLayoutData(data);
 
 		Button four = new Button(shell, SWT.PUSH);
-		four.setText("Identify the most common bugs");
+		four.setText("uAAL checks");
 		four.setEnabled(true);
 		four.addMouseListener(new MouseListener() {
 
@@ -56,7 +55,7 @@ public class MainFrame {
 
 				shell.close();
 				shell.dispose();
-				instance.run(window, RunPlugin.FindBugs);
+				instance.run(window, RunPlugin.CustomChecks);
 			}
 
 			public void mouseDown(MouseEvent e) {
@@ -67,7 +66,7 @@ public class MainFrame {
 		});
 		four.setLayoutData(data);
 
-		Button five = new Button(shell, SWT.PUSH);
+		/*Button five = new Button(shell, SWT.PUSH);
 		five.setText("Verify files in project");
 		five.setEnabled(false);
 		five.addMouseListener(new MouseListener() {
@@ -91,7 +90,7 @@ public class MainFrame {
 			public void mouseDoubleClick(MouseEvent e) {
 			}
 		});
-		five.setLayoutData(data);
+		five.setLayoutData(data);*/
 
 		shell.pack();
 		shell.open(); 

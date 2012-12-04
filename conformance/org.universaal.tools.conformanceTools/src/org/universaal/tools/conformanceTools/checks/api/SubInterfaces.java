@@ -1,4 +1,4 @@
-package org.universaal.tools.conformanceTools.checks.impl;
+package org.universaal.tools.conformanceTools.checks.api;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;

@@ -14,7 +14,6 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-
 	public static String absolutePath;
 	
 	/**
@@ -30,7 +29,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		absolutePath=context.getBundle().getLocation().substring(15);//Remove "reference:file:"
+		absolutePath = context.getBundle().getLocation().replace("initial@reference:file:", ""); 
 	}
 
 	/*

@@ -8,15 +8,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.m2e.core.internal.IMavenConstants;
-import org.universaal.tools.conformanceTools.checks.api.Check;
+import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
+import org.universaal.tools.conformanceTools.checks.api.SubInterfaces;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class NameGroupID implements Check {
-
-	private String result = "Test not yet performed.";
+public class NameGroupID extends CheckImpl {
 
 	private final String AALapp = "org.universAAL.AALaaplication";
 	private final String AAL = "org.universAAL";
@@ -65,14 +64,14 @@ public class NameGroupID implements Check {
 				}
 
 				if(groupID != null && artifactID != null){
-					if(groupID.equals(AALapp) && artifactId.equals(AALapp))
+					if(groupID.equals(AALapp) && artifactID.equals(AALapp))
 						result = "Selected project is a uAAL application from WP4?";
-					if(groupID.equals(AAL) && artifactId.equals(AAL))
+					if(groupID.equals(AAL) && artifactID.equals(AAL))
 						result = "Selected project is a uAAL code package?";
-					if(groupID.equals(noAAL) && artifactId.equals(noAAL))
+					if(groupID.equals(noAAL) && artifactID.equals(noAAL))
 						result = "Are you a developer outside uAAL?";
 
-					return maybe;
+					return unknown;
 				}
 				else{
 					result = "Selected project has not valid descriptors.";
@@ -83,11 +82,6 @@ public class NameGroupID implements Check {
 
 		result = "Selected project has not a valid POM file.";
 		return ko;
-	}
-
-	@Override
-	public String getCheckResultDescription() {
-		return result;
 	}
 
 	private String checkNamingConvention(String tag){

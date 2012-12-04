@@ -9,15 +9,13 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.universaal.tools.conformanceTools.checks.api.Check;
+import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class OSGI_bundle implements Check{
-
-	private String result = "Test not yet performed.";
+public class OSGI_bundle extends CheckImpl {
 
 	@Override
 	public String getCheckName() {
@@ -55,11 +53,6 @@ public class OSGI_bundle implements Check{
 
 		result = "This project is not an OSGI bundle.";
 		return ko;
-	}
-
-	@Override
-	public String getCheckResultDescription() {
-		return result;
 	}
 
 	private String getProjectPath(IResource resource) throws CoreException{

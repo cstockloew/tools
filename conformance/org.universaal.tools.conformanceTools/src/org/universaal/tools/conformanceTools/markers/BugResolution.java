@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
-import org.universaal.tools.conformanceTools.utils.RunPlugin;
 
 public class BugResolution implements IMarkerResolutionGenerator2 {
 
@@ -46,12 +45,12 @@ public class BugResolution implements IMarkerResolutionGenerator2 {
 		public void run(IMarker marker) {
 			try {
 				String plugin = (String) marker.getAttribute(IMarker.SOURCE_ID);
-				if(plugin.equals(RunPlugin.FindBugs)){
+				/*if(plugin.equals(RunPlugin.FindBugs)){
 				    //@edu.umd.cs.findbugs.annotations.SuppressWarnings("URF_UNREAD_FIELD")
 					String error = (String) marker.getAttribute(IMarker.TEXT);
 				}
-				else
-					markers.deleteMarker(marker);
+				else*/
+				markers.deleteMarker(marker);
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}

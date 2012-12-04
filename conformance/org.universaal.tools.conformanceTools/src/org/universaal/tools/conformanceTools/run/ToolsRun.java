@@ -44,13 +44,17 @@ import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.Bundle;
 import org.universaal.tools.conformanceTools.Activator;
+import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
+import org.universaal.tools.conformanceTools.checks.impl.ActivatorCheck;
+import org.universaal.tools.conformanceTools.checks.impl.Maven_nature;
 import org.universaal.tools.conformanceTools.checks.impl.NameGroupID;
+import org.universaal.tools.conformanceTools.checks.impl.OSGI_bundle;
+import org.universaal.tools.conformanceTools.checks.impl.POM_file;
 import org.universaal.tools.conformanceTools.markers.CTMarker;
 import org.universaal.tools.conformanceTools.markers.Markers;
 import org.universaal.tools.conformanceTools.utils.HtmlPage;
@@ -65,7 +69,6 @@ public class ToolsRun {
 
 	private static ToolsRun instance;
 
-	private RunPlugin plugin;
 	private IProject projectToAnalyze;
 	private IWorkbenchWindow window;
 	private ISelection selection;
@@ -86,7 +89,7 @@ public class ToolsRun {
 
 	private ToolsRun(){
 		orderderbugsMap = new ArrayList<BugDescriptor>();
-		markers = Markers.getInstance();
+		markers = Markers.getInstance();		
 	}
 
 	public static synchronized ToolsRun getInstance(){
@@ -98,7 +101,6 @@ public class ToolsRun {
 
 	public void run(IWorkbenchWindow window, RunPlugin plugin) {
 
-		this.plugin = plugin;
 		this.window = window;
 
 		this.selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
@@ -124,16 +126,104 @@ public class ToolsRun {
 				return;
 			}
 			try{
-				//removeOldBugs();
-				//testConformance();
+				verifyImages();
 
-				NameGroupID t = new NameGroupID();
-				t.check(this.projectToAnalyze);
+				if(plugin == RunPlugin.CodeStyle){
+					removeOldBugs();
+					testConformance();
+				}
+
+				if(plugin == RunPlugin.CustomChecks){
+
+					List<String> checks = new ArrayList<String>();
+					checks.add(ActivatorCheck.class.getName());
+					checks.add(Maven_nature.class.getName());
+					checks.add(NameGroupID.class.getName());
+					checks.add(OSGI_bundle.class.getName());
+					checks.add(POM_file.class.getName());				
+
+					List<Result> results = test(checks);
+					visualizeNewResults(results);
+				}
 			}
 			catch(Exception ex){ ex.printStackTrace(); }
 		}
 		else
 			System.out.println("uAAL CT - no valid selection.");
+	}
+
+	private void visualizeNewResults(List<Result> results){
+
+		try{
+			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - ANALYSIS RESULTS");
+			String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/images/logos/";
+
+			Table t = page.new Table(results.size()+2, 4);
+
+			// table header
+			t.addContentCentered("<font size='5'><b>TEST RESULT</b></font>", 0, 0);
+			t.addContentCentered("<font size='5'><b>TEST NAME</b></font>", 0, 1);
+			t.addContentCentered("<font size='5'><b>TEST DESCRIPTION</b></font>", 0, 2);
+			t.addContentCentered("<font size='5'><b>RESULT DESCRIPTION</b></font>", 0, 3);
+
+			for(int i = 0; i < results.size(); i++){
+				Result check = results.get(i);
+				t.addContentCentered("<img src='"+path_+check.resultImg+"' />", i+1, 0);		
+				t.addContentCentered(check.checkName, i+1, 1);			
+				t.addContentCentered(check.checkDescription, i+1, 2);
+				t.addContentCentered(check.resultDscr, i+1, 3);
+			}
+
+			page.getBody().addElement(t.getTable());
+			page.getBody().addElement("<br/><br/><p>Total: "+results.size()+" performed test(s).</p>");
+			String filePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/"+fileNameResults;
+			File file = new File(filePath);
+			page.write(file);
+
+			IDE.openEditorOnFileStore( window.getActivePage(), EFS.getLocalFileSystem().getStore(file.toURI()) );
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
+	private List<Result> test(List<String> checks){
+
+		List<Result> results = new ArrayList<Result>();
+		try{
+			for(String c: checks){
+				Object ck = Class.forName(c).newInstance();
+				CheckImpl check = (CheckImpl) ck;
+
+				String name = check.getCheckName();
+				String description = check.getCheckDescription();
+
+				String resultImg = check.check(this.projectToAnalyze);
+				String resultDscr = check.getCheckResultDescription();
+
+				results.add(new Result(name, description, resultImg, resultDscr));
+			}
+
+			if(results != null)
+				return results;
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		return null;
+	}
+
+	private class Result{
+
+		private String checkName, checkDescription, resultImg, resultDscr; 
+
+		public Result(String checkName, String checkDescription, String resultImg, String resultDscr){
+			this.checkName = checkName;
+			this.checkDescription = checkDescription;
+			this.resultImg = resultImg;
+			this.resultDscr = resultDscr;
+		}
 	}
 
 	private void testConformance() throws CoreException {
@@ -172,11 +262,11 @@ public class ToolsRun {
 						if (!description.isAutoBuilding())
 							goals.add("compiler:compile"); // compile it if autobuilding is off
 
-						if(plugin == RunPlugin.FindBugs)
-							goals.add("findbugs:findbugs");
+						//if(plugin == RunPlugin.FindBugs)
+						goals.add("findbugs:findbugs");
 
-						else if(plugin == RunPlugin.CheckStyle)
-							goals.add("checkstyle:checkstyle");
+						//else if(plugin == RunPlugin.CheckStyle)
+						goals.add("checkstyle:checkstyle");
 
 						request.setGoals(goals);
 						MavenExecutionResult result = maven.execute(request, monitor);
@@ -207,17 +297,17 @@ public class ToolsRun {
 									projectFacade.getResolverConfiguration(), monitor);
 
 							Properties props = new Properties();
-							if(plugin == RunPlugin.FindBugs){
+							//if(plugin == RunPlugin.FindBugs){
 
-								goals.add("findbugs:check");
-								props.setProperty("findbugs.failOnError", "false");
-							}
-							else if(plugin == RunPlugin.CheckStyle){
+							goals.add("findbugs:check");
+							props.setProperty("findbugs.failOnError", "false");
+							//}
+							//else if(plugin == RunPlugin.CheckStyle){
 
-								goals.add("checkstyle:check");
-								props.setProperty("checkstyle.failOnViolation", "false");
-								props.setProperty("checkstyle.failsOnError", "false");
-							}
+							goals.add("checkstyle:check");
+							props.setProperty("checkstyle.failOnViolation", "false");
+							props.setProperty("checkstyle.failsOnError", "false");
+							//}
 
 							request2.setUserProperties(props);
 							request2.setGoals(goals);
@@ -242,43 +332,46 @@ public class ToolsRun {
 								public void run() {
 
 									try{									
-										File f = null;
+										//if(plugin == RunPlugin.CheckStyle)
+										//f = new File(path_+"/target/checkstyle-result.xml"); 
+										int[] maxMinCK = parseCheckstyleResult(new File(path_+"/target/checkstyle-result.xml"));
 
-										if(plugin == RunPlugin.CheckStyle){
-											f = new File(path_+"/target/checkstyle-result.xml"); 
-										}
+										//if(plugin == RunPlugin.FindBugs)
+										//f = new File(path_+"/target/findbugsXml.xml"); 
+										int[] maxMinFB = parseFindBugsResults(new File(path_+"/target/findbugsXml.xml"));
 
-										if(plugin == RunPlugin.FindBugs)
-											f = new File(path_+"/target/findbugsXml.xml"); 
-
-										if (f != null && f.exists() ){
-
-											if(plugin == RunPlugin.FindBugs) 
-												parseFindBugsResults(f);
-											else if(plugin == RunPlugin.CheckStyle)
-												parseCheckstyleResult(f);
-
-											visualizeResults();
-											f = new File(path_+"/target/site/"+fileNameResults);
-
-											org.eclipse.core.filesystem.IFileStore fileStore = EFS.getLocalFileSystem().getStore(f.toURI());
-											IWorkbenchPage page = window.getActivePage();
-
-											try {
-												verifyImages();
-												if(page != null && fileStore != null)
-													IDE.openEditorOnFileStore( page, fileStore );
-												else
-													System.out.println("uAAL CT - can't open report file - "+plugin);
-											} 
-											catch ( PartInitException e ) {
-												e.printStackTrace();
-											}
-
-										} 
+										int max = 0, min = 0;
+										if(maxMinCK[0] >= maxMinFB[0])
+											max = maxMinCK[0];
 										else
-											System.out.println("uAAL CT - does file "+path_+"/target/site/"+"fileNameResults"+" exist?");
+											max = maxMinFB[0];
+										if(maxMinCK[1] < maxMinFB[1])
+											min = maxMinCK[1];
+										else
+											min = maxMinFB[1];
 
+										orderBySeverity(max, min);
+
+										//if(plugin == RunPlugin.FindBugs) 
+										//parseFindBugsResults(f);
+										//else if(plugin == RunPlugin.CheckStyle)
+										//parseCheckstyleResult(f);
+
+										visualizeResults();
+										//f = new File(path_+"/target/site/"+fileNameResults);
+
+										org.eclipse.core.filesystem.IFileStore fileStore = EFS.getLocalFileSystem().getStore(
+												new File(path_+"/target/site/"+fileNameResults).toURI());
+
+										try {
+											if(fileStore != null)
+												IDE.openEditorOnFileStore( window.getActivePage(), fileStore );
+											else
+												System.out.println("uAAL CT - can't open report file.");
+										} 
+										catch ( PartInitException e ) {
+											e.printStackTrace();
+										}
 									}
 									catch(Exception ex){
 										ex.printStackTrace();
@@ -305,7 +398,7 @@ public class ToolsRun {
 		job.schedule();	
 	}
 
-	private void parseFindBugsResults(File xml){
+	private int[] parseFindBugsResults(File xml){
 
 		int maxSeverity = -1;
 		int minSeverity = 1000;
@@ -321,7 +414,7 @@ public class ToolsRun {
 
 					BugDescriptor bd = new BugDescriptor();
 
-					bd.setPlugin(RunPlugin.FindBugs);
+					//bd.setPlugin(RunPlugin.FindBugs);
 
 					if(bug.getNodeType() == Node.ELEMENT_NODE){
 						Element bug_ = (Element) bug;
@@ -353,15 +446,18 @@ public class ToolsRun {
 				}
 			}
 
-			orderBySeverity(maxSeverity, minSeverity);
+			//orderBySeverity(maxSeverity, minSeverity);
 			markClasses();
+			return new int[]{maxSeverity, minSeverity};
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+
+		return new int[]{0, 0};
 	}
 
-	private void parseCheckstyleResult(File xml){
+	private int[] parseCheckstyleResult(File xml){
 
 		int min = 0, max = 0;
 		try{
@@ -383,7 +479,7 @@ public class ToolsRun {
 								Element error_ = (Element) error;
 
 								BugDescriptor bd = new BugDescriptor();
-								bd.setPlugin(RunPlugin.CheckStyle);
+								//bd.setPlugin(RunPlugin.CheckStyle);
 
 								String separator = "\\\\";
 								String[] path = fileName.trim().split(separator);
@@ -419,12 +515,15 @@ public class ToolsRun {
 				}
 			}
 
-			orderBySeverity(max, min);
+			//orderBySeverity(max, min);
 			markClasses();
+			return new int[]{max, min};
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+
+		return new int[]{0, 0};
 	}
 
 	private void removeOldBugs(){
@@ -435,14 +534,14 @@ public class ToolsRun {
 			int k = 0; 
 			for(int i = 0; i < orderderbugsMap.size(); i++){
 				if(orderderbugsMap.get(i) != null)
-					if(orderderbugsMap.get(i).getPlugin() == this.plugin){
-						orderderbugsMap.set(i, null);
-						k++;
-					}
+					//if(orderderbugsMap.get(i).getPlugin() == this.plugin){
+					orderderbugsMap.set(i, null);
+				k++;
+				//}
 			}
 			System.out.println("uAAL CT - deleted "+k+" bug instances.");
 
-			markers.deleteAll(this.plugin);
+			markers.deleteAll(/*this.plugin*/);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -492,7 +591,7 @@ public class ToolsRun {
 
 							if(!orderderbugsMap.get(j).getSeverityDescription().equals(no_severity)){
 
-								attributes.put(IMarker.SOURCE_ID, orderderbugsMap.get(j).getPlugin());
+								//attributes.put(IMarker.SOURCE_ID, orderderbugsMap.get(j).getPlugin());
 
 								if(orderderbugsMap.get(j).getSeverityDescription().equals(low_severity)){
 									attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
@@ -542,7 +641,7 @@ public class ToolsRun {
 		try{
 			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - ANALYSIS RESULTS");
 			String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/images/logos/maven-feather.png";
-			page.getBody().addElement("<img src='"+path_+"' alt='Maven Logo'><br/><br/>");
+			page.getBody().addElement("<img src='"+path_+"' alt='Maven Logo' /><br/><br/>");
 
 			Table t = page.new Table(getBugsNumber()+2, 6);
 
@@ -592,16 +691,16 @@ public class ToolsRun {
 
 	private void verifyImages(){
 
-		try{
-			String errFN = "icon_error_sml.gif";
-			String infFN = "icon_info_sml.gif";
-			String warnFN = "icon_warning_sml.gif";
-			String mavFN = "maven-feather.png";
-
+		try{	
 			String destPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+this.projectToAnalyze.getDescription().getName();
 			String destInternalProjectPath = "/target/site/images/";
 
-			File target, site, images, logos;
+			Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
+
+			File dir = new File(Activator.absolutePath+"/icons/");
+			File[] icons = dir.listFiles();
+
+			File target, site, images, logos; // subdirectories structure
 			target = new File(destPath+"/target");
 			if(!target.exists())
 				target.mkdir();
@@ -613,27 +712,25 @@ public class ToolsRun {
 				images.mkdir();
 			logos = new File(destPath+"/target/site/images/logos/");
 			if(!logos.exists())
-				logos.mkdir();
+				logos.mkdir();			
 
-			Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
-
-			copyFile(bundle, destPath, destInternalProjectPath, errFN, "/icons/");
-			copyFile(bundle, destPath, destInternalProjectPath, infFN, "/icons/");
-			copyFile(bundle, destPath, destInternalProjectPath, warnFN, "/icons/");
-			copyFile(bundle, destPath, destInternalProjectPath+"logos/", mavFN, "/icons/");
+			for(File icon: icons){
+				copyFile(bundle, destPath+destInternalProjectPath, icon.getName(), "/icons/");
+				copyFile(bundle, destPath+destInternalProjectPath+"logos/", icon.getName(), "/icons/");
+			}
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 
-	private void copyFile(Bundle bundle, String destPath, String destInternalProjectPath, String fileName, String sourceInternalProjectPath){
+	private void copyFile(Bundle bundle, String destPath, String fileName, String sourcePath){
 
 		try{
-			Path path = new Path(sourceInternalProjectPath+fileName);
+			Path path = new Path(sourcePath+fileName);
 			URL fileURL = Platform.find(bundle, path);
 			InputStream is = fileURL.openStream(); 			
-			OutputStream os = new FileOutputStream(destPath+destInternalProjectPath+fileName);
+			OutputStream os = new FileOutputStream(destPath+fileName);
 			byte[] buffer = new byte[4096];  
 			int bytesRead;  
 			while ((bytesRead = is.read(buffer)) != -1) {  
@@ -689,14 +786,14 @@ public class ToolsRun {
 		private String clazz;
 		private String errorType;
 		private ICompilationUnit cu;
-		private RunPlugin plugin;
+		//private RunPlugin plugin;
 
-		public RunPlugin getPlugin() {
+		/*public RunPlugin getPlugin() {
 			return plugin;
 		}
 		public void setPlugin(RunPlugin plugin) {
 			this.plugin = plugin;
-		}
+		}*/
 		public ICompilationUnit getCu() {
 			return cu;
 		}

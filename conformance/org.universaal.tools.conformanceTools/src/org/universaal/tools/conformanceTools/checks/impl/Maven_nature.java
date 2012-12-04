@@ -3,11 +3,10 @@ package org.universaal.tools.conformanceTools.checks.impl;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.m2e.core.internal.IMavenConstants;
-import org.universaal.tools.conformanceTools.checks.api.Check;
+import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
+import org.universaal.tools.conformanceTools.checks.api.SubInterfaces;
 
-public class Maven_nature implements Check {
-
-	private String result = "Test not yet performed.";
+public class Maven_nature extends CheckImpl {
 
 	@Override
 	public String getCheckName() {
@@ -33,10 +32,5 @@ public class Maven_nature implements Check {
 
 		result = "Selected project has not Maven nature.";
 		return ko;
-	}
-
-	@Override
-	public String getCheckResultDescription() {
-		return result;
 	}
 }
