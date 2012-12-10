@@ -7,7 +7,7 @@ import java.util.Hashtable;
 
 public class /*TAG:CLASSNAME*/ {
 
-    public static ServiceProfile[] profiles;
-    private static Hashtable serverLevelRestrictions = new Hashtable();
+	public static ServiceProfile[] profiles;
+	private static Hashtable serverLevelRestrictions = new Hashtable();
 
 }

@@ -7,17 +7,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Implements IMWVersion for the 1.2.0 release of the MW. It extends 110 version
+ * Implements IMWVersion for the 1.3.0 release of the MW. It extends 120 version
  * in order to reuse similar methods, but overrides everything in which it
  * differs from it.
  * 
  * @author alfiva
  */
-public class MWVersion120 extends MWVersion110{
+public class MWVersion130 extends MWVersion120{
     
     @Override
     public int getMWVersionNumber() {
-	return IMWVersion.VER_120;
+	return IMWVersion.VER_130;
     }
 
     //________CONSTANTS________
@@ -31,52 +31,52 @@ public class MWVersion120 extends MWVersion110{
 	    + "		<dependency>\n"
 	    + "			<groupId>org.universAAL.middleware</groupId>\n"
 	    + "			<artifactId>mw.data.representation.osgi</artifactId>\n"
-	    + "			<version>1.2.0</version>\n"
+	    + "			<version>1.3.0</version>\n"
 	    + "		</dependency>\n"
 	    + "		<dependency>\n"
 	    + "			<groupId>org.universAAL.middleware</groupId>\n"
 	    + "			<artifactId>mw.bus.model.osgi</artifactId>\n"
-	    + "			<version>1.2.0</version>\n"
+	    + "			<version>1.3.0</version>\n"
 	    + "		</dependency>\n"
 	    + "		<dependency>\n"
 	    + "			<groupId>org.universAAL.middleware</groupId>\n"
 	    + "			<artifactId>mw.container.xfaces.osgi</artifactId>\n"
-	    + "			<version>1.2.0</version>\n"
+	    + "			<version>1.3.0</version>\n"
 	    + "		</dependency>\n"
 	    + "		<dependency>\n"
 	    + "			<groupId>org.universAAL.middleware</groupId>\n"
 	    + "			<artifactId>mw.container.osgi</artifactId>\n"
-	    + "			<version>1.2.0</version>\n"
+	    + "			<version>1.3.0</version>\n"
 	    + "		</dependency>\n";	
     protected static final String SERVICE_DEPS =
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.middleware</groupId>\n" 
 	    + "			<artifactId>mw.bus.service.osgi</artifactId>\n" 
-	    + "			<version>1.2.0</version>\n" 
+	    + "			<version>1.3.0</version>\n" 
 	    + "		</dependency>\n";
     protected static final String CONTEXT_DEPS = 
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.middleware</groupId>\n" 
 	    + "			<artifactId>mw.bus.context.osgi</artifactId>\n" 
-	    + "			<version>1.2.0</version>\n" 
+	    + "			<version>1.3.0</version>\n" 
 	    + "		</dependency>\n";
     protected static final String UI_DEPS = 
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.middleware</groupId>\n" 
 	    + "			<artifactId>mw.bus.ui.osgi</artifactId>\n" 
-	    + "			<version>1.2.0</version>\n" 
+	    + "			<version>1.3.0</version>\n" 
 	    + "		</dependency>\n";
     protected static final String PHWORLD_DEPS = 
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.ontology</groupId>\n" 
 	    + "			<artifactId>ont.phWorld</artifactId>\n" 
-	    + "			<version>1.2.0</version>\n" 
+	    + "			<version>1.3.0</version>\n" 
 	    + "		</dependency>\n";
     protected static final String PROFILE_DEPS = 
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.ontology</groupId>\n" 
 	    + "			<artifactId>ont.profile</artifactId>\n" 
-	    + "			<version>1.2.0</version>\n" 
+	    + "			<version>1.3.0</version>\n" 
 	    + "		</dependency>\n";
     
     //________FILE MANIPULATION METHODS________

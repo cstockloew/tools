@@ -9,30 +9,30 @@ import org.universAAL.middleware.context.ContextSubscriber;
 
 public class /*TAG:CLASSNAME*/ extends ContextSubscriber {
 
-    protected /*TAG:CLASSNAME*/(ModuleContext context,
-	    ContextEventPattern[] initialSubscriptions) {
-	super(context, initialSubscriptions);
-	// TODO Auto-generated constructor stub
-    }
+	protected /*TAG:CLASSNAME*/(ModuleContext context,
+			ContextEventPattern[] initialSubscriptions) {
+		super(context, initialSubscriptions);
+		// TODO Auto-generated constructor stub
+	}
 
-    protected /*TAG:CLASSNAME*/(ModuleContext context) {
-	super(context, getPermanentSubscriptions());
-	// TODO Auto-generated constructor stub
-    }
+	protected /*TAG:CLASSNAME*/(ModuleContext context) {
+		super(context, getPermanentSubscriptions());
+		// TODO Auto-generated constructor stub
+	}
 
-    private static ContextEventPattern[] getPermanentSubscriptions() {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	private static ContextEventPattern[] getPermanentSubscriptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
+	public void communicationChannelBroken() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public void handleContextEvent(ContextEvent event) {
-	// TODO Auto-generated method stub
+	public void handleContextEvent(ContextEvent event) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
 }

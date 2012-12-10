@@ -8,24 +8,24 @@ import org.universAAL.middleware.context.owl.ContextProvider;
 
 public class /*TAG:CLASSNAME*/ extends ContextPublisher {
 
-    protected /*TAG:CLASSNAME*/(ModuleContext context, ContextProvider providerInfo) {
-	super(context, providerInfo);
-	// TODO Auto-generated constructor stub
-    }
+	protected /*TAG:CLASSNAME*/(ModuleContext context, ContextProvider providerInfo) {
+		super(context, providerInfo);
+		// TODO Auto-generated constructor stub
+	}
 
-    protected /*TAG:CLASSNAME*/(ModuleContext context) {
-	super(context, getProviderInfo());
-	// TODO Auto-generated constructor stub
-    }
+	protected /*TAG:CLASSNAME*/(ModuleContext context) {
+		super(context, getProviderInfo());
+		// TODO Auto-generated constructor stub
+	}
 
-    private static ContextProvider getProviderInfo() {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	private static ContextProvider getProviderInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
+	public void communicationChannelBroken() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
 }

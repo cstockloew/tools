@@ -32,9 +32,13 @@ public interface IMWVersion {
      */
     public static final int VER_110=2;
     /**
-     * Identifies MW version 1.1.0.
+     * Identifies MW version 1.2.0.
      */
     public static final int VER_120=3;
+    /**
+     * Identifies MW version 1.3.0.
+     */
+    public static final int VER_130=4;
     
     /**
      * Identifies a sample AAL App that makes full use of uAAL wrappers.

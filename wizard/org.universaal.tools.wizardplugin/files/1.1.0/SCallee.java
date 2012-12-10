@@ -10,24 +10,24 @@ import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 
 public class /*TAG:CLASSNAME*/ extends ServiceCallee {
 
-    protected /*TAG:CLASSNAME*/(ModuleContext context, ServiceProfile[] realizedServices) {
-	super(context, realizedServices);
-	// TODO Auto-generated constructor stub
-    }
+	protected /*TAG:CLASSNAME*/(ModuleContext context, ServiceProfile[] realizedServices) {
+		super(context, realizedServices);
+		// TODO Auto-generated constructor stub
+	}
 
-    protected SCallee(ModuleContext context) {
-	super(context, /*TAG:CLASSNAME*/ProvidedService.profiles);
-	// TODO Auto-generated constructor stub
-    }
+	protected SCallee(ModuleContext context) {
+		super(context, /*TAG:CLASSNAME*/ProvidedService.profiles);
+		// TODO Auto-generated constructor stub
+	}
 
-    public void communicationChannelBroken() {
-	// TODO Auto-generated method stub
+	public void communicationChannelBroken() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public ServiceResponse handleCall(ServiceCall call) {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	public ServiceResponse handleCall(ServiceCall call) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
