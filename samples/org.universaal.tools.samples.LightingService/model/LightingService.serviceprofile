@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serviceprofile:ServiceInterface xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:serviceprofile="http://www.universaal.org/tools/modelling/serviceprofile">
+<serviceprofile:ServiceInterface xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:serviceprofile="http://www.universaal.org/tools/modelling/serviceprofile" name="LightingService">
   <profiles name="getControlledLamps">
     <output name="lamps"/>
   </profiles>
