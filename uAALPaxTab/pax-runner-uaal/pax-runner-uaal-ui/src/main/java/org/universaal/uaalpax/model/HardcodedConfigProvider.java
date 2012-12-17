@@ -207,7 +207,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 	private static void registerVersion(String version, BundleEntry[] bundles, String[] significant) {
 		BundleSet bs = new BundleSet();
 		for (BundleEntry pu : bundles)
-			bs.add(pu.getURL(), pu.getOptions());
+			bs.add(pu);
 		middlewares.put(version, bs);
 		
 		Set<String> s = new HashSet<String>();

@@ -22,6 +22,8 @@ package org.universaal.uaalpax.ui;
 
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -69,6 +71,8 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	}
 	
 	public void createControl(Composite parent) {
+		dependencyResolver.setGUIParent(parent);
+		
 		Composite container = new Composite(parent, SWT.NONE);
 		
 		GridLayout gridLayout = new GridLayout();

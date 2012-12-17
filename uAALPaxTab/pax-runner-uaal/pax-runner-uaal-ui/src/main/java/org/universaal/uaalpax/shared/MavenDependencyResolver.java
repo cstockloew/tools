@@ -20,12 +20,18 @@
 
 package org.universaal.uaalpax.shared;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.swt.widgets.Composite;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
 import org.sonatype.aether.artifact.Artifact;
@@ -34,19 +40,26 @@ import org.sonatype.aether.collection.DependencyCollectionException;
 import org.sonatype.aether.graph.Dependency;
 import org.sonatype.aether.graph.DependencyNode;
 import org.sonatype.aether.repository.RemoteRepository;
+import org.sonatype.aether.resolution.ArtifactDescriptorException;
+import org.sonatype.aether.resolution.ArtifactDescriptorRequest;
+import org.sonatype.aether.resolution.ArtifactDescriptorResult;
+import org.sonatype.aether.resolution.ArtifactRequest;
+import org.sonatype.aether.resolution.ArtifactResolutionException;
+import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.util.artifact.JavaScopes;
 import org.universaal.uaalpax.model.BundleEntry;
 
 import aether.demo.util.Booter;
 
 public class MavenDependencyResolver {
-	private final static int RESOLVE_TIMEOUT = 10000;
 	
 	private RepositorySystem system;
 	private RepositorySystemSession session;
 	private List<RemoteRepository> repos;
 	
 	private Map<Object, DependencyNode> resolvingCache;
+	
+	private Composite guiParent;
 	
 	public MavenDependencyResolver() {
 		system = Booter.newRepositorySystem();
@@ -56,8 +69,38 @@ public class MavenDependencyResolver {
 		resolvingCache = new HashMap<Object, DependencyNode>();
 	}
 	
+	public void setGUIParent(Composite guiParent) {
+		this.guiParent = guiParent;
+		
+	}
+	
 	public void clearCache() {
 		resolvingCache.clear();
+	}
+	
+	public List<Dependency> getDirectDependencies(Artifact artifact) throws ArtifactDescriptorException {
+		ArtifactDescriptorRequest descriptorRequest = new ArtifactDescriptorRequest();
+		descriptorRequest.setArtifact(artifact);
+		descriptorRequest.setRepositories(repos);
+		
+		ArtifactDescriptorResult descriptorResult = system.readArtifactDescriptor(session, descriptorRequest);
+		
+		return descriptorResult.getDependencies();
+	}
+	
+	public Artifact resolveArtifact(Artifact artifact) {
+		ArtifactRequest artifactRequest = new ArtifactRequest();
+		artifactRequest.setArtifact(artifact);
+		artifactRequest.setRepositories(Booter.newRepositories());
+		
+		ArtifactResult artifactResult;
+		try {
+			artifactResult = system.resolveArtifact(session, artifactRequest);
+		} catch (ArtifactResolutionException e) {
+			return null;
+		}
+		
+		return artifactResult.getArtifact();
 	}
 	
 	public DependencyNode resolve(Artifact artifact) throws DependencyCollectionException, TimeoutException {
@@ -98,36 +141,44 @@ public class MavenDependencyResolver {
 		return artifactResults;
 	}
 	
-	private DependencyNode doCollectDependencies(final CollectRequest collectRequest)
-			throws DependencyCollectionException, TimeoutException {
+	private DependencyNode doCollectDependencies(final CollectRequest collectRequest) throws DependencyCollectionException,
+			TimeoutException {
 		final DependencyNode[] artifactResults = new DependencyNode[1];
 		final DependencyCollectionException[] exception = new DependencyCollectionException[1];
 		
-		Thread t = new Thread(new Runnable() {
-			public void run() {
-				try {
-					artifactResults[0] = system.collectDependencies(session, collectRequest).getRoot();
-				} catch (DependencyCollectionException e) {
-					exception[0] = e;
-				}
-			}
-		});
-		
-		t.start();
-		// t.run();
+		ProgressMonitorDialog d = new ProgressMonitorDialog(guiParent.getShell());
 		try {
-			t.join(RESOLVE_TIMEOUT);
-			
-			if (t.isAlive()) {
-				t.interrupt();
-				throw new TimeoutException();
-			} else if (artifactResults[0] != null)
-				return artifactResults[0];
-			
-			cacheDependencies(artifactResults[0]);
-			return artifactResults[0];
-		} catch (InterruptedException e) {
+			d.run(true, true, new IRunnableWithProgress() {
+				
+				public void run(IProgressMonitor mon) throws InvocationTargetException, InterruptedException {
+					try {
+						mon.beginTask("dependency resolution", IProgressMonitor.UNKNOWN);
+						mon.subTask("Retrieving metadata for bundles");
+						
+						try {
+							artifactResults[0] = system.collectDependencies(session, collectRequest).getRoot();
+							mon.worked(100);
+							
+						} catch (DependencyCollectionException e) {
+							exception[0] = e;
+							throw new InvocationTargetException(e);
+						}
+					} finally {
+						mon.done();
+					}
+				}
+			});
+		} catch (InvocationTargetException e1) {
+			if (exception[0] != null)
+				throw exception[0];
+		} catch (InterruptedException e1) {
 			throw new TimeoutException();
 		}
+		
+		if (artifactResults[0] == null)
+			throw new TimeoutException();
+		
+		cacheDependencies(artifactResults[0]);
+		return artifactResults[0];
 	}
 }

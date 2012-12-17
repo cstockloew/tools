@@ -48,13 +48,6 @@ public class Booter {
 		return session;
 	}
 	
-	public static RemoteRepository newCentralRepository() {
-		RemoteRepository r = new RemoteRepository("central", "default", "http://repo1.maven.org/maven2/");
-		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		return r;
-	}
-	
 	public static List<RemoteRepository> newRepositories() {
 		List<RemoteRepository> repos = new ArrayList<RemoteRepository>();
 		RemoteRepository r = new RemoteRepository("central", "default", "http://repo1.maven.org/maven2/");

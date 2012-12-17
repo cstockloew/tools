@@ -38,6 +38,7 @@ import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.collection.DependencyCollectionException;
 import org.sonatype.aether.graph.Dependency;
 import org.sonatype.aether.graph.DependencyNode;
+import org.sonatype.aether.util.artifact.DefaultArtifact;
 import org.universaal.uaalpax.shared.Attribute;
 import org.universaal.uaalpax.shared.MavenDependencyResolver;
 
@@ -62,9 +63,8 @@ public class BundleModel {
 	
 	private List<BundleChangeListener> changeListeners = new ArrayList<BundleChangeListener>();
 	
-	public BundleModel(MavenDependencyResolver depResolver, UAALVersionProvider versionProvider,
-			ModelDialogProvider dialogProvider) {
-		currentBundles = new BundleSet(new HashMap<String, String>());
+	public BundleModel(MavenDependencyResolver depResolver, UAALVersionProvider versionProvider, ModelDialogProvider dialogProvider) {
+		currentBundles = new BundleSet();
 		this.dependencyResolver = depResolver;
 		this.versionProvider = versionProvider;
 		this.dialogProvider = dialogProvider;
@@ -100,13 +100,11 @@ public class BundleModel {
 	}
 	
 	public void removeAll(Collection<BundleEntry> entries) {
-		/* for (BundleEntry be : entries) {
-			if (!currentBundles.containsURL(be.getURL()))
-				continue; // nothing to do
-				
-			removeUnneededDependencies(be);
-			currentBundles.remove(be);
-		} */
+		/*
+		 * for (BundleEntry be : entries) { if (!currentBundles.containsURL(be.getURL())) continue; // nothing to do
+		 * 
+		 * removeUnneededDependencies(be); currentBundles.remove(be); }
+		 */
 		removeUnneededDependencies(entries);
 		updatePresenters();
 	}
@@ -159,13 +157,10 @@ public class BundleModel {
 					if (approxVersion != null) {
 						// no version is set, ask if one should be set
 						if (getCurrentVersion() == UNKNOWN_VERSION) {
-							int sel = dialogProvider
-									.openDialog(
-											"Set uAAL version",
-											"You have many bundles which are used by universAAL version "
-													+ approxVersion
-													+ ", but the version of this run config is not set. Do you want to set it to version "
-													+ approxVersion + "?", new String[] { "Yes", "Ignore" });
+							int sel = dialogProvider.openDialog("Set uAAL version",
+									"You have many bundles which are used by universAAL version " + approxVersion
+											+ ", but the version of this run config is not set. Do you want to set it to version "
+											+ approxVersion + "?", new String[] { "Yes", "Ignore" });
 							
 							if (sel == 0) {
 								// will always go right since no version is set yet
@@ -177,8 +172,8 @@ public class BundleModel {
 							int sel = dialogProvider.openDialog("Version conflict", "The bundle \"" + be.getURL()
 									+ "\" which you want to add depends on " + "uAAL version " + approxVersion
 									+ ", but the current run config version is " + getCurrentVersion()
-									+ ". Do you really want to add this bundle with its all depencencies?",
-									new String[] { "No", "Yes", "Yes, but without depencencies" });
+									+ ". Do you really want to add this bundle with its all depencencies?", new String[] { "No", "Yes",
+									"Yes, but without depencencies" });
 							
 							if (sel == 0) // No
 								return;
@@ -197,15 +192,13 @@ public class BundleModel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (TimeoutException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Resolution timeout");
 				}
 			}
 			
 			if (!insterted) {
 				int ret = dialogProvider.openDialog("Error during depencency resolution",
-						"There was an error resolvin depencencies for bundle " + be.getURL() + ". ", "Ignore", "Retry",
-						"Cancel");
+						"There was an error resolvin depencencies for bundle " + be.getURL() + ". ", "Ignore", "Retry", "Cancel");
 				
 				if (ret == 0) // ignore
 					currentBundles.add(be);
@@ -244,6 +237,17 @@ public class BundleModel {
 		return versionProvider.getBundlesOfVersion(currentVersion);
 	}
 	
+	private Artifact checkCoreToOsgi(Artifact a) {
+		if (a.getArtifactId().endsWith(".core")) {
+			
+			Artifact osgi = new DefaultArtifact(a.getGroupId(), a.getArtifactId(), a.getExtension(), a.getVersion());
+			osgi = dependencyResolver.resolveArtifact(osgi);
+			if (osgi != null)
+				return osgi;
+		}
+		return a;
+	}
+	
 	/**
 	 * @param node
 	 * @param minStartLevel
@@ -260,13 +264,10 @@ public class BundleModel {
 		Dependency d = node.getDependency();
 		if (d != null) {
 			Artifact a = d.getArtifact();
+			a = checkCoreToOsgi(a);
 			String url = BundleEntry.urlFromArtifact(a);
 			
-			// check if bundle is already included
-			// TODO FIXME gaanz fieser Hack
-			if (url.contains(".core"))
-				url = url.replace(".core", ".osgi");
-			
+			// check if bundle is already included			
 			BundleEntry be = currentBundles.find(url);
 			if (be != null) {
 				minStartLevel = Math.max(minStartLevel, be.getLevel());
@@ -336,28 +337,26 @@ public class BundleModel {
 	}
 	
 	/*
-	 * private void removeUnneededDependencies(BundleEntry be) { Artifact beArt = be.toArtifact(); if (beArt != null) {
-	 * try { // find out all dependencies of be (-> beDeps) Set<String> beDeps =
-	 * listDependencies(dependencyResolver.resolve(beArt), null);
+	 * private void removeUnneededDependencies(BundleEntry be) { Artifact beArt = be.toArtifact(); if (beArt != null) { try { // find out
+	 * all dependencies of be (-> beDeps) Set<String> beDeps = listDependencies(dependencyResolver.resolve(beArt), null);
 	 * 
 	 * BundleSet mwBundles = getMiddlewareBundles(); if (mwBundles == null) mwBundles = new BundleSet();
 	 * 
-	 * // find out dependencies of all bundles in model except those of // in beDeps but not in current version bundles
-	 * (-> otherDeps) Set<Artifact> otherArts = new HashSet<Artifact>(); for (BundleEntry oe : currentBundles) { //
-	 * !mwBundles.containsURL is to add mw bundles to otherDeps set, // even if the seem only be needed for be if
-	 * (beDeps.contains(oe.getURL()) && !mwBundles.containsURL(oe.getURL())) continue;
+	 * // find out dependencies of all bundles in model except those of // in beDeps but not in current version bundles (-> otherDeps)
+	 * Set<Artifact> otherArts = new HashSet<Artifact>(); for (BundleEntry oe : currentBundles) { // !mwBundles.containsURL is to add mw
+	 * bundles to otherDeps set, // even if the seem only be needed for be if (beDeps.contains(oe.getURL()) &&
+	 * !mwBundles.containsURL(oe.getURL())) continue;
 	 * 
 	 * Artifact a = oe.toArtifact(); if (a != null) otherArts.add(a); }
 	 * 
 	 * Set<String> otherDeps = listDependencies(dependencyResolver.resolve(otherArts), null);
 	 * 
-	 * // find out which bundles in model are only dependencies of be, // but not of any other bundle (->
-	 * unneededBundles as url set) Set<String> unneededBundles = new HashSet<String>(); for (String d : beDeps) if
-	 * (!otherDeps.contains(d)) unneededBundles.add(d);
+	 * // find out which bundles in model are only dependencies of be, // but not of any other bundle (-> unneededBundles as url set)
+	 * Set<String> unneededBundles = new HashSet<String>(); for (String d : beDeps) if (!otherDeps.contains(d)) unneededBundles.add(d);
 	 * 
 	 * // remove unneeded bundles from model for (String url : unneededBundles) currentBundles.removeURL(url); } catch
-	 * (DependencyCollectionException e1) { // TODO Auto-generated catch block e1.printStackTrace(); } catch
-	 * (TimeoutException e) { // TODO Auto-generated catch block e.printStackTrace(); } } }
+	 * (DependencyCollectionException e1) { // TODO Auto-generated catch block e1.printStackTrace(); } catch (TimeoutException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } } }
 	 */
 	
 	public void updatePresenters() {
@@ -459,8 +458,8 @@ public class BundleModel {
 		Map<Object, Object> toSave = new HashMap<Object, Object>();
 		
 		for (BundleEntry be : currentBundles) {
-			StringBuffer options = new StringBuffer().append(be.isSelected()).append("@").append(be.isStart())
-					.append("@").append(be.getLevel()).append("@").append(be.isUpdate());
+			StringBuffer options = new StringBuffer().append(be.isSelected()).append("@").append(be.isStart()).append("@")
+					.append(be.getLevel()).append("@").append(be.isUpdate());
 			toSave.put(be.getURL(), options.toString());
 			
 			if (be.isSelected()) {
@@ -515,8 +514,7 @@ public class BundleModel {
 					configuration,
 					"org.eclipse.jdt.launching.VM_ARGUMENTS",
 					"-Dosgi.noShutdown=true -Dfelix.log.level=4 -Dorg.universAAL.middleware.peer.is_coordinator=true -Dorg.universAAL.middleware.peer.member_of=urn:org.universAAL.aal_space:test_env -Dbundles.configuration.location=${workspace_loc}/rundir/confadmin");
-			trySetAttribute(configuration, "org.eclipse.jdt.launching.WORKING_DIRECTORY",
-					"${workspace_loc}/rundir/demo.config");
+			trySetAttribute(configuration, "org.eclipse.jdt.launching.WORKING_DIRECTORY", "${workspace_loc}/rundir/demo.config");
 			trySetAttribute(configuration, "org.ops4j.pax.cursor.hotDeployment", false);
 			trySetAttribute(configuration, "org.ops4j.pax.cursor.logLevel", "DEBUG");
 			trySetAttribute(configuration, "org.ops4j.pax.cursor.overwrite", false);
@@ -544,14 +542,12 @@ public class BundleModel {
 		}
 	}
 	
-	private static void trySetAttribute(ILaunchConfigurationWorkingCopy configuration, String attribute, int value)
-			throws CoreException {
+	private static void trySetAttribute(ILaunchConfigurationWorkingCopy configuration, String attribute, int value) throws CoreException {
 		if (!configuration.hasAttribute(attribute))
 			configuration.setAttribute(attribute, value);
 	}
 	
-	private static void trySetAttribute(ILaunchConfigurationWorkingCopy configuration, String attribute, String value)
-			throws CoreException {
+	private static void trySetAttribute(ILaunchConfigurationWorkingCopy configuration, String attribute, String value) throws CoreException {
 		if (!configuration.hasAttribute(attribute))
 			configuration.setAttribute(attribute, value);
 	}

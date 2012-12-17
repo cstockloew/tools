@@ -39,8 +39,8 @@ public class BundleEntry {
 	}
 	
 	public static Artifact artifactFromURL(String url) {
-		if (url.startsWith("mvn:")) {
-			String[] s = url.substring(4).split("/");
+		if (url.startsWith("mvn:") || url.startsWith("scan-bundle:mvn:")) {
+			String[] s = url.substring(url.indexOf("mvn:") + 4).split("/");
 			
 			if (s.length == 3)
 				return new DefaultArtifact(s[0], s[1], null, s[2]);
@@ -48,8 +48,21 @@ public class BundleEntry {
 				return new DefaultArtifact(s[0], s[1], null, null);
 			else
 				return null;
+		} else if (url.startsWith("scan-composite:mvn:")) {
+			String[] s = url.substring(19).split("/");
+			
+			if (s.length == 3)
+				return new DefaultArtifact(s[0], s[1], "composite", s[2]);
+			else if (s.length == 4)
+				return new DefaultArtifact(s[0], s[1], s[3], s[2]);
+			else
+				return null;
 		} else
 			return null;
+	}
+	
+	public static boolean isCompositeURL(String url) {
+		return url.startsWith("mvn:") || url.startsWith("scan-bundle:mvn:");
 	}
 	
 	public BundleEntry(String url, String projectName, int startLevel, boolean update) {
@@ -102,12 +115,17 @@ public class BundleEntry {
 		this.projectName = this.url;
 	}
 	
+	public boolean isComposite() {
+		return isCompositeURL(getURL());
+	}
+	
 	public Artifact toArtifact() {
 		return artifactFromURL(getURL());
 	}
 	
 	public String getOptions() {
-		return String.valueOf(selected) + "@" + String.valueOf(start) + "@" + (level < 0? "default" : String.valueOf(level)) + "@" + String.valueOf(update);
+		return String.valueOf(selected) + "@" + String.valueOf(start) + "@" + (level < 0 ? "default" : String.valueOf(level)) + "@"
+				+ String.valueOf(update);
 	}
 	
 	public BundleEntry(String projectName, String url, String settingsStr) {

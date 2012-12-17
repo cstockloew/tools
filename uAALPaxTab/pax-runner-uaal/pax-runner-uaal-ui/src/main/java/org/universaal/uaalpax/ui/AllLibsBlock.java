@@ -183,7 +183,7 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 		table.setGrayed(grayOut);
 		table.getViewer().refresh(true);
 		
-		return new BundleSet(new HashMap<String, String>()); // return empty map since all projects which were passed to here are additional
+		return new BundleSet(); // return empty map since all projects which were passed to here are additional
 																// libraries
 	}
 	
