@@ -19,17 +19,11 @@
  */
 package org.universaal.uaalpax.handlers;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfigurationType;
@@ -37,10 +31,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.internal.ui.DebugUIPlugin;
 import org.eclipse.debug.ui.DebugUITools;
-import org.eclipse.debug.ui.ILaunchGroup;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;

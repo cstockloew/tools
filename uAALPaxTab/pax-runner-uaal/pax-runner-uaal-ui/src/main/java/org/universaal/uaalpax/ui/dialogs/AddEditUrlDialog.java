@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.uaalpax.model.BundleEntry;
+import org.universaal.uaalpax.model.LaunchURL;
 
 public class AddEditUrlDialog extends Dialog {
 	private final String title = "Add Bundle from URL";
@@ -49,23 +50,23 @@ public class AddEditUrlDialog extends Dialog {
 	private String errorMessage;
 	private IInputValidator validator;
 	
-	private String url;
+	private LaunchURL url;
 	private int level;
 	
 	public AddEditUrlDialog(Shell parentShell) {
 		super(parentShell);
-		url = "";
+		url = new LaunchURL("");
 		level = 10;
 	}
 	
 	public AddEditUrlDialog(Shell parentShell, BundleEntry be) {
 		super(parentShell);
 		
-		url = be.getURL();
+		url = be.getLaunchUrl();
 		level = be.getLevel();
 	}
 	
-	public String getURL() {
+	public LaunchURL getURL() {
 		return url;
 	}
 	
@@ -98,7 +99,7 @@ public class AddEditUrlDialog extends Dialog {
 		
 		urlInput = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		urlInput.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
-		urlInput.setText(url);
+		urlInput.setText(url.url);
 		urlInput.addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
 			}
@@ -175,7 +176,6 @@ public class AddEditUrlDialog extends Dialog {
 		setErrorMessage(errorMessage);
 	}
 	
-	
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
@@ -187,7 +187,7 @@ public class AddEditUrlDialog extends Dialog {
 	 */
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
-			url = urlInput.getText();
+			url = new LaunchURL(urlInput.getText());
 			level = Integer.parseInt(levelInput.getText());
 		} else {
 			url = null;

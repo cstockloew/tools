@@ -51,6 +51,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleSet;
+import org.universaal.uaalpax.model.LaunchURL;
 
 public class WorkspaceProjectsBlock extends UIBlock {
 	private Button toRight, toLeft, allToRight, allToLeft;
@@ -166,7 +167,7 @@ public class WorkspaceProjectsBlock extends UIBlock {
 	}
 	
 	public void moveAllToLeft() {
-		List<BundleEntry> pus = new ArrayList<BundleEntry>(rightTable.getElements());
+		Set<BundleEntry> pus = new HashSet<BundleEntry>(rightTable.getElements());
 		// rightTable.removeAll();
 		// leftTable.addAll(pus);
 		getUAALTab().getModel().removeAll(pus);
@@ -213,7 +214,7 @@ public class WorkspaceProjectsBlock extends UIBlock {
 					 * System.out.println(deps); } catch (DependencyCollectionException e) { // TODO Auto-generated catch block //
 					 * e.printStackTrace(); }
 					 */
-					String launchUrl = "mvn:" + project.getGroupId() + "/" + project.getArtifactId() + "/" + project.getVersion();
+					LaunchURL launchUrl = new LaunchURL("mvn:" + project.getGroupId() + "/" + project.getArtifactId() + "/" + project.getVersion());
 					
 					// TODO cache previous settings
 					BundleEntry pu = new BundleEntry(launchUrl, p.getName(), 12, true);
@@ -240,10 +241,10 @@ public class WorkspaceProjectsBlock extends UIBlock {
 				BundleEntry pu = iter.next();
 				
 				// startsWith ensures that the test passes if the version is not entered in launchUrl
-				if (pu.getURL().startsWith(e.getURL())) {
+				if (pu.getArtifactUrl().url.startsWith(e.getArtifactUrl().url)) {
 					iter.remove();
-					rightSet.add(new BundleEntry(pu.getProjectName(), e.getURL(), e.getOptions()));
-					remainingProjects.removeURL(e.getURL());
+					rightSet.add(new BundleEntry(pu.getProjectName(), e.getLaunchUrl(), e.getOptions()));
+					remainingProjects.removeURL(e.getArtifactUrl());
 				}
 			}
 		}

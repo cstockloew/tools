@@ -22,8 +22,6 @@ package org.universaal.uaalpax.ui;
 
 import java.util.Collection;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -40,6 +38,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.universaal.uaalpax.model.BundleChangeListener;
 import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleModel;
@@ -70,8 +69,13 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		model.addChangeListener(this);
 	}
 	
+	public Shell getShell() {
+		return super.getShell();
+	}
+	
 	public void createControl(Composite parent) {
 		dependencyResolver.setGUIParent(parent);
+		dependencyResolver.clearCache();
 		
 		Composite container = new Composite(parent, SWT.NONE);
 		
@@ -122,7 +126,6 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		m_initializing = true;
 		try {
-			dependencyResolver.clearCache();
 			launchConfig = configuration;
 			model.updateModel(configuration);
 		} finally {
@@ -177,7 +180,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	public int openDialog(String title, String message, String... buttons) {
 		return new MessageDialog(getShell(), title, null, message, MessageDialog.QUESTION, buttons, 0).open();
 	}
-
+	
 	public void showErrorMessage(String title, String message) {
 		MessageBox mb = new MessageBox(getShell(), SWT.ICON_ERROR);
 		mb.setMessage(message);

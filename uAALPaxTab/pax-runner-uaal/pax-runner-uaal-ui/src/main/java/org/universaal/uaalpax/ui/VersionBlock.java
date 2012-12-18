@@ -31,6 +31,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.universaal.uaalpax.model.ArtifactURL;
 import org.universaal.uaalpax.model.BundleSet;
 import org.universaal.uaalpax.model.BundleModel;
 
@@ -82,17 +83,17 @@ public class VersionBlock extends UIBlock {
 		Arrays.sort(versions);
 		versionCombo.setItems(versions);
 		int index = 0;
-		while(!versions[index].equals(version))
+		while (!versions[index].equals(version))
 			index++;
 		
 		versionCombo.select(index);
 		
 		BundleSet bundles = model.getMiddlewareBundles();
-		if(bundles == null)
+		if (bundles == null)
 			return launchProjects;
 		
 		BundleSet remainingProjects = new BundleSet(launchProjects);
-		for (String url : bundles.allURLs())
+		for (ArtifactURL url : bundles.allURLs())
 			if (launchProjects.containsURL(url))
 				remainingProjects.removeURL(url);
 		
@@ -115,7 +116,7 @@ public class VersionBlock extends UIBlock {
 	public boolean tryChangeToVersion(String newVersion) {
 		BundleModel model = getUAALTab().getModel();
 		// find out which projects have to be checked for compatibility
-		Set<String> toCheck = model.getIncompatibleProjects(newVersion);
+		Set<ArtifactURL> toCheck = model.getIncompatibleProjects(newVersion);
 		
 		// now to check only contains incompatible projects
 		if (toCheck.isEmpty()) { // everything ok, no incompatible projects
@@ -124,7 +125,7 @@ public class VersionBlock extends UIBlock {
 		} else { // ask user what to do
 			StringBuilder sb = new StringBuilder();
 			sb.append("Following projects are dependent from some bundles of the old version: \n\n");
-			for (String url : toCheck)
+			for (ArtifactURL url : toCheck)
 				sb.append("\t").append(url).append("\n");
 			sb.append("\nWhat do do?");
 			
@@ -136,7 +137,7 @@ public class VersionBlock extends UIBlock {
 				model.changeToVersion(newVersion);
 				return true;
 			} else if (ret == 1) { // remove incompatible
-				for (String url : toCheck)
+				for (ArtifactURL url : toCheck)
 					getUAALTab().getModel().removeNoUpdate(getUAALTab().getModel().getBundles().find(url));
 				
 				// model will be updated here

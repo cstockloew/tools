@@ -24,49 +24,51 @@ import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
 
 public class BundleEntry {
-	private String url;
+	private final LaunchURL launchUrl;
 	private boolean selected;
 	private boolean start;
 	private int level;
 	private boolean update;
-	private String projectName;
+	private final String projectName;
 	
 	public static final String PROP_PROJECT = "Project";
 	public static final String PROP_LEVEL = "Level";
 	
-	public static String urlFromArtifact(Artifact a) {
-		return "mvn:" + a.getGroupId() + "/" + a.getArtifactId() + "/" + a.getVersion();
+	public static LaunchURL launchUrlFromArtifact(Artifact a) {
+		// TODO: check for wrap
+		return new LaunchURL("mvn:" + a.getGroupId() + "/" + a.getArtifactId() + "/" + a.getBaseVersion());
 	}
 	
-	public static Artifact artifactFromURL(String url) {
-		if (url.startsWith("mvn:") || url.startsWith("scan-bundle:mvn:")) {
-			String[] s = url.substring(url.indexOf("mvn:") + 4).split("/");
+	public static ArtifactURL artifactUrlFromArtifact(Artifact a) {
+		return new ArtifactURL(a.getGroupId() + "/" + a.getArtifactId() + "/" + a.getBaseVersion());
+	}
+	
+	public static Artifact artifactFromURL(LaunchURL url) {
+		int mvn = url.url.indexOf("mvn:");
+		if (mvn >= 0) {
+			String[] s = url.url.substring(mvn + 4).split("/");
 			
-			if (s.length == 3)
-				return new DefaultArtifact(s[0], s[1], null, s[2]);
-			else if (s.length == 2)
-				return new DefaultArtifact(s[0], s[1], null, null);
-			else
-				return null;
-		} else if (url.startsWith("scan-composite:mvn:")) {
-			String[] s = url.substring(19).split("/");
+			String ext = "jar";
+			if (url.url.contains("scan-composite:"))
+				ext = "composite";
 			
-			if (s.length == 3)
-				return new DefaultArtifact(s[0], s[1], "composite", s[2]);
+			if (s.length == 2)
+				return new DefaultArtifact(s[0], s[1], ext, null);
+			else if (s.length == 3)
+				return new DefaultArtifact(s[0], s[1], ext, s[2]);
 			else if (s.length == 4)
 				return new DefaultArtifact(s[0], s[1], s[3], s[2]);
-			else
-				return null;
-		} else
-			return null;
+		}
+		
+		return null;
 	}
 	
-	public static boolean isCompositeURL(String url) {
-		return url.startsWith("mvn:") || url.startsWith("scan-bundle:mvn:");
+	public static boolean isCompositeURL(LaunchURL url) {
+		return url.url.contains("scan-composite:");
 	}
 	
-	public BundleEntry(String url, String projectName, int startLevel, boolean update) {
-		this.url = url;
+	public BundleEntry(LaunchURL url, String projectName, int startLevel, boolean update) {
+		this.launchUrl = url;
 		this.selected = true;
 		this.start = true;
 		this.level = startLevel;
@@ -74,8 +76,8 @@ public class BundleEntry {
 		this.projectName = projectName;
 	}
 	
-	public BundleEntry(String url, boolean selected, boolean start, int startLevel, boolean update) {
-		this.url = url;
+	public BundleEntry(LaunchURL url, boolean selected, boolean start, int startLevel, boolean update) {
+		this.launchUrl = url;
 		this.selected = selected;
 		this.start = start;
 		this.level = startLevel;
@@ -83,44 +85,74 @@ public class BundleEntry {
 		this.projectName = null;
 	}
 	
-	public BundleEntry(String url, String settingsStr) {
-		this.url = url;
+	public BundleEntry(LaunchURL url, String settingsStr) {
+		this.launchUrl = url;
 		
 		String[] settings = settingsStr.split("@");
-		this.level = -1;
-		
+		int level = -1;
+		boolean update = true;
+		boolean start = true;
+		boolean selected = true;
 		if (settings.length == 4) {
 			try {
-				this.selected = Boolean.parseBoolean(settings[0]);
-				this.start = Boolean.parseBoolean(settings[1]);
+				selected = Boolean.parseBoolean(settings[0]);
+				start = Boolean.parseBoolean(settings[1]);
 				try {
-					this.level = Integer.parseInt(settings[2]);
+					level = Integer.parseInt(settings[2]);
 				} catch (NumberFormatException e) {
 					level = -1;
 				}
-				this.update = Boolean.parseBoolean(settings[3]);
+				update = Boolean.parseBoolean(settings[3]);
 			} catch (NumberFormatException e) {
 			}
 		}
-		
+		this.level = level;
+		this.update = update;
+		this.start = start;
+		this.selected = selected;
 		this.projectName = null;
 	}
 	
 	public BundleEntry(Artifact a) {
-		this.url = urlFromArtifact(a);
+		this.launchUrl = launchUrlFromArtifact(a);
 		this.selected = true;
 		this.start = true;
 		this.level = 1; // TODO
 		this.update = true; // TODO
-		this.projectName = this.url;
+		this.projectName = this.launchUrl.url;
+	}
+	
+	public BundleEntry(Artifact a, int level) {
+		this.launchUrl = launchUrlFromArtifact(a);
+		this.selected = true;
+		this.start = true;
+		this.level = level;
+		this.update = true; // TODO
+		this.projectName = this.launchUrl.url;
+	}
+	
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+	
+	public void setStart(boolean start) {
+		this.start = start;
+	}
+	
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
+	public void setUpdate(boolean update) {
+		this.update = update;
 	}
 	
 	public boolean isComposite() {
-		return isCompositeURL(getURL());
+		return isCompositeURL(getLaunchUrl());
 	}
 	
 	public Artifact toArtifact() {
-		return artifactFromURL(getURL());
+		return artifactFromURL(getLaunchUrl());
 	}
 	
 	public String getOptions() {
@@ -128,64 +160,68 @@ public class BundleEntry {
 				+ String.valueOf(update);
 	}
 	
-	public BundleEntry(String projectName, String url, String settingsStr) {
-		this(url, settingsStr);
+	public BundleEntry(String projectName, LaunchURL url, String settingsStr) {
+		this.launchUrl = url;
+		
+		String[] settings = settingsStr.split("@");
+		int level = -1;
+		boolean update = true;
+		boolean start = true;
+		boolean selected = true;
+		if (settings.length == 4) {
+			try {
+				selected = Boolean.parseBoolean(settings[0]);
+				start = Boolean.parseBoolean(settings[1]);
+				try {
+					level = Integer.parseInt(settings[2]);
+				} catch (NumberFormatException e) {
+					level = -1;
+				}
+				update = Boolean.parseBoolean(settings[3]);
+			} catch (NumberFormatException e) {
+			}
+		}
+		this.level = level;
+		this.update = update;
+		this.start = start;
+		this.selected = selected;
 		this.projectName = projectName;
+	}
+	
+	public ArtifactURL getArtifactUrl() {
+		// TODO
+		return artifactUrlFromArtifact(toArtifact());
 	}
 	
 	public String getProjectName() {
 		if (projectName != null)
 			return projectName;
 		else
-			return url;
+			return launchUrl.url;
 	}
 	
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-	
-	public String getURL() {
-		return url;
-	}
-	
-	public void setUrl(String url) {
-		this.url = url;
+	public LaunchURL getLaunchUrl() {
+		return launchUrl;
 	}
 	
 	public boolean isSelected() {
 		return selected;
 	}
 	
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
-	
 	public boolean isStart() {
 		return start;
-	}
-	
-	public void setStart(boolean start) {
-		this.start = start;
 	}
 	
 	public int getLevel() {
 		return level;
 	}
 	
-	public void setLevel(int startLevel) {
-		this.level = startLevel;
-	}
-	
 	public boolean isUpdate() {
 		return update;
 	}
 	
-	public void setUpdate(boolean update) {
-		this.update = update;
-	}
-	
 	public boolean equalsURL(BundleEntry other) {
-		return getURL().equals(other.getURL());
+		return getLaunchUrl().equals(other.getLaunchUrl());
 	}
 	
 	@Override
@@ -197,7 +233,7 @@ public class BundleEntry {
 		
 		// TODO really equals only if _all settings_ matches???
 		BundleEntry pu = (BundleEntry) obj;
-		return this.getLevel() == pu.getLevel() && this.getURL().equals(pu.getURL()) && this.isSelected() == pu.isSelected()
+		return this.getLevel() == pu.getLevel() && this.getLaunchUrl().equals(pu.getLaunchUrl()) && this.isSelected() == pu.isSelected()
 				&& this.isStart() == pu.isStart() && this.isUpdate() == pu.isUpdate();
 	}
 	
@@ -206,7 +242,7 @@ public class BundleEntry {
 		int hashcode = 1;
 		hashcode *= 13 * getLevel();
 		hashcode *= 7 * getProjectName().hashCode();
-		hashcode *= 23 * getURL().hashCode();
+		hashcode *= 23 * getLaunchUrl().hashCode();
 		hashcode *= 17 * (isSelected() ? 1 : 3);
 		hashcode *= 11 * (isUpdate() ? 1 : 3);
 		hashcode *= 19 * (isStart() ? 1 : 3);
@@ -215,6 +251,6 @@ public class BundleEntry {
 	
 	@Override
 	public String toString() {
-		return "ProjectURL: " + getProjectName() + " | " + isStart() + " | " + getLevel() + " | " + isUpdate();
+		return "[BundleEntry: " + getProjectName() + " | " + isStart() + " | " + getLevel() + " | " + isUpdate() + "]";
 	}
 }

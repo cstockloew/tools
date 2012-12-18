@@ -61,7 +61,7 @@ public class BundleComparator extends ViewerComparator {
 			int comp = 0;
 			
 			if (sortProperty == BundleEntry.PROP_PROJECT)
-				comp = be1.getURL().compareToIgnoreCase(be2.getURL());
+				comp = be1.getLaunchUrl().url.compareToIgnoreCase(be2.getLaunchUrl().url);
 			else if (sortProperty == BundleEntry.PROP_LEVEL) {
 				if (be1.getLevel() < be2.getLevel())
 					comp = -1;

@@ -123,7 +123,6 @@ public class ProjectCellModifier implements ICellModifier {
 	 * A modify listener is notified on succesfull update of a modified cell.
 	 */
 	public interface ModifyListener {
-		
 		/**
 		 * Notification on succesfull update.
 		 * 

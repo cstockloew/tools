@@ -69,11 +69,11 @@ public interface UAALVersionProvider {
 	/**
 	 * Checks whether given bundle should be ignored (-> not added to the run config since it is not necessary) using given middleware version.
 	 * 
-	 * @param be BundleEntry
+	 * @param launchUrl launch url
 	 * @param version middleware version
 	 * @return true if bundle should be ignored, otherwise false
 	 */
-	public boolean isIgnoreBundleOfVersion(BundleEntry be, String version);
+	public boolean isIgnoreArtifactOfVersion(String version, ArtifactURL launchUrl);
 	
 	/**
 	 * Computes how probably the given bundle urls represent a run config of a certain uaal version.
@@ -82,5 +82,5 @@ public interface UAALVersionProvider {
 	 * @param urls set of bundle urls in run config
 	 * @return version hit score for given version, between 0.0 and 1.0
 	 */
-	public float getVersionScore(String version, Collection<String> urls);
+	public float getVersionScore(String version, Collection<ArtifactURL> urls);
 }

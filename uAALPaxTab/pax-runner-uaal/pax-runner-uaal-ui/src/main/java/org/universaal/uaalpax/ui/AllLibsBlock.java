@@ -21,7 +21,6 @@
 package org.universaal.uaalpax.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -174,7 +173,7 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 		List<BundleEntry> projects = new ArrayList<BundleEntry>(allBundles.size());
 		for (BundleEntry e : allBundles) {
 			projects.add(e);
-			if (!launchProjects.containsURL(e.getURL()))
+			if (!launchProjects.containsURL(e.getArtifactUrl()))
 				grayOut[i++] = e;
 		}
 		

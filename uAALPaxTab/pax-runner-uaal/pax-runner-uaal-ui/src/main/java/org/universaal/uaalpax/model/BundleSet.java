@@ -31,14 +31,14 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.universaal.uaalpax.shared.Attribute;
 
 public class BundleSet implements Iterable<BundleEntry> {
-	private Map<String, String> bundles;
+	private Map<ArtifactURL, BundleEntry> bundles;
 	
 	public BundleSet() {
-		bundles = new HashMap<String, String>();
+		bundles = new HashMap<ArtifactURL, BundleEntry>();
 	}
 	
-	public BundleSet(Map<String, String> bundles) {
-		this.bundles = new HashMap<String, String>(bundles);
+	public BundleSet(Map<ArtifactURL, BundleEntry> bundles) {
+		this.bundles = new HashMap<ArtifactURL, BundleEntry>(bundles);
 	}
 	
 	public BundleSet(ILaunchConfiguration configuration) {
@@ -46,100 +46,74 @@ public class BundleSet implements Iterable<BundleEntry> {
 	}
 	
 	public BundleSet(BundleSet bundleset) {
-		this.bundles = new HashMap<String, String>(bundleset.bundles);
+		this.bundles = new HashMap<ArtifactURL, BundleEntry>(bundleset.bundles);
 	}
-
+	
 	public Iterator<BundleEntry> iterator() {
-		return new BundleIterator(bundles.entrySet().iterator());
+		return bundles.values().iterator();
 	}
 	
 	public void updateBundles(ILaunchConfiguration configuration) {
+		bundles = new HashMap<ArtifactURL, BundleEntry>();
 		try {
 			@SuppressWarnings("unchecked")
 			Map<String, String> launch = configuration.getAttribute(Attribute.PROVISION_ITEMS, new HashMap<Object, Object>());
-			bundles = launch;
+			
+			for (Map.Entry<String, String> e : launch.entrySet()) {
+				BundleEntry be = new BundleEntry(new LaunchURL(e.getKey()), e.getValue());
+				bundles.put(be.getArtifactUrl(), be);
+			}
 		} catch (CoreException e) {
-			bundles = new HashMap<String, String>();
 		}
 	}
 	
 	public void add(BundleEntry e) {
-		add(e.getURL(), e.getOptions());
+		bundles.put(e.getArtifactUrl(), e);
 	}
 	
-	public void add(String url, String options) {
-		bundles.put(url, options);
-	}
-	
-	public boolean containsURL(String url) {
+	public boolean containsURL(ArtifactURL url) {
 		return bundles.containsKey(url);
 	}
 	
-	public BundleEntry find(String url) {
-		String options = bundles.get(url);
-		if(options != null)
-			return new BundleEntry(url, options);
-		else
-			return null;
+	public BundleEntry find(ArtifactURL url) {
+		return bundles.get(url);
 	}
 	
-	public Set<String> allURLs() {
+	public Set<ArtifactURL> allURLs() {
 		return bundles.keySet();
-	}
-	
-	private static class BundleIterator implements Iterator<BundleEntry> {
-		Iterator<Map.Entry<String, String>> iter;
-		
-		public BundleIterator(Iterator<Map.Entry<String, String>> iter) {
-			this.iter = iter;
-		}
-		
-		public boolean hasNext() {
-			return iter.hasNext();
-		}
-		
-		public BundleEntry next() {
-			Map.Entry<String, String> e = iter.next();
-			return new BundleEntry(e.getKey(), e.getValue());
-		}
-		
-		public void remove() {
-			iter.remove();
-		}
-		
 	}
 	
 	public int size() {
 		return bundles.size();
 	}
-
-	public void removeURL(String url) {
-		bundles.remove(url);
+	
+	public boolean removeURL(ArtifactURL url) {
+		return bundles.remove(url) != null;
 	}
 	
 	@Override
 	public String toString() {
 		return bundles.toString();
 	}
-
+	
 	public void removeAll(Collection<BundleEntry> entries) {
-		for(BundleEntry e: entries)
-			bundles.remove(e.getURL());
+		for (BundleEntry e : entries)
+			remove(e);
 	}
-
+	
 	public boolean remove(BundleEntry be) {
-		return bundles.remove(be.getURL()) != null;
+		return removeURL(be.getArtifactUrl());
 	}
-
+	
 	public void addAll(Collection<BundleEntry> entries) {
-		for(BundleEntry e: entries)
-			bundles.put(e.getURL(), e.getOptions());
+		for (BundleEntry e : entries)
+			add(e);
 	}
 	
 	public void updateBundleOptions(BundleEntry be) {
-		if(!bundles.containsKey(be.getURL())) // to be sure 
+		if (!bundles.containsKey(be.getLaunchUrl())) // to be sure
 			throw new IllegalArgumentException("can only update options of already existing bundle");
 		
-		bundles.put(be.getURL(), be.getOptions());
+		bundles.put(be.getArtifactUrl(), be); // be is immutable, so its ok
 	}
 }

@@ -47,6 +47,7 @@ import org.sonatype.aether.resolution.ArtifactRequest;
 import org.sonatype.aether.resolution.ArtifactResolutionException;
 import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.util.artifact.JavaScopes;
+import org.universaal.uaalpax.model.ArtifactURL;
 import org.universaal.uaalpax.model.BundleEntry;
 
 import aether.demo.util.Booter;
@@ -57,7 +58,8 @@ public class MavenDependencyResolver {
 	private RepositorySystemSession session;
 	private List<RemoteRepository> repos;
 	
-	private Map<Object, DependencyNode> resolvingCache;
+	private Map<Object, DependencyNode> dependencyCache;
+	private Map<Artifact, Artifact> artifactCache;
 	
 	private Composite guiParent;
 	
@@ -66,7 +68,8 @@ public class MavenDependencyResolver {
 		session = Booter.newRepositorySystemSession(system);
 		repos = Booter.newRepositories();
 		
-		resolvingCache = new HashMap<Object, DependencyNode>();
+		dependencyCache = new HashMap<Object, DependencyNode>();
+		artifactCache = new HashMap<Artifact, Artifact>();
 	}
 	
 	public void setGUIParent(Composite guiParent) {
@@ -75,7 +78,7 @@ public class MavenDependencyResolver {
 	}
 	
 	public void clearCache() {
-		resolvingCache.clear();
+		dependencyCache.clear();
 	}
 	
 	public List<Dependency> getDirectDependencies(Artifact artifact) throws ArtifactDescriptorException {
@@ -89,24 +92,29 @@ public class MavenDependencyResolver {
 	}
 	
 	public Artifact resolveArtifact(Artifact artifact) {
-		ArtifactRequest artifactRequest = new ArtifactRequest();
-		artifactRequest.setArtifact(artifact);
-		artifactRequest.setRepositories(Booter.newRepositories());
+		Artifact resolved = artifactCache.get(artifact);
 		
-		ArtifactResult artifactResult;
-		try {
-			artifactResult = system.resolveArtifact(session, artifactRequest);
-		} catch (ArtifactResolutionException e) {
-			return null;
+		if (resolved == null) {
+			ArtifactRequest artifactRequest = new ArtifactRequest();
+			artifactRequest.setArtifact(artifact);
+			artifactRequest.setRepositories(Booter.newRepositories());
+			
+			try {
+				ArtifactResult artifactResult = system.resolveArtifact(session, artifactRequest);
+				resolved = artifactResult.getArtifact();
+				artifactCache.put(artifact, resolved);
+				
+			} catch (ArtifactResolutionException e) {
+			}
+			
 		}
-		
-		return artifactResult.getArtifact();
+		return resolved;
 	}
 	
-	public DependencyNode resolve(Artifact artifact) throws DependencyCollectionException, TimeoutException {
-		String url = BundleEntry.urlFromArtifact(artifact);
+	public DependencyNode resolveDependencies(Artifact artifact) throws DependencyCollectionException, TimeoutException {
+		ArtifactURL url = BundleEntry.artifactUrlFromArtifact(artifact);
 		
-		DependencyNode artifactResults = resolvingCache.get(url);
+		DependencyNode artifactResults = dependencyCache.get(url);
 		if (artifactResults == null) {
 			CollectRequest collectRequest = new CollectRequest();
 			collectRequest.setRoot(new Dependency(artifact, JavaScopes.COMPILE));
@@ -118,17 +126,35 @@ public class MavenDependencyResolver {
 		return artifactResults;
 	}
 	
+	public DependencyNode resolveDependenciesBlocking(Artifact artifact) throws DependencyCollectionException {
+		System.out.println("resolving " + artifact);
+		ArtifactURL url = BundleEntry.artifactUrlFromArtifact(artifact);
+		
+		DependencyNode artifactResults = dependencyCache.get(url);
+		if (artifactResults == null) {
+			CollectRequest collectRequest = new CollectRequest();
+			collectRequest.setRoot(new Dependency(artifact, JavaScopes.COMPILE));
+			collectRequest.setRepositories(repos);
+			
+			artifactResults = system.collectDependencies(session, collectRequest).getRoot();
+			cacheDependencies(artifactResults);
+		}
+		
+		System.out.println("resolved " + artifact);
+		return artifactResults;
+	}
+	
 	private void cacheDependencies(DependencyNode node) {
 		Dependency d = node.getDependency();
 		if (d != null && d.getArtifact() != null)
-			resolvingCache.put(BundleEntry.urlFromArtifact(d.getArtifact()), node);
+			dependencyCache.put(BundleEntry.artifactUrlFromArtifact(d.getArtifact()), node);
 		
 		for (DependencyNode child : node.getChildren())
 			cacheDependencies(child);
 	}
 	
 	public DependencyNode resolve(Set<Artifact> artifacts) throws DependencyCollectionException, TimeoutException {
-		DependencyNode artifactResults = resolvingCache.get(artifacts);
+		DependencyNode artifactResults = dependencyCache.get(artifacts);
 		if (artifactResults == null) {
 			CollectRequest collectRequest = new CollectRequest();
 			for (Artifact a : artifacts)
@@ -146,12 +172,33 @@ public class MavenDependencyResolver {
 		final DependencyNode[] artifactResults = new DependencyNode[1];
 		final DependencyCollectionException[] exception = new DependencyCollectionException[1];
 		
-		ProgressMonitorDialog d = new ProgressMonitorDialog(guiParent.getShell());
+		final Thread[] thread = new Thread[1];
+		
+		ProgressMonitorDialog d = new ProgressMonitorDialog(guiParent.getShell()) {
+			@Override
+			protected void cancelPressed() {
+				super.cancelPressed();
+				synchronized (thread) {
+					while (thread[0] == null)
+						try {
+							thread.wait();
+						} catch (InterruptedException e) {
+						}
+				}
+				
+				thread[0].interrupt();
+			}
+		};
+		
 		try {
 			d.run(true, true, new IRunnableWithProgress() {
-				
 				public void run(IProgressMonitor mon) throws InvocationTargetException, InterruptedException {
 					try {
+						synchronized (thread) {
+							thread[0] = Thread.currentThread();
+							thread.notify();
+						}
+						
 						mon.beginTask("dependency resolution", IProgressMonitor.UNKNOWN);
 						mon.subTask("Retrieving metadata for bundles");
 						
