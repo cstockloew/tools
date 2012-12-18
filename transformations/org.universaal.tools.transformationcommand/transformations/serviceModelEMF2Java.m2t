@@ -5,7 +5,7 @@
  * description: 
  */
 
-texttransformation ServiceModelEMF2Java (in mdl:"http://www.universaal.org/tools/modelling/serviceprofile") {
+texttransformation ServiceModelEMF2Java (in mdl:"http://www.universaal.org/tools/modelling/servicemodel", in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 
 	var javaBasePath:String
 	var effectTypeMap:Hashtable
@@ -110,15 +110,33 @@ import org.universAAL.middleware.api.annotation.UniversAALService;'
 		*/		
 		//declare the service
 		'\n\n@UniversAALService(namespace = ' self.name '.namespace, name="' self.name '")\n'
-		//TODO: '@OntologyClasses(value = {' ontologyClass '.class})\n'
+
+		if (self.service != null) {		
+			'@OntologyClasses(value = {' self.service.name '.class})\n'
+		}
+		else {
+		 	Stdout.println("ERROR: The service property of the ServiceInterface must be set to a service from the ontology!")
+		}
 		'public interface ' self.name ' {\n'
 		
 		//set the namespace based on the packagename reversed
 		'\n\tpublic final static String namespace = "http://' reverseDelimitedString(self.getFullOwnerPackageName(), ".") '/' self.name '.owl#";'
 	    
 	}
+	
+	mdl.PropertyPath::generatePropertyPath() {
+		var separator:String = ""
+		self.properties->forEach(prop:uml.Property) {
+		   	separator + prop.owner.name +  '.PROP_' + toUpperFormat(prop.name) //separator + p.owner.name + '.PROP_' p.toUpperFormat()
+			separator = ", "
+		}
+	}  
+	
+	mdl.PropertyPath::getFilteringClass():String {
+	  return self.properties.last().type.name
+	}  
   
-mdl.ServiceProfile::generateAnnotated() {
+	mdl.ServiceOperation::generateAnnotated() {
     // self.createEffectTypeMap()
 '
 	@ServiceOperation
@@ -128,13 +146,21 @@ mdl.ServiceProfile::generateAnnotated() {
 	// Print any outputs 
 	if (!self.output.isEmpty()) {
 	
-		'	@Outputs(value = { '
-		separator = ""
+		'\t@Outputs(value = { '
 		self.output->forEach(outParam:mdl.Parameter) {
-			separator + '@Output(name = "' + outParam.name + '")'  // TODO: replace name with correct value
-			separator = ", "
+			separator + '\n\t\t@Output(name = "' + outParam.name + '", '
+			separator = ","
+			if (outParam.propertyPath != null) {
+				'filteringClass = ' outParam.propertyPath.getFilteringClass() ','
+				'propertyPaths = {\n'
+				'\t\t\t'outParam.propertyPath.generatePropertyPath()' } '
+			}
+			else {
+			  StdOut.println("Warning: Propety path not set for output " + outParam.name)
+			}
+			')'
 		}
-		'})
+		' })
 '
 	}	
 
@@ -144,19 +170,18 @@ mdl.ServiceProfile::generateAnnotated() {
 		var effectType:String = effect.effectType
 		'	' + effectTypeMap.get(effectType) + '(propertyPaths = { ' // Was: '	' + effectTypeMap.get(effectType) + '(propertyPaths = { '
 		//var effectProps:List = effectCls.getValue("ServiceEffect", "effectProperties")
+		
 		var valueType:String = ""
-		separator = ""
-		effect.propertyPath->forEach(p:mdl.PropertyPath) {
-		  	// TODO: missing information about owner and type of property in model
-		    separator + p.path + '.PROP_' + toUpperFormat(p.path) //separator + p.owner.name + '.PROP_' p.toUpperFormat()
-			separator = ", "
-			valueType = p.path //valueType = p.type.name // Use type of last property
+		if (effect.propertyPath != null) {
+		  effect.propertyPath.generatePropertyPath()
+		  valueType = effect.propertyPath.getFilteringClass()
 		}
+		else {
+		  StdOut.println("Warning: Propety path not set for effect " + effect.name)
+		}  
 		' },\n'
 		'		value = "' + effect.effectValue + '",'
-		' valueType = ' + valueType + '.class)\n'
-					
-		// TODO: find what to use for value type
+		' valueType = ' + valueType + '.class)\n' // TODO: find whether this is right type to use
 	}
 	
 	 
@@ -195,7 +220,7 @@ mdl.ServiceProfile::generateAnnotated() {
      */
 	mdl.ServiceInterface::generateLevel2InterfaceOperations() {
 	    //call generate annotated
-	    self.profiles->forEach(pro : mdl.ServiceProfile){
+	    self.operations->forEach(pro : mdl.ServiceOperation){
 	    	pro.generateAnnotated()
 		}
   	}
@@ -242,7 +267,7 @@ mdl.ServiceProfile::generateAnnotated() {
   		return res.toUpper()
   	}   
 
-    mdl.ServiceProfile::createEffectTypeMap() {
+    mdl.ServiceOperation::createEffectTypeMap() {
     	effectTypeMap.put("CHANGE","@ChangeEffect")
     	effectTypeMap.put("ADD","@AddEffect")
     	effectTypeMap.put("REMOVE","@RemoveEffect")    
