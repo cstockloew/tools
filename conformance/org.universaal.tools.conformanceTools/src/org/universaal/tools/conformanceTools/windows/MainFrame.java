@@ -21,13 +21,14 @@ public class MainFrame {
 		final Shell shell = new Shell(window.getShell());
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2; // buttons number
-		layout.makeColumnsEqualWidth = true;
+		layout.makeColumnsEqualWidth = false;
 		shell.setLayout(layout);
 
 		GridData data = new GridData(GridData.FILL_BOTH);
 
 		Button two = new Button(shell, SWT.PUSH);
-		two.setText("Code style rules");
+		two.setSize(80, 50);
+		two.setText("Check against classical code style rules");
 		two.setEnabled(true);
 		two.addMouseListener(new MouseListener() {
 
@@ -47,7 +48,8 @@ public class MainFrame {
 		two.setLayoutData(data);
 
 		Button four = new Button(shell, SWT.PUSH);
-		four.setText("uAAL checks");
+		four.setSize(80, 50);
+		four.setText("Check against uAAL rules");
 		four.setEnabled(true);
 		four.addMouseListener(new MouseListener() {
 
