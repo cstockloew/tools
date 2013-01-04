@@ -21,8 +21,7 @@ public class PatternListener extends ContextSubscriber {
 	
 	@Override
 	public void communicationChannelBroken() {
-		// TODO Auto-generated method stub
-		
+		pattern.deactivate();
 	}
 
 	@Override

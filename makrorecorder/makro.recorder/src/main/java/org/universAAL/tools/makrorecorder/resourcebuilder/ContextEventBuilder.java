@@ -36,11 +36,11 @@ public class ContextEventBuilder {
 	}
 	
 	
-	/*private Vector<ContextEvent> getAllContextEvents() {
+	private Vector<ContextEvent> getAllContextEvents() {
 		Vector<ContextEvent> ret = new Vector<ContextEvent>();
 		
 		
-		org.universAAL.context.che.ontology.ContextEvent matchEvent = new org.universAAL.context.che.ontology.ContextEvent(
+		/*org.universAAL.context.che.ontology.ContextEvent matchEvent = new org.universAAL.context.che.ontology.ContextEvent(
 		"urn:org.universAAL.middleware.context.rdf:ContextEvent#_:0000000000000000:00");
 
 		ServiceRequest request = new ServiceRequest(new ContextHistoryService(null), null);
@@ -85,13 +85,13 @@ public class ContextEventBuilder {
 			}
 		}
 			
-		return ret;
-	}*/
-        
-        private void addSubject(Resource subject) {
-            if(!subjects.contains(subject)) {
-                subjects.add(subject);
-            }
+		*/return ret;
+	}
+	
+	private void addSubject(Resource subject) {
+		if(!subjects.contains(subject)) {
+			subjects.add(subject);
+			}
         }
         
         private void addPredicates(String predicate) {
@@ -101,10 +101,10 @@ public class ContextEventBuilder {
         }
 	
 	public void refresh() {
-		/*for(ContextEvent ce : getAllContextEvents()) {
+		for(ContextEvent ce : getAllContextEvents()) {
                     addSubject(ce.getRDFSubject());
                     addPredicates(ce.getRDFPredicate());
-		}*/
+		}
 	}
         
         public static Vector<Resource> getSubjects() {

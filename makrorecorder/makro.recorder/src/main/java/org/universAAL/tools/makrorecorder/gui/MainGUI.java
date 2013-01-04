@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.universAAL.tools.makrorecorder.gui;
 
 import java.awt.Component;
@@ -13,11 +9,13 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.ListCellRenderer;
@@ -58,9 +56,9 @@ public class MainGUI extends javax.swing.JFrame {
     	
     	menuBar = new JMenuBar();
     	menuFile = new JMenu();
-    	menuFile.setText("Datei");
+    	menuFile.setText("File");
     	menuItemNew = new JMenuItem();
-    	menuItemNew.setText("Pattern erstellen");
+    	menuItemNew.setText("New Pattern");
     	menuItemNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				actionNew();
@@ -68,7 +66,7 @@ public class MainGUI extends javax.swing.JFrame {
 		});
     	menuFile.add(menuItemNew);
     	menuItemEdit = new JMenuItem();
-    	menuItemEdit.setText("Pattern bearbeiten");
+    	menuItemEdit.setText("Edit Pattern");
     	menuItemEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actionEdit();				
@@ -77,7 +75,7 @@ public class MainGUI extends javax.swing.JFrame {
     	menuItemEdit.setEnabled(false);
 		menuFile.add(menuItemEdit);
 		menuItemDelete = new JMenuItem();
-		menuItemDelete.setText("Pattern löschen");
+		menuItemDelete.setText("Delete Pattern");
 		menuItemDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actionDelete();				
@@ -85,7 +83,7 @@ public class MainGUI extends javax.swing.JFrame {
 		});
 		menuItemDelete.setEnabled(false);
 		menuFile.add(menuItemDelete);
-		/*menuItemActivate = new JCheckBoxMenuItem();
+		menuItemActivate = new JCheckBoxMenuItem();
     	menuItemActivate.setText("activate");
     	menuItemActivate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,10 +94,10 @@ public class MainGUI extends javax.swing.JFrame {
         		}
             }
         });
-    	menuFile.add(menuItemActivate);*/
+    	menuFile.add(menuItemActivate);
     	menuFile.add(new JSeparator());
     	menuItemExit = new JMenuItem();
-    	menuItemExit.setText("Beenden");
+    	menuItemExit.setText("Exit");
     	menuItemExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	System.exit(0);
@@ -108,9 +106,9 @@ public class MainGUI extends javax.swing.JFrame {
     	menuFile.add(menuItemExit);
     	menuBar.add(menuFile);
     	menuHelp = new JMenu();
-    	menuHelp.setText("Hilfe");
+    	menuHelp.setText("Help");
     	menuItemAbout = new JMenuItem();
-    	menuItemAbout.setText("Über");
+    	menuItemAbout.setText("About");
     	menuHelp.add(menuItemAbout);
     	menuBar.add(menuHelp);
     	setJMenuBar(menuBar);
@@ -155,7 +153,7 @@ public class MainGUI extends javax.swing.JFrame {
             }
             
         }
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UniversAAL Makro Recorder");
         setBounds(new java.awt.Rectangle(100, 100, 600, 400));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -171,7 +169,25 @@ public class MainGUI extends javax.swing.JFrame {
         patternList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         patternList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                patternListValueChanged(evt);
+            	if(patternList.getSelectedIndex() > -1) {
+        	    	String selected = (String)patternList.getSelectedValue();
+        	        Pattern selPattern = MakroRecorder.getPatternByName(selected);
+        	        nameTextArea.setText(selPattern.getName());
+        	        descriptionTextArea.setText(selPattern.getDescription());
+        	        jCheckBox1.setSelected(selPattern.isActive());
+        	        deleteButton.setEnabled(true);
+        	        editButton.setEnabled(true);
+        	        menuItemEdit.setEnabled(true);
+        	        menuItemDelete.setEnabled(true);
+                } else {
+                	nameTextArea.setText("");
+        	        descriptionTextArea.setText("");
+        	        jCheckBox1.setSelected(false);
+        	        deleteButton.setEnabled(false);
+        	        editButton.setEnabled(false);
+        	        menuItemEdit.setEnabled(false);
+        	        menuItemDelete.setEnabled(false);
+                }
             }
         });
         patternList.addMouseListener(new MouseAdapter() {
@@ -234,11 +250,11 @@ public class MainGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         descriptionTextArea.setBackground(this.getBackground());
         jScrollPane2 = new JScrollPane(descriptionTextArea);
-        jScrollPane2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Beschreibung:"));
+        jScrollPane2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Description:"));
         jScrollPane2.setMinimumSize(new Dimension(300,200));
         getContentPane().add(jScrollPane2, gridBagConstraints);
 
-        editButton.setText("Bearbeiten");
+        editButton.setText("Edit");
         editButton.setEnabled(false);
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,7 +268,7 @@ public class MainGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         getContentPane().add(editButton, gridBagConstraints);
 
-        newButton.setText("Erstellen");
+        newButton.setText("New");
         newButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 actionNew();
@@ -265,7 +281,7 @@ public class MainGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         getContentPane().add(newButton, gridBagConstraints);
 
-        deleteButton.setText("Löschen");
+        deleteButton.setText("Delete");
         deleteButton.setEnabled(false);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,8 +315,6 @@ public class MainGUI extends javax.swing.JFrame {
         getContentPane().add(jCheckBox1, gridBagConstraints);
 
         
-        //ImageIcon icon = new ImageIcon(MeineKlasse.class.getResource("ico.gif"));
-        //this.setIconImage(new ImageIcon("universAAL.gif").getImage());
         this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/universAAL.gif")).getImage());
         
         newButton.setVisible(false);
@@ -324,11 +338,13 @@ public class MainGUI extends javax.swing.JFrame {
     	}
     }
 
-    private void actionDelete() {//GEN-FIRST:event_deleteButtonActionPerformed
+    private void actionDelete() {
     	if(patternList.getSelectedIndex() > -1) {
-	    	String selected = (String)patternList.getSelectedValue();
-	    	MakroRecorder.removePattern(selected);
-	        reloadPattern();
+    		String selected = (String)patternList.getSelectedValue();
+    		if (JOptionPane.showConfirmDialog(null, "Delete pattern '"+selected+"'?", "Delete pattern", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+		    	MakroRecorder.removePattern(selected);
+		        reloadPattern();
+    		}
     	}
     }
     
@@ -338,7 +354,7 @@ public class MainGUI extends javax.swing.JFrame {
 	        Pattern selPattern = MakroRecorder.getPatternByName(selected);
 	        selPattern.activate();
 	        selPattern.saveToFile();
-	        //menuItemActivate.setSelected(true);
+	        menuItemActivate.setSelected(true);
 	        jCheckBox1.setSelected(true);
         }
     }
@@ -349,69 +365,9 @@ public class MainGUI extends javax.swing.JFrame {
 	        Pattern selPattern = MakroRecorder.getPatternByName(selected);
 	        selPattern.deactivate();
 	        selPattern.saveToFile();
-	        //menuItemActivate.setSelected(false);
+	        menuItemActivate.setSelected(false);
 	        jCheckBox1.setSelected(false);
         }
-    }
-
-    private void patternListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_patternListValueChanged
-        if(patternList.getSelectedIndex() > -1) {
-	    	String selected = (String)patternList.getSelectedValue();
-	        Pattern selPattern = MakroRecorder.getPatternByName(selected);
-	        //nameLabel.setText("Name: "+selPattern.getName());
-	        nameTextArea.setText(selPattern.getName());
-	        //descriptionLabel.setText("<html><body>Beschreibung:<br>"+selPattern.getDescription().replaceAll("\n", "<br>")+"</body></html>");
-	        descriptionTextArea.setText(selPattern.getDescription());
-	        jCheckBox1.setSelected(selPattern.isActive());
-	        deleteButton.setEnabled(true);
-	        editButton.setEnabled(true);
-	        menuItemEdit.setEnabled(true);
-	        menuItemDelete.setEnabled(true);
-        } else {
-        	//nameLabel.setText("Name: ");
-	        //descriptionTextarea.setText("Beschreibung:\n");
-	        nameTextArea.setText("");
-	        descriptionTextArea.setText("");
-	        jCheckBox1.setSelected(false);
-	        deleteButton.setEnabled(false);
-	        editButton.setEnabled(false);
-	        menuItemEdit.setEnabled(false);
-	        menuItemDelete.setEnabled(false);
-        }
-    }
-
-
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainGUI().setVisible(true);
-            }
-        });
     }
 
     private javax.swing.JButton deleteButton;
@@ -431,6 +387,7 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemDelete;
     private javax.swing.JMenu menuHelp;
     private javax.swing.JMenuItem menuItemAbout;
+    private javax.swing.JCheckBoxMenuItem menuItemActivate;
     
 
 }
