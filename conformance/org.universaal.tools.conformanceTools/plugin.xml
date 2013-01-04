@@ -71,5 +71,17 @@
  			markerType="org.universaal.tools.conformanceTools.ctMarker" 
   			class="org.universaal.tools.conformanceTools.markers.BugResolution">
 		</markerResolutionGenerator>
-	</extension>	
+	</extension>
+ <extension
+       id="conformanceTools"
+       point="org.eclipse.core.runtime.products">
+    <product
+          application="org.universaal.tools.conformanceTools.application"
+          name="universAAL Conformance Tools">
+       <property
+             name="appName"
+             value="universAAL Conformance Tools">
+       </property>
+    </product>
+ </extension>	
 </plugin>
