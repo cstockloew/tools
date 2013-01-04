@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.conformanceTools.feature"
       label="AAL Studio Conformance Tools"
-      version="0.4"
+      version="0.5"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
