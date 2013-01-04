@@ -1,10 +1,6 @@
 package org.universaal.tools.conformanceTools.run;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,15 +22,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -60,6 +51,7 @@ import org.universaal.tools.conformanceTools.markers.Markers;
 import org.universaal.tools.conformanceTools.utils.HtmlPage;
 import org.universaal.tools.conformanceTools.utils.HtmlPage.Table;
 import org.universaal.tools.conformanceTools.utils.RunPlugin;
+import org.universaal.tools.conformanceTools.utils.Utilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -140,51 +132,17 @@ public class ToolsRun {
 					checks.add(Maven_nature.class.getName());
 					checks.add(NameGroupID.class.getName());
 					checks.add(OSGI_bundle.class.getName());
-					checks.add(POM_file.class.getName());				
+					checks.add(POM_file.class.getName());			
+					//checks.add(UICallerImpl.class.getName());			
 
 					List<Result> results = test(checks);
-					visualizeNewResults(results);
+					visualizeResultsCC(results);
 				}
 			}
 			catch(Exception ex){ ex.printStackTrace(); }
 		}
 		else
 			System.out.println("uAAL CT - no valid selection.");
-	}
-
-	private void visualizeNewResults(List<Result> results){
-
-		try{
-			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - ANALYSIS RESULTS");
-			String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/images/logos/";
-
-			Table t = page.new Table(results.size()+2, 4);
-
-			// table header
-			t.addContentCentered("<font size='5'><b>TEST RESULT</b></font>", 0, 0);
-			t.addContentCentered("<font size='5'><b>TEST NAME</b></font>", 0, 1);
-			t.addContentCentered("<font size='5'><b>TEST DESCRIPTION</b></font>", 0, 2);
-			t.addContentCentered("<font size='5'><b>RESULT DESCRIPTION</b></font>", 0, 3);
-
-			for(int i = 0; i < results.size(); i++){
-				Result check = results.get(i);
-				t.addContentCentered("<img src='"+path_+check.resultImg+"' />", i+1, 0);		
-				t.addContentCentered(check.checkName, i+1, 1);			
-				t.addContentCentered(check.checkDescription, i+1, 2);
-				t.addContentCentered(check.resultDscr, i+1, 3);
-			}
-
-			page.getBody().addElement(t.getTable());
-			page.getBody().addElement("<br/><br/><p>Total: "+results.size()+" performed test(s).</p>");
-			String filePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/"+fileNameResults;
-			File file = new File(filePath);
-			page.write(file);
-
-			IDE.openEditorOnFileStore( window.getActivePage(), EFS.getLocalFileSystem().getStore(file.toURI()) );
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
 	}
 
 	private List<Result> test(List<String> checks){
@@ -212,18 +170,6 @@ public class ToolsRun {
 		}
 
 		return null;
-	}
-
-	private class Result{
-
-		private String checkName, checkDescription, resultImg, resultDscr; 
-
-		public Result(String checkName, String checkDescription, String resultImg, String resultDscr){
-			this.checkName = checkName;
-			this.checkDescription = checkDescription;
-			this.resultImg = resultImg;
-			this.resultDscr = resultDscr;
-		}
 	}
 
 	private void testConformance() throws CoreException {
@@ -262,18 +208,24 @@ public class ToolsRun {
 						if (!description.isAutoBuilding())
 							goals.add("compiler:compile"); // compile it if autobuilding is off
 
-						//if(plugin == RunPlugin.FindBugs)
 						goals.add("findbugs:findbugs");
-
-						//else if(plugin == RunPlugin.CheckStyle)
-						goals.add("checkstyle:checkstyle");
-
 						request.setGoals(goals);
-						MavenExecutionResult result = maven.execute(request, monitor);
+						MavenExecutionResult resultFB = maven.execute(request, monitor);
 
-						if(result.hasExceptions()) {
+						// two distinct executions trying to avoid "PermGen space" exception
+						goals.clear();
+						goals.add("checkstyle:checkstyle");
+						request.setGoals(goals);
+						MavenExecutionResult resultCK = maven.execute(request, monitor);
+
+						if(resultFB.hasExceptions() || resultCK.hasExceptions()) {
 							String errors = "Results: \n";
-							for(Throwable e : result.getExceptions()) {
+							for(Throwable e : resultCK.getExceptions()) {
+
+								if(e.getCause() != null && e.getCause().getMessage() != null)
+									errors += e.getCause().getMessage();
+							}
+							for(Throwable e : resultFB.getExceptions()) {
 
 								if(e.getCause() != null && e.getCause().getMessage() != null)
 									errors += e.getCause().getMessage();
@@ -281,8 +233,8 @@ public class ToolsRun {
 
 							monitor.done();
 							System.out.println("uAAL CT - report blocked - "+errors);
-							//if(errors.contains("java.lang.OutOfMemoryError"))
-							//System.out.println("uAAL CT: verify start parameter [-XX:MaxPermSize] of AAL Studio and increase the value set.");
+							if(errors.contains("java.lang.OutOfMemoryError"))
+								System.out.println("uAAL CT: verify start parameter [-XX:MaxPermSize] of AAL Studio and increase the value set.");
 
 							return new Status(Status.ERROR, Activator.PLUGIN_ID, errors);
 						}
@@ -297,17 +249,13 @@ public class ToolsRun {
 									projectFacade.getResolverConfiguration(), monitor);
 
 							Properties props = new Properties();
-							//if(plugin == RunPlugin.FindBugs){
 
 							goals.add("findbugs:check");
 							props.setProperty("findbugs.failOnError", "false");
-							//}
-							//else if(plugin == RunPlugin.CheckStyle){
 
 							goals.add("checkstyle:check");
 							props.setProperty("checkstyle.failOnViolation", "false");
 							props.setProperty("checkstyle.failsOnError", "false");
-							//}
 
 							request2.setUserProperties(props);
 							request2.setGoals(goals);
@@ -332,12 +280,7 @@ public class ToolsRun {
 								public void run() {
 
 									try{									
-										//if(plugin == RunPlugin.CheckStyle)
-										//f = new File(path_+"/target/checkstyle-result.xml"); 
 										int[] maxMinCK = parseCheckstyleResult(new File(path_+"/target/checkstyle-result.xml"));
-
-										//if(plugin == RunPlugin.FindBugs)
-										//f = new File(path_+"/target/findbugsXml.xml"); 
 										int[] maxMinFB = parseFindBugsResults(new File(path_+"/target/findbugsXml.xml"));
 
 										int max = 0, min = 0;
@@ -351,14 +294,7 @@ public class ToolsRun {
 											min = maxMinFB[1];
 
 										orderBySeverity(max, min);
-
-										//if(plugin == RunPlugin.FindBugs) 
-										//parseFindBugsResults(f);
-										//else if(plugin == RunPlugin.CheckStyle)
-										//parseCheckstyleResult(f);
-
-										visualizeResults();
-										//f = new File(path_+"/target/site/"+fileNameResults);
+										visualizeResultsFromCK_FB();
 
 										org.eclipse.core.filesystem.IFileStore fileStore = EFS.getLocalFileSystem().getStore(
 												new File(path_+"/target/site/"+fileNameResults).toURI());
@@ -575,7 +511,7 @@ public class ToolsRun {
 	private void markClasses(){
 
 		try {
-			ArrayList<ICompilationUnit> cus = getAllClasses();
+			ArrayList<ICompilationUnit> cus = Utilities.getAllClasses(this.projectToAnalyze);
 			for(int i = 0; i < cus.size(); i++){
 				for(int j = 0; j < orderderbugsMap.size(); j++){
 					if(orderderbugsMap.get(j) != null && orderderbugsMap.get(j).getMarkerID() == -1)
@@ -636,7 +572,7 @@ public class ToolsRun {
 		return result;
 	}
 
-	private void visualizeResults(){
+	private void visualizeResultsFromCK_FB(){
 
 		try{
 			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - ANALYSIS RESULTS");
@@ -679,6 +615,41 @@ public class ToolsRun {
 		}
 	}
 
+	private void visualizeResultsCC(List<Result> results){
+
+		try{
+			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - ANALYSIS RESULTS");
+			String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/images/logos/";
+
+			Table t = page.new Table(results.size()+2, 4);
+
+			// table header
+			t.addContentCentered("<font size='5'><b>TEST RESULT</b></font>", 0, 0);
+			t.addContentCentered("<font size='5'><b>TEST NAME</b></font>", 0, 1);
+			t.addContentCentered("<font size='5'><b>TEST DESCRIPTION</b></font>", 0, 2);
+			t.addContentCentered("<font size='5'><b>RESULT DESCRIPTION</b></font>", 0, 3);
+
+			for(int i = 0; i < results.size(); i++){
+				Result check = results.get(i);
+				t.addContentCentered("<img src='"+path_+check.getResultImg()+"' />", i+1, 0);		
+				t.addContentCentered(check.getCheckName(), i+1, 1);			
+				t.addContentCentered(check.getCheckDescription(), i+1, 2);
+				t.addContentCentered(check.getResultDscr(), i+1, 3);
+			}
+
+			page.getBody().addElement(t.getTable());
+			page.getBody().addElement("<br/><br/><p>Total: "+results.size()+" performed test(s).</p>");
+			String filePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/"+fileNameResults;
+			File file = new File(filePath);
+			page.write(file);
+
+			IDE.openEditorOnFileStore( window.getActivePage(), EFS.getLocalFileSystem().getStore(file.toURI()) );
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
 	private int getBugsNumber(){
 		int j = 0;
 
@@ -697,68 +668,34 @@ public class ToolsRun {
 
 			Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
 
-			File dir = new File(Activator.absolutePath+"/icons/");
-			File[] icons = dir.listFiles();
+			File sourceDir = new File(Activator.absolutePath+"/icons/");
+			File[] icons = sourceDir.listFiles();
 
-			File target, site, images, logos; // subdirectories structure
+			File target, site = null, images = null, logos = null; // subdirectories structure
 			target = new File(destPath+"/target");
 			if(!target.exists())
 				target.mkdir();
+
 			site = new File(destPath+"/target/site");
 			if(!site.exists())
-				target.mkdir();
+				site.mkdir();
+
 			images = new File(destPath+"/target/site/images");
 			if(!images.exists())
 				images.mkdir();
+
 			logos = new File(destPath+"/target/site/images/logos/");
-			if(!logos.exists())
-				logos.mkdir();			
+			if(!logos.exists()) 
+				logos.mkdir();
 
 			for(File icon: icons){
-				copyFile(bundle, destPath+destInternalProjectPath, icon.getName(), "/icons/");
-				copyFile(bundle, destPath+destInternalProjectPath+"logos/", icon.getName(), "/icons/");
+				Utilities.copyFile(bundle, destPath+destInternalProjectPath, icon.getName(), "/icons/");
+				Utilities.copyFile(bundle, destPath+destInternalProjectPath+"logos/", icon.getName(), "/icons/");
 			}
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
-	}
-
-	private void copyFile(Bundle bundle, String destPath, String fileName, String sourcePath){
-
-		try{
-			Path path = new Path(sourcePath+fileName);
-			URL fileURL = Platform.find(bundle, path);
-			InputStream is = fileURL.openStream(); 			
-			OutputStream os = new FileOutputStream(destPath+fileName);
-			byte[] buffer = new byte[4096];  
-			int bytesRead;  
-			while ((bytesRead = is.read(buffer)) != -1) {  
-				os.write(buffer, 0, bytesRead);  
-			}  
-			is.close();  
-			os.close();
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
-
-	private ArrayList<ICompilationUnit> getAllClasses() throws JavaModelException {
-
-		ArrayList<ICompilationUnit> classList = new ArrayList<ICompilationUnit>();
-
-		IJavaProject javaProject = JavaCore.create(this.projectToAnalyze);
-		IPackageFragment[] packages = javaProject.getPackageFragments();
-
-		for (IPackageFragment myPackage : packages) {
-			ICompilationUnit[] cus = myPackage.getCompilationUnits();
-			for(ICompilationUnit cu : cus){
-				classList.add(cu);
-			}
-		}		
-
-		return classList;
 	}
 
 	private String getSeverityDescription(int sev){
@@ -773,80 +710,5 @@ public class ToolsRun {
 			return high_severity;
 
 		return no_severity;
-	}
-
-	private class BugDescriptor{
-
-		private int frontEndID;
-		private int markerID = -1;
-		private int severity;
-		private String severityDescription;
-		private int line;
-		private String descr;
-		private String clazz;
-		private String errorType;
-		private ICompilationUnit cu;
-		//private RunPlugin plugin;
-
-		/*public RunPlugin getPlugin() {
-			return plugin;
-		}
-		public void setPlugin(RunPlugin plugin) {
-			this.plugin = plugin;
-		}*/
-		public ICompilationUnit getCu() {
-			return cu;
-		}
-		public String getSeverityDescription() {
-			return severityDescription;
-		}
-		public void setSeverityDescription(String severityDescription) {
-			this.severityDescription = severityDescription;
-		}
-		public void setCu(ICompilationUnit cu) {
-			this.cu = cu;
-		}
-		public int getSeverity() {
-			return severity;
-		}
-		public void setSeverity(int severity) {
-			this.severity = severity;
-		}
-		public int getLine() {
-			return line;
-		}
-		public void setLine(int line) {
-			this.line = line;
-		}
-		public String getDescr() {
-			return descr;
-		}
-		public void setDescr(String descr) {
-			this.descr = descr;
-		}
-		public String getClazz() {
-			return clazz;
-		}
-		public void setClazz(String clazz) {
-			this.clazz = clazz;
-		}
-		public String getErrorType() {
-			return errorType;
-		}
-		public void setErrorType(String errorType) {
-			this.errorType = errorType;
-		}
-		public int getMarkerID() {
-			return markerID;
-		}
-		public void setMarkerID(int markerID) {
-			this.markerID = markerID;
-		}
-		public int getFrontEndID() {
-			return frontEndID;
-		}
-		public void setFrontEndID(int frontEndID) {
-			this.frontEndID = frontEndID;
-		}		
 	}
 }
