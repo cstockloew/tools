@@ -15,7 +15,8 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 	public static String absolutePath;
-	
+	public static BundleContext bundleContext;
+
 	/**
 	 * The constructor
 	 */
@@ -28,8 +29,12 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		bundleContext = context;
 		plugin = this;
-		absolutePath = context.getBundle().getLocation().replace("reference:file:/", ""); 
+		if(context.getBundle().getLocation().startsWith("initial"))		
+			absolutePath = context.getBundle().getLocation().replace("initial@reference:file:/", ""); 
+		else			
+			absolutePath = context.getBundle().getLocation().replace("reference:file:/", ""); 
 	}
 
 	/*
@@ -59,5 +64,9 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+	
+	public static BundleContext getBundleContext(){
+		return bundleContext;
 	}
 }
