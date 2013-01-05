@@ -663,34 +663,51 @@ public class ToolsRun {
 	private void verifyImages(){
 
 		try{	
-			String destPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+this.projectToAnalyze.getDescription().getName();
+			String destAbsPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+this.projectToAnalyze.getDescription().getName();
 			String destInternalProjectPath = "/target/site/images/";
 
 			Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
 
-			File sourceDir = new File(Activator.absolutePath+"/icons/");
-			File[] icons = sourceDir.listFiles();
+			File sourceDir;
+			File[] icons = new File[10];
 
-			File target, site = null, images = null, logos = null; // subdirectories structure
-			target = new File(destPath+"/target");
+			if(!Activator.absolutePath.endsWith("jar")){
+				sourceDir = new File(Activator.absolutePath+"/icons/");
+				icons = sourceDir.listFiles();
+			}
+			else{
+				List<String> files = new ArrayList<String>();
+				files.add("icons/icon_info_sml.gif");
+				files.add("icons/icon_question_sml.gif");
+				files.add("icons/icon_success_sml.gif");
+				files.add("icons/icon_warning_sml.gif");
+				files.add("icons/maven-feather.png");
+				files.add("icons/test.png");
+
+				for(int i = 0; i < files.size(); i++)
+					icons[i] = new File(Activator.getBundleContext().getBundle().getResource(files.get(i)).getFile());			
+			}
+
+			File target, site, images, logos; // subdirectories structure
+			target = new File(destAbsPath+"/target");
 			if(!target.exists())
 				target.mkdir();
 
-			site = new File(destPath+"/target/site");
+			site = new File(destAbsPath+"/target/site");
 			if(!site.exists())
 				site.mkdir();
 
-			images = new File(destPath+"/target/site/images");
+			images = new File(destAbsPath+"/target/site/images");
 			if(!images.exists())
 				images.mkdir();
 
-			logos = new File(destPath+"/target/site/images/logos/");
+			logos = new File(destAbsPath+"/target/site/images/logos/");
 			if(!logos.exists()) 
 				logos.mkdir();
 
 			for(File icon: icons){
-				Utilities.copyFile(bundle, destPath+destInternalProjectPath, icon.getName(), "/icons/");
-				Utilities.copyFile(bundle, destPath+destInternalProjectPath+"logos/", icon.getName(), "/icons/");
+				Utilities.copyFile(bundle, destAbsPath+destInternalProjectPath, icon.getName(), "/icons/");
+				Utilities.copyFile(bundle, destAbsPath+destInternalProjectPath+"logos/", icon.getName(), "/icons/");
 			}
 		}
 		catch(Exception ex){
