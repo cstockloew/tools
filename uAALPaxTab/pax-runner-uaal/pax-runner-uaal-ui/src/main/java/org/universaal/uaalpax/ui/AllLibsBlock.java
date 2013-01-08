@@ -173,7 +173,7 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 		List<BundleEntry> projects = new ArrayList<BundleEntry>(allBundles.size());
 		for (BundleEntry e : allBundles) {
 			projects.add(e);
-			if (!launchProjects.containsURL(e.getArtifactUrl()))
+			if (!launchProjects.containsBundle(e))
 				grayOut[i++] = e;
 		}
 		

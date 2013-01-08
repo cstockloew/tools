@@ -61,8 +61,6 @@ public class BundleModel {
 	
 	private List<BundlePresenter> allPresenters = new ArrayList<BundlePresenter>();
 	
-	private MavenDependencyResolver dependencyResolver;
-	
 	private UAALVersionProvider versionProvider;
 	private String currentVersion;
 	
@@ -75,13 +73,12 @@ public class BundleModel {
 	private ExecutorService graphExecutor;
 	private Future<?> graphRebuildFuture;
 	
-	public BundleModel(MavenDependencyResolver depResolver, UAALVersionProvider versionProvider, ModelDialogProvider dialogProvider) {
+	public BundleModel(UAALVersionProvider versionProvider, ModelDialogProvider dialogProvider) {
 		this.currentBundles = new BundleSet();
-		this.dependencyResolver = depResolver;
 		this.versionProvider = versionProvider;
 		this.dialogProvider = dialogProvider;
 		
-		this.artifactGraph = new ArtifactGraph(depResolver);
+		this.artifactGraph = new ArtifactGraph();
 		this.graphExecutor = Executors.newSingleThreadExecutor();
 		this.graphRebuildFuture = null;
 	}
@@ -171,7 +168,6 @@ public class BundleModel {
 	public void removeAll(Set<BundleEntry> entries) {
 		waitGraph();
 		removeUnneededDependencies(entries);
-		
 		updatePresenters();
 	}
 	
@@ -208,13 +204,19 @@ public class BundleModel {
 	private void insertBundleAndDeps(BundleEntry be) {
 		waitGraph();
 		
+		if(!be.hasKnownFormat()) {
+			// TODO: warn/ask user
+			currentBundles.add(be);
+			return;
+		}
+		
 		while (true) {
-			Artifact a = be.toArtifact();
 			boolean insterted = false;
-			
-			if (a != null) {
+
+			try {
+				Artifact a = be.toArtifact();
 				try {
-					DependencyNode deps = dependencyResolver.resolveDependencies(a);
+					DependencyNode deps = MavenDependencyResolver.getResolver().resolveDependencies(a);
 					// ConsoleDependencyGraphDumper dumper = new ConsoleDependencyGraphDumper();
 					// deps.accept(dumper);
 					
@@ -261,11 +263,13 @@ public class BundleModel {
 				} catch (TimeoutException e) {
 					System.out.println("Resolution timeout");
 				}
+			}  catch (UnknownBundleFormatException e2) {
+				// should never happen since already checked for right formats
 			}
 			
 			if (!insterted) {
 				int ret = dialogProvider.openDialog("Error during depencency resolution",
-						"There was an error resolvin depencencies for bundle " + be.getLaunchUrl() + ". ", "Ignore", "Retry", "Cancel");
+						"There was an error resolving depencencies for bundle " + be.getLaunchUrl() + ". ", "Ignore", "Retry", "Cancel");
 				
 				if (ret == 0) // ignore
 					currentBundles.add(be);
@@ -309,7 +313,7 @@ public class BundleModel {
 			// System.out.println("renaming artifact from " + a);
 			Artifact osgi = new DefaultArtifact(a.getGroupId(), a.getArtifactId().substring(0, a.getArtifactId().length() - 5)
 					.concat(".osgi"), a.getExtension(), a.getBaseVersion());
-			osgi = dependencyResolver.resolveArtifact(osgi);
+			osgi = MavenDependencyResolver.getResolver().resolveArtifact(osgi);
 			// System.out.println("to " + osgi);
 			if (osgi != null)
 				return osgi;
@@ -368,6 +372,16 @@ public class BundleModel {
 		// arts.add(beArt);
 		// }
 		
+		entries = new HashSet<BundleEntry>(entries);
+		HashSet<BundleEntry> rawEntries = new HashSet<BundleEntry>();
+		for(Iterator<BundleEntry> iter = entries.iterator(); iter.hasNext();) {
+			BundleEntry be = iter.next();
+			if(!be.hasKnownFormat()) {
+				iter.remove();
+				rawEntries.add(be);
+			}
+		}
+		
 		while (true) {
 			Set<ArtifactURL> willBeRemoved = artifactGraph.checkCanRemove(entries);
 			
@@ -377,9 +391,12 @@ public class BundleModel {
 				StringBuilder sb = new StringBuilder("Following bundles depend on the bundles to remove:\n\n");
 				
 				for (BundleEntry be : currentBundles) {
-					if (willBeRemoved.contains(be.getArtifactUrl())) {
-						toRemove.add(be);
-						sb.append(be.getLaunchUrl()).append("\n");
+					try {
+						if (willBeRemoved.contains(be.getArtifactUrl())) {
+							toRemove.add(be);
+							sb.append(be.getLaunchUrl()).append("\n");
+						}
+					} catch (UnknownBundleFormatException e) {
 					}
 				}
 				
@@ -395,11 +412,15 @@ public class BundleModel {
 					continue;
 				}
 			} else {
-				Set<ArtifactURL> removed = artifactGraph.removeArtifacts(entries, versionProvider.getBundlesOfVersion(currentVersion));
+				Set<ArtifactURL> removed = artifactGraph.removeEntries(entries, versionProvider.getBundlesOfVersion(currentVersion));
 				for (Iterator<BundleEntry> iter = currentBundles.iterator(); iter.hasNext();) {
 					BundleEntry be = iter.next();
-					if (removed.contains(be.getArtifactUrl()) || entries.contains(be))
-						iter.remove();
+					try {
+						if (rawEntries.contains(be) || removed.contains(be.getArtifactUrl()) || entries.contains(be))
+							iter.remove();
+					} catch (UnknownBundleFormatException e) {
+					}
+					
 				}
 			}
 			
@@ -469,8 +490,8 @@ public class BundleModel {
 		if (versionBundles == null)
 			return false;
 		
-		for (ArtifactURL url : versionBundles.allURLs())
-			if (!launchProjects.containsURL(url))
+		for (ArtifactURL url : versionBundles.allArtifactURLs())
+			if (!launchProjects.containsArtifactURL(url))
 				return false;
 		
 		return true;
@@ -486,8 +507,11 @@ public class BundleModel {
 		
 		for (Iterator<BundleEntry> iter = currentBundles.iterator(); iter.hasNext();) {
 			BundleEntry be = iter.next();
-			if (versionProvider.isIgnoreArtifactOfVersion(newVersion, be.getArtifactUrl()))
-				iter.remove();
+			try {
+				if (versionProvider.isIgnoreArtifactOfVersion(newVersion, be.getArtifactUrl()))
+					iter.remove();
+			} catch (UnknownBundleFormatException e) {
+			}
 		}
 		
 		// assume that the levels fit
@@ -505,7 +529,7 @@ public class BundleModel {
 	
 	public boolean checkCompatibleWithVersion(String version, ArtifactURL url) {
 		BundleSet bundles = versionProvider.getBundlesOfVersion(version);
-		if (bundles == null || bundles.containsURL(url)) // url is in bundles for current version
+		if (bundles == null || bundles.containsArtifactURL(url)) // url is in bundles for current version
 			return true;
 		
 		for (String v : versionProvider.getAvailableVersions()) {
@@ -513,7 +537,7 @@ public class BundleModel {
 				continue;
 			
 			BundleSet otherBundles = versionProvider.getBundlesOfVersion(v);
-			if (otherBundles != null && otherBundles.containsURL(url))
+			if (otherBundles != null && otherBundles.containsArtifactURL(url))
 				return false; // bundles of an other version contains this url
 								// but not bundles of current version
 		}
@@ -527,11 +551,11 @@ public class BundleModel {
 		BundleSet versionBundles = versionProvider.getBundlesOfVersion(currentVersion);
 		// fill toCheck with all bundles except of those in current version set
 		if (versionBundles != null) {
-			for (ArtifactURL url : currentBundles.allURLs())
-				if (!versionBundles.containsURL(url))
+			for (ArtifactURL url : currentBundles.allArtifactURLs())
+				if (!versionBundles.containsArtifactURL(url))
 					toCheck.add(url);
 		} else
-			for (ArtifactURL url : currentBundles.allURLs())
+			for (ArtifactURL url : currentBundles.allArtifactURLs())
 				toCheck.add(url);
 		
 		// check all toCheck project for compatibility with new version

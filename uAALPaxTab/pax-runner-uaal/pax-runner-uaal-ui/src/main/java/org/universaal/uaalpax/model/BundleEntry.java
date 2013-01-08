@@ -22,6 +22,7 @@ package org.universaal.uaalpax.model;
 
 import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
+import org.universaal.uaalpax.shared.MavenDependencyResolver;
 
 public class BundleEntry {
 	private final LaunchURL launchUrl;
@@ -35,15 +36,17 @@ public class BundleEntry {
 	public static final String PROP_LEVEL = "Level";
 	
 	public static LaunchURL launchUrlFromArtifact(Artifact a) {
-		// TODO: check for wrap
-		return new LaunchURL("mvn:" + a.getGroupId() + "/" + a.getArtifactId() + "/" + a.getBaseVersion());
+		String url = "mvn:" + a.getGroupId() + "/" + a.getArtifactId() + "/" + a.getBaseVersion();
+		if (MavenDependencyResolver.getResolver().isWrapArtifact(a))
+			url = "wrap:" + url;
+		return new LaunchURL(url);
 	}
 	
 	public static ArtifactURL artifactUrlFromArtifact(Artifact a) {
 		return new ArtifactURL(a.getGroupId() + "/" + a.getArtifactId() + "/" + a.getBaseVersion());
 	}
 	
-	public static Artifact artifactFromURL(LaunchURL url) {
+	public static Artifact artifactFromURL(LaunchURL url) throws UnknownBundleFormatException {
 		int mvn = url.url.indexOf("mvn:");
 		if (mvn >= 0) {
 			String[] s = url.url.substring(mvn + 4).split("/");
@@ -60,7 +63,7 @@ public class BundleEntry {
 				return new DefaultArtifact(s[0], s[1], s[3], s[2]);
 		}
 		
-		return null;
+		throw new UnknownBundleFormatException("unknown format of " + url);
 	}
 	
 	public static boolean isCompositeURL(LaunchURL url) {
@@ -151,7 +154,7 @@ public class BundleEntry {
 		return isCompositeURL(getLaunchUrl());
 	}
 	
-	public Artifact toArtifact() {
+	public Artifact toArtifact() throws UnknownBundleFormatException {
 		return artifactFromURL(getLaunchUrl());
 	}
 	
@@ -188,7 +191,7 @@ public class BundleEntry {
 		this.projectName = projectName;
 	}
 	
-	public ArtifactURL getArtifactUrl() {
+	public ArtifactURL getArtifactUrl() throws UnknownBundleFormatException {
 		// TODO
 		return artifactUrlFromArtifact(toArtifact());
 	}
@@ -224,6 +227,11 @@ public class BundleEntry {
 		return getLaunchUrl().equals(other.getLaunchUrl());
 	}
 	
+	public boolean hasKnownFormat() {
+		// TODO better, list or something
+		return launchUrl.url.contains("mvn:");
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this)
@@ -231,7 +239,7 @@ public class BundleEntry {
 		if (!(obj instanceof BundleEntry))
 			return false;
 		
-		// TODO really equals only if _all settings_ matches???
+		// TODO really equals only if _all_settings_ matches???
 		BundleEntry pu = (BundleEntry) obj;
 		return this.getLevel() == pu.getLevel() && this.getLaunchUrl().equals(pu.getLaunchUrl()) && this.isSelected() == pu.isSelected()
 				&& this.isStart() == pu.isStart() && this.isUpdate() == pu.isUpdate();

@@ -20,12 +20,19 @@
 
 package org.universaal.uaalpax.shared;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
+import java.util.jar.Attributes;
+import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
 
 import org.eclipse.swt.widgets.Composite;
 
@@ -53,6 +60,7 @@ import org.universaal.uaalpax.model.BundleEntry;
 import aether.demo.util.Booter;
 
 public class MavenDependencyResolver {
+	private static MavenDependencyResolver theResolver;
 	
 	private RepositorySystem system;
 	private RepositorySystemSession session;
@@ -60,16 +68,28 @@ public class MavenDependencyResolver {
 	
 	private Map<Object, DependencyNode> dependencyCache;
 	private Map<Artifact, Artifact> artifactCache;
+	private Map<String, Boolean> wrapCache;
 	
 	private Composite guiParent;
 	
-	public MavenDependencyResolver() {
+	private MavenDependencyResolver() {
 		system = Booter.newRepositorySystem();
 		session = Booter.newRepositorySystemSession(system);
 		repos = Booter.newRepositories();
 		
 		dependencyCache = new HashMap<Object, DependencyNode>();
 		artifactCache = new HashMap<Artifact, Artifact>();
+		wrapCache = new HashMap<String, Boolean>();
+	}
+	
+	public static MavenDependencyResolver getResolver() {
+		if (theResolver == null) {
+			synchronized (MavenDependencyResolver.class) {
+				if (theResolver == null)
+					theResolver = new MavenDependencyResolver();
+			}
+		}
+		return theResolver;
 	}
 	
 	public void setGUIParent(Composite guiParent) {
@@ -79,6 +99,8 @@ public class MavenDependencyResolver {
 	
 	public void clearCache() {
 		dependencyCache.clear();
+		artifactCache.clear();
+		wrapCache.clear();
 	}
 	
 	public List<Dependency> getDirectDependencies(Artifact artifact) throws ArtifactDescriptorException {
@@ -142,6 +164,38 @@ public class MavenDependencyResolver {
 		
 		System.out.println("resolved " + artifact);
 		return artifactResults;
+	}
+	
+	public boolean isWrapArtifact(Artifact artifact) {
+		Boolean wrap = wrapCache.get(BundleEntry.artifactUrlFromArtifact(artifact).url);
+		if (wrap == null) {
+			artifact = resolveArtifact(artifact);
+			if(artifact == null)
+				return true;
+			
+			File jarPath = artifact.getFile();
+			JarInputStream jio;
+			
+			try {
+				jio = new JarInputStream(new FileInputStream(jarPath));
+			} catch (FileNotFoundException e) {
+				return true; // TODO
+			} catch (IOException e) {
+				return true; // TODO
+			}
+			
+			Manifest manifest = jio.getManifest();
+			Object bundleManifestVersion = null;
+			if (manifest != null) {
+				Attributes attribs = manifest.getMainAttributes();
+				bundleManifestVersion = attribs.getValue("Bundle-ManifestVersion");
+			}
+			
+			wrap = Boolean.valueOf(manifest == null || bundleManifestVersion == null);
+			wrapCache.put(BundleEntry.artifactUrlFromArtifact(artifact).url, wrap);
+		}
+		
+		return wrap.booleanValue();
 	}
 	
 	private void cacheDependencies(DependencyNode node) {

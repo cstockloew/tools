@@ -56,16 +56,14 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	
 	private BundleModel model;
 	
-	private MavenDependencyResolver dependencyResolver;
-	
+
 	private boolean m_initializing;
 	
 	public UniversAALTab() {
 		m_initializing = false;
-		dependencyResolver = new MavenDependencyResolver();
 		versionProvider = new HardcodedConfigProvider();
 		
-		model = new BundleModel(dependencyResolver, versionProvider, this);
+		model = new BundleModel(versionProvider, this);
 		model.addChangeListener(this);
 	}
 	
@@ -74,8 +72,8 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	}
 	
 	public void createControl(Composite parent) {
-		dependencyResolver.setGUIParent(parent);
-		dependencyResolver.clearCache();
+		MavenDependencyResolver.getResolver().setGUIParent(parent);
+		MavenDependencyResolver.getResolver().clearCache();
 		
 		Composite container = new Composite(parent, SWT.NONE);
 		
@@ -131,10 +129,6 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		} finally {
 			m_initializing = false;
 		}
-	}
-	
-	public MavenDependencyResolver getDependencyResolver() {
-		return dependencyResolver;
 	}
 	
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {

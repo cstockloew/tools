@@ -52,6 +52,7 @@ import org.eclipse.swt.widgets.Layout;
 import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleSet;
 import org.universaal.uaalpax.model.LaunchURL;
+import org.universaal.uaalpax.model.UnknownBundleFormatException;
 
 public class WorkspaceProjectsBlock extends UIBlock {
 	private Button toRight, toLeft, allToRight, allToLeft;
@@ -241,10 +242,14 @@ public class WorkspaceProjectsBlock extends UIBlock {
 				BundleEntry pu = iter.next();
 				
 				// startsWith ensures that the test passes if the version is not entered in launchUrl
-				if (pu.getArtifactUrl().url.startsWith(e.getArtifactUrl().url)) {
-					iter.remove();
-					rightSet.add(new BundleEntry(pu.getProjectName(), e.getLaunchUrl(), e.getOptions()));
-					remainingProjects.removeURL(e.getArtifactUrl());
+				try {
+					if (pu.getArtifactUrl().url.startsWith(e.getArtifactUrl().url)) {
+						iter.remove();
+						rightSet.add(new BundleEntry(pu.getProjectName(), e.getLaunchUrl(), e.getOptions()));
+						remainingProjects.remove(e);
+					}
+				} catch (UnknownBundleFormatException e1) {
+					// TODO Auto-generated catch block
 				}
 			}
 		}

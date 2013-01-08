@@ -1,10 +1,12 @@
 package org.universaal.uaalpax.model;
 
+import java.awt.Container;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jdt.core.dom.ContinueStatement;
 import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.collection.DependencyCollectionException;
 import org.sonatype.aether.graph.Dependency;
@@ -13,14 +15,11 @@ import org.universaal.uaalpax.shared.MavenDependencyResolver;
 
 public class ArtifactGraph {
 	// private List<ArtifactNode> buttomNodes;
-	
-	private MavenDependencyResolver dependencyResolver;
-	
+		
 	private Map<ArtifactURL, ArtifactNode> url2nodeMap;
 	
-	public ArtifactGraph(MavenDependencyResolver resolver) {
+	public ArtifactGraph() {
 		// this.buttomNodes = new LinkedList<ArtifactNode>();
-		this.dependencyResolver = resolver;
 		this.url2nodeMap = new HashMap<ArtifactURL, ArtifactNode>();
 	}
 	
@@ -180,10 +179,15 @@ public class ArtifactGraph {
 		clear();
 		
 		for (BundleEntry be : bs) {
-			Artifact a = be.toArtifact();
+			Artifact a;
+			try {
+				a = be.toArtifact();
+			} catch (UnknownBundleFormatException e1) {
+				continue; // not mvn bundle
+			}
 			
 			try {
-				DependencyNode dNode = dependencyResolver.resolveDependenciesBlocking(a);
+				DependencyNode dNode = MavenDependencyResolver.getResolver().resolveDependenciesBlocking(a);
 				
 				// System.out.println("Tree of Artifact " + a);
 				// ConsoleDependencyGraphDumper dumper = new ConsoleDependencyGraphDumper();
@@ -203,13 +207,24 @@ public class ArtifactGraph {
 	
 	public Set<ArtifactURL> checkCanRemove(Set<BundleEntry> bes) {
 		Map<ArtifactURL, BundleEntry> map = new HashMap<ArtifactURL, BundleEntry>();
-		for (BundleEntry be : bes)
-			map.put(be.getArtifactUrl(), be);
+		for (BundleEntry be : bes) {
+			try {
+				map.put(be.getArtifactUrl(), be);
+			} catch (UnknownBundleFormatException e) {
+				continue;
+			}
+		}
 		
 		Set<ArtifactURL> willBeRemoved = new HashSet<ArtifactURL>();
 		
 		for (BundleEntry be : bes) {
-			ArtifactNode root = url2nodeMap.get(be.getArtifactUrl());
+			ArtifactNode root;
+			try {
+				root = url2nodeMap.get(be.getArtifactUrl());
+			} catch (UnknownBundleFormatException e) {
+				continue;
+			}
+			
 			if (root == null)
 				continue; // no error here
 				
@@ -231,17 +246,23 @@ public class ArtifactGraph {
 			checkNodeAndParentsInSet(parent, map, willBeRemoved);
 	}
 	
-	public Set<ArtifactURL> removeArtifacts(Set<BundleEntry> bes, BundleSet versionBundles) {
+	public Set<ArtifactURL> removeEntries(Set<BundleEntry> bes, BundleSet versionBundles) {
 		Map<ArtifactURL, BundleEntry> map = new HashMap<ArtifactURL, BundleEntry>();
 		for (BundleEntry be : bes)
-			map.put(be.getArtifactUrl(), be);
+			try {
+				map.put(be.getArtifactUrl(), be);
+			} catch (UnknownBundleFormatException e1) {
+			}
 		
 		if (versionBundles == null)
 			versionBundles = new BundleSet();
 		
 		Set<ArtifactURL> versionSet = new HashSet<ArtifactURL>();
 		for (BundleEntry be : versionBundles)
-			versionSet.add(be.getArtifactUrl());
+			try {
+				versionSet.add(be.getArtifactUrl());
+			} catch (UnknownBundleFormatException e1) {
+			}
 		
 		Set<ArtifactURL> toRemove = new HashSet<ArtifactURL>();
 		

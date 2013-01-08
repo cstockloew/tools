@@ -31,10 +31,13 @@ public class Booter {
 		return ManualRepositorySystemFactory.newRepositorySystem();
 	}
 	
+	public static String getLocalRepositoryLocation() {
+		return MavenCli.userMavenConfigurationHome + File.separator + "repository";
+	}
 	public static RepositorySystemSession newRepositorySystemSession(RepositorySystem system) {
 		MavenRepositorySystemSession session = new MavenRepositorySystemSession();
 		
-		LocalRepository localRepo = new LocalRepository(MavenCli.userMavenConfigurationHome + File.separator + "repository");
+		LocalRepository localRepo = new LocalRepository(getLocalRepositoryLocation());
 		// LocalRepository localRepo = new LocalRepository("C:\\Users\\jgdo\\.m2\\repository");
 		session.setLocalRepositoryManager(system.newLocalRepositoryManager(localRepo));
 		

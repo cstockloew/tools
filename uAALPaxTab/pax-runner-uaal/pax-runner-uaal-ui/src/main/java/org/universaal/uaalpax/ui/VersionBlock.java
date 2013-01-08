@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.universaal.uaalpax.model.ArtifactURL;
+import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleSet;
 import org.universaal.uaalpax.model.BundleModel;
 
@@ -93,9 +94,9 @@ public class VersionBlock extends UIBlock {
 			return launchProjects;
 		
 		BundleSet remainingProjects = new BundleSet(launchProjects);
-		for (ArtifactURL url : bundles.allURLs())
-			if (launchProjects.containsURL(url))
-				remainingProjects.removeURL(url);
+		for (BundleEntry be : bundles)
+			if (launchProjects.containsBundle(be))
+				remainingProjects.remove(be);
 		
 		return remainingProjects;
 	}

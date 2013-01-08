@@ -22,6 +22,7 @@ package org.universaal.uaalpax.model;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -31,22 +32,23 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.universaal.uaalpax.shared.Attribute;
 
 public class BundleSet implements Iterable<BundleEntry> {
-	private Map<ArtifactURL, BundleEntry> bundles;
+	private Map<Object, BundleEntry> bundles; // String is either artifact url or launch url if an artifact url could not be parsed
 	
 	public BundleSet() {
-		bundles = new HashMap<ArtifactURL, BundleEntry>();
+		bundles = new HashMap<Object, BundleEntry>();
 	}
 	
-	public BundleSet(Map<ArtifactURL, BundleEntry> bundles) {
-		this.bundles = new HashMap<ArtifactURL, BundleEntry>(bundles);
-	}
+	/*
+	 * public BundleSet(Map<ArtifactURL, BundleEntry> bundles) { this.bundles = new HashMap<String, BundleEntry>(); for
+	 * (Map.Entry<ArtifactURL, BundleEntry> e : bundles.entrySet()) this.bundles.put(e.getKey(), e.getValue()); }
+	 */
 	
 	public BundleSet(ILaunchConfiguration configuration) {
 		updateBundles(configuration);
 	}
 	
 	public BundleSet(BundleSet bundleset) {
-		this.bundles = new HashMap<ArtifactURL, BundleEntry>(bundleset.bundles);
+		this.bundles = new HashMap<Object, BundleEntry>(bundleset.bundles);
 	}
 	
 	public Iterator<BundleEntry> iterator() {
@@ -54,41 +56,66 @@ public class BundleSet implements Iterable<BundleEntry> {
 	}
 	
 	public void updateBundles(ILaunchConfiguration configuration) {
-		bundles = new HashMap<ArtifactURL, BundleEntry>();
+		bundles = new HashMap<Object, BundleEntry>();
 		try {
 			@SuppressWarnings("unchecked")
 			Map<String, String> launch = configuration.getAttribute(Attribute.PROVISION_ITEMS, new HashMap<Object, Object>());
 			
 			for (Map.Entry<String, String> e : launch.entrySet()) {
 				BundleEntry be = new BundleEntry(new LaunchURL(e.getKey()), e.getValue());
-				bundles.put(be.getArtifactUrl(), be);
+				try {
+					bundles.put(be.getArtifactUrl(), be);
+				} catch (UnknownBundleFormatException e1) {
+					bundles.put(be.getLaunchUrl(), be);
+				}
 			}
 		} catch (CoreException e) {
 		}
 	}
 	
 	public void add(BundleEntry e) {
-		bundles.put(e.getArtifactUrl(), e);
+		try {
+			bundles.put(e.getArtifactUrl(), e);
+		} catch (UnknownBundleFormatException e1) {
+			bundles.put(e.getLaunchUrl(), e);
+		}
 	}
 	
-	public boolean containsURL(ArtifactURL url) {
+	public boolean containsArtifactURL(ArtifactURL url) {
 		return bundles.containsKey(url);
+	}
+	
+	public boolean containsBundle(BundleEntry be) {
+		try {
+			return bundles.containsKey(be.getArtifactUrl());
+		} catch (UnknownBundleFormatException e) {
+			return bundles.containsKey(be.getLaunchUrl());
+		} 
 	}
 	
 	public BundleEntry find(ArtifactURL url) {
 		return bundles.get(url);
 	}
 	
-	public Set<ArtifactURL> allURLs() {
-		return bundles.keySet();
+	public Set<ArtifactURL> allArtifactURLs() {
+		Set<ArtifactURL> urls = new HashSet<ArtifactURL>();
+		for (Object o : bundles.keySet())
+			if (o instanceof ArtifactURL)
+				urls.add((ArtifactURL) o);
+		
+		return urls;
 	}
 	
 	public int size() {
 		return bundles.size();
 	}
 	
-	public boolean removeURL(ArtifactURL url) {
-		return bundles.remove(url) != null;
+	public boolean remove(BundleEntry be) {
+		try {
+			return bundles.remove(be.getArtifactUrl()) != null;
+		} catch (UnknownBundleFormatException e) {
+			return bundles.remove(be.getLaunchUrl()) != null;
+		}
 	}
 	
 	@Override
@@ -101,19 +128,22 @@ public class BundleSet implements Iterable<BundleEntry> {
 			remove(e);
 	}
 	
-	public boolean remove(BundleEntry be) {
-		return removeURL(be.getArtifactUrl());
-	}
-	
 	public void addAll(Collection<BundleEntry> entries) {
 		for (BundleEntry e : entries)
 			add(e);
 	}
 	
 	public void updateBundleOptions(BundleEntry be) {
-		if (!bundles.containsKey(be.getLaunchUrl())) // to be sure
+		Object url;
+		try {
+			url = be.getArtifactUrl();
+		} catch (UnknownBundleFormatException e) {
+			url = be.getLaunchUrl();
+		}
+		
+		if (!bundles.containsKey(url)) // to be sure
 			throw new IllegalArgumentException("can only update options of already existing bundle");
 		
-		bundles.put(be.getArtifactUrl(), be); // be is immutable, so its ok
+		bundles.put(url, be); // be is immutable, so its ok
 	}
 }
