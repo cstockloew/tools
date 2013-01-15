@@ -109,9 +109,9 @@ public class VersionBlock extends UIBlock {
 			newVersion = versions[index - 1];
 		
 		// reset version to old value on fail
-		// TODO more efficient
 		if (newVersion == null || !tryChangeToVersion(newVersion))
 			getUAALTab().getModel().updatePresenters();
+		getUAALTab().getModel().updatePresenters();
 	}
 	
 	public boolean tryChangeToVersion(String newVersion) {

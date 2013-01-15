@@ -1,17 +1,36 @@
+/*	
+	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
+	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	
+	See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	  http://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+ */
+
 package org.universaal.uaalpax.model;
 
-import java.awt.Container;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.jdt.core.dom.ContinueStatement;
 import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.collection.DependencyCollectionException;
 import org.sonatype.aether.graph.Dependency;
 import org.sonatype.aether.graph.DependencyNode;
-import org.universaal.uaalpax.shared.MavenDependencyResolver;
+import org.universaal.uaalpax.maven.MavenDependencyResolver;
 
 public class ArtifactGraph {
 	// private List<ArtifactNode> buttomNodes;
@@ -22,127 +41,6 @@ public class ArtifactGraph {
 		// this.buttomNodes = new LinkedList<ArtifactNode>();
 		this.url2nodeMap = new HashMap<ArtifactURL, ArtifactNode>();
 	}
-	
-	// public void addBundle(BundleEntry be, String currentVersion, UAALVersionProvider versionProvider) {
-	// Set<Artifact> bundleArtifacts = getArtifactsOfUrl(be.getLaunchUrl());
-	// // System.out.println("composite contains ");
-	// // for(Artifact a: bundleArtifacts)
-	// // System.out.println("  " + a);
-	//
-	// Set<ArtifactNode> newNodes = new HashSet<ArtifactNode>();
-	//
-	// long resTime = 0;
-	// long lastTime = System.currentTimeMillis();
-	// Set<String> bundleUrls = new HashSet<String>();
-	//
-	// for (Artifact a : bundleArtifacts) {
-	// bundleUrls.add(BundleEntry.stringFromArtifact(a));
-	//
-	// try {
-	// long last = System.currentTimeMillis();
-	// DependencyNode dNode = dependencyResolver.resolve(a);
-	// resTime += (System.currentTimeMillis() - last);
-	//
-	// System.out.println("Tree of Artifact " + a);
-	// ConsoleDependencyGraphDumper dumper = new ConsoleDependencyGraphDumper();
-	// dNode.accept(dumper);
-	//
-	// insertDependencyTree(dNode, null, be, newNodes);
-	// } catch (DependencyCollectionException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (TimeoutException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	// // for(ArtifactNode aNode: newNodes) {
-	// // if(!bundleUrls.contains(aNode.getArtifact()))
-	// // System.out.println("new node " + aNode.getArtifact());
-	// // else
-	// // System.out.println("contained node " + aNode.getArtifact());
-	// // if(!bundleUrls.contains(aNode.getArtifact()) && versionProvider.isIgnoreArtifactOfVersion(launchUrl, version)) {
-	// //
-	// // }
-	// // }
-	//
-	// long compTime = System.currentTimeMillis() - lastTime - resTime;
-	//
-	// System.out.println("resolution took " + resTime);
-	// System.out.println("Comp took " + compTime);
-	// }
-	//
-	// private ArtifactNode insertDependencyTree(DependencyNode dNode, ArtifactNode parent, BundleEntry be, Set<ArtifactNode> newNodes) {
-	// Dependency d = dNode.getDependency();
-	// ArtifactNode aNode = null;
-	//
-	// if (d != null) {
-	// String url = BundleEntry.stringFromArtifact(d.getArtifact());
-	//
-	// aNode = url2nodeMap.get(url);
-	// if (aNode == null) {
-	// aNode = new ArtifactNode(url);
-	// url2nodeMap.put(url, aNode);
-	// newNodes.add(aNode);
-	// }
-	//
-	// if (parent != null)
-	// parent.addChild(aNode);
-	// }
-	//
-	// if (aNode != null)
-	// parent = aNode;
-	//
-	// for (DependencyNode child : dNode.getChildren()) {
-	// insertDependencyTree(child, parent, null, newNodes);
-	// }
-	//
-	// if (aNode != null && be != null)
-	// aNode.addBundleEntry(be);
-	//
-	// return aNode;
-	// }
-	//
-	// private Set<Artifact> getArtifactsOfUrl(String url) {
-	// Artifact a = BundleEntry.artifactFromURL(url);
-	//
-	// if (BundleEntry.isCompositeURL(url)) {
-	// a = dependencyResolver.resolveArtifact(a);
-	// if (a == null)
-	// return new HashSet<Artifact>();
-	//
-	// return readArtifactsFromComposite(a.getFile());
-	// } else {
-	// Set<Artifact> arts = new HashSet<Artifact>(1);
-	// if (a != null)
-	// arts.add(a);
-	// return arts;
-	// }
-	// }
-	//
-	// private Set<Artifact> readArtifactsFromComposite(File file) {
-	// Set<Artifact> arts = new HashSet<Artifact>();
-	// if (!file.exists() || !file.canRead())
-	// return arts; // TODO error message
-	//
-	// try {
-	// BufferedReader br = new BufferedReader(new FileReader(file));
-	// String url;
-	//
-	// while ((url = br.readLine()) != null) {
-	// if (!url.isEmpty())
-	// arts.addAll(getArtifactsOfUrl(url));
-	// }
-	// } catch (FileNotFoundException e) {
-	// return arts;
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// return arts;
-	// }
-	//
-	// return arts;
-	// }
 	
 	public ArtifactNode insertDependencyNode(DependencyNode dNode, ArtifactNode parent) {
 		Dependency d = dNode.getDependency();
@@ -179,6 +77,9 @@ public class ArtifactGraph {
 		clear();
 		
 		for (BundleEntry be : bs) {
+			if(!be.isMavenBundle())
+				continue;
+			
 			Artifact a;
 			try {
 				a = be.toArtifact();
@@ -205,7 +106,7 @@ public class ArtifactGraph {
 		return url2nodeMap.get(url);
 	}
 	
-	public Set<ArtifactURL> checkCanRemove(Set<BundleEntry> bes) {
+	public Set<ArtifactURL> checkCanRemove(Collection<BundleEntry> bes) {
 		Map<ArtifactURL, BundleEntry> map = new HashMap<ArtifactURL, BundleEntry>();
 		for (BundleEntry be : bes) {
 			try {
@@ -246,7 +147,7 @@ public class ArtifactGraph {
 			checkNodeAndParentsInSet(parent, map, willBeRemoved);
 	}
 	
-	public Set<ArtifactURL> removeEntries(Set<BundleEntry> bes, BundleSet versionBundles) {
+	public Set<ArtifactURL> removeEntries(Collection<BundleEntry> bes, BundleSet versionBundles) {
 		Map<ArtifactURL, BundleEntry> map = new HashMap<ArtifactURL, BundleEntry>();
 		for (BundleEntry be : bes)
 			try {

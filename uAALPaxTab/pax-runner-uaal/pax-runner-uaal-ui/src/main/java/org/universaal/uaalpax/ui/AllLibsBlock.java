@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -133,8 +134,8 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 			getUAALTab().addBundle(be);
 			notifyChanged();
 			
-			// TODO: select created bundle
-			// table.getViewer().getTable().sel
+			StructuredSelection selection = new StructuredSelection(new Object[] {be});
+			table.getViewer().setSelection(selection, true);
 		}
 	}
 	
@@ -151,8 +152,9 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 			getUAALTab().addBundle(newBe);
 			notifyChanged();
 			
-			// TODO: select created bundle
-			// table.getViewer().getTable().sel
+			
+			StructuredSelection selection = new StructuredSelection(new Object[] {newBe});
+			table.getViewer().setSelection(selection, true);
 		}
 	}
 	

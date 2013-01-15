@@ -20,6 +20,11 @@
 
 package org.universaal.uaalpax.model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,8 +53,10 @@ import org.sonatype.aether.collection.DependencyCollectionException;
 import org.sonatype.aether.graph.Dependency;
 import org.sonatype.aether.graph.DependencyNode;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
+import org.universaal.uaalpax.maven.MavenDependencyResolver;
 import org.universaal.uaalpax.shared.Attribute;
-import org.universaal.uaalpax.shared.MavenDependencyResolver;
+
+import aether.demo.util.ConsoleDependencyGraphDumper;
 
 public class BundleModel {
 	/** Threshold for assuming that a particular version is used */
@@ -103,7 +110,28 @@ public class BundleModel {
 		cancelRebuildGraph();
 		
 		currentBundles.updateBundles(configuration);
+		BundleSet composites = new BundleSet();
+		for (BundleEntry be : currentBundles)
+			if (be.isComposite())
+				composites.add(be);
+		
+		if (composites.isEmpty()
+				|| dialogProvider
+						.openDialog(
+								"Resolve composites",
+								"The current run configuration contains composites, but composites aren't directly supported now.\n"
+										+ "Do you want to resolve them to individual bundles instead?\n\n"
+										+ "Note that if you don't resolve them, this tool could add bundle dependencies to the run config although they are already contained in a composite",
+								"Yes", "No") == 1)
+			composites = null;
+		
 		currentVersion = UNKNOWN_VERSION;
+		
+		if (composites == null)
+			rebuildGraphInBackground();
+		else
+			rebuildGraphInforeground(composites);
+		
 		for (String version : versionProvider.getAvailableVersions()) {
 			if (containsAllBundlesOfVersion(currentBundles, version)) {
 				currentVersion = version;
@@ -111,9 +139,20 @@ public class BundleModel {
 			}
 		}
 		
-		rebuildGraphInBackground();
-		
 		updatePresenters();
+	}
+	
+	private void rebuildGraphInforeground(BundleSet composites) {
+		artifactGraph.rebuildFromSetInBackground(currentBundles);
+		
+		if (composites != null) {
+			currentBundles.removeAll(composites.allBundles());
+			for (BundleEntry comp : composites) {
+				Set<BundleEntry> bes = getCompositeEntries(comp.getLaunchUrl());
+				for (BundleEntry be : bes)
+					insertBundleAndDepsNoWait(be);
+			}
+		}
 	}
 	
 	private void rebuildGraphInBackground() {
@@ -165,7 +204,7 @@ public class BundleModel {
 		graphRebuildFuture = null;
 	}
 	
-	public void removeAll(Set<BundleEntry> entries) {
+	public void removeAll(Collection<BundleEntry> entries) {
 		waitGraph();
 		removeUnneededDependencies(entries);
 		updatePresenters();
@@ -201,85 +240,101 @@ public class BundleModel {
 		return currentBundles;
 	}
 	
-	private void insertBundleAndDeps(BundleEntry be) {
-		waitGraph();
-		
-		if(!be.hasKnownFormat()) {
-			// TODO: warn/ask user
-			currentBundles.add(be);
-			return;
-		}
-		
-		while (true) {
-			boolean insterted = false;
-
-			try {
-				Artifact a = be.toArtifact();
+	private void insertBundleAndDepsNoWait(BundleEntry be) {
+		if (be.isComposite()) {
+			int res = dialogProvider.openDialog("Insert all bundles from composite",
+					"Management of direct composite entries is not supported now\n"
+							+ "Do you want to add all bundles of given composite instead?", "Yes", "Cancel");
+			
+			if (res == 0) {
+				Set<BundleEntry> bes = getCompositeEntries(be.getLaunchUrl());
+				for (BundleEntry be1 : bes)
+					insertBundleAndDepsNoWait(be1);
+			}
+		} else if (!be.isMavenBundle()) {
+			int res = dialogProvider.openDialog("Not a maven artifact",
+					"Warning: the entered launch URL does not represent a maven artifact", "OK", "Cancel");
+			if (res == 0)
+				currentBundles.add(be);
+		} else {
+			while (true) {
+				boolean insterted = false;
+				
 				try {
-					DependencyNode deps = MavenDependencyResolver.getResolver().resolveDependencies(a);
-					// ConsoleDependencyGraphDumper dumper = new ConsoleDependencyGraphDumper();
-					// deps.accept(dumper);
-					
-					Set<ArtifactURL> depList = listDependencies(deps, null);
-					String approxVersion = checkVersion(depList);
-					
-					if (approxVersion != null) {
-						// no version is set, ask if one should be set
-						if (getCurrentVersion() == UNKNOWN_VERSION) {
-							int sel = dialogProvider.openDialog("Set uAAL version",
-									"You have many bundles which are used by universAAL version " + approxVersion
-											+ ", but the version of this run config is not set. Do you want to set it to version "
-											+ approxVersion + "?", new String[] { "Yes", "Ignore" });
-							
-							if (sel == 0) {
-								// will always go right since no version is set yet
-								changeToVersion(approxVersion);
+					Artifact a = be.toArtifact();
+					try {
+						DependencyNode deps = MavenDependencyResolver.getResolver().resolveDependencies(a);
+						ConsoleDependencyGraphDumper dumper = new ConsoleDependencyGraphDumper();
+						deps.accept(dumper);
+						
+						Set<ArtifactURL> depList = listDependencies(deps, null);
+						String approxVersion = checkVersion(depList);
+						
+						if (approxVersion != null) {
+							// no version is set, ask if one should be set
+							if (getCurrentVersion() == UNKNOWN_VERSION) {
+								int sel = dialogProvider.openDialog("Set uAAL version",
+										"You have many bundles which are used by universAAL version " + approxVersion
+												+ ", but the version of this run config is not set. Do you want to set it to version "
+												+ approxVersion + "?", new String[] { "Yes", "Ignore" });
+								
+								if (sel == 0) {
+									// will always go right since no version is set yet
+									changeToVersion(approxVersion);
+								}
+							}
+							// version is set and differs from approximated one
+							else if (!getCurrentVersion().equals(approxVersion)) {
+								int sel = dialogProvider.openDialog("Version conflict", "The bundle \"" + be.getLaunchUrl()
+										+ "\" which you want to add depends on " + "uAAL version " + approxVersion
+										+ ", but the current run config version is " + getCurrentVersion()
+										+ ". Do you really want to add this bundle with its all depencencies?", new String[] { "No", "Yes",
+										"Yes, but without depencencies" });
+								
+								if (sel == 0) // No
+									return;
+								else if (sel == 2) { // without depencencies
+									currentBundles.add(be);
+									return;
+								} // otherwise add with all depencencies
 							}
 						}
-						// version is set and differs from approximated one
-						else if (!getCurrentVersion().equals(approxVersion)) {
-							int sel = dialogProvider.openDialog("Version conflict", "The bundle \"" + be.getLaunchUrl()
-									+ "\" which you want to add depends on " + "uAAL version " + approxVersion
-									+ ", but the current run config version is " + getCurrentVersion()
-									+ ". Do you really want to add this bundle with its all depencencies?", new String[] { "No", "Yes",
-									"Yes, but without depencencies" });
-							
-							if (sel == 0) // No
-								return;
-							else if (sel == 2) { // without depencencies
-								currentBundles.add(be);
-								return;
-							} // otherwise add with all depencencies
-						}
+						
+						insertDependencies(deps /* , 1 */); // deps contains already 'be' as root, so no need to insert it second time
+						
+						artifactGraph.insertDependencyNode(deps, null); // update graph
+						insterted = true;
+					} catch (DependencyCollectionException e1) {
+						// errors will be handled later in code
+					} catch (TimeoutException e) {
+						// errors will be handled later in code
+						System.out.println("Resolution timeout");
 					}
-					
-					insertDependencies(deps /* , 1 */); // deps contains already 'be' as root, so no need to insert it second time
-					
-					artifactGraph.insertDependencyNode(deps, null); // update graph
-					insterted = true;
-				} catch (DependencyCollectionException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (TimeoutException e) {
-					System.out.println("Resolution timeout");
+				} catch (UnknownBundleFormatException e2) {
+					// should never happen since already checked for right formats
 				}
-			}  catch (UnknownBundleFormatException e2) {
-				// should never happen since already checked for right formats
-			}
-			
-			if (!insterted) {
-				int ret = dialogProvider.openDialog("Error during depencency resolution",
-						"There was an error resolving depencencies for bundle " + be.getLaunchUrl() + ". ", "Ignore", "Retry", "Cancel");
 				
-				if (ret == 0) // ignore
-					currentBundles.add(be);
-				else if (ret == 1) // retry
-					continue;
-				// else break and do nothing
+				if (!insterted) {
+					int ret = dialogProvider
+							.openDialog("Error during depencency resolution",
+									"There was an error resolving depencencies for bundle " + be.getLaunchUrl() + ". ", "Ignore", "Retry",
+									"Cancel");
+					
+					if (ret == 0) // ignore
+						currentBundles.add(be);
+					else if (ret == 1) // retry
+						continue;
+					// else break and do nothing
+				}
+				
+				break;
 			}
-			
-			break;
 		}
+	}
+	
+	private void insertBundleAndDeps(BundleEntry be) {
+		waitGraph();
+		insertBundleAndDepsNoWait(be);
 	}
 	
 	private Set<ArtifactURL> listDependencies(DependencyNode node, Set<ArtifactURL> deps) {
@@ -330,27 +385,26 @@ public class BundleModel {
 	private int insertDependencies(DependencyNode node /* , int minStartLevel */) {
 		int minStartLevel = 1;
 		
-		// traverse postorder
-		for (DependencyNode child : node.getChildren())
-			minStartLevel = Math.max(minStartLevel, insertDependencies(child /* , minStartLevel */));
-		
 		Dependency d = node.getDependency();
 		if (d != null) {
 			Artifact a = d.getArtifact();
 			a = checkCoreToOsgi(a);
 			ArtifactURL url = BundleEntry.artifactUrlFromArtifact(a);
+			if(url.url.contains("mw.bus.ui")) 
+				System.out.println("inserting" + url);
 			
 			// check if bundle is already included
 			BundleEntry be = currentBundles.find(url);
 			if (be != null) {
 				minStartLevel = Math.max(minStartLevel, be.getLevel());
-			} else {
-				minStartLevel++;
-				
-				ArtifactURL aurl = BundleEntry.artifactUrlFromArtifact(a);
-				if (versionProvider.isIgnoreArtifactOfVersion(currentVersion, aurl))
+			} else {				
+				if (versionProvider.isIgnoreArtifactOfVersion(currentVersion, url))
 					return minStartLevel;
 				
+				// traverse postorder
+				for (DependencyNode child : node.getChildren())
+					minStartLevel = Math.max(minStartLevel, insertDependencies(child /* , minStartLevel */));
+				minStartLevel++;
 				currentBundles.add(new BundleEntry(a, minStartLevel));
 			}
 		}
@@ -358,25 +412,12 @@ public class BundleModel {
 		return minStartLevel;
 	}
 	
-	private void removeUnneededDependencies(Set<BundleEntry> entries) {
-		// ArtifactNode aNode = artifactGraph.getNode(be.getStringUrl());
-		// if (aNode == null)
-		// return; // TODO ok???
-		//
-		// Set<String> urls = artifactGraph.removeArtifact(be, versionProvider.getBundlesOfVersion(currentVersion));
-		//
-		// Set<Artifact> arts = new HashSet<Artifact>();
-		// for (BundleEntry be : bes) {
-		// Artifact beArt = be.toArtifact();
-		// if (beArt != null)
-		// arts.add(beArt);
-		// }
-		
+	private void removeUnneededDependencies(Collection<BundleEntry> entries) {		
 		entries = new HashSet<BundleEntry>(entries);
 		HashSet<BundleEntry> rawEntries = new HashSet<BundleEntry>();
-		for(Iterator<BundleEntry> iter = entries.iterator(); iter.hasNext();) {
+		for (Iterator<BundleEntry> iter = entries.iterator(); iter.hasNext();) {
 			BundleEntry be = iter.next();
-			if(!be.hasKnownFormat()) {
+			if (!be.isMavenBundle()) {
 				iter.remove();
 				rawEntries.add(be);
 			}
@@ -427,57 +468,6 @@ public class BundleModel {
 			break;
 		}
 	}
-	
-	// private void removeUnneededDependencies(Collection<BundleEntry> bes) {
-	// Set<Artifact> arts = new HashSet<Artifact>();
-	// for (BundleEntry be : bes) {
-	// Artifact beArt = be.toArtifact();
-	// if (beArt != null)
-	// arts.add(beArt);
-	// }
-	//
-	// try {
-	// // find out all dependencies of be (-> beDeps)
-	// Set<String> beDeps = listDependencies(dependencyResolver.resolve(arts), null);
-	//
-	// BundleSet mwBundles = getMiddlewareBundles();
-	// if (mwBundles == null)
-	// mwBundles = new BundleSet();
-	//
-	// // find out dependencies of all bundles in model except those of
-	// // in beDeps but not in current version bundles (-> otherDeps)
-	// Set<Artifact> otherArts = new HashSet<Artifact>();
-	// for (BundleEntry oe : currentBundles) {
-	// // !mwBundles.containsURL is to add mw bundles to otherDeps set,
-	// // even if the seem only be needed for be
-	// if (beDeps.contains(oe.getLaunchUrl()) && !mwBundles.containsURL(oe.getLaunchUrl()))
-	// continue;
-	//
-	// Artifact a = oe.toArtifact();
-	// if (a != null)
-	// otherArts.add(a);
-	// }
-	//
-	// Set<String> otherDeps = listDependencies(dependencyResolver.resolve(otherArts), null);
-	//
-	// // find out which bundles in model are only dependencies of be,
-	// // but not of any other bundle (-> unneededBundles as url set)
-	// Set<String> unneededBundles = new HashSet<String>();
-	// for (String d : beDeps)
-	// if (!otherDeps.contains(d))
-	// unneededBundles.add(d);
-	//
-	// // remove unneeded bundles from model
-	// for (String url : unneededBundles)
-	// currentBundles.removeURL(url);
-	// } catch (DependencyCollectionException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (TimeoutException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
 	
 	public void updatePresenters() {
 		BundleSet projects = currentBundles;
@@ -570,6 +560,50 @@ public class BundleModel {
 		return checkCompatibleWithVersion(currentVersion, url);
 	}
 	
+	private Set<BundleEntry> getCompositeEntries(LaunchURL url) {
+		if (BundleEntry.isCompositeURL(url)) {
+			Artifact a;
+			try {
+				a = BundleEntry.artifactFromURL(url);
+			} catch (UnknownBundleFormatException e) {
+				return new HashSet<BundleEntry>(); // should never happen due to previous checks
+			}
+			
+			a = MavenDependencyResolver.getResolver().resolveArtifact(a);
+			if (a == null)
+				return new HashSet<BundleEntry>(); // should never happen due to previous checks
+				
+			return readArtifactsFromComposite(a.getFile());
+		} else {
+			Set<BundleEntry> bundles = new HashSet<BundleEntry>();
+			bundles.add(new BundleEntry(url, "")); // use default settings here since a proper level will be set on bundle insertion
+			return bundles;
+		}
+	}
+	
+	private Set<BundleEntry> readArtifactsFromComposite(File file) {
+		Set<BundleEntry> arts = new HashSet<BundleEntry>();
+		if (!file.exists() || !file.canRead())
+			return arts; // TODO error message
+			
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String url;
+			
+			while ((url = br.readLine()) != null) {
+				if (!url.isEmpty())
+					arts.addAll(getCompositeEntries(new LaunchURL(url)));
+			}
+		} catch (FileNotFoundException e) {
+			return arts;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return arts;
+		}
+		
+		return arts;
+	}
+	
 	public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
 		// finally, save arguments list
 		List<Object> arguments = new LinkedList<Object>();
@@ -580,7 +614,6 @@ public class BundleModel {
 		arguments.add("--profiles=obr");
 		
 		Map<Object, Object> toSave = new HashMap<Object, Object>();
-		
 		for (BundleEntry be : currentBundles) {
 			StringBuffer options = new StringBuffer().append(be.isSelected()).append("@").append(be.isStart()).append("@")
 					.append(be.getLevel()).append("@").append(be.isUpdate());
@@ -620,7 +653,6 @@ public class BundleModel {
 			trySetAttribute(configuration, "checked", "");
 			trySetAttribute(configuration, "default_start_level", 40);
 			trySetAttribute(configuration, "clearConfig", false);
-			// TODO
 			trySetAttribute(configuration, "configLocation", "${workspace_loc}/rundir/smp.lighting");
 			trySetAttribute(configuration, "default", true);
 			trySetAttribute(configuration, "default_auto_start", true);

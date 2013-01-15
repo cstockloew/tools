@@ -135,20 +135,21 @@ public class WorkspaceProjectsBlock extends UIBlock {
 			protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
 				return new Point(wHint, hHint);
 			}
-		}); 
-	} 
+		});
+	}
 	
 	private void moveItemsToLeft(IStructuredSelection sel) {
 		if (sel == null || sel.isEmpty())
 			return;
 		
+		Set<BundleEntry> bundles = new HashSet<BundleEntry>();
 		for (Iterator<?> i = sel.iterator(); i.hasNext();) {
 			Object pu = i.next();
 			System.out.println("moving " + pu + "from right to left");
-			// rightTable.remove(pu);
-			// leftTable.add((BundleEntry) pu);
-			getUAALTab().getModel().remove((BundleEntry) pu);
+			bundles.add((BundleEntry) pu);
 		}
+		
+		getUAALTab().removeAllBundles(bundles);
 		
 		notifyChanged();
 	}
@@ -157,20 +158,19 @@ public class WorkspaceProjectsBlock extends UIBlock {
 		if (sel == null || sel.isEmpty())
 			return;
 		
+		Set<BundleEntry> bundles = new HashSet<BundleEntry>();
 		for (Iterator<?> i = sel.iterator(); i.hasNext();) {
 			Object pu = i.next();
-			// leftTable.remove(pu);
-			// rightTable.add((BundleEntry) pu);
-			getUAALTab().addBundle((BundleEntry) pu);
+			bundles.add((BundleEntry) pu);
 		}
+		
+		getUAALTab().addAllBundles(bundles);
 		
 		notifyChanged();
 	}
 	
 	public void moveAllToLeft() {
 		Set<BundleEntry> pus = new HashSet<BundleEntry>(rightTable.getElements());
-		// rightTable.removeAll();
-		// leftTable.addAll(pus);
 		getUAALTab().getModel().removeAll(pus);
 		
 		notifyChanged();
@@ -178,8 +178,6 @@ public class WorkspaceProjectsBlock extends UIBlock {
 	
 	public void moveAllToRight() {
 		List<BundleEntry> pus = new ArrayList<BundleEntry>(leftTable.getElements());
-		// leftTable.removeAll();
-		// rightTable.addAll(pus);
 		getUAALTab().addAllBundles(pus);
 		
 		notifyChanged();
@@ -208,19 +206,11 @@ public class WorkspaceProjectsBlock extends UIBlock {
 					
 					MavenProject project = new MavenProject(model);
 					
-					/*
-					 * try { CollectResult deps = getUAALTab().getDependencyResolver().resolve(project.getArtifact());
-					 * 
-					 * System.out.println("----------------------------------------------------------------------------");
-					 * System.out.println(deps); } catch (DependencyCollectionException e) { // TODO Auto-generated catch block //
-					 * e.printStackTrace(); }
-					 */
-					LaunchURL launchUrl = new LaunchURL("mvn:" + project.getGroupId() + "/" + project.getArtifactId() + "/" + project.getVersion());
+					LaunchURL launchUrl = new LaunchURL("mvn:" + project.getGroupId() + "/" + project.getArtifactId() + "/"
+							+ project.getVersion());
 					
-					// TODO cache previous settings
 					BundleEntry pu = new BundleEntry(launchUrl, p.getName(), 12, true);
 					leftSet.add(pu);
-					
 				} catch (CoreException e) {
 					System.out.println("Failed to parse " + p.getName() + ": " + e);
 				} catch (IOException e) {
@@ -237,24 +227,31 @@ public class WorkspaceProjectsBlock extends UIBlock {
 		// put items to right table if they are contained in launch config
 		
 		for (BundleEntry e : launchProjects) {
-			// check if this launch url corresponds to a project in workspace
-			for (Iterator<BundleEntry> iter = leftSet.iterator(); iter.hasNext();) {
-				BundleEntry pu = iter.next();
+			try {
+				String launchURL = e.getArtifactUrl().url;
 				
-				// startsWith ensures that the test passes if the version is not entered in launchUrl
-				try {
-					if (pu.getArtifactUrl().url.startsWith(e.getArtifactUrl().url)) {
-						iter.remove();
-						rightSet.add(new BundleEntry(pu.getProjectName(), e.getLaunchUrl(), e.getOptions()));
-						remainingProjects.remove(e);
+				// check if this launch url corresponds to a project in workspace
+				for (Iterator<BundleEntry> iter = leftSet.iterator(); iter.hasNext();) {
+					BundleEntry pu = iter.next();
+					
+					// startsWith ensures that the test passes if the version is not entered in launchUrl
+					
+					try {
+						if (pu.getArtifactUrl().url.startsWith(launchURL)) {
+							iter.remove();
+							rightSet.add(new BundleEntry(pu.getProjectName(), e.getLaunchUrl(), e.getOptions()));
+							remainingProjects.remove(e);
+						}
+					} catch (UnknownBundleFormatException e1) {
+						// should never happen since bundles from left list should always be maven bundles
 					}
-				} catch (UnknownBundleFormatException e1) {
-					// TODO Auto-generated catch block
+					
 				}
+			} catch (UnknownBundleFormatException e1) {
+				// ignore launch bundle if not artifact
 			}
 		}
 		
-		// TODO
 		leftTable.removeAll();
 		leftTable.addAll(leftSet);
 		

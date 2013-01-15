@@ -18,7 +18,7 @@
 	limitations under the License.
  */
 
-package org.universaal.uaalpax.shared;
+package org.universaal.uaalpax.maven;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,11 +34,10 @@ import java.util.jar.Attributes;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
-import org.eclipse.swt.widgets.Composite;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Composite;
 import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
 import org.sonatype.aether.artifact.Artifact;
@@ -170,7 +169,7 @@ public class MavenDependencyResolver {
 		Boolean wrap = wrapCache.get(BundleEntry.artifactUrlFromArtifact(artifact).url);
 		if (wrap == null) {
 			artifact = resolveArtifact(artifact);
-			if(artifact == null)
+			if (artifact == null)
 				return true;
 			
 			File jarPath = artifact.getFile();
@@ -179,9 +178,9 @@ public class MavenDependencyResolver {
 			try {
 				jio = new JarInputStream(new FileInputStream(jarPath));
 			} catch (FileNotFoundException e) {
-				return true; // TODO
+				return true;
 			} catch (IOException e) {
-				return true; // TODO
+				return true;
 			}
 			
 			Manifest manifest = jio.getManifest();

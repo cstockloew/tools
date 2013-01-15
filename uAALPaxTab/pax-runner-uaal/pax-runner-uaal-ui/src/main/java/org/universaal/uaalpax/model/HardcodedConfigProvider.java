@@ -43,6 +43,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.container.xfaces/1.1.1-SNAPSHOT"), "true@true@2@true"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.data.representation/1.1.1-SNAPSHOT"), "true@true@4@false"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.data.serialization/1.1.1-SNAPSHOT"), "true@true@4@false"),
+			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.1.1-SNAPSHOT"), "true@true@6@false"),
 			
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/j3d-core/1.3.1"), "true@true@2@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/vecmath/1.3.1"), "true@true@2@false"),
@@ -81,6 +82,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.service.osgi/1.2.0"), "true@true@18@false"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.context.osgi/1.2.0"), "true@true@19@false"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.data.serialization.osgi/1.2.0"), "true@true@20@false"),
+			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.2.0"), "true@true@19@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/vecmath/1.3.1"), "true@true@21@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/j3d-core/1.3.1"), "true@true@22@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:jp.go.ipa/jgcl/1.0"), "true@true@23@false"), };
@@ -111,6 +113,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.service.osgi/1.2.1-SNAPSHOT"), "true@true@18@false"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.context.osgi/1.2.1-SNAPSHOT"), "true@true@19@false"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.data.serialization.osgi/1.2.1-SNAPSHOT"), "true@true@20@false"),
+			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.2.1-SNAPSHOT"), "true@true@19@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/vecmath/1.3.1"), "true@true@21@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/j3d-core/1.3.1"), "true@true@22@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:jp.go.ipa/jgcl/1.0"), "true@true@23@false"), };
@@ -144,6 +147,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.service.osgi/1.3.0"), "true@true@18@false"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.context.osgi/1.3.0"), "true@true@19@false"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.data.serialization.osgi/1.3.0"), "true@true@20@false"),
+			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.3.0"), "true@true@19@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/vecmath/1.3.1"), "true@true@21@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/j3d-core/1.3.1"), "true@true@22@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:jp.go.ipa/jgcl/1.0"), "true@true@23@false"), };
@@ -189,6 +193,27 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 		ignoreSet.add("javax.media/jmf");
 		ignoreSet.add("org.apache.felix/org.osgi.foundation");
 		ignoreSet.add("org.apache.felix/org.apache.felix.log");
+		
+		
+		ignoreSet.add("org.osgi/org.osgi.core");
+		ignoreSet.add("org.osgi/org.osgi.osgi");
+		ignoreSet.add("org.osgi/org.osgi.compendium");
+			
+		Map<String, BundleSet> f111 = new HashMap<String, BundleSet>();
+		f111.put("UI Bus", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.1.1-SNAPSHOT"), "")));
+		features.put("1.1.1-SNAPSHOT", f111);
+		
+		Map<String, BundleSet> f120 = new HashMap<String, BundleSet>();
+		f120.put("UI Bus", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.2.0"), "")));
+		features.put("1.2.0", f120);
+		
+		Map<String, BundleSet> f121 = new HashMap<String, BundleSet>();
+		f121.put("UI Bus", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.2.1-SNAPSHOT"), "")));
+		features.put("1.2.1-SNAPSHOT", f121);
+		
+		Map<String, BundleSet> f130 = new HashMap<String, BundleSet>();
+		f130.put("UI Bus", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.3.0"), "")));
+		features.put("1.3.0", f130);
 	}
 	
 	private static void registerVersion(String version, BundleEntry[] bundles, String[] significant) {
@@ -231,17 +256,6 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 		for (String ignore : ignoreSet)
 			if (artifactUrl.url.startsWith(ignore))
 				return true;
-		
-		// if (launchUrl.contains(".core"))
-		// return true; // TODO
-		
-		// check if it is a .core bundle and the corresponding .osgi bundle is already contained in version
-		// TODO
-		// int pos = be.getURL().lastIndexOf(".core");
-		// if (pos >= 0
-		// && getBundlesOfVersion(version).containsURL(
-		// be.getURL().substring(0, pos).concat(".osgi").concat(be.getURL().substring(pos + 5, be.getURL().length()))))
-		// return true;
 		
 		return false;
 	}

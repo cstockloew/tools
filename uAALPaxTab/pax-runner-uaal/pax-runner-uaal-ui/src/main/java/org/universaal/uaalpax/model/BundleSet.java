@@ -73,12 +73,18 @@ public class BundleSet implements Iterable<BundleEntry> {
 		}
 	}
 	
-	public void add(BundleEntry e) {
+	public BundleSet add(BundleEntry e) {
 		try {
 			bundles.put(e.getArtifactUrl(), e);
 		} catch (UnknownBundleFormatException e1) {
 			bundles.put(e.getLaunchUrl(), e);
 		}
+		
+		return this;
+	}
+	
+	public Collection<BundleEntry> allBundles() {
+		return bundles.values();
 	}
 	
 	public boolean containsArtifactURL(ArtifactURL url) {
@@ -90,7 +96,7 @@ public class BundleSet implements Iterable<BundleEntry> {
 			return bundles.containsKey(be.getArtifactUrl());
 		} catch (UnknownBundleFormatException e) {
 			return bundles.containsKey(be.getLaunchUrl());
-		} 
+		}
 	}
 	
 	public BundleEntry find(ArtifactURL url) {
@@ -108,6 +114,10 @@ public class BundleSet implements Iterable<BundleEntry> {
 	
 	public int size() {
 		return bundles.size();
+	}
+	
+	public boolean isEmpty() {
+		return bundles.isEmpty();
 	}
 	
 	public boolean remove(BundleEntry be) {
@@ -145,5 +155,9 @@ public class BundleSet implements Iterable<BundleEntry> {
 			throw new IllegalArgumentException("can only update options of already existing bundle");
 		
 		bundles.put(url, be); // be is immutable, so its ok
+	}
+
+	public void clear() {
+		bundles.clear();
 	}
 }

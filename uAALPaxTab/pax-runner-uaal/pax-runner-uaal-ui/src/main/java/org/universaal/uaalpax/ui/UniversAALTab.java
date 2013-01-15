@@ -28,34 +28,28 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.pde.ui.launcher.AbstractLauncherTab;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.universaal.uaalpax.maven.MavenDependencyResolver;
 import org.universaal.uaalpax.model.BundleChangeListener;
 import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleModel;
 import org.universaal.uaalpax.model.HardcodedConfigProvider;
 import org.universaal.uaalpax.model.ModelDialogProvider;
 import org.universaal.uaalpax.model.UAALVersionProvider;
-import org.universaal.uaalpax.shared.MavenDependencyResolver;
 
 public class UniversAALTab extends AbstractLauncherTab implements BundleChangeListener, ModelDialogProvider {
 	private WorkspaceProjectsBlock managerTable;
 	private AllLibsBlock additionalLibsBlock;
 	private VersionBlock versionBlock;
+	private FeaturesBlock featuresBlock;
 	private ILaunchConfiguration launchConfig;
 	private UAALVersionProvider versionProvider;
 	
 	private BundleModel model;
-	
 
 	private boolean m_initializing;
 	
@@ -83,26 +77,9 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		
 		versionBlock = new VersionBlock(this, container, SWT.NONE);
 		versionBlock.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		Group featureGroup = new Group(container, SWT.NONE);
-		featureGroup.setText("Features");
-		featureGroup.setLayout(new RowLayout(SWT.HORIZONTAL));
-		featureGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		String[] features = new String[] { "UI-Framework", "CHE", "SE", "Foo ..." };
-		
-		SelectionListener featuresListener = new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				Button btn = (Button) e.widget;
-				onFeatureSelected(btn.getText(), btn.getSelection());
-			}
-		};
-		
-		for (String f : features) {
-			Button btn = new Button(featureGroup, SWT.CHECK);
-			btn.setText(f);
-			btn.addSelectionListener(featuresListener);
-		}
+
+		featuresBlock = new FeaturesBlock(this, container, SWT.NONE);
+		featuresBlock.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		SashForm sf = new SashForm(container, SWT.VERTICAL);
 		sf.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -114,6 +91,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		
 		// order is important
 		model.addPresenter(versionBlock);
+		model.addPresenter(featuresBlock);
 		model.addPresenter(managerTable);
 		model.addPresenter(additionalLibsBlock);
 	}
@@ -155,10 +133,6 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		}
 	}
 	
-	private void onFeatureSelected(String feature, boolean selected) {
-		// TODO
-	}
-	
 	public void notifyChanged() {
 		updateLaunchConfigurationDialog();
 	}
@@ -171,8 +145,20 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		getModel().addAll(entries);
 	}
 	
+	public void removeBundle(BundleEntry be) {
+		getModel().remove(be);
+	}
+	
+	public void removeAllBundles(Collection<BundleEntry> entries) {
+		getModel().removeAll(entries);
+	}
+	
 	public int openDialog(String title, String message, String... buttons) {
 		return new MessageDialog(getShell(), title, null, message, MessageDialog.QUESTION, buttons, 0).open();
+	}
+	
+	public UAALVersionProvider getVersionProvider() {
+		return versionProvider;
 	}
 	
 	public void showErrorMessage(String title, String message) {

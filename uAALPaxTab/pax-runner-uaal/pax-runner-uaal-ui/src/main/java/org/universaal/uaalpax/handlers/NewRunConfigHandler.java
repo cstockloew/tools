@@ -61,7 +61,6 @@ public class NewRunConfigHandler extends AbstractHandler {
 			configuration.setAttribute("checked", "");
 			configuration.setAttribute("default_start_level", 40);
 			configuration.setAttribute("clearConfig", false);
-			// TODO
 			configuration.setAttribute("configLocation", "${workspace_loc}/rundir/smp.lighting");
 			configuration.setAttribute("default", true);
 			configuration.setAttribute("default_auto_start", true);
