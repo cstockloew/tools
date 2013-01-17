@@ -323,11 +323,11 @@ public class CreateLaunchConfigurationFile {
 			classpath.add("wrap:mvn:java3d/j3d-core/1.3.1@2");
 			classpath.add("wrap:mvn:org.osgi/osgi_R4_compendium/1.0@2");
 			classpath
-					.add("wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.4@2");
+					.add("wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.6.3@2");
 			classpath
 					.add("wrap:mvn:org.ops4j.pax.confman/pax-confman-propsloader/0.2.2@3");
 			classpath
-					.add("wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.4@3");
+					.add("wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.6.3@3");
 			dep = getDependency("mw.bus.model");
 			if (dep == null) {
 				classpath
