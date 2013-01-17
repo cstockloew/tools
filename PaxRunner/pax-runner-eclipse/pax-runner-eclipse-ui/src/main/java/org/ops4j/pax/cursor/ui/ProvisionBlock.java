@@ -227,42 +227,57 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 		});
 
-		
-		m_treeViewer.setSorter(new ViewerSorter(){
+		m_treeViewer.setSorter(new ViewerSorter() {
 
 			@Override
 			public int compare(Viewer viewer, Object e1, Object e2) {
-				   int cat1 = category(e1);
-				   int cat2 = category(e2);
-				   if (cat1 != cat2) return cat1 - cat2;
-				   String name1, name2;
-				   if (viewer == null || !(viewer instanceof ContentViewer)) {
-				       name1 = e1.toString();
-				       name2 = e2.toString();
-				   } else {
-				       IBaseLabelProvider prov = ((ContentViewer)viewer).getLabelProvider();
-				       if (prov instanceof ILabelProvider) {
-				           ILabelProvider lprov = (ILabelProvider)prov;
-				           name1 = lprov.getText(e1);
-				           name2 = lprov.getText(e2);
-				       } else {
-				           name1 = e1.toString();
-				           name2 = e2.toString();
-				       }
-				   }
-				   if(name1 == null) name1 = "";
-				   if(name2 == null) name2 = "";				  
-				   return collator.compare(name1, name2);
+				int cat1 = category(e1);
+				int cat2 = category(e2);
+				if (cat1 != cat2)
+					return cat1 - cat2;
+				String name1 = "", name2 = "";
+				if (viewer == null || !(viewer instanceof ContentViewer)) {
+					name1 = e1.toString();
+					name2 = e2.toString();
+				} else {
+					IBaseLabelProvider prov = ((ContentViewer) viewer)
+							.getLabelProvider();
+					if (prov instanceof ILabelProvider) {
+						ILabelProvider lprov = (ILabelProvider) prov;
+
+						name1 = lprov.getText(e1);
+						name2 = lprov.getText(e2);
+						if (name1.startsWith("Level")
+								&& name2.startsWith("Level")) {
+							name1 = lprov.getText(e1).split(" ")[1];
+							name2 = lprov.getText(e2).split(" ")[1];
+						}
+					} else {
+						name1 = e1.toString();
+						name2 = e2.toString();
+					}
+				}
+
+				if (name1 == null)
+					name1 = "";
+				if (name2 == null)
+					name2 = "";
+				try {
+					int a = Integer.parseInt(name1);
+					int b = Integer.parseInt(name2);
+					if (a < b)
+						return (int) -1;
+					if (a == b)
+						return (int) 0;
+					else
+						return (int) 1;
+				} catch (Exception ex) {
+					return collator.compare(name1, name2);
+				}
 			}
-			
-			
-			
-			
-			
-		}
-		);
-		
-		
+
+		});
+
 		final Tree tree = m_treeViewer.getTree();
 
 		// add drag and drop functionality
@@ -296,7 +311,8 @@ public class ProvisionBlock extends CursorTabBlock {
 		dt.setTransfer(new Transfer[] { TextTransfer.getInstance() });
 		dt.addDropListener(new DropTargetAdapter() {
 			public void drop(DropTargetEvent event) {
-				if (event.item != null&& !tree.getSelection()[0].getText().contains("Level")) {
+				if (event.item != null
+						&& !tree.getSelection()[0].getText().contains("Level")) {
 					String provisionUrl = ((String) event.data).split("@")[0];
 					String level = ((String) event.data).split("@")[1];
 					boolean isupdate = Boolean
@@ -312,8 +328,9 @@ public class ProvisionBlock extends CursorTabBlock {
 					Rectangle bounds = item.getBounds();
 					TreeItem parent = item.getParentItem();
 
-					if (parent != null&&!((ProvisionURL) parent.getData())
-							.getUrl().split(" ")[1].equals(level)) {
+					if (parent != null
+							&& !((ProvisionURL) parent.getData()).getUrl()
+									.split(" ")[1].equals(level)) {
 						addURL(provisionUrl, ((ProvisionURL) parent.getData())
 								.getUrl().split(" ")[1], isstart, isupdate,
 								isselected);
@@ -324,19 +341,19 @@ public class ProvisionBlock extends CursorTabBlock {
 
 						findAndDeleteProvisionUrl(prov);
 
-					}
-					else
-						if(parent==null&&((ProvisionURL)item.getData()).getUrl().startsWith("Level")){
-							addURL(provisionUrl, ((ProvisionURL) item.getData())
-									.getUrl().split(" ")[1], isstart, isupdate,
-									isselected);
-							// delete draged node
-							ProvisionURL prov = new ProvisionURL(provisionUrl,
-									isselected, isstart, Integer.parseInt(level),
-									isupdate);
+					} else if (parent == null
+							&& ((ProvisionURL) item.getData()).getUrl()
+									.startsWith("Level")) {
+						addURL(provisionUrl, ((ProvisionURL) item.getData())
+								.getUrl().split(" ")[1], isstart, isupdate,
+								isselected);
+						// delete draged node
+						ProvisionURL prov = new ProvisionURL(provisionUrl,
+								isselected, isstart, Integer.parseInt(level),
+								isupdate);
 
-							findAndDeleteProvisionUrl(prov);							
-						}
+						findAndDeleteProvisionUrl(prov);
+					}
 				}
 			}
 		});
@@ -622,17 +639,10 @@ public class ProvisionBlock extends CursorTabBlock {
 		});
 		m_deleteButton.setText("Delete");
 
-
 		m_treeViewer.expandAll();
 
 	}
 
-	
-		
-	
-	
-	
-	
 	private void getExpandedNodes() {
 		expandedNodes = new ArrayList();
 		final TreeItem[] items = m_treeViewer.getTree().getItems();
@@ -994,12 +1004,13 @@ public class ProvisionBlock extends CursorTabBlock {
 										.getChildren().length - 1];
 								int kk = 0;
 								for (int k = 0; k < provisionURL1.getChildren().length; k++) {
-									if (!provisionURL1.getChildren()[k].equals( provisionURL)) {
+									if (!provisionURL1.getChildren()[k]
+											.equals(provisionURL)) {
 										provisionChildren[kk] = provisionURL1
 												.getChildren()[k];
 										kk++;
-										if (provisionURL1
-												.getChildren()[k].isSelected()) {
+										if (provisionURL1.getChildren()[k]
+												.isSelected()) {
 											selectedURLs.add(provisionURL1
 													.getChildren()[k]);
 										}
@@ -1008,12 +1019,11 @@ public class ProvisionBlock extends CursorTabBlock {
 								provisionURL1.setChildren(provisionChildren);
 								break;
 
-							}else
-							if (provisionURL != provisionURL2) {
+							} else if (provisionURL != provisionURL2) {
 								if (provisionURL2.isSelected()) {
 									selectedURLs.add(provisionURL2);
 								}
-							} else  {
+							} else {
 
 								ProvisionURL[] provisionChildren = new ProvisionURL[provisionURL1
 										.getChildren().length - 1];
@@ -1023,8 +1033,8 @@ public class ProvisionBlock extends CursorTabBlock {
 										provisionChildren[kk] = provisionURL1
 												.getChildren()[k];
 										kk++;
-										if (provisionURL1
-												.getChildren()[k].isSelected()) {
+										if (provisionURL1.getChildren()[k]
+												.isSelected()) {
 											selectedURLs.add(provisionURL1
 													.getChildren()[k]);
 										}
@@ -1238,7 +1248,7 @@ public class ProvisionBlock extends CursorTabBlock {
 						provisionURL.setParent(provisionURL1);
 						provisionURL1.setSelected(true);
 						selectedURLs.add(provisionURL1);
-						
+
 					}
 					selectedURLs.add(provisionURL);
 				} else {
@@ -1501,11 +1511,11 @@ public class ProvisionBlock extends CursorTabBlock {
 
 				if (((ProvisionURL) it2.getData()) != null
 						&& ((ProvisionURL) it2.getData()).isStart()
-						&& ((ProvisionURL) it2.getData()).isUpdate()) {					
+						&& ((ProvisionURL) it2.getData()).isUpdate()) {
 					it2.setImage(yy);
 				} else if (((ProvisionURL) it2.getData()) != null
 						&& ((ProvisionURL) it2.getData()).isStart()
-						&& !((ProvisionURL) it2.getData()).isUpdate()) {					
+						&& !((ProvisionURL) it2.getData()).isUpdate()) {
 					allChildrenUpdated = false;
 					it2.setImage(yn);
 				} else if (((ProvisionURL) it2.getData()) != null
