@@ -158,7 +158,7 @@ import org.universAAL.middleware.rdf.Resource;'
 			separator = ","
 			if (outParam.propertyPath != null) {
 				'filteringClass = ' outParam.propertyPath.getFilteringClass() + '.class,'
-				'propertyPaths = {\n'
+				' propertyPaths = {\n'
 				'\t\t\t'outParam.propertyPath.generatePropertyPath()' } '
 			}
 			else {
