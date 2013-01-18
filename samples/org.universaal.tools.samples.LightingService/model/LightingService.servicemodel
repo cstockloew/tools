@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <servicemodel:ServiceInterface xmlns:servicemodel="http://www.universaal.org/tools/modelling/servicemodel" name="LightingService" service="../../org.universaal.tools.samples.lighting/models/lighting.uml#_zqV91-uHEeGyN_aDBopvUQ">
   <operations name="getControlledLamps">
-    <output name="lamps"/>
+    <output name="lamps">
+      <propertyPath properties="../../org.universaal.tools.samples.lighting/models/lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
+    </output>
   </operations>
   <operations name="getLampInfo">
     <input name="lampURI"/>
