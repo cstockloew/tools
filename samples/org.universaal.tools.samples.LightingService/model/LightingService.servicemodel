@@ -6,7 +6,9 @@
     </output>
   </operations>
   <operations name="getLampInfo">
-    <input name="lampURI"/>
+    <input name="lampURI">
+      <propertyPath properties="../../org.universaal.tools.samples.lighting/models/lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
+    </input>
     <output name="brightness">
       <propertyPath properties="../../org.universaal.tools.samples.lighting/models/lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w ../../org.universaal.tools.samples.lighting/models/lighting.uml#_tAJ4cO0hEeGt5ZlpyxcN5w"/>
     </output>
