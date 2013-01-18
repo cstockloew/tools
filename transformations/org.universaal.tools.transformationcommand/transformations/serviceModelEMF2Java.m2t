@@ -137,7 +137,7 @@ import org.universAAL.middleware.rdf.Resource;'
 	}  
 	
 	mdl.PropertyPath::getFilteringClass():String {
-	  return self.properties.last().type.name + '.class'
+	  return self.properties.last().type.name
 	}  
   
 	mdl.ServiceOperation::generateAnnotated() {
