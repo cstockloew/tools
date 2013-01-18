@@ -56,58 +56,62 @@ import org.universAAL.middleware.api.annotation.OntologyClasses;
 import org.universAAL.middleware.api.annotation.Output;
 import org.universAAL.middleware.api.annotation.Outputs;
 import org.universAAL.middleware.api.annotation.ServiceOperation;
-import org.universAAL.middleware.api.annotation.UniversAALService;'
+import org.universAAL.middleware.api.annotation.UniversAALService;
+import org.universAAL.middleware.rdf.Resource;'
 	
 		// TODO: Add handling of dynamic imports
 	
 		//dynamic imports. Must import the service that is implemented as well as the classes that are used as properties
 		var propertyImportHash: Hashtable
 	
-		//get realization class
-	
-		// TODO: Add something corresponding to realzation class
-		//var serviceClass: uml.Class
-		//serviceClass = self.clientDependency.first().supplier.first()
 	
 		//set the ontologyClass name
-		//ontologyClass = serviceClass.name
+		var serviceClass : uml.Class
+		serviceClass = self.service 
 	
 		//get the name of the realizationService and format it for import
-		//String realizationService = serviceClass.qualifiedName.substringAfter("::").replace("::", ".")
-		//'\nimport ' realizationService ';'
+		String realizationService = serviceClass.qualifiedName.substringAfter("::").replace("::", ".")
+		'\nimport ' realizationService ';'
 	
 		//get the serviceclass' ownedattributes' type
-	
-		/*
-		serviceClass->forEach( prop : uml.Property) {
-			propertyImportHash.put(prop.name, prop)
-			//stdout.println("Found property on serviceClass: " + prop.name + ":" + prop.type)
-		}
-	
-		//import the superclasses 	
-		while (!serviceClass.general.isEmpty()) {
-		  	serviceClass.ownedElement->forEach(prop: uml.Property){
-		  		propertyImportHash.put(prop.name, prop)
-		  		//if property is an objecttype (class), import its property types as well
-		  		if (prop.type.oclIsTypeOf(uml.Class)) {
-		  			prop.type.ownedElement->forEach(subProp: uml.Property) {
-		  				propertyImportHash.put(subProp.name,subProp)
-		  				//stdout.println("SubProperty: " + subProp.name + " inserted")
-		  			}
-		  		}
+		self.operations->forEach(so:mdl.ServiceOperation){
+		  //check input parameters
+		  so.input->forEach(ip: mdl.Parameter){
+		  	if (ip.propertyPath!=null){
+		  	  	var path : uml.Property
+		  	  	path = ip.propertyPath.properties.last()
+		  		propertyImportHash.put(so.name,path)
 		  	}
-		  	serviceClass = serviceClass.general.first()
+		  }
+		  
+		//check output parameters
+		so.output->forEach(op: mdl.Parameter){
+			if (op.propertyPath!=null){
+				var path : uml.Property
+				path = op.propertyPath.properties.last()
+				propertyImportHash.put(so.name,path)
+				}
+			}	
 		}
 		
-	    //print the import statements
-		propertyImportHash->forEach(prop : uml.Property) {
+		//filter the properties to ensure that only one instance of the property type is in the list.
+		var uniqueList : list
+		propertyImportHash.values()->forEach(prop : uml.Property){
+			if (!uniqueList.contains(prop)){
+				uniqueList.add(prop)
+			}
+		}
+		//print the import statements for the filtered set of properties
+	   
+		uniqueList->forEach(prop : uml.Property) {
 		  if (!prop.type==null) {
 		    if (prop.type.oclIsTypeOf(uml.Class) || prop.type.oclIsTypeOf(uml.Enumeration)) {
 		    '\nimport ' prop.type.getFullPackageName() ';'
 		    }
 		  }
 		}
-		*/		
+		
+				
 		//declare the service
 		'\n\n@UniversAALService(namespace = ' self.name '.namespace, name="' self.name '")\n'
 
@@ -133,7 +137,7 @@ import org.universAAL.middleware.api.annotation.UniversAALService;'
 	}  
 	
 	mdl.PropertyPath::getFilteringClass():String {
-	  return self.properties.last().type.name
+	  return self.properties.last().type.name + '.class'
 	}  
   
 	mdl.ServiceOperation::generateAnnotated() {
@@ -298,5 +302,22 @@ import org.universAAL.middleware.api.annotation.UniversAALService;'
     	effectTypeMap.put("ADD","@AddEffect")
     	effectTypeMap.put("REMOVE","@RemoveEffect")    
   	}
+  	
+  	  uml.Classifier::getFullPackageName():String {
+  	if(self.owner !=null) {
+  	  var targetName:String
+  	  targetName = self.owner.getFullPackageName() 
+  	  if (targetName.equals("")) {
+  	  	return self.name.trim()
+  	  }
+  	  else {
+  	  	return targetName.trim() + "." + self.name
+  	  }
+  	}
+  	else {
+  		return ""
+  	}
+  }
+  	
 
 }
