@@ -6,9 +6,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import javax.xml.bind.*;
 
-import org.universAAL.middleware.connectors.deploy.model.AalMpa;
-import org.universAAL.middleware.connectors.deploy.model.AalMpa.ApplicationPart;
-import org.universAAL.middleware.connectors.deploy.model.ObjectFactory;
+import org.universAAL.middleware.interfaces.mpa.model.AalMpa;
+import org.universAAL.middleware.interfaces.mpa.model.AalMpa.ApplicationPart;
+import org.universAAL.middleware.interfaces.mpa.model.ObjectFactory;
 
 public class MpaParser {
 	AalMpa mpa = null;

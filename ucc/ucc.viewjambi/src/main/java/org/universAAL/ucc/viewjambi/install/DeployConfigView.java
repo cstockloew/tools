@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.universAAL.middleware.connectors.deploy.model.Part;
+import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.ucc.viewjambi.common.SubWindow;
@@ -132,7 +132,7 @@ public class DeployConfigView extends SubWindow {
 					System.out.println("[DeployConfigView.nextScreen] The multi-part application has been successfully installed!");
 					break;
 					
-				case FAILED:
+				case FAILURE:
 					QMessageBox.warning(this, "Installation result", "The installation of the multi-part application has been failed!");
 					System.out.println("[DeployConfigView.nextScreen] The installation of the multi-part application has been failed!");
 					break;
@@ -155,6 +155,16 @@ public class DeployConfigView extends SubWindow {
 				case LOCALLY_DELEGATED:
 					QMessageBox.information(this, "Installation result", "The installation of the multi-part application is locally delegated...");
 					System.out.println("[DeployConfigView.nextScreen] The installation of the multi-part application is locally delegated...");
+					break;
+					
+				case NOT_A_DEPLOYMANAGER:
+					QMessageBox.warning(this, "Installation result", "The installation of the multi-part application: not a deploy manager!");
+					System.out.println("[DeployConfigView.ok] The installation of the multi-part application: not a deploy manager!");
+					break;
+					
+				case MPA_FILE_NOT_VALID:
+					QMessageBox.warning(this, "Installation result", "The installation of the multi-part application: the MPA file is not valid!");
+					System.out.println("[DeployConfigView.ok] The installation of the multi-part application: the MPA file is not valid!");
 					break;
 					
 				default:
