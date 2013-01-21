@@ -58,7 +58,7 @@ public class UML2Parser {
 
 	private OntModel model;
 
-	private String NS;
+//	private String NS;
 	private boolean optionReasoner;
 
 	private UML2Factory uml2Factory;
@@ -75,7 +75,7 @@ public class UML2Parser {
 
 	public void loadOntology(String ontology, String uri, boolean reasoner) {
 
-		NS = uri + "#";
+//		NS = uri + "/";
 		optionReasoner = reasoner;
 
 		if (!optionReasoner) {
@@ -428,11 +428,13 @@ public class UML2Parser {
 		// Direct class from Thing and equivalent class not appear due to
 		// inference troubles.
 		String queryString = "PREFIX  rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n"
-				+ "PREFIX : <"
-				+ NS
-				+ "> \n"
+			//	+ "PREFIX : \n" 
+			//	+"<"
+			//	+ NS
+			//	+ "> \n"
 				+ "SELECT ?subclasses ?superclase \n"
 				+ "WHERE { ?subclasses rdfs:subClassOf ?superclase } \n";
+		System.out.println(queryString);
 		Query query = QueryFactory.create(queryString);
 		QueryExecution qexec = QueryExecutionFactory.create(query, model);
 
@@ -440,11 +442,12 @@ public class UML2Parser {
 		String queryString2 = "PREFIX  rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n"
 				+ "PREFIX  owl:  <http://www.w3.org/2002/07/owl#> \n"
 				+ "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
-				+ "PREFIX : <"
-				+ NS
-				+ "> \n"
+			//	+ "PREFIX : <"
+		    //	+ NS
+		    //	+ "> \n"
 				+ "SELECT ?classes  \n"
 				+ "WHERE { ?classes rdf:type owl:Class } \n";
+		System.out.println(queryString2);
 		Query query2 = QueryFactory.create(queryString2);
 		QueryExecution qexec2 = QueryExecutionFactory.create(query2, model);
 
@@ -455,10 +458,20 @@ public class UML2Parser {
 				QuerySolution soln = results.nextSolution();
 				String x = soln.get("subclasses").toString();
 				String r = soln.get("superclase").toString();
-
-				if (x.indexOf('#') > 1 && r.indexOf('#') > 1 && !x.equals(r)) {
-					String nameChild = x.substring(x.indexOf('#') + 1);
-					String nameParent = r.substring(r.indexOf('#') + 1);
+								
+				int xIndex=x.indexOf('#');
+				if (xIndex<1){
+					xIndex=x.lastIndexOf('/');
+				}
+				
+				int rIndex=x.indexOf('#');
+				if (rIndex<1){
+					rIndex=x.lastIndexOf('/');
+				}
+				if (xIndex>1 && rIndex>1 && !x.equals(r)) {
+					String nameChild = x.substring(xIndex + 1);
+					String nameParent = r.substring(rIndex + 1);
+					
 
 					if (!processedSubs.contains(nameChild)) {
 
@@ -498,8 +511,13 @@ public class UML2Parser {
 			for (; results2.hasNext();) {
 				QuerySolution soln2 = results2.nextSolution();
 				String x2 = soln2.get("classes").toString();
-				if (x2.indexOf('#') > 1) {
-					String name = x2.substring(x2.indexOf('#') + 1);
+								
+				int x2Index=x2.indexOf('#');
+				if (x2Index<1){
+					x2Index=x2.lastIndexOf('/');
+				}				
+				if (x2Index > 1) {
+					String name = x2.substring(x2Index + 1);
 					if (!processedSubs.contains(name)) {
 						OntClass cls = model.getOntClass(x2);
 						OntClass s = cls.getEquivalentClass();
@@ -530,7 +548,13 @@ public class UML2Parser {
 	}
 
 	private String getName(String r) {
-		return r.substring(r.indexOf('#') + 1);
+		
+		int rIndex=r.indexOf('#');
+		if (rIndex<1){
+			rIndex=r.lastIndexOf('/');
+		}
+		
+		return r.substring(rIndex + 1);
 	}
 
 	private void addObjectProperties() {
@@ -548,7 +572,7 @@ public class UML2Parser {
 		String queryString = "PREFIX  rdfs:  <http://www.w3.org/2000/01/rdf-schema#> \n"
 				+ "PREFIX  owl:  <http://www.w3.org/2002/07/owl#> \n"
 				+ "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
-				+ "PREFIX : <#> \n"
+			//	+ "PREFIX : <#> \n"
 				+ "SELECT ?proper ?domain ?range ?super_property ?sp_domain ?sp_range \n"
 				+ "WHERE { ?proper rdf:type owl:ObjectProperty  ."
 				+ "OPTIONAL{?proper rdfs:subPropertyOf ?super_property. ?super_property rdf:type owl:ObjectProperty. ?super_property rdfs:range ?sp_range}."
@@ -719,8 +743,18 @@ public class UML2Parser {
 			QuerySolution soln = results.nextSolution();
 			String p = soln.get("proper").toString();
 			String d = soln.get("domain").toString(); // Get a result
-			String nameProp = p.substring(p.indexOf('#') + 1);
-			String nameDomain = d.substring(d.indexOf('#') + 1);
+						
+			int pIndex=p.indexOf('#');
+			if (pIndex<1){
+				pIndex=p.lastIndexOf('/');
+			}
+			
+			int dIndex=d.indexOf('#');
+			if (dIndex<1){
+				dIndex=d.lastIndexOf('/');
+			}
+			String nameProp = p.substring(pIndex + 1);
+			String nameDomain = d.substring(dIndex + 1);
 			RDFNode rg = soln.get("range");
 			String r = "";
 			ArrayList<String> rangeProp = new ArrayList<String>();
@@ -752,8 +786,13 @@ public class UML2Parser {
 						rangeProp.add("any");
 					}
 				} else {
+					
+					int rIndex=r.indexOf('#');
+					if (rIndex<1){
+						rIndex=r.lastIndexOf('/');
+					}
 
-					rangeProp.add(r.substring(r.indexOf('#') + 1));
+					rangeProp.add(r.substring(rIndex + 1));
 				}
 			} else {
 				rangeProp.add("any");
