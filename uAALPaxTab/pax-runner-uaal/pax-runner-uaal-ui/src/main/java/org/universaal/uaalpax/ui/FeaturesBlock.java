@@ -7,6 +7,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -66,7 +67,7 @@ public class FeaturesBlock extends UIBlock {
 	@Override
 	public void initBlock(Composite parent) {
 		// parent is the Group of UIBlock, so setting it's layout here is appropriate
-		parent.setLayout(new GridLayout());
+		parent.setLayout(new RowLayout());
 		containerComposite = parent;
 		
 		featuresListener = new SelectionAdapter() {
@@ -81,9 +82,9 @@ public class FeaturesBlock extends UIBlock {
 		BundleSet required = getUAALTab().getVersionProvider().getBundlesOfFeature(getUAALTab().getModel().getCurrentVersion(), feature);
 		if (required != null) {
 			if (selected)
-				getUAALTab().getModel().addAll(required.allBundles());
+				getUAALTab().addAllBundles(required.allBundles());
 			else
-				getUAALTab().getModel().removeAll(required.allBundles());
+				getUAALTab().removeAllBundles(required.allBundles());
 		}
 	}
 }

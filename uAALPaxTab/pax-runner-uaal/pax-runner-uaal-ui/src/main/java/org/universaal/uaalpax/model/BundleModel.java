@@ -55,6 +55,7 @@ import org.sonatype.aether.graph.DependencyNode;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
 import org.universaal.uaalpax.maven.MavenDependencyResolver;
 import org.universaal.uaalpax.shared.Attribute;
+import org.universaal.uaalpax.versionprovider.UAALVersionProvider;
 
 import aether.demo.util.ConsoleDependencyGraphDumper;
 
@@ -233,6 +234,8 @@ public class BundleModel {
 		waitGraph();
 		for (BundleEntry be : entries)
 			insertBundleAndDeps(be);
+		
+		notifyChanged();
 		updatePresenters();
 	}
 	
@@ -302,7 +305,7 @@ public class BundleModel {
 						
 						insertDependencies(deps /* , 1 */); // deps contains already 'be' as root, so no need to insert it second time
 						
-						artifactGraph.insertDependencyNode(deps, null); // update graph
+						artifactGraph.insertDependencyNode(deps); // update graph
 						insterted = true;
 					} catch (DependencyCollectionException e1) {
 						// errors will be handled later in code
@@ -424,16 +427,18 @@ public class BundleModel {
 		}
 		
 		while (true) {
-			Set<ArtifactURL> willBeRemoved = artifactGraph.checkCanRemove(entries);
+			// check for bundles which depend on those from entries
+			Set<ArtifactURL> additionallyRemoved = artifactGraph.checkCanRemove(entries);
 			
-			if (willBeRemoved != null && !willBeRemoved.isEmpty()) {
+			// some bundles depend on bundles to remove, ask what to do
+			if (additionallyRemoved != null && !additionallyRemoved.isEmpty()) {
 				BundleSet toRemove = new BundleSet();
 				
 				StringBuilder sb = new StringBuilder("Following bundles depend on the bundles to remove:\n\n");
 				
 				for (BundleEntry be : currentBundles) {
 					try {
-						if (willBeRemoved.contains(be.getArtifactUrl())) {
+						if (additionallyRemoved.contains(be.getArtifactUrl())) {
 							toRemove.add(be);
 							sb.append(be.getLaunchUrl()).append("\n");
 						}
@@ -452,7 +457,7 @@ public class BundleModel {
 					
 					continue;
 				}
-			} else {
+			} else { 
 				Set<ArtifactURL> removed = artifactGraph.removeEntries(entries, versionProvider.getBundlesOfVersion(currentVersion));
 				for (Iterator<BundleEntry> iter = currentBundles.iterator(); iter.hasNext();) {
 					BundleEntry be = iter.next();
@@ -473,6 +478,7 @@ public class BundleModel {
 		BundleSet projects = currentBundles;
 		for (BundlePresenter presenter : allPresenters)
 			projects = presenter.updateProjectList(projects);
+		notifyChanged();
 	}
 	
 	private boolean containsAllBundlesOfVersion(BundleSet launchProjects, String version) {

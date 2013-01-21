@@ -34,7 +34,6 @@ import org.universaal.uaalpax.maven.MavenDependencyResolver;
 
 public class ArtifactGraph {
 	// private List<ArtifactNode> buttomNodes;
-		
 	private Map<ArtifactURL, ArtifactNode> url2nodeMap;
 	
 	public ArtifactGraph() {
@@ -42,7 +41,27 @@ public class ArtifactGraph {
 		this.url2nodeMap = new HashMap<ArtifactURL, ArtifactNode>();
 	}
 	
-	public ArtifactNode insertDependencyNode(DependencyNode dNode, ArtifactNode parent) {
+	/**
+	 * Updates graph by inserting given dependency node.
+	 * 
+	 * @param dNode
+	 *            dependency tree parent node
+	 * @return root node of inserted tree if any
+	 */
+	public ArtifactNode insertDependencyNode(DependencyNode dNode) {
+		return insertDependencyNode(dNode, null);
+	}
+	
+	/**
+	 * Updates graph by inserting given dependency node.
+	 * 
+	 * @param dNode
+	 *            dependency tree parent node
+	 * @param parent
+	 *            parent node of given dNode. Used to inform it about new children.
+	 * @return node of inserted tree if any
+	 */
+	private ArtifactNode insertDependencyNode(DependencyNode dNode, ArtifactNode parent) {
 		Dependency d = dNode.getDependency();
 		ArtifactNode aNode = null;
 		
@@ -77,7 +96,7 @@ public class ArtifactGraph {
 		clear();
 		
 		for (BundleEntry be : bs) {
-			if(!be.isMavenBundle())
+			if (!be.isMavenBundle())
 				continue;
 			
 			Artifact a;
@@ -106,6 +125,13 @@ public class ArtifactGraph {
 		return url2nodeMap.get(url);
 	}
 	
+	/**
+	 * Checks whether given bundles can be removed without breaking dependency hierarchy
+	 * 
+	 * @param bes
+	 *            bundles to remove
+	 * @return A set of bundles which depend on some bundles of bes, or null if there are no bundles which depend from bes
+	 */
 	public Set<ArtifactURL> checkCanRemove(Collection<BundleEntry> bes) {
 		Map<ArtifactURL, BundleEntry> map = new HashMap<ArtifactURL, BundleEntry>();
 		for (BundleEntry be : bes) {
@@ -147,6 +173,11 @@ public class ArtifactGraph {
 			checkNodeAndParentsInSet(parent, map, willBeRemoved);
 	}
 	
+	/**
+	 * @param bes bundles to remove
+	 * @param versionBundles middleware bundles which may not be removed anyway
+	 * @return all bundles ADDITIONALLY to remove because they are not longer needed.
+	 */
 	public Set<ArtifactURL> removeEntries(Collection<BundleEntry> bes, BundleSet versionBundles) {
 		Map<ArtifactURL, BundleEntry> map = new HashMap<ArtifactURL, BundleEntry>();
 		for (BundleEntry be : bes)
@@ -168,13 +199,12 @@ public class ArtifactGraph {
 		Set<ArtifactURL> toRemove = new HashSet<ArtifactURL>();
 		
 		for (Map.Entry<ArtifactURL, BundleEntry> e : map.entrySet()) {
-			toRemove.remove(e.getKey());
-			
 			ArtifactNode root = url2nodeMap.get(e.getKey());
 			if (root == null)
 				continue;
 			
 			removeNodeAndOnlyOwnChildren(root, toRemove, versionSet);
+			toRemove.remove(e.getKey());
 		}
 		
 		return toRemove;

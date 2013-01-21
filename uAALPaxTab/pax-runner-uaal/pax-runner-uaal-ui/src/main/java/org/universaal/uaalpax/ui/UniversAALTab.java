@@ -37,13 +37,14 @@ import org.universaal.uaalpax.maven.MavenDependencyResolver;
 import org.universaal.uaalpax.model.BundleChangeListener;
 import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleModel;
-import org.universaal.uaalpax.model.HardcodedConfigProvider;
 import org.universaal.uaalpax.model.ModelDialogProvider;
-import org.universaal.uaalpax.model.UAALVersionProvider;
+import org.universaal.uaalpax.versionprovider.HardcodedConfigProvider;
+import org.universaal.uaalpax.versionprovider.UAALVersionProvider;
+import org.universaal.uaalpax.versionprovider.XMLVersionProvider;
 
 public class UniversAALTab extends AbstractLauncherTab implements BundleChangeListener, ModelDialogProvider {
 	private WorkspaceProjectsBlock managerTable;
-	private AllLibsBlock additionalLibsBlock;
+	private AllBundlesBlock additionalLibsBlock;
 	private VersionBlock versionBlock;
 	private FeaturesBlock featuresBlock;
 	private ILaunchConfiguration launchConfig;
@@ -55,7 +56,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	
 	public UniversAALTab() {
 		m_initializing = false;
-		versionProvider = new HardcodedConfigProvider();
+		versionProvider = new XMLVersionProvider(); // new HardcodedConfigProvider();
 		
 		model = new BundleModel(versionProvider, this);
 		model.addChangeListener(this);
@@ -65,7 +66,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		return super.getShell();
 	}
 	
-	public void createControl(Composite parent) {
+	public void createControl(Composite parent) {		
 		MavenDependencyResolver.getResolver().setGUIParent(parent);
 		MavenDependencyResolver.getResolver().clearCache();
 		
@@ -85,7 +86,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		sf.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		managerTable = new WorkspaceProjectsBlock(this, sf, SWT.NONE);
-		additionalLibsBlock = new AllLibsBlock(this, sf, SWT.NONE);
+		additionalLibsBlock = new AllBundlesBlock(this, sf, SWT.NONE);
 		
 		setControl(container);
 		

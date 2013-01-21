@@ -239,6 +239,11 @@ public class BundleEntry {
 		return launchUrl.url.replace("wrap:", "").contains("mvn:") && launchUrl.url.replace("wrap:", "").lastIndexOf(':') == 3;
 	}
 	
+	/**
+	 * Note: bundles are equal if and only if they have same launch urls. Start level etc. doesn't count.
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this)
@@ -247,20 +252,22 @@ public class BundleEntry {
 			return false;
 		
 		BundleEntry pu = (BundleEntry) obj;
-		return this.getLevel() == pu.getLevel() && this.getLaunchUrl().equals(pu.getLaunchUrl()) && this.isSelected() == pu.isSelected()
-				&& this.isStart() == pu.isStart() && this.isUpdate() == pu.isUpdate();
+		return this.getLaunchUrl().equals(pu.getLaunchUrl());
+//		return this.getLevel() == pu.getLevel() && this.getLaunchUrl().equals(pu.getLaunchUrl()) && this.isSelected() == pu.isSelected()
+//				&& this.isStart() == pu.isStart() && this.isUpdate() == pu.isUpdate();
 	}
 	
 	@Override
 	public int hashCode() {
-		int hashcode = 1;
-		hashcode *= 13 * getLevel();
-		hashcode *= 7 * getProjectName().hashCode();
-		hashcode *= 23 * getLaunchUrl().hashCode();
-		hashcode *= 17 * (isSelected() ? 1 : 3);
-		hashcode *= 11 * (isUpdate() ? 1 : 3);
-		hashcode *= 19 * (isStart() ? 1 : 3);
-		return hashcode;
+		return launchUrl.hashCode();
+		
+//		int hashcode = 1;
+//		hashcode *= 13 * getLevel();
+//		hashcode *= 23 * getLaunchUrl().hashCode();
+//		hashcode *= 17 * (isSelected() ? 1 : 3);
+//		hashcode *= 11 * (isUpdate() ? 1 : 3);
+//		hashcode *= 19 * (isStart() ? 1 : 3);
+//		return hashcode;
 	}
 	
 	@Override

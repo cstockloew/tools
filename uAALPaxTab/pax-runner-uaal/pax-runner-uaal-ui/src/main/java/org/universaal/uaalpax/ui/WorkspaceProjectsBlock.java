@@ -150,8 +150,6 @@ public class WorkspaceProjectsBlock extends UIBlock {
 		}
 		
 		getUAALTab().removeAllBundles(bundles);
-		
-		notifyChanged();
 	}
 	
 	private void moveItemsToRight(IStructuredSelection sel) {
@@ -165,8 +163,6 @@ public class WorkspaceProjectsBlock extends UIBlock {
 		}
 		
 		getUAALTab().addAllBundles(bundles);
-		
-		notifyChanged();
 	}
 	
 	public void moveAllToLeft() {
