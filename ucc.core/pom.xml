@@ -44,12 +44,12 @@
 </dependency>
         <dependency>
             <groupId>org.universAAL.middleware</groupId>
-            <artifactId>mw.interfaces</artifactId>
+            <artifactId>mw.interfaces.core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.universAAL.middleware</groupId>
-            <artifactId>mw.managers.api</artifactId>
+            <artifactId>mw.managers.api.core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 	</dependencies>
