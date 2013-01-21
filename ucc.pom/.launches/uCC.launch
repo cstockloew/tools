@@ -100,5 +100,5 @@
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="false"/>
-<stringAttribute key="workspace_bundles" value="ucc.karaf.feature@default:default,ucc.plugin.information@default:default,ucc.plugin.karaf@default:default,ucc.plugin.ui*1.1.1.SNAPSHOT@default:default"/>
+<stringAttribute key="workspace_bundles" value="cxf-dosgi-ri-singlebundle-distribution@default:default,org.osgi.compendium@default:default,ucc.api@default:default,ucc.core@default:default,ucc.deploymanagerservice.impl@default:default,ucc.deploymanagerservice@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default,ucc.model@default:default,ucc.plugin.information@default:default,ucc.plugin.karaf@default:default,ucc.plugin.ui@default:default,ucc.plugin.ustore@default:default,ucc.viewjambi@default:default"/>
 </launchConfiguration>
