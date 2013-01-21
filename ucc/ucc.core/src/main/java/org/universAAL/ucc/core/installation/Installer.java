@@ -332,7 +332,7 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 		System.out.println("[Installer.requestToInstall] deployFolder: " + deployFolder);		
 		if (deployManager==null) {
 			System.out.println("[Installer.requestToInstall] No deploy manager exists!");
-			return InstallationResults.FAILED;
+			return InstallationResults.NOT_A_DEPLOYMANAGER;
 		}
 		System.out.println("[Installer.requestToInstall] Call deploy manager to install...");
 		return deployManager.requestToInstall(deployFolder, layout);
