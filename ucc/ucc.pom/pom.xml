@@ -169,6 +169,7 @@
 		<module>../ucc.model</module>
 		<module>../ucc.viewjambi</module>
 		<module>../ucc.core</module>
+		<module>../ucc.karaf.feature</module>
 	</modules>
 
 </project>
