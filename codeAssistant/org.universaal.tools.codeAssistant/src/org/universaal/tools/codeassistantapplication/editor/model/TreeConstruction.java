@@ -283,7 +283,8 @@ public class TreeConstruction{
 	
 	//private static File[] getDirectoryFiles(URL directoryName) throws IOException{
 	private static File[] getDirectoryFiles() throws IOException{
-		File[] files = null;  
+		File[] files = null;
+		ArrayList owlfiles = new ArrayList();
 		IPath ipath = new Path(codeAssistantDir+File.separator+filesDir+File.separator);
 		owlFilesDir = FileLocator.find(Platform.getBundle("org.universaal.tools.codeAssistant"), ipath, null);
 		//owlFilesDir = (URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+filesDir+File.separator);
@@ -299,18 +300,28 @@ public class TreeConstruction{
 				files=directory.listFiles();
 				for (int i=0; i<files.length; i++){
 					File path=files[i];
+					if (((path.toString()).endsWith(".owl"))){
+						owlfiles.add(path);
+					
 					FileReader fr = new FileReader(path);
 					BufferedReader br = new BufferedReader(fr);
 					String s = "";
 					while (br.ready()) {
 						s += br.readLine() + "\n";
 					}
+					}
 				}	
 			}
 		} 
 		catch (Exception e) { e.printStackTrace(); }    
 
-		return files;
+		File[] res = new File[owlfiles.size()];
+		for (int i=0; i<res.length; i++){
+			res[i] = (File)owlfiles.get(i);
+			//System.out.println("---Files to be parsed---");
+			//System.out.println(res[i]);
+		}
+		return res;
 	}
 
 	private static String[] getFileNames(File[] files) throws IOException{

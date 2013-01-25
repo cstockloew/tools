@@ -130,6 +130,7 @@ public class CodeAssistantEditor extends EditorPart {
 			setPartName(partName);
 			this.viewer.setInput(items);
 		}
+		
 	}
 
 	@Override

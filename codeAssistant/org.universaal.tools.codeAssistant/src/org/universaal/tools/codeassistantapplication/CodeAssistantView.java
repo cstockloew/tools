@@ -1,16 +1,28 @@
 package org.universaal.tools.codeassistantapplication;
 
+import java.util.Vector;
+
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.part.EditorInputTransfer;
 import org.eclipse.ui.part.ViewPart;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -27,9 +39,40 @@ public class CodeAssistantView extends ViewPart{
 	public static final String ID = "org.universAAL.codeassistant.CodeAssistantView";
 	//public static final String ID = "org.universaal.tools.codeassistantapplication.CodeAssistantView";
 	private StructuredViewer viewer;
+	private Vector selectedTypes=new Vector();
+
+	public void init(Composite parent) {
+		Startup s = new Startup();
+		boolean b = s.earlyStartup();
+		if (!b){
+			Button continueButton = new Button(parent.getShell(), SWT.PUSH);
+			continueButton.setText("Continue");
+			continueButton.pack();
+			Button cancelButton = new Button(parent.getShell(), SWT.PUSH);
+			cancelButton.setText("Cancel");
+			cancelButton.pack();
+			
+		    MessageDialog messageBox = new MessageDialog(parent.getShell(), "Code Assistant Info", null,
+                    "Code assistant tool cannot access ontology repository.", MessageDialog.WARNING,
+                    new String[]{"Continue", "Abort"}, 0);
+
+		    int rc = messageBox.open();
+		    switch (rc) {
+		    case 0:
+		      System.out.println("Continue");
+		      break;
+		    case 1:
+		      System.out.println("Abort");
+		      System.exit(1);
+		      break;
+		    }
+		}
+	}
+	
 	@Override
 	public void createPartControl(Composite parent) {
-	    //super(parent, SWT.NULL);
+		init(parent);
+		
 		this.viewer = new TreeViewer(parent);
 	    FillLayout compositeLayout = new FillLayout();
 	    parent.setLayout(compositeLayout);
@@ -68,7 +111,8 @@ public class CodeAssistantView extends ViewPart{
 	
 	protected void initDragAndDrop(final StructuredViewer viewer) {
 		int operations =  DND.DROP_COPY | DND.DROP_MOVE;
-		Transfer[] transferTypes = new Transfer[]{EditorInputTransfer.getInstance()};
+		//Transfer[] transferTypes = new Transfer[]{EditorInputTransfer.getInstance()};
+		Transfer[] transferTypes = new Transfer[]{TextTransfer.getInstance()};
 		
 		DragSourceListener listener = new DragSourceAdapter() {
 			@Override
@@ -79,6 +123,12 @@ public class CodeAssistantView extends ViewPart{
 			}
 			@Override
 			public void dragSetData(DragSourceEvent event) {
+				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+				TreeNode node = (TreeNode) selection.getFirstElement();
+				if (TextTransfer.getInstance().isSupportedType(event.dataType)) {
+				      event.data = node.getEntity().getUri(); 
+				}
+/*				
 				if (EditorInputTransfer.getInstance().isSupportedType(event.dataType)) {
 					IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 					Object[] selectedObjects = selection.toArray();
@@ -99,11 +149,13 @@ public class CodeAssistantView extends ViewPart{
 					}
 				}
 				event.doit = false;
+*/				
 			}
 			@Override
 			public void dragFinished(DragSourceEvent event) {
 				//System.out.println("DRAG STOP");
 			}
+			
 		};
 	
 		viewer.addDragSupport(operations, transferTypes, listener);
