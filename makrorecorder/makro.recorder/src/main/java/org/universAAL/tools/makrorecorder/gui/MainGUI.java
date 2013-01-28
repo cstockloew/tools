@@ -23,20 +23,31 @@ import javax.swing.ListCellRenderer;
 import org.universAAL.tools.makrorecorder.MakroRecorder;
 import org.universAAL.tools.makrorecorder.pattern.Pattern;
 
-
 /**
- *
- * @author mdjakow
- */
+*
+* @author maxim djakow
+*/
 public class MainGUI extends javax.swing.JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4270287900663009508L;
-	/**
-     * Creates new form MainGUI
-     */
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JTextArea descriptionTextArea;
+    private javax.swing.JButton editButton;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea nameTextArea;
+    private javax.swing.JButton newButton;
+    private javax.swing.JList patternList;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuFile;
+    private javax.swing.JMenuItem menuItemExit;
+    private javax.swing.JMenuItem menuItemNew;
+    private javax.swing.JMenuItem menuItemEdit;
+    private javax.swing.JMenuItem menuItemDelete;
+    private javax.swing.JMenu menuHelp;
+    private javax.swing.JMenuItem menuItemAbout;
+    private javax.swing.JCheckBoxMenuItem menuItemActivate;
+    
     public MainGUI() {
     	MakroRecorder.loadFromFiles();
         initComponents();
@@ -49,11 +60,8 @@ public class MainGUI extends javax.swing.JFrame {
             ((DefaultListModel)patternList.getModel()).addElement(n);
         }
 	}
-
-
-
-    private void initComponents() {
-    	
+    
+    private void initComponents() {    	
     	menuBar = new JMenuBar();
     	menuFile = new JMenu();
     	menuFile.setText("File");
@@ -85,6 +93,7 @@ public class MainGUI extends javax.swing.JFrame {
 		menuFile.add(menuItemDelete);
 		menuItemActivate = new JCheckBoxMenuItem();
     	menuItemActivate.setText("activate");
+    	menuItemActivate.setEnabled(false);
     	menuItemActivate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	if(menuItemActivate.isSelected()) {
@@ -128,10 +137,6 @@ public class MainGUI extends javax.swing.JFrame {
 
         
         class PatternListCellRenderer extends JLabel implements ListCellRenderer {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = -5811359230143661865L;
 			public PatternListCellRenderer() {
                 setOpaque(true);
             }
@@ -153,7 +158,6 @@ public class MainGUI extends javax.swing.JFrame {
             }
             
         }
-        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UniversAAL Makro Recorder");
         setBounds(new java.awt.Rectangle(100, 100, 600, 400));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -179,6 +183,7 @@ public class MainGUI extends javax.swing.JFrame {
         	        editButton.setEnabled(true);
         	        menuItemEdit.setEnabled(true);
         	        menuItemDelete.setEnabled(true);
+        	        menuItemActivate.setEnabled(true);
                 } else {
                 	nameTextArea.setText("");
         	        descriptionTextArea.setText("");
@@ -187,22 +192,14 @@ public class MainGUI extends javax.swing.JFrame {
         	        editButton.setEnabled(false);
         	        menuItemEdit.setEnabled(false);
         	        menuItemDelete.setEnabled(false);
+        	        menuItemActivate.setEnabled(false);
                 }
             }
         });
         patternList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                if (e.getClickCount() == 2)
-            	   actionEdit();
-               if (e.getButton() == MouseEvent.BUTTON3) {
-            	   /*JPopupMenu pop = new JPopupMenu();
-            	   pop.setLocation(e.getXOnScreen(), e.getYOnScreen());
-            	   pop.add(menuItemActivate);
-            	   pop.add(menuItemEdit);
-            	   pop.add(menuItemDelete);
-            	   pop.setVisible(true);*/
-               }
-            	   
+            	   actionEdit();            	   
             }
          });
         patternList.setBackground(this.getBackground());
@@ -238,7 +235,6 @@ public class MainGUI extends javax.swing.JFrame {
         descriptionTextArea.setText("");
         descriptionTextArea.setLineWrap(true);
         descriptionTextArea.setWrapStyleWord(true);
-        //descriptionLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -318,23 +314,19 @@ public class MainGUI extends javax.swing.JFrame {
         this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/universAAL.gif")).getImage());
         
         newButton.setVisible(false);
-        //editButton.setVisible(false);
-        //deleteButton.setVisible(false);
         
         pack();
     }
 
-    private void actionNew() {//GEN-FIRST:event_newButtonActionPerformed
-        //new PatternEditGUI().setVisible(true);
+    private void actionNew() {
     	new Pattern().showGUI();
     }
     
-    private void actionEdit() {//GEN-FIRST:event_editButtonActionPerformed
+    private void actionEdit() {
     	if(patternList.getSelectedIndex() > -1) {
     		String selected = (String)patternList.getSelectedValue();
     		Pattern selPattern = MakroRecorder.getPatternByName(selected);
-    		selPattern.showGUI();
-        	//new PatternEditGUI(selPattern).setVisible(true);
+    		selPattern.clone().showGUI();
     	}
     }
 
@@ -369,25 +361,4 @@ public class MainGUI extends javax.swing.JFrame {
 	        jCheckBox1.setSelected(false);
         }
     }
-
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JTextArea descriptionTextArea;
-    private javax.swing.JButton editButton;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea nameTextArea;
-    private javax.swing.JButton newButton;
-    private javax.swing.JList patternList;
-    private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenu menuFile;
-    private javax.swing.JMenuItem menuItemExit;
-    private javax.swing.JMenuItem menuItemNew;
-    private javax.swing.JMenuItem menuItemEdit;
-    private javax.swing.JMenuItem menuItemDelete;
-    private javax.swing.JMenu menuHelp;
-    private javax.swing.JMenuItem menuItemAbout;
-    private javax.swing.JCheckBoxMenuItem menuItemActivate;
-    
-
 }

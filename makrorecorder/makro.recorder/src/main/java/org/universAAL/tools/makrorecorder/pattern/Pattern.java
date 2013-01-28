@@ -1,33 +1,17 @@
 package org.universAAL.tools.makrorecorder.pattern;
 
-import java.beans.XMLEncoder;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JOptionPane;
 
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.service.DefaultServiceCaller;
-import org.universAAL.middleware.service.ServiceRequest;
-import org.universAAL.tools.makrorecorder.Activator;
 import org.universAAL.tools.makrorecorder.MakroRecorder;
-import org.universAAL.tools.makrorecorder.gui.patternedit.PatternEditGUI;
+import org.universAAL.tools.makrorecorder.gui.pattern.PatternEditFrame;
 
-
-public class Pattern implements Serializable{
-	
-	private static final long serialVersionUID = 6803508667123373561L;
+/**
+*
+* @author maxim djakow
+*/
+public class Pattern /*implements Serializable*/{
 	
 	public static final String patternFileType = ".xml";
 	
@@ -44,7 +28,7 @@ public class Pattern implements Serializable{
 	
 	private transient PatternListener listener = null;
 	
-	private transient PatternEditGUI gui = null;
+	private transient PatternEditFrame gui = null;
 	
 	public Pattern() {
 		
@@ -55,12 +39,13 @@ public class Pattern implements Serializable{
 		this.description = description;
 	}
         
-    public Pattern clone() {
+    @SuppressWarnings("unchecked")
+	public Pattern clone() {
     	Pattern ret = new Pattern();
     	ret.name = name;
     	ret.description = description;
-    	ret.input = input;
-    	ret.output = output;
+    	ret.input = (Vector<Resource>) input.clone();
+    	ret.output = (Vector<Resource>) output.clone();
     	return ret;
     }	
 	
@@ -91,7 +76,7 @@ public class Pattern implements Serializable{
 			MakroRecorder.sendOut(r);
 		}
 	}
-	private void writeObject(ObjectOutputStream stream) throws IOException {
+	/*private void writeObject(ObjectOutputStream stream) throws IOException {
 		stream.defaultWriteObject();
         Vector<String> input = new Vector<String>();
         for(Resource r : this.input)
@@ -114,7 +99,7 @@ public class Pattern implements Serializable{
         	this.input.add((Resource)Activator.getSerializer().deserialize(s));          
         for(String s : output)
         	this.output.add((Resource)Activator.getSerializer().deserialize(s));
-	}
+	}*/
 	
 	public File getFile() {
 		return new File(MakroRecorder.getPatternBaseDir()+getName()+patternFileType);
@@ -122,11 +107,10 @@ public class Pattern implements Serializable{
         
     public void saveToFile() {
         saveToFile(getFile());
-        saveToXMLFile(new File(MakroRecorder.getPatternBaseDir()+getName()+".xml"));
     }
         
     public void saveToFile(File file) {
-    	try {
+    	/*try {
     		FileOutputStream fos = new FileOutputStream(file);
     		ObjectOutputStream o = new ObjectOutputStream(fos);
     		o.writeObject(this);
@@ -134,52 +118,9 @@ public class Pattern implements Serializable{
     		Logger.getLogger(Pattern.class.getName()).log(Level.SEVERE, null, ex);
     	} catch (IOException ex) {
             Logger.getLogger(Pattern.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void saveToXMLFile(File file) {
-    	/*String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-    	xml += "\n<pattern>";
-    	
-    	xml += "\n\t<name>";
-    	xml += "\n\t\t"+name;
-    	xml += "\n\t</name>";
-    	
-    	xml += "\n\t<description>";
-    	xml += "\n\t\t"+description;
-    	xml += "\n\t</description>";
-    	
-    	xml += "\n\t<active>";
-    	xml += "\n\t\t"+active;
-    	xml += "\n\t</active>";
-    	
-    	xml += "\n\t<input>";
-    	for(Resource r : input) {    		
-    		xml += "\n\t\t<resource>";
-    		xml += "\n\t\t\t"+Activator.getSerializer().serialize(r);
-    		xml += "\n\t\t</resource>";
-    	}
-    	xml += "\n\t</input>";
-    	
-    	xml += "\n\t<output>";
-    	for(Resource r : output) {    		
-    		xml += "\n\t\t<resource>";
-    		xml += "\n\t\t\t"+Activator.getSerializer().serialize(r);
-    		xml += "\n\t\t</resource>";
-    	}
-    	xml += "\n\t</output>";
-    	
-    	xml += "\n</pattern>";
-    	try {
-	    	BufferedWriter out = new BufferedWriter(new FileWriter(file));
-	    	out.write(xml);
-	    	out.close();
-    	} catch (IOException e) {
-    		
-    	}*/
+        }*/
     	PatternXMLParser.genXML(this);
-    }
-    
+    }   
     
         
     public static Pattern loadFromFile(File file) {
@@ -244,7 +185,7 @@ public class Pattern implements Serializable{
 	}
 	
 	public void showGUI() {
-		gui = new PatternEditGUI(this);
+		gui = new PatternEditFrame(this);
 		gui.setVisible(true);
 	}
 }

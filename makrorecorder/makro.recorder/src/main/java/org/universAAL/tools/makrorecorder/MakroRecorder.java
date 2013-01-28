@@ -5,16 +5,19 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
 
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.service.CallStatus;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.tools.makrorecorder.gui.MainGUI;
 import org.universAAL.tools.makrorecorder.pattern.Pattern;
 
-
+/**
+*
+* @author maxim djakow
+*/
 public class MakroRecorder {
     
     private static MakroRecorder instance = null;
@@ -122,10 +125,17 @@ public class MakroRecorder {
     	return Pattern.loadFromFile(f);
     }
     
-    public static void sendOut(Resource r) {
+    public static boolean sendOut(Resource r) {
     	if(r instanceof ServiceRequest) {
-			getInstance().sc.call((ServiceRequest)r);
+			return getInstance().sc.call((ServiceRequest)r).getCallStatus() == CallStatus.succeeded;
 		} else if(r instanceof ContextEvent) {
+			
 		}
+    	return false;
     }
+    
+    public static void reload() {
+    	getInstance().pattern.clear();
+    	loadFromFiles();
+	}
 }

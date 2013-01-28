@@ -21,6 +21,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+*
+* @author maxim djakow
+*/
 public class PatternXMLParser {
 	
 	public static Pattern genPattern(File xml) {
@@ -107,7 +111,7 @@ public class PatternXMLParser {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(pattern.getFile().toString().replace(pattern.patternFileType, ".xml"));
+			StreamResult result = new StreamResult(pattern.getFile().toString().replace(Pattern.patternFileType, ".xml"));
 	 
 			transformer.transform(source, result);
 			

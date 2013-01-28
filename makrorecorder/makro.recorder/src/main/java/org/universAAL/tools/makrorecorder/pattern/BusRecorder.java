@@ -8,6 +8,10 @@ import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.tools.makrorecorder.Activator;
 
+/**
+*
+* @author maxim djakow
+*/
 public class BusRecorder  implements LogListener {
 
 	private Pattern pattern = null;
@@ -20,8 +24,10 @@ public class BusRecorder  implements LogListener {
 	}
 	
 	public void stop() {
-		if(sr!=null)
+		if(sr!=null) {
 			sr.unregister();
+			sr = null;
+		}
 	}
 	
 	public BusRecorder(Pattern pattern) {

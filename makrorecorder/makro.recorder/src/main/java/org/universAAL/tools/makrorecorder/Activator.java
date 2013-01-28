@@ -7,7 +7,10 @@ import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
 
 
-
+/**
+*
+* @author maxim djakow
+*/
 public class Activator implements BundleActivator{
 
 	private static BundleContext bundleContext = null;
@@ -20,6 +23,7 @@ public class Activator implements BundleActivator{
 		bundleContext = context;
 		moduleContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { bundleContext });
 		serializer = (MessageContentSerializer) Activator.getBundleContext().getService(Activator.getBundleContext().getServiceReference(MessageContentSerializer.class.getName()));
+		
 		MakroRecorder.getInstance().showGUI();
 	}
 	

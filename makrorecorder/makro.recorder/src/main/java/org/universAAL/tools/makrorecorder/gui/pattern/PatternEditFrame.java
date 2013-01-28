@@ -1,28 +1,44 @@
-package org.universAAL.tools.makrorecorder.gui.patternedit;
+package org.universAAL.tools.makrorecorder.gui.pattern;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
+
+import javax.swing.DefaultListModel;
+import javax.swing.DropMode;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.TransferHandler;
+
+import org.bouncycastle.util.test.Test;
+import org.universAAL.middleware.context.ContextEvent;
+import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.tools.makrorecorder.MakroRecorder;
 import org.universAAL.tools.makrorecorder.pattern.Pattern;
 
 /**
  *
- * @author mdjakow
+ * @author maxim djakow
  */
-public class PatternEditGUI extends javax.swing.JFrame {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class PatternEditFrame extends javax.swing.JFrame {
 	
 	private javax.swing.JPanel RecordingPanel;
     private javax.swing.JButton cancelButton;
@@ -34,20 +50,18 @@ public class PatternEditGUI extends javax.swing.JFrame {
     private javax.swing.JButton resetButton;
     private javax.swing.JButton recordButton;
     private javax.swing.JLabel recordingLabel;
-    private ResourcePanel inputsPanel;
-    private ResourcePanel outputsPanel;
+    
+    private PatternPanel patternPanel;
 	
 	private Pattern pattern = null;
-    /**
-     * Creates new form PatternEditGUI
-     */
-    public PatternEditGUI() {
+	
+    public PatternEditFrame() {
     	initComponents();
         this.pattern = new Pattern();
         readPattern();
     }
 
-    public PatternEditGUI(Pattern pattern) {
+    public PatternEditFrame(Pattern pattern) {
         
         this.pattern = pattern;
         initComponents();
@@ -63,11 +77,42 @@ public class PatternEditGUI extends javax.swing.JFrame {
     }
     
     public void readInputs() {
-    	inputsPanel.reload();
+    	patternPanel.reload();
     }
     
     public void readOutputs() {
-    	outputsPanel.reload();
+    }
+    
+    public static String shortResourceInfo(Resource r) {
+    	String ret = "";
+    	
+    	if(r instanceof ContextEvent) {
+    		ContextEvent ce = (ContextEvent)r;
+    		ret += shortURI(ce.getRDFSubject().toString())+" ";
+        	ret += shortURI(ce.getRDFPredicate())+" ";
+        	ret += shortURI(ce.getRDFObject().toString());
+    	}else if(r instanceof ServiceRequest) {
+    		ServiceRequest sr = (ServiceRequest)r;
+    		ret += shortURI(sr.getRequestedService().getType());
+    		for (Resource effect : sr.getRequiredEffects()) {
+    			for (String type : effect.getTypes()) {
+    				ret += " "+shortURI(type);
+				}    			
+			}
+    		for (Resource output : sr.getRequiredOutputs()) {
+    			for (String type : output.getTypes()) {
+    				ret += " "+shortURI(type);
+				}    	
+			}
+    		
+    	} else {
+    		ret+= r.getClass()+": "+r.toString();
+    	}
+    	return ret;
+    }
+    
+    public static String shortURI(String s) {
+    	return s.substring(s.indexOf("#")+1);
     }
     
     private void savePattern() {
@@ -87,6 +132,7 @@ public class PatternEditGUI extends javax.swing.JFrame {
         pattern.setName(nameTextField.getText());
         pattern.setDescription(descriptionTextArea.getText());
         if(MakroRecorder.savePattern(pattern)) {
+        	MakroRecorder.reload();
         	this.dispose();
         }
     }
@@ -104,32 +150,23 @@ public class PatternEditGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Edit Pattern");
         setBounds(new java.awt.Rectangle(200, 200, 1000, 700));
-        setMinimumSize(new java.awt.Dimension(800, 700));
+        setMinimumSize(new java.awt.Dimension(500, 400));
         setPreferredSize(new java.awt.Dimension(1000, 700));
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+        getContentPane().setLayout(new java.awt.GridBagLayout());        
         
-        inputsPanel = new ResourcePanel(pattern.getInput(), "Inputs:");
+        patternPanel = new PatternPanel(pattern);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight =2;
+        gridBagConstraints.gridwidth =2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(inputsPanel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(12, 5, 7, 0);
+        getContentPane().add(patternPanel, gridBagConstraints);
         
-        outputsPanel = new ResourcePanel(pattern.getOutput(), "Outputs:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(outputsPanel, gridBagConstraints);
-
         infoPanel = new JPanel();
         infoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Pattern Information"));
         infoPanel.setLayout(new java.awt.GridBagLayout());
@@ -179,14 +216,14 @@ public class PatternEditGUI extends javax.swing.JFrame {
         infoPanel.add(new JScrollPane(descriptionTextArea), gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        infoPanel.setMinimumSize(new Dimension(200, 400));
         getContentPane().add(infoPanel, gridBagConstraints);
 
         controlPanel = new JPanel();
@@ -291,7 +328,7 @@ public class PatternEditGUI extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;

@@ -8,6 +8,10 @@ import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.tools.makrorecorder.Activator;
 
+/**
+*
+* @author maxim djakow
+*/
 public class PatternListener extends ContextSubscriber {
 
 	private Pattern pattern = null;
