@@ -18,13 +18,18 @@
 	limitations under the License.
  */
 
-package org.universaal.uaalpax.model;
+package org.universaal.uaalpax.versionprovider;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.universaal.uaalpax.model.ArtifactURL;
+import org.universaal.uaalpax.model.BundleEntry;
+import org.universaal.uaalpax.model.BundleSet;
+import org.universaal.uaalpax.model.LaunchURL;
 
 public class HardcodedConfigProvider implements UAALVersionProvider {
 	private static Map<String, BundleSet> middlewares = new HashMap<String, BundleSet>();
@@ -43,7 +48,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.container.xfaces/1.1.1-SNAPSHOT"), "true@true@2@true"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.data.representation/1.1.1-SNAPSHOT"), "true@true@4@false"),
 			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.data.serialization/1.1.1-SNAPSHOT"), "true@true@4@false"),
-			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.1.1-SNAPSHOT"), "true@true@6@false"),
+			new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui/1.1.1-SNAPSHOT"), "true@true@6@false"),
 			
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/j3d-core/1.3.1"), "true@true@2@false"),
 			new BundleEntry(new LaunchURL("wrap:mvn:java3d/vecmath/1.3.1"), "true@true@2@false"),
@@ -56,8 +61,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 	
 	private static final String[] vsu111_snapshot = new String[] { "org.universAAL.middleware/mw.acl.interfaces/1.1.1-SNAPSHOT",
 			"org.universAAL.middleware/mw.bus.context/1.1.1-SNAPSHOT", "org.universAAL.middleware/mw.bus.model/1.1.1-SNAPSHOT",
-			"org.universAAL.middleware/mw.bus.service/1.1.1-SNAPSHOT",
-			"org.universAAL.middleware/mw.container.osgi/1.1.1-SNAPSHOT",
+			"org.universAAL.middleware/mw.bus.service/1.1.1-SNAPSHOT", "org.universAAL.middleware/mw.container.osgi/1.1.1-SNAPSHOT",
 			"org.universAAL.middleware/mw.container.xfaces/1.1.1-SNAPSHOT",
 			"org.universAAL.middleware/mw.data.representation/1.1.1-SNAPSHOT",
 			"org.universAAL.middleware/mw.data.serialization/1.1.1-SNAPSHOT", };
@@ -120,11 +124,9 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 	
 	private static final String[] vsu121_snapshot = new String[] { "org.universAAL.middleware/mw.container.xfaces.osgi/1.2.1-SNAPSHOT",
 			"org.universAAL.middleware/mw.acl.interfaces.osgi/1.2.1-SNAPSHOT",
-			"org.universAAL.middleware/mw.container.osgi/1.2.1-SNAPSHOT",
-			"org.universAAL.middleware/mw.bus.model.osgi/1.2.1-SNAPSHOT",
+			"org.universAAL.middleware/mw.container.osgi/1.2.1-SNAPSHOT", "org.universAAL.middleware/mw.bus.model.osgi/1.2.1-SNAPSHOT",
 			"org.universAAL.middleware/mw.data.representation.osgi/1.2.1-SNAPSHOT",
-			"org.universAAL.middleware/mw.bus.service.osgi/1.2.1-SNAPSHOT",
-			"org.universAAL.middleware/mw.bus.context.osgi/1.2.1-SNAPSHOT",
+			"org.universAAL.middleware/mw.bus.service.osgi/1.2.1-SNAPSHOT", "org.universAAL.middleware/mw.bus.context.osgi/1.2.1-SNAPSHOT",
 			"org.universAAL.middleware/mw.data.serialization.osgi/1.2.1-SNAPSHOT" };
 	
 	private static final BundleEntry[] m130 = new BundleEntry[] {
@@ -194,25 +196,38 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 		ignoreSet.add("org.apache.felix/org.osgi.foundation");
 		ignoreSet.add("org.apache.felix/org.apache.felix.log");
 		
-		
 		ignoreSet.add("org.osgi/org.osgi.core");
 		ignoreSet.add("org.osgi/org.osgi.osgi");
 		ignoreSet.add("org.osgi/org.osgi.compendium");
-			
+		
 		Map<String, BundleSet> f111 = new HashMap<String, BundleSet>();
-		f111.put("UI Bus", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.1.1-SNAPSHOT"), "")));
+		f111.put("UI Bus",
+				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui/1.1.1-SNAPSHOT"), "")));
+		f111.put("CHE",
+				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.context/ctxt.che/1.1.1-SNAPSHOT"), "")).add(
+						new BundleEntry(new LaunchURL("mvn:org.universAAL.ontology/ont.che/1.1.1-SNAPSHOT"), "")));
 		features.put("1.1.1-SNAPSHOT", f111);
 		
 		Map<String, BundleSet> f120 = new HashMap<String, BundleSet>();
 		f120.put("UI Bus", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.2.0"), "")));
+		f120.put("CHE",
+				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.context/ctxt.che/1.2.0"), "")).add(
+						new BundleEntry(new LaunchURL("mvn:org.universAAL.ontology/ont.che/1.2.0"), "")));
 		features.put("1.2.0", f120);
 		
 		Map<String, BundleSet> f121 = new HashMap<String, BundleSet>();
-		f121.put("UI Bus", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.2.1-SNAPSHOT"), "")));
+		f121.put("UI Bus",
+				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.2.1-SNAPSHOT"), "")));
+		f121.put("CHE",
+				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.context/ctxt.che/1.2.1-SNAPSHOT"), "")).add(
+						new BundleEntry(new LaunchURL("mvn:org.universAAL.ontology/ont.che/1.2.1-SNAPSHOT"), "")));
 		features.put("1.2.1-SNAPSHOT", f121);
 		
 		Map<String, BundleSet> f130 = new HashMap<String, BundleSet>();
 		f130.put("UI Bus", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.middleware/mw.bus.ui.osgi/1.3.0"), "")));
+		f130.put("CHE",
+				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.context/ctxt.che/1.3.0"), "")).add(
+						new BundleEntry(new LaunchURL("mvn:org.universAAL.ontology/ont.che/1.3.0"), "")));
 		features.put("1.3.0", f130);
 	}
 	

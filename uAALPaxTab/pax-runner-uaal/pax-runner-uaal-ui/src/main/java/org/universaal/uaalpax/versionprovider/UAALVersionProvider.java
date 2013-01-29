@@ -18,10 +18,13 @@
 	limitations under the License.
  */
 
-package org.universaal.uaalpax.model;
+package org.universaal.uaalpax.versionprovider;
 
 import java.util.Collection;
 import java.util.Set;
+
+import org.universaal.uaalpax.model.ArtifactURL;
+import org.universaal.uaalpax.model.BundleSet;
 
 
 /**
@@ -69,11 +72,11 @@ public interface UAALVersionProvider {
 	/**
 	 * Checks whether given bundle should be ignored (-> not added to the run config since it is not necessary) using given middleware version.
 	 * 
-	 * @param launchUrl launch url
+	 * @param artifactUrl launch url
 	 * @param version middleware version
 	 * @return true if bundle should be ignored, otherwise false
 	 */
-	public boolean isIgnoreArtifactOfVersion(String version, ArtifactURL launchUrl);
+	public boolean isIgnoreArtifactOfVersion(String version, ArtifactURL artifactUrl);
 	
 	/**
 	 * Computes how probably the given bundle urls represent a run config of a certain uaal version.

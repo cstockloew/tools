@@ -37,12 +37,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleSet;
+import org.universaal.uaalpax.model.LaunchURL;
 import org.universaal.uaalpax.ui.dialogs.AddEditUrlDialog;
 
-public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleClickListener {
+public class AllBundlesBlock extends UIBlock implements ProjectTable.BundleDoubleClickListener {
 	private ProjectTable table;
 	
-	public AllLibsBlock(UniversAALTab uAALTab, Composite parent, int style) {
+	public AllBundlesBlock(UniversAALTab uAALTab, Composite parent, int style) {
 		super(uAALTab, parent, style);
 	}
 	
@@ -134,7 +135,7 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 			getUAALTab().addBundle(be);
 			notifyChanged();
 			
-			StructuredSelection selection = new StructuredSelection(new Object[] {be});
+			StructuredSelection selection = new StructuredSelection(new Object[] { be });
 			table.getViewer().setSelection(selection, true);
 		}
 	}
@@ -147,13 +148,23 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 		int code = d.open();
 		
 		if (code == Window.OK) {
-			getUAALTab().getModel().remove(be);
-			BundleEntry newBe = new BundleEntry(d.getURL(), be.isSelected(), be.isStart(), d.getLevel(), be.isUpdate());
-			getUAALTab().addBundle(newBe);
-			notifyChanged();
+			int level = be.getLevel();
+			LaunchURL url = be.getLaunchUrl();
 			
+			if (!url.equals(d.getURL())) {
+				getUAALTab().removeBundle(be);
+				BundleEntry newBe = new BundleEntry(d.getURL(), be.isSelected(), be.isStart(), d.getLevel(), be.isUpdate());
+				getUAALTab().addBundle(newBe);
+				be = newBe;
+			} else { // url not changed
+				if (level != d.getLevel()) {
+					be.setLevel(d.getLevel());
+					getUAALTab().getModel().getBundles().updateBundleOptions(be);
+					getUAALTab().getModel().updatePresenters();
+				}
+			}
 			
-			StructuredSelection selection = new StructuredSelection(new Object[] {newBe});
+			StructuredSelection selection = new StructuredSelection(new Object[] { be });
 			table.getViewer().setSelection(selection, true);
 		}
 	}
@@ -184,8 +195,7 @@ public class AllLibsBlock extends UIBlock implements ProjectTable.BundleDoubleCl
 		table.setGrayed(grayOut);
 		table.getViewer().refresh(true);
 		
-		return new BundleSet(); // return empty map since all projects which were passed to here are additional
-																// libraries
+		return new BundleSet(); // return empty map since all projects which were passed to here are additional libraries
 	}
 	
 	public void onBundleClicked(BundleEntry be) {
