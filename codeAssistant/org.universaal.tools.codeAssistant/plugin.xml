@@ -23,19 +23,24 @@
            name="Code Assistant Editor">
     	</editor>
  	</extension>
-  <extension
-        point="org.eclipse.ui.commands">
+  <extension point="org.eclipse.ui.commands">
      <command
            defaultHandler="org.universaal.tools.codeassistantapplication.handler.CallEditor"
            id="org.universAAL.codeassistant.editor.openEditor"
            name="Open Editor">
      </command>
   </extension>
-  <extension
-        point="org.eclipse.ui.elementFactories">
+  <extension point="org.eclipse.ui.elementFactories">
      <factory
            class="org.universaal.tools.codeassistantapplication.editor.CodeAssistantEditorInputFactory"
            id="org.universAAL.codeassistant.editor.codeassistanteditorinputfactory">
      </factory>
+  </extension>
+  <extension point="org.eclipse.ui.perspectives">
+     <perspective
+           class="org.universaal.tools.codeassistantapplication.Perspective"
+           id="org.universAAL.codeassistant.perspective"
+           name="Code Assistant Tool">
+     </perspective>
   </extension>
 </plugin>

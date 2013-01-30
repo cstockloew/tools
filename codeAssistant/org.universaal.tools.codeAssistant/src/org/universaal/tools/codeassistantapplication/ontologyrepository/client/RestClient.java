@@ -38,6 +38,7 @@ public class RestClient {
 				if (requestParameters != null && requestParameters.length() > 0) {
 					urlStr += "?" + requestParameters;
 				}
+				//System.out.println("URL="+urlStr);
 				URL url = new URL(urlStr);
 				URLConnection conn = url.openConnection();
 				conn.setReadTimeout(10000);

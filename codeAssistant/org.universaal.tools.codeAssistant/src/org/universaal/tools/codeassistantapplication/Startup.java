@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IStartup;
 import org.universaal.tools.codeassistantapplication.ontologyrepository.client.RepositoryClient;
 
@@ -20,7 +21,6 @@ public class Startup{
 
 	public boolean earlyStartup() {
 		boolean res=false;
-		System.out.println("STARTUP");
 		IPath ipath = new Path(codeAssistantDir+File.separator+filesDir+File.separator);
 		owlFilesDir = FileLocator.find(Platform.getBundle("org.universaal.tools.codeAssistant"), ipath, null);
 		try {
@@ -30,11 +30,8 @@ public class Startup{
 				tmp = (owlFilesDir.toString()).replaceAll(" ", "%20");
 			owlFilesDir = new URL(tmp);
 			File directory = new File(FileLocator.resolve(owlFilesDir).toURI());
-			if (directory.isDirectory()){
-				String saveFilesTo = directory.toString();
-				RepositoryClient rc = new RepositoryClient();
-				res = rc.downloadAllOntologies(saveFilesTo);
-			} 
+			if (directory.isDirectory())
+				res = RepositoryClient.downloadAllOntologies(directory.toString());
 		}
 		catch (Exception e) { e.printStackTrace(); }
 		return res;

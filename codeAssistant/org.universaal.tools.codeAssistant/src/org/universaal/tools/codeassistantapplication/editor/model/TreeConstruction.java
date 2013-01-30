@@ -300,16 +300,16 @@ public class TreeConstruction{
 				files=directory.listFiles();
 				for (int i=0; i<files.length; i++){
 					File path=files[i];
-					if (((path.toString()).endsWith(".owl"))){
+					if (((path.toString()).endsWith(".owl")))
 						owlfiles.add(path);
-					
+/*					
 					FileReader fr = new FileReader(path);
 					BufferedReader br = new BufferedReader(fr);
 					String s = "";
 					while (br.ready()) {
 						s += br.readLine() + "\n";
 					}
-					}
+*/					
 				}	
 			}
 		} 

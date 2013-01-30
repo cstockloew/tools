@@ -1,10 +1,20 @@
 package org.universaal.tools.codeassistantapplication.ontologyrepository.client;
 
 import java.io.File;
+import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.progress.IProgressConstants;
+import org.universaal.tools.codeassistantapplication.Startup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,9 +24,7 @@ public class RepositoryClient {
 
 	static String REPOSITORY_URL = "http://155.207.85.53:8080/bioportal/ontologies";
 	static String APIKey = "990fff23-51f4-479e-863b-21554d863ef9"; // apikey
-																	// from
-																	// "kgiannout"
-																	// account
+	
 	static String pathToSaveFiles = "./";
 
 	private static void RepositoryClient() {		
@@ -106,11 +114,10 @@ public class RepositoryClient {
 	static public boolean downloadAllOntologies(String directory) {
 		boolean res=false;
 		pathToSaveFiles = directory + File.separator;
-		System.out.println("Rename the old Ontologies.xml file");
+		// Rename the old Ontologies.xml
 		String previousXmlFile = renameFile(directory, "latest_Ontologies.xml");
-		//System.out.println(">> previousXmlFile="+previousXmlFile);
-		System.out.println("Read the new Ontologies.xml file");
-		System.out.println(">> pathToSaveFiles="+pathToSaveFiles);
+		// Read the new Ontologies.xml 
+		//System.out.println("pathToSaveFiles="+pathToSaveFiles);
 		if (getLatestOntologiesMetadata()) {
 			// parse xml to get all ontology ids and download ontologies
 			try {
@@ -171,10 +178,16 @@ public class RepositoryClient {
 		}
 		return true;
 	}
-
-	
 	
 	public static void main(String[] args) {
 		downloadAllOntologies(pathToSaveFiles);
 	}
+
+	public static String getAPIKey() {
+		return APIKey;
+	}
+	public static void setAPIKey(String aPIKey) {
+		APIKey = aPIKey;
+	}
+
 }

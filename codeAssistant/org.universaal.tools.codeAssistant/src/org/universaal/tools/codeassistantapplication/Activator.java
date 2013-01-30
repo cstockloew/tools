@@ -24,7 +24,6 @@ public class Activator extends AbstractUIPlugin {
 		Bundle[] b = context.getBundles();
 		for (int i=0; i<b.length; i++){
 			BundleContext bc = b[i].getBundleContext();
-			//System.out.println(b[i].getSymbolicName());
 			long id = b[i].getBundleId();
 			//System.out.println("---");
 			//System.out.println(id);
