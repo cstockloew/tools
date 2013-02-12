@@ -19,4 +19,14 @@ public interface IInstaller {
 	public Map getPeers();
 	// interface with MW: call DeployManager
 	public InstallationResults requestToInstall(URI deployFolder, Map layout);
+	//public UninstallationResults requestToUninstall(String serviceId);
+	
+	public String installService(String path);
+	// interface with WS uStore --> uCC
+	/**
+	 * installing a service from uStore
+	 * @param path: the path for the downloaded .usrv file
+	 *  
+	 */
+	public void installServiceFromOnlineStore(String path);
 }
