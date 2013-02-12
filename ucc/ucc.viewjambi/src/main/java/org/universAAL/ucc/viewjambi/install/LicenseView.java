@@ -16,14 +16,14 @@ public class LicenseView extends SubWindow {
 	
 	private static Ui_License install_base = new Ui_License();
 	private static String appDir;
-	private static boolean mpa=false;
-	private static String MPA_EXTENSION="-mpa";
+	//private static boolean mpa=false;
+	//private static String MPA_EXTENSION="-mpa";
 	
 	public LicenseView(String path) throws IOException {
 		super(LicenseView.install_base);
 		appDir=path;
-		mpa=isMPA();
-		StringBuffer l=readLicense(path+ File.separator +"EULA.txt");
+		//mpa=isMPA();
+		StringBuffer l=readLicense(path+ File.separator + "license" + File.separator +"ASL2.0.txt");
 		
 		install_base.license.setText(l.toString());
 		
@@ -34,12 +34,13 @@ public class LicenseView extends SubWindow {
 	
 	protected void accept() {
 		MainWindow.getInstance().removeSubWindow(this);
-		// check if this is MPA
-		if (mpa) MainWindow.getInstance().deployStrategy(appDir);
-		else MainWindow.getInstance().configureApp(appDir);
+		MainWindow.getInstance().deployStrategy(appDir);
+		// TODO: how to configure an application?
+		// MainWindow.getInstance().configureApp(appDir);
 	}
 
     private StringBuffer readLicense(String path) throws IOException {
+    	System.out.println("[LicenseView.readLicense] the license file is: " + path);
         File file = new File(path);
         StringBuffer contents = new StringBuffer();
         BufferedReader reader = null;
@@ -61,12 +62,12 @@ public class LicenseView extends SubWindow {
     }
 	
 	protected void cancel() {
-		if (!mpa)
-			Activator.getInstaller().revertInstallation(new File(appDir));
+		// TODO: do we need to revert the installation of MPA at this point? Maybe not, since nothing is really installed
+		//	Activator.getInstaller().revertInstallation(new File(appDir));
 		MainWindow.getInstance().removeSubWindow(this);
 	}
 	
-	private boolean isMPA()  {
+/*	private boolean isMPA()  {
 		File folder=new File(appDir);
 		String[] content = folder.list();
 		for(int i=0;i<content.length;i++){
@@ -74,5 +75,5 @@ public class LicenseView extends SubWindow {
 				return true;
 		}
 		return false;
-	}
+	}  */
 }

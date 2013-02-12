@@ -12,7 +12,7 @@ import org.universAAL.middleware.interfaces.mpa.model.ObjectFactory;
 
 public class MpaParser {
 	AalMpa mpa = null;
-	private static String MPA_EXTENSION="-mpa";
+	private static String MPA_EXTENSION=".uapp";
 	
 	private JAXBContext jc;
 	private Unmarshaller unmarshaller;
