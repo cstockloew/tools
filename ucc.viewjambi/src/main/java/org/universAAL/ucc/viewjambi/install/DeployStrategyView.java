@@ -34,7 +34,8 @@ public class DeployStrategyView extends SubWindow {
     public DeployStrategyView(String path) {
         super(DeployStrategyView.ui);
         
-        deployPath = path;
+        deployPath = path + File.separator + "config";
+        System.out.println("[DeployStrategyView] the path for .uapp file is: " + deployPath);
         mpaParser = new MpaParser(deployPath);
         // TODO: get application name from .mpa file
         //String appName = "MyApp";
