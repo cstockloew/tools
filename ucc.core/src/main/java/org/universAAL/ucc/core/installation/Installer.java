@@ -55,14 +55,15 @@ public class Installer extends ApplicationManager implements IInstaller {
 	private boolean initialized = false;
 	private DeployManager deployManager;
 	private AALSpaceManager aalSpaceManager;
-	private static String MPA_EXTENSION="-mpa";
+	private static String MPA_EXTENSION=".uapp";
 	
 	public Installer(BundleContext con) {
 		context=con;
 	}
 
 	public Installer(String path) throws Exception {
-		installApplication(path);
+		//installApplication(path);
+		installService(path);
 	}
 
 	public void finalize() throws Throwable {
@@ -72,31 +73,18 @@ public class Installer extends ApplicationManager implements IInstaller {
 	/**
 	 * 
 	 * @param Path
+	 * return the path for the extract .uapp file (root)
 	 * @throws Exception 
 	 */
 	public String installApplication(String path) throws Exception {
 		//Activator.getModel().getApplicationRegistration().writeToConfigFile("test");
-		//System.out.println("[Installer.installApplication] the path for install is: " + path);
+		System.out.println("[Installer.installApplication] the path for install is: " + path);
 		String exdir=extractBundles(path);
-		if(exdir==null)throw new Exception("Error extracting uaal Package");
+		if(exdir==null)throw new Exception("[Installer.installApplication] Error extracting .uapp Package");
 		// convert "/" to "\"
 		exdir = exdir.replaceAll("/", "\\");
-		File appDir=new File(exdir);
-		checkApplicationForInstall(appDir);
-		if (!mpa) {			
-			// install on local node / OSGi container
-		String[] bundlelist=appDir.list();
-		for(int i=0;i<bundlelist.length;i++){
-			if(bundlelist[i].endsWith(".jar")){
-				Bundle temp=installBundle(exdir+File.separator+bundlelist[i]);
-				if(temp==null){
-					revertInstallation(appDir);
-					throw new Exception("Error installing Bundle "+ bundlelist[i]);
-				}
-				installedBundles.add(temp);
-			}
-		}
-		} 
+		
+		checkApplicationForInstall(exdir);
 		return exdir;
 		
 	}
@@ -105,30 +93,38 @@ public class Installer extends ApplicationManager implements IInstaller {
 	 * Is bundle valid? All need files available? Dependencies to check and all
 	 * right? Check if concrete instances available (but how)? 
 	 * 
-	 * Check if the application is MPA?
+	 * Does the .uapp file exist?
+	 * Does the license file exist? (which one to check/how?)
 	 * 
 	 * @param Path
+	 * 
 	 * @throws Exception 
 	 */
-	private void checkApplicationForInstall(File folder) throws Exception {
-		String[] content = folder.list();
-		boolean jarok=false;
-		boolean configok=false;
-		boolean eulaok=false;
+	private void checkApplicationForInstall(String folder) throws Exception {
+		String uappfile = null;
+		boolean aslok=false;
+		boolean uappok=false;
+		System.out.println("[Installer.checkApplicationForInstall] the uapp file folder: " + folder); 
+		File confolder = new File(folder+"\\config");
+		String[] content = confolder.list();
 		for(int i=0;i<content.length;i++){
-			if(content[i].endsWith(".jar")) jarok=true;
-			if(content[i].equals("config.owl")) configok=true;
-			if(content[i].equals("EULA.txt")) eulaok=true;
-			if(content[i].contains(MPA_EXTENSION)) mpa=true;
+			System.out.println("[Installer.checkApplicationForInstall] get one file under /config/:" + content[i]);
+			if(content[i].contains(".uapp")) {
+				uappok=true;
+				uappfile = confolder + "\\" + content[i];
+				System.out.println("[Installer.checkApplicationForInstall] the uapp file is:" + uappfile);
+			}
 		}
-		if(!jarok) throw new Exception("There is no installable jar File in uaal Package!");
-		if(!configok) throw new Exception("config.owl file not found!");
-		//if(!eulaok) throw new Exception("No License agreement found!");
-		if(mpa) {
-			System.out.println("This is a multi-part application, initialing...");
-			// initialization: get references to DeployManager and AALSpaceManager
-			initMpaInstallation();
+		confolder = new File(folder+"\\license");
+		content = confolder.list();
+		for(int i = 0;i<content.length;i++){
+			if(content[i].equals("ASL2.0.txt")) aslok=true;
 		}
+		if(!aslok) throw new Exception("No license agreement found!");
+		if(!uappok) throw new Exception("The uapp file not found!");
+		// initialization: get references to DeployManager and AALSpaceManager
+		//initMpaInstallation();
+			
 	}
 	
 
@@ -180,8 +176,10 @@ public class Installer extends ApplicationManager implements IInstaller {
 	
 private String extractBundles(String path) {
     String destDir = path.substring(path.lastIndexOf(File.separator) + 1,path.lastIndexOf("."));
-	destDir =Activator.getInformation().getBundleDir() +"/"+ destDir; //Does this work only on Linux/Unix?
-	//System.out.println("[Installer.extractBundles] destDir is " + destDir);
+    System.out.println("[Installer.extractBundles] destDir - " + destDir);
+    destDir =Activator.getInformation().getBundleDir() + destDir;
+	//destDir =Activator.getInformation().getBundleDir() +"/"+ destDir; //Does this work only on Linux/Unix?
+	System.out.println("[Installer.extractBundles] destDir is " + destDir);
 	destDir =destDir.replace("/", "\\");  // For windows version
 	//System.out.println("[Installer.extractBundles] destDir2 is " + destDir);
 	File appDir=new File(destDir);
@@ -194,6 +192,7 @@ private String extractBundles(String path) {
 		slength=(suffix+"").length();
 		appDir=new File(destDir);
 		suffix++;
+		System.out.println("[Installer.extractBundles] appDir - " + appDir + " suffix -" + suffix);
 	}
 	appDir.mkdir();
 	try {
@@ -205,6 +204,7 @@ private String extractBundles(String path) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+	System.out.println("[Installer.extractBundles] the destination path is: " + destDir);
 		return destDir;
 	}
 
@@ -225,7 +225,7 @@ public void revertInstallation(File folder){
 
 static public void extractFolder(String zipFile, String destdir) throws ZipException, IOException 
 {
-    //System.out.println("[Installer.extractFolder] the zip file is: " + zipFile);
+    System.out.println("[Installer.extractFolder] the zip file is: " + zipFile + " and dest dir: " + destdir);
     int BUFFER = 2048;
     File file = new File(zipFile);
 
@@ -329,7 +329,9 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 	 * 
 	 */
 	public InstallationResults requestToInstall(URI deployFolder, Map layout) {
-		System.out.println("[Installer.requestToInstall] deployFolder: " + deployFolder);		
+		System.out.println("[Installer.requestToInstall] deployFolder: " + deployFolder);
+		// initialization: get references to DeployManager and AALSpaceManager
+		if (!initialized) initMpaInstallation();
 		if (deployManager==null) {
 			System.out.println("[Installer.requestToInstall] No deploy manager exists!");
 			return InstallationResults.NOT_A_DEPLOYMANAGER;
@@ -343,6 +345,9 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 	 * 
 	 */
 	public Map<String, PeerCard> getPeers() {
+		// initialization: get references to DeployManager and AALSpaceManager
+		if (!initialized) initMpaInstallation();
+		
 		Map peers = new HashMap();
 		if (aalSpaceManager!=null) {
 			peers = aalSpaceManager.getPeers();
@@ -365,5 +370,53 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 		return peers;
 	}
 	
+	/**
+	 * installing a service 
+	 * @param path - the path of the downloaded .usrv file
+	 * return the folder of the extracted contents for the .usrv file
+	 */
+	public String installService(String path) {
+		// TODO: add a window to show the starting of installing the service
+		// extract .usrv file under "/bundles" folder
+		System.out.println("[Installer.installService] extract the .usrv file from: " + path);
+		String srvPath = extractBundles(path);
+		System.out.println("[Installer.installService] the service bundles are extracted to: " + srvPath);	
+		// TODO: check the contents of the .usrv file
+		// initialization: get references to DeployManager and AALSpaceManager
+		initMpaInstallation();
+		return srvPath;		
+	}
+	
+	/**
+	 * installing a service from uStore
+	 * @param path: the path for the downloaded .usrv file
+	 *  
+	 */
+	public void installServiceFromOnlineStore(String path)  {
+		String srvPath = installService(path);
+		// install each .uapp file found			
+		if(srvPath==null) 
+			System.out.println("[Installer.installServiceFromOnlineStore] Error extracting .usrv Package");
+			//TODO: update with the .usrv file structure - this has the same logic as InstallView.installFile()	
+			srvPath = srvPath + "\\config\\";
+			System.out.println("[Installer.installServiceFromOnlineStore] the .uapp files contained in: " + srvPath);
+			File appDir=new File(srvPath);
+			String[] content = appDir.list();
+			String appPath;
+			for(int i=0;i<content.length;i++){
+				if(content[i].endsWith(".uapp")) {				
+					try {
+						appPath = installApplication(srvPath + content[i]);
+						Activator.getMainWindow().installApp(appPath);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+					
+			}
+		
+		
+	}
 	
 }
