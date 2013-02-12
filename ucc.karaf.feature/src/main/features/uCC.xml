@@ -12,21 +12,21 @@
 		<bundle>mvn:org.universAAL.middleware/mw.bus.model.osgi/1.2.1-SNAPSHOT</bundle>
 
 
-		<bundle start-level='89'>mvn:org.universAAL.tools.ucc/ucc.api/1.1.1-SNAPSHOT
+		<bundle start-level='89'>mvn:org.universAAL.tools.ucc/ucc.api/2.0.0-SNAPSHOT
 		</bundle>
-		<bundle start-level='90'>mvn:org.universAAL.tools.ucc/ucc.model/1.1.1-SNAPSHOT
-		</bundle>
-
-		<bundle start-level='91'>mvn:org.universAAL.tools.ucc/ucc.core/1.1.2-SNAPSHOT
-		</bundle>
-		<bundle start-level='91'>mvn:org.universAAL.tools.ucc/ucc.viewjambi/1.1.2-SNAPSHOT
+		<bundle start-level='90'>mvn:org.universAAL.tools.ucc/ucc.model/2.0.0-SNAPSHOT
 		</bundle>
 
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.information/1.0.0-SNAPSHOT
+		<bundle start-level='91'>mvn:org.universAAL.tools.ucc/ucc.core/2.0.0-SNAPSHOT
 		</bundle>
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.karaf/1.0.1-SNAPSHOT
+		<bundle start-level='91'>mvn:org.universAAL.tools.ucc/ucc.viewjambi/2.0.0-SNAPSHOT
 		</bundle>
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.ustore/1.1.1-SNAPSHOT
+
+		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.information/2.0.0-SNAPSHOT
+		</bundle>
+		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.karaf/2.0.0-SNAPSHOT
+		</bundle>
+		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.ustore/2.0.0-SNAPSHOT
 		</bundle>
 
 	</feature>
