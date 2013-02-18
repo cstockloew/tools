@@ -74,26 +74,26 @@ public class Contact {
 
 	public Contact(){
 
-		organizationName = MultipartApplication.defaultString;
-		contactPerson = MultipartApplication.defaultString;
-		streetAddress = MultipartApplication.defaultString;
-		email = MultipartApplication.defaultString;
-		phone = MultipartApplication.defaultString;
+		organizationName = Application.defaultString;
+		contactPerson = Application.defaultString;
+		streetAddress = Application.defaultString;
+		email = Application.defaultString;
+		phone = Application.defaultString;
 
 		try{
-			certificate = new URI(MultipartApplication.defaultURL);
-			webAddress = new URI(MultipartApplication.defaultURL);
+			certificate = new URI(Application.defaultURL);
+			webAddress = new URI(Application.defaultURL);
 		}
 		catch(Exception ex){}
 	}
 
 	public Contact(URI certificate, URI webAddress){
 
-		organizationName = MultipartApplication.defaultString;
-		contactPerson = MultipartApplication.defaultString;
-		streetAddress = MultipartApplication.defaultString;
-		email = MultipartApplication.defaultString;
-		phone = MultipartApplication.defaultString;
+		organizationName = Application.defaultString;
+		contactPerson = Application.defaultString;
+		streetAddress = Application.defaultString;
+		email = Application.defaultString;
+		phone = Application.defaultString;
 
 		this.certificate = certificate;
 		this.webAddress = webAddress;
@@ -167,8 +167,8 @@ public class Contact {
 		String channelName, channelDetails;
 
 		public OtherChannel(){
-			channelName = MultipartApplication.defaultString;
-			channelDetails = MultipartApplication.defaultString;
+			channelName = Application.defaultString;
+			channelDetails = Application.defaultString;
 		}
 
 		public String getChannelName() {

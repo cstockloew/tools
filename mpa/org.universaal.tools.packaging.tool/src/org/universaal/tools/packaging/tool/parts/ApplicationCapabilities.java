@@ -15,13 +15,13 @@ public class ApplicationCapabilities {
 
 		Mandatory[] mandatory = Capability.Mandatory.values();
 		for(int i = 0; i < mandatory.length; i++){
-			Capability c = new Capability(mandatory[i].toString(), MultipartApplication.defaultString);
+			Capability c = new Capability(mandatory[i].toString(), Application.defaultString);
 			capabilities.put(c.getName(), c.getValue());
 		}
 
 		Optional[] optional = Capability.Optional.values();
 		for(int i = 0; i < optional.length; i++){
-			Capability c = new Capability(optional[i].toString(), MultipartApplication.defaultString);
+			Capability c = new Capability(optional[i].toString(), Application.defaultString);
 			capabilities.put(c.getName(), c.getValue());
 		}
 	}

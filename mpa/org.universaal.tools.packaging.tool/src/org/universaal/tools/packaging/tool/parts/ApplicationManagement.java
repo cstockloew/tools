@@ -41,7 +41,7 @@ public class ApplicationManagement {
 	private List<RemoteManagement> remoteManagement;
 
 	public ApplicationManagement(){
-		contact = MultipartApplication.defaultString;
+		contact = Application.defaultString;
 	}
 
 	public String getContact() {
@@ -64,7 +64,8 @@ public class ApplicationManagement {
 		private Artifact software;
 
 		public RemoteManagement(){
-			protocol = MultipartApplication.defaultString;
+			protocol = Application.defaultString;
+			software = new Artifact();
 		}
 
 		public String getProtocol() {

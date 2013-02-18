@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.tool.gui.GUI;
-import org.universaal.tools.packaging.tool.parts.MultipartApplication;
+import org.universaal.tools.packaging.tool.parts.MPA;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -20,14 +20,14 @@ import org.universaal.tools.packaging.tool.parts.MultipartApplication;
  */
 public class SampleAction extends AbstractHandler {
 
-	public MultipartApplication app;
+	public MPA mpa;
 	public static GUI gui;
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		app = new MultipartApplication();
+		mpa = new MPA();
 
-		gui = new GUI(app, event);
+		gui = new GUI(mpa, event);
 
 		IWorkbenchWindow w = HandlerUtil.getActiveWorkbenchWindow(event);
 		WizardDialog wizardDialog = new WizardDialog(w.getShell(), gui);
@@ -43,7 +43,7 @@ public class SampleAction extends AbstractHandler {
 		return null;
 	}
 
-	public MultipartApplication getApp() {
-		return app;
+	public MPA getMPA() {
+		return mpa;
 	}
 }

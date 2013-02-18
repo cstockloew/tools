@@ -2,21 +2,6 @@ package org.universaal.tools.packaging.tool.parts;
 
 public class Requirement {
 
-	/*
-	 * <xs:complexType name="reqType">
-		<xs:annotation>
-			<xs:documentation>describes single offering, mostly used for devices
-				and platforms</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:choice>
-				<xs:element name="reqAtom" type="uapp:reqAtomType" />
-				<xs:element name="reqGroup" type="uapp:reqGroupType" />
-			</xs:choice>
-			<xs:element minOccurs="0" name="optional" type="xs:boolean" />
-		</xs:sequence>
-	</xs:complexType>
-	 */
 	private SingleRequirement singleRequirement;
 	private RequirementsGroup requirementGroup;
 	private boolean singleReq;
@@ -55,4 +40,20 @@ public class Requirement {
 	public boolean isSingleReq() {
 		return singleReq;
 	}
+
+	/*
+	 * <xs:complexType name="reqType">
+		<xs:annotation>
+			<xs:documentation>describes single offering, mostly used for devices
+				and platforms</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="reqAtom" type="uapp:reqAtomType" />
+				<xs:element name="reqGroup" type="uapp:reqGroupType" />
+			</xs:choice>
+			<xs:element minOccurs="0" name="optional" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	 */
 }

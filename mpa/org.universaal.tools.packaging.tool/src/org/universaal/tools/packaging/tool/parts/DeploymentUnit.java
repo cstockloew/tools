@@ -8,6 +8,89 @@ import org.apache.karaf.xmlns.features.v1_0.FeaturesRoot;
 
 public class DeploymentUnit {
 
+	private String id;
+	private OS osType;
+	private Platform platformType;	
+
+	public DeploymentUnit(String id, OS osType, Platform platformType){		
+
+		SecureRandom random = new SecureRandom();
+
+		this.id = id+"_"+new BigInteger(130, random).toString(32);;
+		this.osType = osType;
+		this.platformType = platformType;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public OS getOsType() {
+		return osType;
+	}
+
+	public Platform getPlatformType() {
+		return platformType;
+	}
+
+	public class ContainerUnit {
+
+		private Container container;
+
+		private Embedding embedding;
+		private FeaturesRoot features;
+
+		private String description;
+		private URI location;
+
+		public ContainerUnit(Embedding embedding, FeaturesRoot features){
+			this.container = Container.KARAF;
+			this.embedding = embedding;
+			this.features = features;
+
+			this.description = null;
+			this.location = null;
+		}
+
+		public ContainerUnit(String description, URI location){
+			this.container = Container.ANDROID;
+			this.description = description;
+			this.location = location;
+
+			this.embedding = null;
+			this.features = null;
+		}
+
+		public Container getContainer() {
+			return container;
+		}
+
+		public void setContainer(Container container) {
+			this.container = container;
+		}
+
+		public Embedding getEmbedding() {
+			return embedding;
+		}
+
+		public FeaturesRoot getFeatures() {
+			return features;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public URI getLocation() {
+			return location;
+		}
+	}
+
+	public enum Container{
+
+		TOMCAT, EQUINOX, FELIX, OSGI_ANDROID, KARAF, ANDROID
+	}
+	
 	/*
 	 * <xs:element name="deploymentUnit">
 		<xs:complexType>
@@ -59,86 +142,4 @@ public class DeploymentUnit {
 		</xs:complexType>
 	</xs:element>
 	 */
-	String id;
-	OS osType;
-	Platform platformType;	
-
-	public DeploymentUnit(String id, OS osType, Platform platformType){		
-
-		SecureRandom random = new SecureRandom();
-
-		this.id = id+"_"+new BigInteger(130, random).toString(32);;
-		this.osType = osType;
-		this.platformType = platformType;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public OS getOsType() {
-		return osType;
-	}
-
-	public Platform getPlatformType() {
-		return platformType;
-	}
-
-	public class ContainerUnit {
-
-		Container container;
-
-		Embedding embedding;
-		FeaturesRoot features;
-
-		String description;
-		URI location;
-
-		public ContainerUnit(Embedding embedding, FeaturesRoot features){
-			container = Container.KARAF;
-			this.embedding = embedding;
-			this.features = features;
-
-			description = null;
-			location = null;
-		}
-
-		public ContainerUnit(String description, URI location){
-			container = Container.ANDROID;
-			this.description = description;
-			this.location = location;
-
-			embedding = null;
-			features = null;
-		}
-
-		public Container getContainer() {
-			return container;
-		}
-
-		public void setContainer(Container container) {
-			this.container = container;
-		}
-
-		public Embedding getEmbedding() {
-			return embedding;
-		}
-
-		public FeaturesRoot getFeatures() {
-			return features;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public URI getLocation() {
-			return location;
-		}
-	}
-
-	public enum Container{
-
-		TOMCAT, EQUINOX, FELIX, OSGI_ANDROID, KARAF, ANDROID
-	}
 }

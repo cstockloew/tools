@@ -14,7 +14,8 @@ public class Artifact {
 	private Version version;
 
 	public Artifact(){
-		artifactID = MultipartApplication.defaultString;
+		artifactID = Application.defaultString;
+		version = new Version();
 	}
 
 	public String getArtifactID() {

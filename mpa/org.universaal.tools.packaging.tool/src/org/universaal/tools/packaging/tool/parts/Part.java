@@ -7,6 +7,42 @@ import java.util.List;
 
 public class Part {
 
+	private String id;
+	private List<Capability> partCapabilities;
+	private List<Requirement> partRequirements;
+	private List<DeploymentUnit> deploymentUnits;
+	private List<ExecutionUnit> executionUnits;
+
+	public Part(String id){
+		SecureRandom random = new SecureRandom();
+
+		this.id = id+"_"+new BigInteger(130, random).toString(32);;
+	}
+
+	public String getId() {
+		return id;
+	}
+	public List<Capability> getPartCapabilities() {
+		if(partCapabilities == null)
+			partCapabilities = new ArrayList<Capability>();
+		return partCapabilities;
+	}
+	public List<Requirement> getPartRequirements() {
+		if(partRequirements == null)
+			partRequirements = new ArrayList<Requirement>();
+		return partRequirements;
+	}
+	public List<DeploymentUnit> getDeploymentUnits() {
+		if(deploymentUnits == null)
+			deploymentUnits = new ArrayList<DeploymentUnit>();
+		return deploymentUnits;
+	}
+	public List<ExecutionUnit> getExecutionUnits() {
+		if(executionUnits == null)
+			executionUnits = new ArrayList<ExecutionUnit>();
+		return executionUnits;
+	}
+	
 	/*
 	 * <xs:element name="part">
 		<xs:complexType>
@@ -43,40 +79,4 @@ public class Part {
 		</xs:complexType>
 	</xs:element>
 	 */
-
-	String id;
-	List<Capability> partCapabilities;
-	List<Requirement> partRequirements;
-	List<DeploymentUnit> deploymentUnits;
-	List<ExecutionUnit> executionUnits;
-
-	public Part(String id){
-		SecureRandom random = new SecureRandom();
-
-		this.id = id+"_"+new BigInteger(130, random).toString(32);;
-	}
-
-	public String getId() {
-		return id;
-	}
-	public List<Capability> getPartCapabilities() {
-		if(partCapabilities == null)
-			partCapabilities = new ArrayList<Capability>();
-		return partCapabilities;
-	}
-	public List<Requirement> getPartRequirements() {
-		if(partRequirements == null)
-			partRequirements = new ArrayList<Requirement>();
-		return partRequirements;
-	}
-	public List<DeploymentUnit> getDeploymentUnits() {
-		if(deploymentUnits == null)
-			deploymentUnits = new ArrayList<DeploymentUnit>();
-		return deploymentUnits;
-	}
-	public List<ExecutionUnit> getExecutionUnits() {
-		if(executionUnits == null)
-			executionUnits = new ArrayList<ExecutionUnit>();
-		return executionUnits;
-	}
 }

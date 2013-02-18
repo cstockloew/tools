@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -21,14 +19,15 @@ import org.universaal.tools.packaging.tool.parts.SingleRequirement;
 
 public class Page4 extends PageImpl {
 
-	//private List<Requirement> requirements;
+	private int partNumber;
 	private List<String> reqs, vals, logicalCriteria, logicalRelations;
 	private Text req1, req2, req3, req4, req5;
 	private Text val1, val2, val3, val4, val5;
 	private Combo c1, c2, c3, c4, c5, c12, c23, c34, c45;
 
-	protected Page4(String pageName) {
-		super(pageName, "Specify requirements for the MPA you are creating.");
+	protected Page4(String pageName, int pn) {
+		super(pageName, "Specify requirements for the MPA you are creating.", pn);
+		partNumber = pn;
 	}
 
 	public void createControl(Composite parent) {
@@ -47,7 +46,7 @@ public class Page4 extends PageImpl {
 		logicalCriteria = new ArrayList<String>();
 		logicalRelations = new ArrayList<String>();
 
-		List<Requirement> list = app.getRequirements().getRequirementsList();
+		List<Requirement> list = multipartApplication.getApplications().get(partNumber).getRequirements().getRequirementsList();
 
 		for(int i = 0; i < list.size(); i++){
 			if(list.get(i).isSingleReq()){
@@ -234,25 +233,25 @@ public class Page4 extends PageImpl {
 		val5.setText(vals.get(4));			
 		val5.setLayoutData(gd);
 
-		req1.addKeyListener(new QL() {});
-		req2.addKeyListener(new QL() {});
-		req3.addKeyListener(new QL() {});
-		req4.addKeyListener(new QL() {});
-		req5.addKeyListener(new QL() {});
-		val1.addKeyListener(new QL() {});
-		val2.addKeyListener(new QL() {});
-		val3.addKeyListener(new QL() {});
-		val4.addKeyListener(new QL() {});
-		val5.addKeyListener(new QL() {});
-		c1.addKeyListener(new QL() {});
-		c2.addKeyListener(new QL() {});
-		c3.addKeyListener(new QL() {});
-		c4.addKeyListener(new QL() {});
-		c5.addKeyListener(new QL() {});
-		c12.addKeyListener(new QL() {});
-		c23.addKeyListener(new QL() {});
-		c34.addKeyListener(new QL() {});
-		c45.addKeyListener(new QL() {});
+		req1.addKeyListener(new FullListener());
+		req2.addKeyListener(new FullListener() {});
+		req3.addKeyListener(new FullListener() {});
+		req4.addKeyListener(new FullListener() {});
+		req5.addKeyListener(new FullListener() {});
+		val1.addKeyListener(new FullListener() {});
+		val2.addKeyListener(new FullListener() {});
+		val3.addKeyListener(new FullListener() {});
+		val4.addKeyListener(new FullListener() {});
+		val5.addKeyListener(new FullListener() {});
+		c1.addKeyListener(new FullListener() {});
+		c2.addKeyListener(new FullListener() {});
+		c3.addKeyListener(new FullListener() {});
+		c4.addKeyListener(new FullListener() {});
+		c5.addKeyListener(new FullListener() {});
+		c12.addKeyListener(new FullListener() {});
+		c23.addKeyListener(new FullListener() {});
+		c34.addKeyListener(new FullListener() {});
+		c45.addKeyListener(new FullListener() {});
 	}
 
 	@Override
@@ -295,21 +294,11 @@ public class Page4 extends PageImpl {
 		SingleRequirement r2 = new SingleRequirement(req2.getText(), val2.getText(), lc2);
 
 		RequirementsGroup r = new RequirementsGroup(r1, r2, lr);
-		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
+		multipartApplication.getApplications().get(partNumber).getRequirements().getRequirementsList().add(new Requirement(r, false));
 	}
 
 	private void single(Text req1, Text val1, LogicalCriteria lc1){
 		SingleRequirement r = new SingleRequirement(req1.getText(), val1.getText(), lc1);
-		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
-	}
-
-	public abstract class QL implements KeyListener{
-
-		public void keyPressed(KeyEvent e) {
-			setPageComplete(validate());
-		}
-
-		public void keyReleased(KeyEvent e) {
-		}		
+		multipartApplication.getApplications().get(partNumber).getRequirements().getRequirementsList().add(new Requirement(r, false));
 	}
 }

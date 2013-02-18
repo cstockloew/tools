@@ -14,13 +14,13 @@ public class Version {
 	 * 
 	 */
 
-	String major, minor, micro, build;
+	private String major, minor, micro, build;
 
 	public Version(){
-		major = MultipartApplication.defaultString;
-		minor = MultipartApplication.defaultString;
-		micro = MultipartApplication.defaultString;
-		build = MultipartApplication.defaultString;
+		major = "major";
+		minor = "minor";
+		micro = "micro";
+		build = "build";
 	}
 
 	public String getMajor() {
@@ -53,5 +53,28 @@ public class Version {
 
 	public void setBuild(String build) {
 		this.build = build;
+	}
+
+	public String getVersion(){
+		return major+"."+minor+"."+micro+"."+build;
+	}
+
+	public void setVersion(String v){
+
+		try{
+			if(v != null && !v.isEmpty()){
+				String[] vs = v.split(".");
+				if(vs.length > 0){
+					major = vs[0];
+					if(vs[1] != null)
+						minor = vs[1];
+					if(vs[2] != null)
+						micro = vs[2];
+					if(vs[3] != null)
+						build = vs[3];
+				}
+			}
+		}
+		catch(Exception ex){}
 	}
 }

@@ -23,9 +23,9 @@ public class License {
 	URI link;
 
 	public License(){
-		name = MultipartApplication.defaultString;
+		name = Application.defaultString;
 		try {
-			link= new URI(MultipartApplication.defaultURL);
+			link= new URI(Application.defaultURL);
 		} catch (URISyntaxException e) {
 		}
 		category = LicenseCategory.APPLICATION;

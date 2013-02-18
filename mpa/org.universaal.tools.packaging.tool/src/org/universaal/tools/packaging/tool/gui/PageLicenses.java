@@ -17,8 +17,9 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.universaal.tools.packaging.tool.parts.Application.LicenseSet;
-import org.universaal.tools.packaging.tool.parts.Application.SLA;
+import org.universaal.tools.packaging.api.Page;
+import org.universaal.tools.packaging.tool.parts.App.LicenseSet;
+import org.universaal.tools.packaging.tool.parts.App.SLA;
 import org.universaal.tools.packaging.tool.parts.License;
 import org.universaal.tools.packaging.tool.parts.LicenseCategory;
 
@@ -30,15 +31,18 @@ public class PageLicenses extends PageImpl {
 	private SLA sla;
 	private License lic;
 	private boolean addLicense = false, pageAdded = false, onlyLicense = false;
+	private int partNumber;
 
-	protected PageLicenses(String pageName) {
-		super(pageName, "Add SLA and license(s) for you MPA");
+	protected PageLicenses(String pageName, int pn) {
+		super(pageName, "Add SLA and license(s) for you MPA", pn);
+		this.partNumber = pn;
 	}
 
-	protected PageLicenses(String pageName, boolean onlyLicense) {
+	protected PageLicenses(String pageName, boolean onlyLicense, int pn) {
 
-		super(pageName, "Add SLA and license(s) for you MPA");
+		super(pageName, "Add SLA and license(s) for you MPA", pn);
 		this.onlyLicense = onlyLicense;
+		this.partNumber = pn;
 	}
 
 	public void createControl(Composite parent) {
@@ -53,8 +57,8 @@ public class PageLicenses extends PageImpl {
 		gd = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gd.horizontalSpan = 2;
 
-		List<LicenseSet> ls = app.getApplication().getLicenses();
-		LicenseSet l = app.getApplication().new LicenseSet();		
+		List<LicenseSet> ls = multipartApplication.getApplications().get(partNumber).getApplication().getLicenses();
+		LicenseSet l = multipartApplication.getApplications().get(partNumber).getApplication().new LicenseSet();		
 
 		lic = new License();
 
@@ -62,7 +66,7 @@ public class PageLicenses extends PageImpl {
 		ls.add(l);
 
 		if(!onlyLicense){
-			sla = app.getApplication().new SLA();
+			sla = multipartApplication.getApplications().get(partNumber).getApplication().new SLA();
 
 			Label l1 = new Label(container, SWT.NULL);
 			slaLink = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -169,7 +173,7 @@ public class PageLicenses extends PageImpl {
 		final Button b = new Button(container, SWT.PUSH);
 		b.setText("Add another license");
 		Label t = new Label(container, SWT.NULL);
-		t.setText("License "+getMPA().getApplication().getLicenses().size());
+		t.setText("License "+multipartApplication.getApplications().get(partNumber).getApplication().getLicenses().size());
 		b.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -187,14 +191,14 @@ public class PageLicenses extends PageImpl {
 		});
 		b.setLayoutData(gd);
 		Label l9 = new Label(container, SWT.NULL);
-		l9.setText("(of "+app.getApplication().getLicenses().size()+")");
+		l9.setText("(of "+multipartApplication.getApplications().get(partNumber).getApplication().getLicenses().size()+")");
 	}
 
 	@Override
 	public IWizardPage getNextPage() {
 
 		if(addLicense){
-			addPageCustom(pageAdded, new PageLicenses("License #"+PageImpl.otherLicenses++, true));
+			addPageCustom(pageAdded, new PageLicenses(Page.PAGE_LICENSE+PageImpl.otherLicenses++, true, partNumber));
 			pageAdded = true;
 		}
 

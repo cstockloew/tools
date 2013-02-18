@@ -4,23 +4,11 @@ import java.io.File;
 
 public class ExecutionUnit {
 
-	/*
-	 * <xs:element name="executionUnit">
-		<xs:complexType>
-			<xs:sequence>
-				<!-- <xs:element name="deploymentUnit" type="xs:IDREF"/> -->
-				<xs:element name="configFiles" />
-				<xs:element name="spaceStartLevel" minOccurs="0" />
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	 */
-
-	File configFile;
-	int spaceStartLevel = 0;
+	private File configFile;
+	private int spaceStartLevel = 0;
 
 	public ExecutionUnit(){
-		configFile = new File(MultipartApplication.defaultFile);
+		configFile = new File(Application.defaultFile);
 	}
 
 	public File getConfigFile() {
@@ -35,4 +23,16 @@ public class ExecutionUnit {
 	public void setSpaceStartLevel(int spaceStartLevel) {
 		this.spaceStartLevel = spaceStartLevel;
 	}
+
+	/*
+	 * <xs:element name="executionUnit">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- <xs:element name="deploymentUnit" type="xs:IDREF"/> -->
+				<xs:element name="configFiles" />
+				<xs:element name="spaceStartLevel" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	 */
 }
