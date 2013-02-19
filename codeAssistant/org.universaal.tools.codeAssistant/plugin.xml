@@ -43,4 +43,19 @@
            name="Code Assistant Tool">
      </perspective>
   </extension>
+  <extension
+        point="org.eclipse.ui.preferencePages">
+     <page
+           category="org.universaal.tools.AALStudio"
+           class="org.universaal.tools.codeassistantapplication.ontologyrepository.preferences.PreferencePage"
+           id="org.universaal.tools.codeassistantapplication.ontologyrepository.preferences"
+           name="Import Ontology Repository">
+     </page>
+  </extension>
+  <extension
+        point="org.eclipse.core.runtime.preferences">
+     <initializer
+           class="org.universaal.tools.codeassistantapplication.ontologyrepository.preferences.PreferenceInitializer">
+     </initializer>
+  </extension>
 </plugin>

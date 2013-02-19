@@ -1,20 +1,12 @@
 package org.universaal.tools.codeassistantapplication.ontologyrepository.client;
 
 import java.io.File;
-import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.progress.IProgressConstants;
-import org.universaal.tools.codeassistantapplication.Startup;
+import org.universaal.tools.codeassistantapplication.Activator;
+import org.universaal.tools.codeassistantapplication.ontologyrepository.preferences.PreferenceConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -22,7 +14,8 @@ import org.w3c.dom.NodeList;
 
 public class RepositoryClient {
 
-	static String REPOSITORY_URL = "http://155.207.85.53:8080/bioportal/ontologies";
+	//static String REPOSITORY_URL = "http://155.207.85.53:8080/bioportal/ontologies";
+	static String REPOSITORY_URL = "";
 	static String APIKey = "990fff23-51f4-479e-863b-21554d863ef9"; // apikey
 	
 	static String pathToSaveFiles = "./";
@@ -30,6 +23,18 @@ public class RepositoryClient {
 	private static void RepositoryClient() {		
 	}
 
+	private static void initFiles(){
+
+		try {
+			String p_url = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_ONTOLOGY_REPOSITORY_URL);
+			REPOSITORY_URL=p_url;
+			//System.out.println("REPOSITORY_URL="+REPOSITORY_URL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+
+	
 	static public boolean getLatestOntologiesMetadata() {
 		if (RestClient.sendGetRequest(REPOSITORY_URL, "apikey=" + APIKey,
 				pathToSaveFiles + "latest_Ontologies.xml")) {
@@ -112,6 +117,7 @@ public class RepositoryClient {
 	}
 	
 	static public boolean downloadAllOntologies(String directory) {
+		initFiles();
 		boolean res=false;
 		pathToSaveFiles = directory + File.separator;
 		// Rename the old Ontologies.xml

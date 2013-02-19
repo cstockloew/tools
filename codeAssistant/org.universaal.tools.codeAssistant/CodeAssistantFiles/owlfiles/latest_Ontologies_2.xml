@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <success>
   <accessedResource>/bioportal/ontologies</accessedResource>
-  <accessDate>2013-01-24 03:17:25.289 PST</accessDate>
+  <accessDate>2013-02-19 04:04:15.802 PST</accessDate>
   <data>
     <list>
       <ontologyBean>
@@ -85,7 +85,6 @@
           <int>22</int>
         </userIds>
         <versionNumber>unknown</versionNumber>
-        <versionStatus></versionStatus>
         <isRemote>0</isRemote>
         <statusId>3</statusId>
         <dateCreated>2013-01-24 02:09:32.0 PST</dateCreated>
@@ -97,17 +96,9 @@
         <format>OWL</format>
         <contactName>Kostas Giannoutakis</contactName>
         <contactEmail>kgiannou@iti.gr</contactEmail>
-        <homepage></homepage>
-        <documentation></documentation>
-        <publication></publication>
-        <targetTerminologies></targetTerminologies>
         <isFlat>0</isFlat>
         <isFoundry>0</isFoundry>
         <isMetadataOnly>0</isMetadataOnly>
-        <synonymSlot></synonymSlot>
-        <preferredNameSlot></preferredNameSlot>
-        <documentationSlot></documentationSlot>
-        <authorSlot></authorSlot>
         <userAcl/>
         <isView>false</isView>
         <categoryIds/>
@@ -116,6 +107,40 @@
           <string>UserProfileOntologyv.owl</string>
         </filenames>
         <filePath>/1005/2</filePath>
+        <hasViews/>
+        <viewOnOntologyVersionId/>
+      </ontologyBean>
+      <ontologyBean>
+        <id>10007</id>
+        <ontologyId>1006</ontologyId>
+        <virtualViewIds/>
+        <internalVersionNumber>3</internalVersionNumber>
+        <userIds>
+          <int>22</int>
+        </userIds>
+        <versionNumber>unknown</versionNumber>
+        <isRemote>0</isRemote>
+        <statusId>3</statusId>
+        <dateCreated>2013-01-24 07:33:22.0 PST</dateCreated>
+        <dateReleased>2013-01-24 00:00:00.0 PST</dateReleased>
+        <isManual>1</isManual>
+        <displayLabel>Amigo ontology</displayLabel>
+        <description>Amigo ontology</description>
+        <abbreviation>Amigo</abbreviation>
+        <format>OWL</format>
+        <contactName>Kostas Giannoutakis</contactName>
+        <contactEmail>kgianou@iti.gr</contactEmail>
+        <isFlat>0</isFlat>
+        <isFoundry>0</isFoundry>
+        <isMetadataOnly>0</isMetadataOnly>
+        <userAcl/>
+        <isView>false</isView>
+        <categoryIds/>
+        <groupIds/>
+        <filenames>
+          <string>Amigo.owl</string>
+        </filenames>
+        <filePath>/1006/3</filePath>
         <hasViews/>
         <viewOnOntologyVersionId/>
       </ontologyBean>

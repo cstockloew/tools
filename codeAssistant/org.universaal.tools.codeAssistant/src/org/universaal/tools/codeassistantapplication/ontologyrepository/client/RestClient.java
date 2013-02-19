@@ -54,8 +54,6 @@ public class RestClient {
 				File fil = new File(pathToSave);
 				long size = fil.length() / 1024;
 
-				//System.out.println(size + "KB");
-				// System.out.println(pathToSave);
 				return true;
 			} catch (Exception e) {
 				//e.printStackTrace();

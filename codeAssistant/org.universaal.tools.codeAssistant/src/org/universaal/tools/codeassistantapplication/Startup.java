@@ -1,17 +1,11 @@
 package org.universaal.tools.codeassistantapplication;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URL;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IStartup;
 import org.universaal.tools.codeassistantapplication.ontologyrepository.client.RepositoryClient;
 
 public class Startup{

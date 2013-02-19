@@ -75,7 +75,7 @@ public class AuthenticationDialog extends Dialog {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(400, 100);
+		return new Point(400, 150);
 	}
 
 	public Text getKeytxt() {
