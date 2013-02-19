@@ -5,7 +5,7 @@
   <developer>Fraunhofer</developer>
   <date>26.08.2011</date>
   <url>http://www.igd.fraunhofer.de</url>
-  <svnurl>http://forge.universaal.org/svn/support/tags/1.2.0/samples/lighting</svnurl>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/lighting</svnurl>
   <license>Apache License, Version 2.0</license>
   <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
   <subprojects>true</subprojects>
@@ -19,7 +19,7 @@
   <developer>Alvaro Fides, ITACA</developer>
   <date>17.07.2012</date>
   <url>http://www.tsb.upv.es/</url>
-  <svnurl>http://forge.universaal.org/svn/support/tags/1.2.0/samples/ont.tutorial</svnurl>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/ont.tutorial</svnurl>
   <license>Apache License, Version 2.0</license>
   <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
   <subprojects>false</subprojects>
@@ -36,7 +36,7 @@
   <developer>Alejandro Medrano, UPM</developer>
   <date>17.07.2012</date>
   <url>http://www.upm.es/</url>
-  <svnurl>http://forge.universaal.org/svn/support/tags/1.2.0/samples/simple.ui</svnurl>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/simple.ui</svnurl>
   <license>Apache License, Version 2.0</license>
   <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
   <subprojects>false</subprojects>
@@ -52,7 +52,7 @@
   <developer>Alejandro Medrano, UPM</developer>
   <date>17.07.2012</date>
   <url>http://www.upm.es/</url>
-  <svnurl>http://forge.universaal.org/svn/support/tags/1.2.0/samples/simple.ui.run</svnurl>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/simple.ui.run</svnurl>
   <license>Apache License, Version 2.0</license>
   <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
   <subprojects>false</subprojects>
