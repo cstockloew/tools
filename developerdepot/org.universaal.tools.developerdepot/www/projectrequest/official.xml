@@ -47,20 +47,4 @@
     <tag>help</tag>
   </tags>
 </project>
-<project>
-  <name>simple.ui.run</name>
-  <developer>Alejandro Medrano, UPM</developer>
-  <date>17.07.2012</date>
-  <url>http://www.upm.es/</url>
-  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/simple.ui.run</svnurl>
-  <license>Apache License, Version 2.0</license>
-  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
-  <subprojects>false</subprojects>
-  <description>The purpose of this project is to run the simple.ui project, and it is not a complete example in itself</description>
-  <tags>
-    <tag>ui</tag>
-    <tag>run</tag>
-    <tag>runner</tag>
-  </tags>
-</project>
 </projects>
