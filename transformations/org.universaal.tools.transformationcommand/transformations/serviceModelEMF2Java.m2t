@@ -15,12 +15,15 @@ texttransformation ServiceModelEMF2Java (in mdl:"http://www.universaal.org/tools
 	  	
 		javaBasePath = "./"
 		self.generateLevel2Interface()
+		self.generateActivator()
 	}
   
 	//get the full name of the root package
 	mdl.ServiceInterface::getFullOwnerPackageName():String {
 		// TODO: Fix usage of paackage name
-		return "org.universaal.test." + self.name.toLower()
+		var packageName : String
+		packageName = ""
+		return packageName + self.name.toLower()
 	}
   
 
@@ -135,6 +138,56 @@ import org.universAAL.middleware.rdf.Resource;'
 			separator = ", "
 		}
 	}  
+	
+	mdl.ServiceInterface::generateActivator() {
+	  //create the file
+  		
+		file( javaBasePath + "/" + self.getFullOwnerPackageName().replace("\\.", "/") + '/' + "Activator.java" )
+		'package ' self.getFullOwnerPackageName() ';	'
+  	  
+	  
+'
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.universAAL.middleware.api.SimpleServiceRegistrator;
+import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+
+public class Activator implements BundleActivator {
+
+    public static ModuleContext mc;
+    private SimpleServiceRegistrator ssr;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
+     * )
+     */
+    public void start(final BundleContext context) throws Exception {
+	mc = uAALBundleContainer.THE_CONTAINER
+		.registerModule(new Object[] { context });
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+     */
+    public void stop(BundleContext context) throws Exception {
+
+    }
+}
+
+ 
+		
+		
+		'
+	
+	}
 	
 	mdl.PropertyPath::getFilteringClass():String {
 	  return self.properties.last().type.name
