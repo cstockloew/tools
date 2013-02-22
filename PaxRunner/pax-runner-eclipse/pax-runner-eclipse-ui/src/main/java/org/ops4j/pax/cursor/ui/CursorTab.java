@@ -165,4 +165,12 @@ public class CursorTab extends AbstractLauncherTab {
 		// no validation required
 	}
 
+	public void activated(ILaunchConfigurationWorkingCopy workingCopy) {
+		initializeFrom(workingCopy);
+	}
+	
+	public void deactivated(ILaunchConfigurationWorkingCopy workingCopy) {
+		performApply(workingCopy);
+	}	
+	
 }
