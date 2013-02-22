@@ -216,6 +216,9 @@
    <feature url="features/org.universaal.tools.configurationExtractor.feature_0.2.0.jar" id="org.universaal.tools.configurationExtractor.feature" version="0.2.0">
       <category name="universaal_future_tools"/>
    </feature>
+   <feature url="features/org.ops4j.pax.runner.eclipse.ui.feature_1.7.6.v20130222.jar" id="org.ops4j.pax.runner.eclipse.ui.feature" version="1.7.6.v20130222">
+      <category name="universaal_prereq"/>
+   </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
          Tools for development of AAL applications using the universAAL platform
