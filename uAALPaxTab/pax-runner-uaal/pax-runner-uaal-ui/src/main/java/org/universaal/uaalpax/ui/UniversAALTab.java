@@ -168,4 +168,12 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		mb.setText(title);
 		mb.open();
 	}
+	
+	public void activated(ILaunchConfigurationWorkingCopy workingCopy) {
+		initializeFrom(workingCopy);
+	}
+	
+	public void deactivated(ILaunchConfigurationWorkingCopy workingCopy) {
+		performApply(workingCopy);
+	}	
 }
