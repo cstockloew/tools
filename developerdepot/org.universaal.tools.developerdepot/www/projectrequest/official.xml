@@ -27,8 +27,25 @@
   <tags>
     <tag>ontology</tag>
     <tag>tutorial</tag>
-    <tag>example</tag>
     <tag>data representation</tag>
+  </tags>
+</project>
+<project>
+  <name>Utility API Examples</name>
+  <developer>Alvaro Fides, ITACA</developer>
+  <date>22.02.2013</date>
+  <url>http://www.tsb.upv.es/</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/utils</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>true</subprojects>
+  <description>These examples show ho to use the uAAL.utils API to easily create simple uAAL applications</description>
+  <tags>
+    <tag>utility</tag>
+    <tag>utils</tag>
+    <tag>api</tag>
+    <tag>simple</tag>
+    <tag>simplified</tag>
   </tags>
 </project>
 <project>
