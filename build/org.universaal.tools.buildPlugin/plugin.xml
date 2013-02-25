@@ -6,16 +6,7 @@
       <actionSet
             label="Sample Action Set"
             visible="true"
-            id="org.universaal.tools.buildServiceApplication.actionSet">   
-           <action
-               label="&amp;Upload application to Developer Depot"
-               icon="icons/upload.png"
-               class="org.universaal.tools.buildserviceapplication.actions.UploadAction"
-               tooltip="Upload application to Developer Depot"
-               menubarPath="org.universaal.tools.AALStudio.menu/publish"
-               toolbarPath="uAALGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.UploadAction">			
-         </action>
+            id="org.universaal.tools.buildServiceApplication.actionSet">             
          <action
                label="&amp;Debug universAAL application"
                icon="icons/debug.png"
@@ -65,12 +56,7 @@
             name="Debug application"
             categoryId="org.universaal.tools.buildserviceapplication.commands"
             id="org.universaal.tools.buildserviceapplication.actions.DebugAction">
-      </command>
-      <command
-            name="Upload application"
-            categoryId="org.universaal.tools.buildserviceapplication.commands"
-            id="org.universaal.tools.buildserviceapplication.actions.UploadAction">
-      </command>
+      </command>    
    </extension> 
    <extension
          point="org.eclipse.ui.handlers">
@@ -85,11 +71,7 @@
       <handler
             commandId="org.universaal.tools.buildserviceapplication.actions.DebugAction"
             class="org.universaal.tools.buildserviceapplication.handlers.DebugApplicationHandler">
-      </handler>
-      <handler
-            commandId="org.universaal.tools.buildserviceapplication.actions.UploadAction"
-            class="org.universaal.tools.buildserviceapplication.handlers.UploadApplicationHandler">
-      </handler>
+      </handler>   
    </extension> 
    <extension point="org.eclipse.ui.startup">
      <startup class="org.universaal.tools.buildserviceapplication.StartupClass"/>
