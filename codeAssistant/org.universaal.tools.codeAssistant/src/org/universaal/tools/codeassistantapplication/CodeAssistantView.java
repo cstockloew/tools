@@ -42,6 +42,8 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 import org.universaal.tools.codeassistantapplication.editor.CodeAssistantEditor;
 import org.universaal.tools.codeassistantapplication.editor.CodeAssistantEditorInput;
 import org.universaal.tools.codeassistantapplication.editor.model.Entity;
@@ -55,8 +57,8 @@ public class CodeAssistantView extends ViewPart{
 	private Vector selectedTypes=new Vector();
 
 	public void init(final Composite parent, IProgressMonitor monitor) {
-		//System.out.println("DOWNLOAD ONTOLOGIES");
 
+/*
 		// Authentication
 		AuthenticationDialog dialog = new AuthenticationDialog(parent.getShell());
 		int result = dialog.open();
@@ -64,11 +66,12 @@ public class CodeAssistantView extends ViewPart{
 			RepositoryClient.setAPIKey(dialog.getKey());
 		else
 			RepositoryClient.setAPIKey("");
-					
+*/					
 		monitor.worked(30);
 		Startup s = new Startup();
 		boolean b = s.earlyStartup();
 		monitor.worked(50);
+/*		
 		if (!b) {
 			Button continueButton = new Button(parent.getShell(), SWT.PUSH);
 			continueButton.setText("Continue");
@@ -90,6 +93,7 @@ public class CodeAssistantView extends ViewPart{
 					break;
 			}
 		}
+*/		
 	}
 	
 	@Override

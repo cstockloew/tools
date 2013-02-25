@@ -15,19 +15,19 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+	private static BundleContext bc;
 	
 	public Activator() {
 	}
 
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		this.bc = context;
 		Bundle[] b = context.getBundles();
 		for (int i=0; i<b.length; i++){
 			BundleContext bc = b[i].getBundleContext();
-			long id = b[i].getBundleId();
-			//System.out.println("---");
-			//System.out.println(id);
-			
+			//long id = b[i].getBundleId();
+			//String sname = b[i].getSymbolicName();
 		}
 		plugin = this;
 	}
@@ -39,6 +39,10 @@ public class Activator extends AbstractUIPlugin {
 
 	public static Activator getDefault() {
 		return plugin;
+	}
+
+	public static BundleContext getBc() {
+		return bc;
 	}
 
 	public static ImageDescriptor getImageDescriptor(String path) {

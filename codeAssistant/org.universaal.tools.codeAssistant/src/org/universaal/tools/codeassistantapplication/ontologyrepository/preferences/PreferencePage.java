@@ -11,6 +11,7 @@ public class PreferencePage
 	implements IWorkbenchPreferencePage{
 
 	private StringFieldEditor ontRepoUrlField;
+	private StringFieldEditor ontRepoApikeyField;
 	
 	public PreferencePage(){
 		super(GRID);
@@ -29,5 +30,11 @@ public class PreferencePage
 				"Ontology Repository URL", 
 				getFieldEditorParent());
 		addField(ontRepoUrlField);
+		
+		ontRepoApikeyField = new StringFieldEditor(
+				PreferenceConstants.P_ONTOLOGY_REPOSITORY_APIKEY, 
+				"Ontology Repository APIKEY", 
+				getFieldEditorParent());
+		addField(ontRepoApikeyField);
 	}
 }

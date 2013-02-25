@@ -11,6 +11,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_ONTOLOGY_REPOSITORY_URL, 
 				"http://155.207.85.53:8080/bioportal/ontologies");
+		
+		store.setDefault(PreferenceConstants.P_ONTOLOGY_REPOSITORY_APIKEY, 
+				"990fff23-51f4-479e-863b-21554d863ef9");
 	}
 
 	

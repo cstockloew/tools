@@ -15,8 +15,9 @@ import org.w3c.dom.NodeList;
 public class RepositoryClient {
 
 	//static String REPOSITORY_URL = "http://155.207.85.53:8080/bioportal/ontologies";
+	//static String APIKey = "990fff23-51f4-479e-863b-21554d863ef9";
 	static String REPOSITORY_URL = "";
-	static String APIKey = "990fff23-51f4-479e-863b-21554d863ef9"; // apikey
+	static String APIKey = "";
 	
 	static String pathToSaveFiles = "./";
 
@@ -28,7 +29,11 @@ public class RepositoryClient {
 		try {
 			String p_url = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_ONTOLOGY_REPOSITORY_URL);
 			REPOSITORY_URL=p_url;
-			//System.out.println("REPOSITORY_URL="+REPOSITORY_URL);
+			String p_apikey = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_ONTOLOGY_REPOSITORY_APIKEY);
+			APIKey=p_apikey;
+			
+			//System.out.println("repo url="+REPOSITORY_URL);
+			//System.out.println("APIKey="+APIKey);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
