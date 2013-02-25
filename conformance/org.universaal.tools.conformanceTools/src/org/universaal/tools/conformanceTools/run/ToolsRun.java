@@ -46,6 +46,7 @@ import org.universaal.tools.conformanceTools.checks.impl.Maven_nature;
 import org.universaal.tools.conformanceTools.checks.impl.NameGroupID;
 import org.universaal.tools.conformanceTools.checks.impl.OSGI_bundle;
 import org.universaal.tools.conformanceTools.checks.impl.POM_file;
+import org.universaal.tools.conformanceTools.checks.impl.UICallerImpl;
 import org.universaal.tools.conformanceTools.markers.CTMarker;
 import org.universaal.tools.conformanceTools.markers.Markers;
 import org.universaal.tools.conformanceTools.utils.HtmlPage;
@@ -148,8 +149,9 @@ public class ToolsRun {
 	private List<Result> test(List<String> checks){
 
 		List<Result> results = new ArrayList<Result>();
-		try{
-			for(String c: checks){
+
+		for(String c: checks){
+			try{
 				Object ck = Class.forName(c).newInstance();
 				CheckImpl check = (CheckImpl) ck;
 
@@ -161,13 +163,13 @@ public class ToolsRun {
 
 				results.add(new Result(name, description, resultImg, resultDscr));
 			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
 
-			if(results != null)
-				return results;
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
+		if(results != null)
+			return results;
 
 		return null;
 	}

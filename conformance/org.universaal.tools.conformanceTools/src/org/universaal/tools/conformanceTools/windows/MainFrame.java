@@ -5,7 +5,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -19,19 +19,26 @@ public class MainFrame {
 		final ToolsRun instance = ToolsRun.getInstance();
 
 		final Shell shell = new Shell(window.getShell());
-		RowLayout layout = new RowLayout();
-		layout.wrap = true;
-		layout.pack = true;
-		layout.justify = false;
-		layout.type = SWT.HORIZONTAL;
-		//layout.numColumns = 2; // buttons number
-		//layout.makeColumnsEqualWidth = false;
+		//		RowLayout layout = new RowLayout();
+		//		layout.wrap = true;
+		//		layout.pack = true;
+		//		layout.justify = false;
+		//		layout.type = SWT.HORIZONTAL;
+		//		//layout.numColumns = 2; // buttons number
+		//		//layout.makeColumnsEqualWidth = false;
+		//		shell.setLayout(layout);
+		//
+		//		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2; // buttons number
+		layout.makeColumnsEqualWidth = false;
 		shell.setLayout(layout);
 
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		GridData data = new GridData(GridData.FILL_BOTH);
 
 		Button two = new Button(shell, SWT.PUSH);
-		two.setText("Check against classical code style rules");
+		two.setText("Check against code style rules");
 		two.setEnabled(true);
 		two.addMouseListener(new MouseListener() {
 

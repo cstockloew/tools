@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.universAAL.middleware.ui.UICaller;
 import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
 import org.universaal.tools.conformanceTools.checks.api.SubInterfaces;
 import org.universaal.tools.conformanceTools.utils.Utilities;
@@ -22,20 +23,25 @@ public class UICallerImpl extends CheckImpl {
 	}
 
 	@Override
-	public String check(IResource resource) throws Exception {
+	public String check(IResource resource) {
 
-		ArrayList<ICompilationUnit> classes;
-		if(SubInterfaces.isProject(resource)){
-			classes = Utilities.getAllClasses((IProject) resource);
+		try {
+			ArrayList<ICompilationUnit> classes;
+			if(SubInterfaces.isProject(resource)){
 
-			/*for(ICompilationUnit clazz: classes){
-				if(clazz instanceof UICaller){
-					System.out.println(""+clazz.getCorrespondingResource().getName());
-				}
-			}*/
+				classes = Utilities.getAllClasses((IProject) resource);
 
-			result = "UICaller instance is correctly istantiated.";
-			return ok;			
+//				for(ICompilationUnit clazz: classes){
+//					if(clazz instanceof UICaller || UICaller.class.isAssignableFrom(clazz.getClass())){
+//						System.out.println(""+clazz.getCorrespondingResource().getName());
+//					}
+//				}
+//
+//				result = "UICaller instance is correctly istantiated.";
+//				return ok;			
+			}			
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 
 		result = "UICaller instance is not correctly istantiated. This may cause runtime issues.";
