@@ -2,6 +2,7 @@ package org.universaal.tools.packaging.tool.gui;
 
 import java.util.List;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
@@ -13,12 +14,10 @@ import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteMan
 
 public class Page5 extends PageImpl {
 
-	private int partNumber;
 	private Text contact, artifactID1, artifactID2, artifactID3, prot1, prot2, prot3, v1, v2, v3;
 
-	protected Page5(String pageName, int pn) {
-		super(pageName, "Specify details for the MPA you are creating.", pn);
-		partNumber = pn;
+	protected Page5(String pageName) {
+		super(pageName, "Specify details for the MPA you are creating.");
 	}
 
 	public void createControl(Composite parent) {
@@ -31,22 +30,22 @@ public class Page5 extends PageImpl {
 		layout.numColumns = 2;
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
-		List<RemoteManagement> remoteM = multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement();
+		List<RemoteManagement> remoteM = app.getManagement().getRemoteManagement();
 		while(remoteM.size() <= 2){
-			remoteM.add(multipartApplication.getApplications().get(partNumber).getManagement().new RemoteManagement());
+			remoteM.add(app.getManagement().new RemoteManagement());
 		}
 
 		Label l1 = new Label(container, SWT.NULL);
 		contact = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(contact);
 		l1.setText("Contact Person");
-		contact.setText(multipartApplication.getApplications().get(partNumber).getManagement().getContact());			
+		contact.setText(app.getManagement().getContact());			
 		contact.setLayoutData(gd);	
 		contact.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().setContact(contact.getText());
+				app.getManagement().setContact(contact.getText());
 			}
 		});
 
@@ -60,21 +59,25 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(0).getSoftware().setArtifactID(artifactID1.getText());
+				app.getManagement().getRemoteManagement().get(0).getSoftware().setArtifactID(artifactID1.getText());
 			}
 		});
 
 		Label l3 = new Label(container, SWT.NULL);
 		prot1 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(prot1);
-		l3.setText("Protocol");
-		prot1.setText(remoteM.get(0).getProtocol());			
+		l3.setText("Protocols, comma separated");
+		List<String> protocols1 = remoteM.get(0).getProtocol();
+		String prots1 = "";
+		for(int i = 0; i < protocols1.size(); i++)
+			prots1 = prots1.concat(protocols1.get(i)+" ");
+		prot1.setText(prots1);			
 		prot1.setLayoutData(gd);	
 		prot1.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(0).setProtocol(prot1.getText());
+				//multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(0).setProtocol(prot1.getText());
 			}
 		});
 
@@ -88,7 +91,7 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(0).getSoftware().getVersion().setVersion(v1.getText());
+				app.getManagement().getRemoteManagement().get(0).getSoftware().getVersion().setVersion(v1.getText());
 			}
 		});
 
@@ -102,21 +105,25 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(1).getSoftware().setArtifactID(artifactID2.getText());
+				app.getManagement().getRemoteManagement().get(1).getSoftware().setArtifactID(artifactID2.getText());
 			}
 		});
 
 		Label l6 = new Label(container, SWT.NULL);
 		prot2 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(prot1);
-		l6.setText("Protocol");
-		prot2.setText(remoteM.get(1).getProtocol());			
+		l6.setText("Protocols, comma separated");
+		List<String> protocols2 = remoteM.get(1).getProtocol();
+		String prots2 = "";
+		for(int i = 0; i < protocols2.size(); i++)
+			prots2 = prots2.concat(protocols2.get(i)+" ");
+		prot2.setText(prots2);					
 		prot2.setLayoutData(gd);	
 		prot2.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(1).setProtocol(prot2.getText());
+				//multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(1).setProtocol(prot2.getText());
 			}
 		});
 
@@ -130,7 +137,7 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(1).getSoftware().getVersion().setVersion(v2.getText());
+				app.getManagement().getRemoteManagement().get(1).getSoftware().getVersion().setVersion(v2.getText());
 			}
 		});
 
@@ -144,21 +151,25 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(2).getSoftware().setArtifactID(artifactID3.getText());
+				app.getManagement().getRemoteManagement().get(2).getSoftware().setArtifactID(artifactID3.getText());
 			}
 		});
 
 		Label l9 = new Label(container, SWT.NULL);
 		prot3 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(prot1);
-		l9.setText("Protocol");
-		prot3.setText(remoteM.get(2).getProtocol());			
+		l9.setText("Protocols, comma separated");
+		List<String> protocols3 = remoteM.get(2).getProtocol();
+		String prots3 = "";
+		for(int i = 0; i < protocols3.size(); i++)
+			prots3 = prots3.concat(protocols3.get(i)+" ");
+		prot3.setText(prots2);			
 		prot3.setLayoutData(gd);	
 		prot3.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(2).setProtocol(prot3.getText());
+				//multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(2).setProtocol(prot3.getText());
 			}
 		});
 
@@ -172,8 +183,33 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(2).getSoftware().getVersion().setVersion(v3.getText());
+				app.getManagement().getRemoteManagement().get(2).getSoftware().getVersion().setVersion(v3.getText());
 			}
 		});
+	}
+
+	@Override
+	public IWizardPage getNextPage(){
+
+		if(!prot1.getText().isEmpty()){
+			String[] ps = prot1.getText().split(",");
+			for(int i = 0; i < ps.length; i++)
+				if(ps[i] != null)
+					app.getManagement().getRemoteManagement().get(0).getProtocol().add(ps[i]);
+		}
+		if(!prot2.getText().isEmpty()){
+			String[] ps = prot2.getText().split(",");
+			for(int i = 0; i < ps.length; i++)
+				if(ps[i] != null)
+					app.getManagement().getRemoteManagement().get(1).getProtocol().add(ps[i]);
+		}
+		if(!prot3.getText().isEmpty()){
+			String[] ps = prot3.getText().split(",");
+			for(int i = 0; i < ps.length; i++)
+				if(ps[i] != null)
+					app.getManagement().getRemoteManagement().get(2).getProtocol().add(ps[i]);
+		}
+
+		return super.getNextPage();
 	}
 }

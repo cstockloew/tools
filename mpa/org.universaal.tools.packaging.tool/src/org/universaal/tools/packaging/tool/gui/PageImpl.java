@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.tool.actions.SampleAction;
+import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
 
 public abstract class PageImpl extends WizardPage implements Page {
@@ -23,11 +24,11 @@ public abstract class PageImpl extends WizardPage implements Page {
 	protected Composite container;
 	protected GridData gd;
 
-	protected static MPA multipartApplication;
+	private MPA multipartApplication;
+	protected Application app;
 	protected List<Control> mandatory;
 
 	protected static int otherLicenses = 1;
-	protected int partNumber = 0;
 
 	protected PageImpl(String pageName) {
 		super(pageName);
@@ -37,11 +38,10 @@ public abstract class PageImpl extends WizardPage implements Page {
 		setPageComplete(false);
 	}
 
-	protected PageImpl(String pageName, String description, int pn) {
+	protected PageImpl(String pageName, String description){
 		super(pageName);
 		setDescription(description);
 		setTitle(pageName);		
-		partNumber =  pn;
 
 		mandatory = new ArrayList<Control>();
 		setPageComplete(false);
@@ -49,6 +49,7 @@ public abstract class PageImpl extends WizardPage implements Page {
 
 	public void setMPA(MPA mpa) {
 		multipartApplication = mpa;
+		app = multipartApplication.getApplication();
 	}
 
 	public boolean validate(){
@@ -65,9 +66,6 @@ public abstract class PageImpl extends WizardPage implements Page {
 	}
 
 	public void addPageCustom(boolean sec, IWizardPage page){
-
-		//TODO wrong!
-		//partNumber
 
 		if(!sec){
 			SampleAction.gui.addPage(page);
@@ -99,10 +97,6 @@ public abstract class PageImpl extends WizardPage implements Page {
 
 			SampleAction.gui.setPages(new ArrayList<IWizardPage>(Arrays.asList(newPages)));
 		}
-	}
-
-	public int getPartNumber(){
-		return partNumber;
 	}
 
 	public void setArtifact(IProject p){}

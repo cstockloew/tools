@@ -1,33 +1,16 @@
 package org.universaal.tools.packaging.tool.parts;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public class License {
 
-	/*
-	 * <xs:complexType name="licenseType">
-		<xs:annotation>
-			<xs:documentation>describe the single license</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="category" type="uapp:licenseCategoryType" />
-			<xs:element name="name" type="xs:string" />
-			<xs:element name="link" type="xs:anyURI" />
-		</xs:sequence>
-	</xs:complexType>
-	 */
-
-	LicenseCategory category;
-	String name;
-	URI link;
+	private LicenseCategory category;
+	private String name;
+	private URI link;
 
 	public License(){
 		name = Application.defaultString;
-		try {
-			link= new URI(Application.defaultURL);
-		} catch (URISyntaxException e) {
-		}
+		link= URI.create(Application.defaultURL);
 		category = LicenseCategory.APPLICATION;
 	}
 
@@ -49,4 +32,21 @@ public class License {
 	public void setLink(URI link) {
 		this.link = link;
 	}
+
+	public String getXML(){
+		return "<category>"+category.toString()+"</category><name>"+name+"</name><link>"+link.toASCIIString()+"</link>";
+	}
+
+	/*
+	 * <xs:complexType name="licenseType">
+		<xs:annotation>
+			<xs:documentation>describe the single license</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="category" type="uapp:licenseCategoryType" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="link" type="xs:anyURI" />
+		</xs:sequence>
+	</xs:complexType>
+	 */
 }

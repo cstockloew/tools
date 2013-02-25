@@ -42,16 +42,40 @@ public class Part {
 			executionUnits = new ArrayList<ExecutionUnit>();
 		return executionUnits;
 	}
-	
+
+	public String getXML(){
+		
+		String r = "";
+		r = r.concat("<part>");
+
+		r = r.concat("<partCapabilities>");
+		for(int i = 0; i < getPartCapabilities().size(); i++)
+			r = r.concat("<capability>"+partCapabilities.get(i).getXML()+"</capability>");
+		r = r.concat("</partCapabilities>");
+
+		r = r.concat("<partRequirements>");
+		for(int i = 0; i < getPartRequirements().size(); i++)
+			r = r.concat("<requirement>"+partRequirements.get(i).getXML()+"</requirement>");
+		r = r.concat("</partRequirements>");
+
+		for(int i = 0; i < getDeploymentUnits().size(); i++)
+			r = r.concat(deploymentUnits.get(i).getXML());
+		
+		for(int i = 0; i < getExecutionUnits().size(); i++)
+			r = r.concat(executionUnits.get(i).getXML());
+		
+		r = r.concat("<partId>"+id+"</partId>");
+
+		r = r.concat("</part>");
+
+		return r;
+	}
+
 	/*
 	 * <xs:element name="part">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element minOccurs="0" name="partCapabilities">
-					<xs:annotation>
-						<xs:documentation>Describes what this appPart offers
-						</xs:documentation>
-					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element maxOccurs="unbounded" name="capability"
@@ -60,10 +84,6 @@ public class Part {
 					</xs:complexType>
 				</xs:element>
 				<xs:element minOccurs="0" name="partRequirements">
-					<xs:annotation>
-						<xs:documentation>Describes the requirements specific to this
-							appPart</xs:documentation>
-					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="requirement" maxOccurs="unbounded"

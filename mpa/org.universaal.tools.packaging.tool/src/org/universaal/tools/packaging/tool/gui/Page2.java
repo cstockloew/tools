@@ -18,11 +18,9 @@ public class Page2 extends PageImpl {
 
 	private Text certificate, person, email, organization, phone, address, web;
 	private boolean addLicense;
-	private int partNumber;
 
-	protected Page2(String pageName, int pn) {
-		super(pageName, "Specify contact details", pn);
-		partNumber = pn;
+	protected Page2(String pageName) {
+		super(pageName, "Specify contact details");
 	}
 
 	public void createControl(Composite parent) {
@@ -41,49 +39,49 @@ public class Page2 extends PageImpl {
 		certificate = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(certificate);
 		l1.setText("Security certificate");
-		certificate.setText(multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().getCertificate().toString());			
+		certificate.setText(app.getApplication().getApplicationProvider().getCertificate().toString());			
 		certificate.setLayoutData(gd);				
 
 		Label l2 = new Label(container, SWT.NULL);
 		person = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(person);
 		l2.setText("Contact person");
-		person.setText(multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().getContactPerson());			
+		person.setText(app.getApplication().getApplicationProvider().getContactPerson());			
 		person.setLayoutData(gd);				
 
 		Label l3 = new Label(container, SWT.NULL);
 		email = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(email);
 		l3.setText("Contact e-mail");
-		email.setText(multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().getContactPerson());			
+		email.setText(app.getApplication().getApplicationProvider().getContactPerson());			
 		email.setLayoutData(gd);	
 
 		Label l4 = new Label(container, SWT.NULL);
 		organization = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(organization);
 		l4.setText("Organization name");
-		organization.setText(multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().getOrganizationName());			
+		organization.setText(app.getApplication().getApplicationProvider().getOrganizationName());			
 		organization.setLayoutData(gd);
 
 		Label l5 = new Label(container, SWT.NULL);
 		phone = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(phone);
 		l5.setText("Phone number");
-		phone.setText(multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().getPhone());			
+		phone.setText(app.getApplication().getApplicationProvider().getPhone());			
 		phone.setLayoutData(gd);
 
 		Label l6 = new Label(container, SWT.NULL);
 		address = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(address);
 		l6.setText("Street address");
-		address.setText(multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().getStreetAddress());			
+		address.setText(app.getApplication().getApplicationProvider().getStreetAddress());			
 		address.setLayoutData(gd);
 
 		Label l7 = new Label(container, SWT.NULL);
 		web = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(web);
 		l7.setText("Website");
-		web.setText(multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().getWebAddress().toString());			
+		web.setText(app.getApplication().getApplicationProvider().getWebAddress().toString());			
 		web.setLayoutData(gd);
 
 		certificate.addKeyListener(new QL() {
@@ -91,7 +89,7 @@ public class Page2 extends PageImpl {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try{
-					multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().setCertificate(new URI(certificate.getText()));
+					app.getApplication().getApplicationProvider().setCertificate(URI.create(certificate.getText()));
 				}
 				catch(Exception ex){
 					ex.printStackTrace();
@@ -102,35 +100,35 @@ public class Page2 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().setContactPerson(person.getText());				
+				app.getApplication().getApplicationProvider().setContactPerson(person.getText());				
 			}
 		});	
 		email.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().setEmail(email.getText());				
+				app.getApplication().getApplicationProvider().setEmail(email.getText());				
 			}
 		});	
 		organization.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().setOrganizationName(organization.getText());				
+				app.getApplication().getApplicationProvider().setOrganizationName(organization.getText());				
 			}
 		});		
 		phone.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().setPhone(phone.getText());				
+				app.getApplication().getApplicationProvider().setPhone(phone.getText());				
 			}
 		});
 		address.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().setStreetAddress(address.getText());				
+				app.getApplication().getApplicationProvider().setStreetAddress(address.getText());				
 			}
 		});
 		web.addKeyListener(new QL() {
@@ -138,7 +136,7 @@ public class Page2 extends PageImpl {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try{
-					multipartApplication.getApplications().get(partNumber).getApplication().getApplicationProvider().setWebAddress(new URI(web.getText()));
+					app.getApplication().getApplicationProvider().setWebAddress(URI.create(web.getText()));
 				}
 				catch(Exception ex){
 					ex.printStackTrace();
@@ -168,7 +166,7 @@ public class Page2 extends PageImpl {
 		});
 		b.setLayoutData(gd);
 		Label l9 = new Label(container, SWT.NULL);
-		l9.setText("(in: "+multipartApplication.getApplications().get(partNumber).getApplication().getLicenses().size()+")");
+		l9.setText("(in: "+app.getApplication().getLicenses().size()+")");
 	}
 
 	@Override

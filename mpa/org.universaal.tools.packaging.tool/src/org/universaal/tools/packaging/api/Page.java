@@ -13,6 +13,8 @@ public interface Page {
 	public final String PAGE_PART = "Part #";
 	public final String PAGE_ERROR = "Error";
 
+	public final String KARAF_NAMESPACE = "krf";
+
 	public void setMPA(MPA mpa);
 
 	public boolean validate();

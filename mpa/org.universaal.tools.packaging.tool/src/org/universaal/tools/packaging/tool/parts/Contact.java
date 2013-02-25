@@ -6,71 +6,9 @@ import java.util.List;
 
 public class Contact {
 
-	/*
-	 * <xs:sequence>
-			<xs:element minOccurs="0" name="organizationName" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Organization name, optional</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="certificate" type="xs:anyURI" />
-			<xs:element minOccurs="0" name="contactPerson" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Name of the contact person, optional
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="streetAddress" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Street address for contacts, free text, optional
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="email" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>email for contacts, optional</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="webAddress" type="xs:anyURI">
-				<xs:annotation>
-					<xs:documentation>Web site of the provider, free text, optional
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="phone" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Phone number for contacts, free text, optional
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="otherChannel">
-				<xs:annotation>
-					<xs:documentation>Other optional communication channels, fax, IM...
-					</xs:documentation>
-				</xs:annotation>
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="channelName" type="xs:string">
-							<xs:annotation>
-								<xs:documentation>The name/type of the channel, e.g. Fax,
-									Skype...</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="channelDetails" type="xs:string">
-							<xs:annotation>
-								<xs:documentation>the identifier for this channel, e.g. Skype
-									profile name, Fax number...</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	 */
-
-	String organizationName, contactPerson, streetAddress, email, phone;
-	URI certificate, webAddress;
-	List<OtherChannel> otherChannels;
+	private String organizationName, contactPerson, streetAddress, email, phone;
+	private URI certificate, webAddress;
+	private List<OtherChannel> otherChannels;
 
 	public Contact(){
 
@@ -81,8 +19,8 @@ public class Contact {
 		phone = Application.defaultString;
 
 		try{
-			certificate = new URI(Application.defaultURL);
-			webAddress = new URI(Application.defaultURL);
+			certificate = URI.create(Application.defaultURL);
+			webAddress = URI.create(Application.defaultURL);
 		}
 		catch(Exception ex){}
 	}
@@ -162,9 +100,26 @@ public class Contact {
 		return otherChannels;
 	}
 
+	public String getXML(){
+
+		String r = "";
+		r = r.concat("<organizationName>"+organizationName+"</organizationName>");
+		r = r.concat("<certificate>"+certificate.toASCIIString()+"</certificate>");
+		r = r.concat("<contactPerson>"+contactPerson+"</contactPerson>");
+		r = r.concat("<streetAddress>"+streetAddress+"</streetAddress>");
+		r = r.concat("<email>"+email+"</email>");
+		r = r.concat("<webAddress>"+webAddress.toASCIIString()+"</webAddress>");
+		r = r.concat("<phone>"+phone+"</phone>");
+		
+		for(int i = 0; i < getOtherChannels().size(); i++)
+			r = r.concat("<otherChannel>"+otherChannels.get(i).getXML()+"</otherChannel>");
+		
+		return r;
+	}
+
 	public class OtherChannel{
 
-		String channelName, channelDetails;
+		private String channelName, channelDetails;
 
 		public OtherChannel(){
 			channelName = Application.defaultString;
@@ -186,5 +141,38 @@ public class Contact {
 		public void setChannelDetails(String channelDetails) {
 			this.channelDetails = channelDetails;
 		}
+
+		public String getXML(){
+			return "<channelName>"+channelName+"</channelName>"+"<channelDetails>"+channelDetails+"</channelDetails>";
+		}
 	}
+
+	/*
+	 * <xs:sequence>
+			<xs:element minOccurs="0" name="organizationName" type="xs:string">
+			</xs:element>
+			<xs:element minOccurs="0" name="certificate" type="xs:anyURI" />
+			<xs:element minOccurs="0" name="contactPerson" type="xs:string">
+			</xs:element>
+			<xs:element minOccurs="0" name="streetAddress" type="xs:string">
+			</xs:element>
+			<xs:element name="email" type="xs:string">
+			</xs:element>
+			<xs:element minOccurs="0" name="webAddress" type="xs:anyURI">
+			</xs:element>
+			<xs:element minOccurs="0" name="phone" type="xs:string">
+			</xs:element>
+			
+			<xs:element minOccurs="0" name="otherChannel">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="channelName" type="xs:string">
+						</xs:element>
+						<xs:element name="channelDetails" type="xs:string">
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	 */
 }

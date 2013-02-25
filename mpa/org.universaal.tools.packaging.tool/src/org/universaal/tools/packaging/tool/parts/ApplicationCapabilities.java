@@ -1,5 +1,6 @@
 package org.universaal.tools.packaging.tool.parts;
 
+import java.util.Enumeration;
 import java.util.Properties;
 
 import org.universaal.tools.packaging.tool.parts.Capability.Mandatory;
@@ -7,7 +8,6 @@ import org.universaal.tools.packaging.tool.parts.Capability.Optional;
 
 public class ApplicationCapabilities {
 
-	//private List<Capability> capabilities;
 	private Properties capabilities;
 
 	public ApplicationCapabilities(){
@@ -26,9 +26,7 @@ public class ApplicationCapabilities {
 		}
 	}
 
-	public /*List<Capability>*/ Properties getCapabilities() {
-		//if(capabilities == null)
-		//capabilities = new ArrayList<Capability>();
+	public Properties getCapabilities() {
 		return capabilities;
 	}
 
@@ -39,4 +37,34 @@ public class ApplicationCapabilities {
 	public void setCapabilities(Properties cs){
 		capabilities = cs;
 	}
+
+	public String getXML(){
+
+		String r = "";
+
+		try{
+			Enumeration<Object> cs = capabilities.keys();
+			while(cs.hasMoreElements()){
+				String key = (String) cs.nextElement();
+				if(key != null){
+					String value = (String) capabilities.get(key);
+					r = r.concat("<capability><name>"+key+"</name>"+"<value>"+value+"</value></capability>");
+				}
+			}
+		}
+		catch(Exception ex){}
+
+		return r;
+	}
+
+	/*
+	 * <xs:complexType name="capabilityType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+			</xs:element>
+			<xs:element name="value" type="xs:string">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	 */
 }

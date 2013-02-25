@@ -1,7 +1,6 @@
 package org.universaal.tools.packaging.tool.parts;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,7 @@ public class App {
 	private String name, appID, description, applicationProfile = "org.universAAL.ontology.profile.AALAppSubProfile";
 	private Version version;
 	private boolean multipart;
-	private List<String> tags;
+	private String tags;
 	private Contact applicationProvider;
 	private List<LicenseSet> licenses;
 
@@ -18,6 +17,10 @@ public class App {
 		name  = Application.defaultString;
 		appID = Application.defaultString;
 		description = Application.defaultString;
+		tags = Application.defaultString;
+
+		version = new Version();
+		applicationProvider = new Contact();
 	}
 
 	public String getName() {
@@ -53,8 +56,6 @@ public class App {
 	}
 
 	public Version getVersion() {
-		if(version == null)
-			version = new Version();
 		return version;
 	}
 
@@ -66,15 +67,15 @@ public class App {
 		this.multipart = multipart;
 	}
 
-	public List<String> getTags() {
-		if(tags == null)
-			tags = new ArrayList<String>();
+	public String getTags() {
 		return tags;
 	}
 
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
 	public Contact getApplicationProvider() {
-		if(applicationProvider == null)
-			applicationProvider = new Contact();
 		return applicationProvider;
 	}
 
@@ -84,18 +85,34 @@ public class App {
 		return licenses;
 	}
 
+	public String getXML(){
+
+		String r = "";
+		//r = r.concat("<app>");
+		r = r.concat("<name>"+name+"</name>");
+		r = r.concat("<version>"+version.getXML()+"</version>");
+		r = r.concat("<appId>"+appID+"</appId>");
+		r = r.concat("<description>"+description+"</description>");
+		r = r.concat("<multipart>"+multipart+"</multipart>");
+		r = r.concat("<tags>"+tags+"</tags>");
+		r = r.concat("<applicationProvider>"+applicationProvider.getXML()+"</applicationProvider>");
+		for(int i = 0; i < getLicenses().size(); i++)
+			r = r.concat(licenses.get(i).getXML());
+		r = r.concat("<applicationProfile>"+applicationProfile+"</applicationProfile>");
+		//r = r.concat("</app>");
+
+		return r;
+	}
+
 	public class SLA {
 
-		String name;		
-		URI link;
+		private String name;		
+		private URI link;
 
 		public SLA(){
 
 			name = Application.defaultString;
-			try {
-				link = new URI(Application.defaultURL);
-			} catch (URISyntaxException e) {
-			}
+			link = URI.create(Application.defaultURL);
 		}
 
 		public String getName() {
@@ -110,12 +127,20 @@ public class App {
 		public void setLink(URI link) {
 			this.link = link;
 		}
+
+		public String getXML(){
+			return "<sla><name>"+name+"</name><link>"+link+"</link></sla>";
+		}
 	}
 
 	public class LicenseSet{
 
-		SLA sla;
-		List<License> licenseList;
+		private SLA sla;
+		private List<License> licenseList;
+
+		public LicenseSet(){
+			sla = new SLA();
+		}
 
 		public SLA getSla() {
 			return sla;
@@ -128,73 +153,44 @@ public class App {
 				licenseList = new ArrayList<License>();
 			return licenseList;
 		}
+
+		public String getXML(){
+
+			String r = "";
+			r = r.concat("<licenses>");
+			for(int i = 0; i< licenseList.size(); i++)
+				r = r.concat("<license>"+licenseList.get(i).getXML()+"</license>");
+			r = r.concat(sla.getXML());
+			r = r.concat("</licenses>");
+
+			return r;
+		}
 	}
 
 	/*
 	 * <xs:element name="app">
-					<xs:annotation>
-						<xs:documentation>basic info about the application
-						</xs:documentation>
-					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="name" type="xs:string">
-								<xs:annotation>
-									<xs:documentation>friendly name e.g. Medication Manager
-									</xs:documentation>
-								</xs:annotation>
 							</xs:element>
 							<xs:element name="version" type="uapp:versionType">
-								<xs:annotation>
-									<xs:documentation>version of the application</xs:documentation>
-								</xs:annotation>
 							</xs:element>
 							<xs:element name="appId" type="xs:string">
-								<xs:annotation>
-									<xs:documentation>unique name. It is used as key by the Space
-										Application Registry e.g.
-										org.universaal.aaalapplication.medmanager</xs:documentation>
-								</xs:annotation>
 							</xs:element>
 							<xs:element name="description" type="xs:string">
-								<xs:annotation>
-									<xs:documentation>free text description about the application
-									</xs:documentation>
-								</xs:annotation>
 							</xs:element>
 							<xs:element name="multipart" type="xs:boolean">
-								<xs:annotation>
-									<xs:documentation>The application consists of multiple parts
-									</xs:documentation>
-								</xs:annotation>
 							</xs:element>
 							<xs:element name="tags" type="xs:string">
-								<xs:annotation>
-									<xs:documentation>comma separated list of tags, e.g.
-										&quot;medication, medication monitoring, control&quot;
-									</xs:documentation>
-								</xs:annotation>
 							</xs:element>
 							<xs:element name="applicationProvider" type="uapp:contactType">
-								<xs:annotation>
-									<xs:documentation>contact information to the provider of the
-										application</xs:documentation>
-								</xs:annotation>
 							</xs:element>
 							<xs:element maxOccurs="unbounded" minOccurs="0" name="licenses">
-								<xs:annotation>
-									<xs:documentation>root license - each artifact may be licensed
-										under different license</xs:documentation>
-								</xs:annotation>
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element maxOccurs="unbounded" minOccurs="0"
 											name="license" type="uapp:licenseType" />
 										<xs:element minOccurs="0" name="sla">
-											<xs:annotation>
-												<xs:documentation>service level agreement, if any
-												</xs:documentation>
-											</xs:annotation>
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="name" type="xs:string" />
@@ -206,11 +202,6 @@ public class App {
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="applicationProfile" type="xs:string">
-								<xs:annotation>
-									<xs:documentation>URI of the AALAppSubProfile??? Is it not
-										fixed to org.universAAL.ontology.profile.AALAppSubProfile?
-									</xs:documentation>
-								</xs:annotation>
 							</xs:element>
 						</xs:sequence>
 					</xs:complexType>

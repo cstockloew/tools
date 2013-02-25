@@ -2,18 +2,6 @@ package org.universaal.tools.packaging.tool.parts;
 
 public class Version {
 
-	/*
-	 * <xs:element default="0" name="major" type="xs:int" />
-			<xs:element default="0" name="minor" type="xs:int" />
-			<xs:element default="0" name="micro" type="xs:int" />
-			<xs:element minOccurs="0" name="build" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>e.g. major.minor.micro-build</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-	 * 
-	 */
-
 	private String major, minor, micro, build;
 
 	public Version(){
@@ -77,4 +65,20 @@ public class Version {
 		}
 		catch(Exception ex){}
 	}
+
+	public String getXML(){
+		return "<major>"+major+"</major>"+"<minor>"+minor+"</minor>"+"<micro>"+micro+"</micro>"+"<build>"+build+"</build>";
+	}
+
+	/*
+	 * <xs:element default="0" name="major" type="xs:int" />
+			<xs:element default="0" name="minor" type="xs:int" />
+			<xs:element default="0" name="micro" type="xs:int" />
+			<xs:element minOccurs="0" name="build" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>e.g. major.minor.micro-build</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+	 * 
+	 */
 }

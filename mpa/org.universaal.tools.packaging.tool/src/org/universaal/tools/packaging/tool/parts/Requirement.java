@@ -41,12 +41,15 @@ public class Requirement {
 		return singleReq;
 	}
 
+	public String getXML(){
+		if(singleReq)
+			return "<reqAtom>"+singleRequirement.getXML()+"</reqAtom><optional>"+optional+"</optional>";
+		else
+			return "<reqGroup>"+requirementGroup.getXML()+"</reqGroup><optional>"+optional+"</optional>";
+	}
+
 	/*
 	 * <xs:complexType name="reqType">
-		<xs:annotation>
-			<xs:documentation>describes single offering, mostly used for devices
-				and platforms</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
 			<xs:choice>
 				<xs:element name="reqAtom" type="uapp:reqAtomType" />

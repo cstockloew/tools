@@ -18,11 +18,9 @@ public class Page3 extends PageImpl {
 
 	private Combo targetSpace;
 	private Text targetSpaceVersion, mw_version, targetOntologies, targetContainerName, targetContainerVersion, targetDeploymentTool;
-	private int partNumber;
 
-	protected Page3(String pageName, int pn) {
-		super(pageName, "Specify capabilities of the MPA", pn);
-		partNumber = pn;
+	protected Page3(String pageName) {
+		super(pageName, "Specify capabilities of the MPA");
 	}
 
 	public void createControl(Composite parent) {
@@ -35,7 +33,7 @@ public class Page3 extends PageImpl {
 		layout.numColumns = 2;
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
-		Properties capabilities = multipartApplication.getApplications().get(partNumber).getCapabilities().getCapabilities();
+		Properties capabilities = app.getCapabilities().getCapabilities();
 
 		Label l1 = new Label(container, SWT.NULL);
 		targetSpace = new Combo (container, SWT.READ_ONLY);
@@ -94,49 +92,49 @@ public class Page3 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getCapabilities().setCapability(Capability.Mandatory.TARGET_SPACE.toString(), targetSpace.getText());				
+				app.getCapabilities().setCapability(Capability.Mandatory.TARGET_SPACE.toString(), targetSpace.getText());				
 			}
 		});
 		targetSpaceVersion.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getCapabilities().setCapability(Capability.Mandatory.TARGET_SPACE_VERSION.toString(), targetSpaceVersion.getText());				
+				app.getCapabilities().setCapability(Capability.Mandatory.TARGET_SPACE_VERSION.toString(), targetSpaceVersion.getText());				
 			}
 		});
 		mw_version.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getCapabilities().setCapability(Capability.Mandatory.MW_VERSION.toString(), mw_version.getText());				
+				app.getCapabilities().setCapability(Capability.Mandatory.MW_VERSION.toString(), mw_version.getText());				
 			}
 		});
 		targetOntologies.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getCapabilities().setCapability(Capability.Mandatory.ONTOLOGIES.toString(), targetOntologies.getText());				
+				app.getCapabilities().setCapability(Capability.Mandatory.ONTOLOGIES.toString(), targetOntologies.getText());				
 			}
 		});
 		targetContainerName.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getCapabilities().setCapability(Capability.Mandatory.TARGET_CONTAINER_NAME.toString(), targetContainerName.getText());				
+				app.getCapabilities().setCapability(Capability.Mandatory.TARGET_CONTAINER_NAME.toString(), targetContainerName.getText());				
 			}
 		});
 		targetContainerVersion.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getCapabilities().setCapability(Capability.Mandatory.TARGET_CONTAINER_VERSION.toString(), targetContainerVersion.getText());				
+				app.getCapabilities().setCapability(Capability.Mandatory.TARGET_CONTAINER_VERSION.toString(), targetContainerVersion.getText());				
 			}
 		});
 		targetDeploymentTool.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				multipartApplication.getApplications().get(partNumber).getCapabilities().setCapability(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString(), targetDeploymentTool.getText());				
+				app.getCapabilities().setCapability(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString(), targetDeploymentTool.getText());				
 			}
 		});
 	}
@@ -144,7 +142,8 @@ public class Page3 extends PageImpl {
 	@Override
 	public IWizardPage getPreviousPage() {
 
-		if(!multipartApplication.getApplications().get(partNumber).getApplication().getLicenses().isEmpty())
+		//TODO
+		if(!app.getApplication().getLicenses().isEmpty())
 			return super.getPreviousPage();
 
 		return super.getPreviousPage().getPreviousPage();

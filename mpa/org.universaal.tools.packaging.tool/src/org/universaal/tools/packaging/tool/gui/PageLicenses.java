@@ -1,7 +1,6 @@
 package org.universaal.tools.packaging.tool.gui;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import org.eclipse.jface.wizard.IWizardPage;
@@ -31,18 +30,15 @@ public class PageLicenses extends PageImpl {
 	private SLA sla;
 	private License lic;
 	private boolean addLicense = false, pageAdded = false, onlyLicense = false;
-	private int partNumber;
 
-	protected PageLicenses(String pageName, int pn) {
-		super(pageName, "Add SLA and license(s) for you MPA", pn);
-		this.partNumber = pn;
+	protected PageLicenses(String pageName) {
+		super(pageName, "Add SLA and license(s) for you MPA");
 	}
 
-	protected PageLicenses(String pageName, boolean onlyLicense, int pn) {
+	protected PageLicenses(String pageName, boolean onlyLicense) {
 
-		super(pageName, "Add SLA and license(s) for you MPA", pn);
+		super(pageName, "Add SLA and license(s) for you MPA");
 		this.onlyLicense = onlyLicense;
-		this.partNumber = pn;
 	}
 
 	public void createControl(Composite parent) {
@@ -57,8 +53,8 @@ public class PageLicenses extends PageImpl {
 		gd = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gd.horizontalSpan = 2;
 
-		List<LicenseSet> ls = multipartApplication.getApplications().get(partNumber).getApplication().getLicenses();
-		LicenseSet l = multipartApplication.getApplications().get(partNumber).getApplication().new LicenseSet();		
+		List<LicenseSet> ls = app.getApplication().getLicenses();
+		LicenseSet l = app.getApplication().new LicenseSet();		
 
 		lic = new License();
 
@@ -66,7 +62,7 @@ public class PageLicenses extends PageImpl {
 		ls.add(l);
 
 		if(!onlyLicense){
-			sla = multipartApplication.getApplications().get(partNumber).getApplication().new SLA();
+			sla = app.getApplication().new SLA();
 
 			Label l1 = new Label(container, SWT.NULL);
 			slaLink = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -89,11 +85,7 @@ public class PageLicenses extends PageImpl {
 				}
 
 				public void keyPressed(KeyEvent e) {
-					try {
-						sla.setLink(new URI(slaLink.getText()));
-					} catch (URISyntaxException e1) {
-						e1.printStackTrace();
-					}
+					sla.setLink(URI.create(slaLink.getText()));
 				}
 			});
 			slaName.addKeyListener(new KeyListener() {
@@ -151,11 +143,7 @@ public class PageLicenses extends PageImpl {
 			}
 
 			public void keyPressed(KeyEvent e) {
-				try {
-					lic.setLink(new URI(licLink.getText()));
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
-				}
+				lic.setLink(URI.create(licLink.getText()));
 			}
 		});
 		licName.addKeyListener(new KeyListener() {
@@ -173,7 +161,7 @@ public class PageLicenses extends PageImpl {
 		final Button b = new Button(container, SWT.PUSH);
 		b.setText("Add another license");
 		Label t = new Label(container, SWT.NULL);
-		t.setText("License "+multipartApplication.getApplications().get(partNumber).getApplication().getLicenses().size());
+		t.setText("License "+app.getApplication().getLicenses().size());
 		b.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -191,14 +179,14 @@ public class PageLicenses extends PageImpl {
 		});
 		b.setLayoutData(gd);
 		Label l9 = new Label(container, SWT.NULL);
-		l9.setText("(of "+multipartApplication.getApplications().get(partNumber).getApplication().getLicenses().size()+")");
+		l9.setText("(of "+app.getApplication().getLicenses().size()+")");
 	}
 
 	@Override
 	public IWizardPage getNextPage() {
 
 		if(addLicense){
-			addPageCustom(pageAdded, new PageLicenses(Page.PAGE_LICENSE+PageImpl.otherLicenses++, true, partNumber));
+			addPageCustom(pageAdded, new PageLicenses(Page.PAGE_LICENSE+PageImpl.otherLicenses++, true));
 			pageAdded = true;
 		}
 

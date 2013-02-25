@@ -19,15 +19,13 @@ import org.universaal.tools.packaging.tool.parts.SingleRequirement;
 
 public class Page4 extends PageImpl {
 
-	private int partNumber;
 	private List<String> reqs, vals, logicalCriteria, logicalRelations;
 	private Text req1, req2, req3, req4, req5;
 	private Text val1, val2, val3, val4, val5;
 	private Combo c1, c2, c3, c4, c5, c12, c23, c34, c45;
 
-	protected Page4(String pageName, int pn) {
-		super(pageName, "Specify requirements for the MPA you are creating.", pn);
-		partNumber = pn;
+	protected Page4(String pageName) {
+		super(pageName, "Specify requirements for the MPA you are creating.");
 	}
 
 	public void createControl(Composite parent) {
@@ -46,7 +44,7 @@ public class Page4 extends PageImpl {
 		logicalCriteria = new ArrayList<String>();
 		logicalRelations = new ArrayList<String>();
 
-		List<Requirement> list = multipartApplication.getApplications().get(partNumber).getRequirements().getRequirementsList();
+		List<Requirement> list = app.getRequirements().getRequirementsList();
 
 		for(int i = 0; i < list.size(); i++){
 			if(list.get(i).isSingleReq()){
@@ -294,11 +292,11 @@ public class Page4 extends PageImpl {
 		SingleRequirement r2 = new SingleRequirement(req2.getText(), val2.getText(), lc2);
 
 		RequirementsGroup r = new RequirementsGroup(r1, r2, lr);
-		multipartApplication.getApplications().get(partNumber).getRequirements().getRequirementsList().add(new Requirement(r, false));
+		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
 	}
 
 	private void single(Text req1, Text val1, LogicalCriteria lc1){
 		SingleRequirement r = new SingleRequirement(req1.getText(), val1.getText(), lc1);
-		multipartApplication.getApplications().get(partNumber).getRequirements().getRequirementsList().add(new Requirement(r, false));
+		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
 	}
 }

@@ -5,38 +5,6 @@ import java.util.List;
 
 public class ApplicationManagement {
 
-	/*
-	 * <xs:element name="applicationManagement" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Management capabilities.</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="contactPoint" type="xs:string">
-								<xs:annotation>
-									<xs:documentation>person or center in charge of providing
-										assistance for the management
-									</xs:documentation>
-								</xs:annotation>
-							</xs:element>
-							<xs:element minOccurs="0" name="remoteManagement">
-								<xs:annotation>
-									<xs:documentation>software and protocols used for the remote
-										access and management of the application
-									</xs:documentation>
-								</xs:annotation>
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element maxOccurs="unbounded" name="protocols"
-											type="xs:string" />
-										<xs:element name="software" type="uapp:artifactType" />
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-	 */
 	private String contact;
 	private List<RemoteManagement> remoteManagement;
 
@@ -58,21 +26,35 @@ public class ApplicationManagement {
 		return remoteManagement;
 	}
 
+	public String getXML(){
+
+		String r = "";
+		//r = r.concat("<applicationManagement>");
+		r = r.concat("<contactPoint>"+contact+"</contactPoint>");
+
+		r = r.concat("<remoteManagement>");
+		for(int i = 0; i < getRemoteManagement().size(); i++)
+			r = r.concat(remoteManagement.get(i).getXML());
+		r = r.concat("</remoteManagement>");
+
+		//r = r.concat("</applicationManagement>");
+
+		return r;
+	}
+
 	public class RemoteManagement{
 
-		private String protocol;
+		private List<String> protocols;
 		private Artifact software;
 
 		public RemoteManagement(){
-			protocol = Application.defaultString;
 			software = new Artifact();
 		}
 
-		public String getProtocol() {
-			return protocol;
-		}
-		public void setProtocol(String protocol) {
-			this.protocol = protocol;
+		public List<String> getProtocol() {
+			if(protocols == null)
+				protocols = new ArrayList<String>();
+			return protocols;
 		}
 		public Artifact getSoftware() {
 			return software;
@@ -80,5 +62,35 @@ public class ApplicationManagement {
 		public void setSoftware(Artifact software) {
 			this.software = software;
 		}
+
+		public String getXML(){
+
+			String r = "";
+			for(int i = 0; i< protocols.size(); i++)
+				r = r.concat("<protocols>"+protocols.get(i)+"</protocols>");
+			r = r.concat("<software>"+software.getXML()+"</software>");
+
+			return r;
+		}
 	}
+
+	/*
+	 * <xs:element name="applicationManagement" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="contactPoint" type="xs:string">
+							</xs:element>
+							<xs:element minOccurs="0" name="remoteManagement">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="protocols"
+											type="xs:string" />
+										<xs:element name="software" type="uapp:artifactType" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+	 */
 }

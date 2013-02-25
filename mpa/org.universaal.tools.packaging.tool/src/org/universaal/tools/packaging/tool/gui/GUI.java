@@ -1,5 +1,9 @@
 package org.universaal.tools.packaging.tool.gui;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,8 +16,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.api.WizardMod;
-import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
+import org.universaal.tools.packaging.tool.parts.Part;
 
 public class GUI extends WizardMod {
 
@@ -44,34 +48,32 @@ public class GUI extends WizardMod {
 				e.printStackTrace();
 			}
 
+			p1 = new Page1(Page.PAGE1);
+			addPage(p1);
+			p1.setMPA(mpa);
+
+			p2 = new Page2(Page.PAGE2);
+			addPage(p2);
+			p2.setMPA(mpa);
+
+			pl = new PageLicenses(Page.PAGE_LICENSE);
+			addPage(pl);
+			pl.setMPA(mpa);
+
+			p3 = new Page3(Page.PAGE3);
+			addPage(p3);
+			p3.setMPA(mpa);
+
+			p4 = new Page4(Page.PAGE4);
+			addPage(p4);
+			p4.setMPA(mpa);
+
+			p5 = new Page5(Page.PAGE5);
+			addPage(p5);
+			p5.setMPA(mpa);
+
 			for(int i = 0; i < artifacts.size(); i++){
-
-				mpa.getApplications().add(new Application());
-
-				p1 = new Page1(Page.PAGE1+(i+1), i);
-				addPage(p1);
-				p1.setMPA(mpa);
-
-				p2 = new Page2(Page.PAGE2+(i+1), i);
-				addPage(p2);
-				p2.setMPA(mpa);
-
-				pl = new PageLicenses(Page.PAGE_LICENSE+(i+1), i);
-				addPage(pl);
-				pl.setMPA(mpa);
-
-				p3 = new Page3(Page.PAGE3+(i+1), i);
-				addPage(p3);
-				p3.setMPA(mpa);
-
-				p4 = new Page4(Page.PAGE4+(i+1), i);
-				addPage(p4);
-				p4.setMPA(mpa);
-
-				p5 = new Page5(Page.PAGE5+(i+1), i);
-				addPage(p5);
-				p5.setMPA(mpa);
-
+				mpa.getApplication().getParts().add(new Part(artifacts.get(i).getName()));
 				pp = new PagePart(Page.PAGE_PART+(i+1), i);
 				addPage(pp);
 				pp.setMPA(mpa);
@@ -81,11 +83,22 @@ public class GUI extends WizardMod {
 		else{
 			p = new ErrorPage(Page.PAGE_ERROR);
 			addPage(p);
-		}
+		}	
 	}
 
 	@Override
 	public boolean performFinish() {
+		//TODO generate XML
+
+		File file = new File(mpa.getApplication().getApplication().getName()+".xml");
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(file));
+			out.write(mpa.getXML());
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+
 		return true;
 	}
 

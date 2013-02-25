@@ -1,5 +1,8 @@
 package org.universaal.tools.packaging.tool.parts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Application {
 
@@ -11,14 +14,13 @@ public class Application {
 	private ApplicationCapabilities capabilities;
 	private ApplicationRequirements requirements;
 	private ApplicationManagement management;
-	private Part part;
+	private List<Part> parts;
 
 	public Application(){
 		this.application = new App();
 		this.capabilities = new ApplicationCapabilities();
 		this.requirements = new ApplicationRequirements();
 		this.management = new ApplicationManagement();
-		this.part = new Part("defaultId");
 	}
 
 	public App getApplication() {
@@ -45,10 +47,38 @@ public class Application {
 	public void setManagement(ApplicationManagement management) {
 		this.management = management;
 	}
-	public Part getPart() {
-		return part;
+	public List<Part> getParts() {
+		if(this.parts == null)
+			this.parts = new ArrayList<Part>();
+		return parts;
 	}
-	public void setPart(Part part) {
-		this.part = part;
+
+	public String getXML(){
+
+		String r = "";
+
+		r = r.concat("<app>"+application.getXML()+"</app>");
+		r = r.concat("<applicationCapabilities>"+capabilities.getXML()+"</applicationCapabilities>");
+		r = r.concat("<applicationRequirements>"+requirements.getXML()+"</applicationRequirements>");
+		r = r.concat("<applicationManagement>"+management.getXML()+"</applicationManagement>");
+		r = r.concat("<applicationPart>");
+		for(int i = 0; i < getParts().size(); i++)
+			r = r.concat(parts.get(i).getXML());
+		r = r.concat("</applicationPart>");
+
+		return r;
 	}
+
+	/*
+	 <xs:element name="app">
+	 ...
+	 <xs:element minOccurs="0" name="applicationCapabilities">
+	 ...
+	 <xs:element minOccurs="0" name="applicationRequirements">
+	 ...
+	 <xs:element name="applicationManagement" minOccurs="0">
+	 ...
+	 <xs:element name="applicationPart">
+	 ...
+	 */
 }

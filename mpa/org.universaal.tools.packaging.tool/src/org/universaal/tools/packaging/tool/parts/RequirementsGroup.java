@@ -2,19 +2,6 @@ package org.universaal.tools.packaging.tool.parts;
 
 public class RequirementsGroup {
 
-	/*
-	 * <xs:complexType name="reqGroupType">
-		<xs:annotation>
-			<xs:documentation>describes multiple requirements with a given
-				logical relation</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="logicalRelation" type="uapp:logicalRelationType" />
-			<xs:element maxOccurs="2" minOccurs="2" name="requirement"
-				type="uapp:reqType" />
-		</xs:sequence>
-	</xs:complexType>
-	 */
 	private LogicalRelation relation;
 	private SingleRequirement req1, req2;
 
@@ -42,4 +29,18 @@ public class RequirementsGroup {
 	public void setReq2(SingleRequirement req2) {
 		this.req2 = req2;
 	}
+
+	public String getXML(){
+		return "<logicalRelation>"+relation.toString()+"</logicalRelation><requirement>"+req1.getXML()+"</requirement><requirement>"+req2.getXML()+"</requirement>";
+	}
+
+	/*
+	 * <xs:complexType name="reqGroupType">
+		<xs:sequence>
+			<xs:element name="logicalRelation" type="uapp:logicalRelationType" />
+			<xs:element maxOccurs="2" minOccurs="2" name="requirement"
+				type="uapp:reqType" />
+		</xs:sequence>
+	</xs:complexType>
+	 */
 }

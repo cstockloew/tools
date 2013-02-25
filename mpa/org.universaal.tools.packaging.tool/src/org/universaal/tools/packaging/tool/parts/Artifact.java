@@ -2,14 +2,6 @@ package org.universaal.tools.packaging.tool.parts;
 
 public class Artifact {
 
-	/*
-	 * <xs:complexType name="artifactType">
-		<xs:sequence>
-			<xs:element name="artifactId" type="xs:string" />
-			<xs:element name="version" type="uapp:versionType" />
-		</xs:sequence>
-	</xs:complexType>
-	 */
 	private String artifactID;
 	private Version version;
 
@@ -30,4 +22,14 @@ public class Artifact {
 	public void setVersion(Version version) {
 		this.version = version;
 	}
+
+	public String getXML(){
+
+		return "<artifactId>"+artifactID+"</artifactId><version>"+version.getXML()+"</version>";
+	}
+
+	/*
+			<xs:element name="artifactId" type="xs:string" />
+			<xs:element name="version" type="uapp:versionType" />
+	 */
 }

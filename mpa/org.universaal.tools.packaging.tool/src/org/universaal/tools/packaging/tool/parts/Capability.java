@@ -33,6 +33,10 @@ public class Capability {
 		OS, PLATFORM, DEVICE_FEATURES_AUDIO, DEVICE_FEATURES_VISUAL
 	}
 
+	public String getXML(){
+		return "<name>"+name+"</name><value>"+value+"</value>";
+	}
+
 	/*
 aal.target-space.category
 aal.target-space.version
