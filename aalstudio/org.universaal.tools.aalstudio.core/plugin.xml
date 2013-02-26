@@ -18,6 +18,13 @@
                label="AAL Studio"
                mnemonic="U">
             <separator
+                  name="view">
+            </separator>
+            <separator
+                  name="newproject"
+                  visible="true">
+            </separator>
+            <separator
                   name="new"
                   visible="true">
             </separator>
