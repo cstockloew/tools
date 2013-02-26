@@ -10,4 +10,21 @@
             name="AAL Studio">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.universaal.tools.AALStudio.menu?before=view">
+         <command
+               commandId="org.eclipse.ui.perspectives.showPerspective"
+               icon="icons/logo_16x16.png"
+               label="Open AAL Studio Perspective"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.perspectives.showPerspective.perspectiveId"
+                  value="org.universaal.tools.perspective.AALStudioPerspective">
+            </parameter>
+         </command>
+      </menuContribution>
+   </extension>
 </plugin>
