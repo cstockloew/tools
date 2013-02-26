@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.igd.uaal.runner.ui.feature"
-      label="universAAL Pax Runner UI"
-      version="0.0.1.snapshot"
-      provider-name="universAAL">
+      label="AAL Studio Pax Runner UI (do not install with regular Pax UI)"
+      version="0.1.0"
+      provider-name="universAAL"
+      plugin="org.universaal.tools.aalstudio.core">
 
    <copyright url="http://www.ops4j.org">
       Copyright 2009 Alin Dreghiciu.
