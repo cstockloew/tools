@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.depotclient.feature"
       label="AAL Studio integration with Developer Depot"
-      version="0.8.0"
+      version="0.9.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 

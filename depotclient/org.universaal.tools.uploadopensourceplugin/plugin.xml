@@ -58,7 +58,7 @@
             locationURI="menu:org.universaal.tools.AALStudio.menu?endof=new">
          <command
                commandId="org.universaal.tools.uploadopensourceplugin.generateaalapp"
-               icon="icons/newuaal_clss.gif"
+               icon="icons/newuaal_clss.png"
                id="org.universaal.tools.uploadopensourceplugin.menus.generateaalapp"
                style="push">
          </command>
