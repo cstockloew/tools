@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.universAAL.middleware.ui.UICaller;
+// Commented out for now - causes problems with building update site - import org.universAAL.middleware.ui.UICaller;
 import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
 import org.universaal.tools.conformanceTools.checks.api.SubInterfaces;
 import org.universaal.tools.conformanceTools.utils.Utilities;
