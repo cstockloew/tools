@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BuildServiceApplication
 Bundle-SymbolicName: org.universaal.tools.buildPlugin;singleton:=true
-Bundle-Version: 0.8.0
-Bundle-ClassPath: org.universaal.tools.buildPlugin
+Bundle-Version: 0.9.0
+Bundle-ClassPath: .
 Bundle-Activator: org.universaal.tools.buildserviceapplication.Activator
 Bundle-Vendor: CERTH-ITI
 Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
