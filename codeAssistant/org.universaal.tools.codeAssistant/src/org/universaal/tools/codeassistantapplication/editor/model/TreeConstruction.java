@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.universaal.tools.codeassistantapplication.Activator;
 import org.universaal.tools.codeassistantapplication.editor.model.TreeNode;
 
 import com.hp.hpl.jena.ontology.OntClass;
@@ -283,17 +284,13 @@ public class TreeConstruction{
 	private static File[] getDirectoryFiles() throws IOException{
 		File[] files = null;
 		ArrayList owlfiles = new ArrayList();
-		IPath ipath = new Path(codeAssistantDir+File.separator+filesDir+File.separator);
-		owlFilesDir = FileLocator.find(Platform.getBundle("org.universaal.tools.codeAssistant"), ipath, null);
-		//owlFilesDir = (URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+filesDir+File.separator);
+		IPath ipath = Activator.getDefault().getStateLocation();
+
 		try {
 			//File directory = new File(FileLocator.resolve(directoryName).toURI());
-			owlFilesDir = FileLocator.toFileURL(owlFilesDir);
-			String tmp = owlFilesDir.toString();
-			if (tmp.indexOf(" ")!=-1)
-				tmp = (owlFilesDir.toString()).replaceAll(" ", "%20");
-			owlFilesDir = new URL(tmp);
-			File directory = new File(FileLocator.resolve(owlFilesDir).toURI());
+			File parentDir = ipath.toFile();
+			File directory = new File(parentDir.toString(),filesDir);
+
 			if (directory.isDirectory()){
 				files=directory.listFiles();
 				for (int i=0; i<files.length; i++){

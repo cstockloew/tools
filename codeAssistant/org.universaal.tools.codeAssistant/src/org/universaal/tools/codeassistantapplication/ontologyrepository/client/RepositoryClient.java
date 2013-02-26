@@ -56,7 +56,7 @@ public class RepositoryClient {
 	}
 
 	static public boolean downloadOntologyFile(String versionID) {
-
+		//System.out.println("pathToSaveFiles"+pathToSaveFiles);
 		if (getLatestOntologiesMetadata()) {
 			String ontologyName = "";
 			// find ontology name in metadata by parsing the xml file
@@ -125,6 +125,7 @@ public class RepositoryClient {
 		initFiles();
 		boolean res=false;
 		pathToSaveFiles = directory + File.separator;
+		//System.out.println("pathToSaveFiles="+pathToSaveFiles);
 		// Rename the old Ontologies.xml
 		String previousXmlFile = renameFile(directory, "latest_Ontologies.xml");
 		// Read the new Ontologies.xml 
