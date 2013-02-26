@@ -83,7 +83,9 @@ public class CommandCallingListener implements SelectionListener {
 					"Please install the AAL Studio Feature: " + featureName );
 			e.printStackTrace();
 		} catch (NotEnabledException e) {
-			e.printStackTrace();
+			MessageDialog.openError(view.getSite().getShell(),
+					"Command not enabled.",
+					"The command is not enabled for the current selection. Please select a valid target.");
 		} catch (NotHandledException e) {
 			MessageDialog.openError(view.getSite().getShell(),
 					"Not a valid selection.",

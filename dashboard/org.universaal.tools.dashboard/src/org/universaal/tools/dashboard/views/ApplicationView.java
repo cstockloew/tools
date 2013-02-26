@@ -67,7 +67,7 @@ public class ApplicationView extends Composite {
 		composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
 		
 		Label lblAbc = new Label(composite, SWT.NONE);
-		lblAbc.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/go-next.png"));
+		lblAbc.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/next.png"));
 		
 		btnTransform = new Button(composite, SWT.NONE);
 		btnTransform.setEnabled(false);
@@ -96,7 +96,7 @@ public class ApplicationView extends Composite {
 		composite_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
 		
 		Label label = new Label(composite_1, SWT.NONE);
-		label.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/go-next.png"));
+		label.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/next.png"));
 		
 		btnBuild = new Button(composite_1, SWT.NONE);
 		btnBuild.setText("Build");
@@ -125,7 +125,7 @@ public class ApplicationView extends Composite {
 		composite_2.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
 		
 		Label label_1 = new Label(composite_2, SWT.NONE);
-		label_1.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/go-next.png"));
+		label_1.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/next.png"));
 		
 		btnCombine = new Button(composite_2, SWT.NONE);
 		btnCombine.setEnabled(false);

@@ -46,7 +46,7 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:org.universaal.tools.AALStudio.menu?before=new">
+            locationURI="menu:org.universaal.tools.AALStudio.menu?endof=view">
          <command
                commandId="org.universaal.tools.dashboard.opendashboard"
                icon="icons/control_panel.png"
