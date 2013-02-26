@@ -13,11 +13,37 @@ public class Startup{
 	private static String filesDir = new String("owlfiles");
 	private static URL owlFilesDir = null;
 
+	
+	public boolean earlyStartup() {
+		boolean res=false;
+		IPath ipath = new Path(codeAssistantDir+File.separator);
+		owlFilesDir = FileLocator.find(Platform.getBundle("org.universaal.tools.codeAssistant"), ipath, null);
+		try {
+			//System.out.println("owlFilesDir="+owlFilesDir);
+			owlFilesDir = FileLocator.toFileURL(owlFilesDir);
+			String tmp = owlFilesDir.toString();
+			if (tmp.indexOf(" ")!=-1)
+				tmp = (owlFilesDir.toString()).replaceAll(" ", "%20");
+			owlFilesDir = new URL(tmp);
+			
+			File parentDir = new File(FileLocator.resolve(owlFilesDir).toURI());
+			File owlDir = new File(parentDir.toString(),filesDir);
+			boolean result = owlDir.mkdir();  
+		    //if(result)    
+		      //System.out.println("Directory for owl files have been created.");
+		    res = RepositoryClient.downloadAllOntologies(owlDir.toString());
+		}
+		catch (Exception e) { e.printStackTrace(); }
+		return res;
+	}
+
+/*	
 	public boolean earlyStartup() {
 		boolean res=false;
 		IPath ipath = new Path(codeAssistantDir+File.separator+filesDir+File.separator);
 		owlFilesDir = FileLocator.find(Platform.getBundle("org.universaal.tools.codeAssistant"), ipath, null);
 		try {
+			System.out.println("owlFilesDir="+owlFilesDir);
 			owlFilesDir = FileLocator.toFileURL(owlFilesDir);
 			String tmp = owlFilesDir.toString();
 			if (tmp.indexOf(" ")!=-1)
@@ -30,4 +56,5 @@ public class Startup{
 		catch (Exception e) { e.printStackTrace(); }
 		return res;
 	}
+*/
 }
