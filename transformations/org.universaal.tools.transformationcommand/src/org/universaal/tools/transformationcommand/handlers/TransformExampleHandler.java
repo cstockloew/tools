@@ -26,6 +26,7 @@ public class TransformExampleHandler extends TransformationHandler {
 	static final String TRANSFORMATION_FILENAME = "transformations/SmallTest.m2t";
 	static final String THIS_BUNDLE_NAME = Activator.PLUGIN_ID;
 	
+	private static final String SOURCE_FILE_SUFFIX = ".uml";
 
 	public TransformExampleHandler() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
@@ -51,5 +52,19 @@ public class TransformExampleHandler extends TransformationHandler {
 	protected boolean getAbsolutePathBooleanFromPreferences() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	@Override
+	protected boolean dualMetamodel() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	protected String getSourceFileSuffix() {
+		// TODO Auto-generated method stub
+		return SOURCE_FILE_SUFFIX;
 	}
 }

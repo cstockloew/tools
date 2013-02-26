@@ -22,12 +22,12 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.universaal.tools.transformationcommand.activator.Activator;
 import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
 
-public class TransformServiceModelUML2Java extends TransformationHandler {
-	static final String TRANSFORMATION_FILENAME = "transformations/serviceModelUML2Java.m2t";
+public class TransformServiceModelEMF2Java extends TransformationHandler {
+	static final String TRANSFORMATION_FILENAME = "transformations/serviceModelEMF2Java.m2t";
 	static final String THIS_BUNDLE_NAME = Activator.PLUGIN_ID;
-	private static final String SOURCE_FILE_SUFFIX = ".uml";
+	private static final String SOURCE_FILE_SUFFIX = ".servicemodel";
 
-	public TransformServiceModelUML2Java() {
+	public TransformServiceModelEMF2Java() {
 		setFileAndBundleName(TRANSFORMATION_FILENAME, THIS_BUNDLE_NAME);
 	}
 
@@ -56,7 +56,7 @@ public class TransformServiceModelUML2Java extends TransformationHandler {
 	@Override
 	protected boolean dualMetamodel() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import org.universaal.tools.transformationcommand.preferences.PreferenceConstant
 public class TransformOntUML2Java extends TransformationHandler {
 	static final String TRANSFORMATION_FILENAME = "transformations/ontUML2JavaV2.m2t";
 	static final String THIS_BUNDLE_NAME = Activator.PLUGIN_ID;
+	private static final String SOURCE_FILE_SUFFIX = ".uml";
 
 	public TransformOntUML2Java() {
 		setFileAndBundleName(TRANSFORMATION_FILENAME, THIS_BUNDLE_NAME);
@@ -50,5 +51,17 @@ public class TransformOntUML2Java extends TransformationHandler {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		boolean absolutePath = store.getBoolean(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN);
 		return absolutePath;
+	}
+
+	@Override
+	protected boolean dualMetamodel() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected String getSourceFileSuffix() {
+		// TODO Auto-generated method stub
+		return SOURCE_FILE_SUFFIX;
 	}
 }

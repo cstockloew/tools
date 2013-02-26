@@ -15,6 +15,11 @@
       </command>
       <command
             categoryId="org.universaal.tools.transformation.category"
+            id="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java"
+            name="Transform service model to Java">
+      </command>
+      <command
+            categoryId="org.universaal.tools.transformation.category"
             id="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
             name="Transform UML service model to Java">
       </command>
@@ -54,6 +59,10 @@
             class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java">
       </handler>
       <handler
+            class="org.universaal.tools.transformationcommand.handlers.TransformServiceModelEMF2Java"
+            commandId="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java">
+      </handler>
+      <handler
             class="org.universaal.tools.transformationcommand.handlers.TransformServiceModelUML2Java"
             commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java">
       </handler>
@@ -70,6 +79,12 @@
                commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
                icon="icons/cog_go.png"
                id="org.universaal.tools.transformationcommand.menu.ontUML2Java"
+               style="push">
+         </command>
+         <command
+               commandId="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java"
+               icon="icons/cog_go.png"
+               id="org.universaal.tools.transformationcommand.menu.serviceModelEMF2Java"
                style="push">
          </command>
          <command
@@ -94,7 +109,11 @@
                   style="push">
             </command>
             <command
-                  commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
+                  commandId="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java"
                   style="push">
             </command>
             <command
@@ -148,9 +167,4 @@
             class="org.universaal.tools.transformationcommand.preferences.PreferenceInitializer">
       </initializer>
    </extension>
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup></startup>
-   </extension>
-
 </plugin>

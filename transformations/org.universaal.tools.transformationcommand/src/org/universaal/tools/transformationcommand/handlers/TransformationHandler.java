@@ -76,8 +76,6 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	private MessageConsole myConsole;
 	private MessageConsoleStream stream;
 
-	private static final String SOURCE_FILE_SUFFIX = ".uml";
-
 	/**
 	 * Finally, I am subversive
 	 */
@@ -107,21 +105,21 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		
 		if ((selection != null) && (selection instanceof StructuredSelection)) {
 			Object selectedFile = ((StructuredSelection)selection).getFirstElement();
-			if ((selectedFile instanceof IFile) && ((IFile)selectedFile).getName().endsWith(SOURCE_FILE_SUFFIX)){
+			if ((selectedFile instanceof IFile) && ((IFile)selectedFile).getName().endsWith(getSourceFileSuffix())){
 				// If the selection is a file, start the transformation
 				doTransform((IFile)selectedFile, event);
 			} else {
 				MessageDialog.openInformation(
 					window.getShell(),
 					"Transformation Command",
-					"Please fist select a " + SOURCE_FILE_SUFFIX + " file in the package or project explorer." );		
+					"Please fist select a " + getSourceFileSuffix() + " file in the package or project explorer." );		
 			}
 		}			
 		else {
 			MessageDialog.openInformation(
 					window.getShell(),
 					"Transformation Command",
-					"Please fist select a " + SOURCE_FILE_SUFFIX + " file in the package or project explorer." );			
+					"Please fist select a " + getSourceFileSuffix() + " file in the package or project explorer." );			
 		}		
 
 		return null;
@@ -251,6 +249,8 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 		// set the source model for the execution manager   
 		execMgr.addSourceModel(sourceModel);
+		if (dualMetamodel())
+			execMgr.addSourceModel(sourceModel);
 
 		// sets the root output directory, if any is desired (e.g. "c:/temp")
 		IProject project = inputFile.getProject();
@@ -336,7 +336,9 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	protected abstract String getRootDirectoryFromPreferences();
 	protected abstract String getJavaDirectoryFromPreferences();
 	protected abstract boolean getAbsolutePathBooleanFromPreferences();
-
+	protected abstract boolean dualMetamodel();
+	protected abstract String getSourceFileSuffix();
+	
 	private MessageConsole findConsole(String name) {
 		ConsolePlugin plugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = plugin.getConsoleManager();
