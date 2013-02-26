@@ -3,10 +3,10 @@ package org.universaal.tools.packaging.tool.actions;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.universaal.tools.packaging.api.WizardDialogMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.parts.MPA;
 
@@ -30,7 +30,7 @@ public class SampleAction extends AbstractHandler {
 		gui = new GUI(mpa, event);
 
 		IWorkbenchWindow w = HandlerUtil.getActiveWorkbenchWindow(event);
-		WizardDialog wizardDialog = new WizardDialog(w.getShell(), gui);
+		WizardDialogMod wizardDialog = new WizardDialogMod(w.getShell(), gui);
 		wizardDialog.open();
 
 		//		Marshaller m = new Marshaller(new File("c:\\testtesttest.xml"));

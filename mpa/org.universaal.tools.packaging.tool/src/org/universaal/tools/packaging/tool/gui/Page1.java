@@ -7,7 +7,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.universaal.tools.packaging.tool.parts.Application;
 
 public class Page1 extends PageImpl {
 
@@ -17,7 +16,7 @@ public class Page1 extends PageImpl {
 		super(pageName, "Specify details of the MPA you are creating");
 	}
 
-	public void createControl(Composite parent) {
+	public void createControl(Composite parent) { 
 
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);
@@ -144,6 +143,12 @@ public class Page1 extends PageImpl {
 				app.getApplication().setApplicationProfile(app_profile.getText());				
 			}
 		});
+	}
+
+	@Override
+	public void nextPressed() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/*@Override

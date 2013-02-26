@@ -170,6 +170,11 @@ public class Page2 extends PageImpl {
 	}
 
 	@Override
+	public void nextPressed(){
+
+	}
+
+	@Override
 	public IWizardPage getNextPage() {
 
 		if(addLicense)

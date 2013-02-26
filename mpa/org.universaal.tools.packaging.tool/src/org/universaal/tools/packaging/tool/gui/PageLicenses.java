@@ -192,4 +192,10 @@ public class PageLicenses extends PageImpl {
 
 		return super.getNextPage();
 	}
+
+	@Override
+	public void nextPressed() {
+		// TODO Auto-generated method stub
+
+	}
 }

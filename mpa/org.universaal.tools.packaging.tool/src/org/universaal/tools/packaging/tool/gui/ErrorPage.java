@@ -11,4 +11,10 @@ public class ErrorPage extends PageImpl {
 	public void createControl(Composite parent) {
 
 	}
+
+	@Override
+	public void nextPressed() {
+		// TODO Auto-generated method stub
+
+	}
 }

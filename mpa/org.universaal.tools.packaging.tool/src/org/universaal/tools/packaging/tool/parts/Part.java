@@ -3,12 +3,18 @@ package org.universaal.tools.packaging.tool.parts;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
+
+import org.universaal.tools.packaging.tool.parts.Capability.Mandatory;
+import org.universaal.tools.packaging.tool.parts.Capability.Optional;
 
 public class Part {
 
 	private String id;
-	private List<Capability> partCapabilities;
+	//private List<Capability> partCapabilities;
+	private Properties partCapabilities;
 	private List<Requirement> partRequirements;
 	private List<DeploymentUnit> deploymentUnits;
 	private List<ExecutionUnit> executionUnits;
@@ -16,16 +22,38 @@ public class Part {
 	public Part(String id){
 		SecureRandom random = new SecureRandom();
 
-		this.id = id+"_"+new BigInteger(130, random).toString(32);;
+		this.id = id+"_"+new BigInteger(130, random).toString(32);
+
+		partCapabilities = new Properties();
+		Mandatory[] mandatory = Capability.Mandatory.values();
+		for(int i = 0; i < mandatory.length; i++){
+			Capability c = new Capability(mandatory[i].toString(), Application.defaultString);
+			partCapabilities.put(c.getName(), c.getValue());
+		}
+
+		Optional[] optional = Capability.Optional.values();
+		for(int i = 0; i < optional.length; i++){
+			Capability c = new Capability(optional[i].toString(), Application.defaultString);
+			partCapabilities.put(c.getName(), c.getValue());
+		}
 	}
 
 	public String getId() {
 		return id;
 	}
-	public List<Capability> getPartCapabilities() {
-		if(partCapabilities == null)
-			partCapabilities = new ArrayList<Capability>();
+	//	public List<Capability> getPartCapabilities() {
+	//		if(partCapabilities == null)
+	//			partCapabilities = new ArrayList<Capability>();
+	//		return partCapabilities;
+	//	}
+	public Properties getPartCapabilities() {
 		return partCapabilities;
+	}
+	public void setPartCapabilities(Properties partCapabilities) {
+		this.partCapabilities = partCapabilities;
+	}
+	public void setCapability(String name, String value){
+		partCapabilities.put(name, value);
 	}
 	public List<Requirement> getPartRequirements() {
 		if(partRequirements == null)
@@ -44,14 +72,27 @@ public class Part {
 	}
 
 	public String getXML(){
-		
+
 		String r = "";
 		r = r.concat("<part>");
 
 		r = r.concat("<partCapabilities>");
-		for(int i = 0; i < getPartCapabilities().size(); i++)
-			r = r.concat("<capability>"+partCapabilities.get(i).getXML()+"</capability>");
+		try{
+			Enumeration<Object> cs = partCapabilities.keys();
+			while(cs.hasMoreElements()){
+				String key = (String) cs.nextElement();
+				if(key != null){
+					String value = (String) partCapabilities.get(key);
+					r = r.concat("<capability><name>"+key+"</name>"+"<value>"+value+"</value></capability>");
+				}
+			}
+		}
+		catch(Exception ex){}
 		r = r.concat("</partCapabilities>");
+
+		//		for(int i = 0; i < getPartCapabilities().size(); i++)
+		//			r = r.concat("<capability>"+partCapabilities.get(i).getXML()+"</capability>");
+		//		r = r.concat("</partCapabilities>");
 
 		r = r.concat("<partRequirements>");
 		for(int i = 0; i < getPartRequirements().size(); i++)
@@ -60,10 +101,10 @@ public class Part {
 
 		for(int i = 0; i < getDeploymentUnits().size(); i++)
 			r = r.concat(deploymentUnits.get(i).getXML());
-		
+
 		for(int i = 0; i < getExecutionUnits().size(); i++)
 			r = r.concat(executionUnits.get(i).getXML());
-		
+
 		r = r.concat("<partId>"+id+"</partId>");
 
 		r = r.concat("</part>");

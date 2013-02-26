@@ -1,21 +1,23 @@
 package org.universaal.tools.packaging.tool.gui;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.universaal.tools.packaging.tool.parts.ExecutionUnit;
 import org.universaal.tools.packaging.tool.util.POMParser;
 
-public class PagePart extends PageImpl {
+public class PagePartEU extends PageImpl {
 
 	private IProject artifact;
 	private POMParser p;
 	private int partNumber;
 
-	protected PagePart(String pageName, int pn) {
+	protected PagePartEU(String pageName, int pn) {
 		super(pageName, "Specify details for the MPA you are creating.");
 		this.partNumber = pn;
 	}
@@ -31,17 +33,20 @@ public class PagePart extends PageImpl {
 		layout.numColumns = 2;
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
-		/*List<DeploymentUnit> dus = app.getParts().get(partNumber).getDeploymentUnits();
 		List<ExecutionUnit> eus = app.getParts().get(partNumber).getExecutionUnits();
-		List<Capability> pcs = app.getParts().get(partNumber).getPartCapabilities();
-		List<Requirement> prs = app.getParts().get(partNumber).getPartRequirements();*/
-
-		setPageComplete(true); //REMOVE
+		
+		setPageComplete(true); // optional
 	}
 
 	public void setArtifact(IProject artifact){
 		this.artifact = artifact;
 		p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
+	}
+
+	@Override
+	public void nextPressed() {
+		// TODO Auto-generated method stub
+
 	}
 
 	//capability

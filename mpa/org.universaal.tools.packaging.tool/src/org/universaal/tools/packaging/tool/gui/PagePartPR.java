@@ -1,8 +1,10 @@
 package org.universaal.tools.packaging.tool.gui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -15,16 +17,22 @@ import org.universaal.tools.packaging.tool.parts.LogicalRelation;
 import org.universaal.tools.packaging.tool.parts.Requirement;
 import org.universaal.tools.packaging.tool.parts.RequirementsGroup;
 import org.universaal.tools.packaging.tool.parts.SingleRequirement;
+import org.universaal.tools.packaging.tool.util.POMParser;
 
-public class Page4 extends PageImpl {
+public class PagePartPR extends PageImpl {
+
+	private IProject artifact;
+	private POMParser p;
+	private int partNumber;
 
 	private List<String> reqs, vals, logicalCriteria, logicalRelations;
 	private Text req1, req2, req3, req4, req5;
 	private Text val1, val2, val3, val4, val5;
 	private Combo c1, c2, c3, c4, c5, c12, c23, c34, c45;
 
-	protected Page4(String pageName) {
-		super(pageName, "Specify requirements for the MPA you are creating.");
+	protected PagePartPR(String pageName, int pn) {
+		super(pageName, "Specify details for the MPA you are creating.");
+		this.partNumber = pn;
 	}
 
 	public void createControl(Composite parent) {
@@ -43,7 +51,7 @@ public class Page4 extends PageImpl {
 		logicalCriteria = new ArrayList<String>();
 		logicalRelations = new ArrayList<String>();
 
-		List<Requirement> list = app.getRequirements().getRequirementsList();
+		List<Requirement> list = app.getParts().get(partNumber).getPartRequirements();
 
 		for(int i = 0; i < list.size(); i++){
 			if(list.get(i).isSingleReq()){
@@ -249,8 +257,13 @@ public class Page4 extends PageImpl {
 		c23.addKeyListener(new FullListener() {});
 		c34.addKeyListener(new FullListener() {});
 		c45.addKeyListener(new FullListener() {});
-		
+
 		setPageComplete(true); // optional
+	}
+
+	public void setArtifact(IProject artifact){
+		this.artifact = artifact;
+		p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
 	}
 
 	private void group(LogicalRelation lr, Text req1, Text val1, LogicalCriteria lc1, Text req2, Text val2, LogicalCriteria lc2){
@@ -258,12 +271,12 @@ public class Page4 extends PageImpl {
 		SingleRequirement r2 = new SingleRequirement(req2.getText(), val2.getText(), lc2);
 
 		RequirementsGroup r = new RequirementsGroup(r1, r2, lr);
-		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
+		app.getParts().get(partNumber).getPartRequirements().add(new Requirement(r, false));
 	}
 
 	private void single(Text req1, Text val1, LogicalCriteria lc1){
 		SingleRequirement r = new SingleRequirement(req1.getText(), val1.getText(), lc1);
-		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
+		app.getParts().get(partNumber).getPartRequirements().add(new Requirement(r, false));
 	}
 
 	@Override

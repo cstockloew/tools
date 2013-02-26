@@ -23,7 +23,7 @@ public class GUI extends WizardMod {
 
 	private ExecutionEvent event;
 	public static MPA mpa;
-	private PageImpl p1, p2, pl, p3, p4, p5, pp, p;
+	private PageImpl p1, p2, pl, p3, p4, p5, ppDU, ppEU, ppPC, ppPR, p;
 	private List<IProject> artifacts;
 
 	public GUI(){
@@ -73,22 +73,44 @@ public class GUI extends WizardMod {
 			p5.setMPA(mpa);
 
 			for(int i = 0; i < artifacts.size(); i++){
+
 				mpa.getApplication().getParts().add(new Part(artifacts.get(i).getName()));
-				pp = new PagePart(Page.PAGE_PART+(i+1), i);
-				addPage(pp);
-				pp.setMPA(mpa);
-				pp.setArtifact(artifacts.get(i));
+				ppDU = new PagePartDU(Page.PAGE_PART+artifacts.get(i).getName(), i); //deployment units
+				addPage(ppDU);
+				ppDU.setMPA(mpa);
+				ppDU.setArtifact(artifacts.get(i));
+
+				mpa.getApplication().getParts().add(new Part(artifacts.get(i).getName()));
+				ppEU = new PagePartEU(Page.PAGE_PART+artifacts.get(i).getName(), i); // execution units
+				addPage(ppEU);
+				ppEU.setMPA(mpa);
+				ppEU.setArtifact(artifacts.get(i));
+
+				mpa.getApplication().getParts().add(new Part(artifacts.get(i).getName()));
+				ppPC = new PagePartPC(Page.PAGE_PART+artifacts.get(i).getName(), i); // part capabilities
+				addPage(ppPC);
+				ppPC.setMPA(mpa);
+				ppPC.setArtifact(artifacts.get(i));
+
+				mpa.getApplication().getParts().add(new Part(artifacts.get(i).getName()));
+				ppPR = new PagePartPR(Page.PAGE_PART+artifacts.get(i).getName(), i); // part requirements
+				addPage(ppPR);
+				ppPR.setMPA(mpa);
+				ppPR.setArtifact(artifacts.get(i));
 			}
 		}
 		else{
 			p = new ErrorPage(Page.PAGE_ERROR);
 			addPage(p);
 		}	
+
+		performFinish(); //TODO remove
 	}
 
 	@Override
 	public boolean performFinish() {
-		//TODO generate XML
+
+		//TODO generate XML and compress app
 
 		File file = new File(mpa.getApplication().getApplication().getName()+".xml");
 		try {

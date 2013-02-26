@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
@@ -15,11 +14,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.api.Page;
+import org.universaal.tools.packaging.api.WizardPageMod;
 import org.universaal.tools.packaging.tool.actions.SampleAction;
 import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
 
-public abstract class PageImpl extends WizardPage implements Page {
+public abstract class PageImpl extends WizardPageMod implements Page {
 
 	protected Composite container;
 	protected GridData gd;
@@ -47,6 +47,9 @@ public abstract class PageImpl extends WizardPage implements Page {
 		setPageComplete(false);
 	}
 
+	@Override
+	public abstract void nextPressed(); // to handle events just before moving to next page
+
 	public void setMPA(MPA mpa) {
 		multipartApplication = mpa;
 		app = multipartApplication.getApplication();
@@ -63,6 +66,49 @@ public abstract class PageImpl extends WizardPage implements Page {
 					return false;
 		}
 		return true;
+	}
+
+	public boolean isValid(Control c1, Control c2, Control c3){
+
+		if(c1 == null && c2 == null && c3 == null)
+			return false;
+
+		if(c1 != null){
+			if(c1 instanceof Text)
+				if(((Text)c1).getText().isEmpty())
+					return false;
+			if(c1 instanceof Combo)
+				if(((Combo)c1).getText().isEmpty())
+					return false;
+		}
+
+		if(c2 != null){
+			if(c2 instanceof Text)
+				if(((Text)c2).getText().isEmpty())
+					return false;
+			if(c2 instanceof Combo)
+				if(((Combo)c2).getText().isEmpty())
+					return false;
+		}
+
+		if(c3 != null){
+			if(c3 instanceof Text)
+				if(((Text)c3).getText().isEmpty())
+					return false;
+			if(c3 instanceof Combo)
+				if(((Combo)c3).getText().isEmpty())
+					return false;
+		}
+
+		return true;
+	}
+
+	public boolean isValid(Control c1){
+		return isValid(c1, null, null);
+	}
+
+	public boolean isValid(Control c1, Control c2){
+		return isValid(c1, c2, null);
 	}
 
 	public void addPageCustom(boolean sec, IWizardPage page){

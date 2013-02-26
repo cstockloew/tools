@@ -212,4 +212,10 @@ public class Page5 extends PageImpl {
 
 		return super.getNextPage();
 	}
+
+	@Override
+	public void nextPressed() {
+		// TODO Auto-generated method stub
+
+	}
 }
