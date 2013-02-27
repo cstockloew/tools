@@ -11,6 +11,7 @@ import org.universAAL.middleware.interfaces.mpa.model.DeploymentUnit;
 import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.ucc.viewjambi.common.SubWindow;
 import org.universAAL.ucc.viewjambi.impl.Activator;
 import org.universAAL.ucc.viewjambi.impl.MainWindow;
@@ -73,7 +74,8 @@ public class DeployStrategyView extends SubWindow {
 				MainWindow.getInstance().removeSubWindow(this);
 				ProgressThread progress = new ProgressThread();
 				progress.start();
-				InstallationResults results = Activator.getInstaller().requestToInstall((new File(deployPath)).toURI(), config);
+				UAPPPackage uapp = new UAPPPackage(mpaParser.getAppId(), (new File(deployPath)).toURI(), config);
+				InstallationResults results = Activator.getInstaller().requestToInstall(uapp);
 				progress.finished = true;
 				switch (results)  {
 				case SUCCESS: 
@@ -91,9 +93,9 @@ public class DeployStrategyView extends SubWindow {
 					System.out.println("[DeployStrategyView.ok] Error in the installation of the multi-part application: no AALspace joined!");
 				break;
 					
-				case MPA_URI_INVALID:
-					QMessageBox.warning(this, "Installation result", "Error in the installation of the multi-part application: MPA uri is invalid!");
-					System.out.println("[DeployStrategyView.ok] Error in the installation of the multi-part application: MPA uri is invalid!");
+				case UAPP_URI_INVALID:
+					QMessageBox.warning(this, "Installation result", "Error in the installation of the multi-part application: UAPP uri is invalid!");
+					System.out.println("[DeployStrategyView.ok] Error in the installation of the multi-part application: UAPP uri is invalid!");
 					break;
 					
 				case DELEGATED:

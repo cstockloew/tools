@@ -65,4 +65,8 @@ public class MpaParser {
 	public ApplicationPart getApplicationPart() {
 		return mpa.getApplicationPart();
 	}
+	
+	public String getAppId()  {
+		return mpa.getApp().getAppId();
+	}
 }
