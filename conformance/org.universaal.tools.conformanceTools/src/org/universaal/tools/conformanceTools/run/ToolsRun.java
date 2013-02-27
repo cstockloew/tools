@@ -12,6 +12,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -39,6 +41,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.Bundle;
+import org.universaal.tools.conformance.filecheck.plugin.handler.FileCheckHandler;
 import org.universaal.tools.conformanceTools.Activator;
 import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
 import org.universaal.tools.conformanceTools.checks.impl.ActivatorCheck;
@@ -46,7 +49,6 @@ import org.universaal.tools.conformanceTools.checks.impl.Maven_nature;
 import org.universaal.tools.conformanceTools.checks.impl.NameGroupID;
 import org.universaal.tools.conformanceTools.checks.impl.OSGI_bundle;
 import org.universaal.tools.conformanceTools.checks.impl.POM_file;
-import org.universaal.tools.conformanceTools.checks.impl.UICallerImpl;
 import org.universaal.tools.conformanceTools.markers.CTMarker;
 import org.universaal.tools.conformanceTools.markers.Markers;
 import org.universaal.tools.conformanceTools.utils.HtmlPage;
@@ -138,12 +140,30 @@ public class ToolsRun {
 
 					List<Result> results = test(checks);
 					visualizeResultsCC(results);
-				}
+				}				
 			}
 			catch(Exception ex){ ex.printStackTrace(); }
 		}
 		else
 			System.out.println("uAAL CT - no valid selection.");
+	}
+
+	public void run(IWorkbenchWindow window, RunPlugin plugin, ExecutionEvent ev) {
+
+		if(plugin == RunPlugin.FileConformance){
+			try {
+				FileCheckHandler fch = new FileCheckHandler();			
+				fch.execute(ev);
+
+				if(fch.bugsMap != null){
+					this.window = window;
+					this.projectToAnalyze = fch.prj;
+					visualizeResultsFC(fch.bugsMap);
+				}
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private List<Result> test(List<String> checks){
@@ -641,6 +661,38 @@ public class ToolsRun {
 
 			page.getBody().addElement(t.getTable());
 			page.getBody().addElement("<br/><br/><p>Total: "+results.size()+" performed test(s).</p>");
+			String filePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/"+fileNameResults;
+			File file = new File(filePath);
+			page.write(file);
+
+			IDE.openEditorOnFileStore( window.getActivePage(), EFS.getLocalFileSystem().getStore(file.toURI()) );
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
+	private void visualizeResultsFC(List<BugDescriptor> bugs){
+
+		try{
+			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - ANALYSIS RESULTS");
+
+			Table t = page.new Table(bugs.size()+2, 3);
+
+			// table header
+			t.addContentCentered("<font size='5'><b>TEST NAME</b></font>", 0, 0);
+			t.addContentCentered("<font size='5'><b>TEST RESULT</b></font>", 0, 1);
+			t.addContentCentered("<font size='5'><b>SEVERITY</b></font>", 0, 2);
+
+			for(int i = 0; i < bugs.size(); i++){
+				BugDescriptor check = bugs.get(i);
+				t.addContentCentered(check.getErrorType(), i+1, 0); // File Check			
+				t.addContentCentered(check.getDescr(), i+1, 1); // result
+				t.addContentCentered(getSeverityDescription(check.getSeverity()), i+1, 2); // severity
+			}
+
+			page.getBody().addElement(t.getTable());
+			page.getBody().addElement("<br/><br/><p>Total: "+bugs.size()+" performed test(s).</p>");
 			String filePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/"+fileNameResults;
 			File file = new File(filePath);
 			page.write(file);

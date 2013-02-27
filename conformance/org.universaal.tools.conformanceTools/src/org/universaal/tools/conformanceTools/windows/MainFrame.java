@@ -17,30 +17,19 @@ public class MainFrame {
 	public static void draw(final IWorkbenchWindow window, final ExecutionEvent event){
 
 		final ToolsRun instance = ToolsRun.getInstance();
-
 		final Shell shell = new Shell(window.getShell());
-		//		RowLayout layout = new RowLayout();
-		//		layout.wrap = true;
-		//		layout.pack = true;
-		//		layout.justify = false;
-		//		layout.type = SWT.HORIZONTAL;
-		//		//layout.numColumns = 2; // buttons number
-		//		//layout.makeColumnsEqualWidth = false;
-		//		shell.setLayout(layout);
-		//
-		//		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
 
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2; // buttons number
+		layout.numColumns = 3; // buttons number
 		layout.makeColumnsEqualWidth = false;
 		shell.setLayout(layout);
 
 		GridData data = new GridData(GridData.FILL_BOTH);
 
-		Button two = new Button(shell, SWT.PUSH);
-		two.setText("Check against code style rules");
-		two.setEnabled(true);
-		two.addMouseListener(new MouseListener() {
+		Button cs = new Button(shell, SWT.PUSH);
+		cs.setText("Check against code style rules");
+		cs.setEnabled(true);
+		cs.addMouseListener(new MouseListener() {
 
 			public void mouseUp(MouseEvent e) {
 
@@ -55,12 +44,12 @@ public class MainFrame {
 			public void mouseDoubleClick(MouseEvent e) {
 			}
 		});
-		two.setLayoutData(data);
+		cs.setLayoutData(data);
 
-		Button four = new Button(shell, SWT.PUSH);
-		four.setText("Check against uAAL custom rules");
-		four.setEnabled(true);
-		four.addMouseListener(new MouseListener() {
+		Button uaal = new Button(shell, SWT.PUSH);
+		uaal.setText("Check against uAAL custom rules");
+		uaal.setEnabled(true);
+		uaal.addMouseListener(new MouseListener() {
 
 			public void mouseUp(MouseEvent e) {
 
@@ -75,7 +64,27 @@ public class MainFrame {
 			public void mouseDoubleClick(MouseEvent e) {
 			}
 		});
-		four.setLayoutData(data);
+		uaal.setLayoutData(data);
+		
+		Button fc = new Button(shell, SWT.PUSH);
+		fc.setText("Check proper project structure");
+		fc.setEnabled(true);
+		fc.addMouseListener(new MouseListener() {
+
+			public void mouseUp(MouseEvent e) {
+
+				shell.close();
+				shell.dispose();
+				instance.run(window, RunPlugin.FileConformance, event);
+			}
+
+			public void mouseDown(MouseEvent e) {
+			}
+
+			public void mouseDoubleClick(MouseEvent e) {
+			}
+		});
+		fc.setLayoutData(data);
 
 		shell.pack();
 		shell.open(); 
