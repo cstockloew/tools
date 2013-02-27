@@ -34,6 +34,7 @@ import org.universAAL.middleware.interfaces.PeerRole;
 import org.universAAL.middleware.managers.api.DeployManager;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.core.Activator;
 
@@ -328,8 +329,8 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 	 * call DeployManager to install MPA using the specified layout
 	 * 
 	 */
-	public InstallationResults requestToInstall(URI deployFolder, Map layout) {
-		System.out.println("[Installer.requestToInstall] deployFolder: " + deployFolder);
+	public InstallationResults requestToInstall(UAPPPackage uapp) {
+		System.out.println("[Installer.requestToInstall] deployFolder: " + uapp.getFolder());
 		// initialization: get references to DeployManager and AALSpaceManager
 		if (!initialized) initMpaInstallation();
 		if (deployManager==null) {
@@ -337,7 +338,7 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 			return InstallationResults.NOT_A_DEPLOYMANAGER;
 		}
 		System.out.println("[Installer.requestToInstall] Call deploy manager to install...");
-		return deployManager.requestToInstall(deployFolder, layout);
+		return deployManager.requestToInstall(uapp);
 	}
 
 	/**
