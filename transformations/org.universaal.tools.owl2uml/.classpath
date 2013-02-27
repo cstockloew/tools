@@ -6,8 +6,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/iri.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jena.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.12.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.emf.ecore.xmi_2.7.0.v20120127-1122.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.uml2.uml.resources_3.1.100.v201008191510.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-core.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-jena.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xercesImpl.jar"/>
