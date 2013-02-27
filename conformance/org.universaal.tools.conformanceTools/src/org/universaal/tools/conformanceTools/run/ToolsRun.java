@@ -158,6 +158,8 @@ public class ToolsRun {
 				if(fch.bugsMap != null){
 					this.window = window;
 					this.projectToAnalyze = fch.prj;
+					verifyImages();
+
 					visualizeResultsFC(fch.bugsMap);
 				}
 			} catch (ExecutionException e) {
