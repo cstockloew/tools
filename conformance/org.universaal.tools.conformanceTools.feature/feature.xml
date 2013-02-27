@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.conformanceTools.feature"
       label="AAL Studio Conformance Tools"
-      version="0.6"
+      version="0.6.1"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -66,13 +66,6 @@ http://sourceforge.net/projects/findbugs/
       <import plugin="org.eclipse.jface.text" version="3.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions" version="3.4.300" match="greaterOrEqual"/>
    </requires>
-
-   <plugin
-         id="org.universaal.tools.conformance.verify.plugin"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.universaal.tools.conformanceTools"
