@@ -725,13 +725,14 @@ public class ToolsRun {
 			Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
 
 			File sourceDir;
-			File[] icons = new File[10];
+			File[] icons;
 
 			if(!Activator.absolutePath.endsWith("jar")){
 				sourceDir = new File(Activator.absolutePath+"/icons/");
+				//icons = new File[sourceDir.listFiles().length];
 				icons = sourceDir.listFiles();
 			}
-			else{
+			else{				
 				List<String> files = new ArrayList<String>();
 				files.add("icons/icon_info_sml.gif");
 				files.add("icons/icon_question_sml.gif");
@@ -739,6 +740,8 @@ public class ToolsRun {
 				files.add("icons/icon_warning_sml.gif");
 				files.add("icons/maven-feather.png");
 				files.add("icons/test.png");
+				
+				icons = new File[files.size()];
 
 				for(int i = 0; i < files.size(); i++)
 					icons[i] = new File(Activator.getBundleContext().getBundle().getResource(files.get(i)).getFile());			
