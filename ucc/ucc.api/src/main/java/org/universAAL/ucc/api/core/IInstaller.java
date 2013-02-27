@@ -3,11 +3,11 @@ package org.universAAL.ucc.api.core;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
 import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.UAPPPackage;
 
 public interface IInstaller {
 	
@@ -18,8 +18,14 @@ public interface IInstaller {
 	// interface with MW: call AALSpaceManager
 	public Map getPeers();
 	// interface with MW: call DeployManager
-	public InstallationResults requestToInstall(URI deployFolder, Map layout);
-	//public UninstallationResults requestToUninstall(String serviceId);
+	public InstallationResults requestToInstall(UAPPPackage app);
+	/**
+	 * 
+	 * @param id: the unique id of uAPP, use uapp:appId.
+	 * @return
+	 */
+	public InstallationResults requestToUninstall(String id);
+
 	
 	public String installService(String path);
 	// interface with WS uStore --> uCC
