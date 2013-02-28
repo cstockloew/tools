@@ -12,19 +12,19 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime.compatibility,
  org.eclipse.jdt.core,
  org.eclipse.emf.ecore,
- org.eclipse.uml2.uml
+ org.eclipse.uml2.uml,
+ org.apache.commons.logging,
+ org.apache.xerces,
+ com.ibm.icu,
+ org.apache.log4j
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  lib/arq.jar,
- lib/commons-logging-1.1.1.jar,
- lib/icu4j_3_4.jar,
  lib/iri.jar,
  lib/jena.jar,
- lib/log4j-1.2.12.jar,
  lib/pellet-core.jar,
- lib/pellet-jena.jar,
- lib/xercesImpl.jar
+ lib/pellet-jena.jar
 Bundle-Vendor: CERTH-IBBR
 Import-Package: org.eclipse.emf.common.notify,
  org.eclipse.emf.common.util,
