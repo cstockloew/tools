@@ -27,6 +27,7 @@ public class DeployConfigView extends SubWindow {
     int currentScreen = 0; // pointer to the application part; one part has one screen
     ArrayList screens = new ArrayList(); // index - Part
     String deployPath;
+    String serviceId;
     MpaParser mpa;
     Map<String, PeerCard> peers;
     // the layout selected by the user - final version and sent to the MW for installation (one peer only for one part)
@@ -34,11 +35,12 @@ public class DeployConfigView extends SubWindow {
     // layout selected by the user <Part, PeerId>- working version: ensures that each part has only one peer
     Map<Part, String> layout = new HashMap<Part, String>(); 
 
-    public DeployConfigView(String path, MpaParser mpa, Map peers) {
+    public DeployConfigView(String path, MpaParser mpa, Map peers, String sId) {
     	super(DeployConfigView.ui);
     	this.deployPath = path;
     	this.mpa = mpa;
     	this.peers = peers;
+    	this.serviceId = sId;
     	
     	// get Parts and associate them with ScreenId
     	List<Part> parts = mpa.getApplicationPart().getPart();
@@ -125,7 +127,7 @@ public class DeployConfigView extends SubWindow {
    				ProgressThread progress = new ProgressThread();
 				progress.start();
    				// call MW deploy manager requestToInstall
-				UAPPPackage uapp = new UAPPPackage(mpa.getAppId(), (new File(deployPath)).toURI(), mpaLayout);
+				UAPPPackage uapp = new UAPPPackage(serviceId, mpa.getAppId(), (new File(deployPath)).toURI(), mpaLayout);
 				InstallationResults results = Activator.getInstaller().requestToInstall(uapp);
    				progress.finished=true;
    				switch (results)  {

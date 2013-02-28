@@ -53,7 +53,7 @@ public class MainWindow extends QMainWindow implements IMainWindow {
         ui_base.actionSystem_Information.triggered.connect(this, "showInformation()");
         
         installSignal=new InstallSignal();
-        installSignal.valueChanged.connect(this, "showLicense(String)");
+        installSignal.valueChanged.connect(this, "showLicense(String, String)");
     }
     
     @Override
@@ -103,23 +103,23 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	protected void installApp() {
 		new InstallView();
 	}
-	public void installApp(String path){
+	public void installApp(String path, String serviceId){
 		installSignal.setValue(path);
-	}
+	} 
 	public void configureApp(String path){
 		new ConfigView(path);
 	}
-	public void showLicense(String path) throws IOException{
-		new LicenseView(path);
+	public void showLicense(String path, String serviceId) {
+		new LicenseView(path, serviceId);
 	}
 	public void deinstallApp(){
 		new DeinstallView();
 	}
-	public void deployConfigure(String path, MpaParser mpa, Map peers){
-		new DeployConfigView(path, mpa, peers);
+	public void deployConfigure(String path, MpaParser mpa, Map peers, String serviceId){
+		new DeployConfigView(path, mpa, peers, serviceId);
 	}
-	public void deployStrategy(String path){
-		new DeployStrategyView(path);
+	public void deployStrategy(String path, String serviceId){
+		new DeployStrategyView(path, serviceId);
 	}
 	
 	protected void uninstallApp() {
@@ -174,4 +174,6 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 	        value = "";
 	    }
 	}
+
+
 }
