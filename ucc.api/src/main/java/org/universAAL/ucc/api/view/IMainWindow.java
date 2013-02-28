@@ -16,7 +16,7 @@ public interface IMainWindow {
 	public void hideSubWindow(ISubWindow subWindow);
 
 	public boolean initialize();
-
-	public void installApp(String path);
-	public void showLicense(String path);
+	
+	public void installApp(String path, String serviceId);
+	public void showLicense(String path, String serviceId);
 }
