@@ -58,6 +58,7 @@ public class SocketListener {
 		}
 	}
 	
+	// this is obsolete - do not suport from MW2.0
 	public void onEventCatched(String post){
 		String url=parseURL(post);
         if(url!=null){
@@ -72,7 +73,7 @@ public class SocketListener {
 					return;
 				}
         		
-        		Activator.getMainWindow().installApp(appDir);
+/*        		Activator.getMainWindow().installApp(appDir);  */
 					
     			}
     				
