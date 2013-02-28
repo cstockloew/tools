@@ -72,8 +72,9 @@ public class Installer extends ApplicationManager implements IInstaller {
 	}
 
 	/**
-	 * 
-	 * @param Path
+	 * extract the uapp file
+	 * @param path: the path for the uapp file 
+	 * @param serviceId: the serviceId that the uapp file belongs to
 	 * return the path for the extract .uapp file (root)
 	 * @throws Exception 
 	 */
@@ -398,8 +399,12 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 		// install each .uapp file found			
 		if(srvPath==null) 
 			System.out.println("[Installer.installServiceFromOnlineStore] Error extracting .usrv Package");
-			//TODO: update with the .usrv file structure - this has the same logic as InstallView.installFile()	
-			srvPath = srvPath + "\\config\\";
+			//TODO: update with the .usrv file structure - this has the same logic as InstallView.installFile()		
+			// get usrvId
+			UsrvParser usrv = new UsrvParser(srvPath+File.separator+"config");
+			String serviceId = usrv.getServiceId();
+			System.out.println("[Installer.installServiceFromOnlineStore] the serviceId is: " + serviceId);
+			srvPath = srvPath + File.separator + "bin";
 			System.out.println("[Installer.installServiceFromOnlineStore] the .uapp files contained in: " + srvPath);
 			File appDir=new File(srvPath);
 			String[] content = appDir.list();
@@ -408,7 +413,7 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 				if(content[i].endsWith(".uapp")) {				
 					try {
 						appPath = installApplication(srvPath + content[i]);
-						Activator.getMainWindow().installApp(appPath);
+						Activator.getMainWindow().installApp(appPath, serviceId);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -418,6 +423,11 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 			}
 		
 		
+	}
+
+	public InstallationResults requestToUninstall(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
