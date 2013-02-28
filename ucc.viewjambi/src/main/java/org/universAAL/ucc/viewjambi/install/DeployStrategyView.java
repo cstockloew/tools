@@ -26,15 +26,17 @@ public class DeployStrategyView extends SubWindow {
     boolean defaultStrategy = true;
     String deployPath;
     MpaParser mpaParser;
+    String serviceId;
     Map<String, PeerCard> peers;
     
     /**
      * 
      * @param path deployPath, i.e., path of the extracted files from .uaal
+     * @param sId 
      */
-    public DeployStrategyView(String path) {
+    public DeployStrategyView(String path, String sId) {
         super(DeployStrategyView.ui);
-        
+        serviceId = sId;
         deployPath = path + File.separator + "config";
         System.out.println("[DeployStrategyView] the path for .uapp file is: " + deployPath);
         mpaParser = new MpaParser(deployPath);
@@ -74,7 +76,7 @@ public class DeployStrategyView extends SubWindow {
 				MainWindow.getInstance().removeSubWindow(this);
 				ProgressThread progress = new ProgressThread();
 				progress.start();
-				UAPPPackage uapp = new UAPPPackage(mpaParser.getAppId(), (new File(deployPath)).toURI(), config);
+				UAPPPackage uapp = new UAPPPackage(serviceId, mpaParser.getAppId(), (new File(deployPath)).toURI(), config);
 				InstallationResults results = Activator.getInstaller().requestToInstall(uapp);
 				progress.finished = true;
 				switch (results)  {
@@ -126,7 +128,7 @@ public class DeployStrategyView extends SubWindow {
 		else {
     		// allow user to select nodes to deploy
     		MainWindow.getInstance().removeSubWindow(this);
-			MainWindow.getInstance().deployConfigure(deployPath, mpaParser, peers);
+			MainWindow.getInstance().deployConfigure(deployPath, mpaParser, peers, serviceId);
     	}
     		
     }
