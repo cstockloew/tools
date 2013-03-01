@@ -13,6 +13,7 @@ public class BugDescriptor {
 	private String clazz;
 	private String errorType;
 	private ICompilationUnit cu;
+	private String image;
 	
 	public ICompilationUnit getCu() {
 		return cu;
@@ -67,5 +68,11 @@ public class BugDescriptor {
 	}
 	public void setFrontEndID(int frontEndID) {
 		this.frontEndID = frontEndID;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}		
 }

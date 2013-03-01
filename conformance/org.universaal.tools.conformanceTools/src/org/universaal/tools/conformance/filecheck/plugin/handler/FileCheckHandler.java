@@ -30,6 +30,11 @@ public class FileCheckHandler extends AbstractHandler {
 	public ArrayList<BugDescriptor> bugsMap;
 	public IProject prj;
 
+	// to have images in the report
+	public static String ERROR = "icon_error_sml.gif";
+	public static String WARNING = "icon_warning_sml.gif";
+	public static String ATTENTION = "icon_question_sml.gif";
+
 	/**
 	 * The name of the file containing the list of files to check. The extension
 	 * of the file determines which parser will be used. Currently supports .xml
@@ -167,6 +172,7 @@ public class FileCheckHandler extends AbstractHandler {
 						bd.setErrorType("File Check");
 						bd.setSeverity(8); 
 						bd.setSeverityDescription("no_severity");
+						bd.setImage(ATTENTION);
 						bugsMap.add(bd);
 
 					}
@@ -182,6 +188,7 @@ public class FileCheckHandler extends AbstractHandler {
 						bd.setErrorType("File Check");
 						bd.setSeverity(13); 
 						bd.setSeverityDescription("normal_severity");
+						bd.setImage(WARNING);
 						bugsMap.add(bd);
 					}
 				}

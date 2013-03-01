@@ -678,19 +678,22 @@ public class ToolsRun {
 
 		try{
 			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - ANALYSIS RESULTS");
+			String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/images/logos/";
 
-			Table t = page.new Table(bugs.size()+2, 3);
+			Table t = page.new Table(bugs.size()+2, 4);
 
 			// table header
 			t.addContentCentered("<font size='5'><b>TEST NAME</b></font>", 0, 0);
-			t.addContentCentered("<font size='5'><b>TEST RESULT</b></font>", 0, 1);
+			t.addContentCentered("<font size='5'><b>TEST RESULT DESCRIPTION</b></font>", 0, 1);
 			t.addContentCentered("<font size='5'><b>SEVERITY</b></font>", 0, 2);
+			t.addContentCentered("<font size='5'><b>TEST RESULT</b></font>", 0, 3);
 
 			for(int i = 0; i < bugs.size(); i++){
 				BugDescriptor check = bugs.get(i);
 				t.addContentCentered(check.getErrorType(), i+1, 0); // File Check			
 				t.addContentCentered(check.getDescr(), i+1, 1); // result
 				t.addContentCentered(getSeverityDescription(check.getSeverity()), i+1, 2); // severity
+				t.addContentCentered("<img src='"+path_+check.getImage()+"' />", i+1, 3);		
 			}
 
 			page.getBody().addElement(t.getTable());
@@ -740,7 +743,7 @@ public class ToolsRun {
 				files.add("icons/icon_warning_sml.gif");
 				files.add("icons/maven-feather.png");
 				files.add("icons/test.png");
-				
+
 				icons = new File[files.size()];
 
 				for(int i = 0; i < files.size(); i++)
