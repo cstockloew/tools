@@ -8,6 +8,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.ExecutionUnit;
 import org.universaal.tools.packaging.tool.util.POMParser;
 
@@ -18,7 +19,7 @@ public class PagePartEU extends PageImpl {
 	private int partNumber;
 
 	protected PagePartEU(String pageName, int pn) {
-		super(pageName, "Specify details for the MPA you are creating.");
+		super(pageName, "Specify execution units per part");
 		this.partNumber = pn;
 	}
 

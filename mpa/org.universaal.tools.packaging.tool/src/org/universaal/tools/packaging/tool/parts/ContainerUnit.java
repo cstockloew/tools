@@ -1,36 +1,31 @@
 package org.universaal.tools.packaging.tool.parts;
 
-import java.io.StringWriter;
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-
-import org.apache.karaf.xmlns.features.v1_0.FeaturesRoot;
-import org.apache.karaf.xmlns.features.v1_0.ObjectFactory;
+import org.universaal.tools.packaging.api.Page;
 
 public class ContainerUnit {
 
 	private Container container;
 
 	private Embedding embedding;
-	private FeaturesRoot features;
+	private List<KarafFeature> features;
+	//private KarafFeature feature;
 
 	private Android androidPart;
 
-	public ContainerUnit(Embedding embedding, FeaturesRoot features){
+	public ContainerUnit(Embedding embedding, KarafFeature feature){
 		this.container = Container.KARAF;
 		this.embedding = embedding;
-		this.features = features;
+		getFeatures().add(feature);
 
-		this.setAndroidPart(null);
+		this.androidPart = null;
 	}
 
 	public ContainerUnit(Android androidPart){
 		this.container = Container.ANDROID;
-		this.setAndroidPart(androidPart);
+		this.androidPart= androidPart;
 
 		this.embedding = null;
 		this.features = null;
@@ -42,7 +37,7 @@ public class ContainerUnit {
 		else
 			throw new IllegalArgumentException("Please consider using proper constructor if container is Karaf or Android!");
 
-		this.setAndroidPart(null);
+		this.androidPart = null;
 		this.embedding = null;
 		this.features = null;
 	}
@@ -59,7 +54,9 @@ public class ContainerUnit {
 		return embedding;
 	}
 
-	public FeaturesRoot getFeatures() {
+	public List<KarafFeature> getFeatures() {
+		if(features == null)
+			features = new ArrayList<KarafFeature>();
 		return features;
 	}
 
@@ -82,25 +79,37 @@ public class ContainerUnit {
 				r = r.concat("<karaf>");
 				r = r.concat("<embedding>"+embedding.toString()+"</embedding>");
 
-				Marshaller marshaller = null;
-				try {
-					marshaller = JAXBContext.newInstance(ObjectFactory.class).createMarshaller();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				StringWriter writer = new StringWriter();
+				//				Marshaller marshaller = null;
+				//				try {
+				//					marshaller = JAXBContext.newInstance(ObjectFactory.class).createMarshaller();
+				//				} catch (Exception e) {
+				//					e.printStackTrace();
+				//				}
+				//				StringWriter writer = new StringWriter();
+				//
+				//				JAXBElement p = new JAXBElement<FeaturesRoot>(
+				//						new QName(
+				//								"http://karaf.apache.org/xmlns/features/v1.0.0",
+				//								"features"), FeaturesRoot.class, features);
+				//
+				//				try {
+				//					marshaller.marshal(p, writer);
+				//					r = r.concat(writer.getBuffer().toString()); // karaf features / repositories
+				//				} catch (Exception e) {
+				//					e.printStackTrace();
+				//				}	
 
-				JAXBElement p = new JAXBElement<FeaturesRoot>(
-						new QName(
-								"http://karaf.apache.org/xmlns/features/v1.0.0",
-								"features"), FeaturesRoot.class, features);
+				r = r.concat("<"+Page.KARAF_NAMESPACE+":features>");
+				for(int i = 0; i < features.size(); i++){
 
-				try {
-					marshaller.marshal(p, writer);
-					r = r.concat(writer.getBuffer().toString()); // karaf features / repositories
-				} catch (Exception e) {
-					e.printStackTrace();
-				}					
+					KarafFeature ft = features.get(i);
+
+					r = r.concat("<"+Page.KARAF_NAMESPACE+":feature name='"+ft.getName()+"' version='"+ft.getVersion()+"' description='"+ft.getDescription()+"' resolver='"+ft.getResolver()+"'>");
+					r = r.concat("<"+Page.KARAF_NAMESPACE+":feature>"+ft.getName()+"</"+Page.KARAF_NAMESPACE+":feature>");
+					r = r.concat("<"+Page.KARAF_NAMESPACE+":bundle start-level='"+ft.getStartLevel()+"' start='"+ft.isStart()+"'>"+ft.getBundle()+"</"+Page.KARAF_NAMESPACE+":bundle>");
+					r = r.concat("</"+Page.KARAF_NAMESPACE+":feature>");
+				}				
+				r = r.concat("</"+Page.KARAF_NAMESPACE+":features>");
 
 				r = r.concat("</karaf>");
 			}

@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.LogicalCriteria;
 import org.universaal.tools.packaging.tool.parts.LogicalRelation;
 import org.universaal.tools.packaging.tool.parts.Requirement;
@@ -31,7 +32,7 @@ public class PagePartPR extends PageImpl {
 	private Combo c1, c2, c3, c4, c5, c12, c23, c34, c45;
 
 	protected PagePartPR(String pageName, int pn) {
-		super(pageName, "Specify details for the MPA you are creating.");
+		super(pageName, "Specify requirements per part");
 		this.partNumber = pn;
 	}
 
@@ -258,6 +259,7 @@ public class PagePartPR extends PageImpl {
 		c34.addKeyListener(new FullListener() {});
 		c45.addKeyListener(new FullListener() {});
 
+		validate();
 		setPageComplete(true); // optional
 	}
 

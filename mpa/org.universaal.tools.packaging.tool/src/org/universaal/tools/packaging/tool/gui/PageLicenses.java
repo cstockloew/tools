@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.api.Page;
+import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.App.LicenseSet;
 import org.universaal.tools.packaging.tool.parts.App.SLA;
 import org.universaal.tools.packaging.tool.parts.License;
@@ -45,7 +46,6 @@ public class PageLicenses extends PageImpl {
 
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);
-		mandatory.clear();
 
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);

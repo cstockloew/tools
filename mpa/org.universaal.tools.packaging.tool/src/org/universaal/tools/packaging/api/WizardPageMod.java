@@ -18,7 +18,5 @@ public class WizardPageMod extends WizardPage {
 	}
 
 	public void nextPressed(){
-
-		System.out.println("WizardPageMod nextPressed");
 	}	
 }

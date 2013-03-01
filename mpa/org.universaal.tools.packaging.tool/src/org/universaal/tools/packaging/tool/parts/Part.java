@@ -12,7 +12,8 @@ import org.universaal.tools.packaging.tool.parts.Capability.Optional;
 
 public class Part {
 
-	private String id;
+	private String id; // uStore ID
+	private String name; // internal use, name of the project representing the part
 	//private List<Capability> partCapabilities;
 	private Properties partCapabilities;
 	private List<Requirement> partRequirements;
@@ -22,6 +23,7 @@ public class Part {
 	public Part(String id){
 		SecureRandom random = new SecureRandom();
 
+		this.name = id;
 		this.id = id+"_"+new BigInteger(130, random).toString(32);
 
 		partCapabilities = new Properties();
@@ -40,6 +42,9 @@ public class Part {
 
 	public String getId() {
 		return id;
+	}
+	public String getName(){
+		return name;
 	}
 	//	public List<Capability> getPartCapabilities() {
 	//		if(partCapabilities == null)

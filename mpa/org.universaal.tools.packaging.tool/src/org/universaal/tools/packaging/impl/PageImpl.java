@@ -1,4 +1,4 @@
-package org.universaal.tools.packaging.tool.gui;
+package org.universaal.tools.packaging.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.api.WizardPageMod;
-import org.universaal.tools.packaging.tool.actions.SampleAction;
+import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
 
@@ -114,9 +114,10 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 	public void addPageCustom(boolean sec, IWizardPage page){
 
 		if(!sec){
-			SampleAction.gui.addPage(page);
+			GUI gui = GUI.getInstance();
+			gui.addPage(page);
 
-			IWizardPage[] pages = SampleAction.gui.getPages();
+			IWizardPage[] pages = gui.getPages();
 			IWizardPage newPages[] = new IWizardPage[pages.length+1];
 
 			//System.out.println("pages "+pages.length+" newPages "+newPages.length);
@@ -141,7 +142,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 					System.out.println("null: "+i);
 			}
 
-			SampleAction.gui.setPages(new ArrayList<IWizardPage>(Arrays.asList(newPages)));
+			gui.setPages(new ArrayList<IWizardPage>(Arrays.asList(newPages)));
 		}
 	}
 

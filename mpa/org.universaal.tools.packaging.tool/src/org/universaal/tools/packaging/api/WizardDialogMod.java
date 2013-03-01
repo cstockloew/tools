@@ -57,7 +57,7 @@ public class WizardDialogMod extends WizardDialog {
 		case IDialogConstants.NEXT_ID: {
 			
 			WizardPageMod page = (WizardPageMod) getCurrentPage();
-			page.nextPressed(); // to handle particular events
+			page.nextPressed(); // to handle custom events
 			
 			nextPressed();
 			break;

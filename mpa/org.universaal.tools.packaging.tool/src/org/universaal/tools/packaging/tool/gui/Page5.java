@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteManagement;
 
 public class Page5 extends PageImpl {
@@ -17,7 +18,7 @@ public class Page5 extends PageImpl {
 	private Text contact, artifactID1, artifactID2, artifactID3, prot1, prot2, prot3, v1, v2, v3;
 
 	protected Page5(String pageName) {
-		super(pageName, "Specify details for the MPA you are creating.");
+		super(pageName, "Specify details for assistance");
 	}
 
 	public void createControl(Composite parent) {

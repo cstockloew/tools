@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Space;
 import org.universaal.tools.packaging.tool.util.POMParser;
@@ -26,7 +27,7 @@ public class PagePartPC extends PageImpl {
 	private Text targetSpaceVersion, mw_version, targetOntologies, targetContainerName, targetContainerVersion, targetDeploymentTool;
 
 	protected PagePartPC(String pageName, int pn) {
-		super(pageName, "Specify details for the MPA you are creating.");
+		super(pageName, "Specify capabilities per part");
 		this.partNumber = pn;
 	}
 
