@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY swrlb "http://www.w3.org/2003/11/swrlb#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY protege "http://protege.stanford.edu/plugins/owl/protege#" >
+    <!ENTITY xsp "http://www.owl-ontologies.com/2005/08/07/xsp.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://org.universAAL/ontology/phThing.owl#"
+     xml:base="http://org.universAAL/ontology/phThing.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+     xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://ontology.universAAL.org/phThing.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_HAS_SHAPE -->
+
+    <owl:ObjectProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_HAS_SHAPE">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+        <rdfs:range rdf:resource="http://org.universAAL/ontology/phThing.owl#Shape"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_IS_IN -->
+
+    <owl:ObjectProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_IS_IN">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_PART_OF -->
+
+    <owl:ObjectProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_PART_OF">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+        <rdfs:range rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_PHYSICAL_LOCATION -->
+
+    <owl:ObjectProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_PHYSICAL_LOCATION">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://org.universAAL/ontology/phThing.owl#Location"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#MY_URI -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#MY_URI">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#ManagedIndividual"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_BATTERY_LEVEL -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_BATTERY_LEVEL">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#Device"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_CARRIED_BY -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_CARRIED_BY">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_DIMMABLE_STATUS -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_DIMMABLE_STATUS">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#DimmerActuator"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_IS_PORTABLE -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_IS_PORTABLE">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_IS_STATIONARY -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_IS_STATIONARY">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_MEASURED_VALUE -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_MEASURED_VALUE">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#Sensor"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PROP_STATUS -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#PROP_STATUS">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#OnOffActuator"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#locName -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#locName">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#Location"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#uAAL_DEVICE_NAMESPACE -->
+
+    <owl:DatatypeProperty rdf:about="http://org.universAAL/ontology/phThing.owl#uAAL_DEVICE_NAMESPACE">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://org.universAAL/ontology/phThing.owl#Device"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#Actuator -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#Actuator">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#Device"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#Device -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#Device">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#DimmerActuator -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#DimmerActuator">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#Actuator"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#HeaterActuator -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#HeaterActuator">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#OnOffActuator"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#LightSource -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#LightSource">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#Device"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#Location -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#Location"/>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#ManagedIndividual -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#ManagedIndividual"/>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#OnOffActuator -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#OnOffActuator">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#Actuator"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#OnOffSensor -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#OnOffSensor">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#Sensor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PhysicalContainer -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#PhysicalContainer">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#PhysicalThing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#PhysicalThing -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#PhysicalThing">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#ManagedIndividual"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#RelHumiditySensor -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#RelHumiditySensor">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#Sensor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#Sensor -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#Sensor">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#Device"/>
+    </owl:Class>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#Shape -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#Shape"/>
+    
+
+
+    <!-- http://org.universAAL/ontology/phThing.owl#TempSensor -->
+
+    <owl:Class rdf:about="http://org.universAAL/ontology/phThing.owl#TempSensor">
+        <rdfs:subClassOf rdf:resource="http://org.universAAL/ontology/phThing.owl#Sensor"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
