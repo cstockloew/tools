@@ -47,13 +47,13 @@ public class MainWindow extends QMainWindow implements IMainWindow {
         ui_base.setupUi(this);
         
         ui_base.actionExit.triggered.connect(this, "close()");
-        ui_base.actionInstall.triggered.connect(this, "installApp()");
-        ui_base.actionDeinstall.triggered.connect(this, "uninstallApp()");
+        ui_base.actionInstall.triggered.connect(this, "installService()");
+        ui_base.actionDeinstall.triggered.connect(this, "uninstallService()");
         ui_base.actionOverview.triggered.connect(this, "overviewApp()");
         ui_base.actionSystem_Information.triggered.connect(this, "showInformation()");
         
         installSignal=new InstallSignal();
-        installSignal.valueChanged.connect(this, "showLicense(String, String)");
+        //installSignal.valueChanged.connect(this, "showLicense(String, String)");
     }
     
     @Override
@@ -100,17 +100,17 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 		return false;
 	}
 	
-	protected void installApp() {
+	protected void installService() {
 		new InstallView();
 	}
 	public void installApp(String path, String serviceId){
-		installSignal.setValue(path);
+		new DeployStrategyView(path, serviceId);
 	} 
 	public void configureApp(String path){
 		new ConfigView(path);
 	}
-	public void showLicense(String path, String serviceId) {
-		new LicenseView(path, serviceId);
+	public void showLicense(String path) {
+		new LicenseView(path);
 	}
 	public void deinstallApp(){
 		new DeinstallView();
@@ -122,7 +122,7 @@ public class MainWindow extends QMainWindow implements IMainWindow {
 		new DeployStrategyView(path, serviceId);
 	}
 	
-	protected void uninstallApp() {
+	protected void uninstallService() {
 		if(overview != null){
 			if(overview.isVisible()){
 				QModelIndex index = OverviewView.treeView.currentIndex();

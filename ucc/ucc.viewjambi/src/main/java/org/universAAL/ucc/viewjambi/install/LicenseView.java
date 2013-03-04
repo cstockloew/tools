@@ -16,18 +16,16 @@ public class LicenseView extends SubWindow {
 	
 	private static Ui_License install_base = new Ui_License();
 	private static String appDir;
-	private static String serviceId;
 	//private static boolean mpa=false;
 	//private static String MPA_EXTENSION="-mpa";
 	
-	public LicenseView(String path, String sId) {
+	public LicenseView(String path) {
 		super(LicenseView.install_base);
-		serviceId = sId;
 		appDir=path;
 		//mpa=isMPA();
 		StringBuffer l;
 		try {
-			l = readLicense(path+ File.separator + "license" + File.separator +"ASL2.0.txt");
+			l = readLicense(path+ File.separator + "licenses" + File.separator +"sla.txt");
 			install_base.license.setText(l.toString());
 			
 			install_base.okButton.clicked.connect(this, "accept()");
@@ -43,7 +41,14 @@ public class LicenseView extends SubWindow {
 	
 	protected void accept() {
 		MainWindow.getInstance().removeSubWindow(this);
-		MainWindow.getInstance().deployStrategy(appDir, serviceId);
+		//MainWindow.getInstance().deployStrategy(appDir, serviceId);
+		System.out.println("[LicenseView.accept] user accepted the license!");
+		try {
+			Activator.getInstaller().installApplication(appDir);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO: how to configure an application?
 		// MainWindow.getInstance().configureApp(appDir);
 	}
