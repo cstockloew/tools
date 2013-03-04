@@ -18,6 +18,8 @@
  */
 package org.universaal.tools.owl2uml.handlers;
 
+import java.io.File;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -58,19 +60,18 @@ public class SampleHandler extends AbstractHandler {
 		String selectedInput = selectedFile.getLocation().toString();
 		// The path of the generated .uml file
 		String umlOutput = selectedInput.substring(
-				selectedInput.lastIndexOf("\\") + 1,
+				selectedInput.lastIndexOf(File.separator) + 1,
 				selectedInput.lastIndexOf("."))
 				+ ".uml";
 
-		String replumlFile = umlOutput.replace("/", "\\");
+		String replumlFile = umlOutput.replace("/", File.separator);
+
 		// XML file used as input for the definition of the additional
 		// properties
 		String xmlInput = selectedInput.substring(
-				selectedInput.lastIndexOf("\\") + 1,
+				selectedInput.lastIndexOf(File.separator) + 1,
 				selectedInput.lastIndexOf("."))
 				+ ".xml";
-
-		xmlInput.replace("/", "\\");
 
 		org.universaal.tools.owl2uml.uml2.UML2Factory.XMLFilePath = xmlInput;
 
