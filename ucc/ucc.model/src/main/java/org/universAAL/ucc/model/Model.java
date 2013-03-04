@@ -14,7 +14,8 @@ public class Model implements IModel {
 
 	private IApplicationRegistration appReg;
 	private IApplicationManagment appMan;
-	public final static String FILENAME = "applications.xml";
+	public final static String FILENAME = "applications.xml"; // TODO: to be removed
+	public final static String SERVICEFILENAME = "services.xml";
 	private static Document doc;
 	
 	public Model() {
