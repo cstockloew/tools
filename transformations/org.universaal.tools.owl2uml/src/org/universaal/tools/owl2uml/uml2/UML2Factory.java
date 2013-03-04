@@ -334,14 +334,15 @@ public class UML2Factory {
 
 	public void write(String file) throws IOException {
 
-		System.out.println("Saving model...");
-		String umlPath = file.substring(file.lastIndexOf("/") + 1,
+		System.out.println("Saving model to file: " + file);
+/*		String umlPath = file.substring(file.lastIndexOf("/") + 1,
 				(file.lastIndexOf("\\") + 1));
 		String umlFile = file.substring(file.lastIndexOf("\\") + 1,
 				file.lastIndexOf("."));
-
-		save(rootModel, URI.createFileURI(umlPath).appendSegment(umlFile)
-				.appendFileExtension(UMLResource.FILE_EXTENSION));
+*/
+		save(rootModel, URI.createFileURI(file)); 
+		//URI.createFileURI(umlPath).appendSegment(umlFile)
+		//		.appendFileExtension(UMLResource.FILE_EXTENSION));
 	}
 
 	public void createClass(String name, String nameParent) {

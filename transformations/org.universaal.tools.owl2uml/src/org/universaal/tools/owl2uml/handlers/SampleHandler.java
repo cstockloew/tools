@@ -58,14 +58,27 @@ public class SampleHandler extends AbstractHandler {
 		IResource selectedFile = (IResource) obj;
 
 		String selectedInput = selectedFile.getLocation().toString();
+		String pathWithoutExt = selectedInput.substring(0, selectedInput.lastIndexOf(".owl"));
+		String xmlInput = pathWithoutExt + ".xml";
+		String replumlFile = pathWithoutExt + ".uml";
+
+		/*		System.out.println("=== InputFile: " + selectedInput);
+
+		
+		System.out.println("Path: " + selectedInput.substring(0, selectedInput.lastIndexOf(".owl")));
+		
+		
 		// The path of the generated .uml file
 		String umlOutput = selectedInput.substring(
 				selectedInput.lastIndexOf(File.separator) + 1,
 				selectedInput.lastIndexOf("."))
 				+ ".uml";
+		System.out.println("=== OutputFile: " + umlOutput);
 
 		String replumlFile = umlOutput.replace("/", File.separator);
 
+		System.out.println("=== OutputRepl: " + replumlFile);
+		
 		// XML file used as input for the definition of the additional
 		// properties
 		String xmlInput = selectedInput.substring(
@@ -73,6 +86,8 @@ public class SampleHandler extends AbstractHandler {
 				selectedInput.lastIndexOf("."))
 				+ ".xml";
 
+		System.out.println("=== XML input: " + xmlInput);
+*/
 		org.universaal.tools.owl2uml.uml2.UML2Factory.XMLFilePath = xmlInput;
 
 		String[] arg = { selectedInput, replumlFile, "UML2" };
