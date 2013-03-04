@@ -3,7 +3,6 @@ package org.universaal.tools.packaging.tool.parts;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Application {
 
 	public static final String defaultURL = "http://www.webpage.com";

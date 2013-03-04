@@ -1,7 +1,5 @@
 package org.universaal.tools.packaging.tool.parts;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 
 public class DeploymentUnit {
 
@@ -12,9 +10,7 @@ public class DeploymentUnit {
 
 	public DeploymentUnit(String id, OS osType){		
 
-		SecureRandom random = new SecureRandom();
-
-		this.id = id+"_"+new BigInteger(130, random).toString(32);;
+		this.id = id;
 		this.osType = osType;
 		this.platformType = null;
 		this.cu = null;
@@ -22,9 +18,7 @@ public class DeploymentUnit {
 
 	public DeploymentUnit(String id, Platform platformType){		
 
-		SecureRandom random = new SecureRandom();
-
-		this.id = id+"_"+new BigInteger(130, random).toString(32);;
+		this.id = id;
 		this.osType = null;
 		this.platformType = platformType;
 		this.cu = null;
@@ -32,9 +26,7 @@ public class DeploymentUnit {
 
 	public DeploymentUnit(String id, ContainerUnit cu){		
 
-		SecureRandom random = new SecureRandom();
-
-		this.id = id+"_"+new BigInteger(130, random).toString(32);;
+		this.id = id;
 		this.osType = null;
 		this.platformType = null;
 		this.cu = cu;

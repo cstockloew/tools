@@ -158,7 +158,7 @@ public class Page2 extends PageImpl {
 					b.setText("Add license(s)");
 				}
 				else{
-					b.setText("Remove license adding");
+					b.setText("Remove license(s)");
 				}
 			}
 

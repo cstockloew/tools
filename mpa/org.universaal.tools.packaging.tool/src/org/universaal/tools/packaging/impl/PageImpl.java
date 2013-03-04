@@ -1,7 +1,6 @@
 package org.universaal.tools.packaging.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -24,7 +23,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 	protected Composite container;
 	protected GridData gd;
 
-	private MPA multipartApplication;
+	protected MPA multipartApplication;
 	protected Application app;
 	protected List<Control> mandatory;
 
@@ -52,7 +51,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 
 	public void setMPA(MPA mpa) {
 		multipartApplication = mpa;
-		app = multipartApplication.getApplication();
+		app = multipartApplication.getAAL_UAPP();
 	}
 
 	public boolean validate(){
@@ -111,39 +110,10 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 		return isValid(c1, c2, null);
 	}
 
-	public void addPageCustom(boolean sec, IWizardPage page){
+	public void addPageCustom(IWizardPage caller, IWizardPage newPage){ 
 
-		if(!sec){
-			GUI gui = GUI.getInstance();
-			gui.addPage(page);
-
-			IWizardPage[] pages = gui.getPages();
-			IWizardPage newPages[] = new IWizardPage[pages.length+1];
-
-			//System.out.println("pages "+pages.length+" newPages "+newPages.length);
-
-			newPages[3] = pages[pages.length-1];
-			pages[pages.length-1] = null;
-
-			for(int i = 0; i < pages.length; i++){
-				int j = 1;
-				//System.out.println("newPages.length - j - i "+(newPages.length - j - i)+" pages.length - 1 - i "+(pages.length - 1 - i));
-				if(newPages[newPages.length - j - i] != null){
-					//System.out.println("newPages.length - j - i "+(newPages.length - j - i));
-					j = 2;
-				}
-				newPages[newPages.length - j - i] = pages[pages.length - 1 - i];
-			}
-
-			for(int i = 0; i < newPages.length; i++){
-				if(newPages[i] != null)
-					System.out.println(""+newPages[i].getName());
-				else
-					System.out.println("null: "+i);
-			}
-
-			gui.setPages(new ArrayList<IWizardPage>(Arrays.asList(newPages)));
-		}
+		GUI gui = GUI.getInstance();
+		gui.addPage(newPage, gui.getPageNumber(caller)+1);
 	}
 
 	public void setArtifact(IProject p){}

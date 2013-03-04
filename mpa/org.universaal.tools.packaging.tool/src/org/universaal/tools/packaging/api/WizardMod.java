@@ -139,10 +139,34 @@ public abstract class WizardMod implements IWizard {
 	public void addPage(IWizardPage page) {
 		pages.add(page);
 		page.setWizard(this);
+	}
 
-//		for(int i = 0; i < pages.size(); i++)
-//			if(pages.get(i) == null)
-//				pages.remove(i);
+	public void addPage(IWizardPage newPage, int position) {
+
+		List newPages = new ArrayList();
+		for(int i = 0; i < pages.size(); i++){
+			if(i != position)
+				newPages.add(pages.get(i));
+			else{
+				newPages.add(newPage);
+				newPages.add(pages.get(i));
+			}
+		}
+
+		//pages.add(page);
+		pages.clear();
+		pages.addAll(newPages);
+
+		newPage.setWizard(this);
+	}
+
+	public int getPageNumber(IWizardPage page){
+
+		for(int i = 0; i < pages.size(); i++)
+			if(pages.get(i).equals(page))
+				return i;
+
+		return -1;
 	}
 
 	/**

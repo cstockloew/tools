@@ -17,7 +17,7 @@ import org.universaal.tools.packaging.tool.util.POMParser;
 
 public class CreateJar {
 
-	public void run(IProject part, int partNumber){
+	public void create(IProject part, int partNumber){
 
 		GUI g = GUI.getInstance();
 		String destination_path = g.getTempDir()+"/bin/part"+partNumber+"/";

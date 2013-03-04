@@ -1,7 +1,5 @@
 package org.universaal.tools.packaging.tool.parts;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -12,19 +10,15 @@ import org.universaal.tools.packaging.tool.parts.Capability.Optional;
 
 public class Part {
 
-	private String id; // uStore ID
-	private String name; // internal use, name of the project representing the part
-	//private List<Capability> partCapabilities;
+	private String id; // unique
 	private Properties partCapabilities;
 	private List<Requirement> partRequirements;
 	private List<DeploymentUnit> deploymentUnits;
 	private List<ExecutionUnit> executionUnits;
 
 	public Part(String id){
-		SecureRandom random = new SecureRandom();
 
-		this.name = id;
-		this.id = id+"_"+new BigInteger(130, random).toString(32);
+		this.id = id;
 
 		partCapabilities = new Properties();
 		Mandatory[] mandatory = Capability.Mandatory.values();
@@ -43,14 +37,6 @@ public class Part {
 	public String getId() {
 		return id;
 	}
-	public String getName(){
-		return name;
-	}
-	//	public List<Capability> getPartCapabilities() {
-	//		if(partCapabilities == null)
-	//			partCapabilities = new ArrayList<Capability>();
-	//		return partCapabilities;
-	//	}
 	public Properties getPartCapabilities() {
 		return partCapabilities;
 	}
@@ -94,10 +80,6 @@ public class Part {
 		}
 		catch(Exception ex){}
 		r = r.concat("</partCapabilities>");
-
-		//		for(int i = 0; i < getPartCapabilities().size(); i++)
-		//			r = r.concat("<capability>"+partCapabilities.get(i).getXML()+"</capability>");
-		//		r = r.concat("</partCapabilities>");
 
 		r = r.concat("<partRequirements>");
 		for(int i = 0; i < getPartRequirements().size(); i++)

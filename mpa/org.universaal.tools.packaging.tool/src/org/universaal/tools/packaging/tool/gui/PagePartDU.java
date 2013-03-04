@@ -261,24 +261,24 @@ public class PagePartDU extends PageImpl {
 
 	public void setArtifact(IProject part){
 		this.part = part;
-		//p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
+		p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
 	}
 
 	@Override
 	public void nextPressed() {
-		//ckbOS1, ckbPL1, ckbCU1
+
 		if(ckbOS1.getSelection()){
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(part.getName()+"_OS", OS.valueOf(os1.getText())));
+			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion(), OS.valueOf(os1.getText())));
 		}
 		else if(ckbPL1.getSelection()){
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(part.getName()+"_PL", Platform.valueOf(platform1.getText())));
+			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion(), Platform.valueOf(platform1.getText())));
 		}
 		else if(ckbCU1.getSelection()){
 			ContainerUnit cu = null;
 			if(cu1.getText().equals(Container.KARAF.toString())){
 
 				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
-				cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), krf.generate(this.part));//TODO //new KarafFeature(p.getName(), p.getVersion(), p.getGroupID(), p.getArtifactID()));
+				cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), krf.generate(this.part));
 			}
 			else if(cu1.getText().equals(Container.ANDROID.toString())){
 				cu = new ContainerUnit(new Android(andN.getText(), andD.getText(), URI.create(andURI.getText())));
@@ -286,7 +286,7 @@ public class PagePartDU extends PageImpl {
 			else if(!cu1.getText().equals(Container.KARAF.toString()) && !cu1.getText().equals(Container.ANDROID.toString())){
 				cu = new ContainerUnit(Container.valueOf(cu1.getText()));
 			}
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(part.getName()+"_CU", cu));
+			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion(), cu));
 		}
 	}
 

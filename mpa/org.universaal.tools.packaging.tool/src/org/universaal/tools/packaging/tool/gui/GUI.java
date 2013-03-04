@@ -26,6 +26,7 @@ import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
 import org.universaal.tools.packaging.tool.zip.UAAP;
 
@@ -89,33 +90,34 @@ public class GUI extends WizardMod {
 			addPage(p5);
 			p5.setMPA(mpa);
 
+			if(parts.size() > 1)
+				mpa.getAAL_UAPP().getApplication().setMultipart(true);
+			else
+				mpa.getAAL_UAPP().getApplication().setMultipart(false);
+
 			for(int i = 0; i < parts.size(); i++){
 
 				String partName = parts.get(i).getName();
 
-				mpa.getApplication().getParts().add(new Part(partName));
+				POMParser p = new POMParser(new File(parts.get(i).getFile("pom.xml").getLocation()+""));
+				mpa.getAAL_UAPP().getParts().add(new Part(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion()));
 
-				if(parts.size() > 1)
-					mpa.getApplication().getApplication().setMultipart(true);
-				else
-					mpa.getApplication().getApplication().setMultipart(false);
-
-				ppDU = new PagePartDU(Page.PAGE_PART+partName, i); //deployment units
+				ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
 				addPage(ppDU);
 				ppDU.setMPA(mpa);
 				ppDU.setArtifact(parts.get(i));
 
-				ppEU = new PagePartEU(Page.PAGE_PART+partName, i); // execution units
+				ppEU = new PagePartEU(Page.PAGE_PART_EU+partName, i); // execution units
 				addPage(ppEU);
 				ppEU.setMPA(mpa);
 				ppEU.setArtifact(parts.get(i));
 
-				ppPC = new PagePartPC(Page.PAGE_PART+partName, i); // part capabilities
+				ppPC = new PagePartPC(Page.PAGE_PART_PC+partName, i); // part capabilities
 				addPage(ppPC);
 				ppPC.setMPA(mpa);
 				ppPC.setArtifact(parts.get(i));
 
-				ppPR = new PagePartPR(Page.PAGE_PART+partName, i); // part requirements
+				ppPR = new PagePartPR(Page.PAGE_PART_PR+partName, i); // part requirements
 				addPage(ppPR);
 				ppPR.setMPA(mpa);
 				ppPR.setArtifact(parts.get(i));
@@ -134,7 +136,7 @@ public class GUI extends WizardMod {
 
 		try {
 			// create descriptor
-			File file = new File(tempDir+"/config/"+mpa.getApplication().getApplication().getName()+".xml");
+			File file = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getApplication().getName()+".xml");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			out.write(mpa.getXML());
 			out.close();
@@ -142,33 +144,37 @@ public class GUI extends WizardMod {
 			// create jars
 			CreateJar jar = new CreateJar();
 			for(int i = 0; i < parts.size(); i++)		
-				jar.run(parts.get(i), i+1);
+				jar.create(parts.get(i), i+1);
 
-			// copy licenses
+			// copy SLA and licenses (if possible)
+			for(int i = 0; i < mpa.getAAL_UAPP().getApplication().getLicenses().size(); i++){
+
+				if(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+					File sla = new File(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink());
+					copyFile(sla, new File(tempDir+"/license/"+sla.getName()));
+				}
+
+				for(int j = 0; j < mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().size(); j++){
+
+					if(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+						File license = new File(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink());
+						copyFile(license, new File(tempDir+"/license/"+license.getName()));
+					}
+				}
+			}
 
 			// copy properties files
-			for(int i = 0; i < mpa.getApplication().getParts().size(); i++){
-				for(int j = 0; j < mpa.getApplication().getParts().get(i).getExecutionUnits().size(); j++){
-					
-					File configFile = mpa.getApplication().getParts().get(i).getExecutionUnits().get(j).getConfigFile();
-					File fileIntoUAAP = new File(tempDir+"/config/"+configFile.getName());
+			for(int i = 0; i < mpa.getAAL_UAPP().getParts().size(); i++){
+				for(int j = 0; j < mpa.getAAL_UAPP().getParts().get(i).getExecutionUnits().size(); j++){
 
-					InputStream in = new FileInputStream(configFile);
-					OutputStream out_ = new FileOutputStream(fileIntoUAAP);
-
-					byte[] buf = new byte[1024];
-					int len;
-					while ((len = in.read(buf)) > 0){
-						out_.write(buf, 0, len);
-					}
-					in.close();
-					out.close();
+					File configFile = mpa.getAAL_UAPP().getParts().get(i).getExecutionUnits().get(j).getConfigFile();
+					copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
 				}
 			}
 
 			UAAP descriptor = new UAAP();
 			descriptor.createUAAPfile(tempDir, 
-					new Dialog().open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), mpa.getApplication().getApplication().getName()+".uapp").getAbsolutePath());
+					new Dialog().open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), mpa.getAAL_UAPP().getApplication().getName()+".uapp").getAbsolutePath());
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -245,5 +251,24 @@ public class GUI extends WizardMod {
 
 	public String getTempDir() {
 		return tempDir;
+	}
+
+	private void copyFile(File source, File destination){
+
+		try{
+			InputStream in = new FileInputStream(source);
+			OutputStream out = new FileOutputStream(destination);
+
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0){
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 }

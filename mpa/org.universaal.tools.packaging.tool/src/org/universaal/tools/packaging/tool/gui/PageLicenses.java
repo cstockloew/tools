@@ -3,7 +3,6 @@ package org.universaal.tools.packaging.tool.gui;
 import java.net.URI;
 import java.util.List;
 
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -30,10 +29,10 @@ public class PageLicenses extends PageImpl {
 
 	private SLA sla;
 	private License lic;
-	private boolean addLicense = false, pageAdded = false, onlyLicense = false;
+	private boolean addLicense = false, /*pageAdded = false,*/ onlyLicense = false;
 
 	protected PageLicenses(String pageName) {
-		super(pageName, "Add SLA and license(s) for you MPA");
+		super(pageName, "Add SLA and license(s) for your MPA - each artifact should be licensed under different license.");
 	}
 
 	protected PageLicenses(String pageName, boolean onlyLicense) {
@@ -85,7 +84,7 @@ public class PageLicenses extends PageImpl {
 				}
 
 				public void keyPressed(KeyEvent e) {
-					sla.setLink(URI.create(slaLink.getText()));
+					//sla.setLink(URI.create(slaLink.getText()));
 				}
 			});
 			slaName.addKeyListener(new KeyListener() {
@@ -126,34 +125,26 @@ public class PageLicenses extends PageImpl {
 		licName.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getName());			
 		licName.setLayoutData(gd);		
 
-		licCategory.addKeyListener(new KeyListener() {
+		licCategory.addKeyListener(new QL() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
-				setPageComplete(validate());
+				lic.setCategory(LicenseCategory.valueOf(licCategory.getText()));				
 			}
+		});		
+		licLink.addKeyListener(new QL() {
 
-			public void keyPressed(KeyEvent e) {
-				lic.setCategory(LicenseCategory.valueOf(licCategory.getText()));
+			@Override
+			public void keyReleased(KeyEvent e) {
+				//lic.setLink(URI.create(licLink.getText()));				
 			}
 		});
-		licLink.addKeyListener(new KeyListener() {
+		licName.addKeyListener(new QL() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
-				setPageComplete(validate());
-			}
-
-			public void keyPressed(KeyEvent e) {
-				lic.setLink(URI.create(licLink.getText()));
-			}
-		});
-		licName.addKeyListener(new KeyListener() {
-
-			public void keyReleased(KeyEvent e) {
-				setPageComplete(validate());
-			}
-
-			public void keyPressed(KeyEvent e) {
 				lic.setName(licName.getText());
+
 			}
 		});
 
@@ -183,19 +174,22 @@ public class PageLicenses extends PageImpl {
 	}
 
 	@Override
-	public IWizardPage getNextPage() {
+	public void nextPressed() {
 
-		if(addLicense){
-			addPageCustom(pageAdded, new PageLicenses(Page.PAGE_LICENSE+PageImpl.otherLicenses++, true));
-			pageAdded = true;
+		try{
+			if(!onlyLicense && slaLink.getText() != null && !slaLink.getText().isEmpty())
+				sla.setLink(URI.create(slaLink.getText()));
+			if(licLink.getText() != null && !licLink.getText().isEmpty())
+				lic.setLink(URI.create(licLink.getText()));			
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
 		}
 
-		return super.getNextPage();
-	}
-
-	@Override
-	public void nextPressed() {
-		// TODO Auto-generated method stub
-
+		if(addLicense){
+			PageLicenses pl = new PageLicenses(Page.PAGE_LICENSE+PageImpl.otherLicenses++, true);
+			pl.setMPA(multipartApplication);
+			addPageCustom(this, pl);
+		}
 	}
 }
