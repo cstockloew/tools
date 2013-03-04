@@ -22,11 +22,11 @@
 		<bundle start-level='91'>mvn:org.universAAL.tools.ucc/ucc.viewjambi/2.0.0-SNAPSHOT
 		</bundle>
 
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.information/2.0.0-SNAPSHOT
+		<bundle start-level='92' start='false'>mvn:org.universAAL.tools.ucc/ucc.plugin.information/2.0.0-SNAPSHOT
 		</bundle>
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.karaf/2.0.0-SNAPSHOT
+		<bundle start-level='92' start='false'>mvn:org.universAAL.tools.ucc/ucc.plugin.karaf/2.0.0-SNAPSHOT
 		</bundle>
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.ustore/2.0.0-SNAPSHOT
+		<bundle start-level='92' start='false'>mvn:org.universAAL.tools.ucc/ucc.plugin.ustore/2.0.0-SNAPSHOT
 		</bundle>
 
 	</feature>
