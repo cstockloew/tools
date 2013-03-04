@@ -78,7 +78,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 	 * return the path for the extract .uapp file (root)
 	 * @throws Exception 
 	 */
-	public String installApplication(String path) throws Exception {
+/*	public String installApplication(String path) throws Exception {
 		//Activator.getModel().getApplicationRegistration().writeToConfigFile("test");
 		System.out.println("[Installer.installApplication] the path for install is: " + path);
 		String exdir=extractBundles(path);
@@ -89,7 +89,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 		checkApplicationForInstall(exdir);
 		return exdir;
 		
-	}
+	} */
 
 	/**
 	 * Is bundle valid? All need files available? Dependencies to check and all
@@ -102,7 +102,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 	 * 
 	 * @throws Exception 
 	 */
-	private void checkApplicationForInstall(String folder) throws Exception {
+/*	private void checkApplicationForInstall(String folder) throws Exception {
 		String uappfile = null;
 		boolean aslok=false;
 		boolean uappok=false;
@@ -127,7 +127,7 @@ public class Installer extends ApplicationManager implements IInstaller {
 		// initialization: get references to DeployManager and AALSpaceManager
 		//initMpaInstallation();
 			
-	}
+	} */
 	
 
 	
@@ -373,7 +373,7 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 	}
 	
 	/**
-	 * installing a service 
+	 * installing a service from local file
 	 * @param path - the path of the downloaded .usrv file
 	 * return the folder of the extracted contents for the .usrv file
 	 */
@@ -382,10 +382,15 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 		// extract .usrv file under "/bundles" folder
 		System.out.println("[Installer.installService] extract the .usrv file from: " + path);
 		String srvPath = extractBundles(path);
+		if(srvPath==null) {
+			System.out.println("[Installer.installService] Error extracting .usrv Package");
+			return null;
+		}
 		System.out.println("[Installer.installService] the service bundles are extracted to: " + srvPath);	
 		// TODO: check the contents of the .usrv file
-		// initialization: get references to DeployManager and AALSpaceManager
-		initMpaInstallation();
+		// Show license TODO: call UI.showLicense
+		Activator.getMainWindow().showLicense(srvPath);
+
 		return srvPath;		
 	}
 	
@@ -396,31 +401,6 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 	 */
 	public void installServiceFromOnlineStore(String path)  {
 		String srvPath = installService(path);
-		// install each .uapp file found			
-		if(srvPath==null) 
-			System.out.println("[Installer.installServiceFromOnlineStore] Error extracting .usrv Package");
-			//TODO: update with the .usrv file structure - this has the same logic as InstallView.installFile()		
-			// get usrvId
-			UsrvParser usrv = new UsrvParser(srvPath+File.separator+"config");
-			String serviceId = usrv.getServiceId();
-			System.out.println("[Installer.installServiceFromOnlineStore] the serviceId is: " + serviceId);
-			srvPath = srvPath + File.separator + "bin";
-			System.out.println("[Installer.installServiceFromOnlineStore] the .uapp files contained in: " + srvPath);
-			File appDir=new File(srvPath);
-			String[] content = appDir.list();
-			String appPath;
-			for(int i=0;i<content.length;i++){
-				if(content[i].endsWith(".uapp")) {				
-					try {
-						appPath = installApplication(srvPath + content[i]);
-						Activator.getMainWindow().installApp(appPath, serviceId);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-					
-			}
 		
 		
 	}
@@ -428,6 +408,40 @@ static public void extractFolder(String zipFile, String destdir) throws ZipExcep
 	public InstallationResults requestToUninstall(String id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public String installApplication(String srvPath)  {
+		// start installation of service
+		// initialization: get references to DeployManager and AALSpaceManager
+		initMpaInstallation();
+		// get usrvId
+		UsrvParser usrv = new UsrvParser(srvPath+File.separator+"config");
+		String serviceId = usrv.getServiceId();
+		System.out.println("[Installer.installService] the serviceId is: " + serviceId);
+		System.out.println("[Installer.installService] starting installation of service with id " + serviceId);
+		// install each app file
+		srvPath = srvPath + File.separator + "bin";
+		System.out.println("[Installer.installService] the .uapp files contained in: " + srvPath);
+		File appDir=new File(srvPath);
+		String[] content = appDir.list();
+		String appPath = null;
+		for(int i=0;i<content.length;i++){
+			if(content[i].endsWith(".uapp")) {				
+				try {
+					// extract the contents
+					System.out.println("[Installer.installApplication] the path for install is: " + srvPath + File.separator + content[i]);
+					appPath=extractBundles(srvPath + File.separator + content[i]);
+					if(appPath==null)throw new Exception("[Installer.installApplication] Error extracting .uapp Package");
+					// convert "/" to "\"
+					//exdir = exdir.replaceAll("/", "\\");
+					Activator.getMainWindow().installApp(appPath, serviceId);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}		
+		return appPath;
 	}
 	
 }
