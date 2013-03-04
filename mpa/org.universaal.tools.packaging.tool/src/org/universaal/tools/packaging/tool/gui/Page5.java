@@ -191,6 +191,8 @@ public class Page5 extends PageImpl {
 
 	@Override
 	public IWizardPage getNextPage(){
+		
+		//TODO verify
 
 		if(!prot1.getText().isEmpty()){
 			String[] ps = prot1.getText().split(",");

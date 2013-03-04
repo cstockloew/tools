@@ -24,9 +24,9 @@ import org.universaal.tools.packaging.tool.parts.ContainerUnit;
 import org.universaal.tools.packaging.tool.parts.ContainerUnit.Container;
 import org.universaal.tools.packaging.tool.parts.DeploymentUnit;
 import org.universaal.tools.packaging.tool.parts.Embedding;
-import org.universaal.tools.packaging.tool.parts.KarafFeature;
 import org.universaal.tools.packaging.tool.parts.OS;
 import org.universaal.tools.packaging.tool.parts.Platform;
+import org.universaal.tools.packaging.tool.util.KarafFeaturesGenerator;
 import org.universaal.tools.packaging.tool.util.POMParser;
 
 public class PagePartDU extends PageImpl {
@@ -261,7 +261,7 @@ public class PagePartDU extends PageImpl {
 
 	public void setArtifact(IProject part){
 		this.part = part;
-		p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
+		//p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
 	}
 
 	@Override
@@ -277,7 +277,8 @@ public class PagePartDU extends PageImpl {
 			ContainerUnit cu = null;
 			if(cu1.getText().equals(Container.KARAF.toString())){
 
-				cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), new KarafFeature(p.getName(), p.getVersion(), p.getGroupID(), p.getArtifactID()));
+				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
+				cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), krf.generate(this.part));//TODO //new KarafFeature(p.getName(), p.getVersion(), p.getGroupID(), p.getArtifactID()));
 			}
 			else if(cu1.getText().equals(Container.ANDROID.toString())){
 				cu = new ContainerUnit(new Android(andN.getText(), andD.getText(), URI.create(andURI.getText())));

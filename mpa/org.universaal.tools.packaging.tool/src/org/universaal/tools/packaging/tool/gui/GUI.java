@@ -2,8 +2,13 @@ package org.universaal.tools.packaging.tool.gui;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,12 +18,16 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.api.WizardMod;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
+import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.zip.CreateJar;
+import org.universaal.tools.packaging.tool.zip.UAAP;
 
 public class GUI extends WizardMod {
 
@@ -29,10 +38,7 @@ public class GUI extends WizardMod {
 
 	private static GUI instance;
 
-	//	private GUI(){
-	//		super();
-	//		setNeedsProgressMonitor(true);
-	//	}
+	private String tempDir;  
 
 	public GUI(ExecutionEvent event) {
 
@@ -89,6 +95,11 @@ public class GUI extends WizardMod {
 
 				mpa.getApplication().getParts().add(new Part(partName));
 
+				if(parts.size() > 1)
+					mpa.getApplication().getApplication().setMultipart(true);
+				else
+					mpa.getApplication().getApplication().setMultipart(false);
+
 				ppDU = new PagePartDU(Page.PAGE_PART+partName, i); //deployment units
 				addPage(ppDU);
 				ppDU.setMPA(mpa);
@@ -114,21 +125,54 @@ public class GUI extends WizardMod {
 			p = new ErrorPage(Page.PAGE_ERROR);
 			addPage(p);
 		}	
+
+		createTempContainer();
 	}
 
 	@Override
 	public boolean performFinish() {
 
-		//TODO generate XML and compress app
-
-		File file = new File(mpa.getApplication().getApplication().getName()+".xml");
 		try {
+			// create descriptor
+			File file = new File(tempDir+"/config/"+mpa.getApplication().getApplication().getName()+".xml");
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			out.write(mpa.getXML());
 			out.close();
-		} catch (IOException e) {
+
+			// create jars
+			CreateJar jar = new CreateJar();
+			for(int i = 0; i < parts.size(); i++)		
+				jar.run(parts.get(i), i+1);
+
+			// copy licenses
+
+			// copy properties files
+			for(int i = 0; i < mpa.getApplication().getParts().size(); i++){
+				for(int j = 0; j < mpa.getApplication().getParts().get(i).getExecutionUnits().size(); j++){
+					
+					File configFile = mpa.getApplication().getParts().get(i).getExecutionUnits().get(j).getConfigFile();
+					File fileIntoUAAP = new File(tempDir+"/config/"+configFile.getName());
+
+					InputStream in = new FileInputStream(configFile);
+					OutputStream out_ = new FileOutputStream(fileIntoUAAP);
+
+					byte[] buf = new byte[1024];
+					int len;
+					while ((len = in.read(buf)) > 0){
+						out_.write(buf, 0, len);
+					}
+					in.close();
+					out.close();
+				}
+			}
+
+			UAAP descriptor = new UAAP();
+			descriptor.createUAAPfile(tempDir, 
+					new Dialog().open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), mpa.getApplication().getApplication().getName()+".uapp").getAbsolutePath());
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
 
 		return true;
 	}
@@ -167,5 +211,39 @@ public class GUI extends WizardMod {
 
 	public List<IProject> getParts(){
 		return parts;
+	}
+
+	private void createTempContainer(){
+
+		try{
+			SecureRandom random = new SecureRandom();			
+			tempDir = System.getProperty("java.io.tmpdir")+"/MPA_"+new BigInteger(130, random).toString(32)+"/";
+			File f = new File(tempDir);
+			f.mkdir();
+			//System.out.println("tempDir: "+f.getAbsolutePath());
+
+			File bin, config, doc, license, part;
+
+			bin = new File(f+"/bin");
+			bin.mkdir();
+			config = new File(f+"/config");
+			config.mkdir();
+			doc = new File(f+"/doc");
+			doc.mkdir();
+			license = new File(f+"/license");
+			license.mkdir();
+
+			for(int i = 0; i < parts.size(); i++){
+				part = new File(f+"/bin/part"+(i+1));
+				part.mkdir();
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
+	public String getTempDir() {
+		return tempDir;
 	}
 }

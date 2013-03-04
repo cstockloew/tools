@@ -1,6 +1,8 @@
 package org.universaal.tools.packaging.tool.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +13,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.karaf.xmlns.features.v1_0.Feature;
-import org.apache.karaf.xmlns.features.v1_0.FeaturesRoot;
-import org.apache.karaf.xmlns.features.v1_0.ObjectFactory;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
 import org.eclipse.core.resources.IFile;
@@ -26,6 +25,7 @@ import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
+import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,29 +52,24 @@ public class KarafFeaturesGenerator {
 
 	private GUI g = GUI.getInstance();
 
-	public final String GROUP_ID = "org.apache.karaf.tooling";
-	public final String ARTIFACT_ID = "features-maven-plugin";
-	public final String VERSION = "2.2.7";
+	private final String GROUP_ID = "org.apache.karaf.tooling";
+	private final String ARTIFACT_ID = "features-maven-plugin";
+	private final String VERSION = "2.2.7";
 
-	public void generate(String partName){		
+	private final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
-		//		List<Part> parts = g.mpa.getApplication().getParts();
-		//		for(int i = 0; i < parts.size(); i++){
-		//			List<DeploymentUnit> dus = parts.get(i).getDeploymentUnits();
-		//			for(int j = 0; j < dus.size(); j++){
-		//				if(dus.get(j).getCu().getContainer() == Container.KARAF){
-		//
-		//					verifyPreConditions(parts.get(i).getName());
-		//					generateKarafFeatures(parts.get(i).getName());
-		//				}
-		//			}
-		//		}
+	//private final String ENCODING = "UTF-8";
 
-		verifyPreConditions(partName);
-		generateKarafFeatures(partName);
+	public String generate(IProject part){		
+
+		verifyPreConditions(part.getName());
+		if(generateKarafFeatures(part.getName()))		
+			return returnKrfFeat(part);
+		else
+			return "";
 	}
 
-	private void verifyPreConditions(String projectName){
+	private boolean verifyPreConditions(String projectName){
 
 		try{
 			// it verifies the presence of "features-maven-plugin" in the pom.xml
@@ -93,8 +88,8 @@ public class KarafFeaturesGenerator {
 				NodeList plugins_children = plug_ins.item(i).getChildNodes();
 				for(int j = 0; j < plugins_children.getLength(); j++){
 					if(plugins_children.item(j).getNodeName().equals("artifactId"))
-						if(plugins_children.item(j).getNodeValue().equalsIgnoreCase("features-maven-plugin"))
-							return;
+						if(plugins_children.item(j).getTextContent().equalsIgnoreCase(ARTIFACT_ID))
+							return true;
 				}
 			}
 			// add features-maven-plugin declaration
@@ -117,10 +112,17 @@ public class KarafFeaturesGenerator {
 			build = parsedPom.createElement("build");
 			build.appendChild(plugins);
 
-			if(parsedPom.getElementById("plugins") != null)
-				parsedPom.getElementById("plugins").appendChild(maven_features_plugin);
-			else if(parsedPom.getElementById("build") != null)
-				parsedPom.getElementById("build").appendChild(plugins);
+			NodeList pps, builds;
+			if(parsedPom.getElementsByTagName("plugins") != null){
+				pps = parsedPom.getElementsByTagName("plugins");
+				if(pps.getLength() > 0)
+					pps.item(0).appendChild(maven_features_plugin);
+			}
+			else if(parsedPom.getElementsByTagName("build") != null){
+				builds = parsedPom.getElementsByTagName("build");
+				if(builds.getLength() > 0)
+					builds.item(0).appendChild(plugins);
+			}
 			else
 				parsedPom.getDocumentElement().appendChild(build);
 
@@ -131,13 +133,17 @@ public class KarafFeaturesGenerator {
 			StreamResult result = new StreamResult(pom);
 
 			transformer.transform(source, result);
+
+			return true;
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+
+		return false;
 	}
 
-	private void generateKarafFeatures(String projectName){
+	private boolean generateKarafFeatures(String projectName){
 
 		try{
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
@@ -159,11 +165,39 @@ public class KarafFeaturesGenerator {
 				request.setGoals(goals);
 				MavenExecutionResult execution_result = maven.execute(request, null);
 				if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty())
-					return;
+					return true;
 			}
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+
+		return false;
+	}
+
+	private String returnKrfFeat(IProject part){
+
+		String xml = "";
+		try {
+
+			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+			File features = new File(path+"/target/classes/feature.xml");
+
+			BufferedReader reader = new BufferedReader(new FileReader(features));
+			String line = "", oldtext = "";
+			while((line = reader.readLine()) != null)
+				oldtext += line + "\r\n";
+
+			reader.close(); 
+
+			xml = oldtext.substring(XML_HEADER.length(), oldtext.length()); // remove XML header
+			xml = xml.replaceAll("<", "<"+Page.KARAF_NAMESPACE+":"); // add KARAF namespace
+			xml = xml.replaceAll("<"+Page.KARAF_NAMESPACE+":/", "</"+Page.KARAF_NAMESPACE+":"); // correct end tags
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return xml;
 	}
 }
