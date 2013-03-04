@@ -11,7 +11,7 @@ import org.universAAL.middleware.managers.api.UAPPPackage;
 
 public interface IInstaller {
 	
-	public String installApplication(String path) throws Exception;
+	public String installApplication(String path);
 	public ArrayList<Bundle> getInstalledBundles();
 	public void resetBundles();
 	public void revertInstallation(File folder);
