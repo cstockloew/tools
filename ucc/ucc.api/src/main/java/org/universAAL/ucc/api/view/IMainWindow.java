@@ -18,5 +18,5 @@ public interface IMainWindow {
 	public boolean initialize();
 	
 	public void installApp(String path, String serviceId);
-	public void showLicense(String path, String serviceId);
+	public void showLicense(String path);
 }
