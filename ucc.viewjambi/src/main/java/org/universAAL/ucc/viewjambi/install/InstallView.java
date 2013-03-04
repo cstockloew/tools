@@ -42,43 +42,13 @@ public class InstallView extends SubWindow {
 		String p=install_base.fileName.text();
 		System.out.println("[InstallView.installFile] the install path: " + p);
 		p=p.replace("/", "\\");
+		MainWindow.getInstance().removeSubWindow(this);
 		String srvPath = Activator.getInstaller().installService(p);
-		System.out.println("[InstallView.installFile] the installed/extracted path: " + srvPath);
-		try {
-			// install each .uapp file found			
-			if(srvPath==null) 
-				System.out.println("[InstallView.installFile] Error extracting .usrv Package");
-			// convert "/" to "\"
-			//TODO: update with the .usrv file structure	
-			srvPath = srvPath + "\\config\\";
-			System.out.println("[InstallView.installFile] the .uapp files contained in: " + srvPath);
-			File appDir=new File(srvPath);
-			String[] content = appDir.list();
-			String appPath;
-			for(int i=0;i<content.length;i++){
-				if(content[i].endsWith(".uapp")) {				
-					try {
-						appPath = Activator.getInstaller().installApplication(srvPath + content[i]);
-						MainWindow.getInstance().removeSubWindow(this);
-						MainWindow.getInstance().showLicense(appPath);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-					
-			}
-			
 			//String appDir = Activator.getInstaller().installApplication(p);
 			//MainWindow.getInstance().removeSubWindow(this);
 			//MainWindow.getInstance().showLicense(appDir);
-		} catch (NullPointerException e){
-			QMessageBox.critical(this, "Error", "Installation failed! The Application probably already is installed!");
-		} catch (Exception e) {
-			QMessageBox.critical(this, "Error", e.getMessage());
-			MainWindow.getInstance().removeSubWindow(this);
-		}
-	}
+
+	}  
 	
 	protected void cancel() {
 		MainWindow.getInstance().removeSubWindow(this);
