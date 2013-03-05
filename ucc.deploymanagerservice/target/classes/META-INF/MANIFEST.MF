@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1362232228707
+Build-Jdk: 1.7.0_15
+Built-By: merkle
+Bundle-Description: This API contains of deploy manager service interfac
+ es for uCC.
+Bundle-ManifestVersion: 2
+Bundle-Name: deploy manager service API for the uCC
+Bundle-SymbolicName: ucc.deploymanagerservice
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.universAAL.ucc.deploymanagerservice;uses:="javax.jws
+ ";version="1.0.0.SNAPSHOT",javax.jws.soap;version="2.0",javax.jws;versi
+ on="2.0"
+Tool: Bnd-1.50.0
