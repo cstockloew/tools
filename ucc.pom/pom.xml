@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.universAAL.tools.ucc</groupId>
+	<artifactId>ucc.pom</artifactId>  
+	<version>1.2.1-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+	<name>universAAL Control Center</name>
+	<description>A tool to install, manage and configure applications for universAAL an a local maschine.</description>
+	<url>
+		<![CDATA[http://forge.universaal.org/gf/project/svn/uaaltools/trunk/ucc/]]>
+	</url>
+
+	<issueManagement>
+		<system>GForge - Tracker</system>
+		<url>
+			<![CDATA[http://forge.universaal.org/gf/project/middleware/tracker/]]>
+		</url>
+	</issueManagement>
+
+	<mailingLists />
+
+	<scm>
+		<connection>scm:svn:http://forge.universaal.org/svn/uaaltools/trunk/ucc</connection> 
+		<developerConnection>scm:svn:http://forge.universaal.org/svn/uaaltools/trunk/ucc</developerConnection>
+		<url>http://forge.universaal.org/gf/project/uaaltools/scmsvn/?path=%2Ftrunk%2Fucc%2F</url>
+	</scm>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.osgi.core</artifactId>
+				<version>1.0.1</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<dependencies>
+ 		<dependency>
+        	<groupId>org.universAAL.middleware</groupId>
+        	<artifactId>mw.data.representation.osgi</artifactId>
+        	<version>1.2.1-SNAPSHOT</version>
+      	</dependency>
+		<dependency>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.bus.model.osgi</artifactId>
+			<version>1.2.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.bus.ui.osgi</artifactId>
+			<version>1.2.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.acl.interfaces.osgi</artifactId>
+			<version>1.2.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<organization>
+		<name>universAAL Consortium</name>
+		<url>http://www.universAAL.org/</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>alex</id>
+			<email>alexander.marinc@igd.fraunhofer.de</email>
+			<name>Alexander Marinc</name>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>CEST/CET</timezone>
+		</developer>
+		<developer>
+			<id>tom</id>
+			<email>zentek@fzi.de</email>
+			<name>Tom Zentek</name>
+			<roles>
+				<role>builder</role>
+				<role>developer</role>
+			</roles>
+			<timezone>CEST/CET</timezone>
+		</developer>
+		<developer>
+			<id>shanshan</id>
+			<email>Shanshan.Jiang@sintef.no</email>
+			<name>Shanshan Jiang</name>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>CEST/CET</timezone>
+		</developer>
+	</developers>
+
+	<contributors />
+
+	<properties>
+		<remoteOBR />
+		<!-- Default configuration for compiler source and target JVM -->
+		<maven.compile.source>1.5</maven.compile.source>
+		<maven.compile.target>1.5</maven.compile.target>
+	</properties>
+	
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Central Maven Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>apache-snapshots</id>
+			<name>Apache Snapshots</name>
+			<url>http://people.apache.org/repo/m2-snapshot-repository</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<updatePolicy>daily</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>uaal</id>
+			<name>universAAL Repositories</name>
+			<url>http://depot.universaal.org/maven-repo/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>uaal-snapshots</id>
+			<name>universAAL Snapshot Repositories</name>
+			<url>http://depot.universaal.org/maven-repo/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		 
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>universAAL Releases</name>
+			<url>http://depot.universaal.org/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>universAAL Snapshots</name>
+			<url>http://depot.universaal.org/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<modules>
+		<module>../ucc.api</module>
+		<module>../ucc.model</module>
+		<module>../ucc.karaf.feature</module>
+	</modules>
+
+</project>
