@@ -77,10 +77,11 @@ public class PatternEditFrame extends javax.swing.JFrame {
     }
     
     public void readInputs() {
-    	patternPanel.reload();
+    	patternPanel.inputsListReload();
     }
     
     public void readOutputs() {
+    	patternPanel.outputsListReload();
     }
     
     public static String shortResourceInfo(Resource r) {

@@ -165,5 +165,11 @@ public class PatternPanel extends JPanel {
 		
 	}
 	
+	public void inputsListReload() {
+		inputsList.reload();
+	}
 	
+	public void outputsListReload() {
+		outputsList.reload();
+	}
 }
