@@ -4,26 +4,8 @@ import java.io.File;
 
 public class ExecutionUnit {
 
-	/*private List<SingleExecutionUnit> executionUnit;
-
-	public List<SingleExecutionUnit> getExecutionUnit(){
-		if(executionUnit == null)
-			executionUnit = new ArrayList<ExecutionUnit.SingleExecutionUnit>();
-		return executionUnit;
-	}
-
-	public String getXML(){
-
-		String r = "";
-		for(int i = 0; i < executionUnit.size(); i++)
-			r = r.concat("<executionUnit>"+executionUnit.get(i).getXML()+"</executionUnit>");
-		return r;
-	}*/
-
-	//public class SingleExecutionUnit{
-
 	private File configFile;
-	private int spaceStartLevel = 0;
+	private int spaceStartLevel = -1000;
 
 	public ExecutionUnit(){
 		configFile = new File(Application.defaultFile);
@@ -52,7 +34,9 @@ public class ExecutionUnit {
 		if(configFile != null){
 			String r = "";
 			r = r.concat("<executionUnit>");		
-			r = r.concat("<configFiles>"+configFile.getName()+"</configFiles>"+"<spaceStartLevel>"+spaceStartLevel+"</spaceStartLevel>");		
+			r = r.concat("<configFiles>"+configFile.getName()+"</configFiles>");
+			if(spaceStartLevel != -1000)
+				r = r.concat("<spaceStartLevel>"+spaceStartLevel+"</spaceStartLevel>");		
 			r = r.concat("</executionUnit>");
 
 			return r;

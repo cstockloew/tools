@@ -5,10 +5,10 @@ public class Version {
 	private String major, minor, micro, build;
 
 	public Version(){
-		major = "major";
-		minor = "minor";
-		micro = "micro";
-		build = "build";
+		major = Application.defaultString;
+		minor = Application.defaultString;
+		micro = Application.defaultString;
+		build = Application.defaultString;
 	}
 
 	public String getMajor() {
@@ -44,7 +44,10 @@ public class Version {
 	}
 
 	public String getVersion(){
-		return major+"."+minor+"."+micro+"."+build;
+		if(!major.isEmpty() && !minor.isEmpty() && !micro.isEmpty() && !build.isEmpty())
+			return major+"."+minor+"."+micro+"."+build;
+
+		return Application.defaultVersion;
 	}
 
 	public void setVersion(String v){

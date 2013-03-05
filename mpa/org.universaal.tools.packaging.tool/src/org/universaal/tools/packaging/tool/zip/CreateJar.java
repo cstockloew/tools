@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
@@ -29,10 +31,23 @@ public class CreateJar {
 
 			Manifest manifest = new Manifest();
 			manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");			
-			
+
 			JarOutputStream target = new JarOutputStream(new FileOutputStream(destination_path+fileName), manifest);
 			add(new File(path), target, ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/");
 			target.close();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		try{
+			//if file KAR is present, add it to partX folder
+			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+			POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
+			String fileName = p.getArtifactID()+"-"+p.getVersion()+".kar";
+			File kar = new File(path+"/target/"+fileName);
+			if(kar.exists())
+				copyFile(kar, new File(destination_path+fileName));
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -88,6 +103,25 @@ public class CreateJar {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+		}
+	}
+
+	private void copyFile(File source, File destination){
+
+		try{
+			InputStream in = new FileInputStream(source);
+			OutputStream out = new FileOutputStream(destination);
+
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0){
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 }

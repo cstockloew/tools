@@ -28,6 +28,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 	protected List<Control> mandatory;
 
 	protected static int otherLicenses = 1;
+	protected static int otherGeneralReqs = 1;
 
 	protected PageImpl(String pageName) {
 		super(pageName);
@@ -110,6 +111,16 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 		return isValid(c1, c2, null);
 	}
 
+	public String removeBlanks(String input){
+
+		if(input != null && !input.isEmpty()){
+			input = input.replace(" ", "%20");
+			return input;
+		}
+
+		return "";
+	}
+
 	public void addPageCustom(IWizardPage caller, IWizardPage newPage){ 
 
 		GUI gui = GUI.getInstance();
@@ -131,5 +142,6 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
+			setPageComplete(validate());
 		}}
 }

@@ -5,9 +5,10 @@ import java.util.List;
 
 public class Application {
 
-	public static final String defaultURL = "http://www.webpage.com";
-	public static final String defaultString = "asdf";
-	public static final String defaultFile = "c:\file.txt";
+	public static final String defaultURL = "";
+	public static final String defaultString = "";
+	public static final String defaultFile = "";
+	public static final String defaultVersion = "major.minor.micro.build";
 
 	private App application;
 	private ApplicationCapabilities capabilities;

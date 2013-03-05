@@ -2,14 +2,10 @@ package org.universaal.tools.packaging.tool.gui;
 
 import java.net.URI;
 
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -18,7 +14,6 @@ import org.universaal.tools.packaging.impl.PageImpl;
 public class Page2 extends PageImpl {
 
 	private Text certificate, person, email, organization, phone, address, web;
-	private boolean addLicense;
 
 	protected Page2(String pageName) {
 		super(pageName, "Specify contact details");
@@ -46,21 +41,21 @@ public class Page2 extends PageImpl {
 		Label l2 = new Label(container, SWT.NULL);
 		person = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(person);
-		l2.setText("Contact person");
+		l2.setText("* Contact person");
 		person.setText(app.getApplication().getApplicationProvider().getContactPerson());			
 		person.setLayoutData(gd);				
 
 		Label l3 = new Label(container, SWT.NULL);
 		email = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(email);
-		l3.setText("Contact e-mail");
+		l3.setText("* Contact e-mail");
 		email.setText(app.getApplication().getApplicationProvider().getContactPerson());			
 		email.setLayoutData(gd);	
 
 		Label l4 = new Label(container, SWT.NULL);
 		organization = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(organization);
-		l4.setText("Organization name");
+		l4.setText("* Organization name");
 		organization.setText(app.getApplication().getApplicationProvider().getOrganizationName());			
 		organization.setLayoutData(gd);
 
@@ -90,7 +85,7 @@ public class Page2 extends PageImpl {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try{
-					app.getApplication().getApplicationProvider().setCertificate(URI.create(certificate.getText()));
+					app.getApplication().getApplicationProvider().setCertificate(URI.create(removeBlanks(certificate.getText())));
 				}
 				catch(Exception ex){
 					ex.printStackTrace();
@@ -137,7 +132,7 @@ public class Page2 extends PageImpl {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try{
-					app.getApplication().getApplicationProvider().setWebAddress(URI.create(web.getText()));
+					app.getApplication().getApplicationProvider().setWebAddress(URI.create(removeBlanks(web.getText())));
 				}
 				catch(Exception ex){
 					ex.printStackTrace();
@@ -145,42 +140,41 @@ public class Page2 extends PageImpl {
 			}
 		});
 
-		gd = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		final Label l8 = new Label(container, SWT.NULL);
-		final Button b = new Button(container, SWT.PUSH);
-		l8.setText("License(s) will be added in next page(s)");
-		b.setText("Add license(s)");
-		b.addSelectionListener(new SelectionListener() {
-
-			public void widgetSelected(SelectionEvent e) {
-				addLicense = !addLicense;
-				if(!addLicense){
-					b.setText("Add license(s)");
-				}
-				else{
-					b.setText("Remove license(s)");
-				}
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		b.setLayoutData(gd);
-		Label l9 = new Label(container, SWT.NULL);
-		l9.setText("(in: "+app.getApplication().getLicenses().size()+")");
+//		gd = new GridData(GridData.FILL, GridData.CENTER, true, false);
+//		final Label l8 = new Label(container, SWT.NULL);
+//		final Button b = new Button(container, SWT.PUSH);
+//		l8.setText("License(s) will be added in next page(s)");
+//		b.setText("Add license(s)");
+//		b.addSelectionListener(new SelectionListener() {
+//
+//			public void widgetSelected(SelectionEvent e) {
+//				addLicense = !addLicense;
+//				if(!addLicense){
+//					b.setText("Add license(s)");
+//				}
+//				else{
+//					b.setText("Remove license(s)");
+//				}
+//			}
+//
+//			public void widgetDefaultSelected(SelectionEvent e) {
+//			}
+//		});
+//		b.setLayoutData(gd);
+//		Label l9 = new Label(container, SWT.NULL);
+//		l9.setText("(in: "+app.getApplication().getLicenses().size()+")");
 	}
 
 	@Override
 	public void nextPressed(){
-
 	}
 
-	@Override
-	public IWizardPage getNextPage() {
-
-		if(addLicense)
-			return super.getNextPage(); // SLA and licences
-
-		return super.getNextPage().getNextPage(); // Capabilities
-	}
+//	@Override
+//	public IWizardPage getNextPage() {
+//
+//		if(addLicense)
+//			return super.getNextPage(); // SLA and licences
+//
+//		return super.getNextPage().getNextPage(); // Capabilities
+//	}
 }

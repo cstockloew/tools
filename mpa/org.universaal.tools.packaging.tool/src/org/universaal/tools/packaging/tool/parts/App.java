@@ -129,7 +129,16 @@ public class App {
 		}
 
 		public String getXML(){
-			return "<sla><name>"+name+"</name><link>"+link+"</link></sla>";
+			
+			String link_string = "";
+			if(link.getScheme() != null && link.getScheme().equalsIgnoreCase("file")){
+				String[] splitted = link.toASCIIString().split("/"); 
+				link_string = splitted[splitted.length-1];
+			}
+			else
+				link_string = link.toASCIIString();
+			
+			return "<sla><name>"+name+"</name><link>"+link_string+"</link></sla>";
 		}
 	}
 

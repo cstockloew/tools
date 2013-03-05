@@ -124,9 +124,4 @@ public class ContainerUnit {
 
 		return r;
 	}
-
-	public enum Container{
-
-		TOMCAT, EQUINOX, FELIX, OSGI_ANDROID, KARAF, ANDROID
-	}
 }

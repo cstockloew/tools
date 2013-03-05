@@ -20,8 +20,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Android;
+import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.ContainerUnit;
-import org.universaal.tools.packaging.tool.parts.ContainerUnit.Container;
 import org.universaal.tools.packaging.tool.parts.DeploymentUnit;
 import org.universaal.tools.packaging.tool.parts.Embedding;
 import org.universaal.tools.packaging.tool.parts.OS;
@@ -37,7 +37,9 @@ public class PagePartDU extends PageImpl {
 
 	private Combo os1, platform1, cu1, emb1;
 	private Text andN, andD, andURI;
-	private Button ckbOS1, ckbPL1, ckbCU1;
+	private Button ckbOS1, ckbPL1, ckbCU1, ckbKar;
+
+	//private Label waiting;
 
 	protected PagePartDU(String pageName, int pn) {
 		super(pageName, "Specify deployment requirements per part");
@@ -67,14 +69,19 @@ public class PagePartDU extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 
-				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, andN, andD, andURI)));
+				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
 
 				if(ckbOS1.getSelection()){
 					ckbPL1.setSelection(false);
 					ckbCU1.setSelection(false); 
 
-					disableControls(new ArrayList<Control>(Arrays.asList(platform1, cu1, emb1, andN, andD, andURI)));
+					disableControls(new ArrayList<Control>(Arrays.asList(platform1, cu1, emb1, andN, ckbKar, andD, andURI)));
 				}
+
+				if(!ckbOS1.getSelection() && !ckbPL1.getSelection() && !ckbCU1.getSelection())
+					setPageComplete(false);
+				else
+					setPageComplete(true);
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -88,14 +95,19 @@ public class PagePartDU extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 
-				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, andN, andD, andURI)));
+				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
 
 				if(ckbPL1.getSelection()){
 					ckbOS1.setSelection(false);
 					ckbCU1.setSelection(false);
 
-					disableControls(new ArrayList<Control>(Arrays.asList(os1, cu1, emb1, andN, andD, andURI)));
+					disableControls(new ArrayList<Control>(Arrays.asList(os1, cu1, emb1, ckbKar, andN, andD, andURI)));
 				}
+
+				if(!ckbOS1.getSelection() && !ckbPL1.getSelection() && !ckbCU1.getSelection())
+					setPageComplete(false);
+				else
+					setPageComplete(true);
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -109,14 +121,19 @@ public class PagePartDU extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 
-				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, andN, andD, andURI)));
+				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
 
 				if(ckbCU1.getSelection()){
 					ckbPL1.setSelection(false);
 					ckbOS1.setSelection(false);
 
-					disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, andN, andD, andURI)));
+					disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, andN, /*ckbKar,*/ andD, andURI)));
 				}
+
+				if(!ckbOS1.getSelection() && !ckbPL1.getSelection() && !ckbCU1.getSelection())
+					setPageComplete(false);
+				else
+					setPageComplete(true);
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -124,22 +141,10 @@ public class PagePartDU extends PageImpl {
 		});		
 
 		List<DeploymentUnit> DUs = app.getParts().get(partNumber).getDeploymentUnits();
-		/*for(int i = 0; i < DUs.size(); i++){
-			DUs.get(i).getCu();
-			DUs.get(i).getId();
-			OS osadsf = DUs.get(i).getOsType();
-			DUs.get(i).getPlatformType();
-		}
-
-		while(DUs.size() <= 2){
-			DUs.add(new DeploymentUnit(Application.defaultString, new ContainerUnit(new Android(Application.defaultString, Application.defaultString, URI.create(Application.defaultURL)))));
-			//DUs.add(new DeploymentUnit(id, osType));
-			//DUs.add(new DeploymentUnit(id, platformType));
-		}*/
 
 		Label label1 = new Label(container, SWT.NULL);
 		os1 = new Combo(container, SWT.READ_ONLY);
-		mandatory.add(os1);
+		//mandatory.add(os1);
 		label1.setText("OS requirement");
 		for(int i = 0; i < OS.values().length; i++)
 			os1.add(OS.values()[i].toString());
@@ -151,7 +156,7 @@ public class PagePartDU extends PageImpl {
 
 		Label label2 = new Label(container, SWT.NULL);
 		platform1 = new Combo(container, SWT.READ_ONLY);
-		mandatory.add(platform1);
+		//mandatory.add(platform1);
 		label2.setText("Platform requirement");
 		for(int i = 0; i < Platform.values().length; i++)
 			platform1.add(Platform.values()[i].toString());
@@ -163,30 +168,32 @@ public class PagePartDU extends PageImpl {
 
 		Label label3 = new Label(container, SWT.NULL);
 		cu1 = new Combo(container, SWT.READ_ONLY);
-		mandatory.add(cu1);
+		//mandatory.add(cu1);
 		label3.setText("Container requirement");
 		for(int i = 0; i < Container.values().length; i++)
 			cu1.add(Container.values()[i].toString());
 		if(!DUs.isEmpty() && DUs.get(0).getCu().getContainer() != null && !DUs.get(0).getCu().getContainer().toString().isEmpty())
 			cu1.setText(DUs.get(0).getCu().getContainer().toString());			
-		else
+		else{
 			cu1.setText(Container.KARAF.toString());
+			enableControl(ckbKar);
+		}
 		cu1.setLayoutData(gd);
 
 		cu1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
 
-				enableControls(new ArrayList<Control>(Arrays.asList(emb1, andN, andD, andURI)));
+				enableControls(new ArrayList<Control>(Arrays.asList(emb1, ckbKar, andN, andD, andURI)));
 
 				if(cu1.getText().equals(Container.ANDROID.toString()))
-					disableControls(new ArrayList<Control>(Arrays.asList(emb1)));
+					disableControls(new ArrayList<Control>(Arrays.asList(emb1, ckbKar)));
 
 				else if(cu1.getText().equals(Container.KARAF.toString()))
 					disableControls(new ArrayList<Control>(Arrays.asList(andN, andD, andURI)));
 
 				else
-					disableControls(new ArrayList<Control>(Arrays.asList(emb1, andN, andD, andURI)));
+					disableControls(new ArrayList<Control>(Arrays.asList(emb1, ckbKar, andN, andD, andURI)));
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {				
@@ -205,18 +212,6 @@ public class PagePartDU extends PageImpl {
 		else
 			emb1.setText(Embedding.ANY_CONTAINER.toString());
 		emb1.setLayoutData(gd);
-
-		// features only applicable for KARAF value
-		//TODO automatically generated
-		/*krf1_lbl = new Label(container, SWT.NULL);
-		feat1 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		//mandatory.add(feat1);
-		krf1_lbl.setText("Karaf features, comma separated");
-		if(DUs.get(0).getCu().getFeatures() != null && !DUs.get(0).getCu().getFeatures().toString().isEmpty())
-			feat1.setText(DUs.get(0).getCu().getFeatures().toString());	
-		else
-			feat1.setText("example mvn:org.universAAL.middleware/mw.acl.interfaces");
-		feat1.setLayoutData(gd);*/
 
 		// ANDROID part
 		Label l4 = new Label(container, SWT.NULL);
@@ -249,14 +244,24 @@ public class PagePartDU extends PageImpl {
 			andURI.setText("");	
 		andURI.setLayoutData(gd);
 
+		Label karFile = new Label(container, SWT.NULL);
+		karFile.setText("Select this checkbox to create KAR file (valid if using Karaf container)");
+		ckbKar = new Button(container, SWT.CHECK);
+		
+		Label empty1 = new Label(container, SWT.NULL);
+		empty1.setText("");
+		
+		Label empty2 = new Label(container, SWT.NULL);
+		empty2.setText("");
+
+		Label waiting = new Label(container, SWT.NULL);
+		waiting.setText("The generation of required stuff could take time, please be patient...");
+
 		//default configuration
-		ckbCU1.setSelection(true);
+		ckbCU1.setSelection(false);
 		ckbPL1.setSelection(false);
 		ckbOS1.setSelection(false);
-
-		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, andN, andD, andURI)));
-
-		setPageComplete(true); // optional
+		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
 	}
 
 	public void setArtifact(IProject part){
@@ -277,11 +282,12 @@ public class PagePartDU extends PageImpl {
 			ContainerUnit cu = null;
 			if(cu1.getText().equals(Container.KARAF.toString())){
 
+				//waiting.setVisible(true);
 				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
-				cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), krf.generate(this.part));
+				cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), krf.generate(this.part, ckbKar.getSelection()));
 			}
 			else if(cu1.getText().equals(Container.ANDROID.toString())){
-				cu = new ContainerUnit(new Android(andN.getText(), andD.getText(), URI.create(andURI.getText())));
+				cu = new ContainerUnit(new Android(andN.getText(), andD.getText(), URI.create(removeBlanks(andURI.getText()))));
 			}
 			else if(!cu1.getText().equals(Container.KARAF.toString()) && !cu1.getText().equals(Container.ANDROID.toString())){
 				cu = new ContainerUnit(Container.valueOf(cu1.getText()));

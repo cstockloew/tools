@@ -1,7 +1,6 @@
 package org.universaal.tools.packaging.tool.gui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -31,42 +30,41 @@ public class Page1 extends PageImpl {
 		Label label1 = new Label(container, SWT.NULL);
 		name = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(name);
-		label1.setText("Application name");
+		label1.setText("* Application name");
 		name.setText(app.getApplication().getName());			
 		name.setLayoutData(gd);				
 
 		Label label2 = new Label(container, SWT.NULL);
 		id = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(id);
-		label2.setText("Application ID");
+		label2.setText("* Application ID");
 		id.setText(app.getApplication().getAppID());
 		id.setLayoutData(gd);
 
 		Label label3 = new Label(container, SWT.NULL);
 		description = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(description);
-		label3.setText("Description");
+		label3.setText("* Description");
 		description.setText(app.getApplication().getDescription());
 		description.setLayoutData(gd);		
 
 		Label label4 = new Label(container, SWT.NULL);
 		tags = new Text(container, SWT.BORDER | SWT.SINGLE);
-		label4.setText("Insert tags (if any) separated by commas");
-
+		label4.setText("Insert tags (if any) separated by comma");
 		tags.setText(app.getApplication().getTags());
 		tags.setLayoutData(gd);
 
 		Label label5 = new Label(container, SWT.NULL);
 		version_major = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(version_major);
-		label5.setText("Major version");
+		label5.setText("* Major version");
 		version_major.setText(app.getApplication().getVersion().getMajor());
 		version_major.setLayoutData(gd);
 
 		Label label6 = new Label(container, SWT.NULL);
 		version_minor = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(version_minor);
-		label6.setText("Minor version");
+		label6.setText("* Minor version");
 		version_minor.setText(app.getApplication().getVersion().getMinor());
 		version_minor.setLayoutData(gd);
 
@@ -84,87 +82,35 @@ public class Page1 extends PageImpl {
 
 		Label label9 = new Label(container, SWT.NULL);
 		app_profile = new Text(container, SWT.BORDER | SWT.SINGLE);
-		label9.setText("Application profile");
+		label9.setText("Application profile (if you are unsure do not modify!)");
 		app_profile.setText(app.getApplication().getApplicationProfile());
 		app_profile.setLayoutData(gd);
 
-		name.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				app.getApplication().setName(name.getText());				
-			}
-		});
-		id.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				app.getApplication().setAppID(id.getText());				
-			}
-		});
-		description.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				app.getApplication().setDescription(description.getText());					
-			}
-		});
-		version_major.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				app.getApplication().getVersion().setMajor(version_major.getText());				
-			}
-		});
-		version_minor.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				app.getApplication().getVersion().setMinor(version_minor.getText());				
-			}
-		});
-		version_micro.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				app.getApplication().getVersion().setMicro(version_micro.getText());				
-			}
-		});
-		version_build.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				app.getApplication().getVersion().setBuild(version_build.getText());				
-			}
-		});
-		app_profile.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				app.getApplication().setApplicationProfile(app_profile.getText());				
-			}
-		});
+		name.addKeyListener(new FullListener());
+		id.addKeyListener(new FullListener());
+		description.addKeyListener(new FullListener());
+		version_major.addKeyListener(new FullListener());
+		version_minor.addKeyListener(new FullListener());
+		version_micro.addKeyListener(new FullListener());
+		version_build.addKeyListener(new FullListener());
+		app_profile.addKeyListener(new FullListener());
 	}
 
 	@Override
-	public void nextPressed() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void nextPressed() {		
 
-	/*@Override
-	public IWizardPage getNextPage(){
-
-		if(!tags.getText().isEmpty()){
-			String[] tag = tags.getText().split(",");
-			if(tag != null){
-				for(int i = 0; i < tag.length; i++)
-					multipartApplication.getApplications().get(partNumber).getApplication().getTags().add(tag[i]);
-			}
-			else{
-				multipartApplication.getApplications().get(partNumber).getApplication().getTags().add(tags.getText());
-			}
+		try{
+			app.getApplication().setName(name.getText());	
+			app.getApplication().setAppID(id.getText());		
+			app.getApplication().setDescription(description.getText());		
+			app.getApplication().getVersion().setMajor(version_major.getText());	
+			app.getApplication().getVersion().setMinor(version_minor.getText());	
+			app.getApplication().getVersion().setMicro(version_micro.getText());		
+			app.getApplication().getVersion().setBuild(version_build.getText());	
+			app.getApplication().setApplicationProfile(app_profile.getText());		
 		}
-		return super.getNextPage();
-	}*/
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 }

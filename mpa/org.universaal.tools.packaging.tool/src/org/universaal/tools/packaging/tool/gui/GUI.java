@@ -28,7 +28,7 @@ import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
-import org.universaal.tools.packaging.tool.zip.UAAP;
+import org.universaal.tools.packaging.tool.zip.UAPP;
 
 public class GUI extends WizardMod {
 
@@ -82,7 +82,7 @@ public class GUI extends WizardMod {
 			addPage(p3);
 			p3.setMPA(mpa);
 
-			p4 = new Page4(Page.PAGE4);
+			p4 = new Page4(Page.PAGE4, 0, null);
 			addPage(p4);
 			p4.setMPA(mpa);
 
@@ -136,7 +136,7 @@ public class GUI extends WizardMod {
 
 		try {
 			// create descriptor
-			File file = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getApplication().getName()+".xml");
+			File file = new File(tempDir+"/config/"+Page.DESCRIPTOR_FILENAME);
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			out.write(mpa.getXML());
 			out.close();
@@ -149,14 +149,16 @@ public class GUI extends WizardMod {
 			// copy SLA and licenses (if possible)
 			for(int i = 0; i < mpa.getAAL_UAPP().getApplication().getLicenses().size(); i++){
 
-				if(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+				if(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink().getScheme() != null && 
+						mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
 					File sla = new File(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink());
 					copyFile(sla, new File(tempDir+"/license/"+sla.getName()));
 				}
 
 				for(int j = 0; j < mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().size(); j++){
 
-					if(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+					if(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink().getScheme() != null && 
+							mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
 						File license = new File(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink());
 						copyFile(license, new File(tempDir+"/license/"+license.getName()));
 					}
@@ -172,9 +174,11 @@ public class GUI extends WizardMod {
 				}
 			}
 
-			UAAP descriptor = new UAAP();
-			descriptor.createUAAPfile(tempDir, 
-					new Dialog().open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), mpa.getAAL_UAPP().getApplication().getName()+".uapp").getAbsolutePath());
+			UAPP descriptor = new UAPP();
+			descriptor.createUAPPfile(tempDir, 
+					new Dialog().open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+							mpa.getAAL_UAPP().getApplication().getName()+".uapp", 
+							new String[]{"*.uapp"}).getAbsolutePath());
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

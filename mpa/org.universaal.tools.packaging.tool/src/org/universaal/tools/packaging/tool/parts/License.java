@@ -10,7 +10,7 @@ public class License {
 
 	public License(){
 		name = Application.defaultString;
-		link= URI.create(Application.defaultURL);
+		link = URI.create(Application.defaultURL);
 		category = LicenseCategory.APPLICATION;
 	}
 
@@ -34,7 +34,16 @@ public class License {
 	}
 
 	public String getXML(){
-		return "<category>"+category.toString()+"</category><name>"+name+"</name><link>"+link.toASCIIString()+"</link>";
+
+		String link_string = "";
+		if(link.getScheme() != null && link.getScheme().equalsIgnoreCase("file")){
+			String[] splitted = link.toASCIIString().split("/"); 
+			link_string = splitted[splitted.length-1];
+		}
+		else
+			link_string = link.toASCIIString();
+		
+		return "<category>"+category.toString()+"</category><name>"+name+"</name><link>"+link_string+"</link>";
 	}
 
 	/*

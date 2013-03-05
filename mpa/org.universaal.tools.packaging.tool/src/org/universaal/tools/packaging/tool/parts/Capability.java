@@ -1,5 +1,6 @@
 package org.universaal.tools.packaging.tool.parts;
 
+
 public class Capability {
 
 	private String name, value;

@@ -2,9 +2,14 @@ package org.universaal.tools.packaging.tool.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,19 +59,21 @@ public class KarafFeaturesGenerator {
 
 	private final String GROUP_ID = "org.apache.karaf.tooling";
 	private final String ARTIFACT_ID = "features-maven-plugin";
-	private final String VERSION = "2.2.7";
+	private final String VERSION = "2.3.1";
 
 	private final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 	//private final String ENCODING = "UTF-8";
 
-	public String generate(IProject part){		
+	public String generate(IProject part, boolean createKar){		
 
-		verifyPreConditions(part.getName());
-		if(generateKarafFeatures(part.getName()))		
-			return returnKrfFeat(part);
-		else
-			return "";
+		if(verifyPreConditions(part.getName()))
+			if(generateKarafFeatures(part.getName())){	
+				if(createKar)
+					generateKarFile(part);
+				return returnKrfFeat(part);
+			}
+		return "";
 	}
 
 	private boolean verifyPreConditions(String projectName){
@@ -155,6 +162,7 @@ public class KarafFeaturesGenerator {
 				MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
 
 				List<String> goals = new ArrayList<String>();
+				Properties props = new Properties();
 
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IWorkspaceDescription description = workspace.getDescription();
@@ -162,7 +170,9 @@ public class KarafFeaturesGenerator {
 					goals.add("compiler:compile"); // compile it if autobuilding is off
 
 				goals.add("features:generate-features-xml");
+
 				request.setGoals(goals);
+				request.setUserProperties(props);
 				MavenExecutionResult execution_result = maven.execute(request, null);
 				if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty())
 					return true;
@@ -173,6 +183,62 @@ public class KarafFeaturesGenerator {
 		}
 
 		return false;
+	}
+
+	private void generateKarFile(IProject part){
+
+		try{
+			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+			File target, feature;
+			target = new File(path+"/target");
+			feature = new File(path+"/target/feature");
+			if(!target.exists())
+				target.mkdir();
+			if(!feature.exists())
+				feature.mkdir();
+
+			copyFile(new File(path+"/target/classes/feature.xml"), new File(path+"/target/feature/feature.xml"));
+
+			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
+			IFile pomResource = g.getPart(part.getName()).getFile(IMavenConstants.POM_FILE_NAME);
+			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
+
+			IMaven maven = MavenPlugin.getMaven();
+			if(pomResource != null && projectFacade != null){
+				MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
+
+				List<String> goals = new ArrayList<String>();
+				Properties props = new Properties();
+
+				goals.add("features:create-kar");
+
+				request.setGoals(goals);
+				request.setUserProperties(props);
+				maven.execute(request, null);
+			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
+	private void copyFile(File source, File destination){
+
+		try{
+			InputStream in = new FileInputStream(source);
+			OutputStream out = new FileOutputStream(destination);
+
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0){
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 
 	private String returnKrfFeat(IProject part){

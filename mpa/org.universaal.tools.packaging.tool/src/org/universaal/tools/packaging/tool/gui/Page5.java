@@ -2,7 +2,6 @@ package org.universaal.tools.packaging.tool.gui;
 
 import java.util.List;
 
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
@@ -11,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
+import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteManagement;
 
 public class Page5 extends PageImpl {
@@ -39,7 +39,7 @@ public class Page5 extends PageImpl {
 		Label l1 = new Label(container, SWT.NULL);
 		contact = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(contact);
-		l1.setText("Contact Person");
+		l1.setText("* Contact Person");
 		contact.setText(app.getManagement().getContact());			
 		contact.setLayoutData(gd);	
 		contact.addKeyListener(new QL() {
@@ -74,13 +74,7 @@ public class Page5 extends PageImpl {
 			prots1 = prots1.concat(protocols1.get(i)+" ");
 		prot1.setText(prots1);			
 		prot1.setLayoutData(gd);	
-		prot1.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				//multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(0).setProtocol(prot1.getText());
-			}
-		});
+		prot1.addKeyListener(new FullListener());
 
 		Label l4 = new Label(container, SWT.NULL);
 		v1 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -92,7 +86,8 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getManagement().getRemoteManagement().get(0).getSoftware().getVersion().setVersion(v1.getText());
+				if(!v1.getText().equals(Application.defaultVersion))
+					app.getManagement().getRemoteManagement().get(0).getSoftware().getVersion().setVersion(v1.getText());
 			}
 		});
 
@@ -120,13 +115,7 @@ public class Page5 extends PageImpl {
 			prots2 = prots2.concat(protocols2.get(i)+" ");
 		prot2.setText(prots2);					
 		prot2.setLayoutData(gd);	
-		prot2.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				//multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(1).setProtocol(prot2.getText());
-			}
-		});
+		prot2.addKeyListener(new FullListener());
 
 		Label l7 = new Label(container, SWT.NULL);
 		v2 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -138,7 +127,8 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getManagement().getRemoteManagement().get(1).getSoftware().getVersion().setVersion(v2.getText());
+				if(!v2.getText().equals(Application.defaultVersion))
+					app.getManagement().getRemoteManagement().get(1).getSoftware().getVersion().setVersion(v2.getText());
 			}
 		});
 
@@ -166,13 +156,7 @@ public class Page5 extends PageImpl {
 			prots3 = prots3.concat(protocols3.get(i)+" ");
 		prot3.setText(prots2);			
 		prot3.setLayoutData(gd);	
-		prot3.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				//multipartApplication.getApplications().get(partNumber).getManagement().getRemoteManagement().get(2).setProtocol(prot3.getText());
-			}
-		});
+		prot3.addKeyListener(new FullListener());
 
 		Label l10 = new Label(container, SWT.NULL);
 		v3 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -184,15 +168,14 @@ public class Page5 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getManagement().getRemoteManagement().get(2).getSoftware().getVersion().setVersion(v3.getText());
+				if(!v3.getText().equals(Application.defaultVersion))
+					app.getManagement().getRemoteManagement().get(2).getSoftware().getVersion().setVersion(v3.getText());
 			}
 		});
 	}
 
 	@Override
-	public IWizardPage getNextPage(){
-		
-		//TODO verify
+	public void nextPressed() {
 
 		if(!prot1.getText().isEmpty()){
 			String[] ps = prot1.getText().split(",");
@@ -212,13 +195,5 @@ public class Page5 extends PageImpl {
 				if(ps[i] != null)
 					app.getManagement().getRemoteManagement().get(2).getProtocol().add(ps[i]);
 		}
-
-		return super.getNextPage();
-	}
-
-	@Override
-	public void nextPressed() {
-		// TODO Auto-generated method stub
-
 	}
 }

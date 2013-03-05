@@ -259,26 +259,12 @@ public class PagePartPR extends PageImpl {
 		c34.addKeyListener(new FullListener() {});
 		c45.addKeyListener(new FullListener() {});
 
-		validate();
-		setPageComplete(true); // optional
+		setPageComplete(true); // requirements are optional
 	}
 
 	public void setArtifact(IProject artifact){
 		this.artifact = artifact;
-		p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
-	}
-
-	private void group(LogicalRelation lr, Text req1, Text val1, LogicalCriteria lc1, Text req2, Text val2, LogicalCriteria lc2){
-		SingleRequirement r1 = new SingleRequirement(req1.getText(), val1.getText(), lc1);
-		SingleRequirement r2 = new SingleRequirement(req2.getText(), val2.getText(), lc2);
-
-		RequirementsGroup r = new RequirementsGroup(r1, r2, lr);
-		app.getParts().get(partNumber).getPartRequirements().add(new Requirement(r, false));
-	}
-
-	private void single(Text req1, Text val1, LogicalCriteria lc1){
-		SingleRequirement r = new SingleRequirement(req1.getText(), val1.getText(), lc1);
-		app.getParts().get(partNumber).getPartRequirements().add(new Requirement(r, false));
+		//p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
 	}
 
 	@Override
@@ -321,5 +307,18 @@ public class PagePartPR extends PageImpl {
 			if(isValid(req4, val4, c4) && isValid(req5, val5, c5) && isValid(c45))
 				group(LogicalRelation.valueOf(c45.getText()), req4, val4, LogicalCriteria.valueOf(c4.getText()), req5, val5, LogicalCriteria.valueOf(c5.getText()));
 		}
+	}
+	
+	private void group(LogicalRelation lr, Text req1, Text val1, LogicalCriteria lc1, Text req2, Text val2, LogicalCriteria lc2){
+		SingleRequirement r1 = new SingleRequirement(req1.getText(), val1.getText(), lc1);
+		SingleRequirement r2 = new SingleRequirement(req2.getText(), val2.getText(), lc2);
+
+		RequirementsGroup r = new RequirementsGroup(r1, r2, lr);
+		app.getParts().get(partNumber).getPartRequirements().add(new Requirement(r, false));
+	}
+
+	private void single(Text req1, Text val1, LogicalCriteria lc1){
+		SingleRequirement r = new SingleRequirement(req1.getText(), val1.getText(), lc1);
+		app.getParts().get(partNumber).getPartRequirements().add(new Requirement(r, false));
 	}
 }

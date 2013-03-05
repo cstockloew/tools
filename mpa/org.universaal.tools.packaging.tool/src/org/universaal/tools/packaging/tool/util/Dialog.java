@@ -8,26 +8,26 @@ import org.eclipse.swt.widgets.Shell;
 
 public class Dialog {
 
-	public File open(Shell s){
+	public File open(Shell s, String[] filterExt){
 
 		FileDialog fd = new FileDialog(s, SWT.OPEN);
 		fd.setText("Path to UAPP file");
 		fd.setFilterPath("C:/");
 		fd.setFileName("");
-		String[] filterExt = {"*.*"};//{ "*.txt", "*.doc", ".rtf", "*.*" };
+		//String[] filterExt = {"*.uapp"};
 		fd.setFilterExtensions(filterExt);
 		String selected = fd.open();
 
 		return new File(selected);
 	}
 	
-	public File open(Shell s, String filename){
+	public File open(Shell s, String filename, String[] filterExt){
 
 		FileDialog fd = new FileDialog(s, SWT.OPEN);
 		fd.setText("Path to UAPP file");
 		fd.setFilterPath("C:/");
 		fd.setFileName(filename);
-		String[] filterExt = {"*.*"};//{ "*.txt", "*.doc", ".rtf", "*.*" };
+		//String[] filterExt = {"*.uapp"};
 		fd.setFilterExtensions(filterExt);
 		String selected = fd.open();
 

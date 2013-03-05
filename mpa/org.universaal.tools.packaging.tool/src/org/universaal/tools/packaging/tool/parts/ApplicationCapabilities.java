@@ -48,7 +48,8 @@ public class ApplicationCapabilities {
 				String key = (String) cs.nextElement();
 				if(key != null){
 					String value = (String) capabilities.get(key);
-					r = r.concat("<capability><name>"+key+"</name>"+"<value>"+value+"</value></capability>");
+					if(value != null && !value.isEmpty())
+						r = r.concat("<capability><name>"+key+"</name>"+"<value>"+value+"</value></capability>");
 				}
 			}
 		}

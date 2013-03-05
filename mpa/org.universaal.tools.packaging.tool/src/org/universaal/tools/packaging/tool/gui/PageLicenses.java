@@ -1,11 +1,12 @@
 package org.universaal.tools.packaging.tool.gui;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -21,6 +22,7 @@ import org.universaal.tools.packaging.tool.parts.App.LicenseSet;
 import org.universaal.tools.packaging.tool.parts.App.SLA;
 import org.universaal.tools.packaging.tool.parts.License;
 import org.universaal.tools.packaging.tool.parts.LicenseCategory;
+import org.universaal.tools.packaging.tool.util.Dialog;
 
 public class PageLicenses extends PageImpl {
 
@@ -29,7 +31,9 @@ public class PageLicenses extends PageImpl {
 
 	private SLA sla;
 	private License lic;
-	private boolean addLicense = false, /*pageAdded = false,*/ onlyLicense = false;
+	private boolean addLicense = false, onlyLicense = false;
+
+	private File f1, f2;
 
 	protected PageLicenses(String pageName) {
 		super(pageName, "Add SLA and license(s) for your MPA - each artifact should be licensed under different license.");
@@ -41,7 +45,7 @@ public class PageLicenses extends PageImpl {
 		this.onlyLicense = onlyLicense;
 	}
 
-	public void createControl(Composite parent) {
+	public void createControl(final Composite parent) {
 
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);
@@ -50,7 +54,7 @@ public class PageLicenses extends PageImpl {
 		container.setLayout(layout);
 		layout.numColumns = 3;
 		gd = new GridData(GridData.FILL, GridData.CENTER, true, false);
-		gd.horizontalSpan = 2;
+		//gd.horizontalSpan = 2;
 
 		List<LicenseSet> ls = app.getApplication().getLicenses();
 		LicenseSet l = app.getApplication().new LicenseSet();		
@@ -66,35 +70,44 @@ public class PageLicenses extends PageImpl {
 			Label l1 = new Label(container, SWT.NULL);
 			slaLink = new Text(container, SWT.BORDER | SWT.SINGLE);
 			mandatory.add(slaLink);
-			l1.setText("SLA link");
+			l1.setText("* SLA link");
 			slaLink.setText(sla.getLink().toString());			
 			slaLink.setLayoutData(gd);		
+
+			Button b1 = new Button(container, SWT.PUSH);
+			b1.setText("Browse");
+			b1.addSelectionListener(new SelectionListener() {
+
+				public void widgetSelected(SelectionEvent e) {
+					Dialog d = new Dialog();
+					f1 = d.open(parent.getShell(), new String[]{"*.*"});				
+					try {
+						slaLink.setText(f1.toURI().toURL()+"");
+					} catch (MalformedURLException e1) {
+						e1.printStackTrace();
+					}
+				}
+
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			});	
 
 			Label l2 = new Label(container, SWT.NULL);
 			slaName = new Text(container, SWT.BORDER | SWT.SINGLE);
 			mandatory.add(slaName);
-			l2.setText("SLA name");
+			l2.setText("* SLA name");
 			slaName.setText(sla.getName());			
-			slaName.setLayoutData(gd);	
+			slaName.setLayoutData(gd);
 
-			slaLink.addKeyListener(new KeyListener() {
+			Label empty1 = new Label(container, SWT.NULL);
+			empty1.setText("");
 
+			slaLink.addKeyListener(new FullListener());
+			slaName.addKeyListener(new QL() {
+
+				@Override
 				public void keyReleased(KeyEvent e) {
-					setPageComplete(validate());
-				}
-
-				public void keyPressed(KeyEvent e) {
-					//sla.setLink(URI.create(slaLink.getText()));
-				}
-			});
-			slaName.addKeyListener(new KeyListener() {
-
-				public void keyReleased(KeyEvent e) {
-					setPageComplete(validate());
-				}
-
-				public void keyPressed(KeyEvent e) {
-					sla.setName(slaName.getText());
+					sla.setName(slaName.getText());					
 				}
 			});
 			l.setSla(sla);
@@ -107,23 +120,47 @@ public class PageLicenses extends PageImpl {
 			licCategory.add(licCat[i].toString());
 		}
 		mandatory.add(licCategory);
-		l3.setText("License category");
+		l3.setText("* License category");
 		licCategory.setText(lic.getCategory().toString());
 		licCategory.setLayoutData(gd);	
+
+		Label empty2 = new Label(container, SWT.NULL);
+		empty2.setText("");
 
 		Label l4 = new Label(container, SWT.NULL);
 		licLink = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(licLink);
-		l4.setText("License link");
+		l4.setText("* License link");
 		licLink.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getLink().toString());			
 		licLink.setLayoutData(gd);	
+
+		Button b2 = new Button(container, SWT.PUSH);
+		b2.setText("Browse");
+		b2.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent e) {
+				Dialog d = new Dialog();
+				f2 = d.open(parent.getShell(), new String[]{"*.*"});				
+				try {
+					licLink.setText(f2.toURI().toURL()+"");
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});	
 
 		Label l5 = new Label(container, SWT.NULL);
 		licName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(licName);
-		l5.setText("License Name");
+		l5.setText("* License Name");
 		licName.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getName());			
-		licName.setLayoutData(gd);		
+		licName.setLayoutData(gd);	
+
+		Label empty3 = new Label(container, SWT.NULL);
+		empty3.setText("");
 
 		licCategory.addKeyListener(new QL() {
 
@@ -132,13 +169,7 @@ public class PageLicenses extends PageImpl {
 				lic.setCategory(LicenseCategory.valueOf(licCategory.getText()));				
 			}
 		});		
-		licLink.addKeyListener(new QL() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				//lic.setLink(URI.create(licLink.getText()));				
-			}
-		});
+		licLink.addKeyListener(new FullListener());
 		licName.addKeyListener(new QL() {
 
 			@Override
@@ -171,6 +202,9 @@ public class PageLicenses extends PageImpl {
 		b.setLayoutData(gd);
 		Label l9 = new Label(container, SWT.NULL);
 		l9.setText("(of "+app.getApplication().getLicenses().size()+")");
+
+		Label empty4 = new Label(container, SWT.NULL);
+		empty4.setText("");
 	}
 
 	@Override
@@ -178,9 +212,9 @@ public class PageLicenses extends PageImpl {
 
 		try{
 			if(!onlyLicense && slaLink.getText() != null && !slaLink.getText().isEmpty())
-				sla.setLink(URI.create(slaLink.getText()));
+				sla.setLink(URI.create(removeBlanks(slaLink.getText())));
 			if(licLink.getText() != null && !licLink.getText().isEmpty())
-				lic.setLink(URI.create(licLink.getText()));			
+				lic.setLink(URI.create(removeBlanks(licLink.getText())));			
 		}
 		catch(Exception ex){
 			ex.printStackTrace();

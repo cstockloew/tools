@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class UAAP {
+public class UAPP {
 
-	public void createUAAPfile(String sourcePath, String destinationPath) {
+	public void createUAPPfile(String sourcePath, String destinationPath) {
 
 		try{
 			File directoryToZip = new File(sourcePath);

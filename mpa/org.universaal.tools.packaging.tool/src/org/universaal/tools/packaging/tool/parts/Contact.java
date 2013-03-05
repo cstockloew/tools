@@ -102,18 +102,26 @@ public class Contact {
 
 	public String getXML(){
 
+		String certificate_string = "";
+		if(certificate.getScheme() != null && certificate.getScheme().equalsIgnoreCase("file")){
+			String[] splitted = certificate.toASCIIString().split("/"); 
+			certificate_string = splitted[splitted.length-1];
+		}
+		else
+			certificate_string = certificate.toASCIIString();
+
 		String r = "";
 		r = r.concat("<organizationName>"+organizationName+"</organizationName>");
-		r = r.concat("<certificate>"+certificate.toASCIIString()+"</certificate>");
+		r = r.concat("<certificate>"+certificate_string+"</certificate>");
 		r = r.concat("<contactPerson>"+contactPerson+"</contactPerson>");
 		r = r.concat("<streetAddress>"+streetAddress+"</streetAddress>");
 		r = r.concat("<email>"+email+"</email>");
 		r = r.concat("<webAddress>"+webAddress.toASCIIString()+"</webAddress>");
 		r = r.concat("<phone>"+phone+"</phone>");
-		
+
 		for(int i = 0; i < getOtherChannels().size(); i++)
 			r = r.concat("<otherChannel>"+otherChannels.get(i).getXML()+"</otherChannel>");
-		
+
 		return r;
 	}
 
@@ -162,7 +170,7 @@ public class Contact {
 			</xs:element>
 			<xs:element minOccurs="0" name="phone" type="xs:string">
 			</xs:element>
-			
+
 			<xs:element minOccurs="0" name="otherChannel">
 				<xs:complexType>
 					<xs:sequence>

@@ -1,6 +1,5 @@
 package org.universaal.tools.packaging.tool.gui;
 
-import java.io.File;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IProject;
@@ -14,6 +13,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Capability;
+import org.universaal.tools.packaging.tool.parts.Container;
+import org.universaal.tools.packaging.tool.parts.MiddlewareVersion;
 import org.universaal.tools.packaging.tool.parts.Space;
 import org.universaal.tools.packaging.tool.util.POMParser;
 
@@ -23,8 +24,8 @@ public class PagePartPC extends PageImpl {
 	private POMParser p;
 	private int partNumber;
 
-	private Combo targetSpace;
-	private Text targetSpaceVersion, mw_version, targetOntologies, targetContainerName, targetContainerVersion, targetDeploymentTool;
+	private Combo targetSpace, mw_version, targetContainerName;
+	private Text targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
 
 	protected PagePartPC(String pageName, int pn) {
 		super(pageName, "Specify capabilities per part");
@@ -51,49 +52,53 @@ public class PagePartPC extends PageImpl {
 			targetSpace.add(spaceV[i].toString());
 		}
 		mandatory.add(targetSpace);
-		l1.setText("Target Space");
+		l1.setText("* Target Space");
 		targetSpace.setText(capabilities.getProperty(Capability.Mandatory.TARGET_SPACE.toString()));
 		targetSpace.setLayoutData(gd);	
 
 		Label l2 = new Label(container, SWT.NULL);
 		targetSpaceVersion = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetSpaceVersion);
-		l2.setText("Target Space Version");
+		l2.setText("* Target Space Version");
 		targetSpaceVersion.setText(capabilities.getProperty(Capability.Mandatory.TARGET_SPACE_VERSION.toString()));			
 		targetSpaceVersion.setLayoutData(gd);	
 
 		Label l3 = new Label(container, SWT.NULL);
-		mw_version = new Text(container, SWT.BORDER | SWT.SINGLE);
+		mw_version = new Combo(container, SWT.READ_ONLY);
 		mandatory.add(mw_version);
-		l3.setText("Middleware Version");
+		l3.setText("* Middleware Version");
+		for(int i = 0; i < MiddlewareVersion.getMWversion().length; i++)
+			mw_version.add(MiddlewareVersion.getMWversion()[i]);
 		mw_version.setText(capabilities.getProperty(Capability.Mandatory.MW_VERSION.toString()));			
 		mw_version.setLayoutData(gd);	
 
 		Label l4 = new Label(container, SWT.NULL);
 		targetOntologies = new Text(container, SWT.BORDER | SWT.SINGLE);
-		mandatory.add(targetOntologies);
-		l4.setText("Ontologies, commas separated");
+		//mandatory.add(targetOntologies);
+		l4.setText("Ontologies, comma separated");
 		targetOntologies.setText(capabilities.getProperty(Capability.Mandatory.ONTOLOGIES.toString()));			
 		targetOntologies.setLayoutData(gd);	
 
 		Label l5 = new Label(container, SWT.NULL);
-		targetContainerName = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetContainerName = new Combo(container, SWT.READ_ONLY);
 		mandatory.add(targetContainerName);
-		l5.setText("Target Container Name");
+		l5.setText("* Target Container Name");
+		for(int i = 0; i < Container.values().length; i++)
+			targetContainerName.add(Container.values()[i].toString());
 		targetContainerName.setText(capabilities.getProperty(Capability.Mandatory.TARGET_SPACE_VERSION.toString()));			
 		targetContainerName.setLayoutData(gd);	
 
 		Label l6 = new Label(container, SWT.NULL);
 		targetContainerVersion = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetContainerVersion);
-		l6.setText("Target Container Version");
+		l6.setText("* Target Container Version");
 		targetContainerVersion.setText(capabilities.getProperty(Capability.Mandatory.TARGET_CONTAINER_VERSION.toString()));			
 		targetContainerVersion.setLayoutData(gd);	
 
 		Label l7 = new Label(container, SWT.NULL);
 		targetDeploymentTool = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetDeploymentTool);
-		l7.setText("Target Deployment Tool");
+		l7.setText("* Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString()));			
 		targetDeploymentTool.setLayoutData(gd);	
 
@@ -146,18 +151,16 @@ public class PagePartPC extends PageImpl {
 				app.getParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString(), targetDeploymentTool.getText());				
 			}
 		});
-		
-		setPageComplete(true); // optional
+
+		//setPageComplete(true); // optional
 	}
 
 	public void setArtifact(IProject artifact){
 		this.artifact = artifact;
-		p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
+		//p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
 	}
 
 	@Override
 	public void nextPressed() {
-		// TODO Auto-generated method stub
-
 	}
 }
