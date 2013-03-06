@@ -1,4 +1,4 @@
-AAL Studio Depot Client
+AAL Studio Eclipse perspective
 
 Copyright 2011 SINTEF, http://www.sintef.no
 
