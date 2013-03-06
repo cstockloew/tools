@@ -1,4 +1,4 @@
-AAL Studio Depot Client
+AAL Studio Depot Client xml editor for application description
 
 Copyright 2011 SINTEF, http://www.sintef.no
 

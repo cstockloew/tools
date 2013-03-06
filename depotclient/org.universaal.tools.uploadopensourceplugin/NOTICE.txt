@@ -1,4 +1,4 @@
-AAL Studio Depot Client
+AAL Studio Depot Client code for uploading open source
 
 Copyright 2011 SINTEF, http://www.sintef.no
 
