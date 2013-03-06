@@ -1,6 +1,6 @@
-AAL Studio Depot Client
+AAL Studio service modelling, EMF-based editor project
 
-Copyright 2011 SINTEF, http://www.sintef.no
+Copyright 2013 SINTEF, http://www.sintef.no
 
 I. Included Software
 
