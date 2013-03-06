@@ -26,6 +26,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.universaal.tools.modelling.servicemodel.Parameter;
 import org.universaal.tools.modelling.servicemodel.ServiceModelFactory;
 import org.universaal.tools.modelling.servicemodel.ServiceModelPackage;
+import org.universaal.tools.modelling.servicemodel.ServiceOperation;
 
 /**
  * This is the item provider adapter for a {@link org.universaal.tools.modelling.servicemodel.Parameter} object.
@@ -107,18 +108,27 @@ public class ParameterItemProvider
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/Parameter"));
 	}
 
+	
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
 		String label = ((Parameter)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Parameter_type") :
-			getString("_UI_Parameter_type") + " " + label;
+		ServiceOperation op = (ServiceOperation) ((Parameter)object).eContainer();
+		boolean isInput = op.getInput().contains(object);
+		if (isInput) {
+			return label == null || label.length() == 0 ?
+					getString("_UI_ServiceOperation_input_feature") + " " + getString("_UI_Parameter_type") :
+					getString("_UI_ServiceOperation_input_feature") + " " + getString("_UI_Parameter_type") + " " + label;
+		} else {
+			return label == null || label.length() == 0 ?
+					getString("_UI_ServiceOperation_output_feature") + " " + getString("_UI_Parameter_type") :
+					getString("_UI_ServiceOperation_output_feature") + " " + getString("_UI_Parameter_type") + " " + label;
+		}
 	}
 
 	/**
