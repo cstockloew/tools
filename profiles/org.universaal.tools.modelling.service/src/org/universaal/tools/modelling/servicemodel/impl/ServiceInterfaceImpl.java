@@ -1,8 +1,20 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
+ * 	Copyright 2013 SINTEF, http://www.sintef.no
+ * 	
+ * 	See the NOTICE file distributed with this work for additional 
+ * 	information regarding copyright ownership
+ * 	
+ * 	Licensed under the Apache License, Version 2.0 (the "License");
+ * 	you may not use this file except in compliance with the License.
+ * 	You may obtain a copy of the License at
+ * 	
+ * 	  http://www.apache.org/licenses/LICENSE-2.0
+ * 	
+ * 	Unless required by applicable law or agreed to in writing, software
+ * 	distributed under the License is distributed on an "AS IS" BASIS,
+ * 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 	See the License for the specific language governing permissions and
+ * 	limitations under the License.
  */
 package org.universaal.tools.modelling.servicemodel.impl;
 
@@ -35,6 +47,7 @@ import org.universaal.tools.modelling.servicemodel.ServiceOperation;
  *   <li>{@link org.universaal.tools.modelling.servicemodel.impl.ServiceInterfaceImpl#getOperations <em>Operations</em>}</li>
  *   <li>{@link org.universaal.tools.modelling.servicemodel.impl.ServiceInterfaceImpl#getService <em>Service</em>}</li>
  *   <li>{@link org.universaal.tools.modelling.servicemodel.impl.ServiceInterfaceImpl#getOntology <em>Ontology</em>}</li>
+ *   <li>{@link org.universaal.tools.modelling.servicemodel.impl.ServiceInterfaceImpl#getPackageName <em>Package Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,6 +83,26 @@ public class ServiceInterfaceImpl extends NamedElementImpl implements ServiceInt
 	 * @ordered
 	 */
 	protected org.eclipse.uml2.uml.Package ontology;
+
+	/**
+	 * The default value of the '{@link #getPackageName() <em>Package Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPackageName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PACKAGE_NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPackageName() <em>Package Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPackageName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String packageName = PACKAGE_NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -183,6 +216,27 @@ public class ServiceInterfaceImpl extends NamedElementImpl implements ServiceInt
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getPackageName() {
+		return packageName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPackageName(String newPackageName) {
+		String oldPackageName = packageName;
+		packageName = newPackageName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ServiceModelPackage.SERVICE_INTERFACE__PACKAGE_NAME, oldPackageName, packageName));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -208,6 +262,8 @@ public class ServiceInterfaceImpl extends NamedElementImpl implements ServiceInt
 			case ServiceModelPackage.SERVICE_INTERFACE__ONTOLOGY:
 				if (resolve) return getOntology();
 				return basicGetOntology();
+			case ServiceModelPackage.SERVICE_INTERFACE__PACKAGE_NAME:
+				return getPackageName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -231,6 +287,9 @@ public class ServiceInterfaceImpl extends NamedElementImpl implements ServiceInt
 			case ServiceModelPackage.SERVICE_INTERFACE__ONTOLOGY:
 				setOntology((org.eclipse.uml2.uml.Package)newValue);
 				return;
+			case ServiceModelPackage.SERVICE_INTERFACE__PACKAGE_NAME:
+				setPackageName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -252,6 +311,9 @@ public class ServiceInterfaceImpl extends NamedElementImpl implements ServiceInt
 			case ServiceModelPackage.SERVICE_INTERFACE__ONTOLOGY:
 				setOntology((org.eclipse.uml2.uml.Package)null);
 				return;
+			case ServiceModelPackage.SERVICE_INTERFACE__PACKAGE_NAME:
+				setPackageName(PACKAGE_NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -270,8 +332,26 @@ public class ServiceInterfaceImpl extends NamedElementImpl implements ServiceInt
 				return service != null;
 			case ServiceModelPackage.SERVICE_INTERFACE__ONTOLOGY:
 				return ontology != null;
+			case ServiceModelPackage.SERVICE_INTERFACE__PACKAGE_NAME:
+				return PACKAGE_NAME_EDEFAULT == null ? packageName != null : !PACKAGE_NAME_EDEFAULT.equals(packageName);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (packageName: ");
+		result.append(packageName);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ServiceInterfaceImpl

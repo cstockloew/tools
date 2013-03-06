@@ -1,8 +1,20 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
+ * 	Copyright 2013 SINTEF, http://www.sintef.no
+ * 	
+ * 	See the NOTICE file distributed with this work for additional 
+ * 	information regarding copyright ownership
+ * 	
+ * 	Licensed under the Apache License, Version 2.0 (the "License");
+ * 	you may not use this file except in compliance with the License.
+ * 	You may obtain a copy of the License at
+ * 	
+ * 	  http://www.apache.org/licenses/LICENSE-2.0
+ * 	
+ * 	Unless required by applicable law or agreed to in writing, software
+ * 	distributed under the License is distributed on an "AS IS" BASIS,
+ * 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 	See the License for the specific language governing permissions and
+ * 	limitations under the License.
  */
 package org.universaal.tools.modelling.servicemodel;
 
@@ -135,13 +147,22 @@ public interface ServiceModelPackage extends EPackage {
 	int SERVICE_INTERFACE__ONTOLOGY = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Package Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_INTERFACE__PACKAGE_NAME = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Service Interface</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_INTERFACE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int SERVICE_INTERFACE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.universaal.tools.modelling.servicemodel.impl.ServiceOperationImpl <em>Service Operation</em>}' class.
@@ -373,6 +394,17 @@ public interface ServiceModelPackage extends EPackage {
 	EReference getServiceInterface_Ontology();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.universaal.tools.modelling.servicemodel.ServiceInterface#getPackageName <em>Package Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Package Name</em>'.
+	 * @see org.universaal.tools.modelling.servicemodel.ServiceInterface#getPackageName()
+	 * @see #getServiceInterface()
+	 * @generated
+	 */
+	EAttribute getServiceInterface_PackageName();
+
+	/**
 	 * Returns the meta object for class '{@link org.universaal.tools.modelling.servicemodel.ServiceOperation <em>Service Operation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -586,6 +618,14 @@ public interface ServiceModelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SERVICE_INTERFACE__ONTOLOGY = eINSTANCE.getServiceInterface_Ontology();
+
+		/**
+		 * The meta object literal for the '<em><b>Package Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVICE_INTERFACE__PACKAGE_NAME = eINSTANCE.getServiceInterface_PackageName();
 
 		/**
 		 * The meta object literal for the '{@link org.universaal.tools.modelling.servicemodel.impl.ServiceOperationImpl <em>Service Operation</em>}' class.

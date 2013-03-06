@@ -1,8 +1,20 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
+ * 	Copyright 2013 SINTEF, http://www.sintef.no
+ * 	
+ * 	See the NOTICE file distributed with this work for additional 
+ * 	information regarding copyright ownership
+ * 	
+ * 	Licensed under the Apache License, Version 2.0 (the "License");
+ * 	you may not use this file except in compliance with the License.
+ * 	You may obtain a copy of the License at
+ * 	
+ * 	  http://www.apache.org/licenses/LICENSE-2.0
+ * 	
+ * 	Unless required by applicable law or agreed to in writing, software
+ * 	distributed under the License is distributed on an "AS IS" BASIS,
+ * 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 	See the License for the specific language governing permissions and
+ * 	limitations under the License.
  */
 package org.universaal.tools.modelling.servicemodel.impl;
 
@@ -11,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -187,6 +200,15 @@ public class ServiceModelPackageImpl extends EPackageImpl implements ServiceMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getServiceInterface_PackageName() {
+		return (EAttribute)serviceInterfaceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getServiceOperation() {
 		return serviceOperationEClass;
 	}
@@ -349,6 +371,7 @@ public class ServiceModelPackageImpl extends EPackageImpl implements ServiceMode
 		createEReference(serviceInterfaceEClass, SERVICE_INTERFACE__OPERATIONS);
 		createEReference(serviceInterfaceEClass, SERVICE_INTERFACE__SERVICE);
 		createEReference(serviceInterfaceEClass, SERVICE_INTERFACE__ONTOLOGY);
+		createEAttribute(serviceInterfaceEClass, SERVICE_INTERFACE__PACKAGE_NAME);
 
 		serviceOperationEClass = createEClass(SERVICE_OPERATION);
 		createEReference(serviceOperationEClass, SERVICE_OPERATION__INPUT);
@@ -398,6 +421,7 @@ public class ServiceModelPackageImpl extends EPackageImpl implements ServiceMode
 
 		// Obtain other dependent packages
 		UMLPackage theUMLPackage = (UMLPackage)EPackage.Registry.INSTANCE.getEPackage(UMLPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -414,6 +438,7 @@ public class ServiceModelPackageImpl extends EPackageImpl implements ServiceMode
 		initEReference(getServiceInterface_Operations(), this.getServiceOperation(), null, "operations", null, 0, -1, ServiceInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getServiceInterface_Service(), theUMLPackage.getClass_(), null, "service", null, 1, 1, ServiceInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getServiceInterface_Ontology(), theUMLPackage.getPackage(), null, "ontology", null, 1, 1, ServiceInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getServiceInterface_PackageName(), theEcorePackage.getEString(), "packageName", null, 0, 1, ServiceInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceOperationEClass, ServiceOperation.class, "ServiceOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getServiceOperation_Input(), this.getParameter(), null, "input", null, 0, -1, ServiceOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
