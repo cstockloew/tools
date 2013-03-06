@@ -1,4 +1,4 @@
-AAL Studio Depot Client
+AAL Studio Depot Client import of example projects
 
 Copyright 2011 SINTEF, http://www.sintef.no
 
@@ -34,4 +34,5 @@ http://www.fatcow.com/free-icons
 
 III. License Summary
 - Apache License 2.0
+- MIT License
 - Eclipse Public License v1.0
