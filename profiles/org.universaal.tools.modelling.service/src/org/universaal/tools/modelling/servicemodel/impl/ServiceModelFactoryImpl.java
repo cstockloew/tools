@@ -141,6 +141,7 @@ public class ServiceModelFactoryImpl extends EFactoryImpl implements ServiceMode
 	 */
 	public Parameter createParameter() {
 		ParameterImpl parameter = new ParameterImpl();
+		parameter.setPropertyPath(createPropertyPath());
 		return parameter;
 	}
 

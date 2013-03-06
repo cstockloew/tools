@@ -22,6 +22,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.universaal.tools.modelling.servicemodel.ServiceInterface;
@@ -65,6 +66,7 @@ public class ServiceInterfaceItemProvider
 
 			addServicePropertyDescriptor(object);
 			addOntologyPropertyDescriptor(object);
+			addPackageNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -109,6 +111,28 @@ public class ServiceInterfaceItemProvider
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Package Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPackageNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ServiceInterface_packageName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ServiceInterface_packageName_feature", "_UI_ServiceInterface_type"),
+				 ServiceModelPackage.Literals.SERVICE_INTERFACE__PACKAGE_NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -180,6 +204,9 @@ public class ServiceInterfaceItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ServiceInterface.class)) {
+			case ServiceModelPackage.SERVICE_INTERFACE__PACKAGE_NAME:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 			case ServiceModelPackage.SERVICE_INTERFACE__OPERATIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;

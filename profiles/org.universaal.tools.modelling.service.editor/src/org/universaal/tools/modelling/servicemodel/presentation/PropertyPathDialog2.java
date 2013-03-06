@@ -67,11 +67,14 @@ public class PropertyPathDialog2 extends ElementTreeSelectionDialog {
 		ILabelProvider labelProvider = null;
 		ITreeContentProvider contentProvider = null;
 		
-		if (obj instanceof PropertyPath) {
-			PropertyPath pPath = (PropertyPath)obj;
+				
+//		if (obj instanceof PropertyPath) {
+		if (obj instanceof EObject) {
+			//PropertyPath pPath = (PropertyPath)obj;
 			
 			// Find interface by nesting upwards
-			EObject container = pPath.eContainer();
+			//EObject container = pPath.eContainer();
+			EObject container = ((EObject) obj).eContainer();
 			while ((container != null) && (!(container instanceof ServiceInterface))) {
 				container = container.eContainer();
 			}
@@ -126,15 +129,11 @@ public class PropertyPathDialog2 extends ElementTreeSelectionDialog {
 						if (inputElement instanceof Classifier) {
 							return ((Classifier)inputElement).getAttributes().toArray();							
 						}
-						System.out.println("No elements");
 						return new Object[0];
 					}
 
 					@Override
 					public Object[] getChildren(Object parentElement) {
-						if (parentElement instanceof NamedElement) 
-							System.out.println("par: " + ((NamedElement)parentElement).getQualifiedName());
-						
 						if (parentElement instanceof Classifier)
 							return ((Classifier)parentElement).getAttributes().toArray();
 						else if (parentElement instanceof Property) {
@@ -142,8 +141,6 @@ public class PropertyPathDialog2 extends ElementTreeSelectionDialog {
 							if (prop.getType() instanceof Classifier)
 								return ((Classifier)prop.getType()).getAttributes().toArray();						
 						}
-						System.out.println("No children");
-						// TODO Auto-generated method stub
 						return new Object[0];
 					}
 
@@ -169,13 +166,13 @@ public class PropertyPathDialog2 extends ElementTreeSelectionDialog {
 			    dialog.setInput(serviceClass);
 			    dialog.setTitle("Select property path");
 			    dialog.setMessage("Select the property path");
-			    if (pPath.getProperties() != null) {
+//			    if (pPath.getProperties() != null) {
 				    //TreeSelection sel = new TreeSelection(new TreePath(pPath.getProperties().toArray()));			
 				    //dialog.getTreeViewer().setSelection(sel, true);
-			    	for (Property prop : pPath.getProperties()) {
-					    dialog.setInitialSelection(prop);		    		
-			    	}
-			    }
+//			    	for (Property prop : pPath.getProperties()) {
+//					    dialog.setInitialSelection(prop);		    		
+//			    	}
+//			    }
 			    //dialog.getTreeViewer();
 			    //dialog.
 			    return dialog;

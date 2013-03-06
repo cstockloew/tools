@@ -9,13 +9,19 @@ package org.universaal.tools.modelling.servicemodel.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,6 +32,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.universaal.tools.modelling.servicemodel.PropertyPath;
 import org.universaal.tools.modelling.servicemodel.ServiceModelPackage;
 
 /**
@@ -135,6 +143,12 @@ public class PropertyPathItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(PropertyPath.class)) {
+			case ServiceModelPackage.PROPERTY_PATH__PROPERTIES:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 
@@ -161,4 +175,17 @@ public class PropertyPathItemProvider
 		return ServiceModel_EMFEditorEditPlugin.INSTANCE;
 	}
 
+	@Override
+	protected Command createSetCommand(EditingDomain domain, EObject owner,
+			EStructuralFeature feature, Object value) {
+		// TODO Auto-generated method stub
+		return new SetCommand(domain, owner, feature, value) {
+			public Collection doGetAffectedObjects(){
+				return Collections.singleton(owner.eContainer());
+			}
+		};
+	}
+
+	
+	
 }

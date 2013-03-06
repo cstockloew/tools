@@ -21,9 +21,12 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptorDecorator;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.universaal.tools.modelling.servicemodel.Parameter;
+import org.universaal.tools.modelling.servicemodel.PropertyPath;
 import org.universaal.tools.modelling.servicemodel.ServiceModelFactory;
 import org.universaal.tools.modelling.servicemodel.ServiceModelPackage;
 import org.universaal.tools.modelling.servicemodel.ServiceOperation;
@@ -53,48 +56,52 @@ public class ParameterItemProvider
 	}
 
 	/**
-	 * This returns the property descriptors for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
+	 * This is the original getPropertyDescriptors 
+	 * @generated NOT
 	 */
-	@Override
-	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
+	public List<IItemPropertyDescriptor> getPropertyDescriptorsGen(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
 		}
 		return itemPropertyDescriptors;
 	}
-
+	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
+	 * Adds the property path to the descriptors
+	 * @generated NOT
 	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(ServiceModelPackage.Literals.PARAMETER__PROPERTY_PATH);
+	public void addPropertyPathDescriptors(PropertyPath pp, final String ppFeature) {
+		PropertyPathItemProvider ppProvider = (PropertyPathItemProvider)adapterFactory.adapt(pp, IItemPropertySource.class);
+		//List descriptors = ppProvider.getPropertyDescriptors(pp);
+		for (IItemPropertyDescriptor desc : ppProvider.getPropertyDescriptors(pp)) {
+			itemPropertyDescriptors.add( new ItemPropertyDescriptorDecorator(pp, desc) {
+
+				@Override
+				public String getId(Object thisObject) {
+					return ppFeature + getDisplayName(thisObject);
+				}
+				
+			});
 		}
-		return childrenFeatures;
 	}
-
+	
+	
 	/**
+	 * This returns the property descriptors for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
+	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
+		itemPropertyDescriptors = null; // Force rebuild
+		if (itemPropertyDescriptors == null) {
+			getPropertyDescriptorsGen(object);
+			addPropertyPathDescriptors(((Parameter)object).getPropertyPath(), getString("_UI_Parameter_propertyPath_feature"));
 
-		return super.getChildFeature(object, child);
+		}
+		return itemPropertyDescriptors;
 	}
 
 	/**
@@ -144,7 +151,7 @@ public class ParameterItemProvider
 
 		switch (notification.getFeatureID(Parameter.class)) {
 			case ServiceModelPackage.PARAMETER__PROPERTY_PATH:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -160,11 +167,6 @@ public class ParameterItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ServiceModelPackage.Literals.PARAMETER__PROPERTY_PATH,
-				 ServiceModelFactory.eINSTANCE.createPropertyPath()));
 	}
 
 }
