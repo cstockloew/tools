@@ -12,10 +12,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.install.AALServiceReceiver;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
+import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
+import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -43,6 +48,10 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 	private String base;
 	private ResourceBundle res;
 	private final static String dir = "tempUsrvFiles";
+	private ServiceReference ref;
+	private BundleContext bc;
+	private UserAccountDB db;
+	private final static String file = System.getenv("systemdrive")+"/uccDB/preferences.xml";
 	
 	public ToolController(UccUI app, ToolWindow toolWin) {
 		this.app = app;
@@ -53,12 +62,17 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 		if(!f.exists()) {
 			f.mkdir();
 		}
+		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
+		ref = bc.getServiceReference(UserAccountDB.class.getName());
+		db = (UserAccountDB)bc.getService(ref);
+		bc.ungetService(ref);
 	}
 	
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == toolWin.getuStoreButton()) {
-			Embedded em = new Embedded("", new ExternalResource("https://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001"));
+			System.err.println(createLink());
+			Embedded em = new Embedded("", new ExternalResource(createLink()));
 			em.setType(Embedded.TYPE_BROWSER);
 			em.setWidth("100%");
 			em.setHeight("500px");
@@ -114,6 +128,21 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 //			app.createLogin();
 		}
 		
+	}
+	
+	private String createLink() {
+		String url = "";
+		String shop = "";
+		Preferences pref = db.getPreferencesData(file);
+		if(pref.getShopUrl().contains("https")) {
+			shop = pref.getShopUrl().substring(pref.getShopUrl().lastIndexOf("//")+2);
+		}
+		if(!pref.getUsername2().equals("") && !pref.getPassword2().equals("")) {
+			url = "https://"+pref.getUsername2()+":"+pref.getPassword2()+"@"+shop;
+		} else {
+			url = "https://"+pref.getUsername()+":"+pref.getPassword()+"@"+shop;
+		}
+		return url;
 	}
 
 	@Override

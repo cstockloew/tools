@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.universAAL.ucc.controller.preferences.PreferencesController;
+import org.universAAL.ucc.model.preferences.Preferences;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -23,6 +24,8 @@ public class PreferencesWindow extends Window {
 	private PasswordField pwdTxt;
 	private TextField portTxt;
 	private TextField urlTxt;
+	private TextField userTxt2;
+	private PasswordField pwdTxt2;
 	private NativeSelect langSelect;
 	private String base;
 	private ResourceBundle bundle;
@@ -31,7 +34,7 @@ public class PreferencesWindow extends Window {
 	private HorizontalLayout hl;
 
 	
-	public PreferencesWindow(UccUI app) {
+	public PreferencesWindow(UccUI app, Preferences pref) {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
 		this.app = app;
@@ -43,45 +46,80 @@ public class PreferencesWindow extends Window {
 		vl.setSizeFull();
 		vl.setSpacing(true);
 		vl.setMargin(true);
+		
+		//ustore interface access
 		Label header = new Label(bundle.getString("header.pref"), Label.CONTENT_XHTML);
 		vl.addComponent(header);
+		
 		userTxt = new TextField(bundle.getString("user.label"));
 		userTxt.setImmediate(true);
-		userTxt.setEnabled(false);
+		userTxt.setValue(pref.getUsername());
 		vl.addComponent(userTxt);
+		
 		pwdTxt = new PasswordField(bundle.getString("pwd.label"));
 		pwdTxt.setImmediate(true);
-		pwdTxt.setEnabled(false);
+		pwdTxt.setValue(pref.getPassword());
 		vl.addComponent(pwdTxt);
+		
 		Label sep1 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep1);
+		
 		urlTxt = new TextField(bundle.getString("url.label"));
 		urlTxt.setImmediate(true);
-		urlTxt.setEnabled(false);
+		urlTxt.setValue(pref.getShopUrl());
 		vl.addComponent(urlTxt);
+		
 		portTxt = new TextField(bundle.getString("port.label"));
 		portTxt.setImmediate(true);
-		portTxt.setEnabled(false);
+		portTxt.setValue(pref.getPort());
 		vl.addComponent(portTxt);
+		
 		Label sep2 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep2);
+		
+		//ustore plugin account
+		Label plugLabel = new Label("<b>"+bundle.getString("plugin.label")+"</b>", Label.CONTENT_XHTML);
+		vl.addComponent(plugLabel);
+		
+		userTxt2 = new TextField(bundle.getString("user.label"));
+		userTxt2.setImmediate(true);
+		userTxt2.setValue(pref.getUsername2());
+		System.err.println(pref.getUsername2());
+		vl.addComponent(userTxt2);
+		
+
+		pwdTxt2 = new PasswordField(bundle.getString("pwd.label"));
+		pwdTxt2.setImmediate(true);
+		pwdTxt2.setValue(pref.getPassword2());
+		System.err.println(pref.getPassword2());
+		vl.addComponent(pwdTxt2);
+		
+		Label sep3 = new Label("<hr/>", Label.CONTENT_XHTML);
+		vl.addComponent(sep3);
+		Label genLabel = new Label("<b>"+bundle.getString("general.label")+"</b>", Label.CONTENT_XHTML);
+		vl.addComponent(genLabel);
+		
 		langSelect = new NativeSelect(bundle.getString("lang.label"));
 		langSelect.addItem(bundle.getString("english"));
 		langSelect.addItem(bundle.getString("german"));
-		if(Locale.getDefault().getLanguage().equals("de")) {
-			langSelect.select(bundle.getString("german"));
+		if(pref.getLanguage() == null || pref.getLanguage().equals("")) {
+			if(Locale.getDefault().getLanguage().equals("de")) {
+				langSelect.select(bundle.getString("german"));
+			} else {
+				langSelect.select(bundle.getString("english"));
+			}
 		} else {
-			langSelect.select(bundle.getString("english"));
+			if(pref.getLanguage().equals("de")) 
+				langSelect.select(bundle.getString("german"));
+			else 
+				langSelect.select(bundle.getString("english"));
 		}
-		langSelect.setEnabled(false);
+		
 		vl.addComponent(langSelect);
 		
 		hl = new HorizontalLayout();
-//		hl.setSpacing(true);
-//		hl.setMargin(true);
 		save = new Button(bundle.getString("save.button"));
-		save.setVisible(false);
-		reset = new Button(bundle.getString("edit.button"));
+		reset = new Button(bundle.getString("reset.button"));
 		hl.addComponent(save);
 		hl.addComponent(reset);
 		vl.addComponent(hl);
@@ -156,6 +194,22 @@ public class PreferencesWindow extends Window {
 
 	public void setHl(HorizontalLayout hl) {
 		this.hl = hl;
+	}
+
+	public TextField getUserTxt2() {
+		return userTxt2;
+	}
+
+	public void setUserTxt2(TextField userTxt2) {
+		this.userTxt2 = userTxt2;
+	}
+
+	public PasswordField getPwdTxt2() {
+		return pwdTxt2;
+	}
+
+	public void setPwdTxt2(PasswordField pwdTxt2) {
+		this.pwdTxt2 = pwdTxt2;
 	}
 	
 	

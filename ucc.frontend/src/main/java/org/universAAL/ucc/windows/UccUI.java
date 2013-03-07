@@ -3,7 +3,11 @@ package org.universAAL.ucc.windows;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.desktop.DesktopController;
+import org.universAAL.ucc.database.preferences.UserAccountDB;
 
 import com.vaadin.Application;
 import com.vaadin.terminal.Sizeable;
@@ -34,9 +38,20 @@ public class UccUI extends Application {
 	private DesktopController desk;
 	private String basename;
 	private ResourceBundle res;
+	private final static String file = System.getenv("systemdrive")+"/uccDB/preferences.xml";
 	@Override
 	public void init() {
 		setTheme("editortheme");
+		BundleContext context = FrameworkUtil.getBundle(getClass()).getBundleContext();
+		ServiceReference ref = context.getServiceReference(UserAccountDB.class.getName());
+		UserAccountDB db = (UserAccountDB) context.getService(ref);
+		if(db.getPreferencesData(file).getLanguage() != null && !db.getPreferencesData(file).getLanguage().equals("")) {
+		if(db.getPreferencesData(file).getLanguage().equals("de")) {
+			Locale.setDefault(Locale.GERMAN);
+		} else {
+			Locale.setDefault(Locale.ENGLISH);
+		}
+		}
 //		Locale.setDefault(Locale.ENGLISH);
 		basename = "resources.ucc";
 		res = ResourceBundle.getBundle(basename);

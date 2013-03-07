@@ -2,6 +2,7 @@ package org.universAAL.ucc.controller.install;
 
 import java.util.ResourceBundle;
 
+import org.universAAL.ucc.windows.NotificationWindow;
 import org.universAAL.ucc.windows.OptionsWindow;
 import org.universAAL.ucc.windows.UccUI;
 
@@ -9,6 +10,10 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 public class OptionsController implements Button.ClickListener,
 		Property.ValueChangeListener {
@@ -30,8 +35,11 @@ public class OptionsController implements Button.ClickListener,
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == win.getInvoke()) {
 			app.getMainWindow().removeWindow(win);
-			app.getMainWindow().showNotification(
-					bundle.getString("installed.note"));
+			//Notification Window for no configuration available
+			NotificationWindow w = new NotificationWindow(bundle.getString("installed.note"));
+			app.getMainWindow().addWindow(w);
+//			app.getMainWindow().showNotification(
+//					bundle.getString("installed.note"));
 			String sessionKey = "";
 			String url = "";
 

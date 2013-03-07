@@ -29,7 +29,7 @@
 <mapEntry key="mvn:com.vaadin/vaadin/6.8.3" value="true@true@4@true"/>
 <mapEntry key="mvn:javax.servlet/com.springsource.javax.servlet/2.5.0" value="true@true@3@true"/>
 <mapEntry key="mvn:org.apache.felix/org.apache.felix.bundlerepository/1.6.6" value="true@true@2@true"/>
-<mapEntry key="mvn:org.apache.felix/org.apache.felix.configadmin/1.2.4" value="false@true@2@false"/>
+<mapEntry key="mvn:org.apache.felix/org.apache.felix.configadmin/1.2.4" value="true@true@2@false"/>
 <mapEntry key="mvn:org.apache.felix/org.apache.felix.configadmin/1.6.0" value="true@true@2@true"/>
 <mapEntry key="mvn:org.apache.felix/org.apache.felix.fileinstall/3.2.4" value="true@true@2@true"/>
 <mapEntry key="mvn:org.apache.felix/org.apache.felix.http.api/2.2.0" value="true@true@4@true"/>
@@ -37,37 +37,37 @@
 <mapEntry key="mvn:org.apache.felix/org.apache.felix.http.jetty/2.2.0" value="true@true@4@true"/>
 <mapEntry key="mvn:org.apache.felix/org.apache.felix.scr/1.6.0" value="true@true@3@true"/>
 <mapEntry key="mvn:org.universAAL.context/ctxt.jena.converter/1.2.1-SNAPSHOT" value="false@true@5@false"/>
-<mapEntry key="mvn:org.universAAL.middleware/mw.acl.interfaces/1.1.1-SNAPSHOT" value="true@true@2@false"/>
+<mapEntry key="mvn:org.universAAL.middleware/mw.acl.interfaces/1.1.1-SNAPSHOT" value="false@true@2@false"/>
 <mapEntry key="mvn:org.universAAL.middleware/mw.bus.context/1.1.1-SNAPSHOT" value="false@true@5@false"/>
-<mapEntry key="mvn:org.universAAL.middleware/mw.bus.model/1.1.1-SNAPSHOT" value="true@true@3@false"/>
-<mapEntry key="mvn:org.universAAL.middleware/mw.bus.service/1.1.1-SNAPSHOT" value="true@true@5@false"/>
-<mapEntry key="mvn:org.universAAL.middleware/mw.container.osgi/1.2.1-SNAPSHOT" value="true@true@5@false"/>
-<mapEntry key="mvn:org.universAAL.middleware/mw.container.xfaces/1.1.1-SNAPSHOT" value="true@true@4@false"/>
+<mapEntry key="mvn:org.universAAL.middleware/mw.bus.service/1.1.1-SNAPSHOT" value="false@true@5@false"/>
+<mapEntry key="mvn:org.universAAL.middleware/mw.container.osgi/1.2.1-SNAPSHOT" value="false@true@5@false"/>
+<mapEntry key="mvn:org.universAAL.middleware/mw.container.xfaces/1.1.1-SNAPSHOT" value="false@true@4@false"/>
 <mapEntry key="mvn:org.universAAL.middleware/mw.data.representation/1.2.1-SNAPSHOT" value="false@true@4@false"/>
 <mapEntry key="mvn:org.universAAL.middleware/mw.data.serialization/1.1.1-SNAPSHOT" value="false@true@4@false"/>
-<mapEntry key="mvn:org.universAAL.ontology/ont.phWorld/1.2.1-SNAPSHOT" value="true@true@6@false"/>
-<mapEntry key="mvn:org.universAAL.ontology/ont.profile/1.2.1-SNAPSHOT" value="true@true@6@false"/>
+<mapEntry key="mvn:org.universAAL.ontology/ont.phWorld/1.2.1-SNAPSHOT" value="false@true@6@false"/>
+<mapEntry key="mvn:org.universAAL.ontology/ont.profile/1.2.1-SNAPSHOT" value="false@true@6@false"/>
 <mapEntry key="mvn:org.universAAL.support/jena.osgi" value="false@true@5@false"/>
 <mapEntry key="mvn:org.universAAL.tools.ucc/ucc.api/1.1.1-SNAPSHOT" value="false@true@7@true"/>
 <mapEntry key="mvn:org.universAAL.tools.ucc/ucc.controller/0.0.1-SNAPSHOT" value="true@true@3@true"/>
 <mapEntry key="mvn:org.universAAL.tools.ucc/ucc.core/1.1.1-SNAPSHOT" value="false@true@7@true"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.database/0.0.1-SNAPSHOT" value="true@true@4@true"/>
 <mapEntry key="mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice/1.0.0-SNAPSHOT" value="true@true@4@true"/>
 <mapEntry key="mvn:org.universAAL.tools.ucc/ucc.frontend/0.0.1-SNAPSHOT" value="true@true@4@true"/>
-<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.model/0.0.1-SNAPSHOT" value="true@true@7@true"/>
-<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/0.0.1-SNAPSHOT" value="true@true@5@true"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.model/0.0.1-SNAPSHOT" value="false@true@3@true"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/0.0.1-SNAPSHOT" value="true@true@4@true"/>
 <mapEntry key="mvn:org.universAAL.ui/ui.dm/1.1.1-SNAPSHOT" value="false@true@6@true"/>
 <mapEntry key="mvn:org.universAAL.ui/ui.handler.gui/1.1.1-SNAPSHOT" value="false@true@7@true"/>
 <mapEntry key="scan-bundle:file:/C:/Users/merkle/Desktop/ucc_demo/felix-framework-4.0.3/bundle/org.vaadin.osgi-1.0.1.jar" value="true@true@4@true"/>
 <mapEntry key="scan-bundle:file:/C:/Users/merkle/Desktop/ucc_demo/felix-framework-4.0.3/bundle/org.vaadin.osgi.staticres-1.0.1.jar" value="true@true@4@true"/>
-<mapEntry key="wrap:mvn:java3d/j3d-core/1.3.1" value="true@true@2@false"/>
-<mapEntry key="wrap:mvn:java3d/vecmath/1.3.1" value="true@true@2@false"/>
-<mapEntry key="wrap:mvn:jp.go.ipa/jgcl/1.0" value="true@true@2@false"/>
-<mapEntry key="wrap:mvn:mysql/mysql-connector-java/5.1.6" value="true@true@2@false"/>
-<mapEntry key="wrap:mvn:org.bouncycastle/jce.jdk13/144" value="true@true@2@false"/>
-<mapEntry key="wrap:mvn:org.ops4j.pax.confman/pax-confman-propsloader/0.2.2" value="true@true@3@false"/>
-<mapEntry key="wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.6.0" value="true@true@2@false"/>
-<mapEntry key="wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.6.0" value="true@true@3@false"/>
-<mapEntry key="wrap:mvn:org.osgi/osgi_R4_compendium/1.0" value="true@true@2@false"/>
+<mapEntry key="wrap:mvn:java3d/j3d-core/1.3.1" value="false@true@2@false"/>
+<mapEntry key="wrap:mvn:java3d/vecmath/1.3.1" value="false@true@2@false"/>
+<mapEntry key="wrap:mvn:jp.go.ipa/jgcl/1.0" value="false@true@2@false"/>
+<mapEntry key="wrap:mvn:mysql/mysql-connector-java/5.1.6" value="false@true@2@false"/>
+<mapEntry key="wrap:mvn:org.bouncycastle/jce.jdk13/144" value="false@true@2@false"/>
+<mapEntry key="wrap:mvn:org.ops4j.pax.confman/pax-confman-propsloader/0.2.2" value="false@true@3@false"/>
+<mapEntry key="wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.6.0" value="false@true@2@false"/>
+<mapEntry key="wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.6.0" value="false@true@3@false"/>
+<mapEntry key="wrap:mvn:org.osgi/osgi_R4_compendium/1.0" value="false@true@2@false"/>
 <mapEntry key="wrap:mvn:org.universAAL.ui/ui.handler.gui.tableLayout/1.0-SNAPSHOT" value="false@true@5@false"/>
 </mapAttribute>
 <listAttribute key="org.ops4j.pax.cursor.runArguments">
@@ -76,22 +76,13 @@
 <listEntry value="--overwriteSystemBundles=false"/>
 <listEntry value="--log=DEBUG"/>
 <listEntry value="--profiles=obr"/>
+<listEntry value="mvn:org.apache.felix/org.apache.felix.configadmin/1.2.4@2"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.bundlerepository/1.6.6@2@update"/>
-<listEntry value="wrap:mvn:jp.go.ipa/jgcl/1.0@2"/>
-<listEntry value="wrap:mvn:mysql/mysql-connector-java/5.1.6@2"/>
-<listEntry value="wrap:mvn:java3d/vecmath/1.3.1@2"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.configadmin/1.6.0@2@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.fileinstall/3.2.4@2@update"/>
-<listEntry value="mvn:org.universAAL.middleware/mw.acl.interfaces/1.1.1-SNAPSHOT@2"/>
-<listEntry value="wrap:mvn:org.bouncycastle/jce.jdk13/144@2"/>
-<listEntry value="wrap:mvn:org.ops4j.pax.logging/pax-logging-api/1.6.0@2"/>
-<listEntry value="wrap:mvn:java3d/j3d-core/1.3.1@2"/>
-<listEntry value="wrap:mvn:org.osgi/osgi_R4_compendium/1.0@2"/>
-<listEntry value="wrap:mvn:org.ops4j.pax.confman/pax-confman-propsloader/0.2.2@3"/>
-<listEntry value="mvn:org.universAAL.middleware/mw.bus.model/1.1.1-SNAPSHOT@3"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.model/0.0.1-SNAPSHOT@2@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.scr/1.6.0@3@update"/>
 <listEntry value="mvn:org.universAAL.tools.ucc/ucc.controller/0.0.1-SNAPSHOT@3@update"/>
-<listEntry value="wrap:mvn:org.ops4j.pax.logging/pax-logging-service/1.6.0@3"/>
 <listEntry value="mvn:javax.servlet/com.springsource.javax.servlet/2.5.0@3@update"/>
 <listEntry value="mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice/1.0.0-SNAPSHOT@4@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.http.api/2.2.0@4@update"/>
@@ -99,15 +90,10 @@
 <listEntry value="mvn:org.apache.felix/org.apache.felix.http.bundle/2.2.0@4@update"/>
 <listEntry value="mvn:org.universAAL.tools.ucc/ucc.frontend/0.0.1-SNAPSHOT@4@update"/>
 <listEntry value="mvn:com.vaadin/vaadin/6.8.3@4@update"/>
-<listEntry value="mvn:org.universAAL.middleware/mw.container.xfaces/1.1.1-SNAPSHOT@4"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.database/0.0.1-SNAPSHOT@4@update"/>
 <listEntry value="scan-bundle:file:/C:/Users/merkle/Desktop/ucc_demo/felix-framework-4.0.3/bundle/org.vaadin.osgi.staticres-1.0.1.jar@4@update"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/0.0.1-SNAPSHOT@4@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.http.jetty/2.2.0@4@update"/>
-<listEntry value="mvn:org.universAAL.middleware/mw.bus.service/1.1.1-SNAPSHOT@5"/>
-<listEntry value="mvn:org.universAAL.middleware/mw.container.osgi/1.2.1-SNAPSHOT@5"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/0.0.1-SNAPSHOT@5@update"/>
-<listEntry value="mvn:org.universAAL.ontology/ont.phWorld/1.2.1-SNAPSHOT@6"/>
-<listEntry value="mvn:org.universAAL.ontology/ont.profile/1.2.1-SNAPSHOT@6"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.model/0.0.1-SNAPSHOT@7@update"/>
 </listAttribute>
 <stringAttribute key="osgi_framework_id" value="--platform=felix --version=2.0.1"/>
 <stringAttribute key="pde.version" value="3.3"/>
@@ -115,5 +101,5 @@
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="false"/>
-<stringAttribute key="workspace_bundles" value="ucc.karaf.feature*1.0.0.qualifier@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default"/>
+<stringAttribute key="workspace_bundles" value="org.universAAL.tools.ucc@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default"/>
 </launchConfiguration>

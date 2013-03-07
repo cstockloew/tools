@@ -1,5 +1,10 @@
 package org.universAAL.ucc.controller.desktop;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
+import org.universAAL.ucc.database.preferences.UserAccountDB;
+import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.SearchWindow;
 import org.universAAL.ucc.windows.ToolWindow;
@@ -12,10 +17,15 @@ import com.vaadin.ui.Button.ClickEvent;
 public class DesktopController implements Button.ClickListener {
 	private UccUI app;
 	private Window main;
+	private UserAccountDB db;
 	
 	public DesktopController(UccUI app) {
 		this.app = app;
 		this.main = app.getMainWindow();
+		BundleContext context = FrameworkUtil.getBundle(getClass()).getBundleContext();
+		ServiceReference ref = context.getServiceReference(UserAccountDB.class.getName());
+		db = (UserAccountDB)context.getService(ref);
+		context.ungetService(ref);
 //		this.app.getSearchButton().addListener(this);
 //		this.app.getStartButton().addListener(this);
 	}
@@ -53,8 +63,9 @@ public class DesktopController implements Button.ClickListener {
 			
 		}
 		if(event.getButton() == app.getAdminButton()) {
-			PreferencesWindow pref = new PreferencesWindow(app);
-			main.addWindow(pref);
+			Preferences pref = db.getPreferencesData(System.getenv("systemdrive")+"/uccDB/preferences.xml");
+			PreferencesWindow p = new PreferencesWindow(app, pref);
+			main.addWindow(p);
 		}
 
 	}

@@ -2,12 +2,21 @@ package org.universAAL.ucc.model.install;
 
 import java.io.File;
 import java.util.ArrayList;
-
+/**
+ * A License belongs to an usrv file and can have an arbitrary count of licenses
+ * and also a list of Software License Agreements.
+ * 
+ * @author merkle
+ *
+ */
 public class License {
 	private String appName;
 	private ArrayList<File> license;
 	private ArrayList<File> slaList;
 	
+	/**
+	 * Creates a new License 
+	 */
 	public License() { 
 		license = new ArrayList<File>();
 		slaList = new ArrayList<File>();

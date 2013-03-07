@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1362433946643
+Bnd-LastModified: 1362674727706
 Build-Jdk: 1.7.0_15
 Built-By: merkle
 Bundle-Activator: org.universAAL.ucc.controller.Activator

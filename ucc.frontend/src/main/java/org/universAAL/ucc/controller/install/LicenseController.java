@@ -40,12 +40,7 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 	}
 	@Override
 	public void valueChange(ValueChangeEvent event) {
-		if(event.getProperty().getValue().toString().equals(res.getString("agree.radio"))) {
-			win.getGo().setEnabled(true);
-		} 
-		if(event.getProperty().getValue().toString().equals(res.getString("dontAgree.radio"))) {
-			win.getGo().setEnabled(false);
-		}
+		
 		if(event.getProperty() instanceof Tree) {
 			Panel panel = new Panel();
 			for(License l : lix) {
@@ -72,6 +67,13 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 			win.getVl().removeAllComponents();
 			win.createSecondComponent(panel);
 			
+		} else {
+			if(event.getProperty().getValue().toString().equals(res.getString("agree.radio"))) {
+				win.getGo().setEnabled(true);
+			} 
+			if(event.getProperty().getValue().toString().equals(res.getString("dontAgree.radio"))) {
+				win.getGo().setEnabled(false);
+			}
 		}
 		
 	}

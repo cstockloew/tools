@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1362433984391
+Bnd-LastModified: 1362674703797
 Build-Jdk: 1.7.0_15
 Built-By: merkle
 Bundle-Description: A tool to install, manage and configure applications
