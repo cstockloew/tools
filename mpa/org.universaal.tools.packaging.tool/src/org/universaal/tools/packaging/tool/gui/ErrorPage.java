@@ -27,8 +27,7 @@ public class ErrorPage extends PageImpl {
 	}
 
 	@Override
-	public void nextPressed() {
-		// TODO Auto-generated method stub
-
+	public boolean nextPressed() {
+		return true;
 	}
 }

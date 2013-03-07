@@ -175,7 +175,7 @@ public class Page5 extends PageImpl {
 	}
 
 	@Override
-	public void nextPressed() {
+	public boolean nextPressed() {
 
 		if(!prot1.getText().isEmpty()){
 			String[] ps = prot1.getText().split(",");
@@ -195,5 +195,7 @@ public class Page5 extends PageImpl {
 				if(ps[i] != null)
 					app.getManagement().getRemoteManagement().get(2).getProtocol().add(ps[i]);
 		}
+
+		return true;
 	}
 }

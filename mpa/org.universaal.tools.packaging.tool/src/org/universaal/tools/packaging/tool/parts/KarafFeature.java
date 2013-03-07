@@ -2,7 +2,7 @@ package org.universaal.tools.packaging.tool.parts;
 
 public class KarafFeature {
 
-	private String name, version, description, resolver, startLevel, groupID, artifactID, bundle;
+	private String name, version, description, resolver, startLevel, groupID, artifactID;// bundle;
 	private boolean start;
 
 	public KarafFeature(String name, String version, String groupID, String artifactID){
@@ -12,7 +12,7 @@ public class KarafFeature {
 		this.groupID = groupID;
 		this.artifactID = artifactID;
 
-		this.bundle = "mvn:"+groupID+"/"+artifactID+"/"+version;
+		//this.bundle = "mvn:"+groupID+"/"+artifactID+"/"+version;
 
 		this.description = "";
 		this.resolver = "";
@@ -27,7 +27,7 @@ public class KarafFeature {
 		this.groupID = groupID;
 		this.artifactID = artifactID;
 
-		this.bundle = "mvn:"+groupID+"/"+artifactID+"/"+version;
+		//this.bundle = "mvn:"+groupID+"/"+artifactID+"/"+version;
 
 		this.description = description;
 		this.resolver = resolver;
@@ -83,7 +83,7 @@ public class KarafFeature {
 	public void setStart(boolean start) {
 		this.start = start;
 	}
-	public String getBundle(){
-		return bundle;
-	}
+//	public String getBundle(){
+//		return bundle;
+//	}
 }

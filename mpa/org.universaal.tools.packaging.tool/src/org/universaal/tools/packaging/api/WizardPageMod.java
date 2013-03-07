@@ -4,7 +4,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Composite;
 
-public class WizardPageMod extends WizardPage {
+public abstract class WizardPageMod extends WizardPage {
 
 	public WizardPageMod(String pageName) {
 		super(pageName);
@@ -17,6 +17,9 @@ public class WizardPageMod extends WizardPage {
 	public void createControl(Composite parent) {
 	}
 
-	public void nextPressed(){
+	public abstract boolean nextPressed();	
+
+	public boolean backPressed(){
+		return true;
 	}	
 }

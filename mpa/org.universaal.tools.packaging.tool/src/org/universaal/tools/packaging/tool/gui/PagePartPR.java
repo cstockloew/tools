@@ -1,6 +1,5 @@
 package org.universaal.tools.packaging.tool.gui;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -268,7 +267,7 @@ public class PagePartPR extends PageImpl {
 	}
 
 	@Override
-	public void nextPressed() {
+	public boolean nextPressed() {
 
 		if(c12.getText().equals(LogicalRelation.NONE.toString())){
 			if(isValid(req1, val1, c1))
@@ -307,6 +306,8 @@ public class PagePartPR extends PageImpl {
 			if(isValid(req4, val4, c4) && isValid(req5, val5, c5) && isValid(c45))
 				group(LogicalRelation.valueOf(c45.getText()), req4, val4, LogicalCriteria.valueOf(c4.getText()), req5, val5, LogicalCriteria.valueOf(c5.getText()));
 		}
+		
+		return true;
 	}
 	
 	private void group(LogicalRelation lr, Text req1, Text val1, LogicalCriteria lc1, Text req2, Text val2, LogicalCriteria lc2){

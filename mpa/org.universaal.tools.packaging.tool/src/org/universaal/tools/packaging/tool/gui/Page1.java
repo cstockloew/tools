@@ -97,7 +97,7 @@ public class Page1 extends PageImpl {
 	}
 
 	@Override
-	public void nextPressed() {		
+	public boolean nextPressed() {		
 
 		try{
 			app.getApplication().setName(name.getText());	
@@ -112,5 +112,7 @@ public class Page1 extends PageImpl {
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+
+		return true;
 	}
 }

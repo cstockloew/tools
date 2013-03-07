@@ -161,6 +161,7 @@ public class PagePartPC extends PageImpl {
 	}
 
 	@Override
-	public void nextPressed() {
+	public boolean nextPressed() {
+		return true;
 	}
 }

@@ -48,7 +48,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 	}
 
 	@Override
-	public abstract void nextPressed(); // to handle events just before moving to next page
+	public abstract boolean nextPressed(); // to handle events just before moving to next page
 
 	public void setMPA(MPA mpa) {
 		multipartApplication = mpa;

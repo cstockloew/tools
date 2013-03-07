@@ -18,14 +18,12 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.api.WizardMod;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
-import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
 import org.universaal.tools.packaging.tool.zip.UAPP;
@@ -34,12 +32,13 @@ public class GUI extends WizardMod {
 
 	private ExecutionEvent event;
 	public MPA mpa;
-	private PageImpl p1, p2, pl, p3, p4, p5, ppDU, ppEU, ppPC, ppPR, p;
+	private PageImpl p0, p1, p2, pl, p3, p4, p5, ppDU, ppEU, ppPC, ppPR, p, p_end;
 	private List<IProject> parts;
 
 	private static GUI instance;
 
 	private String tempDir;  
+	private String destination;
 
 	public GUI(ExecutionEvent event) {
 
@@ -65,6 +64,10 @@ public class GUI extends WizardMod {
 				e.printStackTrace();
 			}
 
+			p0 = new StartPage(Page.PAGE_START);
+			addPage(p0);
+			p0.setMPA(mpa);
+
 			p1 = new Page1(Page.PAGE1);
 			addPage(p1);
 			p1.setMPA(mpa);
@@ -74,7 +77,6 @@ public class GUI extends WizardMod {
 			p2.setMPA(mpa);
 
 			pl = new PageLicenses(Page.PAGE_LICENSE);
-			pl.setPageComplete(true);
 			addPage(pl);
 			pl.setMPA(mpa);
 
@@ -122,6 +124,10 @@ public class GUI extends WizardMod {
 				ppPR.setMPA(mpa);
 				ppPR.setArtifact(parts.get(i));
 			}
+
+			p_end = new EndPage(Page.PAGE_END);
+			addPage(p_end);
+			p_end.setMPA(mpa);
 		}
 		else{
 			p = new ErrorPage(Page.PAGE_ERROR);
@@ -175,10 +181,12 @@ public class GUI extends WizardMod {
 			}
 
 			UAPP descriptor = new UAPP();
-			descriptor.createUAPPfile(tempDir, 
-					new Dialog().open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-							mpa.getAAL_UAPP().getApplication().getName()+".uapp", 
-							new String[]{"*.uapp"}).getAbsolutePath());
+			//			descriptor.createUAPPfile(tempDir, 
+			//					new Dialog().open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+			//							mpa.getAAL_UAPP().getApplication().getName()+".uapp", 
+			//							new String[]{"*.uapp"}).getAbsolutePath());
+
+			descriptor.createUAPPfile(tempDir, destination);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -230,7 +238,6 @@ public class GUI extends WizardMod {
 			tempDir = System.getProperty("java.io.tmpdir")+"/MPA_"+new BigInteger(130, random).toString(32)+"/";
 			File f = new File(tempDir);
 			f.mkdir();
-			//System.out.println("tempDir: "+f.getAbsolutePath());
 
 			File bin, config, doc, license, part;
 
@@ -274,5 +281,13 @@ public class GUI extends WizardMod {
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 }

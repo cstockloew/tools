@@ -30,6 +30,22 @@ public class RequirementsGroup {
 		this.req2 = req2;
 	}
 
+	@Override
+	public boolean equals(Object other){
+		
+		if(other == this)
+			return true;
+
+		if(other instanceof RequirementsGroup){
+
+			RequirementsGroup req = (RequirementsGroup)other;
+			if(req.getReq1().equals(this.req1) && req.getReq2().equals(this.req2) && req.getRelation().equals(this.relation))
+				return true;
+		}
+
+		return false;
+	}
+
 	public String getXML(){
 		return "<logicalRelation>"+relation.toString()+"</logicalRelation><requirement>"+req1.getXML()+"</requirement><requirement>"+req2.getXML()+"</requirement>";
 	}

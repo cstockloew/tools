@@ -1,0 +1,55 @@
+package org.universaal.tools.packaging.tool.gui;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.universaal.tools.packaging.impl.PageImpl;
+
+public class EndPage extends PageImpl {
+	
+	public static String destination;
+
+	protected EndPage(String pageName) {
+		super(pageName, "This is the ending page for the uAAL MPA packager");
+	}
+
+	public void createControl(Composite parent) { 
+
+		container = new Composite(parent, SWT.NULL);
+		setControl(container);
+
+		GridLayout layout = new GridLayout();
+		container.setLayout(layout);
+
+		layout.numColumns = 1;
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		
+		Label end = new Label(container, SWT.NULL);
+		end.setText("Congratulations, you are a single step away from creating your Multi Part Application, just press the Finish button to generate it!");		
+		
+		FontData[] fD = end.getFont().getFontData();
+		fD[0].setStyle(SWT.BOLD);
+		end.setFont(new Font(container.getDisplay(), fD[0]));		
+		
+		Label end0 = new Label(container, SWT.NULL);
+		end0.setText("");	
+
+		Label file = new Label(container, SWT.NULL);
+		file.setText("Remember that you can find your .UAAP file here: "+destination);
+		
+		fD = file.getFont().getFontData();
+		fD[0].setStyle(SWT.BOLD);
+		file.setFont(new Font(container.getDisplay(), fD[0]));
+		
+		setPageComplete(true);
+	}
+
+	@Override
+	public boolean nextPressed() {
+		return true;
+	}
+}

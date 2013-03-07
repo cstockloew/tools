@@ -51,15 +51,16 @@ public class WizardDialogMod extends WizardDialog {
 			break;
 		}
 		case IDialogConstants.BACK_ID: {
-			backPressed();
+			WizardPageMod page = (WizardPageMod) getCurrentPage();
+			if(page.backPressed()) // to handle custom events
+				backPressed();
 			break;
 		}
 		case IDialogConstants.NEXT_ID: {
-			
+
 			WizardPageMod page = (WizardPageMod) getCurrentPage();
-			page.nextPressed(); // to handle custom events
-			
-			nextPressed();
+			if(page.nextPressed()) // to handle custom events
+				nextPressed();
 			break;
 		}
 		case IDialogConstants.FINISH_ID: {

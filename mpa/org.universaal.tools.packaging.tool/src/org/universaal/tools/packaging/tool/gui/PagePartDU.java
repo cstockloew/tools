@@ -10,6 +10,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -39,8 +41,6 @@ public class PagePartDU extends PageImpl {
 	private Text andN, andD, andURI;
 	private Button ckbOS1, ckbPL1, ckbCU1, ckbKar;
 
-	//private Label waiting;
-
 	protected PagePartDU(String pageName, int pn) {
 		super(pageName, "Specify deployment requirements per part");
 		this.partNumber = pn;
@@ -58,9 +58,13 @@ public class PagePartDU extends PageImpl {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		Label exp = new Label(container, SWT.NULL);
-		exp.setText("You can choose alternatively an OS, a Platform or a Container");
+		exp.setText("You can choose alternatively an OS, a Platform or a Container.");
 		Label blk = new Label(container, SWT.NULL);
 		blk.setText("");
+		
+		FontData[] fD = exp.getFont().getFontData();
+		fD[0].setStyle(SWT.BOLD);
+		exp.setFont(new Font(container.getDisplay(), fD[0]));		
 
 		Label os = new Label(container, SWT.NULL);
 		os.setText("Select this checkbox to add an OS as deployment unit");
@@ -247,15 +251,15 @@ public class PagePartDU extends PageImpl {
 		Label karFile = new Label(container, SWT.NULL);
 		karFile.setText("Select this checkbox to create KAR file (valid if using Karaf container)");
 		ckbKar = new Button(container, SWT.CHECK);
-		
+
 		Label empty1 = new Label(container, SWT.NULL);
 		empty1.setText("");
-		
+
 		Label empty2 = new Label(container, SWT.NULL);
 		empty2.setText("");
 
 		Label waiting = new Label(container, SWT.NULL);
-		waiting.setText("The generation of required stuff could take time, please be patient...");
+		waiting.setText("The generation of required stuff could take some time, please be patient...");
 
 		//default configuration
 		ckbCU1.setSelection(false);
@@ -270,7 +274,7 @@ public class PagePartDU extends PageImpl {
 	}
 
 	@Override
-	public void nextPressed() {
+	public boolean nextPressed() {
 
 		if(ckbOS1.getSelection()){
 			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion(), OS.valueOf(os1.getText())));
@@ -294,6 +298,8 @@ public class PagePartDU extends PageImpl {
 			}
 			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion(), cu));
 		}
+
+		return true;
 	}
 
 	private void disableControl(Control c){

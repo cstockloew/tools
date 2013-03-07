@@ -41,6 +41,24 @@ public class Requirement {
 		return singleReq;
 	}
 
+	@Override
+	public boolean equals(Object other){
+
+		if(other == this)
+			return true;
+
+		if(other instanceof Requirement){
+
+			Requirement req = (Requirement)other;
+
+			if(req.getRequirementGroup().equals(this.requirementGroup) && req.getSingleRequirement().equals(this.singleRequirement) &&
+					req.isOptional() == this.optional && req.isSingleReq() == this.singleReq)
+				return true;
+		}
+
+		return false;
+	}
+
 	public String getXML(){
 		if(singleReq)
 			return "<reqAtom>"+singleRequirement.getXML()+"</reqAtom><optional>"+optional+"</optional>";

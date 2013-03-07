@@ -35,6 +35,8 @@ public class PageLicenses extends PageImpl {
 
 	private File f1, f2;
 
+	private final String ERROR_MESSAGE = "Please verify the value";
+
 	protected PageLicenses(String pageName) {
 		super(pageName, "Add SLA and license(s) for your MPA - each artifact should be licensed under different license.");
 	}
@@ -208,22 +210,44 @@ public class PageLicenses extends PageImpl {
 	}
 
 	@Override
-	public void nextPressed() {
+	public boolean nextPressed() {
 
-		try{
-			if(!onlyLicense && slaLink.getText() != null && !slaLink.getText().isEmpty())
-				sla.setLink(URI.create(removeBlanks(slaLink.getText())));
-			if(licLink.getText() != null && !licLink.getText().isEmpty())
-				lic.setLink(URI.create(removeBlanks(licLink.getText())));			
+		if(!onlyLicense && slaLink.getText() != null && !slaLink.getText().isEmpty()){
+			URI link = null;
+			try{
+				link = URI.create(removeBlanks(slaLink.getText()));
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+				slaLink.setText(ERROR_MESSAGE);
+
+				return false;
+			}
+			if(link != null)
+				sla.setLink(link);
 		}
-		catch(Exception ex){
-			ex.printStackTrace();
+		if(licLink.getText() != null && !licLink.getText().isEmpty()){
+			URI link = null;
+			try{
+				link = URI.create(removeBlanks(licLink.getText()));
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+				licLink.setText(ERROR_MESSAGE);
+
+				return false;
+			}
+			if(link != null)
+				lic.setLink(URI.create(removeBlanks(licLink.getText())));
 		}
 
 		if(addLicense){
 			PageLicenses pl = new PageLicenses(Page.PAGE_LICENSE+PageImpl.otherLicenses++, true);
 			pl.setMPA(multipartApplication);
+			pl.setPageComplete(false);
 			addPageCustom(this, pl);
 		}
+
+		return true;
 	}
 }

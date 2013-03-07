@@ -36,6 +36,25 @@ public class SingleRequirement {
 		this.requirementCriteria = requirementCriteria;
 	}
 
+	@Override
+	public boolean equals(Object other){
+
+		if(other == this)
+			return true;
+		
+		if(other instanceof SingleRequirement){
+
+			SingleRequirement req = (SingleRequirement)other;
+
+			if(req.getRequirementCriteria().equals(requirementCriteria) &&
+					req.getRequirementName().equals(requirementName) &&
+					req.getRequirementValue().equals(requirementValue))
+				return true;
+		}
+
+		return false;
+	}
+
 	public String getXML(){
 		return "<reqAtomName>"+requirementName+"</reqAtomName>"+"<reqAtomValue>"+requirementValue+"</reqAtomValue>"+"<reqCriteria>"+requirementCriteria.toString()+"</reqCriteria>";
 	}

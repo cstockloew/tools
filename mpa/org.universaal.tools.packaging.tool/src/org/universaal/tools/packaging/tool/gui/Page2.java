@@ -140,41 +140,42 @@ public class Page2 extends PageImpl {
 			}
 		});
 
-//		gd = new GridData(GridData.FILL, GridData.CENTER, true, false);
-//		final Label l8 = new Label(container, SWT.NULL);
-//		final Button b = new Button(container, SWT.PUSH);
-//		l8.setText("License(s) will be added in next page(s)");
-//		b.setText("Add license(s)");
-//		b.addSelectionListener(new SelectionListener() {
-//
-//			public void widgetSelected(SelectionEvent e) {
-//				addLicense = !addLicense;
-//				if(!addLicense){
-//					b.setText("Add license(s)");
-//				}
-//				else{
-//					b.setText("Remove license(s)");
-//				}
-//			}
-//
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//			}
-//		});
-//		b.setLayoutData(gd);
-//		Label l9 = new Label(container, SWT.NULL);
-//		l9.setText("(in: "+app.getApplication().getLicenses().size()+")");
+		//		gd = new GridData(GridData.FILL, GridData.CENTER, true, false);
+		//		final Label l8 = new Label(container, SWT.NULL);
+		//		final Button b = new Button(container, SWT.PUSH);
+		//		l8.setText("License(s) will be added in next page(s)");
+		//		b.setText("Add license(s)");
+		//		b.addSelectionListener(new SelectionListener() {
+		//
+		//			public void widgetSelected(SelectionEvent e) {
+		//				addLicense = !addLicense;
+		//				if(!addLicense){
+		//					b.setText("Add license(s)");
+		//				}
+		//				else{
+		//					b.setText("Remove license(s)");
+		//				}
+		//			}
+		//
+		//			public void widgetDefaultSelected(SelectionEvent e) {
+		//			}
+		//		});
+		//		b.setLayoutData(gd);
+		//		Label l9 = new Label(container, SWT.NULL);
+		//		l9.setText("(in: "+app.getApplication().getLicenses().size()+")");
 	}
 
 	@Override
-	public void nextPressed(){
+	public boolean nextPressed(){
+		return true;
 	}
 
-//	@Override
-//	public IWizardPage getNextPage() {
-//
-//		if(addLicense)
-//			return super.getNextPage(); // SLA and licences
-//
-//		return super.getNextPage().getNextPage(); // Capabilities
-//	}
+	//	@Override
+	//	public IWizardPage getNextPage() {
+	//
+	//		if(addLicense)
+	//			return super.getNextPage(); // SLA and licences
+	//
+	//		return super.getNextPage().getNextPage(); // Capabilities
+	//	}
 }

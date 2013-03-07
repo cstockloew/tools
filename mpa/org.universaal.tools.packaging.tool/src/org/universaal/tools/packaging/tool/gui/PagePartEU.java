@@ -198,7 +198,7 @@ public class PagePartEU extends PageImpl {
 	}
 
 	@Override
-	public void nextPressed() {
+	public boolean nextPressed() {
 
 		try{
 			if(f1 != null){
@@ -229,6 +229,8 @@ public class PagePartEU extends PageImpl {
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+		
+		return true;
 	}
 
 	//capability

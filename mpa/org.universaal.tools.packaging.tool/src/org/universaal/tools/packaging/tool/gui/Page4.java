@@ -31,12 +31,14 @@ public class Page4 extends PageImpl {
 	private int offset;
 	private boolean moreRequirementsInNextPage;
 	private LogicalRelation fromPreviousPage;
+	//private Map<Requirement, Boolean> addedInThisPage;
 
 	protected Page4(String pageName, int offset, LogicalRelation fromPreviousPage) {
 		super(pageName, "Specify requirements for the MPA you are creating.");
 		this.offset = offset;
 		this.moreRequirementsInNextPage = false;
 		this.fromPreviousPage = fromPreviousPage;
+		//this.addedInThisPage = new HashMap<Requirement, Boolean>();
 	}
 
 	public void createControl(Composite parent) {
@@ -56,12 +58,18 @@ public class Page4 extends PageImpl {
 		logicalRelations = new ArrayList<String>();
 
 		List<Requirement> list = app.getRequirements().getRequirementsList();
+		//List<Requirement> toBeRemoved = new ArrayList<Requirement>();
 
-		for(int i = offset; i < list.size(); i++){
+		for(int i = offset; (i < list.size() && i < offset+5); i++){
+
+			//toBeRemoved.add(list.get(i));
+
 			if(list.get(i).isSingleReq()){
 				reqs.add(list.get(i).getSingleRequirement().getRequirementName().toString());
 				vals.add(list.get(i).getSingleRequirement().getRequirementValue().toString());
 				logicalCriteria.add(list.get(i).getSingleRequirement().getRequirementCriteria().toString());
+
+				logicalRelations.add(LogicalRelation.NONE.toString());
 			}
 			else{
 				reqs.add(list.get(i).getRequirementGroup().getReq1().getRequirementName().toString());
@@ -74,16 +82,31 @@ public class Page4 extends PageImpl {
 
 				logicalRelations.add(list.get(i).getRequirementGroup().getRelation().toString());
 			}
+			//			}
+			//
+			//			// EXPERIMENTAL
+			//			List<Requirement> toBeRemoved = new ArrayList<Requirement>();
+			//			for(int i = currentreqs[0]; i < currentreqs[1]; i++){
+			//				toBeRemoved.add(app.getRequirements().getRequirementsList().get(i));
+			//			}
+			//			app.getRequirements().getRequirementsList().remove(toBeRemoved);
+			//			// EXPERIMENTAL
+			//
+			//			System.out.println("currentreqs[0] "+currentreqs[0]+" currentreqs[1] "+currentreqs[1]);
 		}
 
-		if(reqs.isEmpty() && vals.isEmpty())
-			for(int i = 0; i < 5; i++){
+		//app.getRequirements().getRequirementsList().remove(toBeRemoved);
+
+		if((reqs.isEmpty() && vals.isEmpty()) || (reqs.size() < 5)) // create five elements for current page if you can't read them from current MPA
+			for(int i = reqs.size(); i < 5; i++){
 				reqs.add("");
 				vals.add("");
 				logicalCriteria.add(LogicalCriteria.EQUAL.toString());
-
-				logicalRelations.add(LogicalRelation.NONE.toString());
 			}
+
+		if(logicalRelations.isEmpty() || logicalRelations.size() < 5)
+			for(int i = logicalRelations.size(); i < 5; i++)
+				logicalRelations.add(LogicalRelation.NONE.toString());
 
 		Label l1 = new Label(container, SWT.NULL);
 		l1.setText("Requirement name");
@@ -109,18 +132,21 @@ public class Page4 extends PageImpl {
 		}
 
 		req1 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		req1.setText(reqs.get(0));			
+		//req1.setText(reqs.get(0));	
+		req1.setText("");		
 		req1.setLayoutData(gd);	
 
 		//LogicalCriteria
 		c1 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c1.add(LogicalCriteria.values()[i].toString());
-		c1.setText(LogicalCriteria.valueOf(logicalCriteria.get(0)).toString());			
+		//c1.setText(LogicalCriteria.valueOf(logicalCriteria.get(0)).toString());	
+		c1.setText(LogicalCriteria.EQUAL.toString());
 		c1.setLayoutData(gd);
 
 		val1 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		val1.setText(vals.get(0));			
+		//val1.setText(vals.get(0));			
+		val1.setText("");
 		val1.setLayoutData(gd);
 
 
@@ -130,7 +156,8 @@ public class Page4 extends PageImpl {
 		l4.setText("Relation between rule #"+(1+offset)+" and #"+(2+offset));
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c12.add(LogicalRelation.values()[i].toString());
-		c12.setText(LogicalRelation.valueOf(logicalRelations.get(0)).toString());			
+		//c12.setText(LogicalRelation.valueOf(logicalRelations.get(0)).toString());			
+		c12.setText(LogicalRelation.NONE.toString());
 		c12.setLayoutData(gd);
 
 		Label empty1 = new Label(container, SWT.NULL);
@@ -138,17 +165,20 @@ public class Page4 extends PageImpl {
 
 
 		req2 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		req2.setText(reqs.get(1));			
+		//req2.setText(reqs.get(1));	
+		req2.setText("");
 		req2.setLayoutData(gd);
 
 		c2 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c2.add(LogicalCriteria.values()[i].toString());
-		c2.setText(LogicalCriteria.valueOf(logicalCriteria.get(1)).toString());			
+		//c2.setText(LogicalCriteria.valueOf(logicalCriteria.get(1)).toString());			
+		c2.setText(LogicalCriteria.EQUAL.toString());
 		c2.setLayoutData(gd);
 
 		val2 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		val2.setText(vals.get(1));			
+		//val2.setText(vals.get(1));		
+		val2.setText("");
 		val2.setLayoutData(gd);
 
 
@@ -158,7 +188,8 @@ public class Page4 extends PageImpl {
 		l5.setText("Relation between rule #"+(2+offset)+" and #"+(3+offset));
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c23.add(LogicalRelation.values()[i].toString());
-		c23.setText(LogicalRelation.valueOf(logicalRelations.get(1)).toString());			
+		//c23.setText(LogicalRelation.valueOf(logicalRelations.get(1)).toString());			
+		c23.setText(LogicalRelation.NONE.toString());
 		c23.setLayoutData(gd);
 
 		Label empty2 = new Label(container, SWT.NULL);
@@ -166,17 +197,20 @@ public class Page4 extends PageImpl {
 
 
 		req3 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		req3.setText(reqs.get(2));			
+		//req3.setText(reqs.get(2));		
+		req3.setText("");
 		req3.setLayoutData(gd);	
 
 		c3 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c3.add(LogicalCriteria.values()[i].toString());
-		c3.setText(LogicalCriteria.valueOf(logicalCriteria.get(2)).toString());			
+		//c3.setText(LogicalCriteria.valueOf(logicalCriteria.get(2)).toString());			
+		c3.setText(LogicalCriteria.EQUAL.toString());
 		c3.setLayoutData(gd);
 
 		val3 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		val3.setText(vals.get(2));			
+		//val3.setText(vals.get(2));	
+		val3.setText("");	
 		val3.setLayoutData(gd);
 
 
@@ -186,7 +220,8 @@ public class Page4 extends PageImpl {
 		l6.setText("Relation between rule #"+(3+offset)+" and #"+(4+offset));
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c34.add(LogicalRelation.values()[i].toString());
-		c34.setText(LogicalRelation.valueOf(logicalRelations.get(2)).toString());			
+		//c34.setText(LogicalRelation.valueOf(logicalRelations.get(2)).toString());		
+		c34.setText(LogicalRelation.NONE.toString());
 		c34.setLayoutData(gd);
 
 		Label empty3 = new Label(container, SWT.NULL);
@@ -194,18 +229,21 @@ public class Page4 extends PageImpl {
 
 
 		req4 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		req4.setText(reqs.get(3));			
+		//req4.setText(reqs.get(3));		
+		req4.setText("");
 		req4.setLayoutData(gd);	
 
 		//LogicalCriteria
 		c4 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c4.add(LogicalCriteria.values()[i].toString());
-		c4.setText(LogicalCriteria.valueOf(logicalCriteria.get(3)).toString());			
+		//c4.setText(LogicalCriteria.valueOf(logicalCriteria.get(3)).toString());			
+		c4.setText(LogicalCriteria.EQUAL.toString());
 		c4.setLayoutData(gd);
 
 		val4 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		val4.setText(vals.get(3));			
+		//val4.setText(vals.get(3));			
+		val4.setText("");
 		val4.setLayoutData(gd);
 
 
@@ -215,25 +253,29 @@ public class Page4 extends PageImpl {
 		l7.setText("Relation between rule #"+(4+offset)+" and #"+(5+offset));
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c45.add(LogicalRelation.values()[i].toString());
-		c45.setText(LogicalRelation.valueOf(logicalRelations.get(3)).toString());			
+		//c45.setText(LogicalRelation.valueOf(logicalRelations.get(3)).toString());		
+		c45.setText(LogicalRelation.NONE.toString());
 		c45.setLayoutData(gd);
 
 		Label empty4 = new Label(container, SWT.NULL);
 		empty4.setText("");
 
 		req5 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		req5.setText(reqs.get(4));			
+		//req5.setText(reqs.get(4));			
+		req5.setText("");
 		req5.setLayoutData(gd);	
 
 		//LogicalCriteria
 		c5 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c5.add(LogicalCriteria.values()[i].toString());
-		c5.setText(LogicalCriteria.valueOf(logicalCriteria.get(4)).toString());			
+		//c5.setText(LogicalCriteria.valueOf(logicalCriteria.get(4)).toString());			
+		c5.setText(LogicalCriteria.EQUAL.toString());
 		c5.setLayoutData(gd);
 
 		val5 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		val5.setText(vals.get(4));			
+		//val5.setText(vals.get(4));		
+		val5.setText("");
 		val5.setLayoutData(gd);
 
 		req1.addKeyListener(new FullListener());
@@ -256,6 +298,15 @@ public class Page4 extends PageImpl {
 		c34.addKeyListener(new FullListener() {});
 		c45.addKeyListener(new FullListener() {});
 
+		Label l8 = new Label(container, SWT.NULL);
+		l8.setText("Relation between rule #"+(5+offset)+" and #"+(6+offset)+" (next page)");
+		c56 = new Combo(container, SWT.READ_ONLY);
+
+		for(int i = 0; i < LogicalRelation.values().length; i++)
+			c56.add(LogicalRelation.values()[i].toString());
+		//c56.setText(LogicalRelation.valueOf(logicalRelations.get(4)).toString());			
+		c56.setText(LogicalRelation.NONE.toString());
+		c56.setLayoutData(gd);
 		final Button b = new Button(container, SWT.PUSH);
 		b.setText("Click to add more requirements");
 		b.addSelectionListener(new SelectionListener() {
@@ -273,21 +324,48 @@ public class Page4 extends PageImpl {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-		b.setLayoutData(gd);
-		c56 = new Combo(container, SWT.READ_ONLY);
-		Label l8 = new Label(container, SWT.NULL);
-		l8.setText("Relation between rule #"+(5+offset)+" and #"+(6+offset)+" (next page)");
-		for(int i = 0; i < LogicalRelation.values().length; i++)
-			c56.add(LogicalRelation.values()[i].toString());
-		c56.setText(LogicalRelation.valueOf(logicalRelations.get(4)).toString());			
-		c56.setLayoutData(gd);
+		b.setLayoutData(gd);		
 
 		setPageComplete(true); // requirements are optional
 	}
 
 	@Override
-	public void nextPressed() {
+	public boolean nextPressed() {
 
+		//		if(!app.getRequirements().getRequirementsList().isEmpty())
+		//			for(int i = offset; (i < offset+5 && i < app.getRequirements().getRequirementsList().size()); i++)
+		//				//if(app.getRequirements().getRequirementsList().get(i) != null)
+		//				app.getRequirements().getRequirementsList().remove(i); // remove current page of requirements 
+
+		//		if(!app.getRequirements().getRequirementsList().isEmpty()){
+		//
+		//			int[] currentreqs = findReqInThisPage(offset/5);
+		//
+		//		}
+
+		//			for(int i = offset; i < size; i++){
+		//				Requirement req = app.getRequirements().getRequirementsList().get(i);
+		//				if(req.isSingleReq()){
+		//					app.getRequirements().getRequirementsList().remove(i);
+		//					System.out.println("removed one "+i);
+		//					j++;
+		//				}
+		//				else{ // is a group
+		//					app.getRequirements().getRequirementsList().remove(i);
+		//					System.out.println("removed two "+i);
+		//					j++;
+		//					j++;
+		//				}
+		//				if(j == 5){
+		//					System.out.println("removed five, break");
+		//					break;
+		//				}
+		//			}
+		//		}
+
+		// and
+
+		// insert them again
 		if(offset == 0){
 			// first page of requirements
 			if(c12.getText().equals(LogicalRelation.NONE.toString())){
@@ -339,7 +417,7 @@ public class Page4 extends PageImpl {
 				// get last requirement inserted
 				SingleRequirement last = null;
 				int lastReq = this.app.getRequirements().getRequirementsList().size()-1;
-				
+
 				if(this.app.getRequirements().getRequirementsList().get(lastReq).getSingleRequirement() != null)
 					last = this.app.getRequirements().getRequirementsList().get(lastReq).getSingleRequirement();
 				if(this.app.getRequirements().getRequirementsList().get(lastReq).getRequirementGroup() != null)
@@ -390,36 +468,130 @@ public class Page4 extends PageImpl {
 			}
 		}
 
-		if(moreRequirementsInNextPage){
-			Page4 p_req = new Page4(Page.PAGE4+PageImpl.otherGeneralReqs++, offset+5, LogicalRelation.valueOf(c56.getText()));
+		if(moreRequirementsInNextPage && !(getNextPage() instanceof Page4)){
+			Page4 p_req = new Page4(Page.PAGE4+" #"+PageImpl.otherGeneralReqs++, offset+5, LogicalRelation.valueOf(c56.getText()));
 			p_req.setMPA(multipartApplication);
 			addPageCustom(this, p_req);
 		}
+
+		return true;
 	}
 
+	/*private int[] findReqInThisPage(int pageNumber){
+
+		int[] firstLast = new int[]{0, 0};
+
+		List<Requirement> list = this.app.getRequirements().getRequirementsList();
+		int counter = 0;
+
+		for(int i = 0; i < list.size(); i++){
+			if(list.get(i).isSingleReq())
+				counter = counter + 1;
+			else
+				counter = counter + 2;
+
+			if(counter == (5*pageNumber+5)){
+				firstLast[1] = i;
+				break;
+			}
+			else if(counter == (5*pageNumber+6)){
+				//TODO 
+				firstLast[1] = i;
+				break;
+			}
+		}
+
+		counter = 0;
+		for(int i = firstLast[1]; i >= 0; i--){
+			if(list.get(i).isSingleReq())
+				counter = counter + 1; 
+			else
+				counter = counter + 2;
+
+			if(counter == (5*pageNumber+5)){
+				firstLast[0] = i;
+				break;
+			}
+			else if(counter == (5*pageNumber+6)){
+				//TODO 
+				firstLast[0] = i;
+				break;
+			}
+		}
+
+		System.out.println("RequirementsList "+app.getRequirements().getRequirementsList().size());
+		System.out.println("currentreqs[0] "+firstLast[0]+" currentreqs[1] "+firstLast[1]);
+
+		return firstLast;		
+	}*/
+
 	private void group(LogicalRelation lr, Text req1, Text val1, LogicalCriteria lc1, Text req2, Text val2, LogicalCriteria lc2){
+
 		SingleRequirement r1 = new SingleRequirement(req1.getText(), val1.getText(), lc1);
 		SingleRequirement r2 = new SingleRequirement(req2.getText(), val2.getText(), lc2);
 
 		RequirementsGroup r = new RequirementsGroup(r1, r2, lr);
-		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
+		Requirement rr = new Requirement(r, false);
+
+		if(!alreadyIn(null, r)){
+			app.getRequirements().getRequirementsList().add(rr);
+			//this.addedInThisPage.add(rr);
+		}
 	}
 
 	private void single(Text req1, Text val1, LogicalCriteria lc1){
+
 		SingleRequirement r = new SingleRequirement(req1.getText(), val1.getText(), lc1);
-		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
+
+		Requirement rr = new Requirement(r, false);
+
+		if(!alreadyIn(r, null)){
+			app.getRequirements().getRequirementsList().add(rr);
+			//this.addedInThisPage.add(rr);
+		}
 	}
 
 	private void group(LogicalRelation lr, String req1, String val1, LogicalCriteria lc1, String req2, String val2, LogicalCriteria lc2){
+
 		SingleRequirement r1 = new SingleRequirement(req1, val1, lc1);
 		SingleRequirement r2 = new SingleRequirement(req2, val2, lc2);
 
 		RequirementsGroup r = new RequirementsGroup(r1, r2, lr);
-		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
+		Requirement rr = new Requirement(r, false);
+
+		if(!alreadyIn(null, r)){
+			app.getRequirements().getRequirementsList().add(rr);
+			//this.addedInThisPage.add(rr);
+		}
 	}
 
-	private void single(String req1, String val1, LogicalCriteria lc1){
-		SingleRequirement r = new SingleRequirement(req1, val1, lc1);
-		app.getRequirements().getRequirementsList().add(new Requirement(r, false));
+	//	private void single(String req1, String val1, LogicalCriteria lc1){
+	//
+	//		SingleRequirement r = new SingleRequirement(req1, val1, lc1);
+	//
+	//		Requirement rr = new Requirement(r, false);
+	//
+	//		if(!alreadyIn(r, null)){
+	//			app.getRequirements().getRequirementsList().add(rr);
+	//			//this.addedInThisPage.add(rr);
+	//		}
+	//	}
+
+	private boolean alreadyIn(SingleRequirement r, RequirementsGroup rr){
+
+		for(int i = 0; i < app.getRequirements().getRequirementsList().size(); i++){
+			if(r != null){
+				if(this.app.getRequirements().getRequirementsList().get(i).isSingleReq() && 
+						this.app.getRequirements().getRequirementsList().get(i).getSingleRequirement().equals(r))
+					return true;			
+			}
+			else if(rr != null){
+				if(!this.app.getRequirements().getRequirementsList().get(i).isSingleReq() && 
+						this.app.getRequirements().getRequirementsList().get(i).getRequirementGroup().equals(rr))
+					return true;	
+			}
+		}
+
+		return false;
 	}
 }
