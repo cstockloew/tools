@@ -113,7 +113,7 @@
                   style="push">
             </command>
             <command
-                  commandId="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java"
+                  commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
                   style="push">
             </command>
             <command
