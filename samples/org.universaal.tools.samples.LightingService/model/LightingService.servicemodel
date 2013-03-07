@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<servicemodel:ServiceInterface xmlns:servicemodel="http://www.universaal.org/tools/modelling/servicemodel" name="LightingService" service="../../org.universaal.tools.samples.lighting/models/lighting.uml#_zqV91-uHEeGyN_aDBopvUQ">
+<servicemodel:ServiceInterface xmlns:servicemodel="http://www.universaal.org/tools/modelling/servicemodel" name="LightingServer" service="../../org.universaal.tools.samples.lighting/models/lighting.uml#_zqV91-uHEeGyN_aDBopvUQ" packageName="org.universAAL.lighting">
   <operations name="getControlledLamps">
     <output name="lamps">
       <propertyPath properties="../../org.universaal.tools.samples.lighting/models/lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
@@ -20,12 +20,15 @@
     <input name="lampURI">
       <propertyPath properties="../../org.universaal.tools.samples.lighting/models/lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
     </input>
+    <effects effectValue="0">
+      <propertyPath properties="../../org.universaal.tools.samples.lighting/models/lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w ../../org.universaal.tools.samples.lighting/models/lighting.uml#_tAJ4cO0hEeGt5ZlpyxcN5w"/>
+    </effects>
   </operations>
   <operations name="turnOn">
     <input name="lampURI">
       <propertyPath properties="../../org.universaal.tools.samples.lighting/models/lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w"/>
     </input>
-    <effects>
+    <effects effectValue="100">
       <propertyPath properties="../../org.universaal.tools.samples.lighting/models/lighting.uml#_vGDf4O0fEeGt5ZlpyxcN5w ../../org.universaal.tools.samples.lighting/models/lighting.uml#_tAJ4cO0hEeGt5ZlpyxcN5w"/>
     </effects>
   </operations>
