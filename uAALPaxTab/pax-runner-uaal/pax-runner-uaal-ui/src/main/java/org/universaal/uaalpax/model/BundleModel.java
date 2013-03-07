@@ -218,9 +218,9 @@ public class BundleModel {
 	}
 	
 	public void removeNoUpdate(BundleEntry be) {
-		waitGraph();
 		Set<BundleEntry> bes = new HashSet<BundleEntry>();
 		bes.add(be);
+		waitGraph();
 		removeUnneededDependencies(bes);
 	}
 	
@@ -393,14 +393,14 @@ public class BundleModel {
 			Artifact a = d.getArtifact();
 			a = checkCoreToOsgi(a);
 			ArtifactURL url = BundleEntry.artifactUrlFromArtifact(a);
-			if(url.url.contains("mw.bus.ui")) 
+			if (url.url.contains("mw.bus.ui"))
 				System.out.println("inserting" + url);
 			
 			// check if bundle is already included
 			BundleEntry be = currentBundles.find(url);
 			if (be != null) {
 				minStartLevel = Math.max(minStartLevel, be.getLevel());
-			} else {				
+			} else {
 				if (versionProvider.isIgnoreArtifactOfVersion(currentVersion, url))
 					return minStartLevel;
 				
@@ -415,7 +415,7 @@ public class BundleModel {
 		return minStartLevel;
 	}
 	
-	private void removeUnneededDependencies(Collection<BundleEntry> entries) {		
+	private void removeUnneededDependencies(Collection<BundleEntry> entries) {
 		entries = new HashSet<BundleEntry>(entries);
 		HashSet<BundleEntry> rawEntries = new HashSet<BundleEntry>();
 		for (Iterator<BundleEntry> iter = entries.iterator(); iter.hasNext();) {
@@ -429,9 +429,11 @@ public class BundleModel {
 		while (true) {
 			// check for bundles which depend on those from entries
 			Set<ArtifactURL> additionallyRemoved = artifactGraph.checkCanRemove(entries);
+			boolean remove = true;
 			
 			// some bundles depend on bundles to remove, ask what to do
 			if (additionallyRemoved != null && !additionallyRemoved.isEmpty()) {
+				remove = false;
 				BundleSet toRemove = new BundleSet();
 				
 				StringBuilder sb = new StringBuilder("Following bundles depend on the bundles to remove:\n\n");
@@ -448,16 +450,19 @@ public class BundleModel {
 				
 				sb.append("\nHow to proceed?");
 				
-				int ret = dialogProvider.openDialog("Error while removing the bundles", sb.toString(), "Remove them all", "Cancel");
+				int ret = dialogProvider.openDialog("Error while removing the bundles", sb.toString(), "Remove them all",
+						"Ignore dependencies and remove", "Cancel");
 				
 				if (ret == 0) { // remove all
 					entries = new HashSet<BundleEntry>(entries);
 					for (BundleEntry be : toRemove)
 						entries.add(be);
-					
-					continue;
+				} else if (ret == 1) { // ignore
+					remove = true;
 				}
-			} else { 
+			}
+			
+			if (remove) {
 				Set<ArtifactURL> removed = artifactGraph.removeEntries(entries, versionProvider.getBundlesOfVersion(currentVersion));
 				for (Iterator<BundleEntry> iter = currentBundles.iterator(); iter.hasNext();) {
 					BundleEntry be = iter.next();
