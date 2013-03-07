@@ -88,7 +88,7 @@ public class PropertyPathItemProvider
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_PropertyPath_properties_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyPath_properties_feature", "_UI_PropertyPath_type"),
+				 getString("_UI_PropertyPath_properties_description"), //getString("_UI_PropertyDescriptor_description", "_UI_PropertyPath_properties_feature", "_UI_PropertyPath_type"),
 				 ServiceModelPackage.Literals.PROPERTY_PATH__PROPERTIES,
 				 true,
 				 false,

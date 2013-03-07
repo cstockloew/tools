@@ -165,7 +165,7 @@ public class PropertyPathDialog2 extends ElementTreeSelectionDialog {
 			    PropertyPathDialog2 dialog =  new PropertyPathDialog2(parent, labelProvider, contentProvider);
 			    dialog.setInput(serviceClass);
 			    dialog.setTitle("Select property path");
-			    dialog.setMessage("Select the property path");
+			    dialog.setMessage("Select the path to the propety in the ontology that the parameter or effect being edited is related to");
 //			    if (pPath.getProperties() != null) {
 				    //TreeSelection sel = new TreeSelection(new TreePath(pPath.getProperties().toArray()));			
 				    //dialog.getTreeViewer().setSelection(sel, true);

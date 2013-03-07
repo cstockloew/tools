@@ -83,7 +83,7 @@ public class ServiceInterfaceItemProvider
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_ServiceInterface_service_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ServiceInterface_service_feature", "_UI_ServiceInterface_type"),
+				 getString("_UI_ServiceInterface_service_description"),
 				 ServiceModelPackage.Literals.SERVICE_INTERFACE__SERVICE,
 				 true,
 				 false,

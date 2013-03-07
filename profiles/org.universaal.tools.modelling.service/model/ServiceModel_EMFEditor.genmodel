@@ -16,7 +16,8 @@
     </genEnums>
     <genClasses ecoreClass="ServiceModel.ecore#//ServiceInterface">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ServiceModel.ecore#//ServiceInterface/operations"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ServiceModel.ecore#//ServiceInterface/service"/>
+      <genFeatures notify="false" createChild="false" propertyDescription="The service from the ontology which this is a service interface for"
+          propertySortChoices="true" ecoreFeature="ecore:EReference ServiceModel.ecore#//ServiceInterface/service"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ServiceModel.ecore#//ServiceInterface/ontology"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ServiceModel.ecore#//ServiceInterface/packageName"/>
     </genClasses>
@@ -26,7 +27,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ServiceModel.ecore#//ServiceOperation/effects"/>
     </genClasses>
     <genClasses ecoreClass="ServiceModel.ecore#//Parameter">
-      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference ServiceModel.ecore#//Parameter/propertyPath"/>
+      <genFeatures property="None" createChild="false" propertyDescription="A description of what propety in the ontology this parameter is related to, specified as a path to navigate from the service"
+          ecoreFeature="ecore:EReference ServiceModel.ecore#//Parameter/propertyPath"/>
     </genClasses>
     <genClasses ecoreClass="ServiceModel.ecore#//ServiceEffect">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ServiceModel.ecore#//ServiceEffect/effectType"/>
@@ -37,7 +39,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ServiceModel.ecore#//NamedElement/name"/>
     </genClasses>
     <genClasses ecoreClass="ServiceModel.ecore#//PropertyPath">
-      <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ServiceModel.ecore#//PropertyPath/properties"/>
+      <genFeatures createChild="false" propertyDescription="A description of what propety in the ontology this parameter or effect is related to, specified as a path to navigate from the service"
+          propertySortChoices="true" ecoreFeature="ecore:EReference ServiceModel.ecore#//PropertyPath/properties"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
