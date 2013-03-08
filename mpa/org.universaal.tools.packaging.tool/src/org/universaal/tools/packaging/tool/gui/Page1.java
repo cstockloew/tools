@@ -70,13 +70,15 @@ public class Page1 extends PageImpl {
 
 		Label label7 = new Label(container, SWT.NULL);
 		version_micro = new Text(container, SWT.BORDER | SWT.SINGLE);
-		label7.setText("Micro version");
+		mandatory.add(version_micro);
+		label7.setText("* Micro version");
 		version_micro.setText(app.getApplication().getVersion().getMicro());
 		version_micro.setLayoutData(gd);
 
 		Label label8 = new Label(container, SWT.NULL);
 		version_build = new Text(container, SWT.BORDER | SWT.SINGLE);
-		label8.setText("Build");
+		mandatory.add(version_build);
+		label8.setText("* Build");
 		version_build.setText(app.getApplication().getVersion().getBuild());
 		version_build.setLayoutData(gd);
 

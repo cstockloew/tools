@@ -44,6 +44,9 @@ public class Requirement {
 	@Override
 	public boolean equals(Object other){
 
+		if(other == null)
+			return false;
+
 		if(other == this)
 			return true;
 
@@ -51,9 +54,16 @@ public class Requirement {
 
 			Requirement req = (Requirement)other;
 
-			if(req.getRequirementGroup().equals(this.requirementGroup) && req.getSingleRequirement().equals(this.singleRequirement) &&
-					req.isOptional() == this.optional && req.isSingleReq() == this.singleReq)
-				return true;
+			if(req.isSingleReq()){
+				if(req.getRequirementGroup() == null && req.getSingleRequirement().equals(this.singleRequirement) &&
+						req.isOptional() == this.optional)
+					return true;
+			}
+			else{
+				if(req.getRequirementGroup().equals(this.requirementGroup) && req.getSingleRequirement() == null &&
+						req.isOptional() == this.optional)
+					return true;
+			}			
 		}
 
 		return false;

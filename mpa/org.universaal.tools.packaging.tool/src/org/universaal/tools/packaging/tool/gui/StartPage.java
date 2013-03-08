@@ -44,7 +44,7 @@ public class StartPage extends PageImpl {
 		parts = g.getParts();
 
 		Label label1 = new Label(container, SWT.NULL);
-		label1.setText("This wizard will guide you in creating a .UAAP file to upload your Multi Part Application to the uStore.");
+		label1.setText("This wizard will guide you in creating a .UAPP file to upload your Multi Part Application to the uStore.");
 
 		Label label10 = new Label(container, SWT.NULL);
 		label10.setText("");
@@ -101,7 +101,7 @@ public class StartPage extends PageImpl {
 		label60.setText("");
 
 		Label label7 = new Label(container, SWT.NULL);
-		label7.setText("Please specify where the .UAAP file will be created...");
+		label7.setText("Please specify where the .UAPP file will be created...");
 
 		Label label70 = new Label(container, SWT.NULL);
 		label70.setText("");
@@ -154,7 +154,7 @@ public class StartPage extends PageImpl {
 	public boolean nextPressed() {
 
 		g.setDestination(destination.getAbsolutePath());
-		EndPage.destination = destination.getAbsolutePath();
+		//EndPage.destination = destination.getAbsolutePath();
 		return true;
 	}
 }

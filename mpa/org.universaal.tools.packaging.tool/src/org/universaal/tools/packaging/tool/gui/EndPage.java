@@ -11,7 +11,7 @@ import org.universaal.tools.packaging.impl.PageImpl;
 
 public class EndPage extends PageImpl {
 	
-	public static String destination;
+	//public static String destination;
 
 	protected EndPage(String pageName) {
 		super(pageName, "This is the ending page for the uAAL MPA packager");
@@ -38,12 +38,12 @@ public class EndPage extends PageImpl {
 		Label end0 = new Label(container, SWT.NULL);
 		end0.setText("");	
 
-		Label file = new Label(container, SWT.NULL);
-		file.setText("Remember that you can find your .UAAP file here: "+destination);
-		
-		fD = file.getFont().getFontData();
-		fD[0].setStyle(SWT.BOLD);
-		file.setFont(new Font(container.getDisplay(), fD[0]));
+//		Label file = new Label(container, SWT.NULL);
+//		file.setText("Remember that you can find your .UAAP file here: "+destination);
+//		
+//		fD = file.getFont().getFontData();
+//		fD[0].setStyle(SWT.BOLD);
+//		file.setFont(new Font(container.getDisplay(), fD[0]));
 		
 		setPageComplete(true);
 	}

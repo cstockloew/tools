@@ -84,7 +84,7 @@ public class GUI extends WizardMod {
 			addPage(p3);
 			p3.setMPA(mpa);
 
-			p4 = new Page4(Page.PAGE4, 0, null);
+			p4 = new Page4(Page.PAGE4, 0, null, null);
 			addPage(p4);
 			p4.setMPA(mpa);
 
