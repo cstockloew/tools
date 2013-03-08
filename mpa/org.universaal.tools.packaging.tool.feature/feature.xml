@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.packaging.tool.feature"
       label="Feature"
-      version="0.0.1">
+      version="0.3.0">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
