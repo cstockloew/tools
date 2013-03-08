@@ -9,7 +9,7 @@ import org.universaal.tools.packaging.impl.PageImpl;
 public class ErrorPage extends PageImpl {
 
 	protected ErrorPage(String pageName) {
-		super(pageName);
+		super(pageName, "");
 	}
 
 	public void createControl(Composite parent) {

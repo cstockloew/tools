@@ -119,7 +119,7 @@ public class GUI extends WizardMod {
 				ppPC.setMPA(mpa);
 				ppPC.setArtifact(parts.get(i));
 
-				ppPR = new PagePartPR(Page.PAGE_PART_PR+partName, i); // part requirements
+				ppPR = new PagePartPR(Page.PAGE_PART_PR+partName, i, 0, null, null); // part requirements
 				addPage(ppPR);
 				ppPR.setMPA(mpa);
 				ppPR.setArtifact(parts.get(i));

@@ -29,19 +29,23 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 
 	protected static int otherLicenses = 1;
 	protected static int otherGeneralReqs = 1;
+	protected static List<Integer> otherPartReqs;
 
-	protected PageImpl(String pageName) {
-		super(pageName);
-		setTitle(pageName);		
-
-		mandatory = new ArrayList<Control>();
-		setPageComplete(false);
-	}
+	//	protected PageImpl(String pageName) {
+	//		super(pageName);
+	//		setTitle(pageName);		
+	//
+	//		mandatory = new ArrayList<Control>();
+	//		setPageComplete(false);
+	//	}
 
 	protected PageImpl(String pageName, String description){
+
 		super(pageName);
 		setDescription(description);
 		setTitle(pageName);		
+
+		this.otherPartReqs = new ArrayList<Integer>();
 
 		mandatory = new ArrayList<Control>();
 		setPageComplete(false);
