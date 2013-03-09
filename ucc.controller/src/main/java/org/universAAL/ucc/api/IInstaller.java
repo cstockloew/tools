@@ -36,7 +36,7 @@ public interface IInstaller {
 	 * @param path: the path for the downloaded .usrv file
 	 *  
 	 */
-	public void installServiceFromOnlineStore(String path);
+	public String installServiceFromOnlineStore(String path);
 }
 
 

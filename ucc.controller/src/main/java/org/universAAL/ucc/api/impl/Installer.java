@@ -11,7 +11,7 @@ public class Installer implements IInstaller {
 
 	@Override
 	public String installApplication(String path) throws Exception {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
@@ -46,9 +46,10 @@ public class Installer implements IInstaller {
 	}
 
 	@Override
-	public void installServiceFromOnlineStore(String path) {
-		// TODO Auto-generated method stub
-		
+	public String installServiceFromOnlineStore(String path) {
+		System.out.println("[Installer.installServiceFromOnlineStore] start installation of service from OnlineStore");
+		// parse .usrv file and call MW DeployManager
+		return "Installation finished!";
 	}
 
 }
