@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import org.universAAL.ucc.api.core.IInstaller;
+//import org.universAAL.ucc.api.core.IInstaller;
 import org.universAAL.ucc.deploymanagerservice.DeployManagerService;
 
 /**
@@ -17,18 +17,21 @@ import org.universAAL.ucc.deploymanagerservice.DeployManagerService;
 
 public class DeployManagerServiceImpl implements DeployManagerService {
 
-	private IInstaller installer;
+	//private IInstaller installer;
 	public void install(String sessionKey, String usrvfile) {
 		System.out.println("[DeployManagerServiceImpl] Install with sessionKey: " + sessionKey + " for URL: " + usrvfile);
 		//try {
 			// For testing only - use a local file
 			//URL usrvURL = new URL(usrvfile); // TODO: do we need to convert to URL first or check it when parse the URL in downloader?
+			// call ucc.frontend to download file?
+			System.out.println("[DeployManagerServiceImpl] to download file... ");
 			//FileDownloader downloader = new FileDownloader();
 			//String fileOnHardDrive = downloader.download(usrvfile); // TODO: do we use usrvURL???
-			String fileOnHardDrive = "C:/universAAL/tutorials/Test.usrv";
+			String fileOnHardDrive = "C:/tempUsrvFiles/corrected_hwo_usrv.usrv";
 			fileOnHardDrive = fileOnHardDrive.replace("/", "\\"); 
 			System.out.println("[DeployManagerServiceImpl] the file on the hard drive: " + fileOnHardDrive);
-			Activator.getInstaller().installServiceFromOnlineStore(fileOnHardDrive);
+			String results = Activator.getInstaller().installServiceFromOnlineStore(fileOnHardDrive);
+			System.out.println("[DeployManagerServiceImpl] the result for installation is: " + results);
 	/*	}
 		catch(MalformedURLException e) 
 		{

@@ -8,11 +8,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
-import org.universAAL.ucc.api.core.IConfigurator;
-import org.universAAL.ucc.api.core.IDeinstaller;
-import org.universAAL.ucc.api.core.IInformation;
-import org.universAAL.ucc.api.core.IInstaller;
-import org.universAAL.ucc.api.model.IModel;
+import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.deploymanagerservice.DeployManagerService;
 
 public class Activator implements BundleActivator {
@@ -37,19 +33,25 @@ public class Activator implements BundleActivator {
     public void stop(BundleContext bc) throws Exception {
         registration.unregister();
     }
-    
+ 
     private static void getServices(BundleContext bc) {
+    	System.out.println("[DeployManagerServiceImpl.activator.getServices]");
 		if (installer == null) {
 			ServiceReference sr = bc.getServiceReference(IInstaller.class
 					.getName());
 			if (sr != null)
-				installer = (IInstaller) bc.getService(sr);
-			
+				installer = (IInstaller) bc.getService(sr);		
+			else System.out.println("[DeployManagerServiceImpl.activator] service reference is null!");
+			if (installer==null) System.out.println("[DeployManagerServiceImpl.activator] can not get installer! ");
+	    	else System.out.println("[DeployManagerServiceImpl.activator.getServices] got installer ");
 		}
 	}
     
     public static IInstaller getInstaller() {
+    	System.out.println("[DeployManagerServiceImpl.activator.getInstaller]");
     	if (installer==null) getServices(context);
-    	return installer;
-    }
+    	if (installer==null) System.out.println("[DeployManagerServiceImpl.activator] can not get installer! ");
+    	else System.out.println("[DeployManagerServiceImpl.activator.getInstaller] got installer ");
+     	return installer;
+    }  
 }
