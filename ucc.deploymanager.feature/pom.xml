@@ -41,7 +41,7 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>target/features/deploymanager.xml</file>
+                                    <file>target/classes/deploymanager.xml</file>
                                     <type>xml</type>
                                 </artifact>
                             </artifacts>
