@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import org.universAAL.ucc.controller.install.OptionsController;
+import org.universAAL.ucc.model.AALService;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -37,7 +38,7 @@ public class OptionsWindow extends Window {
 	 * Creates a new OptionsWindow
 	 * @param app the main Application
 	 */
-	public OptionsWindow(UccUI app) {
+	public OptionsWindow(UccUI app, AALService aal) {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
 		setCaption(bundle.getString("option.caption"));
@@ -81,7 +82,7 @@ public class OptionsWindow extends Window {
 		center();
 		setClosable(false);
 		setModal(true);
-		new OptionsController(app, this);
+		new OptionsController(app, this, aal);
 		
 	}
 	

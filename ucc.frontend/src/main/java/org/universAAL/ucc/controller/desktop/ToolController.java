@@ -19,6 +19,7 @@ import org.universAAL.ucc.controller.install.AALServiceReceiver;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.windows.LicenceWindow;
@@ -75,10 +76,10 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 			Embedded em = new Embedded("", new ExternalResource(createLink()));
 			em.setType(Embedded.TYPE_BROWSER);
 			em.setWidth("100%");
-			em.setHeight("500px");
+			em.setHeight("650px");
 			Window w = new Window("uStore");
 			w.setWidth("850px");
-			w.setHeight("550px");
+			w.setHeight("650px");
 			VerticalLayout v = new VerticalLayout();
 			w.center();
 			v.addComponent(em);
@@ -90,10 +91,10 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 			Embedded em = new Embedded("", new ExternalResource("http://wiki.openaal.org"));
 			em.setType(Embedded.TYPE_BROWSER);
 			em.setWidth("100%");
-			em.setHeight("500px");
+			em.setHeight("650px");
 			Window w = new Window("openAAL");
 			w.setWidth("850px");
-			w.setHeight("550px");
+			w.setHeight("650px");
 			VerticalLayout v = new VerticalLayout();
 			w.center();
 			v.addComponent(em);
@@ -136,11 +137,15 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 		Preferences pref = db.getPreferencesData(file);
 		if(pref.getShopUrl().contains("https")) {
 			shop = pref.getShopUrl().substring(pref.getShopUrl().lastIndexOf("//")+2);
+		} else if(pref.getShopUrl().contains("http")) {
+			shop = pref.getShopUrl().substring(pref.getShopUrl().lastIndexOf("//")+1);
 		}
 		if(!pref.getUsername2().equals("") && !pref.getPassword2().equals("")) {
 			url = "https://"+pref.getUsername2()+":"+pref.getPassword2()+"@"+shop;
-		} else {
+		} else if(!pref.getUsername().equals("") && !pref.getPassword().equals("")){
 			url = "https://"+pref.getUsername()+":"+pref.getPassword()+"@"+shop;
+		} else {
+			url = "http://"+shop;
 		}
 		return url;
 	}
@@ -171,7 +176,27 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 			Document doc = builder.parse(licenceFile);
 			for(int k = 0; k < doc.getElementsByTagName("usrv:srv").getLength(); k++) {
 				aal = new AALService();
-				System.err.println(doc.getElementsByTagName("usrv:description").item(0).getTextContent());
+				for(int ac = 0; ac < doc.getElementsByTagName("usrv:application").getLength(); ac++) {
+					UAPP uap = new UAPP();
+					Node node = (Node)doc.getElementsByTagName("usrv:application").item(ac);
+					NodeList nodeList = node.getChildNodes();
+					for(int b = 0; b < node.getChildNodes().getLength(); b++) {
+						
+						if(nodeList.item(b).getNodeName().equals("usrv:artifactID")) {
+							uap.setServiceId(nodeList.item(b).getTextContent());
+							System.err.println(uap.getServiceId());
+						}
+						if(nodeList.item(b).getNodeName().equals("usrv:location")) {
+							uap.setUappLocation(nodeList.item(b).getTextContent());
+						}
+						if(nodeList.item(b).getNodeName().equals("usrv:name")) {
+							uap.setName(nodeList.item(b).getTextContent());
+							System.err.println(uap.getName());
+						}
+						
+					}
+					aal.getUaapList().add(uap);
+				}
 					aal.setName(doc.getElementsByTagName("usrv:name").item(0).getTextContent());
 					aal.setProvider(doc.getElementsByTagName("usrv:serviceProvider").item(0).getTextContent());
 					aal.setDescription(doc.getElementsByTagName("usrv:description").item(0).getTextContent());
@@ -218,7 +243,7 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 			licenseList.add(license);
 			aal.setLicenses(license);
 			}
-			lw = new LicenceWindow(app, licenseList);
+			lw = new LicenceWindow(app, licenseList, aal);
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

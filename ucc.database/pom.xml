@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.universAAL.tools.ucc</groupId>
   <artifactId>ucc.database</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>2.0.1-SNAPSHOT</version>
   <build>
     <plugins>
       <plugin>
@@ -25,7 +25,7 @@
       		<Bundle-Version>${project.version}</Bundle-Version>
       		<Bundle-Activator>org.universAAL.ucc.database.Activator</Bundle-Activator>
       		<Import-Package>*</Import-Package>
-      		<Export-Package>org.universAAL.ucc.database.*</Export-Package>
+      		<Export-Package>org.universAAL.ucc.database, org.universAAL.ucc.database.*</Export-Package>
       	</instructions>
       </configuration>
       </plugin>
@@ -36,7 +36,7 @@
   	<dependency>
   		<groupId>org.universAAL.tools.ucc</groupId>
   		<artifactId>ucc.model</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
+  		<version>2.0.1-SNAPSHOT</version>
   		<type>bundle</type>
   	</dependency>
   </dependencies>

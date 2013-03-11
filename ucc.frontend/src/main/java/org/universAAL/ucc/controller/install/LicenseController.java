@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.OptionsWindow;
@@ -29,12 +30,14 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 	private ResourceBundle res;
 	private ArrayList<License> lix;
 	private UccUI app;
+	private AALService aal;
 	
-	public LicenseController(UccUI app, LicenceWindow win, ArrayList<License> lix) {
+	public LicenseController(UccUI app, LicenceWindow win, ArrayList<License> lix, AALService aal) {
 		res = ResourceBundle.getBundle(base);
 		this.win = win;
 		this.lix = lix;
 		this.app = app;
+		this.aal = aal;
 		win.getGo().addListener((Button.ClickListener)this);
 		win.getCancel().addListener((Button.ClickListener)this);
 	}
@@ -86,7 +89,7 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		if(event.getButton() == win.getGo()) {
 //			app.getMainWindow().showNotification(res.getString("installed.note"));
 			app.getMainWindow().removeWindow(win);
-			app.getMainWindow().addWindow(new OptionsWindow(app));
+			app.getMainWindow().addWindow(new OptionsWindow(app, aal));
 			
 			//ToDo: Call Configurator to personalize the uapps  of the AAL service
 		}

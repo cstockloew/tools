@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1362674703797
-Build-Jdk: 1.7.0_15
+Bnd-LastModified: 1362995711976
+Build-Jdk: 1.7.0_17
 Built-By: merkle
 Bundle-Description: A tool to install, manage and configure applications
   for universAAL an a local maschine.
@@ -9,11 +9,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.universAAL.tools.ucc.ucc.model
 Bundle-SymbolicName: ucc.model
 Bundle-Vendor: universAAL Consortium
-Bundle-Version: 0.0.1.SNAPSHOT
+Bundle-Version: 2.0.1.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
 Export-Package: org.universAAL.ucc.model;uses:="org.universAAL.ucc.model
- .install,org.osgi.framework";version="0.0.1.SNAPSHOT",org.universAAL.uc
- c.model.install;version="0.0.1.SNAPSHOT",org.universAAL.ucc.model.prefe
- rences;version="0.0.1.SNAPSHOT"
+ .install,org.osgi.framework";version="2.0.1.SNAPSHOT",org.universAAL.uc
+ c.model.install;version="2.0.1.SNAPSHOT",org.universAAL.ucc.model.prefe
+ rences;version="2.0.1.SNAPSHOT"
 Import-Package: org.osgi.framework;version="[1.5,2)"
 Tool: Bnd-1.50.0

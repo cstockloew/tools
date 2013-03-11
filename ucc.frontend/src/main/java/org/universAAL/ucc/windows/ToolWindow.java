@@ -54,7 +54,7 @@ public class ToolWindow extends Window {
 		hl.setSpacing(true);
 		hl.setStyleName("menubutton");
 		hl.setWidth("100%");
-		installButton = new Button("AAL Service");
+		installButton = new Button(res.getString("aal.service"));
 		installButton.setIcon(new ThemeResource("img/48px-Icon-installation.png"));
 		hl.addComponent(installButton);
 		vl.addComponent(hl);
@@ -90,7 +90,7 @@ public class ToolWindow extends Window {
 		editPerson.setEnabled(false);
 		editPerson.setIcon(new ThemeResource("img/uc.jpg"));
 		editHl.addComponent(editPerson);
-		editUC = new Button(res.getString("install.button"));
+		editUC = new Button(res.getString("aal.service"));
 		editUC.setEnabled(false);
 		editUC.setIcon(new ThemeResource("img/house_1.png"));
 		editHl.addComponent(editUC);

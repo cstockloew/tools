@@ -1,10 +1,18 @@
 package org.universAAL.ucc.controller.install;
 
+import java.io.File;
 import java.util.ResourceBundle;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.model.UAPP;
+import org.universAAL.ucc.windows.DeployStrategyView;
 import org.universAAL.ucc.windows.NotificationWindow;
 import org.universAAL.ucc.windows.OptionsWindow;
 import org.universAAL.ucc.windows.UccUI;
+import org.w3c.dom.Document;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -21,12 +29,16 @@ public class OptionsController implements Button.ClickListener,
 	private OptionsWindow win;
 	private String base;
 	private ResourceBundle bundle;
+	private AALService aal;
+	private static int appCounter;
 
-	public OptionsController(UccUI app, OptionsWindow win) {
+	public OptionsController(UccUI app, OptionsWindow win, AALService aal) {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
 		this.app = app;
 		this.win = win;
+		this.aal = aal;
+		appCounter = aal.getUaapList().size();
 		win.getRadio().addListener(this);
 		win.getInvoke().addListener((Button.ClickListener) this);
 	}
@@ -35,11 +47,16 @@ public class OptionsController implements Button.ClickListener,
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == win.getInvoke()) {
 			app.getMainWindow().removeWindow(win);
-			//Notification Window for no configuration available
-			NotificationWindow w = new NotificationWindow(bundle.getString("installed.note"));
-			app.getMainWindow().addWindow(w);
-//			app.getMainWindow().showNotification(
-//					bundle.getString("installed.note"));
+			//Deploy strategy windodw for every uapp in the usrv file
+			if(appCounter > 0) {
+				appCounter--;
+				DeployStrategyView dsv = new DeployStrategyView(aal.getUaapList().get(appCounter).getName(), aal.getUaapList().get(appCounter).getServiceId(),
+						aal.getUaapList().get(appCounter).getUappLocation());
+				DeployStrategyController dsc = new DeployStrategyController(app, dsv, aal.getUaapList().get(appCounter));
+				app.getMainWindow().addWindow(dsv);
+				
+			} 
+
 			String sessionKey = "";
 			String url = "";
 

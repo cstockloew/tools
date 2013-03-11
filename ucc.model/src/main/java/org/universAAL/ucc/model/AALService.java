@@ -12,9 +12,11 @@ public class AALService {
 	private String provider = "";
 	private ArrayList<String>tags;
 	private License licenses;
+	private ArrayList<UAPP>uaapList;
 	
 	public AALService() {
 		tags = new ArrayList<String>();
+		uaapList = new ArrayList<UAPP>();
 	}
 	
 	public AALService(int minor, int major, int micro, String description, String name, String provider, ArrayList<String>tags,
@@ -27,6 +29,8 @@ public class AALService {
 		this.tags = tags;
 		this.licenses = licenses;
 		this.provider = provider;
+		tags = new ArrayList<String>();
+		uaapList = new ArrayList<UAPP>();
 	}
 
 	public int getMinor() {
@@ -91,6 +95,14 @@ public class AALService {
 
 	public void setProvider(String provider) {
 		this.provider = provider;
+	}
+
+	public ArrayList<UAPP> getUaapList() {
+		return uaapList;
+	}
+
+	public void setUaapList(ArrayList<UAPP> uaapList) {
+		this.uaapList = uaapList;
 	}
 	
 	

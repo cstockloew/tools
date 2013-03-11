@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1362561495165
-Build-Jdk: 1.7.0_15
+Bnd-LastModified: 1362995472229
+Build-Jdk: 1.7.0_17
 Built-By: merkle
 Bundle-ClassPath: theme/*,.
 Bundle-Description: A tool to install, manage and configure applications
@@ -10,9 +10,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.universAAL.tools.ucc.ucc.vaadin.themes
 Bundle-SymbolicName: ucc.vaadin.themes
 Bundle-Vendor: Nicole Merkle
-Bundle-Version: 0.0.1.SNAPSHOT
+Bundle-Version: 2.0.1.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
-Export-Package: VAADIN.themes.editortheme;version="0.0.1.SNAPSHOT",VAADI
- N.themes.editortheme.img;version="0.0.1.SNAPSHOT"
+Export-Package: VAADIN.themes.editortheme;version="2.0.1.SNAPSHOT",VAADI
+ N.themes.editortheme.img;version="2.0.1.SNAPSHOT"
 Fragment-Host: com.vaadin;bundle-version="6.8.3"
 Tool: Bnd-1.50.0

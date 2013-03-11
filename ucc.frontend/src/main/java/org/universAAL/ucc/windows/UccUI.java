@@ -1,5 +1,6 @@
 package org.universAAL.ucc.windows;
 
+import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
 

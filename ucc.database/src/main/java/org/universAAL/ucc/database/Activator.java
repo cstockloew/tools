@@ -26,11 +26,14 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		File file = new File(System.getenv("systemdrive")+"/uccDB");
+		File prefFile = new File(System.getenv("systemdrive")+"/uccDB/preferences.xml");
+		UserAccountDB db = new UserAccountDBImpl();
 		if(!file.exists()) {
 			file.mkdir();
-			UserAccountDB db = new UserAccountDBImpl();
+		}
+		if(!prefFile.exists()){
+			prefFile.createNewFile();
 			Preferences p = new Preferences();
-			System.err.println(Locale.getDefault().getLanguage());
 			if(Locale.getDefault().getLanguage().equals(new Locale("de").getLanguage())) {
 				p.setLanguage("de");
 			} else {
@@ -44,6 +47,7 @@ public class Activator implements BundleActivator {
 			p.setUsername2("");
 			db.saveStoreAccessData(p,file.getAbsolutePath()+ "/preferences.xml");
 		}
+		
 		reg = context.registerService(UserAccountDB.class.getName(), new UserAccountDBImpl(), null);
 	}
 

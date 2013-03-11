@@ -84,14 +84,12 @@ public class PreferencesWindow extends Window {
 		userTxt2 = new TextField(bundle.getString("user.label"));
 		userTxt2.setImmediate(true);
 		userTxt2.setValue(pref.getUsername2());
-		System.err.println(pref.getUsername2());
 		vl.addComponent(userTxt2);
 		
 
 		pwdTxt2 = new PasswordField(bundle.getString("pwd.label"));
 		pwdTxt2.setImmediate(true);
 		pwdTxt2.setValue(pref.getPassword2());
-		System.err.println(pref.getPassword2());
 		vl.addComponent(pwdTxt2);
 		
 		Label sep3 = new Label("<hr/>", Label.CONTENT_XHTML);
