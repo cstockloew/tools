@@ -66,7 +66,7 @@ public class ApplicationManagement {
 		public String getXML(){
 
 			String r = "";
-			for(int i = 0; i< protocols.size(); i++)
+			for(int i = 0; i< getProtocol().size(); i++)
 				r = r.concat("<protocols>"+protocols.get(i)+"</protocols>");
 			r = r.concat("<software>"+software.getXML()+"</software>");
 

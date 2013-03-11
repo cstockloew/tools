@@ -64,6 +64,8 @@ public class Version {
 					if(vs[3] != null)
 						build = vs[3];
 				}
+				else
+					major = v;
 			}
 		}
 		catch(Exception ex){}
