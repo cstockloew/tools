@@ -37,6 +37,8 @@ public interface IInstaller {
 	 *  
 	 */
 	public String installServiceFromOnlineStore(String path);
+	
+	
 }
 
 

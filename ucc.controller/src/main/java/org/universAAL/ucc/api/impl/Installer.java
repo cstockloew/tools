@@ -48,7 +48,8 @@ public class Installer implements IInstaller {
 	@Override
 	public String installServiceFromOnlineStore(String path) {
 		System.out.println("[Installer.installServiceFromOnlineStore] start installation of service from OnlineStore");
-		// parse .usrv file and call MW DeployManager
+		// TODO: parse .usrv file and call MW DeployManager
+		
 		return "Installation finished!";
 	}
 
