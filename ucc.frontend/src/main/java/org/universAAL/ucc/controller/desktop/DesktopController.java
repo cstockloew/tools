@@ -39,12 +39,12 @@ public class DesktopController implements Button.ClickListener {
 					if (w instanceof ToolWindow) {
 						main.removeWindow(w);
 					} else {
-						ToolWindow startWindow = /*ToolWindow.getTooWindowInstance(app);*/ new ToolWindow(app);
+						ToolWindow startWindow =  new ToolWindow(app);
 						main.addWindow(startWindow);
 					}
 				}
 			} else {
-				ToolWindow startWin = /*ToolWindow.getTooWindowInstance(app);*/ new ToolWindow(app);
+				ToolWindow startWin = new ToolWindow(app);
 				main.addWindow(startWin);
 			}
 		}

@@ -1,6 +1,5 @@
 package org.universAAL.ucc.windows;
 
-import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -39,21 +38,32 @@ public class UccUI extends Application {
 	private DesktopController desk;
 	private String basename;
 	private ResourceBundle res;
-	private final static String file = System.getenv("systemdrive")+"/uccDB/preferences.xml";
+	private static UccUI uccUI;
+	private final static String file = System.getenv("systemdrive")
+			+ "/uccDB/preferences.xml";
+
+	
+	public static UccUI getInstance() {
+		return uccUI;
+	}
+
 	@Override
 	public void init() {
 		setTheme("editortheme");
-		BundleContext context = FrameworkUtil.getBundle(getClass()).getBundleContext();
-		ServiceReference ref = context.getServiceReference(UserAccountDB.class.getName());
+		uccUI = this;
+		BundleContext context = FrameworkUtil.getBundle(getClass())
+				.getBundleContext();
+		ServiceReference ref = context.getServiceReference(UserAccountDB.class
+				.getName());
 		UserAccountDB db = (UserAccountDB) context.getService(ref);
-		if(db.getPreferencesData(file).getLanguage() != null && !db.getPreferencesData(file).getLanguage().equals("")) {
-		if(db.getPreferencesData(file).getLanguage().equals("de")) {
-			Locale.setDefault(Locale.GERMAN);
-		} else {
-			Locale.setDefault(Locale.ENGLISH);
+		if (db.getPreferencesData(file).getLanguage() != null
+				&& !db.getPreferencesData(file).getLanguage().equals("")) {
+			if (db.getPreferencesData(file).getLanguage().equals("de")) {
+				Locale.setDefault(Locale.GERMAN);
+			} else {
+				Locale.setDefault(Locale.ENGLISH);
+			}
 		}
-		}
-//		Locale.setDefault(Locale.ENGLISH);
 		basename = "resources.ucc";
 		res = ResourceBundle.getBundle(basename);
 		mainWindow = new Window("uCC");
@@ -61,7 +71,7 @@ public class UccUI extends Application {
 		setMainWindow(mainWindow);
 		createLogin();
 	}
-	
+
 	public VerticalSplitPanel createContent(DesktopController desk) {
 		vs = new VerticalSplitPanel();
 		vs.setSizeFull();
@@ -81,7 +91,6 @@ public class UccUI extends Application {
 		startLayout.setComponentAlignment(startButton, Alignment.TOP_LEFT);
 		mainLayout.setSpacing(true);
 		vs.setFirstComponent(mainLayout);
-		// mainWindow.setContent(vs);
 
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setStyleName("buttonstyle");
@@ -125,7 +134,8 @@ public class UccUI extends Application {
 		Embedded uaal = new Embedded("", new ThemeResource(
 				"img/Konfiguration72.png"));
 		vm.addComponent(uaal);
-		Label wel = new Label(res.getString("welcome.label"),Label.CONTENT_XHTML);
+		Label wel = new Label(res.getString("welcome.label"),
+				Label.CONTENT_XHTML);
 		vm.addComponent(wel);
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setMargin(true);
@@ -145,73 +155,73 @@ public class UccUI extends Application {
 		mainWindow.addWindow(loginWindow);
 		return loginWindow;
 	}
-public Button getStartButton() {
-	return startButton;
-}
 
-public void setStartButton(Button startButton) {
-	this.startButton = startButton;
-}
+	public Button getStartButton() {
+		return startButton;
+	}
 
-public ToolWindow getStartWindow() {
-	return startWindow;
-}
+	public void setStartButton(Button startButton) {
+		this.startButton = startButton;
+	}
 
-public void setStartWindow(ToolWindow startWin) {
-	this.startWindow = startWin;
-}
+	public ToolWindow getStartWindow() {
+		return startWindow;
+	}
 
-public Button getSearchButton() {
-	return searchButton;
-}
-	
-public void setSearchButton(Button search) {
-	this.searchButton = search;
-}
+	public void setStartWindow(ToolWindow startWin) {
+		this.startWindow = startWin;
+	}
 
-public Button getLogin() {
-	return login;
-}
+	public Button getSearchButton() {
+		return searchButton;
+	}
 
-public void setLogin(Button b) {
-	this.login = b;
-}
+	public void setSearchButton(Button search) {
+		this.searchButton = search;
+	}
 
-public Window getLoginWindow() {
-	return loginWindow;
-}
+	public Button getLogin() {
+		return login;
+	}
 
-public VerticalLayout getVLog() {
-	return vLog;
-}
+	public void setLogin(Button b) {
+		this.login = b;
+	}
 
-public void setVLog(VerticalLayout vlog) {
-	this.vLog = vlog;
-}
+	public Window getLoginWindow() {
+		return loginWindow;
+	}
 
-public VerticalSplitPanel getVs() {
-	return vs;
-}
+	public VerticalLayout getVLog() {
+		return vLog;
+	}
 
-public void setVs(VerticalSplitPanel vs) {
-	this.vs = vs;
-}
+	public void setVLog(VerticalLayout vlog) {
+		this.vLog = vlog;
+	}
 
-public Button getAdminButton() {
-	return adminButton;
-}
+	public VerticalSplitPanel getVs() {
+		return vs;
+	}
 
-public void setAdminButton(Button adminButton) {
-	this.adminButton = adminButton;
-}
+	public void setVs(VerticalSplitPanel vs) {
+		this.vs = vs;
+	}
 
-public Button getBell() {
-	return bell;
-}
+	public Button getAdminButton() {
+		return adminButton;
+	}
 
-public void setBell(Button bell) {
-	this.bell = bell;
-}
+	public void setAdminButton(Button adminButton) {
+		this.adminButton = adminButton;
+	}
 
+	public Button getBell() {
+		return bell;
+	}
+
+	public void setBell(Button bell) {
+		this.bell = bell;
+	}
 
 }

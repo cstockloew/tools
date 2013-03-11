@@ -2,26 +2,21 @@ package org.universAAL.ucc.service.manager;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.universAAL.ucc.api.IInstaller;
-import org.universAAL.ucc.webconnection.WebConnector;
+import org.osgi.framework.ServiceRegistration;
+import org.universAAL.ucc.frontend.api.IWindow;
+import org.universAAL.ucc.frontend.api.impl.InstallProcessImpl;
 
 public class Activator implements BundleActivator {
-	private ServiceReference ref;
-	private WebConnector webcon;
+	private ServiceRegistration reg;
 
 	@Override
 	public void start(BundleContext context) throws Exception {
-		ref = context.getServiceReference(IInstaller.class.getName());
-		IInstaller installer = (IInstaller)context.getService(ref);
-		webcon = new WebConnector(installer);
-		webcon.startListening();
+		reg = context.registerService(IWindow.class.getName(), new InstallProcessImpl(), null);
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		context.ungetService(ref);
-		webcon.stopListening();
+		reg.unregister();
 		
 	}
 
