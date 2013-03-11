@@ -19,10 +19,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.Notification;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-//import org.universAAL.middleware.managers.api.InstallationResults;
-//import org.universAAL.middleware.managers.api.UAPPPackage;
+import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.UAPPPackage;
 
-public class DeployStrategyController implements Property.ValueChangeListener, Button.ClickListener {
+public class DeployStrategyController implements Button.ClickListener {
 	private DeployStrategyView view;
 	private UAPP uapp;
 	private UccUI app;
@@ -39,43 +39,37 @@ public class DeployStrategyController implements Property.ValueChangeListener, B
 		this.view = view;
 		view.getOk().addListener((Button.ClickListener)this);
 		view.getCancel().addListener((Button.ClickListener)this);
-		view.getOptions().addListener(this);
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = bc.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) bc.getService(ref);
 	}
 
-	@Override
-	public void valueChange(ValueChangeEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == view.getOk()) {
 			if(view.getOptions().getValue().toString().equals(bundle.getString("opt.available.nodes"))) {
-//				UAPPPackage pack = null;
-//				try {
-//					pack = new UAPPPackage(uapp.getServiceId(), new URI(uapp.getUappLocation()), null);
-//				} 
-//				catch (URISyntaxException e) {
-//					app.getMainWindow().showNotification(bundle.getString("uri.error"), Notification.TYPE_ERROR_MESSAGE);
-//					e.printStackTrace();
-//				}
-//				InstallationResults res = installer.requestToInstall(pack);
-//				System.err.println(res.name().toString());
-//				app.getMainWindow().showNotification(res.name().toString());
+				UAPPPackage pack = null;
+				try {
+					pack = new UAPPPackage(uapp.getServiceId(), new URI(uapp.getUappLocation()), null);
+				} 
+				catch (URISyntaxException e) {
+					app.getMainWindow().showNotification(bundle.getString("uri.error"), Notification.TYPE_ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+				InstallationResults res = installer.requestToInstall(pack);
+				System.err.println(res.name().toString());
+				app.getMainWindow().showNotification(res.name().toString());
 			} else if(view.getOptions().getValue().toString().equals(bundle.getString("opt.selected.nodes"))) {
 				DeployConfigView dcv = new DeployConfigView(app, uapp.getServiceId(), uapp.getUappLocation());
 				app.getMainWindow().removeWindow(view);
 				app.getMainWindow().addWindow(dcv);
-				DeployConfigController dcc = new DeployConfigController(dcv);
+				DeployConfigController dcc = new DeployConfigController(app, dcv);
 			}
 		}
 		if(event.getButton() == view.getCancel()) {
 			app.getMainWindow().removeWindow(view);
-			app.getMainWindow().showNotification(bundle.getString("break.note"));
+			app.getMainWindow().showNotification(bundle.getString("break.note"), Notification.TYPE_ERROR_MESSAGE);
 		}
 		
 	}
