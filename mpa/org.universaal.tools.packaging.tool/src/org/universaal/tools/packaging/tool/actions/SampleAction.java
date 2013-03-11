@@ -19,7 +19,6 @@ import org.universaal.tools.packaging.tool.gui.GUI;
  */
 public class SampleAction extends AbstractHandler {
 
-	//public MPA mpa;
 	public GUI gui;
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -29,18 +28,7 @@ public class SampleAction extends AbstractHandler {
 		IWorkbenchWindow w = HandlerUtil.getActiveWorkbenchWindow(event);
 		WizardDialogMod wizardDialog = new WizardDialogMod(w.getShell(), gui);
 		wizardDialog.open();
-
-		//		Marshaller m = new Marshaller(new File("c:\\testtesttest.xml"));
-		//		try {
-		//			m.marshalToMPA();
-		//		} catch (JAXBException e) {
-		//			e.printStackTrace();
-		//		}
-
+		
 		return null;
 	}
-
-	//	public MPA getMPA() {
-	//		return mpa;
-	//	}
 }
