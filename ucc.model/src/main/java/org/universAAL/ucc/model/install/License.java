@@ -3,8 +3,8 @@ package org.universAAL.ucc.model.install;
 import java.io.File;
 import java.util.ArrayList;
 /**
- * A License belongs to an usrv file and can have an arbitrary count of licenses
- * and also a list of Software License Agreements.
+ * A License belongs to an usrv file and can have an arbitrary count of software licenses
+ * and software end user licenses
  * 
  * @author merkle
  *
