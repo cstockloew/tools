@@ -7,6 +7,8 @@ import java.util.Map;
 import org.osgi.framework.Bundle;
 //import org.universAAL.middleware.managers.api.InstallationResults;
 //import org.universAAL.middleware.managers.api.UAPPPackage;
+import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.ucc.api.IInstaller;
 
 public class Installer implements IInstaller {
@@ -55,16 +57,16 @@ public class Installer implements IInstaller {
 		return "Installation finished!";
 	}
 
-//	@Override
-//	public InstallationResults requestToInstall(UAPPPackage app) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public InstallationResults requestToUninstall(String id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public InstallationResults requestToInstall(UAPPPackage app) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstallationResults requestToUninstall(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

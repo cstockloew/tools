@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1363017074249
-Build-Jdk: 1.7.0
-Built-By: sji
+Bnd-LastModified: 1363115110033
+Build-Jdk: 1.7.0_17
+Built-By: merkle
 Bundle-Activator: org.universAAL.ucc.controller.Activator
 Bundle-Description: A tool to install, manage and configure applications
   for universAAL an a local maschine.
@@ -13,8 +13,10 @@ Bundle-Vendor: Nicole Merkle
 Bundle-Version: 2.0.1.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
 Export-Package: org.universAAL.ucc.api.impl;uses:="org.universAAL.ucc.ap
- i,org.osgi.framework";version="0.0.1.SNAPSHOT",org.universAAL.ucc.api;u
- ses:="org.osgi.framework";version="0.0.1.SNAPSHOT"
-Import-Package: org.osgi.framework;version="[1.5,2)",org.universAAL.ucc.
- api;version="[0.0,1)",org.universAAL.ucc.api.impl;version="[0.0,1)"
+ i,org.universAAL.middleware.managers.api,org.osgi.framework";version="2
+ .0.1.SNAPSHOT",org.universAAL.ucc.api;uses:="org.universAAL.middleware.
+ managers.api,org.osgi.framework";version="2.0.1.SNAPSHOT"
+Import-Package: org.osgi.framework;version="[1.5,2)",org.universAAL.midd
+ leware.managers.api,org.universAAL.ucc.api;version="[2.0,3)",org.univer
+ sAAL.ucc.api.impl;version="[2.0,3)"
 Tool: Bnd-1.50.0
