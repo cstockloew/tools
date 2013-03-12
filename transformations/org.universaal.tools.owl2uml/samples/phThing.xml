@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Model Name="phThing" Package="org.universaal.ontology.phThing" versionInfo="1.0">
-<Comment>PhysicalThing Ontology</Comment>
+<Model Name="phThing" Package="org.universAAL.ontology.phThing" versionInfo="1.0">
+<Comment>Physical Thing Ontology</Comment>
 <AbstractClasses>
-<Name>SensorType</Name>
-<Name>ConnectionType</Name>
 </AbstractClasses>
 </Model>

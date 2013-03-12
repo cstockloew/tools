@@ -18,13 +18,13 @@
  */
 package org.universaal.tools.owl2uml.handlers;
 
-import java.io.File;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -62,37 +62,48 @@ public class SampleHandler extends AbstractHandler {
 		String xmlInput = pathWithoutExt + ".xml";
 		String replumlFile = pathWithoutExt + ".uml";
 
-		/*		System.out.println("=== InputFile: " + selectedInput);
-
-		
-		System.out.println("Path: " + selectedInput.substring(0, selectedInput.lastIndexOf(".owl")));
-		
-		
-		// The path of the generated .uml file
-		String umlOutput = selectedInput.substring(
-				selectedInput.lastIndexOf(File.separator) + 1,
-				selectedInput.lastIndexOf("."))
-				+ ".uml";
-		System.out.println("=== OutputFile: " + umlOutput);
-
-		String replumlFile = umlOutput.replace("/", File.separator);
-
-		System.out.println("=== OutputRepl: " + replumlFile);
-		
-		// XML file used as input for the definition of the additional
-		// properties
-		String xmlInput = selectedInput.substring(
-				selectedInput.lastIndexOf(File.separator) + 1,
-				selectedInput.lastIndexOf("."))
-				+ ".xml";
-
-		System.out.println("=== XML input: " + xmlInput);
-*/
+		/*
+		 * System.out.println("=== InputFile: " + selectedInput);
+		 * 
+		 * 
+		 * System.out.println("Path: " + selectedInput.substring(0,
+		 * selectedInput.lastIndexOf(".owl")));
+		 * 
+		 * 
+		 * // The path of the generated .uml file String umlOutput =
+		 * selectedInput.substring( selectedInput.lastIndexOf(File.separator) +
+		 * 1, selectedInput.lastIndexOf(".")) + ".uml";
+		 * System.out.println("=== OutputFile: " + umlOutput);
+		 * 
+		 * String replumlFile = umlOutput.replace("/", File.separator);
+		 * 
+		 * System.out.println("=== OutputRepl: " + replumlFile);
+		 * 
+		 * // XML file used as input for the definition of the additional //
+		 * properties String xmlInput = selectedInput.substring(
+		 * selectedInput.lastIndexOf(File.separator) + 1,
+		 * selectedInput.lastIndexOf(".")) + ".xml";
+		 * 
+		 * System.out.println("=== XML input: " + xmlInput);
+		 */
 		org.universaal.tools.owl2uml.uml2.UML2Factory.XMLFilePath = xmlInput;
 
 		String[] arg = { selectedInput, replumlFile, "UML2" };
 
 		org.universaal.tools.owl2uml.OWL2UML.main(arg);
+
+		// Force refresh of the Package Explorer (so as the generated .uml file
+		// to be visible)
+		try {
+			ResourcesPlugin
+					.getWorkspace()
+					.getRoot()
+					.refreshLocal(IResource.DEPTH_INFINITE,
+							new NullProgressMonitor());
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

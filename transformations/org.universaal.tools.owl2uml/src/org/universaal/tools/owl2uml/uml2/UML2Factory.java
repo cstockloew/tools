@@ -75,7 +75,8 @@ import org.w3c.dom.NodeList;
  * 
  */
 public class UML2Factory {
-	private static String packageName = "";
+	private static String packageName;
+	private static String modelName;
 	private org.eclipse.uml2.uml.Package rootModel;
 	private org.eclipse.uml2.uml.Package owl2Model;
 	private Profile profileTypes;
@@ -86,6 +87,8 @@ public class UML2Factory {
 	public static Map<String, String> XMLAbstractClasses = new HashMap<String, String>();
 	protected static final ResourceSet RESOURCE_SET = new ResourceSetImpl();
 	public static String XMLFilePath;
+	public static String XMLModelName;
+	public static String XMLPackageName;
 
 	public UML2Factory(String owlURI) {
 		if (!readXML()) {
@@ -93,36 +96,16 @@ public class UML2Factory {
 					.println("Additional properties from XML file were Ignored!");
 		}
 		;
-		String modelName = owlURI.substring(owlURI.lastIndexOf("/") + 1,
-				owlURI.lastIndexOf("."));
-		packageName = "org.universaal.ontology." + modelName;
-
-		// registerResourceFactories();
-		// Registering pathmaps dynamically
-
-		/*
-		 * final String profile = "profiles/UML2.profile.uml"; java.net.URL url
-		 * = getClass().getClassLoader().getResource(profile); if (url == null)
-		 * { throw new RuntimeException("Error getting UML2.profile.uml"); }
-		 * String urlString = url.toString(); if (!urlString.endsWith(profile))
-		 * { throw new RuntimeException("Error getting UML2.profile.uml. Got: "
-		 * + urlString); } urlString = urlString.substring(0, urlString.length()
-		 * - profile.length());
-		 */
-
-		// URI uri = URI.createURI(urlString);
-		// registerPathmaps(uri);
-		/*
-		 * uri=URI.createURI(
-		 * "jar:file:/C:/eclipse/plugins/org.universaal.tools.profileplugin_0.2.3.jar!/"
-		 * ); registerUAALPathmaps(uri);
-		 */
+		//String modelName = owlURI.substring(owlURI.lastIndexOf("/") + 1,
+		//		owlURI.lastIndexOf("."));
+		//packageName = /*"org.universaal.ontology." +*/ modelName;
+		//packageName = owlURI.substring(0, owlURI.lastIndexOf("/")) + modelName;
+		modelName = XMLModelName;
+		packageName = XMLPackageName;
 
 		System.out.println("Creating model...");
 
 		owl2Model = createModel(modelName, owlURI);
-
-		// registerResourceFactories();
 
 		profileTypes = createProfile("profileTypes");
 		booleanPrimitive = importPrimitiveType(profileTypes, "Boolean");
@@ -790,16 +773,22 @@ public class UML2Factory {
 			} else {
 				System.out.println("XML Validated against Schema");
 			}
+			
+			XMLModelName = doc.getDocumentElement().getAttribute("Name");
+			XMLPackageName = doc.getDocumentElement().getAttribute("Package");
 
 			System.out.println("for ontology "
-					+ doc.getDocumentElement().getAttribute("Name")
+					+ XMLModelName
 					+ " of "
-					+ doc.getDocumentElement().getAttribute("Package")
+					+ XMLPackageName
 					+ " Version Info: "
 					+ doc.getDocumentElement().getAttribute("versionInfo")
 					+ " Comment: "
 					+ doc.getElementsByTagName("Comment").item(0)
 							.getFirstChild().getNodeValue());
+			
+			
+			
 
 			XMLHeader.put("XMLName",
 					doc.getDocumentElement().getAttribute("Name"));
@@ -809,6 +798,7 @@ public class UML2Factory {
 					.getAttribute("versionInfo"));
 			XMLHeader.put("XMLComment", doc.getElementsByTagName("Comment")
 					.item(0).getFirstChild().getNodeValue());
+			
 
 			NodeList nList = doc.getElementsByTagName("Name");
 			for (int temp = 0; temp < nList.getLength(); temp++) {

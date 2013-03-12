@@ -16,23 +16,7 @@
     <packageImport xmi:id="_RdNGUGk2EeG7I7JPKubQ9g">
       <importedPackage href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_U7uacGkcEeGIl7HiYaL9OA"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$">
-      <packagedElement xmi:type="uml:Class" xmi:id="_4fXi8DuGEeGemd2yvbYdUw" name="MyService">
-        <generalization xmi:id="_SBLJQDuHEeGemd2yvbYdUw">
-          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
-        </generalization>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_6fXEwDuGEeGemd2yvbYdUw" name="MyDevice">
-        <generalization xmi:id="_Reoc4DuHEeGemd2yvbYdUw">
-          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml#_Kbe0kKFHEeCPiYRKlVcMuQ"/>
-        </generalization>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_l6V2ADvdEeG588nPCnr8CA" name="MyConcept">
-        <generalization xmi:id="_oLTMADvdEeG588nPCnr8CA">
-          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
-        </generalization>
-      </packagedElement>
-    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$"/>
     <profileApplication xmi:id="_x2yFYDuGEeGemd2yvbYdUw">
       <eAnnotations xmi:id="_x26oQDuGEeGemd2yvbYdUw" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww"/>
