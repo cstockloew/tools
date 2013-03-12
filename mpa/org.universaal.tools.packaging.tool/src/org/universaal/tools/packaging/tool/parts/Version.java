@@ -54,15 +54,22 @@ public class Version {
 
 		try{
 			if(v != null && !v.isEmpty()){
-				String[] vs = v.split(".");
+				String[] vs = v.split("\\.");
 				if(vs.length > 0){
 					major = vs[0];
 					if(vs[1] != null)
 						minor = vs[1];
-					if(vs[2] != null)
+					if(vs[2] != null){
 						micro = vs[2];
-					if(vs[3] != null)
-						build = vs[3];
+						String[] snapshot = vs[2].split("-");
+						if(snapshot != null && snapshot.length > 0){
+							micro = snapshot[0];
+							if(snapshot[1] != null)
+								build = snapshot[1];
+						}
+						else if(vs[3] != null)
+							build = vs[3];
+					}
 				}
 				else
 					major = v;

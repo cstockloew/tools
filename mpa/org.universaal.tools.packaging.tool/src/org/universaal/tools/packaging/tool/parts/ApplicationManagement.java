@@ -51,7 +51,7 @@ public class ApplicationManagement {
 			software = new Artifact();
 		}
 
-		public List<String> getProtocol() {
+		public List<String> getProtocols() {
 			if(protocols == null)
 				protocols = new ArrayList<String>();
 			return protocols;
@@ -66,7 +66,7 @@ public class ApplicationManagement {
 		public String getXML(){
 
 			String r = "";
-			for(int i = 0; i< getProtocol().size(); i++)
+			for(int i = 0; i< getProtocols().size(); i++)
 				r = r.concat("<protocols>"+protocols.get(i)+"</protocols>");
 			r = r.concat("<software>"+software.getXML()+"</software>");
 

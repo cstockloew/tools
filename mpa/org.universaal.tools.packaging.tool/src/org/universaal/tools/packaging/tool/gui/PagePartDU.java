@@ -60,8 +60,8 @@ public class PagePartDU extends PageImpl {
 		Label exp = new Label(container, SWT.NULL);
 		exp.setText("You can choose alternatively an OS, a Platform or a Container.");
 		Label blk = new Label(container, SWT.NULL);
-		blk.setText("");
-		
+		blk.setText("(only Karaf container is now fully supported)");
+
 		FontData[] fD = exp.getFont().getFontData();
 		fD[0].setStyle(SWT.BOLD);
 		exp.setFont(new Font(container.getDisplay(), fD[0]));		

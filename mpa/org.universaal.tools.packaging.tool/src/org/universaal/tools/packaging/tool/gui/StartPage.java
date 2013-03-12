@@ -154,7 +154,6 @@ public class StartPage extends PageImpl {
 	public boolean nextPressed() {
 
 		g.setDestination(destination.getAbsolutePath());
-		//EndPage.destination = destination.getAbsolutePath();
 		return true;
 	}
 }

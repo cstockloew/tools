@@ -31,28 +31,17 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 	protected static int otherGeneralReqs = 1;
 	protected static List<Integer> otherPartReqs;
 
-	//	protected PageImpl(String pageName) {
-	//		super(pageName);
-	//		setTitle(pageName);		
-	//
-	//		mandatory = new ArrayList<Control>();
-	//		setPageComplete(false);
-	//	}
-
 	protected PageImpl(String pageName, String description){
 
 		super(pageName);
 		setDescription(description);
 		setTitle(pageName);		
 
-		this.otherPartReqs = new ArrayList<Integer>();
+		otherPartReqs = new ArrayList<Integer>();
 
 		mandatory = new ArrayList<Control>();
 		setPageComplete(false);
 	}
-
-	@Override
-	public abstract boolean nextPressed(); // to handle events just before moving to next page
 
 	public void setMPA(MPA mpa) {
 		multipartApplication = mpa;

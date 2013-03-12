@@ -51,8 +51,8 @@ public class Page5 extends PageImpl {
 
 		Label l1 = new Label(container, SWT.NULL);
 		contact = new Text(container, SWT.BORDER | SWT.SINGLE);
-		mandatory.add(contact);
-		l1.setText("* Contact Person");
+		//mandatory.add(contact);
+		l1.setText("Contact Person");
 		contact.setText(app.getManagement().getContact());			
 		contact.setLayoutData(gd);	
 		contact.addKeyListener(new QL() {
@@ -73,27 +73,27 @@ public class Page5 extends PageImpl {
 			POMParser p = new POMParser(new File(parts.get(k).getFile("pom.xml").getLocation()+""));
 
 			Label l2 = new Label(container, SWT.NULL);
-			l2.setText("* Artifact #"+(k+1)+" ID");
+			l2.setText("Artifact #"+(k+1)+" ID");
 			Text artifact = new Text(container, SWT.BORDER | SWT.SINGLE);
-			mandatory.add(artifact);
+			//mandatory.add(artifact);
 			artifact.setText(p.getArtifactID());			
 			artifacts.add(artifact);
 			artifact.addKeyListener(new FullListener());
 			artifact.setLayoutData(gd);
 
 			Label l3 = new Label(container, SWT.NULL);
-			l3.setText("* Protocols, comma separated");
+			l3.setText("Protocols for assistance, comma separated");
 			Text protocol = new Text(container, SWT.BORDER | SWT.SINGLE);
 			protocol.setText("");
-			mandatory.add(protocol);			
+			//mandatory.add(protocol);			
 			protocols.add(protocol);
 			protocol.addKeyListener(new FullListener());
 			protocol.setLayoutData(gd);
 
 			Label l4 = new Label(container, SWT.NULL);
-			l4.setText("* Version");
+			l4.setText("Version");
 			Text version = new Text(container, SWT.BORDER | SWT.SINGLE);
-			mandatory.add(version);
+			//mandatory.add(version);
 			version.setText(p.getVersion());
 			versions.add(version);
 			version.addKeyListener(new FullListener());
@@ -106,6 +106,8 @@ public class Page5 extends PageImpl {
 				shadow_sep_h3.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			}
 		}
+		
+		setPageComplete(validate());
 	}
 
 	@Override
@@ -119,7 +121,7 @@ public class Page5 extends PageImpl {
 			String[] ps = protocols.get(j).getText().split(",");
 			for(int i = 0; i < ps.length; i++)
 				if(ps[i] != null)
-					app.getManagement().getRemoteManagement().get(j).getProtocol().add(ps[i]);
+					app.getManagement().getRemoteManagement().get(j).getProtocols().add(ps[i]);
 		}
 
 		return true;

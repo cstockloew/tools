@@ -16,12 +16,11 @@ import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.MiddlewareVersion;
 import org.universaal.tools.packaging.tool.parts.Space;
-import org.universaal.tools.packaging.tool.util.POMParser;
 
 public class PagePartPC extends PageImpl {
 
-	private IProject artifact;
-	private POMParser p;
+	//private IProject artifact;
+	//private POMParser p;
 	private int partNumber;
 
 	private Combo targetSpace, mw_version, targetContainerName;
@@ -151,17 +150,10 @@ public class PagePartPC extends PageImpl {
 				app.getParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString(), targetDeploymentTool.getText());				
 			}
 		});
-
-		//setPageComplete(true); // optional
 	}
 
 	public void setArtifact(IProject artifact){
-		this.artifact = artifact;
+		//this.artifact = artifact;
 		//p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
-	}
-
-	@Override
-	public boolean nextPressed() {
-		return true;
 	}
 }

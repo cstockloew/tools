@@ -16,12 +16,11 @@ import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.ExecutionUnit;
 import org.universaal.tools.packaging.tool.util.Dialog;
-import org.universaal.tools.packaging.tool.util.POMParser;
 
 public class PagePartEU extends PageImpl {
 
-	private IProject artifact;
-	private POMParser p;
+	//private IProject artifact;
+	//private POMParser p;
 	private int partNumber;
 
 	private Text configFile1, configFile2, configFile3, configFile4, ssl1, ssl2, ssl3, ssl4;
@@ -193,7 +192,7 @@ public class PagePartEU extends PageImpl {
 	}
 
 	public void setArtifact(IProject artifact){
-		this.artifact = artifact;
+		//this.artifact = artifact;
 		//p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
 	}
 

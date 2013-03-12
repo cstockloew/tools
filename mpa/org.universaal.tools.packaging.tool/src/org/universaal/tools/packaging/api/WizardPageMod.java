@@ -17,7 +17,9 @@ public abstract class WizardPageMod extends WizardPage {
 	public void createControl(Composite parent) {
 	}
 
-	public abstract boolean nextPressed();	
+	public boolean nextPressed(){
+		return true;
+	}	
 
 	public boolean backPressed(){
 		return true;

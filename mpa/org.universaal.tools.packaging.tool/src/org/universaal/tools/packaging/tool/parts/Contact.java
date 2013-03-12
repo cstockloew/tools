@@ -95,7 +95,7 @@ public class Contact {
 
 	public List<OtherChannel> getOtherChannels() {
 		if(otherChannels == null)
-			otherChannels = new ArrayList<Contact.OtherChannel>();
+			otherChannels = new ArrayList<OtherChannel>();
 
 		return otherChannels;
 	}
@@ -120,39 +120,9 @@ public class Contact {
 		r = r.concat("<phone>"+phone+"</phone>");
 
 		for(int i = 0; i < getOtherChannels().size(); i++)
-			r = r.concat("<otherChannel>"+otherChannels.get(i).getXML()+"</otherChannel>");
+			r = r.concat("<otherChannel>"+getOtherChannels().get(i).getXML()+"</otherChannel>");
 
 		return r;
-	}
-
-	public class OtherChannel{
-
-		private String channelName, channelDetails;
-
-		public OtherChannel(){
-			channelName = Application.defaultString;
-			channelDetails = Application.defaultString;
-		}
-
-		public String getChannelName() {
-			return channelName;
-		}
-
-		public void setChannelName(String channelName) {
-			this.channelName = channelName;
-		}
-
-		public String getChannelDetails() {
-			return channelDetails;
-		}
-
-		public void setChannelDetails(String channelDetails) {
-			this.channelDetails = channelDetails;
-		}
-
-		public String getXML(){
-			return "<channelName>"+channelName+"</channelName>"+"<channelDetails>"+channelDetails+"</channelDetails>";
-		}
 	}
 
 	/*

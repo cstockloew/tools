@@ -549,18 +549,18 @@ public class Page4 extends PageImpl {
 			this.thisReqsPage.remove(removeMe.get(i));
 	}
 
-	private void debugPrint(String s){
-
-		System.out.println("\ndebugPrint "+s);
-
-		Set<Entry<Requirement, REQ_STATE>> entryset = this.thisReqsPage.entrySet();
-		Iterator<Entry<Requirement, REQ_STATE>> it = entryset.iterator();
-		while(it.hasNext()){
-			Entry<Requirement, REQ_STATE> current = it.next();
-
-			System.out.println(""+current.getKey().getXML()+" "+current.getValue());
-		}
-	}
+//	private void debugPrint(String s){
+//
+//		System.out.println("\ndebugPrint "+s);
+//
+//		Set<Entry<Requirement, REQ_STATE>> entryset = this.thisReqsPage.entrySet();
+//		Iterator<Entry<Requirement, REQ_STATE>> it = entryset.iterator();
+//		while(it.hasNext()){
+//			Entry<Requirement, REQ_STATE> current = it.next();
+//
+//			System.out.println(""+current.getKey().getXML()+" "+current.getValue());
+//		}
+//	}
 
 	private enum REQ_STATE{
 		NEW, PREVIOUS, ALREADY_IN, TO_BE_DELETED
