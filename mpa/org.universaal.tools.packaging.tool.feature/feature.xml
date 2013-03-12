@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.packaging.tool.feature"
-      label="Feature"
-      version="0.3.0">
+      label="AAL Studio MPA packager"
+      version="0.3.5"
+      provider-name="universAAL"
+      plugin="org.universaal.tools.aalstudio.core">
 
    <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+      This AAL Studio tool provides a multipart application packager that helps developer to create a compliant .uaap file.
+This .uaap file contains the parts selected by the developer as required to run an high-level uAAL application and an XML descriptor to support automatic setup on target nodes of the selected space.
    </description>
 
    <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+      Copyright 2011, SINTEF. http://www.sintef.no/
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied.
+See the License for the specific language governing permissions
+and
+limitations under the License.
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+      <license url="http://www.apache.org/licenses/LICENSE-2.0">
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
    </license>
 
    <requires>
