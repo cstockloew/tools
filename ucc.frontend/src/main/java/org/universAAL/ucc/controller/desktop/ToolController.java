@@ -162,7 +162,7 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 	public void uploadFinished(FinishedEvent event) {
 		app.getMainWindow().removeWindow(installWindow);
 		IWindow iw = new InstallProcessImpl();
-		iw.getLicenseView(System.getenv("systemdrive")+"/"+dir);
+		iw.installProcess(System.getenv("systemdrive")+"/tempUsrvFiles/");
 //		File licenceFile = new File(System.getenv("systemdrive")+"/"+dir+"/config/hwo.usrv.xml");
 //		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 //		File l = null;
@@ -258,7 +258,7 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		
+//		UsrvInformationWindow info = new UsrvInformationWindow();
 //		UsrvInfoController infoController = new UsrvInfoController(aal, lw, app);
 //		app.getMainWindow().addWindow(lw);
 //		app.getMainWindow().addWindow(info);

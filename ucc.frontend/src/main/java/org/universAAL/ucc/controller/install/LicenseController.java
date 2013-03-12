@@ -92,11 +92,13 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 //			app.getMainWindow().showNotification(res.getString("installed.note"));
 			app.getMainWindow().removeWindow(win);
 			IWindow iw = new InstallProcessImpl();
-			iw.getDeployStratgyView(aal.getName(), aal.getUaapList().get(0).getServiceId(), 
-					aal.getUaapList().get(0).getUappLocation(), aal.getUaapList().get(0));
-//			app.getMainWindow().addWindow(new OptionsWindow(app, aal));
-			
-			//ToDo: Call Configurator to personalize the uapps  of the AAL service
+			int appCounter = aal.getUaapList().size();
+			System.err.println(appCounter);
+			if(appCounter > 0) {
+				iw.getDeployStratgyView(aal.getName(), aal.getUaapList().get(appCounter-1).getServiceId(), 
+						aal.getUaapList().get(appCounter-1).getUappLocation(), appCounter-1, aal);
+//				aal.getUaapList().remove(appCounter-1);
+			} 
 		}
 		
 	}

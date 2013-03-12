@@ -52,7 +52,7 @@ public class OptionsController implements Button.ClickListener,
 				appCounter--;
 				DeployStrategyView dsv = new DeployStrategyView(aal.getUaapList().get(appCounter).getName(), aal.getUaapList().get(appCounter).getServiceId(),
 						aal.getUaapList().get(appCounter).getUappLocation());
-				DeployStrategyController dsc = new DeployStrategyController(app, dsv, aal.getUaapList().get(appCounter));
+				DeployStrategyController dsc = new DeployStrategyController(app, dsv, appCounter, aal);
 				app.getMainWindow().addWindow(dsv);
 				
 			} 

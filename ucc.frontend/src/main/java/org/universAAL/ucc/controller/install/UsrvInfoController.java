@@ -17,7 +17,7 @@ public class UsrvInfoController implements Button.ClickListener{
 	private String base;
 	private ResourceBundle bundle;
 	
-	public UsrvInfoController(AALService usrv, LicenceWindow lWin, UccUI app) {
+	public UsrvInfoController(AALService usrv, LicenceWindow lw, UccUI app) {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
 		this.usrv = usrv;
@@ -28,7 +28,7 @@ public class UsrvInfoController implements Button.ClickListener{
 		
 		win.getForm().getField(bundle.getString("name.label")).setValue(usrv.getName());
 		win.getNameTxt().setReadOnly(true);
-//		win.getProvider().setValue(usrv.getProvider());
+		win.getProvider().setValue(usrv.getProvider());
 		win.getForm().getField(bundle.getString("provider.label")).setValue(usrv.getProvider());
 		win.getProvider().setReadOnly(true);
 		win.getForm().getField(bundle.getString("description.label")).setValue(usrv.getDescription());
@@ -43,7 +43,7 @@ public class UsrvInfoController implements Button.ClickListener{
 //		}
 //		win.getTags().setReadOnly(true);
 		app.getMainWindow().addWindow(win);
-		this.lWin = lWin;
+		this.lWin = lw;
 	}
 
 	@Override

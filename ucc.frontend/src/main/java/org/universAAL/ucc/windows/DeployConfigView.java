@@ -21,7 +21,7 @@ public class DeployConfigView extends Window {
 	private Label label;
 	private TextField txt;
 	private NativeSelect select;
-	private Button previous;
+//	private Button previous;
 	private Button next;
 	private Button cancel;
 	private String base;
@@ -63,10 +63,10 @@ public class DeployConfigView extends Window {
 		HorizontalLayout hl2 = new HorizontalLayout();
 		hl2.setMargin(true);
 		hl2.setSpacing(true);
-		previous = new Button(bundle.getString("prev.button"));
+//		previous = new Button(bundle.getString("prev.button"));
 		next = new Button(bundle.getString("next.button"));
 		cancel = new Button(bundle.getString("cancel.button"));
-		hl2.addComponent(previous);
+//		hl2.addComponent(previous);
 		hl2.addComponent(next);
 		hl2.addComponent(cancel);
 		vl.addComponent(hl2);
@@ -96,13 +96,13 @@ public class DeployConfigView extends Window {
 		this.select = select;
 	}
 
-	public Button getPrevious() {
-		return previous;
-	}
-
-	public void setPrevious(Button previous) {
-		this.previous = previous;
-	}
+//	public Button getPrevious() {
+//		return previous;
+//	}
+//
+//	public void setPrevious(Button previous) {
+//		this.previous = previous;
+//	}
 
 	public Button getNext() {
 		return next;
