@@ -10,7 +10,7 @@
 <booleanAttribute key="default" value="true"/>
 <booleanAttribute key="default_auto_start" value="true"/>
 <intAttribute key="default_start_level" value="10"/>
-<stringAttribute key="deselected_workspace_plugins" value="ucc.api,ucc.controller,ucc.core,ucc.database,ucc.deploymanager.client,ucc.deploymanagerservice,ucc.deploymanagerservice.impl,ucc.frontend,ucc.karaf.feature*1.0.0.qualifier,ucc.karaf.feature*1.0.0.qualifier,ucc.model,ucc.vaadin.themes"/>
+<stringAttribute key="deselected_workspace_plugins" value="ucc.controller,ucc.core,ucc.database,ucc.deploymanager.client,ucc.deploymanagerservice,ucc.deploymanagerservice.impl*2.0.1.SNAPSHOT,ucc.karaf.feature*1.0.0.qualifier,ucc.karaf.feature*1.0.0.qualifier,ucc.vaadin.themes"/>
 <booleanAttribute key="includeOptional" value="true"/>
 <stringAttribute key="org.eclipse.debug.core.source_locator_id" value="org.eclipse.pde.ui.launcher.PDESourceLookupDirector"/>
 <stringAttribute key="org.eclipse.debug.core.source_locator_memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;sourceLookupDirector&gt;&#13;&#10;&lt;sourceContainers duplicates=&quot;false&quot;&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;directory nest=&amp;quot;true&amp;quot; path=&amp;quot;D:\Progamme\Jena-2.5.4\src&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.directory&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;javaProject name=&amp;quot;ui.dm&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.jdt.launching.sourceContainer.javaProject&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;javaProject name=&amp;quot;ucc.viewjambi&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.jdt.launching.sourceContainer.javaProject&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/mw.bus.context/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/mw.bus.model/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/mw.bus.service/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/mw.data.representation/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/mw.data.serialization/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/ont.lighting/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/ont.phWorld/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/smp.lighting.client/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;folder nest=&amp;quot;false&amp;quot; path=&amp;quot;/smp.lighting.server/src/main/java&amp;quot;/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.folder&quot;/&gt;&#13;&#10;&lt;container memento=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;default/&amp;gt;&amp;#13;&amp;#10;&quot; typeId=&quot;org.eclipse.debug.core.containerType.default&quot;/&gt;&#13;&#10;&lt;/sourceContainers&gt;&#13;&#10;&lt;/sourceLookupDirector&gt;&#13;&#10;"/>
@@ -45,18 +45,20 @@
 <mapEntry key="mvn:org.universAAL.middleware/mw.container.xfaces/1.1.1-SNAPSHOT" value="false@true@4@false"/>
 <mapEntry key="mvn:org.universAAL.middleware/mw.data.representation/1.2.1-SNAPSHOT" value="false@true@4@false"/>
 <mapEntry key="mvn:org.universAAL.middleware/mw.data.serialization/1.1.1-SNAPSHOT" value="false@true@4@false"/>
+<mapEntry key="mvn:org.universAAL.middleware/mw.interfaces.osgi/1.3.2-SNAPSHOT" value="true@true@2@false"/>
+<mapEntry key="mvn:org.universAAL.middleware/mw.managers.api.osgi/1.3.2-SNAPSHOT" value="true@true@2@false"/>
 <mapEntry key="mvn:org.universAAL.ontology/ont.phWorld/1.2.1-SNAPSHOT" value="false@true@6@false"/>
 <mapEntry key="mvn:org.universAAL.ontology/ont.profile/1.2.1-SNAPSHOT" value="false@true@6@false"/>
 <mapEntry key="mvn:org.universAAL.support/jena.osgi" value="false@true@5@false"/>
 <mapEntry key="mvn:org.universAAL.tools.ucc/ucc.api/1.1.1-SNAPSHOT" value="false@true@7@true"/>
-<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.controller/0.0.1-SNAPSHOT" value="true@true@3@true"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.controller/2.0.1-SNAPSHOT" value="true@true@3@true"/>
 <mapEntry key="mvn:org.universAAL.tools.ucc/ucc.core/1.1.1-SNAPSHOT" value="false@true@7@true"/>
-<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.database/0.0.1-SNAPSHOT" value="true@true@4@true"/>
-<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/1.0.0-SNAPSHOT" value="true@true@5@false"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.database/2.0.1-SNAPSHOT" value="true@true@4@true"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/2.0.1-SNAPSHOT" value="true@true@5@false"/>
 <mapEntry key="mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice/1.0.0-SNAPSHOT" value="true@true@4@true"/>
-<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.frontend/0.0.1-SNAPSHOT" value="true@true@4@true"/>
-<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.model/0.0.1-SNAPSHOT" value="true@true@4@false"/>
-<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/0.0.1-SNAPSHOT" value="true@true@4@true"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.frontend/2.0.1-SNAPSHOT" value="true@true@4@true"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.model/2.0.1-SNAPSHOT" value="true@true@4@false"/>
+<mapEntry key="mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/2.0.1-SNAPSHOT" value="true@true@4@true"/>
 <mapEntry key="mvn:org.universAAL.ui/ui.dm/1.1.1-SNAPSHOT" value="false@true@6@true"/>
 <mapEntry key="mvn:org.universAAL.ui/ui.handler.gui/1.1.1-SNAPSHOT" value="false@true@7@true"/>
 <mapEntry key="scan-bundle:file:/C:/universAAL/eclipse37/cxf-dosgi-ri-singlebundle-distribution-1.3.1.jar" value="true@true@3@false"/>
@@ -83,23 +85,25 @@
 <listEntry value="mvn:org.apache.felix/org.apache.felix.bundlerepository/1.6.6@2@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.configadmin/1.6.0@2@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.fileinstall/3.2.4@2@update"/>
+<listEntry value="mvn:org.universAAL.middleware/mw.interfaces.osgi/1.3.2-SNAPSHOT@2"/>
 <listEntry value="wrap:mvn:org.osgi/osgi_R4_compendium/1.0@2"/>
+<listEntry value="mvn:org.universAAL.middleware/mw.managers.api.osgi/1.3.2-SNAPSHOT@2"/>
 <listEntry value="scan-bundle:file:/C:/universAAL/eclipse37/cxf-dosgi-ri-singlebundle-distribution-1.3.1.jar@3"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.controller/2.0.1-SNAPSHOT@3@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.scr/1.6.0@3@update"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.controller/0.0.1-SNAPSHOT@3@update"/>
 <listEntry value="mvn:javax.servlet/com.springsource.javax.servlet/2.5.0@3@update"/>
 <listEntry value="mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice/1.0.0-SNAPSHOT@4@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.http.api/2.2.0@4@update"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.model/0.0.1-SNAPSHOT@4"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.http.bundle/2.2.0@4@update"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.frontend/0.0.1-SNAPSHOT@4@update"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.database/2.0.1-SNAPSHOT@4@update"/>
 <listEntry value="mvn:com.vaadin/vaadin/6.8.3@4@update"/>
 <listEntry value="scan-bundle:file:/C:/universAAL/uCCbranchNew/vaadin.osgi/org.vaadin.osgi.staticres-1.0.1.jar@4"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.database/0.0.1-SNAPSHOT@4@update"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.frontend/2.0.1-SNAPSHOT@4@update"/>
 <listEntry value="scan-bundle:file:/C:/universAAL/uCCbranchNew/vaadin.osgi/org.vaadin.osgi-1.0.1.jar@4"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/0.0.1-SNAPSHOT@4@update"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.model/2.0.1-SNAPSHOT@4"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/2.0.1-SNAPSHOT@4@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.http.jetty/2.2.0@4@update"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/1.0.0-SNAPSHOT@5"/>
+<listEntry value="mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/2.0.1-SNAPSHOT@5"/>
 </listAttribute>
 <stringAttribute key="osgi_framework_id" value="--platform=felix --version=2.0.1"/>
 <stringAttribute key="pde.version" value="3.3"/>
