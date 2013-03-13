@@ -36,14 +36,17 @@ import org.xml.sax.SAXException;
  * 
  * @author merkle
  * 
+ * modified by Shanshan, 13-03-2013
+ * 
  */
 
 public class FrontendImpl implements IFrontend {
 
 	private final int BUFFER_SIZE = 4096;
+	private static final String FILENAME_SEARCH_TAG="filename";
 
 	@Override
-	public void installService(String downloadUri, String usrvName) {
+	public void installService(String sessionkey, String downloadUri) {
 		// Opens a browser window and loads the ucc site
 		Desktop desk = Desktop.getDesktop();
 		try {
@@ -52,8 +55,14 @@ public class FrontendImpl implements IFrontend {
 			e.printStackTrace();
 		}
 
+		//TODO: check for sessionkey
+		
 		// downloads a usrv-file from the given download-uri
-		downloadUsrvFile(downloadUri, usrvName);
+		System.out.println("[FrontendImpl.installService] start download from " + downloadUri);
+		// TO be unmarked
+		//String usrvName = downloadUsrvFile(downloadUri);
+		// Just for testing
+		String usrvName = "corrected_hwo_usrv.usrv";
 		try {
 			// extracts the downloaded usrv file
 			extractUsrvFile(usrvName);
@@ -71,6 +80,8 @@ public class FrontendImpl implements IFrontend {
 			e.printStackTrace();
 		}
 		// shows different views to the user to progress the installation
+		// TODO: show license
+		
 		// process
 		showInstallInfo(as);
 
@@ -81,10 +92,10 @@ public class FrontendImpl implements IFrontend {
 	 * 
 	 * @param downloadUri
 	 *            link from where to download the usrv file
-	 * @param usrvName
-	 *            name of the usrv file, which shall dowloaded
 	 */
-	private void downloadUsrvFile(String downloadUri, String usrvName) {
+	private String downloadUsrvFile(String downloadUri) {
+		String usrvName = parseFileName(downloadUri);
+		System.out.println("[FrontendImpl.downloadUsrvFile] the usrv file name is: " + usrvName);
 		URL url = null;
 		try {
 			url = new URL(downloadUri);
@@ -106,9 +117,19 @@ public class FrontendImpl implements IFrontend {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		return usrvName;
 	}
 
+	private String parseFileName(String url){
+		String result="package.usrv";
+		String[] values=url.split("&");
+		for(int i=0;i<values.length;i++){
+			if(values[i].startsWith(FILENAME_SEARCH_TAG))
+				result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
+		}
+		return result;
+	}
+	
 	/**
 	 * Extracts the downloaded usrv file.
 	 * 
@@ -298,8 +319,28 @@ public class FrontendImpl implements IFrontend {
 	 * Uninstalls the a installed AAL service.
 	 */
 	@Override
-	public void deinstallService(String serviceId) {
+	public void uninstallService(String sessionkey, String serviceId) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void update(String sessionKey, String usrvfile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getInstalledServices(String sessionKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getInstalledUnitsForService(String sessionKey,
+			String serviceId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

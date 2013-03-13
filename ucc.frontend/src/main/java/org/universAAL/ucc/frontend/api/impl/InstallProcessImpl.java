@@ -63,7 +63,7 @@ public class InstallProcessImpl implements IWindow {
 			aal.getUaapList().remove(index);
 			UAPPPackage pack = null;
 			try {
-				pack = new UAPPPackage(uapp.getServiceId(), new URI(uapp.getUappLocation()), null);
+				pack = new UAPPPackage(uapp.getServiceId(), uapp.getAppId(), new URI(uapp.getUappLocation()), null);
 			} 
 			catch (URISyntaxException e) {
 				UccUI.getInstance().getMainWindow().showNotification(bundle.getString("uri.error"), Notification.TYPE_ERROR_MESSAGE);

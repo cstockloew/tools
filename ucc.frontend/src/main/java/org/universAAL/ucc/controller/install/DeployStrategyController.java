@@ -56,7 +56,8 @@ public class DeployStrategyController implements Button.ClickListener {
 			if(view.getOptions().getValue().toString().equals(bundle.getString("opt.available.nodes"))) {
 				UAPPPackage pack = null;
 				try {
-					pack = new UAPPPackage(aal.getUaapList().get(index).getServiceId(), new URI(aal.getUaapList().get(index).getUappLocation()), null);
+					pack = new UAPPPackage(aal.getUaapList().get(index).getServiceId(), aal.getUaapList().get(index).getAppId(),
+							new URI(aal.getUaapList().get(index).getUappLocation()), null);
 				} 
 				catch (URISyntaxException e) {
 					app.getMainWindow().showNotification(bundle.getString("uri.error"), Notification.TYPE_ERROR_MESSAGE);

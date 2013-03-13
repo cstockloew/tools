@@ -60,7 +60,7 @@ public class WebConnector {
         	if(new File(fileOnHardDrive).exists()){
         		String appDir;
 				try {
-					appDir = installer.installApplication(fileOnHardDrive);
+				//	appDir = installer.installApplication(fileOnHardDrive);
 				} catch (Exception e) {
 					e.printStackTrace();
 					return;

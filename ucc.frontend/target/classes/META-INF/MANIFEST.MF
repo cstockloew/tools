@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1363115098798
-Build-Jdk: 1.7.0_17
-Built-By: merkle
+Bnd-LastModified: 1363187613829
+Build-Jdk: 1.7.0
+Built-By: sji
 Bundle-Activator: org.universAAL.ucc.service.manager.Activator
 Bundle-Description: A tool to install, manage and configure applications
   for universAAL an a local maschine.
@@ -12,34 +12,20 @@ Bundle-SymbolicName: ucc.frontend
 Bundle-Vendor: Nicole Merkle
 Bundle-Version: 2.0.1.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
-Export-Package: org.universAAL.ucc.controller;uses:="org.universAAL.ucc.
- api.impl,org.universAAL.ucc.api,org.osgi.framework";version="2.0.1.SNAP
- SHOT",org.universAAL.ucc.controller.desktop;uses:="org.universAAL.ucc.m
- odel.preferences,org.universAAL.ucc.database.preferences,org.osgi.frame
- work,org.universAAL.ucc.windows,com.vaadin.ui,org.universAAL.ucc.contro
- ller.install,com.vaadin.terminal,javax.xml.ws,javax.xml.namespace";vers
- ion="2.0.1.SNAPSHOT",org.universAAL.ucc.controller.preferences;uses:="o
- rg.universAAL.ucc.model.preferences,org.universAAL.ucc.database.prefere
- nces,org.osgi.framework,org.universAAL.ucc.windows,com.vaadin.ui";versi
- on="2.0.1.SNAPSHOT",org.universAAL.ucc.controller.install;uses:="com.va
- adin.ui,org.universAAL.ucc.model,org.universAAL.ucc.windows,org.univers
- AAL.middleware.managers.api,org.universAAL.ucc.api,org.osgi.framework,o
- rg.universAAL.ucc.model.install,com.vaadin.data";version="2.0.1.SNAPSHO
- T",org.universAAL.ucc.windows;uses:="org.universAAL.ucc.api,org.osgi.fr
- amework,com.vaadin.ui,org.universAAL.ucc.model.install,com.vaadin.data,
- org.universAAL.ucc.controller.install,org.universAAL.ucc.model,org.univ
- ersAAL.ucc.model.preferences,org.universAAL.ucc.controller.preferences,
- org.universAAL.ucc.controller.desktop,com.vaadin.terminal,org.universAA
- L.ucc.database.preferences,com.vaadin";version="2.0.1.SNAPSHOT"
+Export-Package: org.universAAL.ucc.frontend.api;uses:="org.universAAL.uc
+ c.model";version="2.0.1.SNAPSHOT",org.universAAL.ucc.frontend.api.impl;
+ uses:="javax.xml.parsers,org.w3c.dom,org.xml.sax,org.universAAL.ucc.mod
+ el.install,org.universAAL.ucc.frontend.api,org.universAAL.ucc.model,org
+ .universAAL.ucc.api,org.universAAL.middleware.managers.api,com.vaadin.u
+ i";version="2.0.1.SNAPSHOT"
 Import-Package: com.vaadin,com.vaadin.data,com.vaadin.terminal,com.vaadi
  n.ui,javax.jws,javax.xml.namespace,javax.xml.parsers,javax.xml.ws,org.o
- sgi.framework;version="[1.5,2)",org.universAAL.middleware.managers.api,
- org.universAAL.ucc.api;version="[2.0,3)",org.universAAL.ucc.api.impl;ve
- rsion="[2.0,3)",org.universAAL.ucc.database.preferences;version="[2.0,3
- )",org.universAAL.ucc.model;version="[2.0,3)",org.universAAL.ucc.model.
- install;version="[2.0,3)",org.universAAL.ucc.model.preferences;version=
- "[2.0,3)",org.universAAL.ucc.windows;version="[2.0,3)",org.w3c.dom,org.
- xml.sax
+ sgi.framework;version="[1.5,2)",org.universAAL.middleware.managers.api;
+ version="[1.0,2)",org.universAAL.ucc.api;version="[2.0,3)",org.universA
+ AL.ucc.database.preferences;version="[2.0,3)",org.universAAL.ucc.fronte
+ nd.api;version="[2.0,3)",org.universAAL.ucc.model;version="[2.0,3)",org
+ .universAAL.ucc.model.install;version="[2.0,3)",org.universAAL.ucc.mode
+ l.preferences;version="[2.0,3)",org.w3c.dom,org.xml.sax
 Require-Bundle: com.vaadin;bundle-version="6.8.3"
 Service-Component: OSGI-INF/ucc.xml
 Tool: Bnd-1.50.0
