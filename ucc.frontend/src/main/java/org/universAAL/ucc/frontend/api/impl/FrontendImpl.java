@@ -20,10 +20,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
+import org.universAAL.ucc.frontend.api.IWindow;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.install.License;
+import org.universAAL.ucc.windows.LicenceWindow;
+import org.universAAL.ucc.windows.UccUI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -43,7 +47,9 @@ import org.xml.sax.SAXException;
 public class FrontendImpl implements IFrontend {
 
 	private final int BUFFER_SIZE = 4096;
+	
 	private static final String FILENAME_SEARCH_TAG="filename";
+
 
 	@Override
 	public void installService(String sessionkey, String downloadUri) {
@@ -69,21 +75,17 @@ public class FrontendImpl implements IFrontend {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		AALService as = null;
+	
 		try {
 			// parses the configuration xml from the extracted usrv file
-			// and creates an AALService instance for further processing
-			as = parseConfiguration();
+			// and creates the views (LicenseView and so on) to show to the user for further processing
+			parseConfiguration();
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// shows different views to the user to progress the installation
-		// TODO: show license
-		
-		// process
-		showInstallInfo(as);
+
 
 	}
 
@@ -177,7 +179,7 @@ public class FrontendImpl implements IFrontend {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	private AALService parseConfiguration() throws SAXException, IOException {
+	private void parseConfiguration() throws SAXException, IOException {
 		File licenceFile = new File(System.getenv("systemdrive")
 				+ "/tempUsrvFiles/config/hwo.usrv.xml");
 		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
@@ -285,7 +287,8 @@ public class FrontendImpl implements IFrontend {
 			aal.setLicenses(license);
 
 		}
-		return aal;
+		LicenceWindow lw = new LicenceWindow(UccUI.getInstance(), licenseList, aal);
+		new UsrvInfoController(aal, lw, UccUI.getInstance());
 	}
 
 	/**
@@ -307,13 +310,6 @@ public class FrontendImpl implements IFrontend {
 		bos.close();
 	}
 
-	/**
-	 * Shows the usrv information windodw to the user
-	 * @param aal AALService with information about the usrv file and for further processing
-	 */
-	private void showInstallInfo(AALService aal) {
-		
-	}
 
 	/**
 	 * Uninstalls the a installed AAL service.

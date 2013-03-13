@@ -33,6 +33,7 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 	private ArrayList<License> lix;
 	private UccUI app;
 	private AALService aal;
+	private IWindow iw;
 	
 	public LicenseController(UccUI app, LicenceWindow win, ArrayList<License> lix, AALService aal) {
 		res = ResourceBundle.getBundle(base);
@@ -89,15 +90,14 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 			app.getMainWindow().removeWindow(win);
 		}
 		if(event.getButton() == win.getGo()) {
-//			app.getMainWindow().showNotification(res.getString("installed.note"));
 			app.getMainWindow().removeWindow(win);
-			IWindow iw = new InstallProcessImpl();
+			iw = new InstallProcessImpl();
 			int appCounter = aal.getUaapList().size();
 			System.err.println(appCounter);
+			//Test, if uapps size greater than 0
 			if(appCounter > 0) {
 				iw.getDeployStratgyView(aal.getName(), aal.getUaapList().get(appCounter-1).getServiceId(), 
 						aal.getUaapList().get(appCounter-1).getUappLocation(), appCounter-1, aal);
-//				aal.getUaapList().remove(appCounter-1);
 			} 
 		}
 		

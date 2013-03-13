@@ -53,6 +53,7 @@ public class DeployStrategyController implements Button.ClickListener {
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == view.getOk()) {
 			IWindow iw = new InstallProcessImpl();
+			//Installation on default nodes
 			if(view.getOptions().getValue().toString().equals(bundle.getString("opt.available.nodes"))) {
 				UAPPPackage pack = null;
 				try {
@@ -63,15 +64,15 @@ public class DeployStrategyController implements Button.ClickListener {
 					app.getMainWindow().showNotification(bundle.getString("uri.error"), Notification.TYPE_ERROR_MESSAGE);
 					e.printStackTrace();
 				}
+				//Showing installation results
 				InstallationResults res = installer.requestToInstall(pack);
 				app.getMainWindow().showNotification(res.name().toString());
+				app.getMainWindow().removeWindow(view);
+				//If more than one app
 				if(index >= 1) {
-					//If more than one app
-					app.getMainWindow().removeWindow(view);
 					iw.getDeployStratgyView(aal.getUaapList().get(index).getName(), aal.getUaapList().get(index).getServiceId(), aal.getUaapList().get(index).getUappLocation(), index, aal);
 				} else {
-					//ToDo: Show message that all apps are installed
-					app.getMainWindow().removeWindow(view);
+					//Show message that all apps are installed
 					app.getMainWindow().showNotification(bundle.getString("success.install.msg"), Notification.TYPE_HUMANIZED_MESSAGE);
 				} 
 				
