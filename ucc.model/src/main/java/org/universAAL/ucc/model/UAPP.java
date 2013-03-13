@@ -2,6 +2,7 @@ package org.universAAL.ucc.model;
 
 public class UAPP {
 	private String name;
+	private String appId;
 	private String uappLocation;
 	private int minor;
 	private int major;
@@ -12,8 +13,9 @@ public class UAPP {
 	
 	public UAPP() { }
 	
-	public UAPP(String serviceId, String name, String location, int major, int minor, int micro, String description, boolean multipart) {
+	public UAPP(String serviceId, String appId, String name, String location, int major, int minor, int micro, String description, boolean multipart) {
 		this.serviceId = serviceId;
+		this.appId = appId;
 		this.name = name;
 		this.uappLocation = location;
 		this.description = description;
@@ -74,7 +76,11 @@ public class UAPP {
 		this.multipart = multipart;
 	}
 	
-	
-	
+	public String getAppId()  {
+		return appId;
+	}
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
 
 }
