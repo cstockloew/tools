@@ -20,18 +20,11 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 	//private IInstaller installer;
 	public void install(String sessionKey, String usrvfile) {
 		System.out.println("[DeployManagerServiceImpl] Install with sessionKey: " + sessionKey + " for URL: " + usrvfile);
-		//try {
-			// For testing only - use a local file
-			//URL usrvURL = new URL(usrvfile); // TODO: do we need to convert to URL first or check it when parse the URL in downloader?
-			// call ucc.frontend to download file?
-			System.out.println("[DeployManagerServiceImpl] to download file... ");
-			//FileDownloader downloader = new FileDownloader();
-			//String fileOnHardDrive = downloader.download(usrvfile); // TODO: do we use usrvURL???
-			String fileOnHardDrive = "C:/tempUsrvFiles/corrected_hwo_usrv.usrv";
+		String fileOnHardDrive = "C:/tempUsrvFiles/&filename=corrected_hwo_usrv.usrv";
 			fileOnHardDrive = fileOnHardDrive.replace("/", "\\"); 
 			System.out.println("[DeployManagerServiceImpl] the file on the hard drive: " + fileOnHardDrive);
-			String results = Activator.getInstaller().installServiceFromOnlineStore(fileOnHardDrive);
-			System.out.println("[DeployManagerServiceImpl] the result for installation is: " + results);
+			Activator.getFrontend().installService(sessionKey, fileOnHardDrive);
+			//System.out.println("[DeployManagerServiceImpl] the result for installation is: " + results);
 	/*	}
 		catch(MalformedURLException e) 
 		{
@@ -60,8 +53,8 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 
 	public void uninstall(String sessionKey, String serviceId) {
 		System.out.println("[DeployManagerServiceImpl] uninstall of serviceId: " + serviceId);
-		String results = Activator.getDeinstaller().uninstallServiceFromOnlineStore(serviceId);
-		System.out.println("[DeployManagerServiceImpl] the result for uninstallation is: " + results);
+		Activator.getFrontend().uninstallService(sessionKey, serviceId);
+		//System.out.println("[DeployManagerServiceImpl] the result for uninstallation is: " + results);
 	}
 
 	public String getInstalledServices(String sessionKey) {
