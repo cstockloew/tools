@@ -1,10 +1,8 @@
 package org.universAAL.ucc.api;
 
+import org.universAAL.middleware.managers.api.InstallationResults;
+
 public interface IDeinstaller {
-	/**
-	 * uninstall a service from uStore
-	 * @param serviceId
-	 * @return
-	 */
-	public String uninstallServiceFromOnlineStore(String serviceId);
+	public InstallationResults requestToUninstall(String id);
+
 }

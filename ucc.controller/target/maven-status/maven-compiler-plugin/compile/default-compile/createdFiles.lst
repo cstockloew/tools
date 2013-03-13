@@ -1,0 +1,5 @@
+org\universAAL\ucc\api\impl\Deinstaller.class
+org\universAAL\ucc\api\IDeinstaller.class
+org\universAAL\ucc\controller\Activator.class
+org\universAAL\ucc\api\IInstaller.class
+org\universAAL\ucc\api\impl\Installer.class
