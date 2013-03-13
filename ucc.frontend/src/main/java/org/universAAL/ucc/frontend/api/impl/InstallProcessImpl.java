@@ -44,9 +44,8 @@ public class InstallProcessImpl implements IWindow {
 
 	@Override
 	public void getDeployStratgyView(String name, String serviceId,
-			String uappLocation, int index, AALService aal) {
-		DeployStrategyView dsv = new DeployStrategyView(name, serviceId,
-				uappLocation);
+		String uappLocation, int index, AALService aal) {
+		DeployStrategyView dsv = new DeployStrategyView(name, serviceId, uappLocation);
 		new DeployStrategyController(UccUI.getInstance(), dsv, index, aal);
 		UccUI.getInstance().getMainWindow().addWindow(dsv);
 
@@ -54,6 +53,7 @@ public class InstallProcessImpl implements IWindow {
 
 	@Override
 	public void getDeployConfigView(AALService aal, int index, boolean isLastPart) {
+		//Test, if there are uapps in list
 		if(!aal.getUaapList().isEmpty()) {
 			UAPP uapp = aal.getUaapList().get(index);
 			DeployConfigView dcv = new DeployConfigView(UccUI.getInstance(),
@@ -73,6 +73,7 @@ public class InstallProcessImpl implements IWindow {
 			UccUI.getInstance().getMainWindow().showNotification(res.name().toString());
 		} else {
 			//ToDo: show the successfully installed notification
+			UccUI.getInstance().getMainWindow().showNotification(bundle.getString("install.success.msg"), Notification.TYPE_HUMANIZED_MESSAGE);
 		}
 
 	}
@@ -82,7 +83,7 @@ public class InstallProcessImpl implements IWindow {
 	 */
 	@Override
 	public void installProcess(String usrvPath) {
-		File licenceFile = new File(usrvPath + "/config/hwo.usrv.xml");
+		File licenceFile = new File(usrvPath + "config/hwo.usrv.xml");
 		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 		File l = null;
 		LicenceWindow lw = null;
@@ -189,6 +190,8 @@ public class InstallProcessImpl implements IWindow {
 				licenseList.add(license);
 				aal.setLicenses(license);
 			} //End of loop 
+			
+			//Creates new license window
 			lw = new LicenceWindow(UccUI.getInstance(), licenseList, aal);
 
 		} catch (ParserConfigurationException e) {
@@ -198,6 +201,7 @@ public class InstallProcessImpl implements IWindow {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//Creates the information view about the usrv file, after that the license view will shown
 		new UsrvInfoController(aal, lw, UccUI.getInstance());
 	}
 
