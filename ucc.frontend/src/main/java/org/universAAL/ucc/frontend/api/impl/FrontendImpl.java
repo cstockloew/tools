@@ -316,14 +316,20 @@ public class FrontendImpl implements IFrontend {
 	 */
 	@Override
 	public void uninstallService(String sessionkey, String serviceId) {
-		// TODO Auto-generated method stub
+		// get the list of uapps installed for this serviceId
+		// TODO: List<String appId> getInstalledApps(String serviceId)
+		// for each uapp, call ucc.controller.requestToUninstall(serviceId, appId)
+		// update the service registration
 		
 	}
 
 	@Override
 	public void update(String sessionKey, String usrvfile) {
-		// TODO Auto-generated method stub
+		// parse usrvFile and get serviceId
 		
+		String serviceId = "";
+		uninstallService(sessionKey, serviceId);
+		installService(sessionKey, usrvfile);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import org.universAAL.ucc.windows.UccUI;
 import org.universAAL.ucc.windows.UsrvInformationWindow;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Window;
 
 public class UsrvInfoController implements Button.ClickListener{
 	private AALService usrv;
@@ -42,8 +43,20 @@ public class UsrvInfoController implements Button.ClickListener{
 //			win.getTags().addItem(s);
 //		}
 //		win.getTags().setReadOnly(true);
-		app.getMainWindow().addWindow(win);
-		this.lWin = lw;
+		System.out.println("[UsrvInfoController] get main window...");
+		if (app==null) System.out.println("[UsrvInfoController] UccUI is null!");
+		else {
+			System.out.println("[UsrvInfoController] got UccUI");
+			Window mainW = app.getMainWindow();
+			if (mainW==null) System.out.println("[UsrvInfoController] can not get main window!");
+			else {
+				System.out.println("[UsrvInfoController] got main window");
+				app.getMainWindow().addWindow(win);
+				this.lWin = lw;
+			}
+		}
+		
+				
 	}
 
 	@Override
