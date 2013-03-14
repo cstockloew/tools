@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ConformanceTools
+Bundle-Name: AAL Studio ConformanceTools
 Bundle-SymbolicName: org.universaal.tools.conformanceTools;singleton:=true
-Bundle-Version: 0.6.1
+Bundle-Version: 0.6.5
 Bundle-Activator: org.universaal.tools.conformanceTools.Activator
 Bundle-Vendor: universAAL
 Require-Bundle: org.eclipse.ui,
