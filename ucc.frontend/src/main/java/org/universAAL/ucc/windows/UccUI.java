@@ -43,9 +43,16 @@ public class UccUI extends Application {
 			+ "/uccDB/preferences.xml";
 
 	
-	public static UccUI getInstance() {
+/*	public static UccUI getInstance() {
 		return uccUI;
-	}
+	} */
+	
+	public static UccUI getInstance() {
+		  if(uccUI == null) {
+		   uccUI = new UccUI();
+		  }
+		  return uccUI;
+		 }
 
 	@Override
 	public void init() {
