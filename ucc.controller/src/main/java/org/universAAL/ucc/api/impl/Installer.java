@@ -1,25 +1,19 @@
 package org.universAAL.ucc.api.impl;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.framework.Bundle;
-//import org.universAAL.middleware.managers.api.InstallationResults;
-//import org.universAAL.middleware.managers.api.UAPPPackage;
+import org.universAAL.ucc.api.IInstaller;
+import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.middleware.managers.api.DeployManager;
-import org.universAAL.middleware.managers.api.InstallationResults;
-import org.universAAL.middleware.managers.api.UAPPPackage;
-import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.controller.Activator;
 
 public class Installer implements IInstaller {
 
-	@Override
 	/**
 	 * get peers in AALSpace from the AALSpaceManager
 	 * 
@@ -49,7 +43,6 @@ public class Installer implements IInstaller {
 	}
 
 
-	@Override
 	public InstallationResults requestToInstall(UAPPPackage app) {
 		DeployManager deployManager = Activator.getDeployManager();
 		if (deployManager==null) {

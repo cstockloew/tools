@@ -4,5 +4,6 @@ import org.universAAL.middleware.managers.api.InstallationResults;
 
 public interface IDeinstaller {
 	public InstallationResults requestToUninstall(String serviceId, String id);
+	//public String requestToUninstall(String serviceId, String id);
 
 }

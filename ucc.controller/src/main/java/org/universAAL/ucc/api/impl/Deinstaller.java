@@ -7,7 +7,6 @@ import org.universAAL.ucc.controller.Activator;
 
 public class Deinstaller implements IDeinstaller {
 
-	@Override
 	public InstallationResults requestToUninstall(String serviceId, String id) {
 		DeployManager deployManager = Activator.getDeployManager();
 		if (deployManager==null) {
@@ -20,5 +19,5 @@ public class Deinstaller implements IDeinstaller {
 		return results;
 
 	}
-
+	
 }

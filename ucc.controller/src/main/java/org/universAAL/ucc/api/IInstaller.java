@@ -14,6 +14,7 @@ public interface IInstaller {
 	
 	// interface with MW: call DeployManager
 	public InstallationResults requestToInstall(UAPPPackage app);
+	//public String requestToInstall(String app);
 	
 	
 }

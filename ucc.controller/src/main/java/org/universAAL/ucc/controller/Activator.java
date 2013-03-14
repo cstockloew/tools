@@ -85,4 +85,5 @@ public class Activator implements BundleActivator {
 	public static DeployManager getDeployManager()  {
 		return deployManager;
 	}
+	
 }
