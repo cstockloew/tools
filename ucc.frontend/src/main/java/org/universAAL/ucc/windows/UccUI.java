@@ -10,8 +10,10 @@ import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 
 import com.vaadin.Application;
+import com.vaadin.service.ApplicationContext.TransactionListener;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Embedded;
@@ -25,6 +27,10 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
 
 public class UccUI extends Application {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Window mainWindow;
 	private Button startButton;
 	private Button searchButton;
@@ -38,22 +44,18 @@ public class UccUI extends Application {
 	private DesktopController desk;
 	private String basename;
 	private ResourceBundle res;
-	private static UccUI uccUI;
+	private  static UccUI uccUI;
+	
 	private final static String file = System.getenv("systemdrive")
 			+ "/uccDB/preferences.xml";
 
 	
-/*	public static UccUI getInstance() {
-		return uccUI;
-	} */
-	
 	public static UccUI getInstance() {
-		  if(uccUI == null) {
-		   uccUI = new UccUI();
-		  }
-		  return uccUI;
-		 }
+		return uccUI;
+	}
 
+	
+	
 	@Override
 	public void init() {
 		setTheme("editortheme");
