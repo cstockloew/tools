@@ -44,7 +44,7 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		win.getGo().addListener((Button.ClickListener)this);
 		win.getCancel().addListener((Button.ClickListener)this);
 	}
-	@Override
+	
 	public void valueChange(ValueChangeEvent event) {
 		
 		if(event.getProperty() instanceof Tree) {
@@ -83,7 +83,7 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		}
 		
 	}
-	@Override
+	
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == win.getCancel()) {
 			app.getMainWindow().showNotification(res.getString("break.note"), Notification.TYPE_ERROR_MESSAGE);

@@ -15,7 +15,6 @@ public class Activator implements BundleActivator {
 	private static BundleContext bc;
 	private static ServiceRegistration reg;
 
-	@Override
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
 		ref = context.getServiceReference(IInstaller.class.getName());
@@ -34,7 +33,6 @@ public class Activator implements BundleActivator {
 		return installer;
 	}
 
-	@Override
 	public void stop(BundleContext context) throws Exception {
 		context.ungetService(ref);
 		reg.unregister();

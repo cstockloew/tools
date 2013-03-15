@@ -71,7 +71,6 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 		bc.ungetService(ref);
 	}
 	
-	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == toolWin.getuStoreButton()) {
 			Embedded em = new Embedded("", new ExternalResource(createLink()));
@@ -151,14 +150,12 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 		return url;
 	}
 
-	@Override
 	public void uploadFailed(FailedEvent event) {
 		app.getMainWindow().removeWindow(installWindow);
 		app.getMainWindow().showNotification(res.getString("break.note"), Notification.TYPE_ERROR_MESSAGE);
 		
 	}
 
-	@Override
 	public void uploadFinished(FinishedEvent event) {
 		app.getMainWindow().removeWindow(installWindow);
 		IWindow iw = new InstallProcessImpl();

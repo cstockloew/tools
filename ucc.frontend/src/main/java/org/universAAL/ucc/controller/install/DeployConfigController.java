@@ -34,7 +34,6 @@ public class DeployConfigController implements Button.ClickListener {
 		win.getCancel().addListener(this);
 	}
 
-	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == win.getNext()) {
 			app.getMainWindow().removeWindow(win);

@@ -43,7 +43,6 @@ public class OptionsController implements Button.ClickListener,
 		win.getInvoke().addListener((Button.ClickListener) this);
 	}
 
-	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == win.getInvoke()) {
 			app.getMainWindow().removeWindow(win);
@@ -77,7 +76,6 @@ public class OptionsController implements Button.ClickListener,
 
 	}
 
-	@Override
 	public void valueChange(ValueChangeEvent event) {
 		if (event.getProperty().toString()
 				.equals(bundle.getString("options.install.label"))) {

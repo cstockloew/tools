@@ -49,7 +49,6 @@ public class DeployStrategyController implements Button.ClickListener {
 	}
 
 
-	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == view.getOk()) {
 			IWindow iw = new InstallProcessImpl();

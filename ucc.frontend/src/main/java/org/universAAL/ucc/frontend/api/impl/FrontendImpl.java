@@ -50,13 +50,12 @@ public class FrontendImpl implements IFrontend {
 	private static final String FILENAME_SEARCH_TAG="filename";
 
 
-	@Override
 	public void installService(String sessionkey, String downloadUri) {
 		// Opens a browser window and loads the ucc site
 		Desktop desk = Desktop.getDesktop();
 		try {
 			desk.browse(new URI("http://127.0.0.1:8080/ucc"));
-		} catch (IOException | URISyntaxException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -313,7 +312,6 @@ public class FrontendImpl implements IFrontend {
 	/**
 	 * Uninstalls the a installed AAL service.
 	 */
-	@Override
 	public void uninstallService(String sessionkey, String serviceId) {
 		// get the list of uapps installed for this serviceId
 		// TODO: List<String appId> getInstalledApps(String serviceId)
@@ -322,7 +320,6 @@ public class FrontendImpl implements IFrontend {
 		
 	}
 
-	@Override
 	public void update(String sessionKey, String usrvfile) {
 		// parse usrvFile and get serviceId
 		
@@ -331,13 +328,11 @@ public class FrontendImpl implements IFrontend {
 		installService(sessionKey, usrvfile);
 	}
 
-	@Override
 	public String getInstalledServices(String sessionKey) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public String getInstalledUnitsForService(String sessionKey,
 			String serviceId) {
 		// TODO Auto-generated method stub

@@ -18,7 +18,6 @@ public class AALServiceReceiver implements Receiver {
     private String mtype;
     private final static String dir = "tempUsrvFiles";
 
-	@Override
 	public OutputStream receiveUpload(String filename, String mimeType) {
 		ZipFile arch = null;
 		InputStream  is = null;

@@ -37,7 +37,6 @@ public class PreferencesController implements ClickListener {
 		oldPref = db.getPreferencesData(file);
 	}
 
-	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == win.getSave()) {
 			Preferences pref = new Preferences();

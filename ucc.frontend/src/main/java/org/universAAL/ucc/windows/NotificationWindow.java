@@ -37,7 +37,6 @@ public class NotificationWindow extends Window implements Button.ClickListener {
 		setClosable(false);
 	}
 
-	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == ok) {
 			close();

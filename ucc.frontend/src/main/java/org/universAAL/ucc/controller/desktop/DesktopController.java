@@ -33,7 +33,6 @@ public class DesktopController implements Button.ClickListener {
 	}
 
 
-	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == app.getStartButton()) {
 			if (main.getChildWindows().size() > 0) {

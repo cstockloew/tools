@@ -61,7 +61,6 @@ public class UsrvInfoController implements Button.ClickListener{
 	}
 
 	
-	@Override
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == win.getOk()) {
 			app.getMainWindow().removeWindow(win);

@@ -42,7 +42,6 @@ public class InstallProcessImpl implements IWindow {
 		bundle = ResourceBundle.getBundle(base);
 	}
 
-	@Override
 	public void getDeployStratgyView(String name, String serviceId,
 		String uappLocation, int index, AALService aal) {
 		DeployStrategyView dsv = new DeployStrategyView(name, serviceId, uappLocation);
@@ -51,7 +50,6 @@ public class InstallProcessImpl implements IWindow {
 
 	}
 
-	@Override
 	public void getDeployConfigView(AALService aal, int index, boolean isLastPart) {
 		//Test, if there are uapps in list
 		if(!aal.getUaapList().isEmpty()) {
@@ -81,7 +79,6 @@ public class InstallProcessImpl implements IWindow {
 	/**
 	 * Parses the configuration xml of the usrv file
 	 */
-	@Override
 	public void installProcess(String usrvPath) {
 		File licenceFile = new File(usrvPath + "config/hwo.usrv.xml");
 		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
