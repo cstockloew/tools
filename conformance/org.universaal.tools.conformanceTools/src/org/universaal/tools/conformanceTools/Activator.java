@@ -32,9 +32,9 @@ public class Activator extends AbstractUIPlugin {
 		bundleContext = context;
 		plugin = this;
 		if(context.getBundle().getLocation().startsWith("initial"))		
-			absolutePath = context.getBundle().getLocation().replace("initial@reference:file:/", ""); 
+			absolutePath = context.getBundle().getLocation().replace("initial@reference:file:", ""); 
 		else			
-			absolutePath = context.getBundle().getLocation().replace("reference:file:/", ""); 
+			absolutePath = context.getBundle().getLocation().replace("reference:file:", ""); 
 	}
 
 	/*

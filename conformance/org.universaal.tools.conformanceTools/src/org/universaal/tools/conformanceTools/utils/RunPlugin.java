@@ -5,5 +5,4 @@ public enum RunPlugin {
 	FileConformance,
 	CodeStyle,
 	CustomChecks;
-
 }

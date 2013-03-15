@@ -47,7 +47,7 @@ public class MainFrame {
 		cs.setLayoutData(data);
 
 		Button uaal = new Button(shell, SWT.PUSH);
-		uaal.setText("Check against uAAL custom rules");
+		uaal.setText("Check against uAAL rules");
 		uaal.setEnabled(true);
 		uaal.addMouseListener(new MouseListener() {
 
@@ -65,7 +65,7 @@ public class MainFrame {
 			}
 		});
 		uaal.setLayoutData(data);
-		
+
 		Button fc = new Button(shell, SWT.PUSH);
 		fc.setText("Check proper project structure");
 		fc.setEnabled(true);

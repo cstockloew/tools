@@ -49,6 +49,7 @@ import org.universaal.tools.conformanceTools.checks.impl.Maven_nature;
 import org.universaal.tools.conformanceTools.checks.impl.NameGroupID;
 import org.universaal.tools.conformanceTools.checks.impl.OSGI_bundle;
 import org.universaal.tools.conformanceTools.checks.impl.POM_file;
+import org.universaal.tools.conformanceTools.checks.impl.UICallerImpl;
 import org.universaal.tools.conformanceTools.markers.CTMarker;
 import org.universaal.tools.conformanceTools.markers.Markers;
 import org.universaal.tools.conformanceTools.utils.HtmlPage;
@@ -99,12 +100,12 @@ public class ToolsRun {
 		this.window = window;
 
 		this.selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
-		if(this.selection == null){
+		if(this.selection == null)//{
 			this.selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
-			System.out.println("uAAL CT - using selection from Project Explorer.");
-		}
-		else
-			System.out.println("uAAL CT - using selection from Package Explorer.");
+		//			System.out.println("uAAL CT - using selection from Project Explorer.");
+		//		}
+		//		else
+		//			System.out.println("uAAL CT - using selection from Package Explorer.");
 
 		if ((selection != null) && (selection instanceof StructuredSelection)) {
 
@@ -130,16 +131,20 @@ public class ToolsRun {
 
 				if(plugin == RunPlugin.CustomChecks){
 
+					//					AALDirectivesMavenPlugin tests = new AALDirectivesMavenPlugin(this.projectToAnalyze);
+					//					List<Throwable> results = tests.executeTests();
+
 					List<String> checks = new ArrayList<String>();
 					checks.add(ActivatorCheck.class.getName());
 					checks.add(Maven_nature.class.getName());
 					checks.add(NameGroupID.class.getName());
 					checks.add(OSGI_bundle.class.getName());
 					checks.add(POM_file.class.getName());			
-					//checks.add(UICallerImpl.class.getName());			
+					// TODO checks.add(UICallerImpl.class.getName());			
 
 					List<Result> results = test(checks);
 					visualizeResultsCC(results);
+					//visualizeResultsAALDirectives(results);
 				}				
 			}
 			catch(Exception ex){ ex.printStackTrace(); }
@@ -190,10 +195,7 @@ public class ToolsRun {
 			}
 		}
 
-		if(results != null)
-			return results;
-
-		return null;
+		return results;
 	}
 
 	private void testConformance() throws CoreException {
@@ -494,14 +496,12 @@ public class ToolsRun {
 			int k = 0; 
 			for(int i = 0; i < orderderbugsMap.size(); i++){
 				if(orderderbugsMap.get(i) != null)
-					//if(orderderbugsMap.get(i).getPlugin() == this.plugin){
 					orderderbugsMap.set(i, null);
 				k++;
-				//}
 			}
-			System.out.println("uAAL CT - deleted "+k+" bug instances.");
+			//System.out.println("uAAL CT - deleted "+k+" bug instances.");
 
-			markers.deleteAll(/*this.plugin*/);
+			markers.deleteAll();
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -674,6 +674,50 @@ public class ToolsRun {
 		}
 	}
 
+	private void visualizeResultsAALDirectives(List<Throwable> results){
+
+		try{
+			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - Test results from AAL Directives Maven Plugin");
+			//String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/images/logos/";
+
+			Table t = page.new Table(results.size()+2, 4);
+
+			// table header
+			t.addContentCentered("<font size='5'><b>TEST RESULT</b></font>", 0, 0);
+			//t.addContentCentered("<font size='5'><b>TEST NAME</b></font>", 0, 1);
+			t.addContentCentered("<font size='5'><b>TEST DETAILS</b></font>", 0, 2);
+			//t.addContentCentered("<font size='5'><b>RESULT DESCRIPTION</b></font>", 0, 3);
+
+			for(int i = 0; i < results.size(); i++){
+				Throwable check = results.get(i);
+				//				t.addContentCentered("<img src='"+path_+check.getResultImg()+"' />", i+1, 0);		
+				//				t.addContentCentered(check.getCheckName(), i+1, 1);			
+				//				t.addContentCentered(check.getCheckDescription(), i+1, 2);
+				//				t.addContentCentered(check.getResultDscr(), i+1, 3);
+				t.addContentCentered(check.getLocalizedMessage(), i+1, 0);
+				//t.addContentCentered(check.getCause().getMessage(), i+1, 1);
+				if(check.getStackTrace() != null)
+					t.addContentCentered(check.getStackTrace().toString(), i+1, 2);
+				else
+					t.addContentCentered("No details.", i+1, 2);
+				//				check.getCause();
+				//				check.getLocalizedMessage();
+				//				check.getStackTrace();
+			}
+
+			page.getBody().addElement(t.getTable());
+			page.getBody().addElement("<br/><br/><p>Total: 9/*"+results.size()+"*/ performed test(s).</p>");
+			String filePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/"+fileNameResults;
+			File file = new File(filePath);
+			page.write(file);
+
+			IDE.openEditorOnFileStore( window.getActivePage(), EFS.getLocalFileSystem().getStore(file.toURI()) );
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
 	private void visualizeResultsFC(List<BugDescriptor> bugs){
 
 		try{
@@ -728,7 +772,7 @@ public class ToolsRun {
 			Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
 
 			File sourceDir;
-			File[] icons;
+			File[] icons = new File[0];
 
 			if(!Activator.absolutePath.endsWith("jar")){
 				sourceDir = new File(Activator.absolutePath+"/icons/");
@@ -767,10 +811,11 @@ public class ToolsRun {
 			if(!logos.exists()) 
 				logos.mkdir();
 
-			for(File icon: icons){
-				Utilities.copyFile(bundle, destAbsPath+destInternalProjectPath, icon.getName(), "/icons/");
-				Utilities.copyFile(bundle, destAbsPath+destInternalProjectPath+"logos/", icon.getName(), "/icons/");
-			}
+			if(icons != null && icons.length > 0)
+				for(File icon: icons){
+					Utilities.copyFile(bundle, destAbsPath+destInternalProjectPath, icon.getName(), "/icons/");
+					Utilities.copyFile(bundle, destAbsPath+destInternalProjectPath+"logos/", icon.getName(), "/icons/");
+				}
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
