@@ -40,26 +40,6 @@
 	</dependencyManagement>
 	
 	<dependencies>
- 		<dependency>
-        	<groupId>org.universAAL.middleware</groupId>
-        	<artifactId>mw.data.representation.osgi</artifactId>
-        	<version>1.2.1-SNAPSHOT</version>
-      	</dependency>
-		<dependency>
-			<groupId>org.universAAL.middleware</groupId>
-			<artifactId>mw.bus.model.osgi</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.universAAL.middleware</groupId>
-			<artifactId>mw.bus.ui.osgi</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.universAAL.middleware</groupId>
-			<artifactId>mw.acl.interfaces.osgi</artifactId>
-			<version>1.2.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<organization>
@@ -161,7 +141,6 @@
 	</distributionManagement>
 
 	<modules>
-		<module>../ucc.api</module>
 		<module>../ucc.model</module>
 		<module>../ucc.karaf.feature</module>
 	</modules>
