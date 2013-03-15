@@ -12,10 +12,11 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-Name>${project.name}</Bundle-Name>
+						<Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
 						<Bundle-Activator>org.universAAL.ucc.controller.Activator</Bundle-Activator>
 						<Bundle-Description>${project.description}</Bundle-Description>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
 						<Export-Package>org.universAAL.ucc.api.*</Export-Package>
 					</instructions>
 				</configuration>
@@ -23,10 +24,16 @@
 		</plugins>
 	</build>
   <dependencies>
-  	<dependency>
+<!--   	<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.osgi.core</artifactId>
-	</dependency>
+	</dependency>   -->
+	<dependency>
+  		<groupId>org.apache.felix</groupId>
+  		<artifactId>org.apache.felix.framework</artifactId>
+  		<version>3.0.8</version>
+  		<type>bundle</type>
+  	</dependency>  
    	<dependency>
   		<groupId>org.universAAL.middleware</groupId>
   		<artifactId>mw.managers.api.osgi</artifactId>

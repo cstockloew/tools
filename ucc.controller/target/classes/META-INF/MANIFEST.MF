@@ -1,22 +1,23 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1363176512964
+Bnd-LastModified: 1363357751332
 Build-Jdk: 1.7.0
 Built-By: sji
 Bundle-Activator: org.universAAL.ucc.controller.Activator
-Bundle-Description: A tool to install, manage and configure applications
-  for universAAL an a local maschine.
+Bundle-Description: Provides the interface with MW DeployManager.
 Bundle-DocURL: http://www.universAAL.org/
 Bundle-ManifestVersion: 2
 Bundle-Name: org.universAAL.tools.ucc.ucc.controller
 Bundle-SymbolicName: ucc.controller
-Bundle-Vendor: Nicole Merkle
+Bundle-Vendor: universAAL Consortium
 Bundle-Version: 2.0.1.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
 Export-Package: org.universAAL.ucc.api.impl;uses:="org.universAAL.middle
- ware.managers.api,org.universAAL.ucc.api";version="2.0.1.SNAPSHOT",org.
- universAAL.ucc.api;uses:="org.universAAL.middleware.managers.api";versi
- on="2.0.1.SNAPSHOT"
+ ware.managers.api,org.universAAL.ucc.api,org.universAAL.middleware.inte
+ rfaces";version="2.0.1.SNAPSHOT",org.universAAL.ucc.api;uses:="org.univ
+ ersAAL.middleware.managers.api";version="2.0.1.SNAPSHOT"
 Import-Package: org.osgi.framework;version="[1.5,2)",org.universAAL.midd
- leware.managers.api;version="[1.0,2)",org.universAAL.ucc.api;version="[
- 2.0,3)",org.universAAL.ucc.api.impl;version="[2.0,3)"
+ leware.container;version="[1.3,2)",org.universAAL.middleware.container.
+ osgi;version="[1.3,2)",org.universAAL.middleware.interfaces,org.univers
+ AAL.middleware.managers.api;version="[1.0,2)",org.universAAL.ucc.api;ve
+ rsion="[2.0,3)"
 Tool: Bnd-1.50.0
