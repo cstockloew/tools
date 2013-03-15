@@ -40,15 +40,18 @@ public class TreeConstruction{
 	private static TreeNode tn;
 	
 	public TreeConstruction(){
-		repoImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"repo.gif")).createImage();
-		classImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"class.gif")).createImage();
-		propImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"properties.gif")).createImage();
+		repoImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+"/"+iconsDir+"/"+"repo.gif")).createImage();
+		classImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+"/"+iconsDir+"/"+"class.gif")).createImage();
+		propImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+"/"+iconsDir+"/"+"properties.gif")).createImage();
+
+		//repoImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"repo.gif")).createImage();
+		//classImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"class.gif")).createImage();
+		//propImage =ImageDescriptor.createFromURL((URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+iconsDir+File.separator+"properties.gif")).createImage();
 		//owlFilesDir = (URL)Platform.getBundle("org.universaal.tools.codeAssistant").getEntry(codeAssistantDir+File.separator+filesDir+File.separator);
 	}
 
 	public static TreeNode getRootNode() {
 		TreeNode root = new TreeNode("root",new Entity("root"));
-		String currentDir = System.getProperty("user.dir");
 		try{
 			//File[] files = getDirectoryFiles(owlFilesDir);
 			File[] files = getDirectoryFiles();
@@ -323,7 +326,8 @@ public class TreeConstruction{
 		String[] fileNames = new String[files.length];
 		for (int i=0; i<files.length; i++){
 			File path=files[i];
-			fileNames[i] = (path.toString()).substring((path.toString()).lastIndexOf("\\")+1, (path.toString()).lastIndexOf(".")); 
+			fileNames[i] = (path.toString()).substring((path.toString()).lastIndexOf(File.separator)+1, (path.toString()).lastIndexOf("."));
+			//fileNames[i] = (path.toString()).substring((path.toString()).lastIndexOf("/")+1, (path.toString()).lastIndexOf("."));
 		}
 		return fileNames;
 	}

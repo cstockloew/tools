@@ -124,7 +124,10 @@ public class RepositoryClient {
 	static public boolean downloadAllOntologies(String directory) {
 		initFiles();
 		boolean res=false;
-		pathToSaveFiles = directory + File.separator;
+		pathToSaveFiles = directory + "/";
+		//pathToSaveFiles = directory + File.separator;
+		
+		
 		//System.out.println("pathToSaveFiles="+pathToSaveFiles);
 		// Rename the old Ontologies.xml
 		String previousXmlFile = renameFile(directory, "latest_Ontologies.xml");

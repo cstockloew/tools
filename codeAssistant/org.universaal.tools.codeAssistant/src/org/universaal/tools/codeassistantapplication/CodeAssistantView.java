@@ -93,7 +93,7 @@ public class CodeAssistantView extends ViewPart{
 					break;
 			}
 		}
-*/		
+*/
 	}
 	
 	@Override
