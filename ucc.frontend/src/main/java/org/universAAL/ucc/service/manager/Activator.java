@@ -7,6 +7,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
+import org.universAAL.ucc.windows.UccUI;
 
 public class Activator implements BundleActivator {
 	private static IInstaller installer;
@@ -20,6 +21,10 @@ public class Activator implements BundleActivator {
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
 		reg = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
+		
+			IFrontend front = new FrontendImpl();
+			front.installService("", System.getenv("systemdrive")+"/tempUsrvFiles/");
+	
 	}
 	
 	public static IInstaller getInstaller() {

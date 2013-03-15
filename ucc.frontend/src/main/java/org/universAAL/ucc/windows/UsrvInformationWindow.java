@@ -77,6 +77,7 @@ public class UsrvInformationWindow extends Window {
 		addComponent(form);
 //		vl.addComponent(hl);
 	}
+	
 
 	public Button getOk() {
 		return ok;

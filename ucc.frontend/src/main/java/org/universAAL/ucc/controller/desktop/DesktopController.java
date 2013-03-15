@@ -3,13 +3,14 @@ package org.universAAL.ucc.controller.desktop;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.ucc.client.util.UstoreUtil;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
+import org.universAAL.ucc.deploymanagerservice.unused.DeployManagerService;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.SearchWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
@@ -18,6 +19,7 @@ public class DesktopController implements Button.ClickListener {
 	private UccUI app;
 	private Window main;
 	private UserAccountDB db;
+	private DeployManagerService dms;
 	
 	public DesktopController(UccUI app) {
 		this.app = app;
@@ -56,11 +58,10 @@ public class DesktopController implements Button.ClickListener {
 			main.removeWindow(app.getLoginWindow());
 			main.removeComponent(app.getVLog());
 			main.setContent(app.createContent(this));
-			//ToDo: implement registerDeployManager and install-method of the DeployManager
-			//and call here DeployManager as service
 			
-			
-			
+			//Register to uStore
+			UstoreUtil client = new UstoreUtil();
+			client.registerUser();
 		}
 		if(event.getButton() == app.getAdminButton()) {
 			Preferences pref = db.getPreferencesData(System.getenv("systemdrive")+"/uccDB/preferences.xml");

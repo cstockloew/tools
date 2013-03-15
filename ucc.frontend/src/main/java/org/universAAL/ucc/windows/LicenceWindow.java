@@ -109,6 +109,8 @@ public class LicenceWindow extends Window {
 		op.addListener(lic);
 	}
 	
+	
+	
 	public void createSecondComponent(Panel p) {
 		modus = Arrays.asList(new String[]{res.getString("agree.radio"), res.getString("dontAgree.radio")});
 		vl = new VerticalLayout();

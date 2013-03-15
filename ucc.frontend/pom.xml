@@ -72,6 +72,12 @@
   		<version>1.3.2-SNAPSHOT</version>
   		<type>bundle</type>
   	</dependency>
+  	<dependency>
+  		<groupId>org.universAAL.tools.ucc</groupId>
+  		<artifactId>ucc.deploymanagerservice</artifactId>
+  		<version>1.0.0-SNAPSHOT</version>
+  		<type>bundle</type>
+  	</dependency>
   </dependencies>
   <packaging>bundle</packaging>
   <parent>
