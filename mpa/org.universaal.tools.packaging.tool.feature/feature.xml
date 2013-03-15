@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.packaging.tool.feature"
-      label="AAL Studio MPA packager"
-      version="0.3.5"
+      label="AAL Studio MultiPart Application Packager"
+      version="0.3.6"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -26,7 +26,7 @@ and
 limitations under the License.
    </copyright>
 
-      <license url="http://www.apache.org/licenses/LICENSE-2.0">
+   <license url="http://www.apache.org/licenses/LICENSE-2.0">
       Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
