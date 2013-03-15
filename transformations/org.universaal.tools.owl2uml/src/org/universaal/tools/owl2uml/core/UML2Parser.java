@@ -727,8 +727,8 @@ public class UML2Parser {
 				+ "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
 				+ "SELECT ?proper ?range ?domain \n"
 				+ "WHERE { ?proper rdf:type owl:DatatypeProperty ."
-				+ " ?proper rdfs:domain ?domain ."
-				+ " OPTIONAL{?proper rdfs:range ?range}} \n";
+				+ " ?proper rdfs:domain ?domain . "
+				+ " OPTIONAL{?proper rdfs:range ?range . ?proper rdf:type owl:FunctionalProperty .}} \n";
 		System.out.println(queryString);
 		Query query = QueryFactory.create(queryString);
 		QueryExecution qexec = QueryExecutionFactory.create(query, model);

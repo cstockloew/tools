@@ -96,10 +96,7 @@ public class UML2Factory {
 					.println("Additional properties from XML file were Ignored!");
 		}
 		;
-		//String modelName = owlURI.substring(owlURI.lastIndexOf("/") + 1,
-		//		owlURI.lastIndexOf("."));
-		//packageName = /*"org.universaal.ontology." +*/ modelName;
-		//packageName = owlURI.substring(0, owlURI.lastIndexOf("/")) + modelName;
+
 		modelName = XMLModelName;
 		packageName = XMLPackageName;
 
@@ -204,12 +201,14 @@ public class UML2Factory {
 				if (element instanceof org.eclipse.uml2.uml.Package) {
 					Stereotype s = ((NamedElement) element)
 							.getAppliedStereotype("OWL::owlOntology");
+
 					if (s != null) {
 
 						UMLUtil.setTaggedValue((Element) element, s,
 								"defaultNamespace", owlURI);
 						UMLUtil.setTaggedValue((Element) element, s,
 								"versionInfo", XMLHeader.get("XMLVersionInfo"));
+
 					}
 				}
 			}
@@ -318,14 +317,14 @@ public class UML2Factory {
 	public void write(String file) throws IOException {
 
 		System.out.println("Saving model to file: " + file);
-/*		String umlPath = file.substring(file.lastIndexOf("/") + 1,
-				(file.lastIndexOf("\\") + 1));
-		String umlFile = file.substring(file.lastIndexOf("\\") + 1,
-				file.lastIndexOf("."));
-*/
-		save(rootModel, URI.createFileURI(file)); 
-		//URI.createFileURI(umlPath).appendSegment(umlFile)
-		//		.appendFileExtension(UMLResource.FILE_EXTENSION));
+		/*
+		 * String umlPath = file.substring(file.lastIndexOf("/") + 1,
+		 * (file.lastIndexOf("\\") + 1)); String umlFile =
+		 * file.substring(file.lastIndexOf("\\") + 1, file.lastIndexOf("."));
+		 */
+		save(rootModel, URI.createFileURI(file));
+		// URI.createFileURI(umlPath).appendSegment(umlFile)
+		// .appendFileExtension(UMLResource.FILE_EXTENSION));
 	}
 
 	public void createClass(String name, String nameParent) {
@@ -600,6 +599,23 @@ public class UML2Factory {
 		Property attribute = class_.createOwnedAttribute(name, type,
 				lowerBound, upperBound);
 
+		if (attribute instanceof org.eclipse.uml2.uml.Property) {
+			Stereotype s = attribute
+					.getApplicableStereotype("OWL::datatypeProperty");
+			attribute.applyStereotype(s);
+
+			type.getQualifiedName();
+			String pt = type.getQualifiedName();
+			if (s != null) {
+				if (pt.equals("UMLPrimitiveTypes::UnlimitedNatural")) {
+					UMLUtil.setTaggedValue(attribute, s, "isFunctional", false);
+				} else {
+					UMLUtil.setTaggedValue(attribute, s, "isFunctional", true);
+				}
+
+			} 
+		}
+
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("Attribute '");
@@ -773,22 +789,19 @@ public class UML2Factory {
 			} else {
 				System.out.println("XML Validated against Schema");
 			}
-			
-			XMLModelName = doc.getDocumentElement().getAttribute("Name");
-			XMLPackageName = doc.getDocumentElement().getAttribute("Package");
 
 			System.out.println("for ontology "
-					+ XMLModelName
+					+ doc.getDocumentElement().getAttribute("Name")
 					+ " of "
-					+ XMLPackageName
+					+ doc.getDocumentElement().getAttribute("Package")
 					+ " Version Info: "
 					+ doc.getDocumentElement().getAttribute("versionInfo")
 					+ " Comment: "
 					+ doc.getElementsByTagName("Comment").item(0)
 							.getFirstChild().getNodeValue());
-			
-			
-			
+
+			XMLModelName = doc.getDocumentElement().getAttribute("Name");
+			XMLPackageName = doc.getDocumentElement().getAttribute("Package");
 
 			XMLHeader.put("XMLName",
 					doc.getDocumentElement().getAttribute("Name"));
@@ -798,7 +811,6 @@ public class UML2Factory {
 					.getAttribute("versionInfo"));
 			XMLHeader.put("XMLComment", doc.getElementsByTagName("Comment")
 					.item(0).getFirstChild().getNodeValue());
-			
 
 			NodeList nList = doc.getElementsByTagName("Name");
 			for (int temp = 0; temp < nList.getLength(); temp++) {
