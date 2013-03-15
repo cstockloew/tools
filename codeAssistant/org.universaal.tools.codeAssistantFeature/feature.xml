@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.codeAssistantFeature"
       label="AAL Studio Code Assistant"
-      version="0.9.0"
+      version="0.9.1"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
