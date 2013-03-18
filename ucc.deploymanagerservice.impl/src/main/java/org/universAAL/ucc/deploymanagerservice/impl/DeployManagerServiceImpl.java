@@ -20,10 +20,10 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 	//private IInstaller installer;
 	public void install(String sessionKey, String usrvfile) {
 		System.out.println("[DeployManagerServiceImpl] Install with sessionKey: " + sessionKey + " for URL: " + usrvfile);
-		String fileOnHardDrive = "C:/tempUsrvFiles/&filename=corrected_hwo_usrv.usrv";
-			fileOnHardDrive = fileOnHardDrive.replace("/", "\\"); 
-			System.out.println("[DeployManagerServiceImpl] the file on the hard drive: " + fileOnHardDrive);
-			Activator.getFrontend().installService(sessionKey, fileOnHardDrive);
+		//String fileOnHardDrive = "C:/tempUsrvFiles/&filename=corrected_hwo_usrv.usrv";
+			//fileOnHardDrive = fileOnHardDrive.replace("/", "\\"); 
+			//System.out.println("[DeployManagerServiceImpl] the file on the hard drive: " + fileOnHardDrive);
+			Activator.getFrontend().installService(sessionKey, usrvfile);
 			//System.out.println("[DeployManagerServiceImpl] the result for installation is: " + results);
 	/*	}
 		catch(MalformedURLException e) 
