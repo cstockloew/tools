@@ -2,6 +2,9 @@ package org.universAAL.ucc.controller.install;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.osgi.framework.BundleContext;
@@ -21,6 +24,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.Notification;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+
+import org.universAAL.middleware.deploymaneger.uapp.model.DeploymentUnit;
+import org.universAAL.middleware.deploymaneger.uapp.model.Part;
+import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 
@@ -33,6 +40,7 @@ public class DeployStrategyController implements Button.ClickListener {
 	private ResourceBundle bundle;
 	private BundleContext bc;
 	private IInstaller installer;
+	private Map<String, PeerCard> peers;
 	
 	public DeployStrategyController(UccUI app, DeployStrategyView view, int index, AALService aal) {
 		base = "resources.ucc";
@@ -56,8 +64,11 @@ public class DeployStrategyController implements Button.ClickListener {
 			if(view.getOptions().getValue().toString().equals(bundle.getString("opt.available.nodes"))) {
 				UAPPPackage pack = null;
 				try {
+					// Shanshan: get deploy configuration
+					peers = installer.getPeers();
+					Map config = buildDefaultInstallationLayout(aal.getUaapList().get(index));
 					pack = new UAPPPackage(aal.getUaapList().get(index).getServiceId(), aal.getUaapList().get(index).getAppId(),
-							new URI(aal.getUaapList().get(index).getUappLocation()), null);
+							new URI(aal.getUaapList().get(index).getUappLocation()), config);
 				} 
 				catch (URISyntaxException e) {
 					app.getMainWindow().showNotification(bundle.getString("uri.error"), Notification.TYPE_ERROR_MESSAGE);
@@ -95,4 +106,64 @@ public class DeployStrategyController implements Button.ClickListener {
 		
 	}
 
+    /**
+	 * Method to find the set of target peers according to the multipart application manifest
+	 * @param mpa the MPA 
+	 * @return map of PeerCard of the target peers
+	 */
+    private Map<PeerCard, Part> buildDefaultInstallationLayout(UAPP uapp ) {
+    	//TODO: Do we need to check AAL space first (aalSpaceCheck)?
+    	Map<PeerCard, Part> mpaLayout = new HashMap<PeerCard, Part>();
+    	Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
+		peersToCheck.putAll(peers);
+		// Shanshan - TODO: update UAPP to return part info
+    	for(Part part : uapp.getPart()){
+    		//check: deployment units
+    		for(String key: peersToCheck.keySet()){
+    			PeerCard peer = peersToCheck.get(key);
+    			if(checkDeployementUnit(part.getDeploymentUnit(), peer)){
+    				mpaLayout.put(peer, part);
+    				peersToCheck.remove(key);
+    				break;
+    			}
+    		}
+    	}
+    	for (PeerCard key: mpaLayout.keySet()) {
+    		   System.out.println("[DeployStrategyView.buildDefaultInstallationLayout] mpalayout: " + key.getPeerID() + "/" + mpaLayout.get(key).getPartId() );
+    		}
+    	return mpaLayout;
+	}
+
+    public static boolean checkDeployementUnit(List<DeploymentUnit> depoyementUnits, PeerCard peer){
+    	String osUnit;
+    	String pUnit;
+		for(DeploymentUnit deployementUnit: depoyementUnits){
+			//check the existence of: osUnit and platformUnit
+			if(deployementUnit.getOsUnit()!= null){
+				osUnit = deployementUnit.getOsUnit().value();
+				if(osUnit == null || osUnit.isEmpty()){
+					System.out.println("[DeployStrategyView.checkDeploymentUnit] OSunit is present but not consistent. OSUnit is null or empty");
+					return false;
+				}
+				//Check if compatible?
+				if (!osUnit.equals("any")) {
+					// only considers equal definition
+					//if (!osUnit.equalsIgnoreCase(peer.getOS())) return false;
+					System.out.println("osUnit: " + osUnit);
+					if (!(peer.getOS().contains(osUnit))) return false;
+				}
+			}else if (deployementUnit.getPlatformUnit() != null){
+				pUnit = deployementUnit.getPlatformUnit().value();
+				if(pUnit == null || pUnit.isEmpty()){
+					System.out.println("[DeployStrategyView.checkDeploymentUnit] PlatformUnit is present but not consistent. Plaform is null or empty");
+					return false;
+
+				}
+				//check if compatible?
+				if (!pUnit.equalsIgnoreCase(peer.getPLATFORM_UNIT())) return false;
+			}
+			//TODO: check containerUnit?
+		}
+		return true;
+	}
 }
