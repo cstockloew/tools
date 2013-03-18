@@ -27,7 +27,7 @@ public class CreateJar {
 		try{			
 			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
 			POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));			
-			String fileName = p.getArtifactID()+p.getVersion()+".jar";
+			String fileName = p.getArtifactID()+"-"+p.getVersion()+".jar";
 
 			Manifest manifest = new Manifest();
 			manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");			

@@ -248,9 +248,9 @@ public class PagePartDU extends PageImpl {
 			andURI.setText("");	
 		andURI.setLayoutData(gd);
 
-		Label karFile = new Label(container, SWT.NULL);
-		karFile.setText("Select this checkbox to create KAR file (valid if using Karaf container)");
-		ckbKar = new Button(container, SWT.CHECK);
+		//		Label karFile = new Label(container, SWT.NULL);
+		//		karFile.setText("Select this checkbox to create KAR file (valid if using Karaf container)");
+		//		ckbKar = new Button(container, SWT.CHECK);
 
 		Label empty1 = new Label(container, SWT.NULL);
 		empty1.setText("");
@@ -286,9 +286,12 @@ public class PagePartDU extends PageImpl {
 			ContainerUnit cu = null;
 			if(cu1.getText().equals(Container.KARAF.toString())){
 
-				//waiting.setVisible(true);
 				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
-				cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), krf.generate(this.part, ckbKar.getSelection()));
+				String karaf = krf.generate(this.part, /*ckbKar.getSelection()*/true, partNumber);
+				if(karaf != null && !karaf.isEmpty())
+					cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), karaf);
+				else
+					cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), "");				
 			}
 			else if(cu1.getText().equals(Container.ANDROID.toString())){
 				cu = new ContainerUnit(new Android(andN.getText(), andD.getText(), URI.create(removeBlanks(andURI.getText()))));

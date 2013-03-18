@@ -8,7 +8,10 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -34,6 +37,7 @@ import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class KarafFeaturesGenerator {
@@ -59,20 +63,25 @@ public class KarafFeaturesGenerator {
 
 	private final String GROUP_ID = "org.apache.karaf.tooling";
 	private final String ARTIFACT_ID = "features-maven-plugin";
-	private final String VERSION = "2.3.1";
+	private final String VERSION = "2.3.0";//"2.3.1";
 
 	private final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
-	//private final String ENCODING = "UTF-8";
-
-	public String generate(IProject part, boolean createKar){		
+	public String generate(IProject part, boolean createKar, int partNumber){		
 
 		if(verifyPreConditions(part.getName()))
 			if(generateKarafFeatures(part.getName())){	
 				if(createKar)
 					generateKarFile(part);
-				return returnKrfFeat(part);
+				return returnKrfFeat(part, partNumber);
 			}
+
+		String ret = "";
+		if(execution_result != null && execution_result.getExceptions() != null)
+			for(int i = 0; i < execution_result.getExceptions().size(); i++)
+				ret = ret.concat(execution_result.getExceptions().get(i).getMessage()+"\n");
+		System.out.println("[ERROR] The generation of Karaf features has failed: "+ret);
+
 		return "";
 	}
 
@@ -95,8 +104,12 @@ public class KarafFeaturesGenerator {
 				NodeList plugins_children = plug_ins.item(i).getChildNodes();
 				for(int j = 0; j < plugins_children.getLength(); j++){
 					if(plugins_children.item(j).getNodeName().equals("artifactId"))
-						if(plugins_children.item(j).getTextContent().equalsIgnoreCase(ARTIFACT_ID))
-							return true;
+						if(plugins_children.item(j).getTextContent().equalsIgnoreCase(ARTIFACT_ID)){
+							if(plugins_children.item(j).getNodeName().equals("version"))
+								if(plugins_children.item(j).getTextContent().equalsIgnoreCase(VERSION))
+									return true;								
+						}
+					//return true;
 				}
 			}
 			// add features-maven-plugin declaration
@@ -150,6 +163,7 @@ public class KarafFeaturesGenerator {
 		return false;
 	}
 
+	private MavenExecutionResult execution_result;
 	private boolean generateKarafFeatures(String projectName){
 
 		try{
@@ -173,7 +187,7 @@ public class KarafFeaturesGenerator {
 
 				request.setGoals(goals);
 				request.setUserProperties(props);
-				MavenExecutionResult execution_result = maven.execute(request, null);
+				execution_result = maven.execute(request, null);
 				if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty())
 					return true;
 			}
@@ -241,7 +255,7 @@ public class KarafFeaturesGenerator {
 		}
 	}
 
-	private String returnKrfFeat(IProject part){
+	private String returnKrfFeat(IProject part, int partNumber){
 
 		String xml = "";
 		try {
@@ -249,6 +263,22 @@ public class KarafFeaturesGenerator {
 			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
 			File features = new File(path+"/target/classes/feature.xml");
 
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document parsedPom = docBuilder.parse(features);
+			parsedPom.getDocumentElement().normalize();
+
+			Map<String, Element> dps = new HashMap<String, Element>();
+			NodeList fts = parsedPom.getElementsByTagName("feature");
+			for(int i = 0; i < fts.getLength(); i++){
+				if(fts.item(i).getNodeType() == Node.ELEMENT_NODE){
+					Element item = (Element) fts.item(i);
+					if(item.getAttribute("name") != null && !item.getAttribute("name").isEmpty())
+						dps.put(item.getTextContent(), item);
+				}
+			}
+
+			// feature.xml modifications
 			BufferedReader reader = new BufferedReader(new FileReader(features));
 			String line = "", oldtext = "";
 			while((line = reader.readLine()) != null)
@@ -256,11 +286,40 @@ public class KarafFeaturesGenerator {
 
 			reader.close(); 
 
+			// add feature of current part: 
+			/*
+			 * <feature name="Help-when-outdoor-servlet"
+								description="Servlet part of HWO Service"
+								version="0.1" resolver="(obr)">
+								<feature>universAAL2.0</feature>
+								<bundle start-level="85" start="false">
+									file://../bin/part1/hwo.servlet_1.2.1.SNAPSHOT.jar</bundle>
+							</feature>
+			 */
+			POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
+			String fileName = p.getArtifactID()+"-"+p.getVersion()+".jar";
+			partNumber++;
+			String thisPart = "<feature name='"+p.getName()+"' description='"+p.getDescription()+"' version='"+p.getVersion()+"' resolver=''>";
+
+			Iterator<Element> it = dps.values().iterator();
+			while(it.hasNext()){
+				Element current = it.next();
+				String f = "<feature version='"+current.getAttribute("version")+"'>"+current.getAttribute("name")+"</feature>";
+				thisPart = thisPart.concat(f);
+			}
+
+			thisPart = thisPart.concat(/*"<feature>"+p.getDescription()+"</feature>" +*/
+					"<bundle start-level='0' start='false'>"+"file://../bin/part"+partNumber+"/"+fileName+"</bundle>" +
+					"</feature>" +
+					"</features>");
+			oldtext = oldtext.replace("</features>", thisPart);
+
 			xml = oldtext.substring(XML_HEADER.length(), oldtext.length()); // remove XML header
 			xml = xml.replaceAll("<", "<"+Page.KARAF_NAMESPACE+":"); // add KARAF namespace
 			xml = xml.replaceAll("<"+Page.KARAF_NAMESPACE+":/", "</"+Page.KARAF_NAMESPACE+":"); // correct end tags
 
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 
