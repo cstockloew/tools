@@ -614,6 +614,12 @@ public class BundleModel {
 	public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
 		// finally, save arguments list
 		List<Object> arguments = new LinkedList<Object>();
+		
+		try {
+			arguments = configuration.getAttribute(Attribute.RUN_ARGUMENTS, arguments);
+		} catch (CoreException e1) {
+		}
+		
 		arguments.add("--overwrite=true");
 		arguments.add("--overwriteUserBundles=true");
 		arguments.add("--overwriteSystemBundles=true");

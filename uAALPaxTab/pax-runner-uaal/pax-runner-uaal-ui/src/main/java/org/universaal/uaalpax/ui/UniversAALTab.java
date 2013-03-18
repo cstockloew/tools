@@ -50,8 +50,10 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	private ILaunchConfiguration launchConfig;
 	private UAALVersionProvider versionProvider;
 	
+	boolean deactivated = true;
+	
 	private BundleModel model;
-
+	
 	private boolean m_initializing;
 	
 	public UniversAALTab() {
@@ -66,7 +68,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		return super.getShell();
 	}
 	
-	public void createControl(Composite parent) {		
+	public void createControl(Composite parent) {
 		MavenDependencyResolver.getResolver().setGUIParent(parent);
 		MavenDependencyResolver.getResolver().clearCache();
 		
@@ -78,7 +80,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		
 		versionBlock = new VersionBlock(this, container, SWT.NONE);
 		versionBlock.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
+		
 		featuresBlock = new FeaturesBlock(this, container, SWT.NONE);
 		featuresBlock.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
@@ -101,6 +103,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	}
 	
 	public void initializeFrom(ILaunchConfiguration configuration) {
+		boolean deactivated = this.deactivated;
 		m_initializing = true;
 		try {
 			launchConfig = configuration;
@@ -108,10 +111,12 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		} finally {
 			m_initializing = false;
 		}
+		this.deactivated = deactivated;
 	}
 	
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		model.performApply(configuration);
+		if (!deactivated)
+			model.performApply(configuration);
 	}
 	
 	public BundleModel getModel() {
@@ -135,6 +140,7 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	}
 	
 	public void notifyChanged() {
+		deactivated = false;
 		updateLaunchConfigurationDialog();
 	}
 	
@@ -170,10 +176,12 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	}
 	
 	public void activated(ILaunchConfigurationWorkingCopy workingCopy) {
+		// deactivated = false;
 		initializeFrom(workingCopy);
 	}
 	
 	public void deactivated(ILaunchConfigurationWorkingCopy workingCopy) {
 		performApply(workingCopy);
-	}	
+		deactivated = true;
+	}
 }
