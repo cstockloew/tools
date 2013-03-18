@@ -18,7 +18,9 @@ import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.install.AALServiceReceiver;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
+import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.IWindow;
+import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.frontend.api.impl.InstallProcessImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
@@ -103,22 +105,25 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 			app.getMainWindow().addWindow(w);
 		}
 		if(event.getButton() == toolWin.getInstallButton()) {
-			Upload up = new Upload("", new AALServiceReceiver());
-			up.setButtonCaption(res.getString("install.button"));
-			up.addListener((Upload.FinishedListener)this);
-			up.addListener((Upload.FailedListener)this);
-			installWindow = new Window(res.getString("install.win.caption"));
-			installWindow.setResizable(false);
-			installWindow.center();
-			installWindow.setWidth("400px");
-			VerticalLayout v = new VerticalLayout();
-			v.setSizeFull();
-			v.setSpacing(true);
-			v.setMargin(true);
-			v.addComponent(up);
-			installWindow.setContent(v);
+			//Later uncomment again only for testing commented out!
+//			Upload up = new Upload("", new AALServiceReceiver());
+//			up.setButtonCaption(res.getString("install.button"));
+//			up.addListener((Upload.FinishedListener)this);
+//			up.addListener((Upload.FailedListener)this);
+//			installWindow = new Window(res.getString("install.win.caption"));
+//			installWindow.setResizable(false);
+//			installWindow.center();
+//			installWindow.setWidth("400px");
+//			VerticalLayout v = new VerticalLayout();
+//			v.setSizeFull();
+//			v.setSpacing(true);
+//			v.setMargin(true);
+//			v.addComponent(up);
+//			installWindow.setContent(v);
 			app.getMainWindow().removeWindow(toolWin);
-			app.getMainWindow().addWindow(installWindow);
+//			app.getMainWindow().addWindow(installWindow);
+			IFrontend frontend = new FrontendImpl();
+			frontend.installService("", "http://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/StoreRetrieveServiceFile?langId=-1&catalogId=10001&storeId=10001&service-24501=24501&item-24001=24001&item-12001=12001&item-11503=11503");
 		
 		}
 		if(event.getButton() == toolWin.getLogoutButton()) {

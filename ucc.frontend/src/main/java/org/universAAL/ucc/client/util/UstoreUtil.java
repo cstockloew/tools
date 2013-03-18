@@ -24,19 +24,23 @@ public class UstoreUtil {
 		bc.ungetService(ref);
 	}
 
-	public void registerUser() {
+	/**
+	 * Registers user to uStore
+	 * @return answer of the uStore registration
+	 */
+	public String registerUser() {
 		String usr = pref.getUsername2();
 		String pwd = pref.getPassword2();
 		String portNum = pref.getPort();
 		String idAddr = "";
+		String answer = "";
 		
 		try {
 			idAddr = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		
-	
+		return answer;
 		//TODO Call the Ustore instance and the registerDeployManager(usr, pwd, idAddr, portNum); method with the given parameters
 		//and return the return value of the method
 	}

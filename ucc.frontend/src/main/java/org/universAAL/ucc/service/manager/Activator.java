@@ -21,8 +21,8 @@ public class Activator implements BundleActivator {
 		installer = (IInstaller) context.getService(ref);
 		reg = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
 		
-			IFrontend front = new FrontendImpl();
-			front.installService("", System.getenv("systemdrive")+"/tempUsrvFiles/");
+//			IFrontend front = new FrontendImpl();
+//			front.installService("", System.getenv("systemdrive")+"/tempUsrvFiles/");
 	
 	}
 	

@@ -50,26 +50,47 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		if(event.getProperty() instanceof Tree) {
 			Panel panel = new Panel();
 			for(License l : lix) {
-			for(File f : l.getLicense()) {
-				if(f.getName().contains(event.getProperty().getValue().toString())) {
-					FileReader fr = null;
-					try {
-						fr = new FileReader(f);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
+				for(File sla : l.getSlaList()) {
+					if(l.getAppName().contains(event.getProperty().getValue().toString())) {
+						System.err.println("SLA name: "+sla.getName());
+						FileReader fr = null;
+						try {
+							fr = new FileReader(sla);
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						}
+						BufferedReader reader = new BufferedReader(fr);
+						String line = null;
+						try {
+							while((line = reader.readLine()) != null) {
+								panel.addComponent(new Label(line));
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
-					BufferedReader reader = new BufferedReader(fr);
-					String line = null;
-					 try {
-						while((line = reader.readLine()) != null) {
-							panel.addComponent(new Label(line));
-						 }
-					} catch (IOException e) {
-						e.printStackTrace();
+				}
+				for(File f : l.getLicense()) {
+					if(f.getName().contains(event.getProperty().getValue().toString())) {
+						FileReader fr = null;
+						try {
+							fr = new FileReader(f);
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						}
+						BufferedReader reader = new BufferedReader(fr);
+						String line = null;
+						try {
+							while((line = reader.readLine()) != null) {
+								panel.addComponent(new Label(line));
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
-		}
+			
 			win.getVl().removeAllComponents();
 			win.createSecondComponent(panel);
 			

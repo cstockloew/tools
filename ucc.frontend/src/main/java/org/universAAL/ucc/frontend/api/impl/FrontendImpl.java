@@ -48,35 +48,36 @@ public class FrontendImpl implements IFrontend {
 	private final int BUFFER_SIZE = 4096;
 	
 	private static final String FILENAME_SEARCH_TAG="filename";
+	
+	private static final String usrvLocalStore = System.getenv("systemdrive") + "/tempUsrvFiles/";
 
 
 	public void installService(String sessionkey, String downloadUri) {
 		// Opens a browser window and loads the ucc site
-		Desktop desk = Desktop.getDesktop();
-		try {
-			desk.browse(new URI("http://127.0.0.1:8080/ucc"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		Desktop desk = Desktop.getDesktop();
+//		try {
+//			desk.browse(new URI("http://127.0.0.1:8080/ucc"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		//TODO: check for sessionkey
 		
 		// downloads a usrv-file from the given download-uri
 		System.out.println("[FrontendImpl.installService] start download from " + downloadUri);
 		// TO be unmarked
-		//String usrvName = downloadUsrvFile(downloadUri);
+//		String usrvName = downloadUsrvFile(downloadUri, "HWO.usrv.usrv");
 		// Just for testing
-		String usrvName = "corrected_hwo_usrv.usrv";
 		try {
 			// extracts the downloaded usrv file
-			extractUsrvFile(usrvName);
+			extractUsrvFile(usrvLocalStore+"corrected_hwo_usrv.usrv");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	
 		try {
-			// parses the configuration xml from the extracted usrv file
-			// and creates the views (LicenseView and so on) to show to the user for further processing
+//			 parses the configuration xml from the extracted usrv file
+//			 and creates the views (LicenseView and so on) to show to the user for further processing
 			parseConfiguration();
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -93,9 +94,8 @@ public class FrontendImpl implements IFrontend {
 	 * @param downloadUri
 	 *            link from where to download the usrv file
 	 */
-	private String downloadUsrvFile(String downloadUri) {
-		String usrvName = parseFileName(downloadUri);
-		System.out.println("[FrontendImpl.downloadUsrvFile] the usrv file name is: " + usrvName);
+	private String downloadUsrvFile(String downloadUri, String filename) {
+		System.out.println("[FrontendImpl.downloadUsrvFile] the usrv file name is: " + filename);
 		URL url = null;
 		try {
 			url = new URL(downloadUri);
@@ -105,8 +105,7 @@ public class FrontendImpl implements IFrontend {
 		try {
 			BufferedInputStream in = new BufferedInputStream(url.openStream());
 			FileOutputStream out = new FileOutputStream(
-					System.getenv("systemdrive") + "tempUsrvFiles/" + usrvName
-							+ ".usrv");
+					usrvLocalStore + filename);
 			BufferedOutputStream bOut = new BufferedOutputStream(out, 1024);
 			byte[] data = new byte[1024];
 			while (in.read(data, 0, 1024) >= 0) {
@@ -117,11 +116,12 @@ public class FrontendImpl implements IFrontend {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return usrvName;
+		System.err.println(filename);
+		return filename;
 	}
 
 	private String parseFileName(String url){
-		String result="package.usrv";
+		String result=url;
 		String[] values=url.split("&");
 		for(int i=0;i<values.length;i++){
 			if(values[i].startsWith(FILENAME_SEARCH_TAG))
@@ -138,24 +138,23 @@ public class FrontendImpl implements IFrontend {
 	 * @throws IOException
 	 */
 	public void extractUsrvFile(String usrvName) throws IOException {
-		File destDir = new File(System.getenv("systemdrive")
-				+ "/tempUsrvFiles/" + usrvName);
+		System.err.println("Wichtig: "+usrvName);
+		File destDir = new File(usrvName);
 		if (!destDir.exists()) {
 			destDir.mkdir();
 		}
 		ZipInputStream zipIn = null;
 		try {
 			zipIn = new ZipInputStream(
-					new FileInputStream(System.getenv("systemdrive")
-							+ "/tempUsrvFiles/" + usrvName));
+					new FileInputStream(usrvName));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		ZipEntry entry = zipIn.getNextEntry();
 		// iterates over entries in the zip file
 		while (entry != null) {
-			String filePath = System.getenv("systemdrive") + "/tempUsrvFiles/"
-					+ entry.getName();
+			System.err.println("Entry current: "+entry.getName());
+			String filePath =  usrvLocalStore+entry.getName();
 			if (!entry.isDirectory()) {
 				// if the entry is a file, extracts it
 				extractFile(zipIn, filePath);
@@ -178,8 +177,7 @@ public class FrontendImpl implements IFrontend {
 	 * @throws IOException
 	 */
 	private void parseConfiguration() throws SAXException, IOException {
-		File licenceFile = new File(System.getenv("systemdrive")
-				+ "/tempUsrvFiles/config/hwo.usrv.xml");
+		File licenceFile = new File(usrvLocalStore + "config/hwo.usrv.xml");
 		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 		File l = null;
 		String txt = "";
@@ -255,8 +253,7 @@ public class FrontendImpl implements IFrontend {
 					if (nodeList.item(c).getNodeName().equals("usrv:link")) {
 						String link = nodeList.item(c).getTextContent();
 						link = link.substring(link.lastIndexOf("/"));
-						File file = new File(System.getenv("systemdrive")
-								+ "/tempUsrvFiles/licenses" + link);
+						File file = new File(usrvLocalStore + "licenses" + link);
 						license.getSlaList().add(file);
 					}
 				}
@@ -272,8 +269,7 @@ public class FrontendImpl implements IFrontend {
 					if (nlist.item(j).getNodeName().equals("usrv:link")) {
 						txt = nlist.item(j).getTextContent();
 						txt = txt.substring(txt.lastIndexOf("/"));
-						l = new File(System.getenv("systemdrive")
-								+ "/tempUsrvFiles/licenses" + txt);
+						l = new File(usrvLocalStore + "licenses" +txt);
 						list.add(l);
 					}
 

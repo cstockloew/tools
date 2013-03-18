@@ -68,7 +68,11 @@ public class InstallProcessImpl implements IWindow {
 				e.printStackTrace();
 			}
 			InstallationResults res = Activator.getInstaller().requestToInstall(pack);
-			UccUI.getInstance().getMainWindow().showNotification(res.name().toString());
+			if(res != null) {
+				System.err.println("[InstallProcessImpl] Request to install was successful");
+				UccUI.getInstance().getMainWindow().showNotification(res.name().toString());
+			} else System.err.println("[InstallProcessImpl] Request to install was null");
+			
 		} else {
 			//ToDo: show the successfully installed notification
 			UccUI.getInstance().getMainWindow().showNotification(bundle.getString("install.success.msg"), Notification.TYPE_HUMANIZED_MESSAGE);

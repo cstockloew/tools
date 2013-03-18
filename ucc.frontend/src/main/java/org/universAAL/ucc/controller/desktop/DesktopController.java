@@ -4,8 +4,11 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.client.util.UstoreUtil;
+import org.universAAL.ucc.controller.Activator;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.deploymanagerservice.unused.DeployManagerService;
+import org.universAAL.ucc.frontend.api.IFrontend;
+import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.SearchWindow;
@@ -60,7 +63,11 @@ public class DesktopController implements Button.ClickListener {
 			
 			//Register to uStore
 			UstoreUtil client = new UstoreUtil();
-			client.registerUser();
+			String answer = client.registerUser();
+			//TODO: interpret the answer and get sessionkey and usrvfilename
+			//This later uncomment
+//			IFrontend frontend = new FrontendImpl();
+//			frontend.installService("", "");
 		}
 		if(event.getButton() == app.getAdminButton()) {
 			Preferences pref = db.getPreferencesData(System.getenv("systemdrive")+"/uccDB/preferences.xml");

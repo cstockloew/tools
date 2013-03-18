@@ -65,7 +65,11 @@ public class DeployStrategyController implements Button.ClickListener {
 				}
 				//Showing installation results
 				InstallationResults res = installer.requestToInstall(pack);
-				app.getMainWindow().showNotification(res.name().toString());
+				if(res != null) {
+					System.err.println("[DeployStrategyController] Request to install was successful");
+					app.getMainWindow().showNotification(res.name().toString());
+				}
+				
 				app.getMainWindow().removeWindow(view);
 				//If more than one app
 				if(index >= 1) {

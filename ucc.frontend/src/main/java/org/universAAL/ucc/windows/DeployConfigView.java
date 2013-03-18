@@ -1,5 +1,6 @@
 package org.universAAL.ucc.windows;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -54,9 +55,10 @@ public class DeployConfigView extends Window {
 		select.setImmediate(true);
 		select.setNullSelectionAllowed(false);
 		//Add Nodes to dropdown box
-//		for(Map.Entry entry : installer.getPeers().entrySet()) {
-//			select.addItem(entry.getValue().toString());
-//		}
+		for(Iterator entry = installer.getPeers().entrySet().iterator(); entry.hasNext();) {
+			if(entry != null)
+			select.addItem(entry.next().toString());
+		}
 		hl.addComponent(select);
 		vl.addComponent(hl);
 		vl.setComponentAlignment(hl, Alignment.MIDDLE_CENTER);

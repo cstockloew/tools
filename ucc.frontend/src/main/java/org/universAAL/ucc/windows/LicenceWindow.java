@@ -73,13 +73,17 @@ public class LicenceWindow extends Window {
 		VerticalLayout layout = (VerticalLayout)panel.getContent();
 		layout.setSpacing(true);
 		layout.setMargin(true);
-		FileReader fr = new FileReader(licenses.get(0).getSlaList().get(0));
-//		SLA makes problems
-//		BufferedReader reader = new BufferedReader(fr);
-//		String line = null;
-//		 while((line = reader.readLine()) != null) {
-//			panel.addComponent(new Label(line));
-//		 }
+		for(License l : licenses) {
+			for(File slaFile: l.getSlaList()) {
+				FileReader fr = new FileReader(slaFile);
+//				SLA makes problems
+				BufferedReader reader = new BufferedReader(fr);
+				String line = null;
+				while((line = reader.readLine()) != null) {
+					panel.addComponent(new Label(line));
+				}
+			}
+		}
 		hp.setFirstComponent(tree);
 		vl.addComponent(panel);
 		setContent(hp);
