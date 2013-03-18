@@ -426,56 +426,52 @@ public class BundleModel {
 			}
 		}
 		
-		while (true) {
-			// check for bundles which depend on those from entries
-			Set<ArtifactURL> additionallyRemoved = artifactGraph.checkCanRemove(entries);
-			boolean remove = true;
+		// check for bundles which depend on those from entries
+		Set<ArtifactURL> additionallyRemoved = artifactGraph.checkCanRemove(entries);
+		boolean remove = true;
+		
+		// some bundles depend on bundles to remove, ask what to do
+		if (additionallyRemoved != null && !additionallyRemoved.isEmpty()) {
+			remove = false;
+			BundleSet toRemove = new BundleSet();
 			
-			// some bundles depend on bundles to remove, ask what to do
-			if (additionallyRemoved != null && !additionallyRemoved.isEmpty()) {
-				remove = false;
-				BundleSet toRemove = new BundleSet();
-				
-				StringBuilder sb = new StringBuilder("Following bundles depend on the bundles to remove:\n\n");
-				
-				for (BundleEntry be : currentBundles) {
-					try {
-						if (additionallyRemoved.contains(be.getArtifactUrl())) {
-							toRemove.add(be);
-							sb.append(be.getLaunchUrl()).append("\n");
-						}
-					} catch (UnknownBundleFormatException e) {
+			StringBuilder sb = new StringBuilder("Following bundles depend on the bundles to remove:\n\n");
+			
+			for (BundleEntry be : currentBundles) {
+				try {
+					if (additionallyRemoved.contains(be.getArtifactUrl())) {
+						toRemove.add(be);
+						sb.append(be.getLaunchUrl()).append("\n");
 					}
-				}
-				
-				sb.append("\nHow to proceed?");
-				
-				int ret = dialogProvider.openDialog("Error while removing the bundles", sb.toString(), "Remove them all",
-						"Ignore dependencies and remove", "Cancel");
-				
-				if (ret == 0) { // remove all
-					entries = new HashSet<BundleEntry>(entries);
-					for (BundleEntry be : toRemove)
-						entries.add(be);
-				} else if (ret == 1) { // ignore
-					remove = true;
+				} catch (UnknownBundleFormatException e) {
 				}
 			}
 			
-			if (remove) {
-				Set<ArtifactURL> removed = artifactGraph.removeEntries(entries, versionProvider.getBundlesOfVersion(currentVersion));
-				for (Iterator<BundleEntry> iter = currentBundles.iterator(); iter.hasNext();) {
-					BundleEntry be = iter.next();
-					try {
-						if (rawEntries.contains(be) || removed.contains(be.getArtifactUrl()) || entries.contains(be))
-							iter.remove();
-					} catch (UnknownBundleFormatException e) {
-					}
-					
-				}
-			}
+			sb.append("\nHow to proceed?");
 			
-			break;
+			int ret = dialogProvider.openDialog("Error while removing the bundles", sb.toString(), "Remove them all",
+					"Ignore dependencies and remove", "Cancel");
+			
+			if (ret == 0) { // remove all
+				entries = new HashSet<BundleEntry>(entries);
+				for (BundleEntry be : toRemove)
+					entries.add(be);
+				remove = true;
+			} else if (ret == 1) { // ignore
+				remove = true;
+			}
+		}
+		
+		if (remove) {
+			Set<ArtifactURL> removed = artifactGraph.removeEntries(entries, versionProvider.getBundlesOfVersion(currentVersion));
+			for (Iterator<BundleEntry> iter = currentBundles.iterator(); iter.hasNext();) {
+				BundleEntry be = iter.next();
+				try {
+					if (rawEntries.contains(be) || removed.contains(be.getArtifactUrl()) || entries.contains(be))
+						iter.remove();
+				} catch (UnknownBundleFormatException e) {
+				}	
+			}
 		}
 	}
 	
