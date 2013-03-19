@@ -22,9 +22,9 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.Notification;
 
-import org.universAAL.middleware.deploymaneger.uapp.model.DeploymentUnit;
-import org.universAAL.middleware.deploymaneger.uapp.model.Part;
 import org.universAAL.middleware.interfaces.PeerCard;
+import org.universAAL.middleware.interfaces.mpa.model.DeploymentUnit;
+import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 
