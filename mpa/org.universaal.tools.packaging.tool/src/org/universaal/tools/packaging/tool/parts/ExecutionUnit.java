@@ -4,6 +4,7 @@ import java.io.File;
 
 public class ExecutionUnit {
 
+	private String id;
 	private File configFile;
 	private int spaceStartLevel = -1000;
 
@@ -11,7 +12,8 @@ public class ExecutionUnit {
 		configFile = new File(Application.defaultFile);
 	}
 
-	public ExecutionUnit(File configFile, int spaceStartLevel){
+	public ExecutionUnit(String id, File configFile, int spaceStartLevel){
+		this.id = id;
 		this.configFile = configFile;
 		this.spaceStartLevel = spaceStartLevel;
 	}
@@ -28,12 +30,18 @@ public class ExecutionUnit {
 	public void setSpaceStartLevel(int spaceStartLevel) {
 		this.spaceStartLevel = spaceStartLevel;
 	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getXML(){
 
 		if(configFile != null){
-			String r = "";
-			r = r.concat("<executionUnit>");		
+			String r = "<executionUnit>";		
+			r = r.concat("<deploymentUnit>"+id+"</deploymentUnit>");
 			r = r.concat("<configFiles>"+configFile.getName()+"</configFiles>");
 			if(spaceStartLevel != -1000)
 				r = r.concat("<spaceStartLevel>"+spaceStartLevel+"</spaceStartLevel>");		

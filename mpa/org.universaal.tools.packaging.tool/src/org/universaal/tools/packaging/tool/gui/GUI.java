@@ -102,7 +102,7 @@ public class GUI extends WizardMod {
 				String partName = parts.get(i).getName();
 
 				POMParser p = new POMParser(new File(parts.get(i).getFile("pom.xml").getLocation()+""));
-				mpa.getAAL_UAPP().getParts().add(new Part(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion()));
+				mpa.getAAL_UAPP().getParts().add(new Part("part"+(i+1)));
 
 				ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
 				addPage(ppDU);
@@ -142,7 +142,7 @@ public class GUI extends WizardMod {
 
 		try {
 			// create descriptor
-			File file = new File(tempDir+"/config/"+Page.DESCRIPTOR_FILENAME);
+			File file = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getApplication().getName()+"."+Page.DESCRIPTOR_FILENAME_SUFFIX);
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
 			out.write(mpa.getXML());
 			out.close();
@@ -181,11 +181,6 @@ public class GUI extends WizardMod {
 			}
 
 			UAPP descriptor = new UAPP();
-			//			descriptor.createUAPPfile(tempDir, 
-			//					new Dialog().open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-			//							mpa.getAAL_UAPP().getApplication().getName()+".uapp", 
-			//							new String[]{"*.uapp"}).getAbsolutePath());
-
 			descriptor.createUAPPfile(tempDir, destination);
 		} 
 		catch (Exception e) {
@@ -239,7 +234,7 @@ public class GUI extends WizardMod {
 			File f = new File(tempDir);
 			f.mkdir();
 
-			File bin, config, doc, license, part;
+			File bin, config, doc, license, part, emptyFile;
 
 			bin = new File(f+"/bin");
 			bin.mkdir();
@@ -249,6 +244,15 @@ public class GUI extends WizardMod {
 			doc.mkdir();
 			license = new File(f+"/license");
 			license.mkdir();
+
+			emptyFile = new File(f+"/config/.empty"); 
+			emptyFile.createNewFile();
+
+			emptyFile = new File(f+"/doc/.empty");
+			emptyFile.createNewFile();
+
+			emptyFile = new File(f+"/license/.empty");
+			emptyFile.createNewFile();
 
 			for(int i = 0; i < parts.size(); i++){
 				part = new File(f+"/bin/part"+(i+1));

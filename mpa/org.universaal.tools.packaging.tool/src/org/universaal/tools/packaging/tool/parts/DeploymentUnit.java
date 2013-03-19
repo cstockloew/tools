@@ -56,7 +56,8 @@ public class DeploymentUnit {
 
 		String r = "";
 
-		r = r.concat("<deploymentUnit><id>"+id+"</id>");
+		//r = r.concat("<deploymentUnit><id>"+id+"</id>");
+		r = r.concat("<deploymentUnit id='"+id+"'>");
 		if(cu != null)
 			r = r.concat("<containerUnit>"+cu.getXML()+"</containerUnit>");
 		else if(osType != null)

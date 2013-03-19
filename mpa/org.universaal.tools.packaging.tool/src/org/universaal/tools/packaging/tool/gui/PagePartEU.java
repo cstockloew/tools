@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.ExecutionUnit;
 import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.validators.FileV;
+import org.universaal.tools.packaging.tool.validators.IntegerV;
 
 public class PagePartEU extends PageImpl {
 
@@ -52,6 +54,7 @@ public class PagePartEU extends PageImpl {
 			configFile1.setText(eus.get(0).getConfigFile().getName());		
 		else
 			configFile1.setText("");
+		configFile1.addVerifyListener(new FileV());
 		configFile1.setLayoutData(gd);
 
 		Button b1 = new Button(container, SWT.PUSH);
@@ -75,6 +78,7 @@ public class PagePartEU extends PageImpl {
 			ssl1.setText(eus.get(0).getSpaceStartLevel()+"");
 		else
 			ssl1.setText("0");
+		ssl1.addVerifyListener(new IntegerV());
 
 		Label l12 = new Label(container, SWT.NULL);
 		l12.setText("");
@@ -88,6 +92,7 @@ public class PagePartEU extends PageImpl {
 			configFile2.setText(eus.get(1).getConfigFile().getName());		
 		else
 			configFile2.setText("");
+		configFile2.addVerifyListener(new FileV());
 		configFile2.setLayoutData(gd);
 
 		Button b2 = new Button(container, SWT.PUSH);
@@ -111,6 +116,7 @@ public class PagePartEU extends PageImpl {
 			ssl2.setText(eus.get(1).getSpaceStartLevel()+"");
 		else
 			ssl2.setText("0");
+		ssl2.addVerifyListener(new IntegerV());
 
 		Label l22 = new Label(container, SWT.NULL);
 		l22.setText("");
@@ -124,6 +130,7 @@ public class PagePartEU extends PageImpl {
 			configFile3.setText(eus.get(2).getConfigFile().getName());		
 		else
 			configFile3.setText("");
+		configFile3.addVerifyListener(new FileV());
 		configFile3.setLayoutData(gd);
 
 		Button b3 = new Button(container, SWT.PUSH);
@@ -147,6 +154,7 @@ public class PagePartEU extends PageImpl {
 			ssl3.setText(eus.get(2).getSpaceStartLevel()+"");
 		else
 			ssl3.setText("0");
+		ssl3.addVerifyListener(new IntegerV());
 
 		Label l32 = new Label(container, SWT.NULL);
 		l32.setText("");
@@ -160,6 +168,7 @@ public class PagePartEU extends PageImpl {
 			configFile4.setText(eus.get(3).getConfigFile().getName());		
 		else
 			configFile4.setText("");
+		configFile4.addVerifyListener(new FileV());
 		configFile4.setLayoutData(gd);
 
 		Button b4 = new Button(container, SWT.PUSH);
@@ -183,6 +192,7 @@ public class PagePartEU extends PageImpl {
 			ssl4.setText(eus.get(3).getSpaceStartLevel()+"");
 		else
 			ssl4.setText("0");
+		ssl4.addVerifyListener(new IntegerV());
 
 		Label l42 = new Label(container, SWT.NULL);
 		l42.setText("");
@@ -199,36 +209,38 @@ public class PagePartEU extends PageImpl {
 	@Override
 	public boolean nextPressed() {
 
+		String id = app.getParts().get(partNumber).getDeploymentUnits().get(0).getId();
+
 		try{
 			if(f1 != null){
 				if(app.getParts().get(partNumber).getExecutionUnits().size() == 0)
-					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(f1, Integer.parseInt(ssl1.getText())));
+					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f1, Integer.parseInt(ssl1.getText())));
 				else
-					app.getParts().get(partNumber).getExecutionUnits().set(0, new ExecutionUnit(f1, Integer.parseInt(ssl1.getText())));
+					app.getParts().get(partNumber).getExecutionUnits().set(0, new ExecutionUnit(id, f1, Integer.parseInt(ssl1.getText())));
 			}
 			if(f2 != null){
 				if(app.getParts().get(partNumber).getExecutionUnits().size() == 1)
-					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(f2, Integer.parseInt(ssl2.getText())));
+					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f2, Integer.parseInt(ssl2.getText())));
 				else
-					app.getParts().get(partNumber).getExecutionUnits().set(1, new ExecutionUnit(f2, Integer.parseInt(ssl2.getText())));
+					app.getParts().get(partNumber).getExecutionUnits().set(1, new ExecutionUnit(id, f2, Integer.parseInt(ssl2.getText())));
 			}
 			if(f3 != null){
 				if(app.getParts().get(partNumber).getExecutionUnits().size() == 2)
-					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(f3, Integer.parseInt(ssl3.getText())));
+					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f3, Integer.parseInt(ssl3.getText())));
 				else
-					app.getParts().get(partNumber).getExecutionUnits().set(2, new ExecutionUnit(f3, Integer.parseInt(ssl3.getText())));
+					app.getParts().get(partNumber).getExecutionUnits().set(2, new ExecutionUnit(id, f3, Integer.parseInt(ssl3.getText())));
 			}
 			if(f4 != null){
 				if(app.getParts().get(partNumber).getExecutionUnits().size() == 3)
-					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(f4, Integer.parseInt(ssl4.getText())));
+					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f4, Integer.parseInt(ssl4.getText())));
 				else
-					app.getParts().get(partNumber).getExecutionUnits().set(3, new ExecutionUnit(f4, Integer.parseInt(ssl4.getText())));
+					app.getParts().get(partNumber).getExecutionUnits().set(3, new ExecutionUnit(id, f4, Integer.parseInt(ssl4.getText())));
 			}
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
-		
+
 		return true;
 	}
 

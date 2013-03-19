@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.validators.FileV;
 
 public class StartPage extends PageImpl {
 
@@ -109,6 +110,7 @@ public class StartPage extends PageImpl {
 		name = new Text(container, SWT.BORDER | SWT.SINGLE);
 		name.setText(app.getApplication().getName());			
 		name.setLayoutData(gd);		
+		name.addVerifyListener(new FileV());
 
 		Button b1 = new Button(container, SWT.PUSH);
 		b1.setText("Browse");

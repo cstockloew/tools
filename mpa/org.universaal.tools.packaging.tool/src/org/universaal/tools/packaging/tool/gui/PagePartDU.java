@@ -1,6 +1,5 @@
 package org.universaal.tools.packaging.tool.gui;
 
-import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,13 +28,15 @@ import org.universaal.tools.packaging.tool.parts.Embedding;
 import org.universaal.tools.packaging.tool.parts.OS;
 import org.universaal.tools.packaging.tool.parts.Platform;
 import org.universaal.tools.packaging.tool.util.KarafFeaturesGenerator;
-import org.universaal.tools.packaging.tool.util.POMParser;
+import org.universaal.tools.packaging.tool.validators.AlphabeticV;
+import org.universaal.tools.packaging.tool.validators.UriV;
 
 public class PagePartDU extends PageImpl {
 
 	private IProject part;
-	private POMParser p;
+	//private POMParser p;
 	private int partNumber;
+	private String value;
 
 	private Combo os1, platform1, cu1, emb1;
 	private Text andN, andD, andURI;
@@ -44,6 +45,10 @@ public class PagePartDU extends PageImpl {
 	protected PagePartDU(String pageName, int pn) {
 		super(pageName, "Specify deployment requirements per part");
 		this.partNumber = pn;
+
+		value = "A";
+		int charValue = value.charAt(0);
+		value = String.valueOf( (char) (charValue - 1));
 	}
 
 	public void createControl(Composite parent) {
@@ -226,6 +231,7 @@ public class PagePartDU extends PageImpl {
 			andN.setText(DUs.get(0).getCu().getAndroidPart().getName());		
 		else
 			andN.setText("");
+		andN.addVerifyListener(new AlphabeticV());
 		andN.setLayoutData(gd);
 
 		Label l5 = new Label(container, SWT.NULL);
@@ -236,6 +242,7 @@ public class PagePartDU extends PageImpl {
 			andD.setText(DUs.get(0).getCu().getAndroidPart().getDescription());		
 		else
 			andD.setText("");
+		andD.addVerifyListener(new AlphabeticV());
 		andD.setLayoutData(gd);
 
 		Label l6 = new Label(container, SWT.NULL);
@@ -246,6 +253,7 @@ public class PagePartDU extends PageImpl {
 			andURI.setText(DUs.get(0).getCu().getAndroidPart().getLocation().toASCIIString());		
 		else
 			andURI.setText("");	
+		andURI.addVerifyListener(new UriV());
 		andURI.setLayoutData(gd);
 
 		//		Label karFile = new Label(container, SWT.NULL);
@@ -262,25 +270,32 @@ public class PagePartDU extends PageImpl {
 		waiting.setText("The generation of required stuff could take some time, please be patient...");
 
 		//default configuration
-		ckbCU1.setSelection(false);
+		ckbCU1.setSelection(true);
 		ckbPL1.setSelection(false);
 		ckbOS1.setSelection(false);
-		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
+		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, /*cu1, emb1,*/ ckbKar, andN, andD, andURI)));
 	}
 
 	public void setArtifact(IProject part){
 		this.part = part;
-		p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
+		//p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
 	}
 
 	@Override
 	public boolean nextPressed() {
 
+		int charValue = value.charAt(0);
+		String alph = String.valueOf( (char) (charValue + 1));
+		value = alph;
+		int numb = partNumber + 1;
+
+		String id = "_"+numb+alph;
+
 		if(ckbOS1.getSelection()){
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion(), OS.valueOf(os1.getText())));
+			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, OS.valueOf(os1.getText())));
 		}
 		else if(ckbPL1.getSelection()){
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion(), Platform.valueOf(platform1.getText())));
+			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, Platform.valueOf(platform1.getText())));
 		}
 		else if(ckbCU1.getSelection()){
 			ContainerUnit cu = null;
@@ -299,7 +314,7 @@ public class PagePartDU extends PageImpl {
 			else if(!cu1.getText().equals(Container.KARAF.toString()) && !cu1.getText().equals(Container.ANDROID.toString())){
 				cu = new ContainerUnit(Container.valueOf(cu1.getText()));
 			}
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(p.getGroupID()+"/"+p.getArtifactID()+"/"+p.getVersion(), cu));
+			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, cu));
 		}
 
 		return true;

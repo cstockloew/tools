@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteManagement;
 import org.universaal.tools.packaging.tool.util.POMParser;
+import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 
 public class Page5 extends PageImpl {
 
@@ -53,7 +54,8 @@ public class Page5 extends PageImpl {
 		contact = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(contact);
 		l1.setText("Contact Person");
-		contact.setText(app.getManagement().getContact());			
+		contact.setText(app.getManagement().getContact());		
+		contact.addVerifyListener(new AlphabeticV());
 		contact.setLayoutData(gd);	
 		contact.addKeyListener(new QL() {
 
@@ -78,6 +80,7 @@ public class Page5 extends PageImpl {
 			//mandatory.add(artifact);
 			artifact.setText(p.getArtifactID());			
 			artifacts.add(artifact);
+			contact.addVerifyListener(new AlphabeticV());
 			artifact.addKeyListener(new FullListener());
 			artifact.setLayoutData(gd);
 
@@ -106,7 +109,7 @@ public class Page5 extends PageImpl {
 				shadow_sep_h3.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			}
 		}
-		
+
 		setPageComplete(validate());
 	}
 

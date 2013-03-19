@@ -65,7 +65,7 @@ public class Part {
 	public String getXML(){
 
 		String r = "";
-		r = r.concat("<part>");
+		r = r.concat("<part partId='"+id+"'>");
 
 		r = r.concat("<partCapabilities>");
 		try{
@@ -92,8 +92,6 @@ public class Part {
 
 		for(int i = 0; i < getExecutionUnits().size(); i++)
 			r = r.concat(executionUnits.get(i).getXML());
-
-		r = r.concat("<partId>"+id+"</partId>");
 
 		r = r.concat("</part>");
 

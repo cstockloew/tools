@@ -19,7 +19,7 @@ public interface Page {
 	
 	public final String PAGE_ERROR = "Error Page";
 	
-	public final String DESCRIPTOR_FILENAME = "descriptor.xml";
+	public final String DESCRIPTOR_FILENAME_SUFFIX = "uapp.xml";
 
 	public final String KARAF_NAMESPACE = "krf";
 

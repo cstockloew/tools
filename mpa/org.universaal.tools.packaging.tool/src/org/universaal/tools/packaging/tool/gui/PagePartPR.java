@@ -25,6 +25,7 @@ import org.universaal.tools.packaging.tool.parts.LogicalRelation;
 import org.universaal.tools.packaging.tool.parts.Requirement;
 import org.universaal.tools.packaging.tool.parts.RequirementsGroup;
 import org.universaal.tools.packaging.tool.parts.SingleRequirement;
+import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 
 public class PagePartPR extends PageImpl {
 
@@ -131,7 +132,8 @@ public class PagePartPR extends PageImpl {
 		}
 
 		req1 = new Text(container, SWT.BORDER | SWT.SINGLE);
-		req1.setText("");		
+		req1.setText("");	
+		req1.addVerifyListener(new AlphabeticV());
 		req1.setLayoutData(gd);	
 
 		//LogicalCriteria
@@ -143,6 +145,7 @@ public class PagePartPR extends PageImpl {
 
 		val1 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		val1.setText("");
+		val1.addVerifyListener(new AlphabeticV());
 		val1.setLayoutData(gd);
 
 
@@ -161,6 +164,7 @@ public class PagePartPR extends PageImpl {
 
 		req2 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		req2.setText("");
+		req2.addVerifyListener(new AlphabeticV());
 		req2.setLayoutData(gd);
 
 		c2 = new Combo(container, SWT.READ_ONLY);
@@ -171,6 +175,7 @@ public class PagePartPR extends PageImpl {
 
 		val2 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		val2.setText("");
+		val2.addVerifyListener(new AlphabeticV());
 		val2.setLayoutData(gd);
 
 
@@ -189,6 +194,7 @@ public class PagePartPR extends PageImpl {
 
 		req3 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		req3.setText("");
+		req3.addVerifyListener(new AlphabeticV());
 		req3.setLayoutData(gd);	
 
 		c3 = new Combo(container, SWT.READ_ONLY);
@@ -199,6 +205,7 @@ public class PagePartPR extends PageImpl {
 
 		val3 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		val3.setText("");	
+		val3.addVerifyListener(new AlphabeticV());
 		val3.setLayoutData(gd);
 
 
@@ -217,6 +224,7 @@ public class PagePartPR extends PageImpl {
 
 		req4 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		req4.setText("");
+		req4.addVerifyListener(new AlphabeticV());
 		req4.setLayoutData(gd);	
 
 		//LogicalCriteria
@@ -228,6 +236,7 @@ public class PagePartPR extends PageImpl {
 
 		val4 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		val4.setText("");
+		val4.addVerifyListener(new AlphabeticV());
 		val4.setLayoutData(gd);
 
 
@@ -245,6 +254,7 @@ public class PagePartPR extends PageImpl {
 
 		req5 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		req5.setText("");
+		req5.addVerifyListener(new AlphabeticV());
 		req5.setLayoutData(gd);	
 
 		//LogicalCriteria
@@ -256,6 +266,7 @@ public class PagePartPR extends PageImpl {
 
 		val5 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		val5.setText("");
+		val5.addVerifyListener(new AlphabeticV());
 		val5.setLayoutData(gd);
 
 		Label l8 = new Label(container, SWT.NULL);

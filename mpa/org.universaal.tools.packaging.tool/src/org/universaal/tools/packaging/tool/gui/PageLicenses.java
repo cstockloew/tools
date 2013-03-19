@@ -23,6 +23,8 @@ import org.universaal.tools.packaging.tool.parts.App.SLA;
 import org.universaal.tools.packaging.tool.parts.License;
 import org.universaal.tools.packaging.tool.parts.LicenseCategory;
 import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.validators.AlphabeticV;
+import org.universaal.tools.packaging.tool.validators.UriV;
 
 public class PageLicenses extends PageImpl {
 
@@ -74,6 +76,7 @@ public class PageLicenses extends PageImpl {
 			mandatory.add(slaLink);
 			l1.setText("* SLA link");
 			slaLink.setText(sla.getLink().toString());			
+			slaLink.addVerifyListener(new UriV());
 			slaLink.setLayoutData(gd);		
 
 			Button b1 = new Button(container, SWT.PUSH);
@@ -99,6 +102,7 @@ public class PageLicenses extends PageImpl {
 			mandatory.add(slaName);
 			l2.setText("* SLA name");
 			slaName.setText(sla.getName());			
+			slaName.addVerifyListener(new AlphabeticV());
 			slaName.setLayoutData(gd);
 
 			Label empty1 = new Label(container, SWT.NULL);
@@ -134,6 +138,7 @@ public class PageLicenses extends PageImpl {
 		mandatory.add(licLink);
 		l4.setText("* License link");
 		licLink.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getLink().toString());			
+		licLink.addVerifyListener(new UriV());
 		licLink.setLayoutData(gd);	
 
 		Button b2 = new Button(container, SWT.PUSH);
@@ -158,7 +163,8 @@ public class PageLicenses extends PageImpl {
 		licName = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(licName);
 		l5.setText("* License Name");
-		licName.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getName());			
+		licName.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getName());		
+		licName.addVerifyListener(new AlphabeticV());
 		licName.setLayoutData(gd);	
 
 		Label empty3 = new Label(container, SWT.NULL);

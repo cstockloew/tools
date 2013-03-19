@@ -16,6 +16,8 @@ import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.MiddlewareVersion;
 import org.universaal.tools.packaging.tool.parts.Space;
+import org.universaal.tools.packaging.tool.validators.AlphabeticV;
+import org.universaal.tools.packaging.tool.validators.IntegerV;
 
 public class PagePartPC extends PageImpl {
 
@@ -60,6 +62,7 @@ public class PagePartPC extends PageImpl {
 		mandatory.add(targetSpaceVersion);
 		l2.setText("* Target Space Version");
 		targetSpaceVersion.setText(capabilities.getProperty(Capability.Mandatory.TARGET_SPACE_VERSION.toString()));			
+		targetSpaceVersion.addVerifyListener(new IntegerV());
 		targetSpaceVersion.setLayoutData(gd);	
 
 		Label l3 = new Label(container, SWT.NULL);
@@ -76,6 +79,7 @@ public class PagePartPC extends PageImpl {
 		//mandatory.add(targetOntologies);
 		l4.setText("Ontologies, comma separated");
 		targetOntologies.setText(capabilities.getProperty(Capability.Mandatory.ONTOLOGIES.toString()));			
+		targetSpaceVersion.addVerifyListener(new AlphabeticV());
 		targetOntologies.setLayoutData(gd);	
 
 		Label l5 = new Label(container, SWT.NULL);
@@ -92,6 +96,7 @@ public class PagePartPC extends PageImpl {
 		mandatory.add(targetContainerVersion);
 		l6.setText("* Target Container Version");
 		targetContainerVersion.setText(capabilities.getProperty(Capability.Mandatory.TARGET_CONTAINER_VERSION.toString()));			
+		targetContainerVersion.addVerifyListener(new IntegerV());
 		targetContainerVersion.setLayoutData(gd);	
 
 		Label l7 = new Label(container, SWT.NULL);
@@ -99,6 +104,7 @@ public class PagePartPC extends PageImpl {
 		mandatory.add(targetDeploymentTool);
 		l7.setText("* Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString()));			
+		targetContainerVersion.addVerifyListener(new AlphabeticV());
 		targetDeploymentTool.setLayoutData(gd);	
 
 		targetSpace.addKeyListener(new QL() {

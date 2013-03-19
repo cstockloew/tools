@@ -7,6 +7,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
+import org.universaal.tools.packaging.tool.validators.AlphabeticV;
+import org.universaal.tools.packaging.tool.validators.IntegerV;
 
 public class Page1 extends PageImpl {
 
@@ -32,6 +34,7 @@ public class Page1 extends PageImpl {
 		mandatory.add(name);
 		label1.setText("* Application name");
 		name.setText(app.getApplication().getName());			
+		name.addVerifyListener(new AlphabeticV());
 		name.setLayoutData(gd);				
 
 		Label label2 = new Label(container, SWT.NULL);
@@ -39,6 +42,7 @@ public class Page1 extends PageImpl {
 		mandatory.add(id);
 		label2.setText("* Application ID");
 		id.setText(app.getApplication().getAppID());
+		id.addVerifyListener(new AlphabeticV());
 		id.setLayoutData(gd);
 
 		Label label3 = new Label(container, SWT.NULL);
@@ -46,12 +50,14 @@ public class Page1 extends PageImpl {
 		mandatory.add(description);
 		label3.setText("* Description");
 		description.setText(app.getApplication().getDescription());
+		description.addVerifyListener(new AlphabeticV());
 		description.setLayoutData(gd);		
 
 		Label label4 = new Label(container, SWT.NULL);
 		tags = new Text(container, SWT.BORDER | SWT.SINGLE);
 		label4.setText("Insert tags (if any) separated by comma");
 		tags.setText(app.getApplication().getTags());
+		tags.addVerifyListener(new AlphabeticV());
 		tags.setLayoutData(gd);
 
 		Label label5 = new Label(container, SWT.NULL);
@@ -59,6 +65,7 @@ public class Page1 extends PageImpl {
 		mandatory.add(version_major);
 		label5.setText("* Major version");
 		version_major.setText(app.getApplication().getVersion().getMajor());
+		version_major.addVerifyListener(new IntegerV());
 		version_major.setLayoutData(gd);
 
 		Label label6 = new Label(container, SWT.NULL);
@@ -66,6 +73,7 @@ public class Page1 extends PageImpl {
 		mandatory.add(version_minor);
 		label6.setText("* Minor version");
 		version_minor.setText(app.getApplication().getVersion().getMinor());
+		version_minor.addVerifyListener(new IntegerV());
 		version_minor.setLayoutData(gd);
 
 		Label label7 = new Label(container, SWT.NULL);
@@ -73,6 +81,7 @@ public class Page1 extends PageImpl {
 		mandatory.add(version_micro);
 		label7.setText("* Micro version");
 		version_micro.setText(app.getApplication().getVersion().getMicro());
+		version_micro.addVerifyListener(new IntegerV());
 		version_micro.setLayoutData(gd);
 
 		Label label8 = new Label(container, SWT.NULL);
@@ -80,12 +89,14 @@ public class Page1 extends PageImpl {
 		mandatory.add(version_build);
 		label8.setText("* Build");
 		version_build.setText(app.getApplication().getVersion().getBuild());
+		version_build.addVerifyListener(new AlphabeticV());
 		version_build.setLayoutData(gd);
 
 		Label label9 = new Label(container, SWT.NULL);
 		app_profile = new Text(container, SWT.BORDER | SWT.SINGLE);
 		label9.setText("Application profile (if you are unsure do not modify!)");
 		app_profile.setText(app.getApplication().getApplicationProfile());
+		app_profile.addVerifyListener(new AlphabeticV());
 		app_profile.setLayoutData(gd);
 
 		name.addKeyListener(new FullListener());
