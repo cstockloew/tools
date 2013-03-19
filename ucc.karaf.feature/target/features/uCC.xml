@@ -2,59 +2,33 @@
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
 	<feature name="uCC" description="The uCC for universAAL middleware 2.0"
-		version="2.0.1" resolver='(obr)'>
-		
+		version="2.0.1" resolver='(obr)'>		
 
- <!-- 		<feature>universAAL2.0</feature>   -->
+  		<feature>universAAL2.0</feature>   
 
-		<bundle start-level="2">wrap:mvn:org.osgi/osgi_R4_compendium/1.0</bundle>
+		<bundle start-level="92">wrap:mvn:org.osgi/osgi_R4_compendium/1.0</bundle>
 		
-   		<bundle start-level="3">file:///c:/apache-karaf-2.2.9/cxf-dosgi-ri-singlebundle-distribution-1.3.1.jar</bundle> 
-		<bundle start-level="3">mvn:org.apache.felix/org.apache.felix.scr/1.6.0</bundle>   
-		<bundle start-level="3">mvn:javax.servlet/com.springsource.javax.servlet/2.5.0</bundle>
+   		<bundle start-level="93">file:///c:/apache-karaf-2.2.9/cxf-dosgi-ri-singlebundle-distribution-1.3.1.jar</bundle>  
+		<bundle start-level="93">mvn:org.apache.felix/org.apache.felix.scr/1.6.0</bundle>   
+		<bundle start-level="93">mvn:javax.servlet/com.springsource.javax.servlet/2.5.0</bundle>
 		
-		<bundle start-level="3">mvn:org.universAAL.tools.ucc/ucc.controller/2.0.1-SNAPSHOT</bundle> 
+		<bundle start-level="93">mvn:org.universAAL.tools.ucc/ucc.controller/2.0.1-SNAPSHOT</bundle> 
 		
-		<bundle start-level="3">mvn:org.universAAL.tools.ucc/ucc.model/2.0.1-SNAPSHOT</bundle>  
-		<bundle start-level="4">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice/1.0.0-SNAPSHOT</bundle> 
-		<bundle start-level="4">mvn:org.universAAL.tools.ucc/ucc.database/2.0.1-SNAPSHOT</bundle>
+		<bundle start-level="93">mvn:org.universAAL.tools.ucc/ucc.model/2.0.1-SNAPSHOT</bundle>  
+		<bundle start-level="94">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice/1.0.0-SNAPSHOT</bundle> 
+		<bundle start-level="94">mvn:org.universAAL.tools.ucc/ucc.database/2.0.1-SNAPSHOT</bundle>
 		
-		<bundle start-level="4">mvn:org.apache.felix/org.apache.felix.http.jetty/2.2.0</bundle>		
-		<bundle start-level="4">mvn:org.apache.felix/org.apache.felix.http.api/2.2.0</bundle>
-		<bundle start-level="5">mvn:com.vaadin/vaadin/6.8.3</bundle>  
-		<bundle start-level="5">file:///C:/universAAL/uCCbranchNew/vaadin.osgi/org.vaadin.osgi.staticres-1.0.1.jar</bundle>	 	  
-		<bundle start-level="5">file:///C:/universAAL/uCCbranchNew/vaadin.osgi/org.vaadin.osgi-1.0.1.jar</bundle>
+		<bundle start-level="94">mvn:org.apache.felix/org.apache.felix.http.jetty/2.2.0</bundle>		
+		<bundle start-level="94">mvn:org.apache.felix/org.apache.felix.http.api/2.2.0</bundle>
+		<bundle start-level="95">mvn:com.vaadin/vaadin/6.8.3</bundle>  
+		<bundle start-level="95">file:///C:/universAAL/uCCbranchNew/vaadin.osgi/org.vaadin.osgi.staticres-1.0.1.jar</bundle>	 	  
+		<bundle start-level="95">file:///C:/universAAL/uCCbranchNew/vaadin.osgi/org.vaadin.osgi-1.0.1.jar</bundle>
 		
- 		<bundle start-level="6">mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/2.0.1-SNAPSHOT</bundle> 
-	
+ 		<bundle start-level="96">mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/2.0.1-SNAPSHOT</bundle> 
+			
+ 		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.frontend/2.0.1-SNAPSHOT</bundle>   
+ 		
+  		<bundle start-level="98">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/2.0.1-SNAPSHOT</bundle>  
 		
- 		<bundle start-level="7">mvn:org.universAAL.tools.ucc/ucc.frontend/2.0.1-SNAPSHOT</bundle>   
-<!-- 		
-  		<bundle start-level="6">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/2.0.1-SNAPSHOT</bundle>  
--->		
-		
-<!-- 	<bundle start-level="2">wrap:mvn:org.bouncycastle/jce.jdk13/144</bundle>
-		<bundle>mvn:org.universAAL.middleware/mw.acl.interfaces.osgi/1.2.1-SNAPSHOT</bundle>
-		<bundle>mvn:org.universAAL.middleware/mw.data.representation.osgi/1.2.1-SNAPSHOT</bundle>
-		<bundle>mvn:org.universAAL.middleware/mw.bus.model.osgi/1.2.1-SNAPSHOT</bundle>
-
-
-		<bundle start-level='89'>mvn:org.universAAL.tools.ucc/ucc.api/2.0.0-SNAPSHOT
-		</bundle>
-		<bundle start-level='90'>mvn:org.universAAL.tools.ucc/ucc.model/2.0.0-SNAPSHOT
-		</bundle>
-
-		<bundle start-level='91'>mvn:org.universAAL.tools.ucc/ucc.core/2.0.0-SNAPSHOT
-		</bundle>
-		<bundle start-level='91'>mvn:org.universAAL.tools.ucc/ucc.viewjambi/2.0.0-SNAPSHOT
-		</bundle>
-
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.information/2.0.0-SNAPSHOT
-		</bundle>
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.karaf/2.0.0-SNAPSHOT
-		</bundle>
-		<bundle start-level='92'>mvn:org.universAAL.tools.ucc/ucc.plugin.ustore/2.0.0-SNAPSHOT
-		</bundle>
--->
 	</feature>
 </features>
