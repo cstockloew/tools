@@ -1,5 +1,10 @@
 package org.universAAL.ucc.model;
 
+import java.util.ArrayList;
+
+import org.universAAL.middleware.deploymaneger.uapp.model.*;
+
+
 public class UAPP {
 	private String name;
 	private String appId;
@@ -10,8 +15,11 @@ public class UAPP {
 	private String description;
 	private String serviceId;
 	private boolean multipart;
+	private ArrayList<Part> parts;
 	
-	public UAPP() { }
+	public UAPP() {
+		parts = new ArrayList<Part>();
+	}
 	
 	public UAPP(String serviceId, String appId, String name, String location, int major, int minor, int micro, String description, boolean multipart) {
 		this.serviceId = serviceId;
@@ -23,6 +31,7 @@ public class UAPP {
 		this.micro = micro;
 		this.minor = minor;
 		this.multipart = multipart;
+		parts = new ArrayList<Part>();
 	}
 	
 	public String getName() {
@@ -82,5 +91,26 @@ public class UAPP {
 	public void setAppId(String appId) {
 		this.appId = appId;
 	}
+
+	public ArrayList<Part> getParts() {
+		return parts;
+	}
+
+	public void setParts(ArrayList<Part> parts) {
+		this.parts = parts;
+	}
+
+	public void addPart(Part p) {
+		if(parts != null) 
+			parts.add(p);
+	}
+	
+	public void removePart(Part p) {
+		if(parts.contains(p)) {
+			parts.remove(p);
+		}
+	}
+	
+	
 
 }
