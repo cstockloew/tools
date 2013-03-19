@@ -15,15 +15,12 @@ import org.universAAL.ucc.frontend.api.IWindow;
 import org.universAAL.ucc.frontend.api.impl.InstallProcessImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
-import org.universAAL.ucc.windows.DeployConfigView;
 import org.universAAL.ucc.windows.DeployStrategyView;
 import org.universAAL.ucc.windows.UccUI;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.Notification;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 
 import org.universAAL.middleware.deploymaneger.uapp.model.DeploymentUnit;
 import org.universAAL.middleware.deploymaneger.uapp.model.Part;
@@ -117,7 +114,7 @@ public class DeployStrategyController implements Button.ClickListener {
     	Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 		peersToCheck.putAll(peers);
 		// Shanshan - TODO: update UAPP to return part info
-    	for(Part part : uapp.getPart()){
+    	for(Part part : uapp.getParts()){
     		//check: deployment units
     		for(String key: peersToCheck.keySet()){
     			PeerCard peer = peersToCheck.get(key);
