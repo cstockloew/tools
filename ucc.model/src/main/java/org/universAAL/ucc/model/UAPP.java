@@ -2,7 +2,8 @@ package org.universAAL.ucc.model;
 
 import java.util.ArrayList;
 
-import org.universAAL.middleware.deploymaneger.uapp.model.*;
+import org.universAAL.middleware.interfaces.mpa.model.Part;
+
 
 
 public class UAPP {
