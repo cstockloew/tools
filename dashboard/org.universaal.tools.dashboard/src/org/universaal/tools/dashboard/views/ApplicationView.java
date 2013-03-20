@@ -154,7 +154,8 @@ public class ApplicationView extends Composite {
 		grpConfiguration.setText("Configuration");
 		
 		btnExtractParameters = new Button(grpConfiguration, SWT.NONE);
-		btnExtractParameters.setText("Extract parameters");
+		btnExtractParameters.setText("Start Editor");
+		btnExtractParameters.setEnabled(false);
 		
 		Group grpApplicationDescription = new Group(this, SWT.NONE);
 		grpApplicationDescription.setFont(SWTResourceManager.getFont("Lucida Grande", 11, SWT.BOLD));
@@ -167,6 +168,7 @@ public class ApplicationView extends Composite {
 		
 		btnCreateAndEdit = new Button(grpApplicationDescription, SWT.NONE);
 		btnCreateAndEdit.setText("Create and Edit");
+		
 
 	}
 
