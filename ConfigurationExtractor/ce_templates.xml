@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="java" deleted="false" description="general usecase configuration" enabled="true" name="ConfigurationExtractor">//Configuration Extractor: Define the usecase configuration&#13;
-//$$$$ucconfig $$ucname "UC_NAME" $$versionnr "VERSION_NR" $$author "AUTHOR"</template><template autoinsert="true" context="java" deleted="false" description="new Ontology Panel" enabled="true" name="ConfigurationExtractor">//Configuration Extractor: Define an Ontology Panel&#13;
-//$$$$ontologypanel $$caption "${CAPTION}" $$name ${NAME} $$domain ${DOMAIN} $$label "${LABEL_TEXT}" $$hover "${HOVER_TEXT}"&#13;
-private ${DOMAIN} ${NAME};</template><template autoinsert="true" context="java" deleted="false" description="new Panel" enabled="true" name="ConfigurationExtractor">//Configuration Extractor: Define a new panel&#13;
-//the following variables will be located in this panel&#13;
-//$$$$panel $$caption "${CAPTION_TEXT}"&#13;
-</template><template autoinsert="true" context="java" deleted="false" description="new Variable" enabled="true" name="ConfigurationExtractor">//Configuration Extractor: Define a new variable&#13;
-//$$$$variable $$name ${NAME} $$type ${TYPE} $$label "${LABEL_TEXT}" $$hover "${HOVER_TEXT}"&#13;
-private ${TYPE} ${NAME};</template></templates>
