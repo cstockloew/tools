@@ -20,9 +20,9 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.universAAL.ri.wsdlToolkit.wsdl.io.api.ParsedWSDLDefinition;
-import org.universAAL.ri.wsdlToolkit.wsdl.io.api.WSOperation;
-import org.universAAL.ri.wsdlToolkit.wsdl.parser.ITIWSDLParser;
+import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
+import org.universAAL.ri.wsdlToolkit.parser.WSDLParser;
+
 
 
 
@@ -65,7 +65,7 @@ public class ImportWSDL implements IWorkbenchWindowActionDelegate {
 		}
 		if (pingURL(wsdlUrl, "")) {
 			try {
-				ParsedWSDLDefinition theParsedDefinition = ITIWSDLParser
+				ParsedWSDLDefinition theParsedDefinition = WSDLParser
 						.parseWSDLwithAxis(wsdlUrl, true, true);
 				if (theParsedDefinition != null) {
 					WSOperationDialog dialog=new WSOperationDialog(PlatformUI.getWorkbench()

@@ -27,6 +27,6 @@
       </actionSet>
    </extension>
    <extension point="org.eclipse.ui.startup">
-     <startup class="org.universaal.tools.externalServiceIntegrator.StartupClass"/>
+     <startup class="org.universaal.tools.externalserviceintegrator.StartupClass"/>
    </extension>
 </plugin>

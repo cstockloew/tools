@@ -48,7 +48,8 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.core.resources.*;
-import org.universAAL.ri.wsdlToolkit.wsdl.io.api.ParsedWSDLDefinition;
+
+import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 import org.universaal.tools.externalserviceintegrator.Activator;
 
 

@@ -22,15 +22,20 @@ import org.eclipse.swt.widgets.Combo;
 import swing2swt.layout.BorderLayout;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
-import org.universAAL.ri.wsdlToolkit.wsdl.io.api.ComplexObject;
-import org.universAAL.ri.wsdlToolkit.wsdl.io.api.NativeObject;
-import org.universAAL.ri.wsdlToolkit.wsdl.io.api.ParsedWSDLDefinition;
-import org.universAAL.ri.wsdlToolkit.wsdl.io.api.WSOperation;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
+import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
+import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
+import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
 
 public class WSOperationDialog extends Dialog {
 private ParsedWSDLDefinition theParsedDefinition;
+private Shell shell;
+private WSOperation selectedOperation=null;
 	/**
 	 * Create the dialog.
 	 * @param parentShell
@@ -45,6 +50,7 @@ private ParsedWSDLDefinition theParsedDefinition;
 	protected void configureShell(Shell shell) {
 	      super.configureShell(shell);
 	      shell.setText("Select a web service operation");
+	      this.shell=shell;
 	   }
 	/**
 	 * Create contents of the dialog.
@@ -72,6 +78,13 @@ private ParsedWSDLDefinition theParsedDefinition;
 		combo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				String oper=combo.getItem(combo.getSelectionIndex());
+				for(int i=0;i<theParsedDefinition.getWsdlOperations().size();i++){
+					if(oper.equalsIgnoreCase(((WSOperation)theParsedDefinition.getWsdlOperations().get(i)).getOperationName())){
+						selectedOperation=(WSOperation) theParsedDefinition.getWsdlOperations().get(i);
+						break;
+					}
+				}
 				tree.removeAll();
 				calculateOperationTree(tree,combo.getSelectionIndex());
 				
@@ -87,6 +100,23 @@ private ParsedWSDLDefinition theParsedDefinition;
 							.getOperationName());
 		}
 		combo.setItems(operationNames);
+		
+		Composite composite_2 = new Composite(container, SWT.NONE);
+		composite_2.setLayoutData(BorderLayout.SOUTH);
+		composite_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		Button btnTestInvocation = new Button(composite_2, SWT.NONE);
+		btnTestInvocation.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				TestInvocation testInvocation =new TestInvocation(shell, 0,
+						theParsedDefinition,combo.getItem(combo.getSelectionIndex()));
+				testInvocation.open();
+			}
+		});
+
+
+		btnTestInvocation.setText("Test invocation");
 		combo.redraw();
 		container.redraw();
 		return container;
@@ -118,8 +148,7 @@ private ParsedWSDLDefinition theParsedDefinition;
 					calculateChildren(item,co.getHasComplexObjects());
 					calculateChildren(item,co.getHasNativeObjects());
 				}
-		}
-		
+		}		
 	}
 	
 	/**
@@ -128,8 +157,14 @@ private ParsedWSDLDefinition theParsedDefinition;
 	 */
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
+		Button button = createButton(parent, IDialogConstants.OK_ID, "Create Service Profile",
 				true);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				CreateServiceModel.createServiceModel(selectedOperation);
+			}
+		});
 		createButton(parent, IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL, false);
 	}

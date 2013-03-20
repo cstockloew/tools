@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ExternalServiceIntegrator
 Bundle-SymbolicName: org.universaal.tools.externalServiceIntegrator;singleton:=true
 Bundle-Version: 0.0.1
-Bundle-ClassPath: .,
+Bundle-ClassPath: swing2swt.jar,
+ lib/ri.internetgateway-1.2.2-SNAPSHOT.jar,
  lib/axis1_4/axis.jar,
  lib/axis1_4/commons-discovery-0.2.jar,
  lib/axis1_4/commons-logging-1.0.4.jar,
@@ -69,9 +70,8 @@ Bundle-ClassPath: .,
  lib/axis2/XmlSchema-1.4.2.jar,
  lib/wsdl4j/qname.jar,
  lib/wsdl4j/wsdl4j.jar,
- lib/ri.wsdl.io.api-1.0.2-SNAPSHOT.jar,
- lib/ri.wsdl.parser-0.0.1-SNAPSHOT.jar,
- swing2swt.jar
+ src/,
+ .
 Bundle-Activator: org.universaal.tools.externalserviceintegrator.Activator
 Bundle-Vendor: CERTH-ITI
 Require-Bundle: org.eclipse.ui,
@@ -79,9 +79,15 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.apache.maven.model,
  org.eclipse.core.resources,
+ org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.emf.ecore.resource.impl,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.m2e.core,
  org.eclipse.m2e.core.project,
  org.eclipse.m2e.core.project.configurator,
  org.eclipse.m2e.core.ui.internal.actions,
- org.eclipse.ui.console
+ org.eclipse.ui.console,
+ org.universaal.tools.modelling.servicemodel
 Bundle-ActivationPolicy: lazy
