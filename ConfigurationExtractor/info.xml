@@ -1,10 +1,10 @@
-<universaal:configuration xmlns:universaal="http://universaal.cas.de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" author="melnikov" id="de.cas.infoframe.configuration.first" bundlename="de.cas.uc.infoframe" version="1.0.0" xsi:schemaLocation="http://universaal.cas.de universaalconfiguration.xsd ">
+<universaal:configuration xmlns:universaal="http://universaal.fzi.de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" author="zentek" id="de.fzi.infoframe.configuration.first" bundlename="de.fzi.uc.infoframe" version="1.0.0" xsi:schemaLocation="http://universaal.fzi.de universaalconfiguration.xsd ">
   <universaal:category id="MainParameters" label="Main Parameters">
     <universaal:SimpleConfigItem cardinality="1..1" id="RSSUpdateTime" type="int">
       <universaal:label>RSS update time</universaal:label>
       <universaal:description>Please insert the RSS update time in seconds.</universaal:description>
       <universaal:validators>
-        <universaal:validator class="de.cas.merlin.aal.configuration.model.validators.RegExpValidator">
+        <universaal:validator class="de.fzi.merlin.aal.configuration.model.validators.RegExpValidator">
           <universaal:attribute>[0-9]*</universaal:attribute>
         </universaal:validator>
       </universaal:validators>
@@ -74,7 +74,7 @@
     <universaal:SimpleConfigItem id="addMailPlugin" cardinality="1..1" type="int">
       <universaal:label>On\\Off switch</universaal:label>
       <universaal:description>Switch the mail plugin on or off.</universaal:description>
-      <universaal:onConfigurationModelChangedListener class="de.cas.uc.infoframe.listeners.AddMailPluginListener" />
+      <universaal:onConfigurationModelChangedListener class="de.fzi.uc.infoframe.listeners.AddMailPluginListener" />
     </universaal:SimpleConfigItem>
     <universaal:SimpleConfigItem id="mailProtocol" cardinality="1..1" active="false" type="string">
       <universaal:label>Mail protocol</universaal:label>
@@ -104,7 +104,7 @@
     <universaal:SimpleConfigItem id="addCalendarPlugin" cardinality="1..1" type="int">
       <universaal:label>On\\Off switch</universaal:label>
       <universaal:description>Switch the calendar plugin on or off.</universaal:description>
-      <universaal:onConfigurationModelChangedListener class="de.cas.uc.infoframe.listeners.AddCalendarPluginListener" />
+      <universaal:onConfigurationModelChangedListener class="de.fzi.uc.infoframe.listeners.AddCalendarPluginListener" />
     </universaal:SimpleConfigItem>
     <universaal:SimpleConfigItem id="calendarUsername" cardinality="1..1" type="string" active="false">
       <universaal:label>Calendar username</universaal:label>
@@ -130,7 +130,7 @@
           <universaal:attribute>1</universaal:attribute>
         </universaal:validator>
       </universaal:validators>
-      <universaal:onConfigurationModelChangedListener class="de.cas.uc.infoframe.listeners.ModListener" />
+      <universaal:onConfigurationModelChangedListener class="de.fzi.uc.infoframe.listeners.ModListener" />
       <universaal:defaultValue>0</universaal:defaultValue>
     </universaal:SimpleConfigItem>
     <universaal:SimpleConfigItem cardinality="0..1" id="FeedURL1" type="string" active="false">
