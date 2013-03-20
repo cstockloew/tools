@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><services><service serviceId="service1"><application appId="appA"/><bundle id="bundle1" version="0.0.1"/><application appId="appB"/><bundle id="bundle2" version="0.0.1"/></service></services>
