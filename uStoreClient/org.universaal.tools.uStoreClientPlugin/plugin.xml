@@ -14,9 +14,17 @@
                tooltip="Publish application to uStore"
                menubarPath="org.universaal.tools.AALStudio.menu/publish"
                toolbarPath="uAALGroup"
-               id="org.universaal.tools.buildserviceapplication.actions.PublishAction">			
+               id="org.universaal.tools.uStoreClientapplication.actions.PublishAction">			
          </action>  
-           
+           <action
+               label="&amp;Update/Delete universAAL application in uStore"
+               icon="icons/publish.png"
+               class="org.universaal.tools.uStoreClientapplication.actions.ViewApplicationsAction"
+               tooltip="Update/Delete universAAL application in uStore"
+               menubarPath="org.universaal.tools.AALStudio.menu/publish"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.uStoreClientapplication.actions.ViewApplicationsAction">			
+         </action>  
       </actionSet>
    </extension>
    <extension

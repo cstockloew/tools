@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="jaxrpc.jar"/>
 	<classpathentry kind="lib" path="org.apache.commons.logging_1.0.4.v201101211617.jar"/>
 	<classpathentry kind="lib" path="saaj.jar"/>
+	<classpathentry kind="lib" path="swing2swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
