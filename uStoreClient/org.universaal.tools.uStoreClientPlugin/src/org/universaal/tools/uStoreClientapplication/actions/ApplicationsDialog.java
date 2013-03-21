@@ -1,6 +1,8 @@
 package org.universaal.tools.uStoreClientapplication.actions;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -13,8 +15,10 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.ui.PlatformUI;
 import org.universaal.commerce.ustore.tools.AALApplicationManager;
 import org.universaal.commerce.ustore.tools.AALApplicationManagerServiceLocator;
+import org.universaal.tools.uStoreClientapplication.wizzard.PublishWizard;
 
 public class ApplicationsDialog extends Dialog {
 
@@ -74,12 +78,7 @@ public class ApplicationsDialog extends Dialog {
 		composite.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		final Button btnUpdate = new Button(composite, SWT.NONE);
-		btnUpdate.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-			}
-		});
+
 		btnUpdate.setText("Update");
 
 		final Button btnDelete = new Button(composite, SWT.NONE);
@@ -115,8 +114,9 @@ public class ApplicationsDialog extends Dialog {
 						AALApplicationManagerServiceLocator loc = new AALApplicationManagerServiceLocator();
 						AALApplicationManager man = loc
 								.getAALApplicationManagerPort();
-						man.deleteApplication(username, password, applications
-								.get(list.getSelectionIndex()).getId());
+						man.deleteAALApplication(username, password,
+								applications.get(list.getSelectionIndex())
+										.getId());
 						MessageDialog.openInformation(parent, "Success",
 								"Application deleted successfully");
 					} catch (Exception ex) {
@@ -134,8 +134,72 @@ public class ApplicationsDialog extends Dialog {
 		// add applications to list
 
 		for (int i = 0; i < applications.size(); i++) {
-			list.add(applications.get(i).getName());
+			list.add(applications.get(i).toString());
 		}
 
+		btnUpdate.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					String selectedApplication = list.getItem(list
+							.getSelectionIndex());
+					String id = "";
+					for (int i = 0; i < applications.size(); i++) {
+						if (selectedApplication.equals(applications.get(i)
+								.getName())) {
+							id = applications.get(i).getId();
+						}
+					}
+
+					PublishWizard publishWizard = new PublishWizard(id,username, password);
+					WizardDialog wizardDialog = new WizardDialog(PlatformUI
+							.getWorkbench().getActiveWorkbenchWindow()
+							.getShell(), publishWizard);
+					if (wizardDialog.open() == Window.OK) {
+						AALApplicationManagerServiceLocator loc = new AALApplicationManagerServiceLocator();
+						AALApplicationManager man = loc
+								.getAALApplicationManagerPort();
+						Metadata metadata = publishWizard.getMetadata();
+
+						String uploadId = man.uploadAnyAALApplication(
+								metadata.getUsername(), metadata.getPassword(),
+								metadata.getApplicationId(),
+								metadata.getApplicationName(),
+								metadata.getApplicationShortDescription(),
+								metadata.getApplicationFullDescription(),
+								metadata.getKeywords(),
+								metadata.getDeveloperName(),
+								metadata.getDeveloperEmail(),
+								metadata.getDeveloperPhone(),
+								metadata.getOrganizationName(),
+								metadata.getOrganizationURL(),
+								metadata.getOrganizationCertificate(),
+								metadata.getURL(),
+								metadata.getParentCategoryId(),
+								metadata.getFullImageFileName(),
+								metadata.getFullImage(),
+								metadata.getThumbnailImageFileName(),
+								metadata.getThumbnail(),
+								metadata.getListPrice(), metadata.getVersion(),
+								metadata.getVersionNotes(),
+								metadata.getFileName(), metadata.getFile(),
+								metadata.getServiceLevelAgreement(),
+								metadata.getRequirements(),
+								metadata.getLicenses(),
+								metadata.getCapabilities(),
+								metadata.isForPurchase);
+						MessageDialog.openInformation(parent,
+								"Success", "Application uploaded with id: \n"
+										+ uploadId);
+
+					} else {
+						System.out.println("Canceled");
+					}
+
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 	}
 }

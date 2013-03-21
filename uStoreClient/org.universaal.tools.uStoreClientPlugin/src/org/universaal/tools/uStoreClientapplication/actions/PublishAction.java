@@ -3,6 +3,7 @@ package org.universaal.tools.uStoreClientapplication.actions;
 import java.text.DateFormat;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -42,7 +43,7 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 		try {
 
 			
-			PublishWizard publishWizard=new PublishWizard();
+			PublishWizard publishWizard=new PublishWizard(null,null,null);
 			WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getShell(),
 					publishWizard);
@@ -53,17 +54,22 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 				
 				
 				
-				System.out.println(man
-						.addApplication(metadata.getUsername(), 
+				String id=man
+						.uploadAnyAALApplication(metadata.getUsername(), 
 								metadata.getPassword(), 
+								metadata.getApplicationId(), 
 								metadata.getApplicationName(), 
 								metadata.getApplicationShortDescription(), 
 								metadata.getApplicationFullDescription(), 
 								metadata.getKeywords(), 
-								metadata.getManufacturer(), 
-								metadata.getManufacturerPartNumber(), 
-								metadata.getApplicationURL(), 
-								metadata.getCategory(), 
+								metadata.getDeveloperName(), 
+								metadata.getDeveloperEmail(), 
+								metadata.getDeveloperPhone(), 
+								metadata.getOrganizationName(), 
+								metadata.getOrganizationURL(), 
+								metadata.getOrganizationCertificate(), 
+								metadata.getURL(), 
+								metadata.getParentCategoryId(), 
 								metadata.getFullImageFileName(), 
 								metadata.getFullImage(), 
 								metadata.getThumbnailImageFileName(), 
@@ -73,51 +79,17 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 								metadata.getVersionNotes(), 
 								metadata.getFileName(), 
 								metadata.getFile(), 
-								metadata.getHardwareRequirements(), 
-								metadata.getSoftwareRequirements(), 
-								metadata.getDeveloperContactDetails(), 
-								metadata.getUploadTimeToNexus(), 
-								metadata.isForPurchase()));
+								metadata.getServiceLevelAgreement(), 
+								metadata.getRequirements(), 
+								metadata.getLicenses(), 
+								metadata.getCapabilities(), 
+								metadata.isForPurchase);
+				MessageDialog.openInformation(window.getShell(), "Success", "Application uploaded with id: \n"+id);
 								
 			} else {
 				System.out.println("Canceled");
 			   }
-//			MetadataDialog dia = new MetadataDialog(PlatformUI.getWorkbench()
-//					.getActiveWorkbenchWindow().getShell(), 0);
-//			dia.open();
-//			if (!dia.isCanceled()) {
-//				java.util.Calendar date = java.util.Calendar.getInstance();
-//				AALApplicationManagerServiceLocator loc = new AALApplicationManagerServiceLocator();
-//				AALApplicationManager man = loc.getAALApplicationManagerPort();
-//				Metadata metadata=dia.getMetadata();			
-//				
-//				
-//				
-//				System.out.println(man
-//						.addApplication(metadata.getUsername(),
-//								metadata.getPassword(),
-//								metadata.getApplicationName(),
-//								metadata.getApplicationShortDescription(),
-//								metadata.getApplicationFullDescription(),
-//								metadata.getKeywords(),
-//								metadata.getManufacturer(),
-//								metadata.getManufacturerPartNumber(),
-//								metadata.getApplicationURL(),
-//								metadata.getCategory(),
-//								metadata.getFullImage(),
-//								metadata.getThumbnail(),
-//								metadata.getListPrice(),
-//								metadata.getGroupId(),
-//								metadata.getArtifactId(),
-//								metadata.getVersion(),
-//								metadata.getFileName(),
-//								metadata.getFile(),
-//								metadata.getHardwareRequirements(),
-//								metadata.getSoftwareRequirements(),
-//								metadata.getDeveloperContactDetails(),
-//								//metadata.getUploadTimeToNexus()));
-//								date));
-//			}
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

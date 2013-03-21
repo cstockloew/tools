@@ -16,12 +16,17 @@ public class MyPageOne extends WizardPage {
 	private Text usernameText;
 	private Text passwordText;
 	private Composite container;
+	private String username;
+	private String password;
 
 
-	public MyPageOne() {
+	public MyPageOne(String username,String password) {
 		super("Publish to uStore");
 		setTitle("Publish to uStore");
 		setDescription("Provide uStore credentials");
+		this.username=username;
+		this.password=password;
+		
 	}
 
 	@Override
@@ -33,7 +38,7 @@ public class MyPageOne extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 2;
 		Label label1 = new Label(container, SWT.NULL);
-		label1.setText("Username");
+		label1.setText("Username*");
 
 		usernameText = new Text(container, SWT.BORDER | SWT.SINGLE);
 		usernameText.setText("");
@@ -60,7 +65,7 @@ public class MyPageOne extends WizardPage {
 
 		// password field
 		Label label2 = new Label(container, SWT.NULL);
-		label2.setText("Password");
+		label2.setText("Password*");
 
 		passwordText = new Text(container, SWT.PASSWORD | SWT.BORDER
 				| SWT.SINGLE);
@@ -88,8 +93,22 @@ public class MyPageOne extends WizardPage {
 		// Required to avoid an error in the system
 		setControl(container);
 		setPageComplete(false);
-
+		if(username!=null&&password!=null){
+			setPageComplete(true);
+			usernameText.setText(username);
+			passwordText.setText(password);
+		}
 	}
+	
+	public boolean canFlipToNextPage(){
+		if (!usernameText.getText().isEmpty()
+				&& !passwordText.getText().isEmpty()) {
+		   return true;
+		}else{
+			return false;
+		}
+		   
+		}
 
 	public Text getUsernameText() {
 		return usernameText;

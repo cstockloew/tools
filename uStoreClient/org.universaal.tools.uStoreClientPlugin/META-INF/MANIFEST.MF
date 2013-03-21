@@ -11,7 +11,8 @@ Bundle-ClassPath: org.universaal.tools.uStoreClientPlugin,
  org.apache.commons.logging_1.0.4.v201101211617.jar,
  saaj.jar,
  org.universaal.tools.uStoreClientPlugin,
- swing2swt.jar
+ swing2swt.jar,
+ swt-grouplayout.jar
 Bundle-Activator: org.universaal.tools.uStoreClientapplication.Activator
 Bundle-Vendor: CERTH-ITI
 Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",

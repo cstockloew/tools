@@ -143,10 +143,11 @@ public class CredentialsDialog extends Dialog {
 							text_1.getText(), "");
 					// parse result
 					List<Application> applications = parseXml(result);
-					shlProvideUstoreCredentials.close();
+					
 					ApplicationsDialog applicationsDialog = new ApplicationsDialog(
 							parent, 1, applications,text.getText(),text_1.getText());
 					applicationsDialog.open();
+					shlProvideUstoreCredentials.close();
 
 				} catch (Exception ex) {
 					ex.printStackTrace();

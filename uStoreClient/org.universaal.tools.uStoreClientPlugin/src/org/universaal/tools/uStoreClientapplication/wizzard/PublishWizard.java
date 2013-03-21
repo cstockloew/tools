@@ -23,10 +23,16 @@ public class PublishWizard extends Wizard {
 	protected MyPageThree three;
 	private List<ApplicationCategory> categoryList;
 	private Metadata metadata;
+	private String applicationId;
+	private String username;
+	private String password;
 
-	public PublishWizard() {
+	public PublishWizard(String applicationId,String username,String password) {
 		super();
 		setNeedsProgressMonitor(true);
+		this.applicationId=applicationId;
+		this.username=username;
+		this.password=password;
 		ImageDescriptor image = AbstractUIPlugin.imageDescriptorFromPlugin(
 				"org.universaal.tools.uStoreClientPlugin", //$NON-NLS-1$
 				"icons/ic-uAAL-hdpi.png"); //$NON-NLS-1$
@@ -48,56 +54,75 @@ public class PublishWizard extends Wizard {
 	}
 
 	public void addPages() {
-		one = new MyPageOne();
+		
+		one = new MyPageOne(username,password);
 		two = new MyPageTwo();
 		three = new MyPageThree();
+		
 		addPage(one);
-		addPage(three);
 		addPage(two);
+		addPage(three);
+		
 
 		two.setCategoryList(categoryList);
 	}
 
 	public boolean performFinish() {
 		metadata = new Metadata();
+		//page one
 		metadata.setUsername(one.getUsernameText().getText());
 		metadata.setPassword(one.getPasswordText().getText());
-		metadata.setApplicationName(two.getApplicationNameText());
-		metadata.setApplicationShortDescription(two
-				.getApplicationShortDescriptionText().getText());
-		metadata.setApplicationFullDescription(two
-				.getApplicationFullDescriptionText().getText());
+		//page two
+		metadata.setApplicationId(applicationId);
+		metadata.setApplicationName(two.getApplicationNameText().getText());
+		metadata.setApplicationShortDescription(two.getShortDescriptionText().getText());
+		metadata.setApplicationFullDescription(two.getDescriptionText().getText());
 		metadata.setKeywords(two.getKeywordsText().getText());
-		metadata.setManufacturer(two.getManufacturerText().getText());
-		metadata.setManufacturerPartNumber(two.getManufacturerPartNumberText()
-				.getText());
-		metadata.setApplicationURL(two.getApplicationURLText().getText());
-
-		metadata.setCategory(categoryList.get(
-				two.getCategoryCombo().getSelectionIndex()).getCategoryNumber());
-		metadata.setVersionNotes(three.getVersionNotesText().getText());
-		metadata.setForPurchase(Boolean.valueOf(three.getIsForPurchasecombo()
-				.getText()));
-		metadata.setFullImage(three.getFullImageByte());
-		metadata.setThumbnail(three.getThumbnailImageByte());
-		metadata.setListPrice(two.getListPriceText().getText());
-		metadata.setThumbnailImageFileName(three.getThumbnailName());
+		metadata.setDeveloperName(two.getDeveloperNameText().getText());
+		metadata.setDeveloperEmail(two.getDeveloperEmailText().getText());
+		metadata.setDeveloperPhone(two.getDeveloperPhoneText().getText());
+		metadata.setOrganizationName(two.getOrganizationNameText().getText());
+		metadata.setOrganizationURL(two.getOrganizationURLText().getText());
+		metadata.setOrganizationCertificate(two.getOrganizationCertificateText().getText());
+		metadata.setURL(two.getURLText().getText());
+		metadata.setParentCategoryId(two.getCategoryList().get(two.getCombo().getSelectionIndex()).getCategoryNumber());
+		//page three
 		metadata.setFullImageFileName(three.getImageName());
-		// metadata.setArtifactId(three.getArtifactIdText().getText());
-		// metadata.setGroupId(three.getGroupIdText().getText());
+		metadata.setFullImage(three.getFileImageByte());
+		metadata.setThumbnailImageFileName(three.getThumbnailName());
+		metadata.setThumbnail(three.getThumbnailImageByte());
+		metadata.setListPrice(three.getListPriceText().getText());
 		metadata.setVersion(three.getVersionText().getText());
+		metadata.setVersionNotes(three.getVersionNotesText().getText());
 		metadata.setFileName(three.getFileName());
-		metadata.setFile(three.getFileImageByte());
-		metadata.setHardwareRequirements(two.getHardwareRequirementsText()
-				.getText());
-		metadata.setSoftwareRequirements(two.getSoftwareRequirementsText()
-				.getText());
-		metadata.setDeveloperContactDetails(two
-				.getDeveloperContactDetailsText().getText());
-		java.util.Calendar date = java.util.Calendar.getInstance();
-		metadata.setUploadTimeToNexus(date);
-
+		metadata.setFile(three.getFileByte());
+		metadata.setServiceLevelAgreement(three.getServiceLevelAgreementText().getText());
+		metadata.setRequirements(three.getRequirementsText().getText());
+		metadata.setLicenses(three.getLicensesText().getText());
+		metadata.setCapabilities(three.getCapabilitiesText().getText());
+		if(three.getReadyForPurchaseCombo().getItem(three.getReadyForPurchaseCombo().getSelectionIndex()).equals("Yes")){
+			metadata.setForPurchase(true);
+		}else
+			metadata.setForPurchase(false);
 		return true;
+	}
+
+	
+	
+	
+	@Override
+	public boolean canFinish() {
+		if(!one.getUsernameText().getText().equals("")&&
+				!one.getPasswordText().getText().equals("")&&
+				!two.getApplicationNameText().getText().equals("")&&
+				!three.getVersionText().getText().equals("")&&
+				!three.getVersionNotesText().getText().equals("")&&
+				three.getFileByte()!=null
+				){
+			return true;
+			
+		}else
+			return false;
 	}
 
 	public List<ApplicationCategory> getCategoryList() {

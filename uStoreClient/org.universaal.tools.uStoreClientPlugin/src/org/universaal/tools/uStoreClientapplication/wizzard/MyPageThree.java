@@ -7,132 +7,80 @@ import java.io.InputStream;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.universaal.tools.uStoreClientapplication.Activator;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.universaal.tools.uStoreClientapplication.Activator;
-import org.eclipse.swt.widgets.Combo;
+import swing2swt.layout.FlowLayout;
+import swing2swt.layout.BorderLayout;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 
 public class MyPageThree extends WizardPage {
-	private Text versionNotesText;
+	private Text listPriceText;
 	private Text versionText;
-	private Composite container;
-	private byte[] fullImageByte;
+	private Text versionNotesText;
+	private Text serviceLevelAgreementText;
+	private Text requirementsText;
+	private Text licensesText;
+	private Text capabilitiesText;
+	private String fileName;
+	private byte[] fileByte;
 	private byte[] thumbnailImageByte;
 	private byte[] fileImageByte;
-	private Combo isForPurchasecombo;
-	private String fileName;
+	private Text text_1;
+	private Text text_2;
+	private Text text;
 	private String imageName;
 	private String thumbnailName;
+	private Combo readyForPurchaseCombo;
+	
+	
 
+	/**
+	 * Create the wizard.
+	 */
 	public MyPageThree() {
-		super("Publish to uStore");
+		super("wizardPage");
 		setTitle("Publish to uStore");
 		setDescription("Provide application details");
 	}
 
-	@Override
+	/**
+	 * Create contents of the wizard.
+	 * @param parent
+	 */
 	public void createControl(Composite parent) {
-		 PlatformUI.getWorkbench().getHelpSystem()
+		PlatformUI.getWorkbench().getHelpSystem()
 		   .setHelp(parent, Activator.PLUGIN_ID + ".help_item");
-		container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
-		layout.numColumns = 2;
-		Label label1 = new Label(container, SWT.NULL);
-		label1.setText("Version notes");
+		Composite container = new Composite(parent, SWT.NULL);
 
-		versionNotesText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		versionNotesText.setText("");
-		versionNotesText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!versionNotesText.getText().isEmpty()
-						&& !isForPurchasecombo.getText().isEmpty()
-						&& !versionText.getText().isEmpty()
-						
-						&& fullImageByte != null && thumbnailImageByte != null
-						&& fileImageByte != null) {
-					setPageComplete(true);
-
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		versionNotesText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		// password field
-		Label label2 = new Label(container, SWT.NULL);
-		label2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label2.setText("Purchase by users");
+		setControl(container);
+		container.setLayout(new GridLayout(2, false));
 		
-		isForPurchasecombo  = new Combo(container, SWT.NONE|SWT.READ_ONLY);
-		isForPurchasecombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		isForPurchasecombo.add("Yes");
-		isForPurchasecombo.add("No");
-		isForPurchasecombo.select(0);
-		Label label3 = new Label(container, SWT.NULL);
-		label3.setText("Version");
-
-		versionText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		versionText.setText("");
-		versionText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!versionNotesText.getText().isEmpty()
-						&& !isForPurchasecombo.getText().isEmpty()
-						&& !versionText.getText().isEmpty()						
-						&& fullImageByte != null && thumbnailImageByte != null
-						&& fileImageByte != null) {
-					setPageComplete(true);
-
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		versionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label label5 = new Label(container, SWT.NULL);
-		label5.setText("File");
-		Composite composite_11 = new Composite(container, SWT.NONE);
-		RowLayout rl_composite_12 = new RowLayout(SWT.HORIZONTAL);
-		rl_composite_12.center = true;
-		rl_composite_12.fill = true;
-		rl_composite_12.justify = true;
-		composite_11.setLayout(rl_composite_12);
-
-		Button btnBrowse = new Button(composite_11, SWT.NONE);
-		final Label fileText = new Label(composite_11, SWT.NONE);
-
-		fileText.setText("Please select a file");
-		fileText.setLayoutData(new RowData(300, SWT.DEFAULT));
+		Label lblImage = new Label(container, SWT.NONE);
+		lblImage.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblImage.setAlignment(SWT.RIGHT);
+		lblImage.setText("Image");
+		
+		Composite composite_1 = new Composite(container, SWT.NONE);
+		composite_1.setLayout(new BorderLayout(0, 0));
+		GridData gd_composite_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_composite_1.heightHint = 24;
+		gd_composite_1.widthHint = 456;
+		composite_1.setLayoutData(gd_composite_1);
+		
+		Button btnBrowse = new Button(composite_1, SWT.NONE);
 		btnBrowse.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dlg = new FileDialog(PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getShell(), SWT.MULTI);
@@ -154,46 +102,40 @@ public class MyPageThree extends WizardPage {
 						buf.append(files[i]);
 						buf.append(" ");
 					}
-					fileText.setText(buf.toString());
+					text_1.setText(buf.toString());
 					File file = new File(buf.toString());
-					fileName=file.getName();
+					imageName=file.getName();
 					try {
-						fileImageByte = getBytesFromFile(file);
-						if (!versionNotesText.getText().isEmpty()
-								&& !isForPurchasecombo.getText().isEmpty()
-								&& !versionText.getText().isEmpty()
-								
-								&& fullImageByte != null
-								&& thumbnailImageByte != null
-								&& fileImageByte != null) {
-							setPageComplete(true);
-
-						} else {
-							setPageComplete(false);
-						}
+						fileByte = getBytesFromFile(file);
+						
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
 				}
 			}
 		});
+		btnBrowse.setLayoutData(BorderLayout.WEST);
 		btnBrowse.setText("Browse");
-
-		Label label6 = new Label(container, SWT.NULL);
-		label6.setText("Thumbnail");
-		Composite composite_21 = new Composite(container, SWT.NONE);
-		RowLayout rl_composite_22 = new RowLayout(SWT.HORIZONTAL);
-		rl_composite_22.center = true;
-		rl_composite_22.fill = true;
-		rl_composite_22.justify = true;
-		composite_21.setLayout(rl_composite_22);
-
-		Button btnBrowse2 = new Button(composite_21, SWT.NONE);
-		final Label thumbnailText = new Label(composite_21, SWT.NONE);
-
-		thumbnailText.setText("Please select a file");
-		thumbnailText.setLayoutData(new RowData(300, SWT.DEFAULT));
-		btnBrowse2.addSelectionListener(new SelectionAdapter() {
+		
+		text_1 = new Text(composite_1, SWT.BORDER);
+		text_1.setEditable(false);
+		text_1.setLayoutData(BorderLayout.CENTER);
+		
+		Label lblThumbnailImage = new Label(container, SWT.NONE);
+		lblThumbnailImage.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblThumbnailImage.setAlignment(SWT.RIGHT);
+		lblThumbnailImage.setText("Thumbnail image");
+		
+		Composite composite_2 = new Composite(container, SWT.NONE);
+		composite_2.setLayout(new BorderLayout(0, 0));
+		GridData gd_composite_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_composite_2.heightHint = 24;
+		gd_composite_2.widthHint = 456;
+		composite_2.setLayoutData(gd_composite_2);
+		
+		Button btnBrowse_1 = new Button(composite_2, SWT.NONE);
+		btnBrowse_1.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dlg = new FileDialog(PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getShell(), SWT.MULTI);
@@ -215,45 +157,84 @@ public class MyPageThree extends WizardPage {
 						buf.append(files[i]);
 						buf.append(" ");
 					}
-					thumbnailText.setText(buf.toString());
+					text_2.setText(buf.toString());
 					File file = new File(buf.toString());
 					thumbnailName=file.getName();
 					try {
 						thumbnailImageByte = getBytesFromFile(file);
-						if (!versionNotesText.getText().isEmpty()
-								&& !isForPurchasecombo.getText().isEmpty()
-								&& !versionText.getText().isEmpty()
-								
-								&& fullImageByte != null
-								&& thumbnailImageByte != null
-								&& fileImageByte != null) {
-							setPageComplete(true);
-
-						} else {
-							setPageComplete(false);
-						}
+						
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
 				}
 			}
 		});
-		btnBrowse2.setText("Browse");
-
-		Label label7 = new Label(container, SWT.NULL);
-		label7.setText("Full image");
-		Composite composite_31 = new Composite(container, SWT.NONE);
-		RowLayout rl_composite_32 = new RowLayout(SWT.HORIZONTAL);
-		rl_composite_32.center = true;
-		rl_composite_32.fill = true;
-		rl_composite_32.justify = true;
-		composite_31.setLayout(rl_composite_32);
-
-		Button btnBrowse3 = new Button(composite_31, SWT.NONE);
-		final Label fullImageText = new Label(composite_31, SWT.NONE);
-		fullImageText.setLayoutData(new RowData(300, SWT.DEFAULT));
-		fullImageText.setText("Please select a file");
-		btnBrowse3.addSelectionListener(new SelectionAdapter() {
+		btnBrowse_1.setLayoutData(BorderLayout.WEST);
+		btnBrowse_1.setText("Browse");
+		
+		text_2 = new Text(composite_2, SWT.BORDER);
+		text_2.setEditable(false);
+		text_2.setLayoutData(BorderLayout.CENTER);
+		
+		Label lblListPriceusd = new Label(container, SWT.NONE);
+		lblListPriceusd.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblListPriceusd.setText("List price (USD)");
+		
+		listPriceText = new Text(container, SWT.BORDER);
+		listPriceText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblVersion = new Label(container, SWT.NONE);
+		lblVersion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblVersion.setText("Version*");
+		
+		versionText = new Text(container, SWT.BORDER);
+		versionText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!versionText.getText().equals("")&&
+						!versionNotesText.getText().equals("")&&
+						fileByte!=null){
+					setPageComplete(true);
+				}else
+					setPageComplete(false);
+			}
+		});
+	
+		versionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblVersionNotes = new Label(container, SWT.NONE);
+		lblVersionNotes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblVersionNotes.setText("Version notes*");
+		
+		versionNotesText = new Text(container, SWT.BORDER);
+		versionNotesText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!versionText.getText().equals("")&&
+						!versionNotesText.getText().equals("")&&
+						fileByte!=null){
+					setPageComplete(true);
+				}else
+					setPageComplete(false);
+			}
+		});
+		versionNotesText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblApplicationFile = new Label(container, SWT.NONE);
+		lblApplicationFile.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblApplicationFile.setAlignment(SWT.RIGHT);
+		lblApplicationFile.setText("Application file*");
+		
+		Composite composite = new Composite(container, SWT.NONE);
+		composite.setLayout(new BorderLayout(0, 0));
+		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_composite.heightHint = 23;
+		gd_composite.widthHint = 455;
+		composite.setLayoutData(gd_composite);
+		
+		Button btnBrowse_2 = new Button(composite, SWT.NONE);
+		btnBrowse_2.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dlg = new FileDialog(PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getShell(), SWT.MULTI);
@@ -275,37 +256,73 @@ public class MyPageThree extends WizardPage {
 						buf.append(files[i]);
 						buf.append(" ");
 					}
-					fullImageText.setText(buf.toString());
+					text.setText(buf.toString());
 					File file = new File(buf.toString());
-					imageName=file.getName();
+					fileName=file.getName();
 					try {
-						fullImageByte = getBytesFromFile(file);
-						if (!versionNotesText.getText().isEmpty()
-								&& !isForPurchasecombo.getText().isEmpty()
-								&& !versionText.getText().isEmpty()
-								
-								&& fullImageByte != null
-								&& thumbnailImageByte != null
-								&& fileImageByte != null) {
+						fileByte = getBytesFromFile(file);
+						if(!versionText.getText().equals("")&&
+								!versionNotesText.getText().equals("")&&
+								fileByte!=null){
 							setPageComplete(true);
-
-						} else {
+						}else
 							setPageComplete(false);
-						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
+						setPageComplete(false);
 					}
 				}
 			}
 		});
-		btnBrowse3.setText("Browse");
-
-		// Required to avoid an error in the system
-		setControl(container);
-		setPageComplete(false);
-
+		btnBrowse_2.setLayoutData(BorderLayout.WEST);
+		btnBrowse_2.setText("Browse");
+		
+		text = new Text(composite, SWT.BORDER);
+		text.setEditable(false);
+		text.setLayoutData(BorderLayout.CENTER);
+		
+		Label lblServiceLevelAgreement = new Label(container, SWT.NONE);
+		lblServiceLevelAgreement.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblServiceLevelAgreement.setText("Service level agreement");
+		
+		serviceLevelAgreementText = new Text(container, SWT.BORDER);
+		serviceLevelAgreementText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblRequirements = new Label(container, SWT.NONE);
+		lblRequirements.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblRequirements.setText("Requirements");
+		
+		requirementsText = new Text(container, SWT.BORDER);
+		requirementsText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblLicenses = new Label(container, SWT.NONE);
+		lblLicenses.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblLicenses.setText("Licenses");
+		
+		licensesText = new Text(container, SWT.BORDER);
+		licensesText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblCapabilities = new Label(container, SWT.NONE);
+		lblCapabilities.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblCapabilities.setText("Capabilities");
+		
+		capabilitiesText = new Text(container, SWT.BORDER);
+		capabilitiesText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblReadyForPurchase = new Label(container, SWT.NONE);
+		lblReadyForPurchase.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblReadyForPurchase.setText("Ready for purchase");
+		
+		 readyForPurchaseCombo = new Combo(container, SWT.READ_ONLY);
+		readyForPurchaseCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		readyForPurchaseCombo.add("Yes");
+		readyForPurchaseCombo.add("No");
+		
+		readyForPurchaseCombo.select(0);
 	}
-
+	
+	
 	// Returns the contents of the file in a byte array.
 	public static byte[] getBytesFromFile(File file) throws IOException {
 		InputStream is = new FileInputStream(file);
@@ -342,23 +359,15 @@ public class MyPageThree extends WizardPage {
 		is.close();
 		return bytes;
 	}
-
-	public Text getGroupIdText() {
-		return versionNotesText;
-	}
-
-	public void setGroupIdText(Text groupIdText) {
-		this.versionNotesText = groupIdText;
-	}
-
+	
 	
 
-	public Combo getIsForPurchasecombo() {
-		return isForPurchasecombo;
+	public Text getListPriceText() {
+		return listPriceText;
 	}
 
-	public void setIsForPurchasecombo(Combo isForPurchasecombo) {
-		this.isForPurchasecombo = isForPurchasecombo;
+	public void setListPriceText(Text listPriceText) {
+		this.listPriceText = listPriceText;
 	}
 
 	public Text getVersionText() {
@@ -369,14 +378,44 @@ public class MyPageThree extends WizardPage {
 		this.versionText = versionText;
 	}
 
-
-
 	public Text getVersionNotesText() {
 		return versionNotesText;
 	}
 
 	public void setVersionNotesText(Text versionNotesText) {
 		this.versionNotesText = versionNotesText;
+	}
+
+	public Text getServiceLevelAgreementText() {
+		return serviceLevelAgreementText;
+	}
+
+	public void setServiceLevelAgreementText(Text serviceLevelAgreementText) {
+		this.serviceLevelAgreementText = serviceLevelAgreementText;
+	}
+
+	public Text getRequirementsText() {
+		return requirementsText;
+	}
+
+	public void setRequirementsText(Text requirementsText) {
+		this.requirementsText = requirementsText;
+	}
+
+	public Text getLicensesText() {
+		return licensesText;
+	}
+
+	public void setLicensesText(Text licensesText) {
+		this.licensesText = licensesText;
+	}
+
+	public Text getCapabilitiesText() {
+		return capabilitiesText;
+	}
+
+	public void setCapabilitiesText(Text capabilitiesText) {
+		this.capabilitiesText = capabilitiesText;
 	}
 
 	public String getFileName() {
@@ -387,28 +426,15 @@ public class MyPageThree extends WizardPage {
 		this.fileName = fileName;
 	}
 
-	public String getImageName() {
-		return imageName;
+
+
+
+	public byte[] getFileByte() {
+		return fileByte;
 	}
 
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
-
-	public String getThumbnailName() {
-		return thumbnailName;
-	}
-
-	public void setThumbnailName(String thumbnailName) {
-		this.thumbnailName = thumbnailName;
-	}
-
-	public byte[] getFullImageByte() {
-		return fullImageByte;
-	}
-
-	public void setFullImageByte(byte[] fullImageByte) {
-		this.fullImageByte = fullImageByte;
+	public void setFileByte(byte[] fileByte) {
+		this.fileByte = fileByte;
 	}
 
 	public byte[] getThumbnailImageByte() {
@@ -427,4 +453,55 @@ public class MyPageThree extends WizardPage {
 		this.fileImageByte = fileImageByte;
 	}
 
+	public Text getText_1() {
+		return text_1;
+	}
+
+	public void setText_1(Text text_1) {
+		this.text_1 = text_1;
+	}
+
+	public Text getText_2() {
+		return text_2;
+	}
+
+	public void setText_2(Text text_2) {
+		this.text_2 = text_2;
+	}
+
+	public Text getText() {
+		return text;
+	}
+
+	public void setText(Text text) {
+		this.text = text;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public String getThumbnailName() {
+		return thumbnailName;
+	}
+
+	public void setThumbnailName(String thumbnailName) {
+		this.thumbnailName = thumbnailName;
+	}
+
+	public Combo getReadyForPurchaseCombo() {
+		return readyForPurchaseCombo;
+	}
+
+	public void setReadyForPurchaseCombo(Combo readyForPurchaseCombo) {
+		this.readyForPurchaseCombo = readyForPurchaseCombo;
+	}
+	
+	
+	
+	
 }

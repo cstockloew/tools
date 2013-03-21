@@ -4,496 +4,182 @@ import java.util.List;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.ui.PlatformUI;
 import org.universaal.tools.uStoreClientapplication.Activator;
 import org.universaal.tools.uStoreClientapplication.actions.ApplicationCategory;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 
 public class MyPageTwo extends WizardPage {
 	private Text applicationNameText;
-	private Text applicationShortDescriptionText;
-	private Text applicationFullDescriptionText;
+	private Text shortDescriptionText;
+	private Text descriptionText;
 	private Text keywordsText;
-	private Text manufacturerText;
-	private Text manufacturerPartNumberText;
-	private Text applicationURLText;
-	private Text listPriceText;
-	private Text hardwareRequirementsText;
-	private Text softwareRequirementsText;
-	private Text developerContactDetailsText;
-	private Composite container;
+	private Text developerNameText;
+	private Text developerEmailText;
+	private Text developerPhoneText;
+	private Text organizationNameText;
+	private Text organizationURLText;
+	private Text organizationCertificateText;
+	private Text URLText;
+	private Combo combo;
+	
 	private List<ApplicationCategory> categoryList;
-	private Combo categoryCombo;
 
+	/**
+	 * Create the wizard.
+	 */
 	public MyPageTwo() {
-		super("Publish to uStore");
+		super("wizardPage");
 		setTitle("Publish to uStore");
 		setDescription("Provide application details");
-		setControl(applicationNameText);
+		
 	}
 
-	@Override
+	/**
+	 * Create contents of the wizard.
+	 * @param parent
+	 */
 	public void createControl(Composite parent) {
 		 PlatformUI.getWorkbench().getHelpSystem()
 		   .setHelp(parent, Activator.PLUGIN_ID + ".help_item");
-		container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
-		layout.numColumns = 2;
-		Label label1 = new Label(container, SWT.NULL);
-		label1.setText("Application name");
+		Composite container = new Composite(parent, SWT.NULL);
 
-		applicationNameText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		applicationNameText.setText("");
-		applicationNameText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		applicationNameText.setLayoutData(gd);
-
-		Label applicationShortDescriptionLabel = new Label(container, SWT.NULL);
-		applicationShortDescriptionLabel
-				.setText("Application short description");
-
-		applicationShortDescriptionText = new Text(container, SWT.BORDER
-				| SWT.SINGLE);
-		applicationShortDescriptionText.setText("");
-		applicationShortDescriptionText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
-		applicationShortDescriptionText.setLayoutData(gd1);
-
-		Label applicationFullDescriptionLabel = new Label(container, SWT.NULL);
-		applicationFullDescriptionLabel.setText("Application full description");
-
-		applicationFullDescriptionText = new Text(container, SWT.BORDER
-				| SWT.SINGLE);
-		applicationFullDescriptionText.setText("");
-		applicationFullDescriptionText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);
-		applicationFullDescriptionText.setLayoutData(gd2);
-
-		Label keywordsLabel = new Label(container, SWT.NULL);
-		keywordsLabel.setText("Keywords");
-
-		keywordsText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		keywordsText.setText("");
-		keywordsText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
-		keywordsText.setLayoutData(gd3);
-
-		Label manufacturerLabel = new Label(container, SWT.NULL);
-		manufacturerLabel.setText("Manufacturer");
-
-		manufacturerText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		manufacturerText.setText("");
-		manufacturerText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd4 = new GridData(GridData.FILL_HORIZONTAL);
-		manufacturerText.setLayoutData(gd4);
-
-		Label manufacturerPartNumberLabel = new Label(container, SWT.NULL);
-		manufacturerPartNumberLabel.setText("Manufacturer part number");
-
-		manufacturerPartNumberText = new Text(container, SWT.BORDER
-				| SWT.SINGLE);
-		manufacturerPartNumberText.setText("");
-		manufacturerPartNumberText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd5 = new GridData(GridData.FILL_HORIZONTAL);
-		manufacturerPartNumberText.setLayoutData(gd5);
-
-		Label developerContactDetailsLabel = new Label(container, SWT.NULL);
-		developerContactDetailsLabel.setText("Developer contact details");
-
-		developerContactDetailsText = new Text(container, SWT.BORDER
-				| SWT.SINGLE);
-		developerContactDetailsText.setText("");
-		developerContactDetailsText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd6 = new GridData(GridData.FILL_HORIZONTAL);
-		developerContactDetailsText.setLayoutData(gd6);
-
-		Label applicationURLLabel = new Label(container, SWT.NULL);
-		applicationURLLabel.setText("Application URL");
-
-		applicationURLText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		applicationURLText.setText("");
-		applicationURLText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd7 = new GridData(GridData.FILL_HORIZONTAL);
-		applicationURLText.setLayoutData(gd7);
-
-		Label listPriceLabel = new Label(container, SWT.NULL);
-		listPriceLabel.setText("List price");
-
-		listPriceText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		listPriceText.setText("");
-		listPriceText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd8 = new GridData(GridData.FILL_HORIZONTAL);
-		listPriceText.setLayoutData(gd8);
-
-		Label hardwareRequirementsLabel = new Label(container, SWT.NULL);
-		hardwareRequirementsLabel.setText("Hardware requirements");
-
-		hardwareRequirementsText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		hardwareRequirementsText.setText("");
-		hardwareRequirementsText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd9 = new GridData(GridData.FILL_HORIZONTAL);
-		hardwareRequirementsText.setLayoutData(gd9);
-
-		Label softwareRequirementsLabel = new Label(container, SWT.NULL);
-		softwareRequirementsLabel.setText("Software requirements");
-
-		softwareRequirementsText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		softwareRequirementsText.setText("");
-		softwareRequirementsText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (!applicationNameText.getText().isEmpty()
-						&& !applicationShortDescriptionText.getText().isEmpty()
-						&& !applicationFullDescriptionText.getText().isEmpty()
-						&& !keywordsText.getText().isEmpty()
-						&& !manufacturerText.getText().isEmpty()
-						&& !developerContactDetailsText.getText().isEmpty()
-						&& !manufacturerPartNumberText.getText().isEmpty()
-						&& !applicationURLText.getText().isEmpty()
-						&& !listPriceText.getText().isEmpty()
-						&& !hardwareRequirementsText.getText().isEmpty()
-						&& !softwareRequirementsText.getText().isEmpty()) {
-					setPageComplete(true);
-				} else {
-					setPageComplete(false);
-				}
-			}
-
-		});
-		GridData gd10 = new GridData(GridData.FILL_HORIZONTAL);
-		softwareRequirementsText.setLayoutData(gd10);
-
-		Label categoryLabel = new Label(container, SWT.NULL);
-		categoryLabel.setText("Category");
-
-		categoryCombo = new Combo(container, SWT.READ_ONLY);
-		for (int i = 0; i < categoryList.size(); i++) {
-			categoryCombo.add(categoryList.get(i).getCategoryName());
-		}
-		if (categoryCombo.getItemCount() != 0)
-			categoryCombo.select(0);
-		GridData gd11 = new GridData(GridData.FILL_HORIZONTAL);
-		categoryCombo.setLayoutData(gd11);
-
-		// Required to avoid an error in the system
 		setControl(container);
+		container.setLayout(new GridLayout(2, false));
+		
+		Label lblApplicationName = new Label(container, SWT.NONE);
+		lblApplicationName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblApplicationName.setText("Application Name*");
+		
+		applicationNameText = new Text(container, SWT.BORDER);
+		applicationNameText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!applicationNameText.getText().equals("")){
+					setPageComplete(true);
+				}else
+					setPageComplete(false); 
+			}
+		});
+	
+		applicationNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblShortDescription = new Label(container, SWT.NONE);
+		lblShortDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblShortDescription.setText("Short description");
+		
+		shortDescriptionText = new Text(container, SWT.BORDER);
+		shortDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblDescription = new Label(container, SWT.NONE);
+		lblDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblDescription.setText("Description");
+		
+		descriptionText = new Text(container, SWT.BORDER);
+		descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblKeywords = new Label(container, SWT.NONE);
+		lblKeywords.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblKeywords.setText("Keywords");
+		
+		keywordsText = new Text(container, SWT.BORDER);
+		keywordsText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblDeveloperName = new Label(container, SWT.NONE);
+		lblDeveloperName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblDeveloperName.setText("Developer name");
+		
+		developerNameText = new Text(container, SWT.BORDER);
+		developerNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblDeveloperEmail = new Label(container, SWT.NONE);
+		lblDeveloperEmail.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblDeveloperEmail.setText("Developer e-mail");
+		
+		developerEmailText = new Text(container, SWT.BORDER);
+		developerEmailText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblDeveloperPhone = new Label(container, SWT.NONE);
+		lblDeveloperPhone.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblDeveloperPhone.setText("Developer phone");
+		
+		developerPhoneText = new Text(container, SWT.BORDER);
+		developerPhoneText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblOrganizationName = new Label(container, SWT.NONE);
+		lblOrganizationName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblOrganizationName.setText("Organization name");
+		
+		organizationNameText = new Text(container, SWT.BORDER);
+		organizationNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblOrganizationUrl = new Label(container, SWT.NONE);
+		lblOrganizationUrl.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblOrganizationUrl.setText("Organization URL");
+		
+		organizationURLText = new Text(container, SWT.BORDER);
+		organizationURLText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblOrganizationCertificate = new Label(container, SWT.NONE);
+		lblOrganizationCertificate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblOrganizationCertificate.setText("Organization certificate");
+		
+		organizationCertificateText = new Text(container, SWT.BORDER);
+		organizationCertificateText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblUrl = new Label(container, SWT.NONE);
+		lblUrl.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblUrl.setText("URL");
+		
+		URLText = new Text(container, SWT.BORDER);
+		URLText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label lblApplicationCategory = new Label(container, SWT.NONE);
+		lblApplicationCategory.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblApplicationCategory.setText("Application category");
+		
+		 combo = new Combo(container, SWT.READ_ONLY);
+		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+	
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		for (int i = 0; i < categoryList.size(); i++) {
+			combo.add(categoryList.get(i).getCategoryName());
+		}
+		if (combo.getItemCount() != 0)
+			combo.select(0);
 		setPageComplete(false);
 	}
 
-	public String getApplicationNameText() {
-		return applicationNameText.getText();
+	public Text getApplicationNameText() {
+		return applicationNameText;
 	}
 
-	public List<ApplicationCategory> getCategoryList() {
-		return categoryList;
+	public void setApplicationNameText(Text applicationNameText) {
+		this.applicationNameText = applicationNameText;
 	}
 
-	public void setCategoryList(List<ApplicationCategory> categoryList) {
-		this.categoryList = categoryList;
+	public Text getShortDescriptionText() {
+		return shortDescriptionText;
 	}
 
-	public Text getApplicationShortDescriptionText() {
-		return applicationShortDescriptionText;
+	public void setShortDescriptionText(Text shortDescriptionText) {
+		this.shortDescriptionText = shortDescriptionText;
 	}
 
-	public void setApplicationShortDescriptionText(
-			Text applicationShortDescriptionText) {
-		this.applicationShortDescriptionText = applicationShortDescriptionText;
+	public Text getDescriptionText() {
+		return descriptionText;
 	}
 
-	public Text getApplicationFullDescriptionText() {
-		return applicationFullDescriptionText;
-	}
-
-	public void setApplicationFullDescriptionText(
-			Text applicationFullDescriptionText) {
-		this.applicationFullDescriptionText = applicationFullDescriptionText;
+	public void setDescriptionText(Text descriptionText) {
+		this.descriptionText = descriptionText;
 	}
 
 	public Text getKeywordsText() {
@@ -504,72 +190,79 @@ public class MyPageTwo extends WizardPage {
 		this.keywordsText = keywordsText;
 	}
 
-	public Text getManufacturerText() {
-		return manufacturerText;
+	public Text getDeveloperNameText() {
+		return developerNameText;
 	}
 
-	public void setManufacturerText(Text manufacturerText) {
-		this.manufacturerText = manufacturerText;
+	public void setDeveloperNameText(Text developerNameText) {
+		this.developerNameText = developerNameText;
 	}
 
-	public Text getManufacturerPartNumberText() {
-		return manufacturerPartNumberText;
+	public Text getDeveloperEmailText() {
+		return developerEmailText;
 	}
 
-	public void setManufacturerPartNumberText(Text manufacturerPartNumberText) {
-		this.manufacturerPartNumberText = manufacturerPartNumberText;
+	public void setDeveloperEmailText(Text developerEmailText) {
+		this.developerEmailText = developerEmailText;
 	}
 
-	public Text getApplicationURLText() {
-		return applicationURLText;
+	public Text getDeveloperPhoneText() {
+		return developerPhoneText;
 	}
 
-	public void setApplicationURLText(Text applicationURLText) {
-		this.applicationURLText = applicationURLText;
+	public void setDeveloperPhoneText(Text developerPhoneText) {
+		this.developerPhoneText = developerPhoneText;
 	}
 
-	public Text getListPriceText() {
-		return listPriceText;
+	public Text getOrganizationNameText() {
+		return organizationNameText;
 	}
 
-	public void setListPriceText(Text listPriceText) {
-		this.listPriceText = listPriceText;
+	public void setOrganizationNameText(Text organizationNameText) {
+		this.organizationNameText = organizationNameText;
 	}
 
-	public Text getHardwareRequirementsText() {
-		return hardwareRequirementsText;
+	public Text getOrganizationURLText() {
+		return organizationURLText;
 	}
 
-	public void setHardwareRequirementsText(Text hardwareRequirementsText) {
-		this.hardwareRequirementsText = hardwareRequirementsText;
+	public void setOrganizationURLText(Text organizationURLText) {
+		this.organizationURLText = organizationURLText;
 	}
 
-	public Text getSoftwareRequirementsText() {
-		return softwareRequirementsText;
+	public Text getOrganizationCertificateText() {
+		return organizationCertificateText;
 	}
 
-	public void setSoftwareRequirementsText(Text softwareRequirementsText) {
-		this.softwareRequirementsText = softwareRequirementsText;
+	public void setOrganizationCertificateText(Text organizationCertificateText) {
+		this.organizationCertificateText = organizationCertificateText;
 	}
 
-	public void setApplicationNameText(Text applicationNameText) {
-		this.applicationNameText = applicationNameText;
+	public Text getURLText() {
+		return URLText;
 	}
 
-	public Combo getCategoryCombo() {
-		return categoryCombo;
+	public void setURLText(Text uRLText) {
+		URLText = uRLText;
 	}
 
-	public void setCategoryCombo(Combo categoryCombo) {
-		this.categoryCombo = categoryCombo;
+	public Combo getCombo() {
+		return combo;
 	}
 
-	public Text getDeveloperContactDetailsText() {
-		return developerContactDetailsText;
+	public void setCombo(Combo combo) {
+		this.combo = combo;
 	}
 
-	public void setDeveloperContactDetailsText(Text developerContactDetailsText) {
-		this.developerContactDetailsText = developerContactDetailsText;
+	public List<ApplicationCategory> getCategoryList() {
+		return categoryList;
 	}
 
+	public void setCategoryList(List<ApplicationCategory> categoryList) {
+		this.categoryList = categoryList;
+	}
+
+	
+	
+	
 }
