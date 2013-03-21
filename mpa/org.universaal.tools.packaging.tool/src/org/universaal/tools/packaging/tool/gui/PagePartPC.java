@@ -79,7 +79,7 @@ public class PagePartPC extends PageImpl {
 		//mandatory.add(targetOntologies);
 		l4.setText("Ontologies, comma separated");
 		targetOntologies.setText(capabilities.getProperty(Capability.Mandatory.ONTOLOGIES.toString()));			
-		targetSpaceVersion.addVerifyListener(new AlphabeticV());
+		targetOntologies.addVerifyListener(new AlphabeticV());
 		targetOntologies.setLayoutData(gd);	
 
 		Label l5 = new Label(container, SWT.NULL);
@@ -104,7 +104,7 @@ public class PagePartPC extends PageImpl {
 		mandatory.add(targetDeploymentTool);
 		l7.setText("* Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString()));			
-		targetContainerVersion.addVerifyListener(new AlphabeticV());
+		targetDeploymentTool.addVerifyListener(new AlphabeticV());
 		targetDeploymentTool.setLayoutData(gd);	
 
 		targetSpace.addKeyListener(new QL() {

@@ -37,7 +37,7 @@ public class MPAaction extends AbstractHandler {
 
 		FilteredResourcesSelectionDialog dialog = new FilteredResourcesSelectionDialog(w.getShell(), true, ResourcesPlugin.getWorkspace().getRoot(), IResource.PROJECT);
 		dialog.setTitle("Resource Selection");
-		dialog.setMessage("Please select all the projects you want to to include in the uAAL application container");
+		dialog.setMessage("Please select the universAAL projects you want to include in the UAPP container");
 		dialog.setInitialPattern("?");
 		dialog.open();
 

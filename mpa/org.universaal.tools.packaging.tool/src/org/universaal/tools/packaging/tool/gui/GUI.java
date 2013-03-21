@@ -9,16 +9,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.api.WizardMod;
 import org.universaal.tools.packaging.impl.PageImpl;
@@ -30,7 +23,7 @@ import org.universaal.tools.packaging.tool.zip.UAPP;
 
 public class GUI extends WizardMod {
 
-	private ExecutionEvent event;
+	//private ExecutionEvent event;
 	public MPA mpa;
 	private PageImpl p0, p1, p2, pl, p3, p4, p5, ppDU, ppEU, ppPC, ppPR, p, p_end;
 	private List<IProject> parts;
@@ -59,11 +52,11 @@ public class GUI extends WizardMod {
 	public void addPages() {
 
 		if(this.parts != null){
-//			try {
-//				analyzeSelection(HandlerUtil.getActiveWorkbenchWindowChecked(event));
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
+			//			try {
+			//				analyzeSelection(HandlerUtil.getActiveWorkbenchWindowChecked(event));
+			//			} catch (Exception e) {
+			//				e.printStackTrace();
+			//			}
 
 			p0 = new StartPage(Page.PAGE_START);
 			addPage(p0);
@@ -191,25 +184,25 @@ public class GUI extends WizardMod {
 		return true;
 	}
 
-	private void analyzeSelection(IWorkbenchWindow window){
-
-		parts = new ArrayList<IProject>();
-
-		ISelection selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
-		if(selection == null)
-			selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
-
-		if ((selection != null) && (selection instanceof StructuredSelection)) {
-
-			Iterator selected = ((StructuredSelection) selection).iterator();
-			while(selected.hasNext()){
-				Object sel = selected.next();
-
-				if(sel instanceof IProject)
-					parts.add((IProject) sel);
-			}
-		}
-	}
+	//	private void analyzeSelection(IWorkbenchWindow window){
+	//
+	//		parts = new ArrayList<IProject>();
+	//
+	//		ISelection selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
+	//		if(selection == null)
+	//			selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
+	//
+	//		if ((selection != null) && (selection instanceof StructuredSelection)) {
+	//
+	//			Iterator selected = ((StructuredSelection) selection).iterator();
+	//			while(selected.hasNext()){
+	//				Object sel = selected.next();
+	//
+	//				if(sel instanceof IProject)
+	//					parts.add((IProject) sel);
+	//			}
+	//		}
+	//	}
 
 	public int getPartsCount(){
 		return parts.size();
