@@ -60,7 +60,7 @@ public class CursorTabBlock
     {
         if( m_cursorTab != null )
         {
-            m_cursorTab.updateLaunchConfigurationDialog();
+            m_cursorTab.notifyChanged();
         }
     }
 
