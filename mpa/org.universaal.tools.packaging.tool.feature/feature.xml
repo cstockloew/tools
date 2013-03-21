@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.packaging.tool.feature"
-      label="AAL Studio MultiPart Application Packager"
+      label="AAL Studio Application Packager"
       version="0.5.1"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
