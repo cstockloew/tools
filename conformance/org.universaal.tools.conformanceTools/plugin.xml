@@ -18,9 +18,8 @@
       <handler
             commandId="org.universaal.tools.conformanceTools.commands.ConformanceToolsRun"
             class="org.universaal.tools.conformanceTools.handlers.ConformanceToolsHandler">
-            <enabledWhen>
-                <with
-                      variable="selection">
+            <!--<enabledWhen>
+                <with variable="selection">
                    <iterate
                          ifEmpty="false"
                          operator="or">
@@ -31,7 +30,7 @@
                    </iterate>
                    <count value="1" />
                 </with>
-             </enabledWhen>
+             </enabledWhen>-->
       </handler>
    </extension>
    

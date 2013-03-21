@@ -1,6 +1,8 @@
 package org.universaal.tools.conformanceTools.run;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,7 @@ import org.apache.maven.execution.MavenExecutionResult;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -28,10 +31,8 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
@@ -39,17 +40,13 @@ import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.Bundle;
 import org.universaal.tools.conformance.filecheck.plugin.handler.FileCheckHandler;
 import org.universaal.tools.conformanceTools.Activator;
 import org.universaal.tools.conformanceTools.checks.api.CheckImpl;
-import org.universaal.tools.conformanceTools.checks.impl.ActivatorCheck;
-import org.universaal.tools.conformanceTools.checks.impl.Maven_nature;
-import org.universaal.tools.conformanceTools.checks.impl.NameGroupID;
-import org.universaal.tools.conformanceTools.checks.impl.OSGI_bundle;
-import org.universaal.tools.conformanceTools.checks.impl.POM_file;
-import org.universaal.tools.conformanceTools.checks.impl.UICallerImpl;
+import org.universaal.tools.conformanceTools.checks.api.uaalDirectives;
 import org.universaal.tools.conformanceTools.markers.CTMarker;
 import org.universaal.tools.conformanceTools.markers.Markers;
 import org.universaal.tools.conformanceTools.utils.HtmlPage;
@@ -99,28 +96,28 @@ public class ToolsRun {
 
 		this.window = window;
 
-		this.selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
-		if(this.selection == null)//{
-			this.selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
-		//			System.out.println("uAAL CT - using selection from Project Explorer.");
-		//		}
-		//		else
-		//			System.out.println("uAAL CT - using selection from Package Explorer.");
+		try{
+			ContainerSelectionDialog dialog = new ContainerSelectionDialog(window.getShell(), ResourcesPlugin.getWorkspace().getRoot(), true, "Select the project to analyze:");
+			dialog.setTitle("Container Selection");
+			dialog.open();		
 
-		if ((selection != null) && (selection instanceof StructuredSelection)) {
-
-			Object selected = ((StructuredSelection) selection).getFirstElement();
-
-			if (selected instanceof JavaProject)
-				this.projectToAnalyze = ((JavaProject) selected).getProject();			
-			else if (selected instanceof IProject)
-				this.projectToAnalyze = ((IProject) selected);			
-			else {
+			if(dialog.getResult() != null && dialog.getResult().length > 0 && dialog.getResult()[0] != null){
+				IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(dialog.getResult()[0].toString());
+				this.projectToAnalyze = container.getProject();
+			}
+			else{
 				MessageDialog.openInformation(window.getShell(),
-						"uAAL Conformance Tools", "the selection is not a project or is broken.");
+						"uAAL Conformance Tools", "Please make a valid selection.");
 
 				return;
 			}
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		if((this.projectToAnalyze != null)) {
+
 			try{
 				verifyImages();
 
@@ -131,20 +128,24 @@ public class ToolsRun {
 
 				if(plugin == RunPlugin.CustomChecks){
 
-					//					AALDirectivesMavenPlugin tests = new AALDirectivesMavenPlugin(this.projectToAnalyze);
-					//					List<Throwable> results = tests.executeTests();
+					AALDirectivesMavenPlugin tests = new AALDirectivesMavenPlugin(this.projectToAnalyze);
+					List<Throwable> results = tests.executeTests();
 
-					List<String> checks = new ArrayList<String>();
-					checks.add(ActivatorCheck.class.getName());
-					checks.add(Maven_nature.class.getName());
-					checks.add(NameGroupID.class.getName());
-					checks.add(OSGI_bundle.class.getName());
-					checks.add(POM_file.class.getName());			
+					//					List<String> checks = new ArrayList<String>();
+					//					checks.add(ActivatorCheck.class.getName());
+					//					checks.add(Maven_nature.class.getName());
+					//					checks.add(NameGroupID.class.getName());
+					//					checks.add(OSGI_bundle.class.getName());
+					//					checks.add(POM_file.class.getName());			
 					// TODO checks.add(UICallerImpl.class.getName());			
 
-					List<Result> results = test(checks);
-					visualizeResultsCC(results);
-					//visualizeResultsAALDirectives(results);
+					//					List<Result> results = test(checks);
+					//					visualizeResultsCC(results);
+					if(results != null)
+						visualizeResultsAALDirectives(results);
+					else
+						MessageDialog.openInformation(window.getShell(),
+								"uAAL Conformance Tools", "No results to show. Have you selected a valid universAAL project?");
 				}				
 			}
 			catch(Exception ex){ ex.printStackTrace(); }
@@ -677,36 +678,32 @@ public class ToolsRun {
 	private void visualizeResultsAALDirectives(List<Throwable> results){
 
 		try{
-			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - Test results from AAL Directives Maven Plugin");
-			//String path_ = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/images/logos/";
-
-			Table t = page.new Table(results.size()+2, 4);
+			HtmlPage page = new HtmlPage("uAAL CONFORMANCE TOOLS - Test results using AAL Directives Maven Plugin");
+			Table t = page.new Table(results.size()+1, 2);
 
 			// table header
 			t.addContentCentered("<font size='5'><b>TEST RESULT</b></font>", 0, 0);
-			//t.addContentCentered("<font size='5'><b>TEST NAME</b></font>", 0, 1);
-			t.addContentCentered("<font size='5'><b>TEST DETAILS</b></font>", 0, 2);
-			//t.addContentCentered("<font size='5'><b>RESULT DESCRIPTION</b></font>", 0, 3);
+			t.addContentCentered("<font size='5'><b>TEST DETAILS</b></font>", 0, 1);
 
 			for(int i = 0; i < results.size(); i++){
 				Throwable check = results.get(i);
-				//				t.addContentCentered("<img src='"+path_+check.getResultImg()+"' />", i+1, 0);		
-				//				t.addContentCentered(check.getCheckName(), i+1, 1);			
-				//				t.addContentCentered(check.getCheckDescription(), i+1, 2);
-				//				t.addContentCentered(check.getResultDscr(), i+1, 3);
 				t.addContentCentered(check.getLocalizedMessage(), i+1, 0);
-				//t.addContentCentered(check.getCause().getMessage(), i+1, 1);
-				if(check.getStackTrace() != null)
-					t.addContentCentered(check.getStackTrace().toString(), i+1, 2);
+				if(check.getStackTrace() != null && results.size() != 1){
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					PrintStream ps = new PrintStream(baos);
+					check.printStackTrace(ps);
+					String content = baos.toString("UTF-8");
+					t.addContentCentered(content, i+1, 1);
+				}
 				else
-					t.addContentCentered("No details.", i+1, 2);
-				//				check.getCause();
-				//				check.getLocalizedMessage();
-				//				check.getStackTrace();
+					t.addContentCentered("No details.", i+1, 1);
 			}
 
 			page.getBody().addElement(t.getTable());
-			page.getBody().addElement("<br/><br/><p>Total: 9/*"+results.size()+"*/ performed test(s).</p>");
+			page.getBody().addElement("<br/><br/><p>Total: "+uaalDirectives.values().length+" performed test(s).</p>");
+			for(int i = 0; i < uaalDirectives.values().length; i++)
+				page.getBody().addElement("<p style='padding-left: 10px; font-size: 13; color: green;'>Test "+(i+1)+": "+uaalDirectives.values()[i]+"-check</p>");			
+			page.getBody().addElement("<p>Please refer to <a href='http://depot.universaal.org/hudson/job/support/org.universAAL.support$uaalDirectives-maven-plugin/ws/target/site/plugin-info.html'>plugin official page</a> for documentation.</p>");
 			String filePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+projectToAnalyze.getDescription().getName()+"/target/site/"+fileNameResults;
 			File file = new File(filePath);
 			page.write(file);

@@ -1,6 +1,7 @@
 package org.universaal.tools.conformanceTools.utils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.Reader;
 
@@ -13,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apache.maven.model.io.xpp3.MavenXpp3Writer;
 import org.w3c.dom.Document;
 
 public class POMeditor {
@@ -49,45 +51,16 @@ public class POMeditor {
 		return null;
 	}
 
-	//	public INSERT_OUTPUT insertNode(Element father, Element child){
-	//
-	//		try{
-	//			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	//			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-	//			Document parsedPom = docBuilder.parse(pom);
-	//			parsedPom.getDocumentElement().normalize();
-	//
-	//			//			NodeList fathers = parsedPom.getElementsByTagName(father.getNodeName());
-	//			//			if(fathers.getLength() == 0)
-	//			//				return INSERT_OUTPUT.FATHER_NOT_FOUND;
-	//			//			else if(fathers.getLength() > 1)
-	//			//				return INSERT_OUTPUT.TOO_MANY_FATHERS;
-	//			//			else{
-	//			//				// ok
-	//
-	//			for(int i = 0; i < parsedPom.getDocumentElement().getChildNodes().getLength(); i++){
-	//				if(parsedPom.getDocumentElement().getChildNodes().item(i).isEqualNode(father)){
-	//					parsedPom.getDocumentElement().getChildNodes().item(i).appendChild(child);
-	//					break;
-	//				}
-	//			}
-	//
-	//			// write the content into xml file
-	//			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	//			Transformer transformer = transformerFactory.newTransformer();
-	//			DOMSource source = new DOMSource(parsedPom);
-	//			StreamResult result = new StreamResult(pom);
-	//			transformer.transform(source, result);
-	//
-	//			return INSERT_OUTPUT.SUCCESS;
-	//			//}
-	//		}
-	//		catch(Exception ex){
-	//			ex.printStackTrace();
-	//		}
-	//
-	//		return INSERT_OUTPUT.FAILED;
-	//	}
+	public void writePom(Model model){
+
+		try {
+			MavenXpp3Writer writer = new MavenXpp3Writer();		
+			writer.write(new FileOutputStream(this.pom), model);
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public INSERT_OUTPUT insertNode(String nodeName){
 

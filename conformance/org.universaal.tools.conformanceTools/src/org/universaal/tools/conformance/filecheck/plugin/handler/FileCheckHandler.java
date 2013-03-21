@@ -12,12 +12,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.internal.core.JavaProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.conformanceTools.run.BugDescriptor;
 import org.w3c.dom.Document;
@@ -44,43 +44,41 @@ public class FileCheckHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		// First retrieve current selection and check if its a project
-		IWorkbenchWindow window = HandlerUtil
-				.getActiveWorkbenchWindowChecked(event);
-		// ISelection selection = HandlerUtil.getCurrentSelection(event);
-		// TODO: Is this the same and faster?
-		ISelection selection = window.getSelectionService().getSelection();
-		if ((selection != null) && (selection instanceof StructuredSelection)) {
-			Object selected = ((StructuredSelection) selection)
-					.getFirstElement();
-			// If the selection is a project, start the check
-			//IProject prj;
-			if (selected instanceof JavaProject) {
-				// if you select them from pkg explorer they are JavaProjects
-				prj = ((JavaProject) selected).getProject();
-			} else if (selected instanceof IProject) {
-				// if you select them from project explorer they are IProjects
-				prj = ((IProject) selected);
-			} else {
-				MessageDialog.openInformation(window.getShell(), "FileCheck",
-						"Selection is not a valid project.");
+		
+		Shell shell = HandlerUtil.getActiveWorkbenchWindowChecked(event).getShell();
+
+		try{
+			ContainerSelectionDialog dialog = new ContainerSelectionDialog(shell,
+					ResourcesPlugin.getWorkspace().getRoot(), true, "Select the project to analyze:");
+			dialog.setTitle("Container Selection");
+			dialog.open();		
+
+			if(dialog.getResult() != null && dialog.getResult().length > 0 && dialog.getResult()[0] != null){
+				IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(dialog.getResult()[0].toString());
+				prj = container.getProject();
+			}
+			else{
+				MessageDialog.openInformation(shell, "uAAL Conformance Tools", "Please make a valid selection.");
 				return null;
 			}
-
-			// Main task - check files
-			// TODO: do this inside a job
-			//	    String report = check(prj);
-			//@Manlio: VVVV This is where the test execution is invoked. Forget about anything else.
-			checkFORPLUGIN(prj);
-			//String report = checkFORPLUGIN(prj).toString();
-			//			// TODO: Handle better the response
-			//			MessageDialog.openInformation(window.getShell(), "FileCheck",
-			//					report);
-
-		} else {
-			MessageDialog.openInformation(window.getShell(), "FileCheck",
-					"No selection was made.");
 		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		// Main task - check files
+		// TODO: do this inside a job
+		//	    String report = check(prj);
+		//@Manlio: VVVV This is where the test execution is invoked. Forget about anything else.
+		checkFORPLUGIN(prj);
+		//String report = checkFORPLUGIN(prj).toString();
+		//			// TODO: Handle better the response
+		//			MessageDialog.openInformation(window.getShell(), "FileCheck",
+		//					report);
+
+		//	} else {
+		//		MessageDialog.openInformation(window.getShell(), "FileCheck",
+		//				"No selection was made.");
+		//	}
 		return null;
 	}
 

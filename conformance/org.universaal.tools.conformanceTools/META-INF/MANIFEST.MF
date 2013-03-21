@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AAL Studio ConformanceTools
 Bundle-SymbolicName: org.universaal.tools.conformanceTools;singleton:=true
-Bundle-Version: 0.6.5
+Bundle-Version: 0.7.2
 Bundle-Activator: org.universaal.tools.conformanceTools.Activator
 Bundle-Vendor: universAAL
 Require-Bundle: org.eclipse.ui,
@@ -22,6 +22,11 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.maven.execution,
+ org.apache.maven.model,
+ org.apache.maven.model.io.xpp3,
  org.apache.maven.project,
+ org.codehaus.plexus,
+ org.codehaus.plexus.util,
+ org.codehaus.plexus.util.xml,
  org.eclipse.m2e.core.ui.internal.actions,
  org.eclipse.ui.console
