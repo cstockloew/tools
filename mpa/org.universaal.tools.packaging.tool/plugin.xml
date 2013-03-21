@@ -26,7 +26,7 @@
             locationURI="menu:org.universaal.tools.AALStudio.menu?after=test">
             <command
                   commandId="org.universaal.tools.packaging.tool.commands.MPAaction"               
-                  id="org.universaal.tools.packaging.tool.menus.packTool" icon="">
+                  id="org.universaal.tools.packaging.tool.menus.packTool" icon="icons/package-16.png">
             </command>
       </menuContribution>
    </extension>
