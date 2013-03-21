@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.universaal.tools.conformanceTools.feature"
-      label="AAL Studio Conformance Tools"
-      version="0.6.1"
+      label="AAL Studio ConformanceTools"
+      version="0.7.2"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -50,9 +50,6 @@ http://sourceforge.net/projects/findbugs/
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.m2e.core.ui"/>
-      <import plugin="org.eclipse.m2e.maven.runtime"/>
-      <import plugin="org.eclipse.ui.console"/>
       <import plugin="org.apache.ant" version="1.8.2" match="greaterOrEqual"/>
       <import plugin="org.apache.xerces" version="2.9.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.core" version="3.7.0" match="greaterOrEqual"/>
@@ -65,6 +62,9 @@ http://sourceforge.net/projects/findbugs/
       <import plugin="org.eclipse.ui.views" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.text" version="3.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions" version="3.4.300" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.m2e.maven.runtime"/>
+      <import plugin="org.eclipse.m2e.core.ui"/>
+      <import plugin="org.eclipse.ui.console"/>
    </requires>
 
    <plugin
