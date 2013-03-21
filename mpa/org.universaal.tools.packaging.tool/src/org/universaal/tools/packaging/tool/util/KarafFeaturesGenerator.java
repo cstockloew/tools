@@ -105,9 +105,12 @@ public class KarafFeaturesGenerator {
 				for(int j = 0; j < plugins_children.getLength(); j++){
 					if(plugins_children.item(j).getNodeName().equals("artifactId"))
 						if(plugins_children.item(j).getTextContent().equalsIgnoreCase(ARTIFACT_ID)){
-							if(plugins_children.item(j).getNodeName().equals("version"))
-								if(plugins_children.item(j).getTextContent().equalsIgnoreCase(VERSION))
-									return true;								
+
+							if(plugins_children.item(j).getNextSibling() != null){
+								Node s = plugins_children.item(j).getNextSibling();
+								if(s.getNodeName().equals("version") && s.getTextContent().equalsIgnoreCase(VERSION))
+									return true;				
+							}
 						}
 					//return true;
 				}

@@ -274,6 +274,7 @@ public class PagePartDU extends PageImpl {
 		ckbPL1.setSelection(false);
 		ckbOS1.setSelection(false);
 		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, /*cu1, emb1,*/ ckbKar, andN, andD, andURI)));
+		setPageComplete(true);
 	}
 
 	public void setArtifact(IProject part){

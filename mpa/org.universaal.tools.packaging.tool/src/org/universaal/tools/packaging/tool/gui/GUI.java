@@ -40,14 +40,15 @@ public class GUI extends WizardMod {
 	private String tempDir;  
 	private String destination;
 
-	public GUI(ExecutionEvent event) {
+	public GUI(/*ExecutionEvent event*/List<IProject> parts) {
 
 		super();
 		setNeedsProgressMonitor(true);
 
-		this.event = event; 
+		//this.event = event; 
 		mpa = new MPA();
 		instance = this;
+		this.parts = parts;
 	}
 
 	public static synchronized GUI getInstance(){
@@ -57,12 +58,12 @@ public class GUI extends WizardMod {
 	@Override
 	public void addPages() {
 
-		if(event != null){
-			try {
-				analyzeSelection(HandlerUtil.getActiveWorkbenchWindowChecked(event));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if(this.parts != null){
+//			try {
+//				analyzeSelection(HandlerUtil.getActiveWorkbenchWindowChecked(event));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 
 			p0 = new StartPage(Page.PAGE_START);
 			addPage(p0);
