@@ -128,7 +128,7 @@ public class ApplicationView extends Composite {
 		label_1.setImage(ResourceManager.getPluginImage("org.universaal.tools.dashboard", "icons/next.png"));
 		
 		btnCombine = new Button(composite_2, SWT.NONE);
-		btnCombine.setEnabled(false);
+		btnCombine.setEnabled(true);
 		btnCombine.setText("Package");
 		
 		Group grpPublishableOntology = new Group(this, SWT.BORDER);
@@ -201,6 +201,10 @@ public class ApplicationView extends Composite {
 
 		//Extract configuration
 		addCommandCallingListener(btnExtractParameters, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
+		
+		//Package
+		addCommandCallingListener(btnCombine, "org.universaal.tools.packaging.tool.commands.MPAaction", "AAL Studio Application Packager");
+		
 		
 		//Application Binary
 		addCommandCallingListener(btnTestConformance, "org.universaal.tools.conformanceTools.commands.ConformanceToolsRun", "AAL Studio Conformance Tools");

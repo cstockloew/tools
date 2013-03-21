@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.dashboard.feature"
       label="AAL Studio Dashboard"
-      version="0.9.0"
+      version="0.9.5"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
