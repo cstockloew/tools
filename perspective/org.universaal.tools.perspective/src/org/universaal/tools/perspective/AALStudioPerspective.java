@@ -24,7 +24,6 @@ public class AALStudioPerspective implements IPerspectiveFactory {
 			IFolderLayout folderLayout = layout.createFolder("folder_1", IPageLayout.BOTTOM, 0.65f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("org.universaal.tools.dashboard.views.DashboardView");
 			folderLayout.addView("org.universAAL.codeassistant.CodeAssistantView");
-			folderLayout.addView("org.universaal.tools.configurationExtractor.CEView");
 			folderLayout.addView("org.eclipse.ui.views.PropertySheet");
 			folderLayout.addView("org.eclipse.ui.views.ProblemView");
 			folderLayout.addView("org.eclipse.pde.runtime.LogView");
