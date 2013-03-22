@@ -46,7 +46,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class SendEmail {
 
-	private final static String EMAIL = "universAAL@something.org";
+	private final static String EMAIL = "erlend.stav@sintef.no";
 	private final static String SUBJECT = "New universAAL Project";
 	
 	private Desktop desktop;

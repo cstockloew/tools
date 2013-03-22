@@ -7,7 +7,7 @@
             class="org.universaal.tools.xmleditor.editors.XmlEditor"
             default="true"
             filenames="aalapp.xml,"
-            icon="icons/compile.png"
+            icon="icons/uaal-16.png"
             id="xmleditor.editors.MultiPageEditor"
             name="AAL Studio Project XML Editor">
       </editor>
