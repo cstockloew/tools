@@ -258,6 +258,9 @@
    <feature url="features/org.universaal.tools.packaging.tool.feature_0.6.1.jar" id="org.universaal.tools.packaging.tool.feature" version="0.6.1">
       <category name="universaal_tools"/>
    </feature>
+   <feature url="features/org.universaal.tools.configurationExtractor.feature_0.9.2.jar" id="org.universaal.tools.configurationExtractor.feature" version="0.9.2">
+      <category name="universaal_tools"/>
+   </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
          Tools for development of AAL applications using the universAAL platform
