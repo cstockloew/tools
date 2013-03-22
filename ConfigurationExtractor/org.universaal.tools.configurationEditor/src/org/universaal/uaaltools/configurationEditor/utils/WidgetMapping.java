@@ -31,8 +31,8 @@ public class WidgetMapping {
 	public static final int ATTRIBUTE = 0;
 	
 	
-	private static HashMap<Widget, Element> elementMap = new HashMap<>();
-	private static HashMap<Widget, Attribute> attributeMap = new HashMap<>();
+	private static HashMap<Widget, Element> elementMap = new HashMap<Widget, Element>();
+	private static HashMap<Widget, Attribute> attributeMap = new HashMap<Widget, Attribute>();
 	
 	public static void put(Widget wi, Object ob){
 		if(ob instanceof Attribute){
