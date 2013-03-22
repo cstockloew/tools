@@ -85,7 +85,7 @@ public class PageLicenses extends PageImpl {
 
 				public void widgetSelected(SelectionEvent e) {
 					Dialog d = new Dialog();
-					f1 = d.open(parent.getShell(), new String[]{"*.*"});				
+					f1 = d.open(parent.getShell(), new String[]{"*.*"}, true, "Select a SLA file...");				
 					try {
 						slaLink.setText(f1.toURI().toURL()+"");
 					} catch (MalformedURLException e1) {
@@ -147,7 +147,7 @@ public class PageLicenses extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 				Dialog d = new Dialog();
-				f2 = d.open(parent.getShell(), new String[]{"*.*"});				
+				f2 = d.open(parent.getShell(), new String[]{"*.*"}, true, "Select a license file...");				
 				try {
 					licLink.setText(f2.toURI().toURL()+"");
 				} catch (MalformedURLException e1) {

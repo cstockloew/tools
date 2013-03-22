@@ -8,10 +8,14 @@ import org.eclipse.swt.widgets.Shell;
 
 public class Dialog {
 
-	public File open(Shell s, String[] filterExt){
+	public File open(Shell s, String[] filterExt, boolean open, String topText){
 
-		FileDialog fd = new FileDialog(s, SWT.OPEN);
-		fd.setText("Path to UAPP file");
+		FileDialog fd;
+		if(open)
+			fd = new FileDialog(s, SWT.OPEN);
+		else
+			fd = new FileDialog(s, SWT.SAVE);
+		fd.setText(topText);
 		fd.setFilterPath("C:/");
 		fd.setFileName("");
 		//String[] filterExt = {"*.uapp"};
@@ -20,11 +24,15 @@ public class Dialog {
 
 		return new File(selected);
 	}
-	
-	public File open(Shell s, String filename, String[] filterExt){
 
-		FileDialog fd = new FileDialog(s, SWT.OPEN);
-		fd.setText("Path to UAPP file");
+	public File open(Shell s, String filename, String[] filterExt, boolean open, String topText){
+
+		FileDialog fd;
+		if(open)
+			fd = new FileDialog(s, SWT.OPEN);
+		else
+			fd = new FileDialog(s, SWT.SAVE);
+		fd.setText(topText);
 		fd.setFilterPath("C:/");
 		fd.setFileName(filename);
 		//String[] filterExt = {"*.uapp"};

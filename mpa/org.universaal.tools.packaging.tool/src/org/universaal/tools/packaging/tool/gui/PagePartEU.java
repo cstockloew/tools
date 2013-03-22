@@ -63,7 +63,7 @@ public class PagePartEU extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 				Dialog d = new Dialog();
-				f1 = d.open(parent.getShell(), new String[]{"*.*"});				
+				f1 = d.open(parent.getShell(), new String[]{"*.*"}, true, "Select a configuration file...");				
 				configFile1.setText(f1.getName());
 			}
 
@@ -101,7 +101,7 @@ public class PagePartEU extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 				Dialog d = new Dialog();
-				f2 = d.open(parent.getShell(), new String[]{"*.*"});				
+				f2 = d.open(parent.getShell(), new String[]{"*.*"}, true, "Select a configuration file...");				
 				configFile2.setText(f2.getName());
 			}
 
@@ -139,7 +139,7 @@ public class PagePartEU extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 				Dialog d = new Dialog();
-				f3 = d.open(parent.getShell(), new String[]{"*.*"});				
+				f3 = d.open(parent.getShell(), new String[]{"*.*"}, true, "Select a configuration file...");				
 				configFile3.setText(f3.getName());
 			}
 
@@ -177,7 +177,7 @@ public class PagePartEU extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 				Dialog d = new Dialog();
-				f4 = d.open(parent.getShell(), new String[]{"*.*"});				
+				f4 = d.open(parent.getShell(), new String[]{"*.*"}, true, "Select a configuration file...");				
 				configFile4.setText(f4.getName());
 			}
 

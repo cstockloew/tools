@@ -118,7 +118,7 @@ public class StartPage extends PageImpl {
 
 			public void widgetSelected(SelectionEvent e) {
 				Dialog d = new Dialog();
-				destination = d.open(parent.getShell(), new String[]{"*.uapp"});			
+				destination = d.open(parent.getShell(), new String[]{"*.uapp"}, false, "UAPP file path...");			
 
 				if(!destination.getAbsolutePath().endsWith(".uapp"))
 					destination = new File(destination+".uapp");
