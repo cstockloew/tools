@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Configuration Editor"
+            extensions="xml"
+            icon="icons/sample.gif"
+            contributorClass="org.universaal.uaaltools.configurationEditor.editors.MultiPageEditorContributor"
+            class="org.universaal.uaaltools.configurationEditor.editors.MultiPageEditor"
+            id="org.universaal.uaaltools.configurationEditor">
+      </editor>
+   </extension>
+
+</plugin>
