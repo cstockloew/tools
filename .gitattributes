@@ -269,6 +269,25 @@ org.universaal.tools.dashboard/swing2swt.jar -text
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.developerdepot/.buildpath -text
+org.universaal.tools.developerdepot/.project -text
+org.universaal.tools.developerdepot/www/about.html -text svneol=unset#text/plain
+org.universaal.tools.developerdepot/www/icon/applications-60.png -text
+org.universaal.tools.developerdepot/www/icon/contributing.png -text
+org.universaal.tools.developerdepot/www/icon/document-60.png -text
+org.universaal.tools.developerdepot/www/icon/examples.png -text
+org.universaal.tools.developerdepot/www/icon/forums.png -text
+org.universaal.tools.developerdepot/www/icon/ic-uaal.png -text
+org.universaal.tools.developerdepot/www/icon/publishing.png -text
+org.universaal.tools.developerdepot/www/icon/question.png -text
+org.universaal.tools.developerdepot/www/icon/register-60.png -text
+org.universaal.tools.developerdepot/www/icon/tools.png -text
+org.universaal.tools.developerdepot/www/icon/training.png -text
+org.universaal.tools.developerdepot/www/index.html -text svneol=unset#text/plain
+org.universaal.tools.developerdepot/www/projectrequest/index.php -text
+org.universaal.tools.developerdepot/www/projectrequest/official.xml -text svneol=unset#text/plain
+org.universaal.tools.developerdepot/www/projectrequest/projects.xml -text
+org.universaal.tools.developerdepot/www/ustore.html -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/.classpath -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/.project -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
