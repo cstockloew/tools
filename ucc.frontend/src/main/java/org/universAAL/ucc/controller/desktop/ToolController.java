@@ -164,7 +164,7 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 	public void uploadFinished(FinishedEvent event) {
 		app.getMainWindow().removeWindow(installWindow);
 		IWindow iw = new InstallProcessImpl();
-		iw.installProcess(System.getenv("systemdrive")+"/tempUsrvFiles/");
+//		iw.installProcess(System.getenv("systemdrive")+"/tempUsrvFiles/");
 //		File licenceFile = new File(System.getenv("systemdrive")+"/"+dir+"/config/hwo.usrv.xml");
 //		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 //		File l = null;

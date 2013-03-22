@@ -12,6 +12,7 @@ import org.universAAL.ucc.frontend.api.IWindow;
 import org.universAAL.ucc.frontend.api.impl.InstallProcessImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
+import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.OptionsWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -34,6 +35,7 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 	private UccUI app;
 	private AALService aal;
 	private IWindow iw;
+	private static int appCounter;
 	
 	public LicenseController(UccUI app, LicenceWindow win, ArrayList<License> lix, AALService aal) {
 		res = ResourceBundle.getBundle(base);
@@ -41,6 +43,8 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		this.lix = lix;
 		this.app = app;
 		this.aal = aal;
+		appCounter = aal.getUaapList().size();
+		iw = new InstallProcessImpl();
 		win.getGo().addListener((Button.ClickListener)this);
 		win.getCancel().addListener((Button.ClickListener)this);
 	}
@@ -112,13 +116,16 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		}
 		if(event.getButton() == win.getGo()) {
 			app.getMainWindow().removeWindow(win);
-			iw = new InstallProcessImpl();
-			int appCounter = aal.getUaapList().size();
-			System.err.println(appCounter);
 			//Test, if uapps size greater than 0
 			if(appCounter > 0) {
-				iw.getDeployStratgyView(aal.getName(), aal.getUaapList().get(appCounter-1).getServiceId(), 
-						aal.getUaapList().get(appCounter-1).getUappLocation(), appCounter-1, aal);
+				System.err.println("[LicenseController]: appCounter "+appCounter);
+				//Load Infoview for Deployment of uapps
+				DeploymentInformationView div = new DeploymentInformationView(app);
+				DeploymentInfoController dic = new DeploymentInfoController(app, aal, div);
+				app.getMainWindow().addWindow(div);
+//				iw.getDeployStratgyView(aal.getName(), aal.getServiceId(), 
+//						aal.getUaapList().get(0).getUappLocation(), appCounter, aal);
+//				appCounter--;
 			} 
 		}
 		

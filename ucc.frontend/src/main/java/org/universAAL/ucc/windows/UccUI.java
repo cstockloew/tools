@@ -1,5 +1,7 @@
 package org.universAAL.ucc.windows;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -72,6 +74,12 @@ public class UccUI extends Application {
 			} else {
 				Locale.setDefault(Locale.ENGLISH);
 			}
+		}
+		//Creating tempUsrvFiles directory 
+		File file = new File(System.getenv("systemdrive")+"/tempUsrvFiles");
+		if(!file.exists()) {
+				file.mkdir();
+				System.err.println("tempUsrvFiles was created!");
 		}
 		basename = "resources.ucc";
 		res = ResourceBundle.getBundle(basename);

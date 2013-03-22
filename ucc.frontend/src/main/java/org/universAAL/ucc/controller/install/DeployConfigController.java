@@ -25,6 +25,7 @@ public class DeployConfigController implements Button.ClickListener {
 	private boolean lastUapp;
 	private int index;
 	private AALService aal;
+	private IWindow iw;
 	private static final String filePath = System.getenv("systemdrive")+"/tempUsrvFiles/";
 	
 	public DeployConfigController(UccUI app, DeployConfigView win, AALService aal, int index, boolean lastUapp) {
@@ -35,18 +36,18 @@ public class DeployConfigController implements Button.ClickListener {
 		this.aal = aal;
 		this.index = index;
 		this.lastUapp = lastUapp;
-		win.getNext().addListener(this);
-//		win.getPrevious().addListener(this);
-		win.getCancel().addListener(this);
+//		iw = new InstallProcessImpl();
+		win.getTxt().setValue(aal.getUaapList().get(index-1).getPart());
+	
 	}
 
 	public void buttonClick(ClickEvent event) {
-		if(event.getButton() == win.getNext()) {
-			app.getMainWindow().removeWindow(win);
+//		if(event.getButton() == win.getNext()) {
+//			app.getMainWindow().removeWindow(win);
 			if(lastUapp) {
 				app.getMainWindow().showNotification(bundle.getString("success.install.msg"), Notification.TYPE_HUMANIZED_MESSAGE);
 			} else {
-				IWindow iw = new InstallProcessImpl();
+				System.err.println("[DeployConfigController] index: "+index);
 				iw.getDeployConfigView(aal, index , lastUapp);
 			}
 			//ToDo: Installation of uapp file
@@ -58,13 +59,13 @@ public class DeployConfigController implements Button.ClickListener {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
-		}
+//		}
 
-		if(event.getButton() == win.getCancel()) {
-			app.getMainWindow().removeWindow(win);
-			app.getMainWindow().showNotification(bundle.getString("break.note"));
-		}
-		
+//		if(event.getButton() == win.getCancel()) {
+////			app.getMainWindow().removeWindow(win);
+//			app.getMainWindow().showNotification(bundle.getString("break.note"));
+//		}
+//		
 	}
 
 }

@@ -18,13 +18,10 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class DeployConfigView extends Window {
+public class DeployConfigView extends VerticalLayout {
 	private Label label;
 	private TextField txt;
 	private NativeSelect select;
-//	private Button previous;
-	private Button next;
-	private Button cancel;
 	private String base;
 	private ResourceBundle bundle;
 	private UccUI app;
@@ -35,14 +32,13 @@ public class DeployConfigView extends Window {
 		BundleContext bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = bc.getServiceReference(IInstaller.class.getName());
 		IInstaller installer = (IInstaller) bc.getService(ref);
-		setCaption(bundle.getString("deploy.config.capt"));
+		addComponent(new Label("<b>"+bundle.getString("deploy.config.capt")+"</b>", Label.CONTENT_XHTML));
 		this.app = app;
-		VerticalLayout vl = new VerticalLayout();
-		vl.setSizeFull();
-		vl.setSpacing(true);
-		vl.setMargin(true);
+//		setSizeFull();
+		setSpacing(true);
+		setMargin(true);
 		label = new Label(bundle.getString("app.part.label"));
-		vl.addComponent(label);
+		addComponent(label);
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
 		hl.setMargin(true);
@@ -60,26 +56,14 @@ public class DeployConfigView extends Window {
 			select.addItem(entry.next().toString());
 		}
 		hl.addComponent(select);
-		vl.addComponent(hl);
-		vl.setComponentAlignment(hl, Alignment.MIDDLE_CENTER);
+		addComponent(hl);
+		setComponentAlignment(hl, Alignment.MIDDLE_CENTER);
 		HorizontalLayout hl2 = new HorizontalLayout();
 		hl2.setMargin(true);
 		hl2.setSpacing(true);
-//		previous = new Button(bundle.getString("prev.button"));
-		next = new Button(bundle.getString("next.button"));
-		cancel = new Button(bundle.getString("cancel.button"));
-//		hl2.addComponent(previous);
-		hl2.addComponent(next);
-		hl2.addComponent(cancel);
-		vl.addComponent(hl2);
-		vl.setComponentAlignment(hl2, Alignment.BOTTOM_CENTER);
-		setContent(vl);
-		center();
-		setWidth("450px");
-		setHeight("250px");
-		setResizable(false);
-		setModal(true);
-		setClosable(false);
+		addComponent(hl2);
+		setComponentAlignment(hl2, Alignment.BOTTOM_CENTER);
+		
 	}
 
 	public TextField getTxt() {
@@ -97,31 +81,5 @@ public class DeployConfigView extends Window {
 	public void setSelect(NativeSelect select) {
 		this.select = select;
 	}
-
-//	public Button getPrevious() {
-//		return previous;
-//	}
-//
-//	public void setPrevious(Button previous) {
-//		this.previous = previous;
-//	}
-
-	public Button getNext() {
-		return next;
-	}
-
-	public void setNext(Button next) {
-		this.next = next;
-	}
-
-	public Button getCancel() {
-		return cancel;
-	}
-
-	public void setCancel(Button cancel) {
-		this.cancel = cancel;
-	}
-	
-	
 
 }

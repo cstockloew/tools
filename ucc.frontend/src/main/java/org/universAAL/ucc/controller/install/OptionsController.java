@@ -49,10 +49,10 @@ public class OptionsController implements Button.ClickListener,
 			//Deploy strategy windodw for every uapp in the usrv file
 			if(appCounter > 0) {
 				appCounter--;
-				DeployStrategyView dsv = new DeployStrategyView(aal.getUaapList().get(appCounter).getName(), aal.getUaapList().get(appCounter).getServiceId(),
+				DeployStrategyView dsv = new DeployStrategyView(aal.getUaapList().get(appCounter).getName(), aal.getServiceId(),
 						aal.getUaapList().get(appCounter).getUappLocation());
 				DeployStrategyController dsc = new DeployStrategyController(app, dsv, appCounter, aal);
-				app.getMainWindow().addWindow(dsv);
+//				app.getMainWindow().addWindow(dsv);
 				
 			} 
 

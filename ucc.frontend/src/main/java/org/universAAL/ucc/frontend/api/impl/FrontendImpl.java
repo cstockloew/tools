@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
@@ -74,17 +75,39 @@ public class FrontendImpl implements IFrontend {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
+		//extract available uapp files
+				File usrv = new File(usrvLocalStore+"bin/");
+				File[]uapps = usrv.listFiles();
+				for(File cur : uapps) {
+					try {
+						extractUsrvFile(usrvLocalStore+"bin/"+cur.getName());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				
+		//parse uapp.config.xml
+		ArrayList<UAPP> apps = null;
+		try {
+			apps = parseUappConfiguration("config/hwo.uapp.xml");
+		} catch (SAXException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 //			 parses the configuration xml from the extracted usrv file
 //			 and creates the views (LicenseView and so on) to show to the user for further processing
-			parseConfiguration();
+			parseConfiguration("config/hwo.usrv.xml", apps);
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 
 	}
 
@@ -120,15 +143,15 @@ public class FrontendImpl implements IFrontend {
 		return filename;
 	}
 
-	private String parseFileName(String url){
-		String result=url;
-		String[] values=url.split("&");
-		for(int i=0;i<values.length;i++){
-			if(values[i].startsWith(FILENAME_SEARCH_TAG))
-				result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
-		}
-		return result;
-	}
+//	private String parseFileName(String url){
+//		String result=url;
+//		String[] values=url.split("&");
+//		for(int i=0;i<values.length;i++){
+//			if(values[i].startsWith(FILENAME_SEARCH_TAG))
+//				result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * Extracts the downloaded usrv file.
@@ -169,6 +192,73 @@ public class FrontendImpl implements IFrontend {
 		zipIn.close();
 
 	}
+	
+	/**
+	 * Parses the given configuration xml from an uapp file to get some information from the uapp file
+	 * @throws IOException 
+	 * @throws SAXException 
+	 */
+	private ArrayList<UAPP> parseUappConfiguration(String f) throws SAXException, IOException {
+		File config = new File(usrvLocalStore + f);
+		ArrayList<UAPP> appsList = new ArrayList<UAPP>();
+		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = null;
+		try {
+			builder = fact.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		
+		Document doc = builder.parse(config);
+		
+		
+		for(int i = 0; i < doc.getElementsByTagName("uapp:applicationPart").getLength(); i++) {
+			for(int j = 0; j < doc.getElementsByTagName("uapp:part").getLength(); j++) {
+				UAPP ua = new UAPP();
+				String partId = doc.getElementsByTagName("uapp:part").item(j).getAttributes().getNamedItem("partId").getNodeValue();
+				System.out.println("[FrontendImpl] PartId: "+partId);
+				Part p = new Part();
+				p.setPartId(partId);
+				ua.setPart(p);
+				appsList.add(ua);
+				for(int g = 0; g < doc.getElementsByTagName("uapp:containerUnit").getLength(); g++) {
+					Node node = doc.getElementsByTagName("uapp:containerUnit").item(g);
+					NodeList nl = node.getChildNodes();
+					for(int ni = 0; ni < nl.getLength(); ni++) {
+						if(nl.item(ni).getNodeName().equals("uapp:location")) {
+							String location = nl.item(ni).getTextContent();
+							ua.setUappLocation(location);
+						} else if(nl.item(ni).equals("bundle")) {
+							String location = nl.item(ni).getTextContent();
+							ua.setUappLocation(location);
+						}
+					}
+				}
+				
+				for(int k = 0; k < doc.getElementsByTagName("uapp:app").getLength(); k++) {
+					String name = doc.getElementsByTagName("uapp:name").item(k).getTextContent();
+					ua.setName(name);
+					String desc = doc.getElementsByTagName("uapp:description").item(k).getTextContent();
+					ua.setDescription(desc);
+					String appId = doc.getElementsByTagName("uapp:appId").item(k).getTextContent();
+					ua.setAppId(appId);
+					for(int m = 0; m < doc.getElementsByTagName("uapp:version").getLength(); m++) {
+						String major = doc.getElementsByTagName("uapp:major").item(m).getTextContent();
+						ua.setMajor(Integer.valueOf(major));
+						String micro = doc.getElementsByTagName("uapp:micro").item(m).getTextContent();
+						ua.setMicro(Integer.valueOf(micro));
+						String minor = doc.getElementsByTagName("uapp:minor").item(m).getTextContent();
+						ua.setMinor(Integer.valueOf(minor));
+					}
+					boolean multi = Boolean.valueOf(doc.getElementsByTagName("uapp:multipart").item(k).getTextContent());
+					ua.setMultipart(multi);
+					
+				}
+			}
+		}
+		
+		return appsList;
+	}
 
 	/**
 	 * Parses the given configuration xml from the usrv file to get some information about the usrv.
@@ -176,8 +266,8 @@ public class FrontendImpl implements IFrontend {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	private void parseConfiguration() throws SAXException, IOException {
-		File licenceFile = new File(usrvLocalStore + "config/hwo.usrv.xml");
+	private AALService parseConfiguration(String f, ArrayList<UAPP>apps) throws SAXException, IOException {
+		File licenceFile = new File(usrvLocalStore + f);
 		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 		File l = null;
 		String txt = "";
@@ -196,30 +286,11 @@ public class FrontendImpl implements IFrontend {
 		Document doc = builder.parse(licenceFile);
 		for (int k = 0; k < doc.getElementsByTagName("usrv:srv").getLength(); k++) {
 			aal = new AALService();
-			for (int ac = 0; ac < doc.getElementsByTagName("usrv:application")
-					.getLength(); ac++) {
-				UAPP uap = new UAPP();
-				Node node = (Node) doc.getElementsByTagName("usrv:application")
-						.item(ac);
-				NodeList nodeList = node.getChildNodes();
-				for (int b = 0; b < node.getChildNodes().getLength(); b++) {
 
-					if (nodeList.item(b).getNodeName()
-							.equals("usrv:artifactID")) {
-						uap.setServiceId(nodeList.item(b).getTextContent());
-						System.err.println(uap.getServiceId());
-					}
-					if (nodeList.item(b).getNodeName().equals("usrv:location")) {
-						uap.setUappLocation(nodeList.item(b).getTextContent());
-					}
-					if (nodeList.item(b).getNodeName().equals("usrv:name")) {
-						uap.setName(nodeList.item(b).getTextContent());
-						System.err.println(uap.getName());
-					}
-
-				}
-				aal.getUaapList().add(uap);
+			for(UAPP ua : apps ) {
+				aal.getUaapList().add(ua);
 			}
+			aal.setServiceId(doc.getElementsByTagName("usrv:serviceId").item(0).getTextContent());
 			aal.setName(doc.getElementsByTagName("usrv:name").item(0)
 					.getTextContent());
 			aal.setProvider(doc.getElementsByTagName("usrv:serviceProvider")
@@ -281,8 +352,10 @@ public class FrontendImpl implements IFrontend {
 			aal.setLicenses(license);
 
 		}
+		
 		LicenceWindow lw = new LicenceWindow(UccUI.getInstance(), licenseList, aal);
 		new UsrvInfoController(aal, lw, UccUI.getInstance());
+		return aal;
 	}
 
 	/**

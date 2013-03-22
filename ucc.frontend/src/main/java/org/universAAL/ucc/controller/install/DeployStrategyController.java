@@ -37,6 +37,7 @@ public class DeployStrategyController implements Button.ClickListener {
 	private ResourceBundle bundle;
 	private BundleContext bc;
 	private IInstaller installer;
+	private IWindow iw;
 	private Map<String, PeerCard> peers;
 	
 	public DeployStrategyController(UccUI app, DeployStrategyView view, int index, AALService aal) {
@@ -46,17 +47,15 @@ public class DeployStrategyController implements Button.ClickListener {
 		this.view = view;
 		this.aal = aal;
 		this.index = index;
-		view.getOk().addListener((Button.ClickListener)this);
-		view.getCancel().addListener((Button.ClickListener)this);
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = bc.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) bc.getService(ref);
+		iw = new InstallProcessImpl();
 	}
 
 
 	public void buttonClick(ClickEvent event) {
-		if(event.getButton() == view.getOk()) {
-			IWindow iw = new InstallProcessImpl();
+//		if(event.getButton() == view.getOk()) {
 			//Installation on default nodes
 			if(view.getOptions().getValue().toString().equals(bundle.getString("opt.available.nodes"))) {
 				UAPPPackage pack = null;
@@ -64,7 +63,7 @@ public class DeployStrategyController implements Button.ClickListener {
 					// Shanshan: get deploy configuration
 					peers = installer.getPeers();
 					Map config = buildDefaultInstallationLayout(aal.getUaapList().get(index));
-					pack = new UAPPPackage(aal.getUaapList().get(index).getServiceId(), aal.getUaapList().get(index).getAppId(),
+					pack = new UAPPPackage(aal.getServiceId(), aal.getUaapList().get(index).getAppId(),
 							new URI(aal.getUaapList().get(index).getUappLocation()), config);
 				} 
 				catch (URISyntaxException e) {
@@ -78,28 +77,32 @@ public class DeployStrategyController implements Button.ClickListener {
 					app.getMainWindow().showNotification(res.name().toString());
 				}
 				
-				app.getMainWindow().removeWindow(view);
+//				app.getMainWindow().removeWindow(view);
 				//If more than one app
-				if(index >= 1) {
-					iw.getDeployStratgyView(aal.getUaapList().get(index).getName(), aal.getUaapList().get(index).getServiceId(), aal.getUaapList().get(index).getUappLocation(), index, aal);
+				if(index > 0) {
+					iw.getDeployStratgyView(aal.getUaapList().get(index-1).getName(), aal.getServiceId(), aal.getUaapList().get(index-1).getUappLocation(), index, aal);
 				} else {
 					//Show message that all apps are installed
 					app.getMainWindow().showNotification(bundle.getString("success.install.msg"), Notification.TYPE_HUMANIZED_MESSAGE);
 				} 
 				
 			} 
+			//Installation with selected nodes
 			else if(view.getOptions().getValue().toString().equals(bundle.getString("opt.selected.nodes"))) {
-				app.getMainWindow().removeWindow(view);
-				if(index <=  1)
+//				app.getMainWindow().removeWindow(view);
+				if(index <  1) {
 					iw.getDeployConfigView(aal, index, true);
-				else
+					System.err.println("[DeployStrategyController:] lastUapp is true");
+				} else {
 					iw.getDeployConfigView(aal, index, false);
+					System.err.println("[DeployStrategyController:] lastUapp is false");
+				}
 			}
-		}
-		if(event.getButton() == view.getCancel()) {
-			app.getMainWindow().removeWindow(view);
-			app.getMainWindow().showNotification(bundle.getString("break.note"), Notification.TYPE_ERROR_MESSAGE);
-		}
+//		}
+//		if(event.getButton() == view.getCancel()) {
+////			app.getMainWindow().removeWindow(view);
+//			app.getMainWindow().showNotification(bundle.getString("break.note"), Notification.TYPE_ERROR_MESSAGE);
+//		}
 		
 	}
 
@@ -114,7 +117,7 @@ public class DeployStrategyController implements Button.ClickListener {
     	Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 		peersToCheck.putAll(peers);
 		// Shanshan - TODO: update UAPP to return part info
-    	for(Part part : uapp.getParts()){
+    	Part part = uapp.getPart();
     		//check: deployment units
     		for(String key: peersToCheck.keySet()){
     			PeerCard peer = peersToCheck.get(key);
@@ -124,7 +127,7 @@ public class DeployStrategyController implements Button.ClickListener {
     				break;
     			}
     		}
-    	}
+    	
     	for (PeerCard key: mpaLayout.keySet()) {
     		   System.out.println("[DeployStrategyView.buildDefaultInstallationLayout] mpalayout: " + key.getPeerID() + "/" + mpaLayout.get(key).getPartId() );
     		}
