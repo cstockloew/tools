@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.commands">
+      <category
+            name="AAL Studio"
+            id="org.universaal.tools.conformanceTools.plugin.command">
+      </category>
+      <command
+            name="Verify project conformance"
+            categoryId="org.universaal.tools.conformanceTools.plugin.command"
+            id="org.universaal.tools.conformanceTools.commands.ConformanceToolsRun">
+      </command>
+   </extension>
+   
+   <extension point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.universaal.tools.conformanceTools.commands.ConformanceToolsRun"
+            class="org.universaal.tools.conformanceTools.handlers.ConformanceToolsHandler">
+            <!--<enabledWhen>
+                <with variable="selection">
+                   <iterate
+                         ifEmpty="false"
+                         operator="or">
+                         <or>
+                          <instanceof value="org.eclipse.core.resources.IProject" />
+	                      <instanceof value="org.eclipse.jdt.internal.core.JavaProject" />
+                         </or>
+                   </iterate>
+                   <count value="1" />
+                </with>
+             </enabledWhen>-->
+      </handler>
+   </extension>
+   
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=test">
+            <command
+                  commandId="org.universaal.tools.conformanceTools.commands.ConformanceToolsRun"
+                  mnemonic="T"
+                  id="org.universaal.tools.conformanceTools.menus.conformancetest" icon="icons/test.png">
+            </command>
+      </menuContribution>
+   </extension>
+   
+	<extension point="org.eclipse.core.resources.markers" 
+   	 id="org.universaal.tools.conformanceTools.ctMarker" 
+   	 name="uAAL Conformance Tools Marker">
+		<super type="org.eclipse.core.resources.textmarker"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors.annotationTypes">
+		<type super="org.eclipse.ui.workbench.texteditor.warning" 
+          markerType="org.universaal.tools.conformanceTools.ctMarker"
+          name="org.universaal.tools.conformanceTools.ctAnn" />
+  	</extension>
+
+  	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
+		<specification label="uAAL CT" 
+         annotationType="org.universaal.tools.conformanceTools.ctAnn"
+         quickFixIcon="icons/test.png" symbolicIcon="warning" 
+         overviewRulerPreferenceValue="true" textPreferenceValue="true"
+         verticalRulerPreferenceValue="true"/>
+  	</extension>
+	
+	<extension point="org.eclipse.ui.ide.markerResolution">
+		<markerResolutionGenerator
+ 			markerType="org.universaal.tools.conformanceTools.ctMarker" 
+  			class="org.universaal.tools.conformanceTools.markers.BugResolution">
+		</markerResolutionGenerator>
+	</extension>
+ <extension
+       id="conformanceTools"
+       point="org.eclipse.core.runtime.products">
+    <product
+          application="org.universaal.tools.conformanceTools.application"
+          name="universAAL Conformance Tools">
+       <property
+             name="appName"
+             value="universAAL Conformance Tools">
+       </property>
+    </product>
+ </extension>	
+</plugin>
