@@ -214,6 +214,35 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexte
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceConstants.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/.classpath -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/.project -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/MITX.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/build.properties -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/icons/full/ctool16/CreateParameter_propertyPath_PropertyPath.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/ctool16/CreateServiceEffect_propertyPath_PropertyPath.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/ctool16/CreateServiceInterface_operations_ServiceOperation.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/ctool16/CreateServiceOperation_effects_ServiceEffect.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/ctool16/CreateServiceOperation_input_Parameter.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/ctool16/CreateServiceOperation_output_Parameter.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/obj16/NamedElement.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/obj16/Parameter.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/obj16/PropertyPath.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/obj16/ServiceEffect.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/obj16/ServiceInterface.gif -text
+org.universaal.tools.modelling.service.edit/icons/full/obj16/ServiceOperation.gif -text
+org.universaal.tools.modelling.service.edit/plugin.properties -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/src/org/universaal/tools/modelling/servicemodel/provider/NamedElementItemProvider.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/src/org/universaal/tools/modelling/servicemodel/provider/ParameterItemProvider.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/src/org/universaal/tools/modelling/servicemodel/provider/PropertyPathItemProvider.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/src/org/universaal/tools/modelling/servicemodel/provider/ServiceEffectItemProvider.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/src/org/universaal/tools/modelling/servicemodel/provider/ServiceInterfaceItemProvider.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/src/org/universaal/tools/modelling/servicemodel/provider/ServiceModelItemProviderAdapterFactory.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/src/org/universaal/tools/modelling/servicemodel/provider/ServiceModel_EMFEditorEditPlugin.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.edit/src/org/universaal/tools/modelling/servicemodel/provider/ServiceOperationItemProvider.java -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.editor/.classpath -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.editor/.project -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.editor/ASL2.0.txt -text svneol=unset#text/plain
