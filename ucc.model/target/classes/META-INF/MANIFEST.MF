@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1363703604654
+Bnd-LastModified: 1363966334017
 Build-Jdk: 1.7.0_17
 Built-By: merkle
 Bundle-Description: A tool to install, manage and configure applications
@@ -12,10 +12,10 @@ Bundle-Vendor: universAAL Consortium
 Bundle-Version: 2.0.1.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
 Export-Package: org.universAAL.ucc.model;uses:="org.universAAL.ucc.model
- .install,org.osgi.framework,org.universAAL.middleware.deploymaneger.uap
- p.model";version="2.0.1.SNAPSHOT",org.universAAL.ucc.model.install;vers
- ion="2.0.1.SNAPSHOT",org.universAAL.ucc.model.preferences;version="2.0.
- 1.SNAPSHOT"
+ .install,org.osgi.framework,org.universAAL.middleware.interfaces.mpa.mo
+ del";version="2.0.1.SNAPSHOT",org.universAAL.ucc.model.install;version=
+ "2.0.1.SNAPSHOT",org.universAAL.ucc.model.preferences;version="2.0.1.SN
+ APSHOT"
 Import-Package: org.osgi.framework;version="[1.5,2)",org.universAAL.midd
- leware.deploymaneger.uapp.model
+ leware.interfaces.mpa.model
 Tool: Bnd-1.50.0

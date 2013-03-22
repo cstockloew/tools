@@ -14,16 +14,12 @@ public class UAPP {
 	private int major;
 	private int micro;
 	private String description;
-	private String serviceId;
 	private boolean multipart;
-	private ArrayList<Part> parts;
+	private Part part;
 	
-	public UAPP() {
-		parts = new ArrayList<Part>();
-	}
+	public UAPP() { }
 	
-	public UAPP(String serviceId, String appId, String name, String location, int major, int minor, int micro, String description, boolean multipart) {
-		this.serviceId = serviceId;
+	public UAPP(String appId, String name, String location, int major, int minor, int micro, String description, boolean multipart, Part part) {
 		this.appId = appId;
 		this.name = name;
 		this.uappLocation = location;
@@ -32,7 +28,7 @@ public class UAPP {
 		this.micro = micro;
 		this.minor = minor;
 		this.multipart = multipart;
-		parts = new ArrayList<Part>();
+		this.part = part;
 	}
 	
 	public String getName() {
@@ -71,12 +67,6 @@ public class UAPP {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getServiceId() {
-		return serviceId;
-	}
-	public void setServiceId(String serviceId) {
-		this.serviceId = serviceId;
-	}
 
 	public boolean isMultipart() {
 		return multipart;
@@ -93,23 +83,12 @@ public class UAPP {
 		this.appId = appId;
 	}
 
-	public ArrayList<Part> getParts() {
-		return parts;
+	public Part getPart() {
+		return part;
 	}
 
-	public void setParts(ArrayList<Part> parts) {
-		this.parts = parts;
-	}
-
-	public void addPart(Part p) {
-		if(parts != null) 
-			parts.add(p);
-	}
-	
-	public void removePart(Part p) {
-		if(parts.contains(p)) {
-			parts.remove(p);
-		}
+	public void setPart(Part part) {
+		this.part = part;
 	}
 	
 	
