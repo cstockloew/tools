@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projects>
+<project>
+  <name>Lighting</name>
+  <developer>Fraunhofer</developer>
+  <date>26.08.2011</date>
+  <url>http://www.igd.fraunhofer.de</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/lighting</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>true</subprojects>
+  <description>Sample Lighting Client using dialog package</description>
+  <tags>
+    <tag>Lighting</tag>
+ <tag>caller</tag> <tag>callee</tag> <tag>service</tag> <tag>context</tag> <tag>publisher</tag> <tag>subscriber</tag> <tag>ui caller</tag> <tag>ui</tag> <tag>example</tag> <tag>server</tag> <tag>client</tag> </tags>
+</project>
+<project>
+  <name>Ontology tutorial</name>
+  <developer>Alvaro Fides, ITACA</developer>
+  <date>17.07.2012</date>
+  <url>http://www.tsb.upv.es/</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/ont.tutorial</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>false</subprojects>
+  <description>This example shows how to convert an ontology concept into its java representation for uAAL</description>
+  <tags>
+    <tag>ontology</tag>
+    <tag>tutorial</tag>
+    <tag>data representation</tag>
+  </tags>
+</project>
+<project>
+  <name>Utility API Examples</name>
+  <developer>Alvaro Fides, ITACA</developer>
+  <date>22.02.2013</date>
+  <url>http://www.tsb.upv.es/</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/utils</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>true</subprojects>
+  <description>These examples show ho to use the uAAL.utils API to easily create simple uAAL applications</description>
+  <tags>
+    <tag>utility</tag>
+    <tag>utils</tag>
+    <tag>api</tag>
+    <tag>simple</tag>
+    <tag>simplified</tag>
+  </tags>
+</project>
+<project>
+  <name>simple.ui</name>
+  <developer>Alejandro Medrano, UPM</developer>
+  <date>17.07.2012</date>
+  <url>http://www.upm.es/</url>
+  <svnurl>http://forge.universaal.org/svn/support/tags/1.3.0/samples/simple.ui</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>false</subprojects>
+  <description>The purpose of this project is to help in the creation of UI Callers, and it is not a complete example in itself</description>
+  <tags>
+    <tag>ui</tag>
+    <tag>ui caller</tag>
+    <tag>help</tag>
+  </tags>
+</project>
+<project>
+  <name>SOAP Server, service and client</name>
+  <developer>Ioannis Moulos,Vassilis Kilinzis, CERTH</developer>
+  <date>20.02.13</date>
+  <url>http://www.certh.gr</url>
+  <svnurl>http://forge.universaal.org/svn/support/trunk/samples/smp.ri.exportComponent/</svnurl>
+  <license>Apache License, Version 2.0, The MIT License (MIT) </license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html, http://opensource.org/licenses/MIT</licenseurl>
+  <subprojects>true</subprojects>
+  <description>This example demonstrates a SOAP server that accetps Turtle Strings from SOAP clients through webservices and converts them into Service calls (Service Requests).</description>
+  <tags>
+    <tag>SOAP</tag>
+    <tag>server</tag>
+    <tag>Apache CXF</tag>
+    <tag>WebService</tag>
+    <tag>Turtle String</tag>
+    <tag>Sevice</tag>
+    <tag>call</tag>
+    <tag>request</tag>
+  </tags>
+</project>
+</projects>
