@@ -45,7 +45,7 @@
             locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
          <command
                commandId="org.universaal.tools.owl2uml.commands.sampleCommand"
-               icon="icons/cog_go.png"
+               icon="icons/transform-16.png"
                label="Transform2UML"
                style="push">
                <visibleWhen>
@@ -69,7 +69,7 @@
             id="org.universaal.tools.owl2uml.actionSet">
          <action
                label="&amp;Tranform an OWL RDF/XML ontology to UML"
-               icon="icons/cog_go.png"
+               icon="icons/transform-16.png"
                class="org.universaal.tools.owl2uml.actions.SampleAction"
                tooltip="Tranform an OWL RDF/XML ontology to UML"
                menubarPath="org.universaal.tools.AALStudio.menu/transform"
