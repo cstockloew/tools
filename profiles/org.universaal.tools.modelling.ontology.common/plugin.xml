@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
       <library
-            iconpath="icons/uaal.png"
+            iconpath="icons/uaal-16.png"
             name="universAAL Middleware Ontology"
             path="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml"
             provider="universAAL">
@@ -20,7 +20,7 @@
    <extension
          point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
       <library
-            iconpath="icons/uaal.png"
+            iconpath="icons/uaal-16.png"
             name="universAAL Service Ontology"
             path="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml"
             provider="universAAL">
@@ -29,7 +29,7 @@
    <extension
          point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
       <library
-            iconpath="icons/uaal.png"
+            iconpath="icons/uaal-16.png"
             name="universAAL Physical Thing Ontology"
             path="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.phThing.uml"
             provider="universAAL">
@@ -38,7 +38,7 @@
    <extension
          point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
       <library
-            iconpath="icons/uaal.png"
+            iconpath="icons/uaal-16.png"
             name="universAAL Primitive Types"
             path="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml"
             provider="universAAL">
