@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.universaal.tools.xmleditor.editors.XmlEditor"
+            default="true"
+            filenames="aalapp.xml,"
+            icon="icons/uaal-16.png"
+            id="xmleditor.editors.MultiPageEditor"
+            name="AAL Studio Project XML Editor">
+      </editor>
+   </extension>
+
+</plugin>
