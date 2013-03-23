@@ -16,10 +16,13 @@ public class UAPP {
 	private String description;
 	private boolean multipart;
 	private Part part;
+	private String bundleId;
+	private String bundleVersion;
 	
 	public UAPP() { }
 	
-	public UAPP(String appId, String name, String location, int major, int minor, int micro, String description, boolean multipart, Part part) {
+	public UAPP(String appId, String name, String location, int major, int minor, int micro, 
+			String description, boolean multipart, Part part, String bundleId, String bundleVersion) {
 		this.appId = appId;
 		this.name = name;
 		this.uappLocation = location;
@@ -29,6 +32,8 @@ public class UAPP {
 		this.minor = minor;
 		this.multipart = multipart;
 		this.part = part;
+		this.bundleId = bundleId;
+		this.bundleVersion = bundleVersion;
 	}
 	
 	public String getName() {
@@ -89,6 +94,22 @@ public class UAPP {
 
 	public void setPart(Part part) {
 		this.part = part;
+	}
+
+	public String getBundleId() {
+		return bundleId;
+	}
+
+	public void setBundleId(String bundleId) {
+		this.bundleId = bundleId;
+	}
+
+	public String getBundleVersion() {
+		return bundleVersion;
+	}
+
+	public void setBundleVersion(String bundleVersion) {
+		this.bundleVersion = bundleVersion;
 	}
 	
 	
