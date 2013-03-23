@@ -1,5 +1,6 @@
 package org.universAAL.ucc.deploymanagerservice.impl;
 
+import java.net.InetAddress;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -21,8 +22,12 @@ public class Activator implements BundleActivator {
 
         props.put("service.exported.interfaces", "*");
         props.put("service.exported.configs", "org.apache.cxf.ws");
-        props.put("org.apache.cxf.ws.address", "http://localhost:9090/deploymanager");
-        
+        InetAddress thisIp =InetAddress.getLocalHost();        
+        String url = "http://" + thisIp.getHostAddress() + ":9090/deploymanager";
+        System.out.println("url:"+url); 
+        //props.put("org.apache.cxf.ws.address", "http://localhost:9090/deploymanager");
+        props.put("org.apache.cxf.ws.address", url);
+               
         registration = bc.registerService(DeployManagerService.class.getName(), 
                                           new DeployManagerServiceImpl(), props);
         
