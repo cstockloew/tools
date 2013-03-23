@@ -220,20 +220,52 @@ public class FrontendImpl implements IFrontend {
 				Part p = new Part();
 				p.setPartId(partId);
 				ua.setPart(p);
+				NodeList childs = doc.getElementsByTagName("uapp:part").item(j).getChildNodes();
+				for(int t = 0; t < childs.getLength(); t++) {
+					if(childs.item(t).getNodeName().equals("uapp:bundleId")) {
+						String bundleId = childs.item(t).getTextContent();
+						System.err.println("Bundle-ID: "+bundleId);
+						ua.setBundleId(bundleId);
+					}
+					if(childs.item(t).getNodeName().equals("uapp:bundleVersion")) {
+						String bundleVersion = childs.item(t).getTextContent();
+						System.err.println("Bundle-Version: "+bundleVersion);
+						ua.setBundleVersion(bundleVersion);
+					}
+				}
 				appsList.add(ua);
 				for(int g = 0; g < doc.getElementsByTagName("uapp:containerUnit").getLength(); g++) {
 					Node node = doc.getElementsByTagName("uapp:containerUnit").item(g);
 					NodeList nl = node.getChildNodes();
 					for(int ni = 0; ni < nl.getLength(); ni++) {
-						if(nl.item(ni).getNodeName().equals("uapp:location")) {
-							String location = nl.item(ni).getTextContent();
-							ua.setUappLocation(location);
-						} else if(nl.item(ni).equals("bundle")) {
-							String location = nl.item(ni).getTextContent();
-							ua.setUappLocation(location);
+						System.err.println("ContainerUnitItems: "+nl.item(ni));
+						NodeList childList = nl.item(ni).getChildNodes();
+						for(int n = 0; n < childList.getLength(); n++) {
+							if(childList.item(n).equals("uapp:karaf")) {
+								NodeList kn = childList.item(n).getChildNodes();
+								for(int k = 0; k < kn.getLength(); k++) {
+									if(kn.item(k).getNodeName().equals("features")) {
+										NodeList fn = kn.item(k).getChildNodes();
+										for(int fi = 0; fi < fn.getLength(); fi++) {
+											if(fn.item(fi).equals("bundle")) {
+												String location = fn.item(fi).getTextContent();
+												ua.setUappLocation(location);
+												System.err.println("Location is: "+location);
+											}
+										}
+									}
+									
+								}
+							}
+								System.err.println("ChildNodes: "+childList.item(n));
+								if(childList.item(n).getNodeName().equals("uapp:location")) {
+									String location = childList.item(n).getTextContent();
+									ua.setUappLocation(location);
+									System.err.println("Location is: "+location);
+								} 
+							}
 						}
 					}
-				}
 				
 				for(int k = 0; k < doc.getElementsByTagName("uapp:app").getLength(); k++) {
 					String name = doc.getElementsByTagName("uapp:name").item(k).getTextContent();

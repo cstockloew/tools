@@ -7,23 +7,32 @@ import org.osgi.framework.ServiceRegistration;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
-import org.universAAL.ucc.windows.UccUI;
+import org.universAAL.ucc.service.api.IServiceManagement;
+import org.universAAL.ucc.service.api.IServiceModel;
+import org.universAAL.ucc.service.api.IServiceRegistration;
+import org.universAAL.ucc.service.impl.Model;
 
 public class Activator implements BundleActivator {
 	private static IInstaller installer;
 	private static ServiceReference ref;
 	private static BundleContext bc;
-	private static ServiceRegistration reg;
+	private static ServiceRegistration regis;
+	private static IServiceManagement mgmt; 
+	private static IServiceModel model;
+	private static 	IServiceRegistration reg;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
-		reg = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
+		regis = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
 		
-//			IFrontend front = new FrontendImpl();
-//			front.installService("", System.getenv("systemdrive")+"/tempUsrvFiles/");
-	
+		model = new Model();
+		context.registerService(new String[] { IServiceModel.class.getName() }, model, null);
+		
+		mgmt = model.getServiceManagment();
+		reg= model.getServiceRegistration();
+
 	}
 	
 	public static IInstaller getInstaller() {
@@ -32,10 +41,36 @@ public class Activator implements BundleActivator {
 		}
 		return installer;
 	}
+	
+	
+
+	public static IServiceManagement getMgmt() {
+		return mgmt;
+	}
+
+	public static void setMgmt(IServiceManagement mgmt) {
+		Activator.mgmt = mgmt;
+	}
+
+	public static IServiceModel getModel() {
+		return model;
+	}
+
+	public static void setModel(IServiceModel model) {
+		Activator.model = model;
+	}
+
+	public static IServiceRegistration getReg() {
+		return reg;
+	}
+
+	public static void setReg(IServiceRegistration reg) {
+		Activator.reg = reg;
+	}
 
 	public void stop(BundleContext context) throws Exception {
 		context.ungetService(ref);
-		reg.unregister();
+		regis.unregister();
 	}
 
 }

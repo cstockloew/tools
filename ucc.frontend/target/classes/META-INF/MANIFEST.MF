@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1363977260678
+Bnd-LastModified: 1364067526062
 Build-Jdk: 1.7.0_17
 Built-By: merkle
 Bundle-Activator: org.universAAL.ucc.service.manager.Activator
@@ -14,8 +14,8 @@ Bundle-Version: 2.0.1.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
 Export-Package: org.universAAL.ucc.frontend.api;uses:="org.universAAL.uc
  c.model";version="2.0.1.SNAPSHOT",org.universAAL.ucc.frontend.api.impl;
- uses:="javax.xml.parsers,org.w3c.dom,org.universAAL.middleware.interfac
- es.mpa.model,org.xml.sax,org.universAAL.ucc.model.install,org.universAA
+ uses:="javax.xml.parsers,org.w3c.dom,org.xml.sax,org.universAAL.middlew
+ are.interfaces.mpa.model,org.universAAL.ucc.model.install,org.universAA
  L.ucc.frontend.api,org.universAAL.ucc.model,org.universAAL.ucc.api,org.
  universAAL.middleware.managers.api,com.vaadin.ui";version="2.0.1.SNAPSH
  OT"
