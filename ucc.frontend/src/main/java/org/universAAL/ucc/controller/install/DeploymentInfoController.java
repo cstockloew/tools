@@ -26,6 +26,7 @@ import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.UccUI;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.terminal.SystemError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.OptionGroup;
@@ -82,7 +83,14 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 			//TODO: Deployment
 			peers = installer.getPeers();
 			for(UAPP uapp : aal.getUaapList()) {
+				System.err.println("Current UAPP-LOCATION: "+uapp.getUappLocation());
+				System.err.println("Current APP-ID: "+uapp.getAppId());
+				System.err.println("Current PART-ID: "+uapp.getPart().getPartId());
+				System.err.println("Current Bundle-ID: "+uapp.getBundleId());
+				System.err.println("Current Bundle-Version: "+uapp.getBundleVersion());
+				
 				if(uapp.getPart().getPartId().equals(selected)) {
+					System.err.println("SELECTED: "+selected);
 					Map<PeerCard, Part> config = null;
 					if(dsvMap.get(selected).getOptions().getValue().toString().equals(bundle.getString("opt.available.nodes"))) {
 						config = buildDefaultInstallationLayout(uapp);
@@ -94,8 +102,9 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 					String appLocation = uapp.getUappLocation();
 					appLocation = System.getenv("systemdrive")+"/tempUsrvFiles"+appLocation.substring(appLocation.indexOf("./")+1);
 					System.err.println("APP-Location URI: "+appLocation);
-					File uf = new File(appLocation);
-					uapack = new UAPPPackage(aal.getServiceId(), uapp.getAppId(), uf.toURI(), config);
+					System.err.println(uapp.getUappLocation().trim());
+					File uf = uf = new File(appLocation);
+					uapack = new UAPPPackage(aal.getServiceId(), uapp.getAppId(), uf.getAbsoluteFile().toURI(), config);
 					InstallationResults res = installer.requestToInstall(uapack);
 					// Shanshan: TODO: add app and bundles to "services.xml" file.
 					if (res.equals(InstallationResults.SUCCESS)) {
@@ -198,6 +207,7 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
     				break;   				
     			} 
     			if(checkDeployementUnit(ua.getPart().getDeploymentUnit(), peer)){
+    				System.err.println("IN CHECK DEPLOYMENT UNIT!");
     			 	mpaLayout.put(peer, ua.getPart());
     				peersToCheck.remove(key);
     				break;
@@ -222,8 +232,11 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 			String id = peers.get(key).getPeerID();
 			PeerRole role = peers.get(key).getRole();
 			System.err.println("Peer-ROLE: "+role);	
+			System.err.println("ID: "+id);
+			System.err.println(selPeer);
 			PeerCard peer = new PeerCard(id, role);
 			if(checkDeployementUnit(uapp.getPart().getDeploymentUnit(), peer)) {
+				System.err.println("In CHECKDEPLOYMENTUNIT!");
 				mapLayout.put(peer, uapp.getPart());
 				peersToCheck.remove(key);
 			}

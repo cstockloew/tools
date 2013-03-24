@@ -212,7 +212,7 @@ public class FrontendImpl implements IFrontend {
 		Document doc = builder.parse(config);
 		
 		
-		for(int i = 0; i < doc.getElementsByTagName("uapp:applicationPart").getLength(); i++) {
+//		for(int i = 0; i < doc.getElementsByTagName("uapp:applicationPart").getLength(); i++) {
 			for(int j = 0; j < doc.getElementsByTagName("uapp:part").getLength(); j++) {
 				UAPP ua = new UAPP();
 				String partId = doc.getElementsByTagName("uapp:part").item(j).getAttributes().getNamedItem("partId").getNodeValue();
@@ -232,39 +232,62 @@ public class FrontendImpl implements IFrontend {
 						System.err.println("Bundle-Version: "+bundleVersion);
 						ua.setBundleVersion(bundleVersion);
 					}
-				}
-				appsList.add(ua);
-				for(int g = 0; g < doc.getElementsByTagName("uapp:containerUnit").getLength(); g++) {
-					Node node = doc.getElementsByTagName("uapp:containerUnit").item(g);
-					NodeList nl = node.getChildNodes();
-					for(int ni = 0; ni < nl.getLength(); ni++) {
-						System.err.println("ContainerUnitItems: "+nl.item(ni));
-						NodeList childList = nl.item(ni).getChildNodes();
-						for(int n = 0; n < childList.getLength(); n++) {
-							if(childList.item(n).equals("uapp:karaf")) {
-								NodeList kn = childList.item(n).getChildNodes();
-								for(int k = 0; k < kn.getLength(); k++) {
-									if(kn.item(k).getNodeName().equals("features")) {
-										NodeList fn = kn.item(k).getChildNodes();
-										for(int fi = 0; fi < fn.getLength(); fi++) {
-											if(fn.item(fi).equals("bundle")) {
-												String location = fn.item(fi).getTextContent();
+				
+					if(childs.item(t).getNodeName().equals("uapp:deploymentUnit")) {
+						System.err.println("IN DEPLOYMENT UNIT");
+						Node dun = childs.item(t);
+						for(int du = 0; du < dun.getChildNodes().getLength(); du++) {
+							if(dun.getChildNodes().item(du).getNodeName().equals("uapp:containerUnit")) {
+								Node cun = dun.getChildNodes().item(du);
+								NodeList nl = cun.getChildNodes();
+								System.err.println("IN CONTAINER UNIT!");
+//						
+									for(int n = 0; n < nl.getLength(); n++) {
+										if(nl.item(n).getNodeName().equals("uapp:karaf")) {
+											System.err.println("IN KARAF");
+											NodeList kn = nl.item(n).getChildNodes();
+											for(int k = 0; k < kn.getLength(); k++) {
+												if(kn.item(k).getNodeName().equals("features")) {
+													System.err
+															.println("IN FEATURES");
+													NodeList fn = kn.item(k).getChildNodes();
+													for(int fi = 0; fi < fn.getLength(); fi++) {
+														if(fn.item(fi).getNodeName().equals("feature")) {
+															System.err
+																	.println("IN FEATURE");
+															Node nn = fn.item(fi);
+															NodeList nnList = nn.getChildNodes();
+															for(int cam = 0; cam < nnList.getLength(); cam++) {
+																if(nnList.item(cam).getNodeName().equals("bundle")) {
+																	System.err
+																			.println("IN BUNDLE");
+																	String location = nnList.item(cam).getTextContent();
+																	ua.setUappLocation(location);
+																	System.err
+																			.println("LOCATION is: "+location);
+																}
+															}
+														}
+													}
+												}
+												
+											}
+										} 
+										else {
+											NodeList childList = nl.item(n).getChildNodes();
+											for(int cl = 0; cl < childList.getLength(); cl++) {
+											if(childList.item(cl).getNodeName().equals("uapp:location")) {
+												String location = nl.item(n).getTextContent();
 												ua.setUappLocation(location);
 												System.err.println("Location is: "+location);
 											}
+											}
 										}
-									}
 									
+										}
+								
 								}
 							}
-								System.err.println("ChildNodes: "+childList.item(n));
-								if(childList.item(n).getNodeName().equals("uapp:location")) {
-									String location = childList.item(n).getTextContent();
-									ua.setUappLocation(location);
-									System.err.println("Location is: "+location);
-								} 
-							}
-						}
 					}
 				
 				for(int k = 0; k < doc.getElementsByTagName("uapp:app").getLength(); k++) {
@@ -286,10 +309,14 @@ public class FrontendImpl implements IFrontend {
 					ua.setMultipart(multi);
 					
 				}
+				}
+				appsList.add(ua);
+			
 			}
-		}
+//		}
 		
 		return appsList;
+		
 	}
 
 	/**
