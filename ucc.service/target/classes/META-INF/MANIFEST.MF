@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1363876390278
+Build-Jdk: 1.7.0_17
+Built-By: merkle
+Bundle-Activator: org.universAAL.ucc.service.impl.Activator
+Bundle-Description: This bundle is responsible to manage the registratio
+ n and display of services/applications/bundles using a local file "serv
+ ices.xml".
+Bundle-ManifestVersion: 2
+Bundle-Name: Service management and registration of the uCC
+Bundle-SymbolicName: ucc.service
+Bundle-Version: 2.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.universAAL.ucc.service.api;version="2.0.1.SNAPSHOT"
+Import-Package: javax.xml.parsers,javax.xml.transform,javax.xml.transfor
+ m.dom,javax.xml.transform.stream,org.osgi.framework;version="[1.5,2)",o
+ rg.universAAL.ucc.service.api,org.w3c.dom
+Tool: Bnd-1.50.0

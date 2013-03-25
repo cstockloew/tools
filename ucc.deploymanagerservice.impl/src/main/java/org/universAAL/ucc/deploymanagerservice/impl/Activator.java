@@ -32,6 +32,7 @@ public class Activator implements BundleActivator {
                                           new DeployManagerServiceImpl(), props);
         
         getServices(context);
+    
     }
 
     public void stop(BundleContext bc) throws Exception {

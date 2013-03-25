@@ -49,7 +49,9 @@ public class Installer implements IInstaller {
 			System.out.println("[Installer.requestToInstall] DeployManager is null!");
 			return null;
 		}
-		
+		System.err.println("APP-ID: "+app.getId());
+		System.err.println("SERVICE-ID: "+app.getServiceId());
+		System.err.println("APP-LOcation: "+app.getFolder().getPath());
 		InstallationResults results = deployManager.requestToInstall(app);
 		System.out.println("[Installer.requestToInstall] the installation results: " + results.toString());
 		return results;

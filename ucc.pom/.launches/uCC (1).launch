@@ -80,7 +80,6 @@
 <listEntry value="mvn:org.apache.felix/org.apache.felix.bundlerepository/1.6.6@2@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.configadmin/1.6.0@2@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.fileinstall/3.2.4@2@update"/>
-<listEntry value="mvn:org.universAAL.tools.ucc/ucc.model/0.0.1-SNAPSHOT@2@update"/>
 <listEntry value="mvn:org.apache.felix/org.apache.felix.scr/1.6.0@3@update"/>
 <listEntry value="mvn:org.universAAL.tools.ucc/ucc.controller/0.0.1-SNAPSHOT@3@update"/>
 <listEntry value="mvn:javax.servlet/com.springsource.javax.servlet/2.5.0@3@update"/>
@@ -101,5 +100,5 @@
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="false"/>
-<stringAttribute key="workspace_bundles" value="org.universAAL.tools.ucc@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default"/>
+<stringAttribute key="workspace_bundles" value="org.universAAL.tools.ucc@default:default,ucc.frontend@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default,ucc.karaf.feature*1.0.0.qualifier@default:default,ucc.model@default:default"/>
 </launchConfiguration>
