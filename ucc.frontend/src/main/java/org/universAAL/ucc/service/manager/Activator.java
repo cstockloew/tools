@@ -4,7 +4,9 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
+import org.universAAL.ucc.api.IDeinstaller;
 import org.universAAL.ucc.api.IInstaller;
+import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.service.api.IServiceManagement;
@@ -14,19 +16,27 @@ import org.universAAL.ucc.service.impl.Model;
 
 public class Activator implements BundleActivator {
 	private static IInstaller installer;
+	private static IDeinstaller deinstaller;
 	private static ServiceReference ref;
+	private static ServiceReference dRef;
 	private static BundleContext bc;
 	private static ServiceRegistration regis;
 	private static IServiceManagement mgmt; 
 	private static IServiceModel model;
 	private static 	IServiceRegistration reg;
+	private static ServiceReference configReference;
+	private static ConfigurationDefinitionRegistry configDefinitionRegistry;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
-		regis = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
+		dRef = context.getServiceReference(IDeinstaller.class.getName());
+		deinstaller = (IDeinstaller) context.getService(dRef);
 		
+		configReference = context.getServiceReference(ConfigurationDefinitionRegistry.class.getName());
+		configDefinitionRegistry = (ConfigurationDefinitionRegistry) context.getService(configReference);
+		regis = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
 		model = new Model();
 		context.registerService(new String[] { IServiceModel.class.getName() }, model, null);
 		
@@ -42,6 +52,11 @@ public class Activator implements BundleActivator {
 		return installer;
 	}
 	
+	public static IDeinstaller getDeinstaller() {
+		if(deinstaller == null) {
+			deinstaller = (IDeinstaller)bc.getService(dRef);
+		} return deinstaller;
+	}
 	
 
 	public static IServiceManagement getMgmt() {
@@ -70,7 +85,21 @@ public class Activator implements BundleActivator {
 
 	public void stop(BundleContext context) throws Exception {
 		context.ungetService(ref);
+		context.ungetService(dRef);
 		regis.unregister();
 	}
 
+	public static ConfigurationDefinitionRegistry getConfigDefinitionRegistry() {
+		if(configDefinitionRegistry == null) {
+			configDefinitionRegistry = (ConfigurationDefinitionRegistry) bc.getService(configReference);
+		}
+		return configDefinitionRegistry;
+	}
+
+	public static void setConfigDefinitionRegistry(
+			ConfigurationDefinitionRegistry configDefinitionRegistry) {
+		Activator.configDefinitionRegistry = configDefinitionRegistry;
+	}
+
+	
 }

@@ -17,6 +17,9 @@ import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.ucc.api.IInstaller;
+import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
+import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
+import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.service.api.IServiceRegistration;
@@ -120,7 +123,7 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 					System.err.println(uapp.getUappLocation().trim());
 					File uf = uf = new File(appLocation);
 					uapack = new UAPPPackage(aal.getServiceId(), uapp.getAppId(), uf.toURI(), config);
-						
+					
 					InstallationResults res = installer.requestToInstall(uapack);
 					// Shanshan: TODO: add app and bundles to "services.xml" file.
 					if (res.equals(InstallationResults.SUCCESS)) {
@@ -128,6 +131,17 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 						// get bundles for each part in the appId;
 						// for each bundle: 
 						srvRegistration.registerBundle(aal.getServiceId(), uapp.getBundleId(), uapp.getBundleVersion());
+						//TODO: Call configurator to configure the uapps
+						ConfigurationDefinitionRegistry reg = Activator.getConfigDefinitionRegistry();
+						Configuration conf = null;
+						for(Configuration configurator : reg.getAllConfigDefinitions()) {
+							if(configurator.getBundlename().equals(uapp.getBundleId())) {
+								conf = configurator;
+							}
+						}
+						ConfigurationOverviewWindow cow = new ConfigurationOverviewWindow(conf);
+						cow.center();
+						app.getMainWindow().addWindow(cow);
 					} else {
 						app.getMainWindow().showNotification(res.name(), Notification.TYPE_ERROR_MESSAGE);
 					}
@@ -143,6 +157,7 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 				app.getMainWindow().removeWindow(win);
 				File f = new File(System.getenv("systemdrive")+"/tempUsrvFiles/");
 				deleteFiles(f);
+				
 			}
 			
 			

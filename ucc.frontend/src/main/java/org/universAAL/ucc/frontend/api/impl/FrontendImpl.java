@@ -13,6 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -21,11 +22,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.universAAL.middleware.interfaces.mpa.model.Part;
+import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.install.License;
+import org.universAAL.ucc.service.api.IServiceManagement;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.UccUI;
 import org.w3c.dom.Document;
@@ -108,7 +112,6 @@ public class FrontendImpl implements IFrontend {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -440,18 +443,23 @@ public class FrontendImpl implements IFrontend {
 	/**
 	 * Uninstalls the a installed AAL service.
 	 */
-	public void uninstallService(String sessionkey, String serviceId) {
+	public void uninstallService(String sessionKey, String serviceId) {
 		// get the list of uapps installed for this serviceId
 		// TODO: List<String appId> getInstalledApps(String serviceId)
 		// for each uapp, call ucc.controller.requestToUninstall(serviceId, appId)
 		// update the service registration
+		IServiceManagement sm = Activator.getMgmt();
+		List<String> uappList = sm.getInstalledApps(serviceId);
+		for(String del : uappList) {
+			InstallationResults result = Activator.getDeinstaller().requestToUninstall(serviceId, del);
+			if(result.equals(InstallationResults.SUCCESS)) {
+				Activator.getReg().unregisterService(serviceId);
+			}
+		}
 		
 	}
 
-	public void update(String sessionKey, String usrvfile) {
-		// parse usrvFile and get serviceId
-		
-		String serviceId = "";
+	public void update(String sessionKey, String usrvfile, String serviceId) {
 		uninstallService(sessionKey, serviceId);
 		installService(sessionKey, usrvfile);
 	}
