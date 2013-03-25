@@ -1,6 +1,7 @@
 package org.universAAL.ucc.controller.install;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -57,7 +58,13 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 		this.app = app;
 		dsvMap = new HashMap<String, DeployStrategyView>();
 		dcvMap = new HashMap<String, DeployConfigView>();
+		int i = 0;
+		
 		for(UAPP uapp : aal.getUaapList()) {
+			i++;
+			if(i == 1) {
+				selected = uapp.getPart().getPartId();
+			}
 			System.err.println(uapp.getPart().getPartId());
 			win.getTree().addItem(uapp.getPart().getPartId());
 			win.getTree().setChildrenAllowed(uapp.getPart().getPartId(), false);
@@ -71,6 +78,14 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 			dcv.getSelect().setEnabled(false);
 			dcv.setEnabled(false);
 			dcvMap.put(uapp.getPart().getPartId(), dcv);
+		}
+		win.getTree().select(selected);
+		for(UAPP ua : aal.getUaapList()) {
+			if(ua.getPart().getPartId().equals(selected)) {
+				DeployStrategyView dsv = dsvMap.get(ua.getPart().getPartId());
+				DeployConfigView dcv = dcvMap.get(ua.getPart().getPartId());
+				actVL = win.createSecondComponent(dsv, dcv);
+			}
 		}
 		win.getTree().addListener(this);
 		win.getOk().addListener((Button.ClickListener)this);
@@ -104,7 +119,8 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 					System.err.println("APP-Location URI: "+appLocation);
 					System.err.println(uapp.getUappLocation().trim());
 					File uf = uf = new File(appLocation);
-					uapack = new UAPPPackage(aal.getServiceId(), uapp.getAppId(), uf.getAbsoluteFile().toURI(), config);
+					uapack = new UAPPPackage(aal.getServiceId(), uapp.getAppId(), uf.toURI(), config);
+						
 					InstallationResults res = installer.requestToInstall(uapack);
 					// Shanshan: TODO: add app and bundles to "services.xml" file.
 					if (res.equals(InstallationResults.SUCCESS)) {
@@ -211,6 +227,8 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
     			 	mpaLayout.put(peer, ua.getPart());
     				peersToCheck.remove(key);
     				break;
+    			} else {
+    				app.getMainWindow().showNotification(bundle.getString("peer.available.not"), Notification.TYPE_WARNING_MESSAGE);
     			}
     		}
     	}
@@ -239,6 +257,8 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 				System.err.println("In CHECKDEPLOYMENTUNIT!");
 				mapLayout.put(peer, uapp.getPart());
 				peersToCheck.remove(key);
+			} else {
+				app.getMainWindow().showNotification(bundle.getString("peer.available.not"), Notification.TYPE_WARNING_MESSAGE);
 			}
 	
 		return mapLayout;

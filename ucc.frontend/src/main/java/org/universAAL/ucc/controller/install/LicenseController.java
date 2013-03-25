@@ -7,14 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import org.universAAL.ucc.frontend.api.IWindow;
-import org.universAAL.ucc.frontend.api.impl.InstallProcessImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.LicenceWindow;
-import org.universAAL.ucc.windows.OptionsWindow;
 import org.universAAL.ucc.windows.UccUI;
 
 import com.vaadin.data.Property;
@@ -34,7 +30,7 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 	private ArrayList<License> lix;
 	private UccUI app;
 	private AALService aal;
-	private IWindow iw;
+//	private IWindow iw;
 	private static int appCounter;
 	
 	public LicenseController(UccUI app, LicenceWindow win, ArrayList<License> lix, AALService aal) {
@@ -44,7 +40,7 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		this.app = app;
 		this.aal = aal;
 		appCounter = aal.getUaapList().size();
-		iw = new InstallProcessImpl();
+//		iw = new InstallProcessImpl();
 		win.getGo().addListener((Button.ClickListener)this);
 		win.getCancel().addListener((Button.ClickListener)this);
 	}

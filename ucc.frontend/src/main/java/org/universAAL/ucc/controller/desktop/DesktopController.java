@@ -10,6 +10,7 @@ import org.universAAL.ucc.deploymanagerservice.unused.DeployManagerService;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.ustore.ws.client.RegisterDeployManagerResponse;
 import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.SearchWindow;
 import org.universAAL.ucc.windows.ToolWindow;
@@ -23,6 +24,7 @@ public class DesktopController implements Button.ClickListener {
 	private Window main;
 	private UserAccountDB db;
 	private DeployManagerService dms;
+	private UstoreUtil client;
 	
 	public DesktopController(UccUI app) {
 		this.app = app;
@@ -31,6 +33,7 @@ public class DesktopController implements Button.ClickListener {
 		ServiceReference ref = context.getServiceReference(UserAccountDB.class.getName());
 		db = (UserAccountDB)context.getService(ref);
 		context.ungetService(ref);
+		client = new UstoreUtil();
 //		this.app.getSearchButton().addListener(this);
 //		this.app.getStartButton().addListener(this);
 	}
@@ -60,10 +63,11 @@ public class DesktopController implements Button.ClickListener {
 			main.removeWindow(app.getLoginWindow());
 			main.removeComponent(app.getVLog());
 			main.setContent(app.createContent(this));
-			
+			System.err.println("[DesktopController]: LOGIN");
 			//Register to uStore
-			UstoreUtil client = new UstoreUtil();
+			System.err.println("Create UstoreUtil-Client!!!!");
 			String answer = client.registerUser();
+			System.err.println("WS-ANSWER: "+answer);
 			//TODO: interpret the answer and get sessionkey and usrvfilename
 			//This later uncomment
 //			IFrontend frontend = new FrontendImpl();

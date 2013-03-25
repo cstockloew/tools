@@ -19,9 +19,7 @@ import org.universAAL.ucc.controller.install.AALServiceReceiver;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.frontend.api.IFrontend;
-import org.universAAL.ucc.frontend.api.IWindow;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
-import org.universAAL.ucc.frontend.api.impl.InstallProcessImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.install.License;
@@ -163,7 +161,6 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 
 	public void uploadFinished(FinishedEvent event) {
 		app.getMainWindow().removeWindow(installWindow);
-		IWindow iw = new InstallProcessImpl();
 //		iw.installProcess(System.getenv("systemdrive")+"/tempUsrvFiles/");
 //		File licenceFile = new File(System.getenv("systemdrive")+"/"+dir+"/config/hwo.usrv.xml");
 //		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();

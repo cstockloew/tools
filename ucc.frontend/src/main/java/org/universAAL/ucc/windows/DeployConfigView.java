@@ -1,7 +1,6 @@
 package org.universAAL.ucc.windows;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.osgi.framework.BundleContext;
@@ -10,13 +9,11 @@ import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.api.IInstaller;
 
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 public class DeployConfigView extends VerticalLayout {
 	private Label label;
