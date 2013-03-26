@@ -14,7 +14,7 @@ import org.universAAL.middleware.container.LogListener;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
+import org.universAAL.middleware.serialization.MessageContentSerializer;
 
 /**
  * The bundle activator to create the log monitor and register this OSGi
