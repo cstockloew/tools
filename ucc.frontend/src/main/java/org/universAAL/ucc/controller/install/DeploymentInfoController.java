@@ -123,17 +123,18 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 					System.err.println(uapp.getUappLocation().trim());
 					File uf = uf = new File(appLocation);
 					uapack = new UAPPPackage(aal.getServiceId(), uapp.getAppId(), uf.toURI(), config);
-					
-					InstallationResults res = installer.requestToInstall(uapack);
+					//Not work with uri, MW not implemented yet
+//					InstallationResults res = installer.requestToInstall(uapack);
 					// Shanshan: TODO: add app and bundles to "services.xml" file.
-					if (res.equals(InstallationResults.SUCCESS)) {
+					if (/*res.equals(InstallationResults.SUCCESS)*/true) {
 						srvRegistration.registerApp(aal.getServiceId(), uapp.getAppId());
 						// get bundles for each part in the appId;
 						// for each bundle: 
 						srvRegistration.registerBundle(aal.getServiceId(), uapp.getBundleId(), uapp.getBundleVersion());
-						//TODO: Call configurator to configure the uapps
+						//TODO: Call configurator to configure the uapps, after uapp is running (for every uapp?)
 						ConfigurationDefinitionRegistry reg = Activator.getConfigDefinitionRegistry();
 						Configuration conf = null;
+						System.err.println("Size of all APP-Configurations: "+reg.getAllConfigDefinitions().size());
 						for(Configuration configurator : reg.getAllConfigDefinitions()) {
 							if(configurator.getBundlename().equals(uapp.getBundleId())) {
 								conf = configurator;
@@ -143,7 +144,7 @@ public class DeploymentInfoController implements Button.ClickListener, ValueChan
 						cow.center();
 						app.getMainWindow().addWindow(cow);
 					} else {
-						app.getMainWindow().showNotification(res.name(), Notification.TYPE_ERROR_MESSAGE);
+//						app.getMainWindow().showNotification(res.name(), Notification.TYPE_ERROR_MESSAGE);
 					}
 
 				}

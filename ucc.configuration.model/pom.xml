@@ -24,13 +24,7 @@
       			<Bundle-Version>${project.version}</Bundle-Version>
       			<Require-Bundle>com.vaadin;bundle-version="6.8.3"</Require-Bundle>
       			<Import-Package>*</Import-Package>
-      			<Export-Package>org.universAAL.ucc.configuration.model.*, 
-      			org.universAAL.ucc.configuration.model.configurationdefinition.*,
-      			org.universAAL.ucc.configuration.model.configurationinstances.*,
-      			org.universAAL.ucc.configuration.model.exceptions.*,
-      			org.universAAL.ucc.configuration.model.interfaces.*,
-      			org.universAAL.ucc.configuration.model.servicetracker.*,
-      			org.universAAL.ucc.configuration.model.validators.*</Export-Package>
+      			<Private-Package>javax.xml.bind.*</Private-Package>
       		</instructions>
       	</configuration>
       </plugin>

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1364227415081
+Bnd-LastModified: 1364289429888
 Build-Jdk: 1.7.0_17
 Built-By: merkle
 Bundle-Activator: org.universAAL.ucc.configuration.storage.internal.Acti

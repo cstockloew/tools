@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1364226722691
+Bnd-LastModified: 1364289470544
 Build-Jdk: 1.7.0_17
 Built-By: merkle
 Bundle-Activator: org.universAAL.ucc.configuration.internal.Activator
@@ -27,15 +27,14 @@ Export-Package: org.universAAL.ucc.configuration.beans;version="2.0.1.SN
  ,org.osgi.framework";version="2.0.1.SNAPSHOT"
 Import-Package: com.vaadin,com.vaadin.data,com.vaadin.data.util,com.vaad
  in.terminal,com.vaadin.ui,org.osgi.framework;version="[1.5,2)",org.slf4
- j;version="[1.7,2)",org.universAAL.ucc.configuration.beans;version="[2.
- 0,3)",org.universAAL.ucc.configuration.configdefinitionregistry.interfa
- ces;version="[2.0,3)",org.universAAL.ucc.configuration.model;version="[
- 2.0,3)",org.universAAL.ucc.configuration.model.configurationdefinition;
- version="[2.0,3)",org.universAAL.ucc.configuration.model.configurationi
- nstances;version="[2.0,3)",org.universAAL.ucc.configuration.model.excep
- tions;version="[2.0,3)",org.universAAL.ucc.configuration.model.interfac
- es;version="[2.0,3)",org.universAAL.ucc.configuration.model.validators;
- version="[2.0,3)",org.universAAL.ucc.configuration.storage.interfaces;v
- ersion="[2.0,3)"
+ j;version="[1.7,2)",org.universAAL.ucc.configuration.beans,org.universA
+ AL.ucc.configuration.configdefinitionregistry.interfaces;version="[2.0,
+ 3)",org.universAAL.ucc.configuration.model;version="[2.0,3)",org.univer
+ sAAL.ucc.configuration.model.configurationdefinition;version="[2.0,3)",
+ org.universAAL.ucc.configuration.model.configurationinstances;version="
+ [2.0,3)",org.universAAL.ucc.configuration.model.exceptions;version="[2.
+ 0,3)",org.universAAL.ucc.configuration.model.interfaces;version="[2.0,3
+ )",org.universAAL.ucc.configuration.model.validators;version="[2.0,3)",
+ org.universAAL.ucc.configuration.storage.interfaces;version="[2.0,3)"
 Require-Bundle: com.vaadin;bundle-version="6.8.3"
 Tool: Bnd-1.50.0

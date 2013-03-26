@@ -31,15 +31,17 @@ public class Activator implements BundleActivator {
 		Activator.bc = context;
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
+		//Later uncomment, when Deinstaller is implemented in the ucc.controller
 		dRef = context.getServiceReference(IDeinstaller.class.getName());
 		deinstaller = (IDeinstaller) context.getService(dRef);
 		
 		configReference = context.getServiceReference(ConfigurationDefinitionRegistry.class.getName());
 		configDefinitionRegistry = (ConfigurationDefinitionRegistry) context.getService(configReference);
+		
 		regis = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
+		
 		model = new Model();
 		context.registerService(new String[] { IServiceModel.class.getName() }, model, null);
-		
 		mgmt = model.getServiceManagment();
 		reg= model.getServiceRegistration();
 

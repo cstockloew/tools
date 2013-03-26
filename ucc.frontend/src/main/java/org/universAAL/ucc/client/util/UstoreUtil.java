@@ -2,7 +2,13 @@ package org.universAAL.ucc.client.util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.rmi.RemoteException;
 
+import javax.xml.rpc.ServiceException;
+
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -10,6 +16,8 @@ import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.ustore.ws.client.OnlineStoreManager;
 import org.universAAL.ucc.ustore.ws.client.OnlineStoreManagerService;
+import org.universAAL.ucc.ustore.ws.client.OnlineStoreManagerServiceLocator;
+import org.universAAL.ucc.ustore.ws.client.UAALException;
 import org.universAAL.ucc.ustore.ws.client.UAALException_Exception;
 
 public class UstoreUtil {
@@ -26,12 +34,24 @@ public class UstoreUtil {
 		pref = db.getPreferencesData(System.getenv("systemdrive")+"/uccDB/preferences.xml");
 		bc.ungetService(ref);
 		//Getting ustore webservice
-//		osm = new OnlineStoreManagerService().getOnlineStoreManagerPort();
+		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+		factory.getInInterceptors().add(new LoggingInInterceptor());
+		factory.setServiceClass(OnlineStoreManager.class);
+		
+		OnlineStoreManagerServiceLocator loc = new OnlineStoreManagerServiceLocator();
+		try {
+			osm = loc.getOnlineStoreManagerPort();
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
 	}
 
 	/**
 	 * Registers user to uStore
 	 * @return answer of the uStore registration
+	 * @throws  
+	 * @throws UAALException 
 	 */
 	public String registerUser() {
 		String usr = pref.getUsername2();
@@ -44,12 +64,18 @@ public class UstoreUtil {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-//		try {
-//			answer = osm.registerDeployManager(usr, pwd, idAddr, portNum);
-//		} catch (UAALException_Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+
+			try {
+				answer = osm.registerDeployManager(usr, pwd, idAddr, portNum);
+				System.err.println(answer);
+			} catch (UAALException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		return answer;
 	}
 	
