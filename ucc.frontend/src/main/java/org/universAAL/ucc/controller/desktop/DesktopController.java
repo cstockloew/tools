@@ -10,7 +10,6 @@ import org.universAAL.ucc.deploymanagerservice.unused.DeployManagerService;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.preferences.Preferences;
-import org.universAAL.ucc.ustore.ws.client.RegisterDeployManagerResponse;
 import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.SearchWindow;
 import org.universAAL.ucc.windows.ToolWindow;

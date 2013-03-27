@@ -26,7 +26,24 @@
       			<Bundle-Activator>org.universAAL.ucc.service.manager.Activator</Bundle-Activator>
       			<Bundle-Vendor>Nicole Merkle</Bundle-Vendor>
       			<Import-Package>*</Import-Package>
-      			<Export-Package>org.universAAL.ucc.frontend.api.*</Export-Package>
+      			<Private-Package>javax.xml.bind.*</Private-Package>
+      			<Export-Package>org.universAAL.ucc.client.util,
+      			org.universAAL.ucc.controller.desktop,
+      			org.universAAL.ucc.controller.install,
+      			org.universAAL.ucc.controller.preferences,
+      			org.universAAL.ucc.deploymanagerservice,
+      			org.universAAL.ucc.deploymanagerservice.impl,
+      			org.universAAL.ucc.deploymanagerservice.unused,
+      			org.universAAL.ucc.deploymanagerservice.unused.impl,
+      			org.universAAL.ucc.frontend.api,
+      			org.universAAL.ucc.frontend.api.impl,
+      			org.universAAL.ucc.service.api,
+      			org.universAAL.ucc.service.impl,
+      			org.universAAL.ucc.service.manager,
+      			org.universAAL.ucc.ustore.ws.client,
+      			org.universAAL.ucc.webconnection,
+      			org.universAAL.ucc.windows,
+      			org.universAAL.commerce.ustore.tools</Export-Package>
       			<Require-Bundle>com.vaadin;bundle-version="6.8.3"</Require-Bundle>
       			<Service-Component>OSGI-INF/ucc.xml</Service-Component>
       		</instructions>
@@ -35,7 +52,7 @@
     </plugins>
   </build>
   <properties>
-  <cxf.version>2.2.9</cxf.version>
+  <cxf.version>2.3.1</cxf.version>
 </properties>
   <dependencies>   	
   	<dependency>
@@ -87,34 +104,14 @@
   		<version>2.0.1-SNAPSHOT</version>
   		<type>bundle</type>
   	</dependency>
-  	<dependency>
-  		<groupId>javax.xml.rpc</groupId>
-  		<artifactId>javax.xml.rpc-api</artifactId>
-  		<version>1.1</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.apache.axis</groupId>
-  		<artifactId>axis</artifactId>
-  		<version>1.4</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.apache.geronimo.bundles</groupId>
-  		<artifactId>commons-discovery</artifactId>
-  		<version>0.4_1</version>
-  		<type>bundle</type>
-  	</dependency>
-  	<dependency>
-  		<groupId>log4j</groupId>
-  		<artifactId>log4j</artifactId>
-  		<version>1.2.17</version>
-  		<type>bundle</type>
-  	</dependency>
-  	<dependency>
-  		<groupId>commons-logging</groupId>
-  		<artifactId>commons-logging</artifactId>
-  		<version>1.0.4</version>
-  	</dependency>
-  	<dependency>
+        <!-- Jetty is needed if you're are not using the CXFServlet -->
+        <dependency>
+        	<groupId>org.apache.geronimo.specs</groupId>
+        	<artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+        	<version>1.1.3</version>
+        	<type>bundle</type>
+        </dependency>
+        <dependency>
 		<groupId>org.apache.cxf</groupId>
 		<artifactId>cxf-rt-frontend-jaxws</artifactId>
 		<version>${cxf.version}</version>

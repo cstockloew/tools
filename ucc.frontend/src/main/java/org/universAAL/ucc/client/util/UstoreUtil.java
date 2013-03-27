@@ -1,31 +1,30 @@
 package org.universAAL.ucc.client.util;
 
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.UnknownHostException;
-import java.rmi.RemoteException;
+import org.apache.cxf.frontend.ClientProxyFactoryBean;
 
-import javax.xml.rpc.ServiceException;
 
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import javax.xml.namespace.QName;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.preferences.Preferences;
-import org.universAAL.ucc.ustore.ws.client.OnlineStoreManager;
-import org.universAAL.ucc.ustore.ws.client.OnlineStoreManagerService;
-import org.universAAL.ucc.ustore.ws.client.OnlineStoreManagerServiceLocator;
-import org.universAAL.ucc.ustore.ws.client.UAALException;
-import org.universAAL.ucc.ustore.ws.client.UAALException_Exception;
+import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
+import org.universAAL.commerce.ustore.tools.OnlineStoreManagerService;
+import org.universAAL.commerce.ustore.tools.UAALException_Exception;
+
 
 public class UstoreUtil {
 	private BundleContext bc;
 	private ServiceReference ref;
 	private UserAccountDB db;
 	private Preferences pref;
-	private OnlineStoreManager osm;
+	private OnlineStoreManager client;
+	private static final QName SERVICE_NAME = new QName("http://tools.ustore.commerce.universaal.org/", "OnlineStoreManagerService");
 	
 	public UstoreUtil() {
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
@@ -34,17 +33,9 @@ public class UstoreUtil {
 		pref = db.getPreferencesData(System.getenv("systemdrive")+"/uccDB/preferences.xml");
 		bc.ungetService(ref);
 		//Getting ustore webservice
-		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-		factory.getInInterceptors().add(new LoggingInInterceptor());
-		factory.setServiceClass(OnlineStoreManager.class);
-		
-		OnlineStoreManagerServiceLocator loc = new OnlineStoreManagerServiceLocator();
-		try {
-			osm = loc.getOnlineStoreManagerPort();
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
+		URL wsdlURL = OnlineStoreManagerService.WSDL_LOCATION;
+		OnlineStoreManagerService ss = new OnlineStoreManagerService(wsdlURL, SERVICE_NAME);
+        client = ss.getOnlineStoreManagerPort(); 
 	}
 
 	/**
@@ -65,16 +56,11 @@ public class UstoreUtil {
 			e.printStackTrace();
 		}
 
-			try {
-				answer = osm.registerDeployManager(usr, pwd, idAddr, portNum);
-				System.err.println(answer);
-			} catch (UAALException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+try {
+	answer = client.registerDeployManager(usr, pwd, idAddr, portNum);
+} catch (UAALException_Exception e) {
+	e.printStackTrace();
+}
 		
 		return answer;
 	}
