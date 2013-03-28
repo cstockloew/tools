@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -105,10 +106,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 			// TODO: Deployment
 			peers = installer.getPeers();
 			for (UAPP uapp : aal.getUaapList()) {
-				if(selected.equals("")) {
-					selected = uapp.getPart().getPartId();
-					win.getTree().select(selected);
-				}
+//				if(selected.equals("")) {
+//					selected = uapp.getPart().getPartId();
+//					win.getTree().select(selected);
+//				}
 				// Selected part in tree
 				if (uapp.getPart().getPartId().equals(selected)) {
 					System.err.println("SELECTED: " + selected);
@@ -190,6 +191,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.err.println("Tree node was removed");
 				dsvMap.remove(selected);
 				dcvMap.remove(selected);
+				
 				if (dsvMap.isEmpty() && dcvMap.isEmpty()) {
 					app.getMainWindow().showNotification(
 							bundle.getString("success.install.msg"),
@@ -200,7 +202,8 @@ public class DeploymentInfoController implements Button.ClickListener,
 					deleteFiles(f);
 
 				} 
-				selected = "";
+				selected = (String) win.getTree().getItemIds().iterator().next();
+				win.getTree().select(selected);
 			}
 		
 		//Installation was canceled by user
