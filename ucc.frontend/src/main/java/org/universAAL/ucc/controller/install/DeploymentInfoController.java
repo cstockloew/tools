@@ -106,10 +106,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 			// TODO: Deployment
 			peers = installer.getPeers();
 			for (UAPP uapp : aal.getUaapList()) {
-//				if(selected.equals("")) {
-//					selected = uapp.getPart().getPartId();
-//					win.getTree().select(selected);
-//				}
+
 				// Selected part in tree
 				if (uapp.getPart().getPartId().equals(selected)) {
 					System.err.println("SELECTED: " + selected);

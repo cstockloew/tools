@@ -55,6 +55,9 @@ public class UstoreUtil {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		if(usr == null || usr.equals("") || pwd == null || pwd.equals("")) {
+			return null;
+		}
 
 try {
 	answer = client.registerDeployManager(usr, pwd, idAddr, portNum);

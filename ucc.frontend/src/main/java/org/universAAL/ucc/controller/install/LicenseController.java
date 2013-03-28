@@ -109,6 +109,8 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		if(event.getButton() == win.getCancel()) {
 			app.getMainWindow().showNotification(res.getString("break.note"), Notification.TYPE_ERROR_MESSAGE);
 			app.getMainWindow().removeWindow(win);
+			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+			deleteFiles(f);
 		}
 		if(event.getButton() == win.getGo()) {
 			app.getMainWindow().removeWindow(win);
@@ -126,5 +128,17 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 		}
 		
 	}
+	
+	private void deleteFiles(File path) {
+		File[] files = path.listFiles();
+		for (File del : files) {
+			if (del.isDirectory()) {
+				deleteFiles(del);
+			}
+			del.delete();
+		}
+
+	}
+
 
 }

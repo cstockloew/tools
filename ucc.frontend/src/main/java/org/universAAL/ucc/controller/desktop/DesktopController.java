@@ -1,5 +1,7 @@
 package org.universAAL.ucc.controller.desktop;
 
+import java.util.ResourceBundle;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -17,6 +19,7 @@ import org.universAAL.ucc.windows.UccUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Window.Notification;
 
 public class DesktopController implements Button.ClickListener {
 	private UccUI app;
@@ -24,8 +27,12 @@ public class DesktopController implements Button.ClickListener {
 	private UserAccountDB db;
 	private DeployManagerService dms;
 	private UstoreUtil client;
+	private String base;
+	private ResourceBundle bundle;
 	
 	public DesktopController(UccUI app) {
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
 		this.app = app;
 		this.main = app.getMainWindow();
 		BundleContext context = FrameworkUtil.getBundle(getClass()).getBundleContext();
@@ -62,11 +69,16 @@ public class DesktopController implements Button.ClickListener {
 			main.removeWindow(app.getLoginWindow());
 			main.removeComponent(app.getVLog());
 			main.setContent(app.createContent(this));
-			System.err.println("[DesktopController]: LOGIN");
 			//Register to uStore
-			System.err.println("Create UstoreUtil-Client!!!!");
 			String answer = client.registerUser();
-			System.err.println("WS-ANSWER: "+answer);
+			if(answer == null) {
+				app.getMainWindow().showNotification(bundle.getString("login.fail"), Notification.TYPE_ERROR_MESSAGE);
+				
+			} else {
+				app.getMainWindow().showNotification(bundle.getString("login.success"), Notification.TYPE_HUMANIZED_MESSAGE);
+				System.err.println("WS-ANSWER: "+answer);
+			}
+			
 			//TODO: interpret the answer and get sessionkey and usrvfilename
 			//This later uncomment
 //			IFrontend frontend = new FrontendImpl();

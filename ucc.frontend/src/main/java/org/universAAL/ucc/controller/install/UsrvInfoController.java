@@ -1,5 +1,6 @@
 package org.universAAL.ucc.controller.install;
 
+import java.io.File;
 import java.util.ResourceBundle;
 
 import org.universAAL.ucc.model.AALService;
@@ -70,7 +71,21 @@ public class UsrvInfoController implements Button.ClickListener{
 		if(event.getButton() == win.getCancel()) {
 			app.getMainWindow().removeWindow(win);
 			app.getMainWindow().showNotification(bundle.getString("break.note"));
+			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+			deleteFiles(f);
 		}
 		
 	}
+	
+	private void deleteFiles(File path) {
+		File[] files = path.listFiles();
+		for (File del : files) {
+			if (del.isDirectory()) {
+				deleteFiles(del);
+			}
+			del.delete();
+		}
+
+	}
+
 }
