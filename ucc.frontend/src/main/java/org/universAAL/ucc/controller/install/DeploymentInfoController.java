@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.interfaces.mpa.model.DeploymentUnit;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
@@ -52,6 +55,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 	private Map<String, PeerCard> peers;
 	private IInstaller installer;
 	private IServiceRegistration srvRegistration;
+	private BundleContext bc;
 
 	public DeploymentInfoController(UccUI app, AALService aal,
 			DeploymentInformationView win) {
@@ -59,6 +63,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		bundle = ResourceBundle.getBundle(base);
 		installer = Activator.getInstaller();
 		srvRegistration = Activator.getReg();
+		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		this.aal = aal;
 		this.win = win;
 		this.app = app;
@@ -148,18 +153,19 @@ public class DeploymentInfoController implements Button.ClickListener,
 								uapp.getBundleId(), uapp.getBundleVersion());
 						// TODO: Call configurator to configure the uapps, after
 						// uapp is running (for every uapp)
-						ConfigurationDefinitionRegistry reg = Activator
-								.getConfigDefinitionRegistry();
+						ServiceReference configRef = bc.getServiceReference(ConfigurationDefinitionRegistry.class.getName());
+						ConfigurationDefinitionRegistry reg = bc.getService(configRef);
 						Configuration conf = null;
 						System.err.println("Size of all APP-Configurations: "
 								+ reg.getAllConfigDefinitions().size());
 						for (Configuration configurator : reg
 								.getAllConfigDefinitions()) {
-							if (configurator.getBundlename().equals(
-									uapp.getBundleId())) {
+//							if (configurator.getBundlename() != null && configurator.getBundlename().equals(
+//									uapp.getBundleId())) {
 								conf = configurator;
-							}
+//							}
 						}
+						
 						if (conf != null) {
 							ConfigurationOverviewWindow cow = new ConfigurationOverviewWindow(
 									conf);
@@ -169,7 +175,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 							app.getMainWindow().showNotification(
 									bundle.getString("installed.note"),
 									Notification.TYPE_HUMANIZED_MESSAGE);
-						}
+						} bc.ungetService(configRef);
 						
 					} else {
 						

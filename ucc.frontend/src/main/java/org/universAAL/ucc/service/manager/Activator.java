@@ -24,8 +24,7 @@ public class Activator implements BundleActivator {
 	private static IServiceManagement mgmt; 
 	private static IServiceModel model;
 	private static 	IServiceRegistration reg;
-	private static ServiceReference configReference;
-	private static ConfigurationDefinitionRegistry configDefinitionRegistry;
+
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
@@ -34,9 +33,6 @@ public class Activator implements BundleActivator {
 		//Later uncomment, when Deinstaller is implemented in the ucc.controller
 		dRef = context.getServiceReference(IDeinstaller.class.getName());
 		deinstaller = (IDeinstaller) context.getService(dRef);
-		
-		configReference = context.getServiceReference(ConfigurationDefinitionRegistry.class.getName());
-		configDefinitionRegistry = (ConfigurationDefinitionRegistry) context.getService(configReference);
 		
 		regis = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
 		
@@ -89,18 +85,6 @@ public class Activator implements BundleActivator {
 		context.ungetService(ref);
 		context.ungetService(dRef);
 		regis.unregister();
-	}
-
-	public static ConfigurationDefinitionRegistry getConfigDefinitionRegistry() {
-		if(configDefinitionRegistry == null) {
-			configDefinitionRegistry = (ConfigurationDefinitionRegistry) bc.getService(configReference);
-		}
-		return configDefinitionRegistry;
-	}
-
-	public static void setConfigDefinitionRegistry(
-			ConfigurationDefinitionRegistry configDefinitionRegistry) {
-		Activator.configDefinitionRegistry = configDefinitionRegistry;
 	}
 
 	
