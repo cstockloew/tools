@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1364655845714
+Build-Jdk: 1.7.0_17
+Built-By: merkle
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.universAAL.ucc.configuration.configdefinitionregis
+ try.internal.Activator
+Bundle-Description: A tool to install, manage and configure applications
+  for universAAL an a local maschine.
+Bundle-DocURL: http://www.universAAL.org/
+Bundle-ManifestVersion: 2
+Bundle-Name: org.universAAL.tools.ucc.ucc.configuration.configdefinition
+ registry
+Bundle-SymbolicName: ucc.configuration.configdefinitionregistry
+Bundle-Vendor: universAAL Consortium
+Bundle-Version: 2.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.universAAL.ucc.configuration.configdefinitionregistr
+ y;uses:="org.universAAL.ucc.configuration.configdefinitionregistry.inte
+ rfaces,org.universAAL.ucc.configuration.model.configurationdefinition,j
+ avax.xml.bind,org.slf4j";version="2.0.1.SNAPSHOT",org.universAAL.ucc.co
+ nfiguration.configdefinitionregistry.interfaces;uses:="org.universAAL.u
+ cc.configuration.model.configurationdefinition";version="2.0.1.SNAPSHOT
+ ",org.universAAL.ucc.configuration.configdefinitionregistry.internal;us
+ es:="org.universAAL.ucc.configuration.configdefinitionregistry,org.univ
+ ersAAL.ucc.configuration.configdefinitionregistry.interfaces,org.osgi.f
+ ramework";version="2.0.1.SNAPSHOT"
+Import-Package: javax.xml.bind,org.osgi.framework;version="[1.5,2)",org.
+ slf4j;version="[1.7,2)",org.universAAL.ucc.configuration.model.configur
+ ationdefinition;version="[2.0,3)"
+Require-Bundle: ucc.configuration.model; bundle-version="2.0.1.SNAPSHOT"
+Tool: Bnd-1.50.0

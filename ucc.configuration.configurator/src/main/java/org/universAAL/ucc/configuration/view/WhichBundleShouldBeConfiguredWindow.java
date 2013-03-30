@@ -33,8 +33,8 @@ public class WhichBundleShouldBeConfiguredWindow extends Window implements Confi
 	
 	WhichBundleShouldBeConfiguredWindow twin;
 	
-	public WhichBundleShouldBeConfiguredWindow(String usecase, final String flatId) {
-		super("Configure "+usecase+" for "+flatId);
+	public WhichBundleShouldBeConfiguredWindow(String usecase) {
+		super("Configure "+usecase);
 		setWidth("450px");
 		setHeight("365px");
 //		this.flatId = flatId;

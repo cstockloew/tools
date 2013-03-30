@@ -75,7 +75,7 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 	
 	VaadinConfigurationController controller;
 	
-	String flatId;
+//	String flatId;
 	
 	public Window configurationWindow;
 	
@@ -204,7 +204,7 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 			
 			public void buttonClick(ClickEvent event) {
 				controller.setConfigInstance((ConfigurationInstance)configInstances.getValue());
-				controller.deleteConfigurationInstance(flatId);
+//				controller.deleteConfigurationInstance(flatId);
 			}
 		});
 		
@@ -387,7 +387,7 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 //						item.getOptions().getOption().add(option);
 //					}
 //				}
-		
+//		
 //				MapConfigurationOption map = new MapConfigurationOption(item, cat, controller.getModelRegistry());
 //				addMapConfigItemToPanel(cp, map);
 //				for(Iterator<Component> iter = cp.getComponentIterator(); iter.hasNext();) {
@@ -483,13 +483,13 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 		fillSelect();
 	}
 
-	public String getFlatId() {
-		return flatId;
-	}
-
-	public void setFlatId(String flatId) {
-		this.flatId = flatId;
-	}
+//	public String getFlatId() {
+//		return flatId;
+//	}
+//
+//	public void setFlatId(String flatId) {
+//		this.flatId = flatId;
+//	}
 	
 //	String location = "";
 //	String mailserver = "";

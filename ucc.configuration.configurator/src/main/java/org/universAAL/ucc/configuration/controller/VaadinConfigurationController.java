@@ -45,7 +45,7 @@ public class VaadinConfigurationController {
 	private ConfigOptionRegistry modelRegistry;
 	private String configFileFolder;
 	private ConfigurationInstancesStorage storage;
-	private String flatId; 
+//	private String flatId; 
 	
 	/**
 	 * Create the configuration option registry and the directory for the given configuration definition. 
@@ -55,7 +55,7 @@ public class VaadinConfigurationController {
 	public VaadinConfigurationController(ConfigurationOverviewWindow view, Configuration config) {
 		logger = LoggerFactory.getLogger(VaadinConfigurationController.class);
 		this.view = view;
-		this.flatId = view.getFlatId();
+//		this.flatId = view.getFlatId();
 		modelRegistry = new ConfigOptionRegistry();
 		configurator = new Configurator(config);
 		configFileFolder = System.getenv("systemdrive")+"/tmpConfigFiles/"+config.getBundlename()+"/";
@@ -124,7 +124,7 @@ public class VaadinConfigurationController {
 	 * @param force
 	 * @throws ConfigurationInstanceAlreadyExistsException
 	 */
-	public void saveConfiguration(String flatId, List<ConfigurationOption> configOptions, ConfigurationSaveOptions saveOptions, boolean force) throws ConfigurationInstanceAlreadyExistsException {
+	public void saveConfiguration(List<ConfigurationOption> configOptions, ConfigurationSaveOptions saveOptions, boolean force) throws ConfigurationInstanceAlreadyExistsException {
 		
 		ConfigurationInstance instance = new ObjectFactory().createConfigurationInstance();
 		instance.setId(saveOptions.getId());
@@ -192,7 +192,7 @@ public class VaadinConfigurationController {
 		configurator.setConfigurationInstance(value);
 	}
 
-	public void deleteConfigurationInstance(String flatId) {		
+	public void deleteConfigurationInstance() {		
 		if (!storage.removeConfigurationInstance(configurator.getConfigInstance())) {
 		   view.showNotification("Deletion failed!", Window.Notification.TYPE_ERROR_MESSAGE);
 			
@@ -211,14 +211,14 @@ public class VaadinConfigurationController {
 		this.view = view;
 	}
 
-	public String getFlatId() {
-		return flatId;
-	}
-
-	public void setFlatId(String flatId) {
-		this.flatId = flatId;
-	}
-	
+//	public String getFlatId() {
+//		return flatId;
+//	}
+//
+//	public void setFlatId(String flatId) {
+//		this.flatId = flatId;
+//	}
+//	
 	
 
 }

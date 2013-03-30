@@ -1,0 +1,42 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1364655854857
+Build-Jdk: 1.7.0_17
+Built-By: merkle
+Bundle-Activator: org.universAAL.ucc.configuration.storage.internal.Acti
+ vator
+Bundle-Description: A tool to install, manage and configure applications
+  for universAAL an a local maschine.
+Bundle-DocURL: http://www.universAAL.org/
+Bundle-ManifestVersion: 2
+Bundle-Name: org.universAAL.tools.ucc.ucc.configuration.configinstancest
+ orage
+Bundle-SymbolicName: ucc.configuration.configinstancestorage
+Bundle-Vendor: universAAL Consortium
+Bundle-Version: 2.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.universAAL.ucc.configuration.api;uses:="org.universA
+ AL.ucc.configuration.storage.exceptions,org.osgi.util.tracker,org.osgi.
+ framework,org.universAAL.ucc.configuration.storage.servicetracker,org.u
+ niversAAL.ucc.configuration.storage.interfaces,org.slf4j,org.universAAL
+ .ucc.configuration.model.configurationinstances";version="2.0.1.SNAPSHO
+ T",org.universAAL.ucc.configuration.storage.exceptions;version="2.0.1.S
+ NAPSHOT",org.universAAL.ucc.configuration.storage.internal;uses:="org.o
+ sgi.framework,org.universAAL.ucc.configuration.storage.interfaces,org.u
+ niversAAL.ucc.configuration.storage";version="2.0.1.SNAPSHOT",org.unive
+ rsAAL.ucc.configuration.storage.servicetracker;uses:="org.universAAL.uc
+ c.configuration.api,org.osgi.util.tracker,org.osgi.framework,org.univer
+ sAAL.ucc.configuration.storage.interfaces,org.slf4j";version="2.0.1.SNA
+ PSHOT",org.universAAL.ucc.configuration.storage.interfaces;uses:="org.u
+ niversAAL.ucc.configuration.storage.exceptions,org.osgi.framework,org.u
+ niversAAL.ucc.configuration.model.configurationinstances";version="2.0.
+ 1.SNAPSHOT",org.universAAL.ucc.configuration.storage;uses:="org.univers
+ AAL.ucc.configuration.storage.exceptions,org.osgi.framework,javax.xml.b
+ ind,org.universAAL.ucc.configuration.storage.interfaces,org.slf4j,org.u
+ niversAAL.ucc.configuration.model.configurationinstances";version="2.0.
+ 1.SNAPSHOT"
+Import-Package: javax.xml.bind,org.osgi.framework;version="[1.5,2)",org.
+ osgi.util.tracker;version="[1.4,2)",org.slf4j;version="[1.7,2)",org.uni
+ versAAL.ucc.configuration.model.configurationinstances;version="[2.0,3)
+ "
+Require-Bundle: ucc.configuration.model; bundle-version="2.0.1.SNAPSHOT"
+Tool: Bnd-1.50.0

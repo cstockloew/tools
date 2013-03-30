@@ -84,7 +84,7 @@ public class ConfigurationSaveWindow extends Window {
 					}else{
 						saveForm.commit();
 						try {
-							ConfigurationSaveWindow.this.controller.saveConfiguration(controller.getFlatId(), buttonConfigOptions, configSaveOptions, false);
+							ConfigurationSaveWindow.this.controller.saveConfiguration(buttonConfigOptions, configSaveOptions, false);
 							ConfigurationSaveWindow.this.getParent().showNotification("Configuration saved!", Window.Notification.TYPE_HUMANIZED_MESSAGE);
 							ConfigurationSaveWindow.this.close();
 						} catch (ConfigurationInstanceAlreadyExistsException e) {
@@ -94,7 +94,7 @@ public class ConfigurationSaveWindow extends Window {
 								public void onDialogResult(boolean resultIsYes) {
 									if(resultIsYes){
 										try {
-											ConfigurationSaveWindow.this.controller.saveConfiguration(controller.getFlatId(), buttonConfigOptions, configSaveOptions, true);
+											ConfigurationSaveWindow.this.controller.saveConfiguration(buttonConfigOptions, configSaveOptions, true);
 											ConfigurationSaveWindow.this.getParent().showNotification("Configuration saved!", Window.Notification.TYPE_HUMANIZED_MESSAGE);
 											ConfigurationSaveWindow.this.close();
 										} catch (ConfigurationInstanceAlreadyExistsException e) {

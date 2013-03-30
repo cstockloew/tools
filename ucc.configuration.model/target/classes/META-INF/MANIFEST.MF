@@ -1,0 +1,42 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1364655871524
+Build-Jdk: 1.7.0_17
+Built-By: merkle
+Bundle-Description: A tool to install, manage and configure applications
+  for universAAL an a local maschine.
+Bundle-DocURL: http://www.universAAL.org/
+Bundle-ManifestVersion: 2
+Bundle-Name: org.universAAL.tools.ucc.ucc.configuration.model
+Bundle-SymbolicName: ucc.configuration.model
+Bundle-Vendor: universAAL Consortium
+Bundle-Version: 2.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.universAAL.ucc.configuration.model.configurationdefi
+ nition;uses:="javax.xml.bind.annotation,javax.xml.bind.annotation.adapt
+ ers,javax.xml.bind,javax.xml.namespace";version="2.0.1.SNAPSHOT",org.un
+ iversAAL.ucc.configuration.model.interfaces;uses:="org.universAAL.ucc.c
+ onfiguration.model,org.universAAL.ucc.configuration.model.exceptions,or
+ g.universAAL.ucc.configuration.model.configurationinstances";version="2
+ .0.1.SNAPSHOT",org.universAAL.ucc.configuration.model.validators;uses:=
+ "org.universAAL.ucc.configuration.model.interfaces,org.universAAL.ucc.c
+ onfiguration.model,org.universAAL.ucc.configuration.model.exceptions,or
+ g.slf4j,org.universAAL.ucc.configuration.model.configurationinstances";
+ version="2.0.1.SNAPSHOT",org.universAAL.ucc.configuration.model;uses:="
+ org.slf4j,org.universAAL.ucc.configuration.model.interfaces,org.univers
+ AAL.ucc.configuration.model.configurationdefinition,org.universAAL.ucc.
+ configuration.model.servicetracker,org.osgi.framework,org.universAAL.uc
+ c.configuration.model.exceptions,org.universAAL.ucc.configuration.model
+ .configurationinstances";version="2.0.1.SNAPSHOT",org.universAAL.ucc.co
+ nfiguration.model.servicetracker;uses:="org.universAAL.ucc.configuratio
+ n.model.interfaces,org.universAAL.ucc.configuration.model,org.osgi.util
+ .tracker,org.osgi.framework,org.slf4j";version="2.0.1.SNAPSHOT",org.uni
+ versAAL.ucc.configuration.model.exceptions;version="2.0.1.SNAPSHOT",org
+ .universAAL.ucc.configuration.model.configurationinstances;uses:="javax
+ .xml.bind.annotation,javax.xml.bind.annotation.adapters,javax.xml.bind,
+ javax.xml.namespace";version="2.0.1.SNAPSHOT"
+Import-Package: javax.xml.bind,javax.xml.bind.annotation,javax.xml.bind.
+ annotation.adapters,javax.xml.namespace,org.osgi.framework;version="[1.
+ 5,2)",org.osgi.util.tracker;version="[1.4,2)",org.slf4j;version="[1.7,2
+ )"
+Require-Bundle: com.vaadin;bundle-version="6.8.3"
+Tool: Bnd-1.50.0

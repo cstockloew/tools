@@ -26,7 +26,10 @@
       			<Import-Package>*</Import-Package>
       			<Export-Package>org.universAAL.ucc.configuration.beans.*, org.universAAL.ucc.configuration.view.*,
       			org.universAAL.ucc.configuration.internal.*</Export-Package>
-      			<Require-Bundle>com.vaadin;bundle-version="6.8.3"</Require-Bundle>
+      			<Require-Bundle>com.vaadin;bundle-version="6.8.3",
+      			ucc.configuration.configdefinitionregistry;bundle-version="2.0.1.SNAPSHOT",
+      			ucc.configuration.configinstancestorage; bundle-version="2.0.1.SNAPSHOT",
+      			ucc.configuration.model; bundle-version="2.0.1.SNAPSHOT"</Require-Bundle>
       		</instructions>
       	</configuration>
       </plugin>

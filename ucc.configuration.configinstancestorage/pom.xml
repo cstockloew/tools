@@ -19,8 +19,8 @@
       	<extensions>true</extensions>
       	<configuration>
       		<instructions>
-      			<Bundle-Name>${project.artifactId}</Bundle-Name>
-      			<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+      			<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+      			<Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
       			<Bundle-Version>${project.version}</Bundle-Version>
       			<Bundle-Activator>org.universAAL.ucc.configuration.storage.internal.Activator</Bundle-Activator>
       			<Import-Package>*</Import-Package>
@@ -30,6 +30,7 @@
  				org.universAAL.ucc.configuration.storage.interfaces.*,
  				org.universAAL.ucc.configuration.storage.internal.*,
  				org.universAAL.ucc.configuration.storage.servicetracker.*</Export-Package>
+ 				<Require-Bundle>ucc.configuration.model; bundle-version="2.0.1.SNAPSHOT"</Require-Bundle>
       		</instructions>
       	</configuration>
       </plugin>

@@ -36,6 +36,7 @@ public class ConfigurationDefinitionRegistryImpl implements
 	
 	public void registerConfigurationDefinition(URL configURL) {
 		logger.debug("register file: " + configURL);
+		System.err.println("[[ConfigurationDefinitonRegistryImpl]]: "+configURL);
 		try{
 			Configuration config = JAXB.unmarshal(configURL, Configuration.class);
 			configDefs.put(config.getBundlename(), config);
