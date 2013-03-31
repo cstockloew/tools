@@ -23,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
@@ -57,7 +58,7 @@ public class FrontendImpl implements IFrontend {
 	private static final String usrvLocalStore = System.getenv("systemdrive") + "/tempUsrvFiles/";
 
 
-	public void installService(String sessionkey, String downloadUri) {
+	public void installService(String sessionkey, String downloadUri /*Need from uStore String filename*/) {
 		// Opens a browser window and loads the ucc site
 //		Desktop desk = Desktop.getDesktop();
 //		try {
@@ -66,8 +67,8 @@ public class FrontendImpl implements IFrontend {
 //			e.printStackTrace();
 //		}
 
-		//TODO: check for sessionkey
-		
+		//check for sessionkey
+		if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		System.out.println("[FrontendImpl.installService] start download from " + downloadUri);
 		// TO be unmarked
@@ -111,6 +112,9 @@ public class FrontendImpl implements IFrontend {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		} else {
+			//TODO: SessionKey was not right, what todo?
 		}
 	}
 

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1364579410355
+Bnd-LastModified: 1364745730585
 Build-Jdk: 1.7.0_17
 Built-By: merkle
 Bundle-Activator: org.universAAL.ucc.service.manager.Activator
@@ -40,28 +40,28 @@ Export-Package: org.universAAL.ucc.client.util;uses:="org.universAAL.ucc
  rsAAL.ucc.deploymanagerservice.unused.impl;uses:="org.universAAL.ucc.de
  ploymanagerservice.unused";version="2.0.1.SNAPSHOT",org.universAAL.ucc.
  frontend.api;version="2.0.1.SNAPSHOT",org.universAAL.ucc.frontend.api.i
- mpl;uses:="org.universAAL.ucc.api,javax.xml.parsers,org.universAAL.ucc.
- windows,org.w3c.dom,org.xml.sax,org.universAAL.ucc.service.api,org.univ
- ersAAL.middleware.interfaces.mpa.model,org.universAAL.ucc.model.install
- ,org.universAAL.ucc.frontend.api,org.universAAL.ucc.controller.install,
- org.universAAL.ucc.model,org.universAAL.middleware.managers.api,org.uni
- versAAL.ucc.service.manager";version="2.0.1.SNAPSHOT",org.universAAL.uc
- c.service.api;version="2.0.1.SNAPSHOT",org.universAAL.ucc.service.impl;
- uses:="javax.xml.transform,javax.xml.transform.stream,javax.xml.parsers
- ,javax.xml.transform.dom,org.w3c.dom,org.universAAL.ucc.service.api";ve
- rsion="2.0.1.SNAPSHOT",org.universAAL.ucc.service.manager;uses:="org.un
- iversAAL.ucc.frontend.api,org.universAAL.ucc.frontend.api.impl,org.univ
- ersAAL.ucc.api,org.osgi.framework,org.universAAL.ucc.service.impl,org.u
- niversAAL.ucc.service.api";version="2.0.1.SNAPSHOT",org.universAAL.ucc.
- webconnection;uses:="org.universAAL.ucc.api";version="2.0.1.SNAPSHOT",o
- rg.universAAL.ucc.windows;uses:="com.vaadin.data,org.universAAL.ucc.api
- ,org.osgi.framework,com.vaadin.ui,org.universAAL.ucc.model.install,org.
- universAAL.ucc.controller.install,org.universAAL.ucc.model,org.universA
- AL.ucc.model.preferences,org.universAAL.ucc.controller.preferences,org.
- universAAL.ucc.controller.desktop,com.vaadin.terminal,org.universAAL.uc
- c.database.preferences,com.vaadin";version="2.0.1.SNAPSHOT",org.univers
- AAL.commerce.ustore.tools;uses:="javax.xml.namespace,javax.jws,javax.xm
- l.ws";version="2.0.1.SNAPSHOT"
+ mpl;uses:="org.universAAL.ucc.controller.desktop,org.universAAL.ucc.api
+ ,javax.xml.parsers,org.universAAL.ucc.windows,org.w3c.dom,org.universAA
+ L.middleware.interfaces.mpa.model,org.xml.sax,org.universAAL.ucc.servic
+ e.api,org.universAAL.ucc.model.install,org.universAAL.ucc.frontend.api,
+ org.universAAL.ucc.controller.install,org.universAAL.ucc.model,org.univ
+ ersAAL.middleware.managers.api,org.universAAL.ucc.service.manager";vers
+ ion="2.0.1.SNAPSHOT",org.universAAL.ucc.service.api;version="2.0.1.SNAP
+ SHOT",org.universAAL.ucc.service.impl;uses:="javax.xml.transform,javax.
+ xml.transform.stream,javax.xml.parsers,javax.xml.transform.dom,org.w3c.
+ dom,org.universAAL.ucc.service.api";version="2.0.1.SNAPSHOT",org.univer
+ sAAL.ucc.service.manager;uses:="org.universAAL.ucc.frontend.api,org.uni
+ versAAL.ucc.frontend.api.impl,org.universAAL.ucc.api,org.osgi.framework
+ ,org.universAAL.ucc.service.impl,org.universAAL.ucc.service.api";versio
+ n="2.0.1.SNAPSHOT",org.universAAL.ucc.webconnection;uses:="org.universA
+ AL.ucc.api";version="2.0.1.SNAPSHOT",org.universAAL.ucc.windows;uses:="
+ com.vaadin.data,org.universAAL.ucc.api,org.osgi.framework,com.vaadin.ui
+ ,org.universAAL.ucc.model.install,org.universAAL.ucc.controller.install
+ ,org.universAAL.ucc.model,org.universAAL.ucc.model.preferences,org.univ
+ ersAAL.ucc.controller.preferences,org.universAAL.ucc.controller.desktop
+ ,com.vaadin.terminal,org.universAAL.ucc.database.preferences,com.vaadin
+ ";version="2.0.1.SNAPSHOT",org.universAAL.commerce.ustore.tools;uses:="
+ javax.xml.namespace,javax.jws,javax.xml.ws";version="2.0.1.SNAPSHOT"
 Import-Package: com.vaadin,com.vaadin.data,com.vaadin.terminal,com.vaadi
  n.ui,javax.activation,javax.jws;version="[2.0,3)",javax.xml.datatype,ja
  vax.xml.namespace,javax.xml.parsers,javax.xml.stream,javax.xml.transfor

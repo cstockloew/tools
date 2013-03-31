@@ -83,7 +83,8 @@ public class UsrvInfoController implements Button.ClickListener{
 			if (del.isDirectory()) {
 				deleteFiles(del);
 			}
-			del.delete();
+			if(!del.getPath().substring(del.getPath().indexOf(".")+1).equals("usrv"))
+				del.delete();
 		}
 
 	}

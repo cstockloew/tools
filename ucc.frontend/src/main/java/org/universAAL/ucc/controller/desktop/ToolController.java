@@ -76,10 +76,10 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 			Embedded em = new Embedded("", new ExternalResource(createLink()));
 			em.setType(Embedded.TYPE_BROWSER);
 			em.setWidth("100%");
-			em.setHeight("650px");
+			em.setHeight("750px");
 			Window w = new Window("uStore");
-			w.setWidth("850px");
-			w.setHeight("650px");
+			w.setWidth("1024px");
+			w.setHeight("750px");
 			VerticalLayout v = new VerticalLayout();
 			w.center();
 			v.addComponent(em);
@@ -91,10 +91,10 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 			Embedded em = new Embedded("", new ExternalResource("http://wiki.openaal.org"));
 			em.setType(Embedded.TYPE_BROWSER);
 			em.setWidth("100%");
-			em.setHeight("650px");
+			em.setHeight("750px");
 			Window w = new Window("openAAL");
-			w.setWidth("850px");
-			w.setHeight("650px");
+			w.setWidth("1024px");
+			w.setHeight("750px");
 			VerticalLayout v = new VerticalLayout();
 			w.center();
 			v.addComponent(em);
@@ -120,8 +120,10 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 //			installWindow.setContent(v);
 			app.getMainWindow().removeWindow(toolWin);
 //			app.getMainWindow().addWindow(installWindow);
+			
+			//Only for testing, later will be deleted. uStore has to call IFrontend.installService()
 			IFrontend frontend = new FrontendImpl();
-			frontend.installService("", "http://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/StoreRetrieveServiceFile?langId=-1&catalogId=10001&storeId=10001&service-24501=24501&item-24001=24001&item-12001=12001&item-11503=11503");
+			frontend.installService(DesktopController.getSessionKey(), "http://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/StoreRetrieveServiceFile?langId=-1&catalogId=10001&storeId=10001&service-24501=24501&item-24001=24001&item-12001=12001&item-11503=11503");
 		
 		}
 		if(event.getButton() == toolWin.getLogoutButton()) {

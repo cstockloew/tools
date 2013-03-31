@@ -29,6 +29,7 @@ public class DesktopController implements Button.ClickListener {
 	private UstoreUtil client;
 	private String base;
 	private ResourceBundle bundle;
+	private static String sessionKey;
 	
 	public DesktopController(UccUI app) {
 		base = "resources.ucc";
@@ -70,19 +71,15 @@ public class DesktopController implements Button.ClickListener {
 			main.removeComponent(app.getVLog());
 			main.setContent(app.createContent(this));
 			//Register to uStore
-			String answer = client.registerUser();
-			if(answer == null) {
+			sessionKey = client.registerUser();
+			if(sessionKey == null || sessionKey.equals("")) {
 				app.getMainWindow().showNotification(bundle.getString("login.fail"), Notification.TYPE_ERROR_MESSAGE);
 				
 			} else {
 				app.getMainWindow().showNotification(bundle.getString("login.success"), Notification.TYPE_HUMANIZED_MESSAGE);
-				System.err.println("WS-ANSWER: "+answer);
+				System.err.println("WS-ANSWER: "+sessionKey);
 			}
 			
-			//TODO: interpret the answer and get sessionkey and usrvfilename
-			//This later uncomment
-//			IFrontend frontend = new FrontendImpl();
-//			frontend.installService("", "");
 		}
 		if(event.getButton() == app.getAdminButton()) {
 			Preferences pref = db.getPreferencesData(System.getenv("systemdrive")+"/uccDB/preferences.xml");
@@ -90,6 +87,11 @@ public class DesktopController implements Button.ClickListener {
 			main.addWindow(p);
 		}
 
+	}
+
+
+	public static String getSessionKey() {
+		return sessionKey;
 	}
 	
 

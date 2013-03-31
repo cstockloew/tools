@@ -135,7 +135,8 @@ public class LicenseController implements Property.ValueChangeListener, ClickLis
 			if (del.isDirectory()) {
 				deleteFiles(del);
 			}
-			del.delete();
+			if(!del.getPath().substring(del.getPath().indexOf(".")+1).equals("usrv"))
+				del.delete();
 		}
 
 	}

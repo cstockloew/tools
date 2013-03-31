@@ -1,5 +1,6 @@
 package org.universAAL.ucc.windows;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
@@ -22,6 +23,7 @@ public class DeployConfigView extends VerticalLayout {
 	private String base;
 	private ResourceBundle bundle;
 	private UccUI app;
+	private HashMap<String, String> peerNodes;
 	
 	public DeployConfigView(UccUI app, String serviceId, String uappPath) {
 		base = "resources.ucc";
@@ -48,9 +50,14 @@ public class DeployConfigView extends VerticalLayout {
 		select.setImmediate(true);
 		select.setNullSelectionAllowed(false);
 		//Add Nodes to dropdown box
+		peerNodes = new HashMap<String, String>();
 		for(Iterator entry = installer.getPeers().entrySet().iterator(); entry.hasNext();) {
-			if(entry != null)
-			select.addItem(entry.next().toString());
+			if(entry != null) {
+				String all = entry.next().toString();
+				String item = all.substring(all.indexOf("=")+1);
+				peerNodes.put(item, all);
+				select.addItem(item);
+			}
 		}
 		hl.addComponent(select);
 		addComponent(hl);
@@ -78,5 +85,11 @@ public class DeployConfigView extends VerticalLayout {
 	public void setSelect(NativeSelect select) {
 		this.select = select;
 	}
+
+	public HashMap<String, String> getPeerNodes() {
+		return peerNodes;
+	}
+	
+	
 
 }

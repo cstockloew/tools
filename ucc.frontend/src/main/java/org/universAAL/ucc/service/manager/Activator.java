@@ -1,5 +1,7 @@
 package org.universAAL.ucc.service.manager;
 
+import java.io.File;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -85,6 +87,20 @@ public class Activator implements BundleActivator {
 		context.ungetService(ref);
 		context.ungetService(dRef);
 		regis.unregister();
+		File file = new File(System.getenv("systemdrive")+"/tempUsrvFiles/");
+		deleteFiles(file);
+	}
+	
+	private void deleteFiles(File path) {
+		File[] files = path.listFiles();
+		for (File del : files) {
+			if (del.isDirectory()) {
+				deleteFiles(del);
+			}
+			if(!del.getPath().substring(del.getPath().indexOf(".")+1).equals("usrv"))
+				del.delete();
+		}
+
 	}
 
 	

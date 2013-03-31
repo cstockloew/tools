@@ -31,6 +31,7 @@ import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.DeployConfigView;
 import org.universAAL.ucc.windows.DeployStrategyView;
 import org.universAAL.ucc.windows.DeploymentInformationView;
+import org.universAAL.ucc.windows.NoConfigurationWindow;
 import org.universAAL.ucc.windows.UccUI;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -160,10 +161,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 								+ reg.getAllConfigDefinitions().size());
 						for (Configuration configurator : reg
 								.getAllConfigDefinitions()) {
-//							if (configurator.getBundlename() != null && configurator.getBundlename().equals(
-//									uapp.getBundleId())) {
+							if (configurator.getBundlename() != null && configurator.getBundlename().equals(
+									uapp.getBundleId())) {
 								conf = configurator;
-//							}
+							}
 						}
 						
 						if (conf != null) {
@@ -172,15 +173,13 @@ public class DeploymentInfoController implements Button.ClickListener,
 							cow.center();
 							app.getMainWindow().addWindow(cow);
 						} else {
-							app.getMainWindow().showNotification(
-									bundle.getString("installed.note"),
-									Notification.TYPE_HUMANIZED_MESSAGE);
+							NoConfigurationWindow ncw = new NoConfigurationWindow(bundle.getString("installed.note"));
+							app.getMainWindow().addWindow(ncw);
 						} bc.ungetService(configRef);
 						
 					} else {
-						
-						// app.getMainWindow().showNotification(res.name(),
-						// Notification.TYPE_ERROR_MESSAGE);
+						NoConfigurationWindow ncw = new NoConfigurationWindow(bundle.getString("install.error"));
+						app.getMainWindow().addWindow(ncw);
 					}
 					
 				}
@@ -194,17 +193,17 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.err.println("Tree node was removed");
 				dsvMap.remove(selected);
 				dcvMap.remove(selected);
-				
 				if (dsvMap.isEmpty() && dcvMap.isEmpty()) {
-					app.getMainWindow().showNotification(
-							bundle.getString("success.install.msg"),
-							Notification.TYPE_HUMANIZED_MESSAGE);
+//					app.getMainWindow().showNotification(
+//							bundle.getString("success.install.msg"),
+//							Notification.TYPE_HUMANIZED_MESSAGE);
 					app.getMainWindow().removeWindow(win);
 					File f = new File(System.getenv("systemdrive")
 							+ "/tempUsrvFiles/");
 					deleteFiles(f);
 
 				} 
+				
 				selected = (String) win.getTree().getItemIds().iterator().next();
 				win.getTree().select(selected);
 			}
@@ -223,10 +222,11 @@ public class DeploymentInfoController implements Button.ClickListener,
 	private void deleteFiles(File path) {
 		File[] files = path.listFiles();
 		for (File del : files) {
-			if (del.isDirectory()) {
+			if (del.isDirectory() && !del.getPath().substring(del.getPath().indexOf(".")+1).equals("usrv")) {
 				deleteFiles(del);
 			}
-			del.delete();
+			if(!del.getPath().substring(del.getPath().indexOf(".")+1).equals("usrv"))
+				del.delete();
 		}
 
 	}
@@ -317,13 +317,13 @@ public class DeploymentInfoController implements Button.ClickListener,
 		peersToCheck.putAll(peers);
 		// Extract Peer Info from user selection
 		String selPeer = dcvMap.get(selected).getSelect().getValue().toString();
+		String value = dcvMap.get(selected).getPeerNodes().get(selPeer);
 		System.err.println("The user selected peer info: " + selPeer);
-		String key = selPeer.substring(0, selPeer.indexOf("="));
+		String key = value.substring(0, value.indexOf("="));
 		String id = peers.get(key).getPeerID();
 		PeerRole role = peers.get(key).getRole();
 		System.err.println("Peer-ROLE: " + role);
 		System.err.println("ID: " + id);
-		System.err.println(selPeer);
 		PeerCard peer = new PeerCard(id, role);
 		if (checkDeployementUnit(uapp.getPart().getDeploymentUnit(), peer)) {
 			System.err.println("In CHECKDEPLOYMENTUNIT!");
