@@ -18,8 +18,8 @@ public class Activator implements BundleActivator {
 
     public void start(BundleContext bc) throws Exception {
     	context = bc;
-        Dictionary props = new Hashtable();
-
+        Dictionary<String, String> props = new Hashtable<String, String>();
+        System.err.println("DEPLOYMANAGER STARTED");
         props.put("service.exported.interfaces", "*");
         props.put("service.exported.configs", "org.apache.cxf.ws");
         InetAddress thisIp =InetAddress.getLocalHost();        

@@ -66,17 +66,25 @@ public class FrontendImpl implements IFrontend {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-
+		URI uri = null;
+		try {
+			uri = new URI(downloadUri);
+		} catch (URISyntaxException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		System.err.println(uri.getPath());
+		System.err.println("Called install service"+sessionkey+ " "+ downloadUri);
 		//check for sessionkey
 		if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		System.out.println("[FrontendImpl.installService] start download from " + downloadUri);
 		// TO be unmarked
-//		String usrvName = downloadUsrvFile(downloadUri, "HWO.usrv.usrv");
+		String usrvName = downloadUsrvFile(downloadUri, "HWO.usrv.usrv");
 		// Just for testing
 		try {
 			// extracts the downloaded usrv file
-			extractUsrvFile(usrvLocalStore+"corrected_hwo_usrv.usrv");
+			extractUsrvFile(usrvLocalStore+usrvName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

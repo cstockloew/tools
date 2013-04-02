@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1364745730585
+Bnd-LastModified: 1364912057722
 Build-Jdk: 1.7.0_17
 Built-By: merkle
 Bundle-Activator: org.universAAL.ucc.service.manager.Activator
@@ -27,7 +27,7 @@ Export-Package: org.universAAL.ucc.client.util;uses:="org.universAAL.ucc
  c.api,org.universAAL.ucc.windows,org.universAAL.ucc.service.api,org.uni
  versAAL.middleware.interfaces.mpa.model,com.vaadin.data,org.universAAL.
  ucc.configuration.view,org.universAAL.ucc.model,org.universAAL.middlewa
- re.managers.api,org.universAAL.ucc.service.manager,org.osgi.framework,o
+ re.managers.api,org.osgi.framework,org.universAAL.ucc.service.manager,o
  rg.universAAL.ucc.model.install";version="2.0.1.SNAPSHOT",org.universAA
  L.ucc.controller.preferences;uses:="org.universAAL.ucc.model.preference
  s,org.universAAL.ucc.database.preferences,org.osgi.framework,org.univer

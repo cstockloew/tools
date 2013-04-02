@@ -127,6 +127,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 							.toString()
 							.equals(bundle.getString("opt.selected.nodes"))) {
 						config = buildUserInstallationLayout(uapp);
+						if(config.isEmpty()) return;
 					}
 					//Deploy to MW
 					UAPPPackage uapack = null;
@@ -316,6 +317,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		// Create peer from user selection and test if peer fits for deployment
 		peersToCheck.putAll(peers);
 		// Extract Peer Info from user selection
+		if(dcvMap.get(selected).getSelect().getValue() != null && !(dcvMap.get(selected).getSelect().getValue().toString().equals(""))) {
 		String selPeer = dcvMap.get(selected).getSelect().getValue().toString();
 		String value = dcvMap.get(selected).getPeerNodes().get(selPeer);
 		System.err.println("The user selected peer info: " + selPeer);
@@ -334,7 +336,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 					bundle.getString("peer.available.not"),
 					Notification.TYPE_WARNING_MESSAGE);
 		}
-
+		} else {
+			app.getMainWindow().showNotification(bundle.getString("select.node.msg"), Notification.TYPE_ERROR_MESSAGE);
+	
+		}
 		return mapLayout;
 	}
 
