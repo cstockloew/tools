@@ -170,10 +170,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 		
 	}
 
-	private void createMainBar(String xml, ExpandBar mainBar /*
-															 * , ExpandBar
-															 * catBar
-															 */) {
+	private void createMainBar(String xml, ExpandBar mainBar ) {
 
 		Composite mainComp = new Composite(mainBar, SWT.NONE);
 		GridLayout mainLayout = new GridLayout(2, false);
@@ -182,7 +179,6 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 		try {
 			this.doc = new SAXBuilder().build(new StringReader(xml));
 
-			// Element xmlRoot = doc.getRootElement();
 			Element config = doc.getRootElement(); // xmlRoot.getChild("universaal:configuration")
 
 			Label l1;
