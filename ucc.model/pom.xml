@@ -23,6 +23,10 @@
 <!--			<version>1.3.2-SNAPSHOT</version>-->
 <!--			<type>bundle</type>-->
 		</dependency>
+		<dependency>
+    			<groupId>org.universAAL.middleware</groupId>
+    			<artifactId>mw.schemas</artifactId>
+   		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

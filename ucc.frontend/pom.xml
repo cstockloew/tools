@@ -99,7 +99,10 @@
 			<artifactId>cxf-rt-transports-http-jetty</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
-
+		<dependency>
+    			<groupId>org.universAAL.middleware</groupId>
+    			<artifactId>mw.schemas</artifactId>
+   		</dependency>
 	</dependencies>
 
 	<build>
