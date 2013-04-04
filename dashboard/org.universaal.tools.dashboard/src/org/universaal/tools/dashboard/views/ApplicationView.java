@@ -33,6 +33,7 @@ public class ApplicationView extends Composite {
 	private Button btnCreateAndEdit;
 	private Group grpConfiguration;
 	private Button btnExtractParameters;
+	private Button btnNewParameters;
 	
 	/**
 	 * Create the composite.
@@ -153,9 +154,13 @@ public class ApplicationView extends Composite {
 		grpConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		grpConfiguration.setText("Configuration");
 		
+		btnNewParameters = new Button(grpConfiguration, SWT.NONE);
+		btnNewParameters.setText("Create New");
+		btnNewParameters.setEnabled(false);
+		
 		btnExtractParameters = new Button(grpConfiguration, SWT.NONE);
-		btnExtractParameters.setText("Start Editor");
-		btnExtractParameters.setEnabled(false);
+		btnExtractParameters.setText("Open Editor");
+		//btnExtractParameters.setEnabled(false);
 		
 		Group grpApplicationDescription = new Group(this, SWT.NONE);
 		grpApplicationDescription.setFont(SWTResourceManager.getFont("Lucida Grande", 11, SWT.BOLD));
@@ -199,9 +204,10 @@ public class ApplicationView extends Composite {
 		addCommandCallingListener(btnCreateClass,"org.universaal.tools.newwizard.plugin.command.startNewItemWizard", "AAL Studio Project Wizards");
 		//		btnImportClass.addSelectionListener(new TemporaryListener(this, "Import Class"));
 
-		//Extract configuration
+		//Configuration Editor
 		addCommandCallingListener(btnExtractParameters, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
-		
+		//addCommandCallingListener(btnNewParameters, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
+
 		//Package
 		addCommandCallingListener(btnCombine, "org.universaal.tools.packaging.tool.commands.MPAaction", "AAL Studio Application Packager");
 		
