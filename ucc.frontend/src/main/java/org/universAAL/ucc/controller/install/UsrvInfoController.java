@@ -20,6 +20,7 @@ public class UsrvInfoController implements Button.ClickListener{
 	private ResourceBundle bundle;
 	
 	public UsrvInfoController(AALService usrv, LicenceWindow lw, UccUI app) {
+		System.err.println("in UsrvInfoController");
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
 		this.usrv = usrv;

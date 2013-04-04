@@ -22,8 +22,8 @@ import java.util.zip.ZipInputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.universAAL.middleware.deploymaneger.uapp.model.Part;
-//import org.universAAL.middleware.interfaces.mpa.model.Part;
+//import org.universAAL.middleware.deploymaneger.uapp.model.Part;
+import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
@@ -76,11 +76,9 @@ public class FrontendImpl implements IFrontend {
 			e2.printStackTrace();
 		}
 		
-		System.err.println("Called install service"+sessionkey+ " "+ downloadUri);
 		//check for sessionkey
 //		if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
-		System.out.println("[FrontendImpl.installService] start download from " + downloadUri);
 		// TO be unmarked
 //		String usrvName = "";
 //		try {
@@ -112,7 +110,7 @@ public class FrontendImpl implements IFrontend {
 		//parse uapp.config.xml
 		ArrayList<UAPP> apps = null;
 		try {
-			apps = parseUappConfiguration("config/hwo.usrv.xml");
+			apps = parseUappConfiguration("config/hwo.uapp.xml");
 		} catch (SAXException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -120,10 +118,11 @@ public class FrontendImpl implements IFrontend {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		try {
 //			 parses the configuration xml from the extracted usrv file
 //			 and creates the views (LicenseView and so on) to show to the user for further processing
-			parseConfiguration("config/hwo.uapp.xml", apps);
+			parseConfiguration("config/hwo.usrv.xml", apps);
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -347,7 +346,7 @@ public class FrontendImpl implements IFrontend {
 			
 			}
 //		}
-		
+		System.err.println("parseUAPPconfiguration");
 		return appsList;
 		
 	}
@@ -444,7 +443,7 @@ public class FrontendImpl implements IFrontend {
 			aal.setLicenses(license);
 
 		}
-		
+		System.err.println("SET LicenseWindow");
 		LicenceWindow lw = new LicenceWindow(UccUI.getInstance(), licenseList, aal);
 		new UsrvInfoController(aal, lw, UccUI.getInstance());
 		return aal;
