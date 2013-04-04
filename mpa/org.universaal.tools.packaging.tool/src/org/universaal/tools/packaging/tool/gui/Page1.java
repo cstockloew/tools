@@ -86,8 +86,8 @@ public class Page1 extends PageImpl {
 
 		Label label8 = new Label(container, SWT.NULL);
 		version_build = new Text(container, SWT.BORDER | SWT.SINGLE);
-		mandatory.add(version_build);
-		label8.setText("* Build");
+		//mandatory.add(version_build);
+		label8.setText("Build");
 		version_build.setText(app.getApplication().getVersion().getBuild());
 		version_build.addVerifyListener(new AlphabeticV());
 		version_build.setLayoutData(gd);

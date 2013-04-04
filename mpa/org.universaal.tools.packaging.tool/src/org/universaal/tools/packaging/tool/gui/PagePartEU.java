@@ -29,7 +29,8 @@ public class PagePartEU extends PageImpl {
 	private File f1, f2, f3, f4;
 
 	protected PagePartEU(String pageName, int pn) {
-		super(pageName, "Specify execution units per part");
+		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
+				" - Specify execution units per part");
 		this.partNumber = pn;
 	}
 
@@ -44,7 +45,7 @@ public class PagePartEU extends PageImpl {
 		layout.numColumns = 3;
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
-		List<ExecutionUnit> eus = app.getParts().get(partNumber).getExecutionUnits();
+		List<ExecutionUnit> eus = app.getAppParts().get(partNumber).getExecutionUnits();
 
 		Label l1 = new Label(container, SWT.NULL);
 		configFile1 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -209,32 +210,32 @@ public class PagePartEU extends PageImpl {
 	@Override
 	public boolean nextPressed() {
 
-		String id = app.getParts().get(partNumber).getDeploymentUnits().get(0).getId();
+		String id = app.getAppParts().get(partNumber).getDeploymentUnits().get(0).getId();
 
 		try{
 			if(f1 != null){
-				if(app.getParts().get(partNumber).getExecutionUnits().size() == 0)
-					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f1, Integer.parseInt(ssl1.getText())));
+				if(app.getAppParts().get(partNumber).getExecutionUnits().size() == 0)
+					app.getAppParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f1, Integer.parseInt(ssl1.getText())));
 				else
-					app.getParts().get(partNumber).getExecutionUnits().set(0, new ExecutionUnit(id, f1, Integer.parseInt(ssl1.getText())));
+					app.getAppParts().get(partNumber).getExecutionUnits().set(0, new ExecutionUnit(id, f1, Integer.parseInt(ssl1.getText())));
 			}
 			if(f2 != null){
-				if(app.getParts().get(partNumber).getExecutionUnits().size() == 1)
-					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f2, Integer.parseInt(ssl2.getText())));
+				if(app.getAppParts().get(partNumber).getExecutionUnits().size() == 1)
+					app.getAppParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f2, Integer.parseInt(ssl2.getText())));
 				else
-					app.getParts().get(partNumber).getExecutionUnits().set(1, new ExecutionUnit(id, f2, Integer.parseInt(ssl2.getText())));
+					app.getAppParts().get(partNumber).getExecutionUnits().set(1, new ExecutionUnit(id, f2, Integer.parseInt(ssl2.getText())));
 			}
 			if(f3 != null){
-				if(app.getParts().get(partNumber).getExecutionUnits().size() == 2)
-					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f3, Integer.parseInt(ssl3.getText())));
+				if(app.getAppParts().get(partNumber).getExecutionUnits().size() == 2)
+					app.getAppParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f3, Integer.parseInt(ssl3.getText())));
 				else
-					app.getParts().get(partNumber).getExecutionUnits().set(2, new ExecutionUnit(id, f3, Integer.parseInt(ssl3.getText())));
+					app.getAppParts().get(partNumber).getExecutionUnits().set(2, new ExecutionUnit(id, f3, Integer.parseInt(ssl3.getText())));
 			}
 			if(f4 != null){
-				if(app.getParts().get(partNumber).getExecutionUnits().size() == 3)
-					app.getParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f4, Integer.parseInt(ssl4.getText())));
+				if(app.getAppParts().get(partNumber).getExecutionUnits().size() == 3)
+					app.getAppParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, f4, Integer.parseInt(ssl4.getText())));
 				else
-					app.getParts().get(partNumber).getExecutionUnits().set(3, new ExecutionUnit(id, f4, Integer.parseInt(ssl4.getText())));
+					app.getAppParts().get(partNumber).getExecutionUnits().set(3, new ExecutionUnit(id, f4, Integer.parseInt(ssl4.getText())));
 			}
 		}
 		catch(Exception ex){

@@ -189,18 +189,18 @@ public class PageLicenses extends PageImpl {
 
 		gd = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		final Button b = new Button(container, SWT.PUSH);
-		b.setText("Add another license");
-		Label t = new Label(container, SWT.NULL);
-		t.setText("License "+app.getApplication().getLicenses().size());
+		b.setText("Add another license (in next page)");
+		//		Label t = new Label(container, SWT.NULL);
+		//		t.setText("License "+app.getApplication().getLicenses().size());
 		b.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
 				addLicense = !addLicense;
 				if(!addLicense){
-					b.setText("Add license(s)");
+					b.setText("Add another license (in next page)");
 				}
 				else{
-					b.setText("Remove license adding");
+					b.setText("Do not add a new license");
 				}
 			}
 
@@ -208,11 +208,15 @@ public class PageLicenses extends PageImpl {
 			}
 		});
 		b.setLayoutData(gd);
-		Label l9 = new Label(container, SWT.NULL);
-		l9.setText("(of "+app.getApplication().getLicenses().size()+")");
+		//		Label l9 = new Label(container, SWT.NULL);
+		//		l9.setText("(of "+app.getApplication().getLicenses().size()+")");
 
 		Label empty4 = new Label(container, SWT.NULL);
 		empty4.setText("");
+		Label empty5 = new Label(container, SWT.NULL);
+		empty5.setText("");
+		Label empty6 = new Label(container, SWT.NULL);
+		empty6.setText("");
 	}
 
 	@Override

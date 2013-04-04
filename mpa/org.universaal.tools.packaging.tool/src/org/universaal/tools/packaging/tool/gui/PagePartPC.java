@@ -29,7 +29,8 @@ public class PagePartPC extends PageImpl {
 	private Text targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
 
 	protected PagePartPC(String pageName, int pn) {
-		super(pageName, "Specify capabilities per part");
+		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
+				" - Specify capabilities per part");
 		this.partNumber = pn;
 	}
 
@@ -44,7 +45,7 @@ public class PagePartPC extends PageImpl {
 		layout.numColumns = 2;
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
-		Properties capabilities = app.getParts().get(partNumber).getPartCapabilities();
+		Properties capabilities = app.getAppParts().get(partNumber).getPartCapabilities();
 
 		Label l1 = new Label(container, SWT.NULL);
 		targetSpace = new Combo (container, SWT.READ_ONLY);
@@ -111,49 +112,49 @@ public class PagePartPC extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_SPACE.toString(), targetSpace.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_SPACE.toString(), targetSpace.getText());				
 			}
 		});
 		targetSpaceVersion.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_SPACE_VERSION.toString(), targetSpaceVersion.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_SPACE_VERSION.toString(), targetSpaceVersion.getText());				
 			}
 		});
 		mw_version.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getParts().get(partNumber).setCapability(Capability.Mandatory.MW_VERSION.toString(), mw_version.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.MW_VERSION.toString(), mw_version.getText());				
 			}
 		});
 		targetOntologies.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getParts().get(partNumber).setCapability(Capability.Mandatory.ONTOLOGIES.toString(), targetOntologies.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.ONTOLOGIES.toString(), targetOntologies.getText());				
 			}
 		});
 		targetContainerName.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_CONTAINER_NAME.toString(), targetContainerName.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_CONTAINER_NAME.toString(), targetContainerName.getText());				
 			}
 		});
 		targetContainerVersion.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_CONTAINER_VERSION.toString(), targetContainerVersion.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_CONTAINER_VERSION.toString(), targetContainerVersion.getText());				
 			}
 		});
 		targetDeploymentTool.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString(), targetDeploymentTool.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString(), targetDeploymentTool.getText());				
 			}
 		});
 	}

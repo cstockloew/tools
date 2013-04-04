@@ -17,7 +17,6 @@ import org.universaal.tools.packaging.api.WizardMod;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
-import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
 import org.universaal.tools.packaging.tool.zip.UAPP;
 
@@ -95,8 +94,8 @@ public class GUI extends WizardMod {
 
 				String partName = parts.get(i).getName();
 
-				POMParser p = new POMParser(new File(parts.get(i).getFile("pom.xml").getLocation()+""));
-				mpa.getAAL_UAPP().getParts().add(new Part("part"+(i+1)));
+				//POMParser p = new POMParser(new File(parts.get(i).getFile("pom.xml").getLocation()+""));
+				mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1)));
 
 				ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
 				addPage(ppDU);
@@ -166,10 +165,10 @@ public class GUI extends WizardMod {
 			}
 
 			// copy properties files
-			for(int i = 0; i < mpa.getAAL_UAPP().getParts().size(); i++){
-				for(int j = 0; j < mpa.getAAL_UAPP().getParts().get(i).getExecutionUnits().size(); j++){
+			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
+				for(int j = 0; j < mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().size(); j++){
 
-					File configFile = mpa.getAAL_UAPP().getParts().get(i).getExecutionUnits().get(j).getConfigFile();
+					File configFile = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).getConfigFile();
 					copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
 				}
 			}

@@ -45,23 +45,23 @@ public class Page5 extends PageImpl {
 
 		List<IProject> parts = GUI.getInstance().getParts();
 
-		List<RemoteManagement> remoteM = app.getManagement().getRemoteManagement();
+		List<RemoteManagement> remoteM = app.getAppManagement().getRemoteManagement();
 		while(remoteM.size() < parts.size()){
-			remoteM.add(app.getManagement().new RemoteManagement());
+			remoteM.add(app.getAppManagement().new RemoteManagement());
 		}
 
 		Label l1 = new Label(container, SWT.NULL);
 		contact = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(contact);
 		l1.setText("Contact Person");
-		contact.setText(app.getManagement().getContact());		
+		contact.setText(app.getAppManagement().getContact());		
 		contact.addVerifyListener(new AlphabeticV());
 		contact.setLayoutData(gd);	
 		contact.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getManagement().setContact(contact.getText());
+				app.getAppManagement().setContact(contact.getText());
 			}
 		});
 
@@ -118,13 +118,13 @@ public class Page5 extends PageImpl {
 
 		for(int j = 0; j < artifacts.size(); j++){
 
-			app.getManagement().getRemoteManagement().get(j).getSoftware().setArtifactID(artifacts.get(j).getText());
-			app.getManagement().getRemoteManagement().get(j).getSoftware().getVersion().setVersion(versions.get(j).getText());
+			app.getAppManagement().getRemoteManagement().get(j).getSoftware().setArtifactID(artifacts.get(j).getText());
+			app.getAppManagement().getRemoteManagement().get(j).getSoftware().getVersion().setVersion(versions.get(j).getText());
 
 			String[] ps = protocols.get(j).getText().split(",");
 			for(int i = 0; i < ps.length; i++)
 				if(ps[i] != null)
-					app.getManagement().getRemoteManagement().get(j).getProtocols().add(ps[i]);
+					app.getAppManagement().getRemoteManagement().get(j).getProtocols().add(ps[i]);
 		}
 
 		return true;

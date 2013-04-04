@@ -43,7 +43,8 @@ public class PagePartDU extends PageImpl {
 	private Button ckbOS1, ckbPL1, ckbCU1, ckbKar;
 
 	protected PagePartDU(String pageName, int pn) {
-		super(pageName, "Specify deployment requirements per part");
+		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
+				" - Specify deployment requirements per part");
 		this.partNumber = pn;
 
 		value = "A";
@@ -149,7 +150,7 @@ public class PagePartDU extends PageImpl {
 			}
 		});		
 
-		List<DeploymentUnit> DUs = app.getParts().get(partNumber).getDeploymentUnits();
+		List<DeploymentUnit> DUs = app.getAppParts().get(partNumber).getDeploymentUnits();
 
 		Label label1 = new Label(container, SWT.NULL);
 		os1 = new Combo(container, SWT.READ_ONLY);
@@ -293,10 +294,10 @@ public class PagePartDU extends PageImpl {
 		String id = "_"+numb+alph;
 
 		if(ckbOS1.getSelection()){
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, OS.valueOf(os1.getText())));
+			app.getAppParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, OS.valueOf(os1.getText())));
 		}
 		else if(ckbPL1.getSelection()){
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, Platform.valueOf(platform1.getText())));
+			app.getAppParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, Platform.valueOf(platform1.getText())));
 		}
 		else if(ckbCU1.getSelection()){
 			ContainerUnit cu = null;
@@ -315,7 +316,7 @@ public class PagePartDU extends PageImpl {
 			else if(!cu1.getText().equals(Container.KARAF.toString()) && !cu1.getText().equals(Container.ANDROID.toString())){
 				cu = new ContainerUnit(Container.valueOf(cu1.getText()));
 			}
-			app.getParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, cu));
+			app.getAppParts().get(partNumber).getDeploymentUnits().add(new DeploymentUnit(id, cu));
 		}
 
 		return true;

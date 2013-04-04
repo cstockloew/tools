@@ -80,7 +80,7 @@ public class KarafFeaturesGenerator {
 		if(execution_result != null && execution_result.getExceptions() != null)
 			for(int i = 0; i < execution_result.getExceptions().size(); i++)
 				ret = ret.concat(execution_result.getExceptions().get(i).getMessage()+"\n");
-		System.out.println("[ERROR] The generation of Karaf features has failed: "+ret);
+		System.out.println("[ERROR] The generation of Karaf features is failed: "+ret);
 
 		return "";
 	}
@@ -205,7 +205,7 @@ public class KarafFeaturesGenerator {
 	private void generateKarFile(IProject part){
 
 		try{
-			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+			String path = part.getLocation().toString(); //ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
 			File target, feature;
 			target = new File(path+"/target");
 			feature = new File(path+"/target/feature");
@@ -263,7 +263,7 @@ public class KarafFeaturesGenerator {
 		String xml = "";
 		try {
 
-			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+			String path = part.getLocation().toString(); // ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
 			File features = new File(path+"/target/classes/feature.xml");
 
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();

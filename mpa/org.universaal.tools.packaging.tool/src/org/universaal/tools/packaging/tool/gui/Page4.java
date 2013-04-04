@@ -67,7 +67,7 @@ public class Page4 extends PageImpl {
 		logicalCriteria = new ArrayList<String>();
 		logicalRelations = new ArrayList<String>();
 
-		List<Requirement> list = app.getRequirements().getRequirementsList();
+		List<Requirement> list = app.getAppRequirements().getRequirementsList();
 
 		for(int i = offset; (i < list.size() && i < offset+5); i++){
 
@@ -448,7 +448,7 @@ public class Page4 extends PageImpl {
 		Requirement rr = new Requirement(r, false);
 
 		if(!alreadyIn(rr))
-			app.getRequirements().getRequirementsList().add(rr);
+			app.getAppRequirements().getRequirementsList().add(rr);
 	}
 
 	private void single(Text req1, Text val1, LogicalCriteria lc1){
@@ -457,7 +457,7 @@ public class Page4 extends PageImpl {
 		Requirement rr = new Requirement(r, false);
 
 		if(!alreadyIn(rr))
-			app.getRequirements().getRequirementsList().add(rr);
+			app.getAppRequirements().getRequirementsList().add(rr);
 	}
 
 	private void group(LogicalRelation lr, String req1, String val1, LogicalCriteria lc1, String req2, String val2, LogicalCriteria lc2){
@@ -469,15 +469,15 @@ public class Page4 extends PageImpl {
 		Requirement rr = new Requirement(r, false);
 
 		if(!alreadyIn(rr))
-			app.getRequirements().getRequirementsList().add(rr);
+			app.getAppRequirements().getRequirementsList().add(rr);
 	}
 
 	private boolean alreadyIn(Requirement r){
 
 		if(r != null){
-			for(int i = 0; i < app.getRequirements().getRequirementsList().size(); i++){
+			for(int i = 0; i < app.getAppRequirements().getRequirementsList().size(); i++){
 				if(//this.app.getRequirements().getRequirementsList().get(i) != null &&
-						this.app.getRequirements().getRequirementsList().get(i).equals(r)){
+						this.app.getAppRequirements().getRequirementsList().get(i).equals(r)){
 
 					Set<Entry<Requirement, REQ_STATE>> entryset = this.thisReqsPage.entrySet();
 					Iterator<Entry<Requirement, REQ_STATE>> it = entryset.iterator();
@@ -530,11 +530,11 @@ public class Page4 extends PageImpl {
 
 			if(current.getValue() == REQ_STATE.TO_BE_DELETED){
 
-				for(int i = 0; i < this.app.getRequirements().getRequirementsList().size(); i++){
+				for(int i = 0; i < this.app.getAppRequirements().getRequirementsList().size(); i++){
 					if(//this.app.getRequirements().getRequirementsList().get(i) != null && 
-							this.app.getRequirements().getRequirementsList().get(i).equals(current.getKey())){
+							this.app.getAppRequirements().getRequirementsList().get(i).equals(current.getKey())){
 						//System.out.println("\n**removing: "+this.app.getRequirements().getRequirementsList().get(i).getXML());
-						this.app.getRequirements().getRequirementsList().set(i, null);
+						this.app.getAppRequirements().getRequirementsList().set(i, null);
 					}
 				}
 			}

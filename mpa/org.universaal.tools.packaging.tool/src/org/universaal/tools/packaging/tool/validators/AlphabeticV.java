@@ -12,6 +12,7 @@ public class AlphabeticV implements VerifyListener {
 						Character.isDigit(e.character) || 
 						e.character == '-' || 
 						e.character == '\b' || 
+						e.character == '.' || 
 						e.character == ' ' || 
 						e.character == ',') && 
 						(e.character != '<' && 

@@ -11,46 +11,46 @@ public class Application {
 	public static final String defaultVersion = "major.minor.micro.build";
 
 	private App application;
-	private ApplicationCapabilities capabilities;
-	private ApplicationRequirements requirements;
-	private ApplicationManagement management;
-	private List<Part> parts;
+	private ApplicationCapabilities appCapabilities;
+	private ApplicationRequirements appRequirements;
+	private ApplicationManagement appManagement;
+	private List<Part> appParts;
 
 	public Application(){
 		this.application = new App();
-		this.capabilities = new ApplicationCapabilities();
-		this.requirements = new ApplicationRequirements();
-		this.management = new ApplicationManagement();
+		this.appCapabilities = new ApplicationCapabilities();
+		this.appRequirements = new ApplicationRequirements();
+		this.appManagement = new ApplicationManagement();
 	}
 
 	public App getApplication() {
 		return application;
 	}
-	public void setApplication(App app) {
-		this.application = app;
+	public void setApplication(App application) {
+		this.application = application;
 	}
-	public ApplicationCapabilities getCapabilities() {
-		return capabilities;
+	public ApplicationCapabilities getAppCapabilities() {
+		return appCapabilities;
 	}
-	public void setCapabilities(ApplicationCapabilities capabilities) {
-		this.capabilities = capabilities;
+	public void setAppCapabilities(ApplicationCapabilities appCapabilities) {
+		this.appCapabilities = appCapabilities;
 	}
-	public ApplicationRequirements getRequirements() {
-		return requirements;
+	public ApplicationRequirements getAppRequirements() {
+		return appRequirements;
 	}
-	public void setRequirements(ApplicationRequirements requirements) {
-		this.requirements = requirements;
+	public void setAppRequirements(ApplicationRequirements appRequirements) {
+		this.appRequirements = appRequirements;
 	}
-	public ApplicationManagement getManagement() {
-		return management;
+	public ApplicationManagement getAppManagement() {
+		return appManagement;
 	}
-	public void setManagement(ApplicationManagement management) {
-		this.management = management;
+	public void setAppManagement(ApplicationManagement appManagement) {
+		this.appManagement = appManagement;
 	}
-	public List<Part> getParts() {
-		if(this.parts == null)
-			this.parts = new ArrayList<Part>();
-		return parts;
+	public List<Part> getAppParts() {
+		if(this.appParts == null)
+			this.appParts = new ArrayList<Part>();
+		return appParts;
 	}
 
 	public String getXML(){
@@ -58,12 +58,12 @@ public class Application {
 		String r = "";
 
 		r = r.concat("<app>"+application.getXML()+"</app>");
-		r = r.concat("<applicationCapabilities>"+capabilities.getXML()+"</applicationCapabilities>");
-		r = r.concat("<applicationRequirements>"+requirements.getXML()+"</applicationRequirements>");
-		r = r.concat("<applicationManagement>"+management.getXML()+"</applicationManagement>");
+		r = r.concat("<applicationCapabilities>"+appCapabilities.getXML()+"</applicationCapabilities>");
+		r = r.concat("<applicationRequirements>"+appRequirements.getXML()+"</applicationRequirements>");
+		r = r.concat("<applicationManagement>"+appManagement.getXML()+"</applicationManagement>");
 		r = r.concat("<applicationPart>");
-		for(int i = 0; i < getParts().size(); i++)
-			r = r.concat(parts.get(i).getXML());
+		for(int i = 0; i < getAppParts().size(); i++)
+			r = r.concat(appParts.get(i).getXML());
 		r = r.concat("</applicationPart>");
 
 		return r;

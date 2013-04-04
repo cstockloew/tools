@@ -23,10 +23,10 @@ public class CreateJar {
 
 		GUI g = GUI.getInstance();
 		String destination_path = g.getTempDir()+"/bin/part"+partNumber+"/";
+		POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));			
 
-		try{			
-			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
-			POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));			
+		String path = part.getLocation().toString(); //ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+		try{							
 			String fileName = p.getArtifactID()+"-"+p.getVersion()+".jar";
 
 			Manifest manifest = new Manifest();
@@ -42,8 +42,9 @@ public class CreateJar {
 
 		try{
 			//if file KAR is present, add it to partX folder
-			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
-			POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
+			
+			//String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+			//POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
 			String fileName = p.getArtifactID()+"-"+p.getVersion()+".kar";
 			File kar = new File(path+"/target/"+fileName);
 			if(kar.exists())

@@ -8,13 +8,13 @@ import org.eclipse.swt.widgets.Shell;
 
 public class Dialog {
 
-	public File open(Shell s, String[] filterExt, boolean open, String topText){
+	public File open(Shell shell, String[] filterExt, boolean open, String topText){
 
 		FileDialog fd;
 		if(open)
-			fd = new FileDialog(s, SWT.OPEN);
+			fd = new FileDialog(shell, SWT.OPEN);
 		else
-			fd = new FileDialog(s, SWT.SAVE);
+			fd = new FileDialog(shell, SWT.SAVE);
 		fd.setText(topText);
 		fd.setFilterPath("C:/");
 		fd.setFileName("");
@@ -25,13 +25,13 @@ public class Dialog {
 		return new File(selected);
 	}
 
-	public File open(Shell s, String filename, String[] filterExt, boolean open, String topText){
+	public File open(Shell shell, String filename, String[] filterExt, boolean open, String topText){
 
 		FileDialog fd;
 		if(open)
-			fd = new FileDialog(s, SWT.OPEN);
+			fd = new FileDialog(shell, SWT.OPEN);
 		else
-			fd = new FileDialog(s, SWT.SAVE);
+			fd = new FileDialog(shell, SWT.SAVE);
 		fd.setText(topText);
 		fd.setFilterPath("C:/");
 		fd.setFileName(filename);

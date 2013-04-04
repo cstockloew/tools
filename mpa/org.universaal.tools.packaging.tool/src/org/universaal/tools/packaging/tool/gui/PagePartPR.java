@@ -43,8 +43,8 @@ public class PagePartPR extends PageImpl {
 	private Map<Requirement, REQ_STATE> thisReqsPage;
 
 	protected PagePartPR(String pageName, int pn, int offset, LogicalRelation lrFromPreviousPage, SingleRequirement srFromPreviousPage) {
-
-		super(pageName, "Specify requirements of this part of your MPA");
+		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
+				" - Specify requirements of this part of your MPA");
 		this.partNumber = pn;
 
 		this.offset = offset;
@@ -73,7 +73,7 @@ public class PagePartPR extends PageImpl {
 		logicalCriteria = new ArrayList<String>();
 		logicalRelations = new ArrayList<String>();
 
-		List<Requirement> list = app.getParts().get(partNumber).getPartRequirements();
+		List<Requirement> list = app.getAppParts().get(partNumber).getPartRequirements();
 
 		for(int i = offset; (i < list.size() && i < offset+5); i++){
 
@@ -460,7 +460,7 @@ public class PagePartPR extends PageImpl {
 		Requirement rr = new Requirement(r, false);
 
 		if(!alreadyIn(rr))
-			app.getParts().get(partNumber).getPartRequirements().add(rr);
+			app.getAppParts().get(partNumber).getPartRequirements().add(rr);
 	}
 
 	private void single(Text req1, Text val1, LogicalCriteria lc1){
@@ -469,7 +469,7 @@ public class PagePartPR extends PageImpl {
 		Requirement rr = new Requirement(r, false);
 
 		if(!alreadyIn(rr))
-			app.getParts().get(partNumber).getPartRequirements().add(rr);
+			app.getAppParts().get(partNumber).getPartRequirements().add(rr);
 	}
 
 	private void group(LogicalRelation lr, String req1, String val1, LogicalCriteria lc1, String req2, String val2, LogicalCriteria lc2){
@@ -481,14 +481,14 @@ public class PagePartPR extends PageImpl {
 		Requirement rr = new Requirement(r, false);
 
 		if(!alreadyIn(rr))
-			app.getParts().get(partNumber).getPartRequirements().add(rr);
+			app.getAppParts().get(partNumber).getPartRequirements().add(rr);
 	}
 
 	private boolean alreadyIn(Requirement r){
 
 		if(r != null){
-			for(int i = 0; i < app.getParts().get(partNumber).getPartRequirements().size(); i++){
-				if(this.app.getParts().get(partNumber).getPartRequirements().get(i).equals(r)){
+			for(int i = 0; i < app.getAppParts().get(partNumber).getPartRequirements().size(); i++){
+				if(this.app.getAppParts().get(partNumber).getPartRequirements().get(i).equals(r)){
 
 					Set<Entry<Requirement, REQ_STATE>> entryset = this.thisReqsPage.entrySet();
 					Iterator<Entry<Requirement, REQ_STATE>> it = entryset.iterator();
@@ -541,9 +541,9 @@ public class PagePartPR extends PageImpl {
 
 			if(current.getValue() == REQ_STATE.TO_BE_DELETED){
 
-				for(int i = 0; i < this.app.getParts().get(partNumber).getPartRequirements().size(); i++){
-					if(this.app.getParts().get(partNumber).getPartRequirements().get(i).equals(current.getKey())){
-						this.app.getParts().get(partNumber).getPartRequirements().set(i, null);
+				for(int i = 0; i < this.app.getAppParts().get(partNumber).getPartRequirements().size(); i++){
+					if(this.app.getAppParts().get(partNumber).getPartRequirements().get(i).equals(current.getKey())){
+						this.app.getAppParts().get(partNumber).getPartRequirements().set(i, null);
 					}
 				}
 			}
