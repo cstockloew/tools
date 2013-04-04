@@ -60,6 +60,7 @@ public class KarafFeaturesGenerator {
 	// parse feature.xml in {project}/target/classes/ to obtain FeaturesRoot
 
 	private GUI g = GUI.getInstance();
+	private MavenExecutionResult execution_result;
 
 	private final String GROUP_ID = "org.apache.karaf.tooling";
 	private final String ARTIFACT_ID = "features-maven-plugin";
@@ -166,7 +167,6 @@ public class KarafFeaturesGenerator {
 		return false;
 	}
 
-	private MavenExecutionResult execution_result;
 	private boolean generateKarafFeatures(String projectName){
 
 		try{
@@ -193,6 +193,7 @@ public class KarafFeaturesGenerator {
 				execution_result = maven.execute(request, null);
 				if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty())
 					return true;
+
 			}
 		}
 		catch(Exception ex){
