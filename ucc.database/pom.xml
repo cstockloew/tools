@@ -1,41 +1,52 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.universAAL.tools.ucc</groupId>
-  <artifactId>ucc.database</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
-  <build>
-    <plugins>
-      <plugin>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>maven-bundle-plugin</artifactId>
-      <version>2.3.7</version>
-      <extensions>true</extensions>
-      <configuration>
-      	<instructions>
-      		<Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
-      		<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-      		<Bundle-Version>${project.version}</Bundle-Version>
-      		<Bundle-Activator>org.universAAL.ucc.database.Activator</Bundle-Activator>
-      		<Import-Package>*</Import-Package>
-      		<Export-Package>org.universAAL.ucc.database, org.universAAL.ucc.database.*</Export-Package>
-      	</instructions>
-      </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  <packaging>bundle</packaging>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.apache.felix</groupId>
-  		<artifactId>org.apache.felix.framework</artifactId>
-  		<version>3.0.8</version>
-  		<type>bundle</type>
-  	</dependency>  
-  	<dependency>
-  		<groupId>org.universAAL.tools.ucc</groupId>
-  		<artifactId>ucc.model</artifactId>
-  		<version>2.0.1-SNAPSHOT</version>
-  		<type>bundle</type>
-  	</dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.universAAL.tools.ucc</groupId>
+		<artifactId>ucc.pom</artifactId>
+		<version>1.2.2-SNAPSHOT</version>
+		<relativePath>../ucc.pom/pom.xml</relativePath>
+	</parent>
+	<artifactId>ucc.database</artifactId>
+	<version>2.0.1-SNAPSHOT</version>
+	<packaging>bundle</packaging>
+	<name>uCC database</name>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.framework</artifactId>
+			<!--  		<version>3.0.8</version>-->
+			<!--  		<type>compile</type>-->
+			<!--  		<type>bundle</type>-->
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.model</artifactId>
+			<!--  		<version>2.0.1-SNAPSHOT</version>-->
+			<!--  		<type>compile</type>-->
+			<!--  		<type>bundle</type>-->
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.3.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Bundle-Activator>org.universAAL.ucc.database.Activator</Bundle-Activator>
+						<Import-Package>*</Import-Package>
+						<Export-Package>org.universAAL.ucc.database,
+							org.universAAL.ucc.database.*</Export-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

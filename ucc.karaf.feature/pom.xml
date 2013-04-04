@@ -1,13 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.universAAL.tools.ucc</groupId>
+	<parent>
+		<groupId>org.universAAL.tools.ucc</groupId>
+		<version>1.2.2-SNAPSHOT</version>
+		<artifactId>ucc.pom</artifactId>
+		<relativePath>../ucc.pom/pom.xml</relativePath>
+	</parent>
   <artifactId>ucc.karaf.feature</artifactId>
   <version>2.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>ucc karaf feature</name>
-  <url>http://www.universaal.org</url>
+  <name>uCC Karaf feature</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

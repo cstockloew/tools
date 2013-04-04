@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>ucc.deploymanagerservice</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <name>deploy manager service API for the uCC</name>
-  <description>This API contains of deploy manager service interfaces for uCC.</description>
-  <packaging>bundle</packaging>
-    <dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.universAAL.tools.ucc</groupId>
+		<artifactId>ucc.pom</artifactId>
+		<version>1.2.2-SNAPSHOT</version>
+		<relativePath>../ucc.pom/pom.xml</relativePath>
+	</parent>
+	<artifactId>ucc.deploymanagerservice</artifactId>
+	<version>2.0.1-SNAPSHOT</version>
+	<name>uCC deploy manager service API</name>
+	<description>This API contains of deploy manager service interfaces for uCC.</description>
+	<packaging>bundle</packaging>
+	<dependencies>
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
-			<version>1.1.3</version>
+<!--			<version>1.1.3</version>-->
 		</dependency>
 	</dependencies>
-    <build>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -32,5 +39,4 @@
 			</plugin>
 		</plugins>
 	</build>
-    <groupId>org.universAAL.tools.ucc</groupId>
 </project>
