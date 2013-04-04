@@ -2,7 +2,8 @@ package org.universAAL.ucc.model;
 
 import java.util.ArrayList;
 
-import org.universAAL.middleware.interfaces.mpa.model.Part;
+//import org.universAAL.middleware.interfaces.mpa.model.Part;
+import org.universAAL.middleware.deploymaneger.uapp.model.Part;
 
 
 
@@ -91,6 +92,8 @@ public class UAPP {
 	public Part getPart() {
 		return part;
 	}
+	
+	
 
 	public void setPart(Part part) {
 		this.part = part;

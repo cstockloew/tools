@@ -12,6 +12,7 @@ import org.universAAL.ucc.deploymanagerservice.unused.DeployManagerService;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.SearchWindow;
 import org.universAAL.ucc.windows.ToolWindow;
@@ -79,6 +80,8 @@ public class DesktopController implements Button.ClickListener {
 				app.getMainWindow().showNotification(bundle.getString("login.success"), Notification.TYPE_HUMANIZED_MESSAGE);
 				System.err.println("WS-ANSWER: "+sessionKey);
 			}
+			WebConnector web = WebConnector.getInstance();
+			web.startListening();
 			
 		}
 		if(event.getButton() == app.getAdminButton()) {

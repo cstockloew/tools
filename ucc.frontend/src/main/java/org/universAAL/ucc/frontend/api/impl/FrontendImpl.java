@@ -8,10 +8,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -20,8 +22,8 @@ import java.util.zip.ZipInputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.universAAL.middleware.interfaces.mpa.model.Part;
+import org.universAAL.middleware.deploymaneger.uapp.model.Part;
+//import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
@@ -73,18 +75,24 @@ public class FrontendImpl implements IFrontend {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		System.err.println(uri.getPath());
+		
 		System.err.println("Called install service"+sessionkey+ " "+ downloadUri);
 		//check for sessionkey
-		if(sessionkey.equals(DesktopController.getSessionKey())) {
+//		if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		System.out.println("[FrontendImpl.installService] start download from " + downloadUri);
 		// TO be unmarked
-		String usrvName = downloadUsrvFile(downloadUri, "HWO.usrv.usrv");
+//		String usrvName = "";
+//		try {
+//			usrvName = downloadUsrvFile(downloadUri, "HWO");
+//		} catch (IOException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}
 		// Just for testing
 		try {
 			// extracts the downloaded usrv file
-			extractUsrvFile(usrvLocalStore+usrvName);
+			extractUsrvFile(usrvLocalStore+"corrected_hwo_usrv.usrv");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -104,7 +112,7 @@ public class FrontendImpl implements IFrontend {
 		//parse uapp.config.xml
 		ArrayList<UAPP> apps = null;
 		try {
-			apps = parseUappConfiguration("config/hwo.uapp.xml");
+			apps = parseUappConfiguration("config/hwo.usrv.xml");
 		} catch (SAXException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -115,15 +123,15 @@ public class FrontendImpl implements IFrontend {
 		try {
 //			 parses the configuration xml from the extracted usrv file
 //			 and creates the views (LicenseView and so on) to show to the user for further processing
-			parseConfiguration("config/hwo.usrv.xml", apps);
+			parseConfiguration("config/hwo.uapp.xml", apps);
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		} else {
-			//TODO: SessionKey was not right, what todo?
-		}
+//		} else {
+//			//TODO: SessionKey was not right, what todo?
+//		}
 	}
 
 	/**
@@ -132,28 +140,38 @@ public class FrontendImpl implements IFrontend {
 	 * @param downloadUri
 	 *            link from where to download the usrv file
 	 */
-	private String downloadUsrvFile(String downloadUri, String filename) {
+	private String downloadUsrvFile(String downloadUri, String filename) throws IOException {
 		System.out.println("[FrontendImpl.downloadUsrvFile] the usrv file name is: " + filename);
-		URL url = null;
-		try {
-			url = new URL(downloadUri);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		try {
-			BufferedInputStream in = new BufferedInputStream(url.openStream());
-			FileOutputStream out = new FileOutputStream(
-					usrvLocalStore + filename);
-			BufferedOutputStream bOut = new BufferedOutputStream(out, 1024);
-			byte[] data = new byte[1024];
-			while (in.read(data, 0, 1024) >= 0) {
-				bOut.write(data);
-			}
-			in.close();
-			bOut.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    URL url = new URL(downloadUri);
+        URLConnection con = url.openConnection();
+        InputStream in = new BufferedInputStream(con.getInputStream());
+        FileOutputStream out = new FileOutputStream(System.getenv("systemdrive")+"/tempUsrvFiles/"+filename);
+        byte[] chunk = new byte[153600];
+        int chunkSize;
+        while((chunkSize = in.read(chunk)) > 0) {
+            out.write(chunk, 0, chunkSize);
+            chunk = new byte[153600];
+        }
+        out.flush();
+        out.close();
+        in.close();
+
+
+	
+//		try {
+//			BufferedInputStream in = new BufferedInputStream(url.openStream());
+//			FileOutputStream out = new FileOutputStream(
+//					usrvLocalStore + filename);
+//			BufferedOutputStream bOut = new BufferedOutputStream(out, 4096);
+//			byte[] data = new byte[4096];
+//			while (in.read(data, 0, 4096) >= 0) {
+//				bOut.write(data);
+//			}
+//			in.close();
+//			bOut.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		System.err.println(filename);
 		return filename;
 	}

@@ -15,6 +15,7 @@ import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.api.IServiceModel;
 import org.universAAL.ucc.service.api.IServiceRegistration;
 import org.universAAL.ucc.service.impl.Model;
+import org.universAAL.ucc.webconnection.WebConnector;
 
 public class Activator implements BundleActivator {
 	private static IInstaller installer;
@@ -89,6 +90,7 @@ public class Activator implements BundleActivator {
 		regis.unregister();
 		File file = new File(System.getenv("systemdrive")+"/tempUsrvFiles/");
 		deleteFiles(file);
+		WebConnector.getInstance().stopListening();
 	}
 	
 	private void deleteFiles(File path) {

@@ -9,10 +9,11 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URLDecoder;
-import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 
 import org.universAAL.ucc.api.IInstaller;
+import org.universAAL.ucc.frontend.api.IFrontend;
+import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 
 /**
  * Connects and registers the ucc to the uStore. 
@@ -23,12 +24,12 @@ import org.universAAL.ucc.api.IInstaller;
 public class WebConnector {
 	public static final int SINGLE_INSTANCE_NETWORK_SOCKET = 9988;
 	public static final String URL_SEARCH_TAG="url";
-	
+	private static WebConnector instance;
 	private ServerSocket socket;
-	private IInstaller installer;
+	private IFrontend front;
 	
-	public WebConnector(IInstaller installer) {
-		this.installer = installer;
+	private WebConnector() {
+		front = new FrontendImpl();
 		try {
 			socket = new ServerSocket(SINGLE_INSTANCE_NETWORK_SOCKET, 10, 
 					InetAddress.getByAddress(new byte[] {127, 0, 0, 1}));
@@ -36,6 +37,12 @@ public class WebConnector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static WebConnector getInstance() {
+		if(instance == null) {
+			instance = new WebConnector();
+		} return instance;
 	}
 	
 	public void startListening(){
@@ -54,26 +61,28 @@ public class WebConnector {
 	// this is obsolete - do not suport from MW2.0
 	public void onEventCatched(String post){
 		String url=parseURL(post);
+		System.err.println("IM WEBCONNECTOR");
         if(url!=null){
-        	PackageDownloader downloader=new PackageDownloader();
-        	String fileOnHardDrive=downloader.download(url);
-        	if(new File(fileOnHardDrive).exists()){
-        		String appDir;
-				try {
-				//	appDir = installer.installApplication(fileOnHardDrive);
-				} catch (Exception e) {
-					e.printStackTrace();
-					return;
-				}
-        		
-/*        		Activator.getMainWindow().installApp(appDir);  */
-					
-    			}
-    				
-        	}
+        	front.installService("", url);
+//        	PackageDownloader downloader=new PackageDownloader();
+//        	String fileOnHardDrive=downloader.download(url);
+//        	if(new File(fileOnHardDrive).exists()){
+//        		String appDir;
+//				try {
+//				//	appDir = installer.installApplication(fileOnHardDrive);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					return;
+//				}
+//        		
+//        		Activator.getMainWindow().installApp(appDir);  */
+//					
+//    			}
+//    				
+//        	}
         	
         }
-    	
+	}
 	
 	Thread socketListenerThread = new Thread(new Runnable() {
         public void run() {

@@ -14,10 +14,12 @@ import java.util.ResourceBundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.universAAL.middleware.interfaces.mpa.model.DeploymentUnit;
+import org.universAAL.middleware.deploymaneger.uapp.model.DeploymentUnit;
+//import org.universAAL.middleware.interfaces.mpa.model.DeploymentUnit;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
-import org.universAAL.middleware.interfaces.mpa.model.Part;
+//import org.universAAL.middleware.interfaces.mpa.model.Part;
+import org.universAAL.middleware.deploymaneger.uapp.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.ucc.api.IInstaller;
@@ -35,10 +37,8 @@ import org.universAAL.ucc.windows.NoConfigurationWindow;
 import org.universAAL.ucc.windows.UccUI;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.terminal.SystemError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.Notification;
 
@@ -156,7 +156,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 						// TODO: Call configurator to configure the uapps, after
 						// uapp is running (for every uapp)
 						ServiceReference configRef = bc.getServiceReference(ConfigurationDefinitionRegistry.class.getName());
-						ConfigurationDefinitionRegistry reg = bc.getService(configRef);
+						ConfigurationDefinitionRegistry reg = (ConfigurationDefinitionRegistry) bc.getService(configRef);
 						Configuration conf = null;
 						System.err.println("Size of all APP-Configurations: "
 								+ reg.getAllConfigDefinitions().size());

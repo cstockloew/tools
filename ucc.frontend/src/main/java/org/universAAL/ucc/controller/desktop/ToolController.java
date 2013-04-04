@@ -24,6 +24,7 @@ import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -124,7 +125,6 @@ public class ToolController implements Button.ClickListener, Upload.FinishedList
 			//Only for testing, later will be deleted. uStore has to call IFrontend.installService()
 			IFrontend frontend = new FrontendImpl();
 			frontend.installService(DesktopController.getSessionKey(), "http://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/StoreRetrieveServiceFile?langId=-1&catalogId=10001&storeId=10001&service-24501=24501&item-24001=24001&item-12001=12001&item-11503=11503");
-		
 		}
 		if(event.getButton() == toolWin.getLogoutButton()) {
 //			app.getMainWindow().removeComponent((app.getVs()));
