@@ -25,13 +25,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.universAAL.middleware.deploymaneger.uapp.model.Part;
 //import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
+import org.universAAL.ucc.model.UAPPPart;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.service.api.IServiceManagement;
+import org.universAAL.ucc.service.api.IServiceModel;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -58,7 +61,6 @@ public class FrontendImpl implements IFrontend {
 	private static final String FILENAME_SEARCH_TAG="filename";
 	
 	private static final String usrvLocalStore = System.getenv("systemdrive") + "/tempUsrvFiles/";
-
 
 	public void installService(String sessionkey, String downloadUri /*Need from uStore String filename*/) {
 		// Opens a browser window and loads the ucc site
@@ -109,7 +111,7 @@ public class FrontendImpl implements IFrontend {
 				
 				
 		//parse uapp.config.xml
-		ArrayList<UAPP> apps = null;
+		ArrayList<UAPPPart> apps = null;
 		try {
 			apps = parseUappConfiguration("config/hwo.uapp.xml");
 		} catch (SAXException e1) {
@@ -231,9 +233,9 @@ public class FrontendImpl implements IFrontend {
 	 * @throws IOException 
 	 * @throws SAXException 
 	 */
-	private ArrayList<UAPP> parseUappConfiguration(String f) throws SAXException, IOException {
+	private ArrayList<UAPPPart> parseUappConfiguration(String f) throws SAXException, IOException {
 		File config = new File(usrvLocalStore + f);
-		ArrayList<UAPP> appsList = new ArrayList<UAPP>();
+		ArrayList<UAPPPart> appsList = new ArrayList<UAPPPart>();
 		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
 		try {
@@ -247,7 +249,7 @@ public class FrontendImpl implements IFrontend {
 		
 //		for(int i = 0; i < doc.getElementsByTagName("uapp:applicationPart").getLength(); i++) {
 			for(int j = 0; j < doc.getElementsByTagName("uapp:part").getLength(); j++) {
-				UAPP ua = new UAPP();
+				UAPPPart ua = new UAPPPart();
 				String partId = doc.getElementsByTagName("uapp:part").item(j).getAttributes().getNamedItem("partId").getNodeValue();
 				System.out.println("[FrontendImpl] PartId: "+partId);
 				Part p = new Part();
@@ -358,7 +360,7 @@ public class FrontendImpl implements IFrontend {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	private AALService parseConfiguration(String f, ArrayList<UAPP>apps) throws SAXException, IOException {
+	private AALService parseConfiguration(String f, ArrayList<UAPPPart>apps) throws SAXException, IOException {
 		File licenceFile = new File(usrvLocalStore + f);
 		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 		File l = null;
@@ -379,7 +381,7 @@ public class FrontendImpl implements IFrontend {
 		for (int k = 0; k < doc.getElementsByTagName("usrv:srv").getLength(); k++) {
 			aal = new AALService();
 
-			for(UAPP ua : apps ) {
+			for(UAPPPart ua : apps ) {
 				aal.getUaapList().add(ua);
 			}
 			aal.setServiceId(doc.getElementsByTagName("usrv:serviceId").item(0).getTextContent());
@@ -481,8 +483,8 @@ public class FrontendImpl implements IFrontend {
 		IServiceManagement sm = Activator.getMgmt();
 		List<String> uappList = sm.getInstalledApps(serviceId);
 		for(String del : uappList) {
-			InstallationResults result = Activator.getDeinstaller().requestToUninstall(serviceId, del);
-			if(result.equals(InstallationResults.SUCCESS)) {
+			InstallationResultsDetails result = Activator.getDeinstaller().requestToUninstall(serviceId, del);
+			if(result.getGlobalResult().equals(InstallationResults.SUCCESS)) {
 				Activator.getReg().unregisterService(serviceId);
 			}
 		}
@@ -495,14 +497,16 @@ public class FrontendImpl implements IFrontend {
 	}
 
 	public String getInstalledServices(String sessionKey) {
-		// TODO Auto-generated method stub
-		return null;
+		String services = Activator.getMgmt().getInstalledServices();
+		System.out.println("[FrontendImpl.getInstalledServices] the services installed: " + services);
+		return services;
 	}
 
 	public String getInstalledUnitsForService(String sessionKey,
 			String serviceId) {
-		// TODO Auto-generated method stub
-		return null;
+		String units = Activator.getMgmt().getInstalledUnitsForService(serviceId);
+		System.out.println("[FrontendImpl.getInstalledUnitsForServices] the units installed: " + units);
+		return units;
 	}
 
 }
