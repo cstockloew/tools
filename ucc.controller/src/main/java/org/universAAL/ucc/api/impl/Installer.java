@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
@@ -43,7 +44,7 @@ public class Installer implements IInstaller {
 	}
 
 
-	public InstallationResults requestToInstall(UAPPPackage app) {
+	public InstallationResultsDetails requestToInstall(UAPPPackage app) {
 		DeployManager deployManager = Activator.getDeployManager();
 		if (deployManager==null) {
 			System.out.println("[Installer.requestToInstall] DeployManager is null!");
@@ -52,8 +53,8 @@ public class Installer implements IInstaller {
 		System.err.println("APP-ID: "+app.getId());
 		System.err.println("SERVICE-ID: "+app.getServiceId());
 		System.err.println("APP-LOcation: "+app.getFolder().getPath());
-		InstallationResults results = deployManager.requestToInstall(app);
-		System.out.println("[Installer.requestToInstall] the installation results: " + results.toString());
+		InstallationResultsDetails results = deployManager.requestToInstall(app);
+		System.out.println("[Installer.requestToInstall] the installation results: " + results.getGlobalResult().toString());
 		return results;
 	}
 
