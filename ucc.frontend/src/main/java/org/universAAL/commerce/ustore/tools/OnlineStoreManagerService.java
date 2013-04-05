@@ -48,20 +48,7 @@ public class OnlineStoreManagerService extends Service {
         super(wsdlLocation, serviceName);
     }
 
-    public OnlineStoreManagerService() {
-        super(WSDL_LOCATION, SERVICE);
-    }
-    
-    public OnlineStoreManagerService(WebServiceFeature ... features) {
-        super(WSDL_LOCATION, SERVICE, features);
-    }
-    public OnlineStoreManagerService(URL wsdlLocation, WebServiceFeature ... features) {
-        super(wsdlLocation, SERVICE, features);
-    }
-
-    public OnlineStoreManagerService(URL wsdlLocation, QName serviceName, WebServiceFeature ... features) {
-        super(wsdlLocation, serviceName, features);
-    }
+    //CONSTRUCTORS WITH OPTIONAL... ARGUMENTS REMOVED FOR COMPATIBILITY WITH JAVA5
 
     /**
      * 
