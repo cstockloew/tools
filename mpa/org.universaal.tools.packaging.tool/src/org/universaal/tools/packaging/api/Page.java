@@ -4,7 +4,7 @@ import org.universaal.tools.packaging.tool.parts.MPA;
 
 public interface Page {
 
-	public final String PAGE_START = "universAAL multipart application packager";
+	public final String PAGE_START = "universAAL Application Packager";
 	public final String PAGE1 = "Application details";
 	public final String PAGE2 = "Contacts";
 	public final String PAGE3 = "Application capabilities";
@@ -15,13 +15,20 @@ public interface Page {
 	public final String PAGE_PART_EU = "Application Part (Execution Unit - 2/4): ";
 	public final String PAGE_PART_PC = "Application Part (Part Capabilities - 3/4): ";
 	public final String PAGE_PART_PR = "Application Part (Part Requirements - 4/4): ";
-	public final String PAGE_END = "universAAL multipart application packager";
+	public final String PAGE_END = "universAAL Application Packager";
+	
+	public final String KARAF_NAMESPACE = "krf";
+	public final String XSD = "http://www.universaal.org/aal-uapp/v1.0.0/AAL-UAPP.xsd";
+	
+	public final String HEADER_DESCRIPTOR = "<?xml version='1.0' encoding='UTF-8'?>" +
+				"<aal-uapp xmlns="+XSD+" " +
+				"xmlns:"+KARAF_NAMESPACE+"='http://karaf.apache.org/xmlns/features/v1.0.0' " +
+				"xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
+				"xsi:schemaLocation="+XSD+">";
 	
 	public final String PAGE_ERROR = "Error Page";
 	
 	public final String DESCRIPTOR_FILENAME_SUFFIX = "uapp.xml";
-
-	public final String KARAF_NAMESPACE = "krf";
 
 	public void setMPA(MPA mpa);
 
