@@ -80,13 +80,14 @@ public class FrontendImpl implements IFrontend {
 //		if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
-//		String usrvName = "";
-//		try {
-//			usrvName = downloadUsrvFile(downloadUri, "HWO");
-//		} catch (IOException e2) {
-//			// TODO Auto-generated catch block
-//			e2.printStackTrace();
-//		}
+		String usrvName = ""; 
+		try {
+			System.err.println(downloadUri);
+			usrvName = downloadUsrvFile(downloadUri, "HWO");
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		// Just for testing
 		try {
 			// extracts the downloaded usrv file

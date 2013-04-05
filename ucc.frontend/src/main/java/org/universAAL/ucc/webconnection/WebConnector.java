@@ -61,7 +61,8 @@ public class WebConnector {
 	// this is obsolete - do not suport from MW2.0
 	public void onEventCatched(String post){
 		String url=parseURL(post);
-		System.err.println("IM WEBCONNECTOR");
+		System.err.println("IM WEBCONNECTOR "+url);
+		
         if(url!=null){
         	front.installService("", url);
 //        	PackageDownloader downloader=new PackageDownloader();
