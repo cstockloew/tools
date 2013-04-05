@@ -15,11 +15,7 @@ public class MPA {
 
 		String r = "";
 
-		r = r.concat("<?xml version='1.0' encoding='UTF-8'?>" +
-				"<aal-uapp xmlns='http://universaal.org/aal-uapp/v1.0.0' " +
-				"xmlns:"+Page.KARAF_NAMESPACE+"='http://karaf.apache.org/xmlns/features/v1.0.0' " +
-				"xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
-				"xsi:schemaLocation='http://universaal.org/aal-uapp/v1.0.0 AAL-UAPP.xsd'>");
+		r = r.concat(Page.HEADER_DESCRIPTOR);
 
 		r = r.concat(aal_uapp.getXML());
 		r = r.concat("</aal-uapp>");
