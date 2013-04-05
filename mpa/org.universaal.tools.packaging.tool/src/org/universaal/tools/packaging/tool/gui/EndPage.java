@@ -12,7 +12,7 @@ import org.universaal.tools.packaging.impl.PageImpl;
 public class EndPage extends PageImpl {
 
 	protected EndPage(String pageName) {
-		super(pageName, "This is the ending page for the uAAL MPA packager");
+		super(pageName, "This is the ending page for the Application Packager");
 	}
 
 	public void createControl(Composite parent) { 
@@ -27,7 +27,7 @@ public class EndPage extends PageImpl {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		Label end = new Label(container, SWT.NULL);
-		end.setText("Congratulations, you are a single step away from creating your Multi Part Application, just press the Finish button to generate it!");		
+		end.setText("Congratulations, you are a single step away from creating your Application, just press the Finish button to generate it!");		
 
 		FontData[] fD = end.getFont().getFontData();
 		fD[0].setStyle(SWT.BOLD);

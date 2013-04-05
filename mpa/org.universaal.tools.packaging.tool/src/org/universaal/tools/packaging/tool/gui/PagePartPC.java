@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -11,6 +13,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolTip;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
@@ -106,6 +109,17 @@ public class PagePartPC extends PageImpl {
 		l7.setText("* Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString()));			
 		targetDeploymentTool.addVerifyListener(new AlphabeticV());
+		final ToolTip t = Tooltips.getDeploymentToolTooltip();
+		targetDeploymentTool.addFocusListener(new FocusListener() {
+
+			public void focusLost(FocusEvent e) {
+				t.setVisible(false);				
+			}
+
+			public void focusGained(FocusEvent e) {
+				t.setVisible(true);	
+			}
+		});
 		targetDeploymentTool.setLayoutData(gd);	
 
 		targetSpace.addKeyListener(new QL() {

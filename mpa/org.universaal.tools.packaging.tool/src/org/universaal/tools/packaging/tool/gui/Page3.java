@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -13,6 +15,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolTip;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
@@ -27,7 +30,7 @@ public class Page3 extends PageImpl {
 	private Text targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
 
 	protected Page3(String pageName) {
-		super(pageName, "Specify capabilities of the MPA");
+		super(pageName, "Specify capabilities of the Application");
 	}
 
 	public void createControl(Composite parent) {
@@ -101,7 +104,18 @@ public class Page3 extends PageImpl {
 		//mandatory.add(targetDeploymentTool);
 		l7.setText("Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString()));			
+		final ToolTip t = Tooltips.getDeploymentToolTooltip();
 		targetDeploymentTool.addVerifyListener(new AlphabeticV());
+		targetDeploymentTool.addFocusListener(new FocusListener() {
+
+			public void focusLost(FocusEvent e) {
+				t.setVisible(false);				
+			}
+
+			public void focusGained(FocusEvent e) {
+				t.setVisible(true);							
+			}
+		});
 		targetDeploymentTool.setLayoutData(gd);	
 
 		targetSpace.addSelectionListener(new SelectionListener() {
@@ -119,6 +133,7 @@ public class Page3 extends PageImpl {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				app.getAppCapabilities().setCapability(Capability.Mandatory.TARGET_SPACE_VERSION.toString(), targetSpaceVersion.getText());				
+				setPageComplete(validate());
 			}
 		});
 		mw_version.addKeyListener(new QL() {
@@ -126,6 +141,7 @@ public class Page3 extends PageImpl {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				app.getAppCapabilities().setCapability(Capability.Mandatory.MW_VERSION.toString(), mw_version.getText());				
+				setPageComplete(validate());
 			}
 		});
 		targetOntologies.addKeyListener(new QL() {

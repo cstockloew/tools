@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -18,6 +20,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolTip;
 import org.universaal.tools.packaging.api.Page;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.LogicalCriteria;
@@ -42,7 +45,7 @@ public class Page4 extends PageImpl {
 
 	protected Page4(String pageName, int offset, LogicalRelation lrFromPreviousPage, SingleRequirement srFromPreviousPage) {
 
-		super(pageName, "Specify requirements for the MPA you are creating.");
+		super(pageName, "Specify requirements for the Application you are creating.");
 		this.offset = offset;
 		this.moreRequirementsInNextPage = false;
 		this.lrFromPreviousPage = lrFromPreviousPage;
@@ -127,6 +130,17 @@ public class Page4 extends PageImpl {
 
 		req1 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		req1.setText("");		
+		final ToolTip t = Tooltips.getRequirementTooltip();
+		req1.addFocusListener(new FocusListener() {
+			
+			public void focusLost(FocusEvent e) {
+				t.setVisible(false);				
+			}
+			
+			public void focusGained(FocusEvent e) {
+				t.setVisible(true);				
+			}
+		});
 		req1.addVerifyListener(new AlphabeticV());
 		req1.setLayoutData(gd);	
 

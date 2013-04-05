@@ -40,12 +40,12 @@ public class PageLicenses extends PageImpl {
 	private final String ERROR_MESSAGE = "Please verify the value";
 
 	protected PageLicenses(String pageName) {
-		super(pageName, "Add SLA and license(s) for your MPA - each artifact should be licensed under different license.");
+		super(pageName, "Add SLA and license(s) for your Application - each artifact should be licensed under different license.");
 	}
 
 	protected PageLicenses(String pageName, boolean onlyLicense) {
 
-		super(pageName, "Add SLA and license(s) for you MPA");
+		super(pageName, "Add SLA and license(s) for you Application");
 		this.onlyLicense = onlyLicense;
 	}
 

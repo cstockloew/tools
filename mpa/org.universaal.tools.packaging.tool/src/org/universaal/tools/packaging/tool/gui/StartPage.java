@@ -28,7 +28,7 @@ public class StartPage extends PageImpl {
 	private List<IProject> parts;
 
 	protected StartPage(String pageName) {
-		super(pageName, "This is the starting page for the uAAL MPA packager");
+		super(pageName, "This is the starting page for the Application Packager");
 	}
 
 	public void createControl(final Composite parent) { 
@@ -45,13 +45,13 @@ public class StartPage extends PageImpl {
 		parts = g.getParts();
 
 		Label label1 = new Label(container, SWT.NULL);
-		label1.setText("This wizard will guide you in creating a .UAPP file to upload your Multi Part Application to the uStore.");
+		label1.setText("This wizard will guide you in creating a .UAPP file to upload your Application to the uStore.");
 
 		Label label10 = new Label(container, SWT.NULL);
 		label10.setText("");
 
 		Label label2 = new Label(container, SWT.NULL);
-		label2.setText("Before starting it you should select all the parts you would like to include (CTRL-click on the desidered projects).");
+		label2.setText("Before starting it you should select all the parts you would like to include (CTRL-click on projects).");
 
 		Label label20 = new Label(container, SWT.NULL);
 		label20.setText("");
@@ -63,7 +63,7 @@ public class StartPage extends PageImpl {
 		label30.setText("");
 
 		Label label4 = new Label(container, SWT.NULL);
-		label4.setText("At now you have selected "+parts.size()+" projects to be included in this MPA:");
+		label4.setText("At now you have selected "+parts.size()+" projects to be included in this Application:");
 
 		Label label40 = new Label(container, SWT.NULL);
 		label40.setText("");
@@ -146,7 +146,7 @@ public class StartPage extends PageImpl {
 		label1000.setText("");
 
 		Label label8 = new Label(container, SWT.NULL);
-		label8.setText("If your part selection is correct, please press the Next button to start the creation of the MPA.");
+		label8.setText("If your part selection is correct, please press the Next button to start the creation of the Application.");
 
 		Label label80 = new Label(container, SWT.NULL);
 		label80.setText("");

@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.OtherChannel;
-import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.PhoneV;
 import org.universaal.tools.packaging.tool.validators.UriV;
@@ -211,12 +210,12 @@ public class Page2 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-//				try{
-//					// app.getApplication().getApplicationProvider().setWebAddress(URI.create(removeBlanks(web.getText())));
-//				}
-//				catch(Exception ex){
-//					ex.printStackTrace();
-//				}				
+				//				try{
+				//					// app.getApplication().getApplicationProvider().setWebAddress(URI.create(removeBlanks(web.getText())));
+				//				}
+				//				catch(Exception ex){
+				//					ex.printStackTrace();
+				//				}				
 			}
 		});
 		othChNm1.addKeyListener(new QL() {

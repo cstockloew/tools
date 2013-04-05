@@ -15,7 +15,7 @@ public class Page1 extends PageImpl {
 	private Text name, id, description, tags, version_major, version_minor, version_micro, version_build, app_profile;
 
 	protected Page1(String pageName) {
-		super(pageName, "Specify details of the MPA you are creating");
+		super(pageName, "Specify details of the Application you are creating");
 	}
 
 	public void createControl(Composite parent) { 
