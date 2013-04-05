@@ -1,119 +1,71 @@
 package org.universAAL.ucc.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
-//import org.universAAL.middleware.interfaces.mpa.model.Part;
-import org.universAAL.middleware.deploymaneger.uapp.model.Part;
-
-
-
+/**
+ * Represents an UAPP file which consists a arbitrary UAPPParts.
+ * Every UAPPPart can retrieved about the partId of a part.
+ * 
+ * @author merkle
+ *
+ */
 public class UAPP {
+	private HashMap<String, UAPPPart> parts;
 	private String name;
-	private String appId;
-	private String uappLocation;
-	private int minor;
-	private int major;
-	private int micro;
-	private String description;
-	private boolean multipart;
-	private Part part;
-	private String bundleId;
-	private String bundleVersion;
+	private String version;
+	private Provider provider;
 	
-	public UAPP() { }
-	
-	public UAPP(String appId, String name, String location, int major, int minor, int micro, 
-			String description, boolean multipart, Part part, String bundleId, String bundleVersion) {
-		this.appId = appId;
+	public UAPP(String name, String version, Provider provider) {
+		parts = new HashMap<String, UAPPPart>();
 		this.name = name;
-		this.uappLocation = location;
-		this.description = description;
-		this.major = major;
-		this.micro = micro;
-		this.minor = minor;
-		this.multipart = multipart;
-		this.part = part;
-		this.bundleId = bundleId;
-		this.bundleVersion = bundleVersion;
+		this.version = version;
+		this.provider = provider;
 	}
 	
+	public UAPP() {
+		parts = new HashMap<String, UAPPPart>();
+	}
+
+	public HashMap<String, UAPPPart> getParts() {
+		return parts;
+	}
+
+	public void setParts(HashMap<String, UAPPPart> parts) {
+		this.parts = parts;
+	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUappLocation() {
-		return uappLocation;
-	}
-	public void setUappLocation(String uappLocation) {
-		this.uappLocation = uappLocation;
-	}
-	public int getMinor() {
-		return minor;
-	}
-	public void setMinor(int minor) {
-		this.minor = minor;
-	}
-	public int getMajor() {
-		return major;
-	}
-	public void setMajor(int major) {
-		this.major = major;
-	}
-	public int getMicro() {
-		return micro;
-	}
-	public void setMicro(int micro) {
-		this.micro = micro;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
+
+	public String getVersion() {
+		return version;
 	}
 
-	public boolean isMultipart() {
-		return multipart;
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
-	public void setMultipart(boolean multipart) {
-		this.multipart = multipart;
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
 	}
 	
-	public String getAppId()  {
-		return appId;
-	}
-	public void setAppId(String appId) {
-		this.appId = appId;
-	}
-
-	public Part getPart() {
-		return part;
+	public UAPPPart getPart(String partId) {
+		return parts.get(partId);
 	}
 	
+	public void addPart(String partId, UAPPPart part) {
+		parts.put(partId, part);
+	}
 	
-
-	public void setPart(Part part) {
-		this.part = part;
-	}
-
-	public String getBundleId() {
-		return bundleId;
-	}
-
-	public void setBundleId(String bundleId) {
-		this.bundleId = bundleId;
-	}
-
-	public String getBundleVersion() {
-		return bundleVersion;
-	}
-
-	public void setBundleVersion(String bundleVersion) {
-		this.bundleVersion = bundleVersion;
-	}
 	
 	
 
