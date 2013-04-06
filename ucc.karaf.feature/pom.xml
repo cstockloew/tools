@@ -1,27 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.universAAL.tools.ucc</groupId>
 		<version>1.2.2-SNAPSHOT</version>
 		<artifactId>ucc.pom</artifactId>
 		<relativePath>../ucc.pom/pom.xml</relativePath>
 	</parent>
-  <artifactId>ucc.karaf.feature</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<artifactId>ucc.karaf.feature</artifactId>
+	<version>2.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>universAAL uCC Karaf feature</name>
+	<description>The uCC feature for Karaf</description>
 
-  <name>uCC Karaf feature</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
-  <description>The uCC feature for Karaf</description>
-  
-  <build>
+	<build>
 		<plugins>
-		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -69,5 +67,4 @@
 			</plugin>
 		</plugins>
 	</build>
-  
 </project>

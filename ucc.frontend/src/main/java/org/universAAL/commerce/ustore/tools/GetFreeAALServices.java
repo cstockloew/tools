@@ -1,15 +1,16 @@
-
 package org.universAAL.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for getFreeAALServices complex type.
+ * <p>
+ * Java class for getFreeAALServices complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="getFreeAALServices">
@@ -27,10 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getFreeAALServices", propOrder = {
-    "sessionKey",
-    "isFitToUser"
-})
+@XmlType(name = "getFreeAALServices", propOrder = { "sessionKey", "isFitToUser" })
 public class GetFreeAALServices {
 
     protected String sessionKey;
@@ -39,25 +37,22 @@ public class GetFreeAALServices {
     /**
      * Gets the value of the sessionKey property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getSessionKey() {
-        return sessionKey;
+	return sessionKey;
     }
 
     /**
      * Sets the value of the sessionKey property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setSessionKey(String value) {
-        this.sessionKey = value;
+	this.sessionKey = value;
     }
 
     /**
@@ -65,7 +60,7 @@ public class GetFreeAALServices {
      * 
      */
     public boolean isIsFitToUser() {
-        return isFitToUser;
+	return isFitToUser;
     }
 
     /**
@@ -73,7 +68,7 @@ public class GetFreeAALServices {
      * 
      */
     public void setIsFitToUser(boolean value) {
-        this.isFitToUser = value;
+	this.isFitToUser = value;
     }
 
 }

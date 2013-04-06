@@ -4,117 +4,116 @@ import java.util.ArrayList;
 import org.universAAL.ucc.model.install.License;
 
 public class AALService {
-	private String serviceId;
-	private int minor = 0;
-	private int major = 0;
-	private int micro = 0;
-	private String description = "";
-	private String name = "";
-	private String provider = "";
-	private ArrayList<String>tags;
-	private License licenses;
-	private ArrayList<UAPPPart>uaapList;
-	
-	public AALService() {
-		tags = new ArrayList<String>();
-		uaapList = new ArrayList<UAPPPart>();
-	}
-	
-	public AALService(String serviceId, int minor, int major, int micro, String description, String name, String provider, ArrayList<String>tags,
-			License licenses) {
-		this.serviceId = serviceId;
-		this.minor = minor;
-		this.major = major;
-		this.micro = micro;
-		this.description = description;
-		this.name = name;
-		this.tags = tags;
-		this.licenses = licenses;
-		this.provider = provider;
-		tags = new ArrayList<String>();
-		uaapList = new ArrayList<UAPPPart>();
-	}
+    private String serviceId;
+    private int minor = 0;
+    private int major = 0;
+    private int micro = 0;
+    private String description = "";
+    private String name = "";
+    private String provider = "";
+    private ArrayList<String> tags;
+    private License licenses;
+    private ArrayList<UAPPPart> uaapList;
 
-	public int getMinor() {
-		return minor;
-	}
+    public AALService() {
+	tags = new ArrayList<String>();
+	uaapList = new ArrayList<UAPPPart>();
+    }
 
-	public void setMinor(int minor) {
-		this.minor = minor;
-	}
+    public AALService(String serviceId, int minor, int major, int micro,
+	    String description, String name, String provider,
+	    ArrayList<String> tags, License licenses) {
+	this.serviceId = serviceId;
+	this.minor = minor;
+	this.major = major;
+	this.micro = micro;
+	this.description = description;
+	this.name = name;
+	this.tags = tags;
+	this.licenses = licenses;
+	this.provider = provider;
+	tags = new ArrayList<String>();
+	uaapList = new ArrayList<UAPPPart>();
+    }
 
-	public int getMajor() {
-		return major;
-	}
+    public int getMinor() {
+	return minor;
+    }
 
-	public void setMajor(int major) {
-		this.major = major;
-	}
+    public void setMinor(int minor) {
+	this.minor = minor;
+    }
 
-	public int getMicro() {
-		return micro;
-	}
+    public int getMajor() {
+	return major;
+    }
 
-	public void setMicro(int micro) {
-		this.micro = micro;
-	}
+    public void setMajor(int major) {
+	this.major = major;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public int getMicro() {
+	return micro;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setMicro(int micro) {
+	this.micro = micro;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getDescription() {
+	return description;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setDescription(String description) {
+	this.description = description;
+    }
 
-	public ArrayList<String> getTags() {
-		return tags;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public void setTags(ArrayList<String> tags) {
-		this.tags = tags;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public License getLicenses() {
-		return licenses;
-	}
+    public ArrayList<String> getTags() {
+	return tags;
+    }
 
-	public void setLicenses(License licenses) {
-		this.licenses = licenses;
-	}
+    public void setTags(ArrayList<String> tags) {
+	this.tags = tags;
+    }
 
-	public String getProvider() {
-		return provider;
-	}
+    public License getLicenses() {
+	return licenses;
+    }
 
-	public void setProvider(String provider) {
-		this.provider = provider;
-	}
+    public void setLicenses(License licenses) {
+	this.licenses = licenses;
+    }
 
-	public ArrayList<UAPPPart> getUaapList() {
-		return uaapList;
-	}
+    public String getProvider() {
+	return provider;
+    }
 
-	public void setUaapList(ArrayList<UAPPPart> uaapList) {
-		this.uaapList = uaapList;
-	}
+    public void setProvider(String provider) {
+	this.provider = provider;
+    }
 
-	public String getServiceId() {
-		return serviceId;
-	}
+    public ArrayList<UAPPPart> getUaapList() {
+	return uaapList;
+    }
 
-	public void setServiceId(String serviceId) {
-		this.serviceId = serviceId;
-	}
-	
-	
+    public void setUaapList(ArrayList<UAPPPart> uaapList) {
+	this.uaapList = uaapList;
+    }
+
+    public String getServiceId() {
+	return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+	this.serviceId = serviceId;
+    }
 
 }

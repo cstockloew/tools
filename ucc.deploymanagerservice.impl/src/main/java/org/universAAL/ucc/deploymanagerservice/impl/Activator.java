@@ -17,45 +17,55 @@ public class Activator implements BundleActivator {
     private static BundleContext context;
 
     public void start(BundleContext bc) throws Exception {
-    	context = bc;
-        Dictionary<String, String> props = new Hashtable<String, String>();
-        System.err.println("DEPLOYMANAGER STARTED");
-        props.put("service.exported.interfaces", "*");
-        props.put("service.exported.configs", "org.apache.cxf.ws");
-        InetAddress thisIp =InetAddress.getLocalHost();        
-        String url = "http://" + thisIp.getHostAddress() + ":9090/deploymanager";
-        System.out.println("url:"+url); 
-        //props.put("org.apache.cxf.ws.address", "http://localhost:9090/deploymanager");
-        props.put("org.apache.cxf.ws.address", url);
-               
-        registration = bc.registerService(DeployManagerService.class.getName(), 
-                                          new DeployManagerServiceImpl(), props);
-        
-        getServices(context);
-    
+	context = bc;
+	Dictionary<String, String> props = new Hashtable<String, String>();
+	System.err.println("DEPLOYMANAGER STARTED");
+	props.put("service.exported.interfaces", "*");
+	props.put("service.exported.configs", "org.apache.cxf.ws");
+	InetAddress thisIp = InetAddress.getLocalHost();
+	String url = "http://" + thisIp.getHostAddress()
+		+ ":9090/deploymanager";
+	System.out.println("url:" + url);
+	// props.put("org.apache.cxf.ws.address",
+	// "http://localhost:9090/deploymanager");
+	props.put("org.apache.cxf.ws.address", url);
+
+	registration = bc.registerService(DeployManagerService.class.getName(),
+		new DeployManagerServiceImpl(), props);
+
+	getServices(context);
+
     }
 
     public void stop(BundleContext bc) throws Exception {
-        registration.unregister();
+	registration.unregister();
     }
- 
+
     private static void getServices(BundleContext bc) {
-    	System.out.println("[DeployManagerServiceImpl.activator.getServices]");
-		if (frontend == null) getFrontend();
-		
+	System.out.println("[DeployManagerServiceImpl.activator.getServices]");
+	if (frontend == null)
+	    getFrontend();
+
+    }
+
+    public static IFrontend getFrontend() {
+	System.out.println("[DeployManagerServiceImpl.activator.getFrontend]");
+	if (frontend == null) {
+	    ServiceReference sr = context.getServiceReference(IFrontend.class
+		    .getName());
+	    if (sr != null)
+		frontend = (IFrontend) context.getService(sr);
+	    else
+		System.out
+			.println("[DeployManagerServiceImpl.activator] service reference for IFrontend is null!");
+	    if (frontend == null)
+		System.out
+			.println("[DeployManagerServiceImpl.activator] can not get frontend! ");
+	    else
+		System.out
+			.println("[DeployManagerServiceImpl.activator.getServices] got frontend ");
 	}
-    
-    public static IFrontend getFrontend()  {
-    	System.out.println("[DeployManagerServiceImpl.activator.getFrontend]");
-    	if (frontend == null) {
-			ServiceReference sr = context.getServiceReference(IFrontend.class.getName());
-			if (sr != null)
-				frontend = (IFrontend) context.getService(sr);		
-			else System.out.println("[DeployManagerServiceImpl.activator] service reference for IFrontend is null!");
-			if (frontend==null) System.out.println("[DeployManagerServiceImpl.activator] can not get frontend! ");
-	    	else System.out.println("[DeployManagerServiceImpl.activator.getServices] got frontend ");
-		}
-    	return frontend;
+	return frontend;
     }
 
 }

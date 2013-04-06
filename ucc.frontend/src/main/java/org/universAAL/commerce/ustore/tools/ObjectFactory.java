@@ -1,4 +1,3 @@
-
 package org.universAAL.commerce.ustore.tools;
 
 import javax.xml.bind.JAXBElement;
@@ -6,38 +5,56 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the org.universaal.commerce.ustore.tools package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
- * provided in this class.
+ * This object contains factory methods for each Java content interface and Java
+ * element interface generated in the org.universaal.commerce.ustore.tools
+ * package.
+ * <p>
+ * An ObjectFactory allows you to programatically construct new instances of the
+ * Java representation for XML content. The Java representation of XML content
+ * can consist of schema derived interfaces and classes representing the binding
+ * of schema type definitions, element declarations and model groups. Factory
+ * methods for each of these are provided in this class.
  * 
  */
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _GetPurchasedAALServicesResponse_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getPurchasedAALServicesResponse");
-    private final static QName _UAALException_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "uAALException");
-    private final static QName _GetUserProfileResponse_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getUserProfileResponse");
-    private final static QName _PurchaseFreeAALService_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "purchaseFreeAALService");
-    private final static QName _RegisterDeployManager_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "registerDeployManager");
-    private final static QName _RegisterDeployManagerResponse_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "registerDeployManagerResponse");
-    private final static QName _GetPurchasedAALServices_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getPurchasedAALServices");
-    private final static QName _GetUserProfile_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getUserProfile");
-    private final static QName _GetFreeAALServices_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getFreeAALServices");
-    private final static QName _GetFreeAALServicesResponse_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getFreeAALServicesResponse");
-    private final static QName _PurchaseFreeAALServiceResponse_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "purchaseFreeAALServiceResponse");
+    private final static QName _GetPurchasedAALServicesResponse_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "getPurchasedAALServicesResponse");
+    private final static QName _UAALException_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/", "uAALException");
+    private final static QName _GetUserProfileResponse_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "getUserProfileResponse");
+    private final static QName _PurchaseFreeAALService_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "purchaseFreeAALService");
+    private final static QName _RegisterDeployManager_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "registerDeployManager");
+    private final static QName _RegisterDeployManagerResponse_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "registerDeployManagerResponse");
+    private final static QName _GetPurchasedAALServices_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "getPurchasedAALServices");
+    private final static QName _GetUserProfile_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/", "getUserProfile");
+    private final static QName _GetFreeAALServices_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "getFreeAALServices");
+    private final static QName _GetFreeAALServicesResponse_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "getFreeAALServicesResponse");
+    private final static QName _PurchaseFreeAALServiceResponse_QNAME = new QName(
+	    "http://tools.ustore.commerce.universaal.org/",
+	    "purchaseFreeAALServiceResponse");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.universaal.commerce.ustore.tools
+     * Create a new ObjectFactory that can be used to create new instances of
+     * schema derived classes for package: org.universaal.commerce.ustore.tools
      * 
      */
     public ObjectFactory() {
@@ -48,7 +65,7 @@ public class ObjectFactory {
      * 
      */
     public GetUserProfileResponse createGetUserProfileResponse() {
-        return new GetUserProfileResponse();
+	return new GetUserProfileResponse();
     }
 
     /**
@@ -56,7 +73,7 @@ public class ObjectFactory {
      * 
      */
     public UAALException createUAALException() {
-        return new UAALException();
+	return new UAALException();
     }
 
     /**
@@ -64,7 +81,7 @@ public class ObjectFactory {
      * 
      */
     public GetPurchasedAALServicesResponse createGetPurchasedAALServicesResponse() {
-        return new GetPurchasedAALServicesResponse();
+	return new GetPurchasedAALServicesResponse();
     }
 
     /**
@@ -72,7 +89,7 @@ public class ObjectFactory {
      * 
      */
     public RegisterDeployManagerResponse createRegisterDeployManagerResponse() {
-        return new RegisterDeployManagerResponse();
+	return new RegisterDeployManagerResponse();
     }
 
     /**
@@ -80,7 +97,7 @@ public class ObjectFactory {
      * 
      */
     public RegisterDeployManager createRegisterDeployManager() {
-        return new RegisterDeployManager();
+	return new RegisterDeployManager();
     }
 
     /**
@@ -88,7 +105,7 @@ public class ObjectFactory {
      * 
      */
     public PurchaseFreeAALService createPurchaseFreeAALService() {
-        return new PurchaseFreeAALService();
+	return new PurchaseFreeAALService();
     }
 
     /**
@@ -96,7 +113,7 @@ public class ObjectFactory {
      * 
      */
     public GetUserProfile createGetUserProfile() {
-        return new GetUserProfile();
+	return new GetUserProfile();
     }
 
     /**
@@ -104,7 +121,7 @@ public class ObjectFactory {
      * 
      */
     public GetPurchasedAALServices createGetPurchasedAALServices() {
-        return new GetPurchasedAALServices();
+	return new GetPurchasedAALServices();
     }
 
     /**
@@ -112,7 +129,7 @@ public class ObjectFactory {
      * 
      */
     public PurchaseFreeAALServiceResponse createPurchaseFreeAALServiceResponse() {
-        return new PurchaseFreeAALServiceResponse();
+	return new PurchaseFreeAALServiceResponse();
     }
 
     /**
@@ -120,7 +137,7 @@ public class ObjectFactory {
      * 
      */
     public GetFreeAALServicesResponse createGetFreeAALServicesResponse() {
-        return new GetFreeAALServicesResponse();
+	return new GetFreeAALServicesResponse();
     }
 
     /**
@@ -128,106 +145,145 @@ public class ObjectFactory {
      * 
      */
     public GetFreeAALServices createGetFreeAALServices() {
-        return new GetFreeAALServices();
+	return new GetFreeAALServices();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetPurchasedAALServicesResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link GetPurchasedAALServicesResponse }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "getPurchasedAALServicesResponse")
-    public JAXBElement<GetPurchasedAALServicesResponse> createGetPurchasedAALServicesResponse(GetPurchasedAALServicesResponse value) {
-        return new JAXBElement<GetPurchasedAALServicesResponse>(_GetPurchasedAALServicesResponse_QNAME, GetPurchasedAALServicesResponse.class, null, value);
+    public JAXBElement<GetPurchasedAALServicesResponse> createGetPurchasedAALServicesResponse(
+	    GetPurchasedAALServicesResponse value) {
+	return new JAXBElement<GetPurchasedAALServicesResponse>(
+		_GetPurchasedAALServicesResponse_QNAME,
+		GetPurchasedAALServicesResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UAALException }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link UAALException }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "uAALException")
     public JAXBElement<UAALException> createUAALException(UAALException value) {
-        return new JAXBElement<UAALException>(_UAALException_QNAME, UAALException.class, null, value);
+	return new JAXBElement<UAALException>(_UAALException_QNAME,
+		UAALException.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserProfileResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link GetUserProfileResponse }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "getUserProfileResponse")
-    public JAXBElement<GetUserProfileResponse> createGetUserProfileResponse(GetUserProfileResponse value) {
-        return new JAXBElement<GetUserProfileResponse>(_GetUserProfileResponse_QNAME, GetUserProfileResponse.class, null, value);
+    public JAXBElement<GetUserProfileResponse> createGetUserProfileResponse(
+	    GetUserProfileResponse value) {
+	return new JAXBElement<GetUserProfileResponse>(
+		_GetUserProfileResponse_QNAME, GetUserProfileResponse.class,
+		null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PurchaseFreeAALService }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link PurchaseFreeAALService }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "purchaseFreeAALService")
-    public JAXBElement<PurchaseFreeAALService> createPurchaseFreeAALService(PurchaseFreeAALService value) {
-        return new JAXBElement<PurchaseFreeAALService>(_PurchaseFreeAALService_QNAME, PurchaseFreeAALService.class, null, value);
+    public JAXBElement<PurchaseFreeAALService> createPurchaseFreeAALService(
+	    PurchaseFreeAALService value) {
+	return new JAXBElement<PurchaseFreeAALService>(
+		_PurchaseFreeAALService_QNAME, PurchaseFreeAALService.class,
+		null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterDeployManager }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link RegisterDeployManager }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "registerDeployManager")
-    public JAXBElement<RegisterDeployManager> createRegisterDeployManager(RegisterDeployManager value) {
-        return new JAXBElement<RegisterDeployManager>(_RegisterDeployManager_QNAME, RegisterDeployManager.class, null, value);
+    public JAXBElement<RegisterDeployManager> createRegisterDeployManager(
+	    RegisterDeployManager value) {
+	return new JAXBElement<RegisterDeployManager>(
+		_RegisterDeployManager_QNAME, RegisterDeployManager.class,
+		null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterDeployManagerResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link RegisterDeployManagerResponse }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "registerDeployManagerResponse")
-    public JAXBElement<RegisterDeployManagerResponse> createRegisterDeployManagerResponse(RegisterDeployManagerResponse value) {
-        return new JAXBElement<RegisterDeployManagerResponse>(_RegisterDeployManagerResponse_QNAME, RegisterDeployManagerResponse.class, null, value);
+    public JAXBElement<RegisterDeployManagerResponse> createRegisterDeployManagerResponse(
+	    RegisterDeployManagerResponse value) {
+	return new JAXBElement<RegisterDeployManagerResponse>(
+		_RegisterDeployManagerResponse_QNAME,
+		RegisterDeployManagerResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetPurchasedAALServices }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link GetPurchasedAALServices }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "getPurchasedAALServices")
-    public JAXBElement<GetPurchasedAALServices> createGetPurchasedAALServices(GetPurchasedAALServices value) {
-        return new JAXBElement<GetPurchasedAALServices>(_GetPurchasedAALServices_QNAME, GetPurchasedAALServices.class, null, value);
+    public JAXBElement<GetPurchasedAALServices> createGetPurchasedAALServices(
+	    GetPurchasedAALServices value) {
+	return new JAXBElement<GetPurchasedAALServices>(
+		_GetPurchasedAALServices_QNAME, GetPurchasedAALServices.class,
+		null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserProfile }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserProfile }
+     * {@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "getUserProfile")
     public JAXBElement<GetUserProfile> createGetUserProfile(GetUserProfile value) {
-        return new JAXBElement<GetUserProfile>(_GetUserProfile_QNAME, GetUserProfile.class, null, value);
+	return new JAXBElement<GetUserProfile>(_GetUserProfile_QNAME,
+		GetUserProfile.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetFreeAALServices }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link GetFreeAALServices }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "getFreeAALServices")
-    public JAXBElement<GetFreeAALServices> createGetFreeAALServices(GetFreeAALServices value) {
-        return new JAXBElement<GetFreeAALServices>(_GetFreeAALServices_QNAME, GetFreeAALServices.class, null, value);
+    public JAXBElement<GetFreeAALServices> createGetFreeAALServices(
+	    GetFreeAALServices value) {
+	return new JAXBElement<GetFreeAALServices>(_GetFreeAALServices_QNAME,
+		GetFreeAALServices.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetFreeAALServicesResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link GetFreeAALServicesResponse }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "getFreeAALServicesResponse")
-    public JAXBElement<GetFreeAALServicesResponse> createGetFreeAALServicesResponse(GetFreeAALServicesResponse value) {
-        return new JAXBElement<GetFreeAALServicesResponse>(_GetFreeAALServicesResponse_QNAME, GetFreeAALServicesResponse.class, null, value);
+    public JAXBElement<GetFreeAALServicesResponse> createGetFreeAALServicesResponse(
+	    GetFreeAALServicesResponse value) {
+	return new JAXBElement<GetFreeAALServicesResponse>(
+		_GetFreeAALServicesResponse_QNAME,
+		GetFreeAALServicesResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PurchaseFreeAALServiceResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}
+     * {@link PurchaseFreeAALServiceResponse }{@code >}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "purchaseFreeAALServiceResponse")
-    public JAXBElement<PurchaseFreeAALServiceResponse> createPurchaseFreeAALServiceResponse(PurchaseFreeAALServiceResponse value) {
-        return new JAXBElement<PurchaseFreeAALServiceResponse>(_PurchaseFreeAALServiceResponse_QNAME, PurchaseFreeAALServiceResponse.class, null, value);
+    public JAXBElement<PurchaseFreeAALServiceResponse> createPurchaseFreeAALServiceResponse(
+	    PurchaseFreeAALServiceResponse value) {
+	return new JAXBElement<PurchaseFreeAALServiceResponse>(
+		_PurchaseFreeAALServiceResponse_QNAME,
+		PurchaseFreeAALServiceResponse.class, null, value);
     }
 
 }

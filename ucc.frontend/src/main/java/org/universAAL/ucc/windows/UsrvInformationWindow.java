@@ -14,136 +14,132 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class UsrvInformationWindow extends Window {
-	private Button ok;
-	private Button cancel;
-	private TextField nameTxt;
-	private TextField version;
-	private TextField usrvDescription;
-	private TextField provider;
-	private ListSelect tags;
-	private String base;
-	private ResourceBundle bundle;
-	private Form form;
-	
-	public UsrvInformationWindow() {
-		base = "resources.ucc";
-		bundle = ResourceBundle.getBundle(base);
-		form = new Form();
-		form.setSizeFull();
-		form.setWriteThrough(false);
-		setCaption(bundle.getString("usrv.info"));
-		setWidth("425px");
-		setHeight("325px");
-		center();
-		setModal(true);
-		setClosable(false);
-		nameTxt = new TextField(bundle.getString("name.label"));
-		nameTxt.setImmediate(true);
-		nameTxt.setWidth("14em");
-		form.addField(bundle.getString("name.label"), nameTxt);
-//		vl.addComponent(nameTxt);
-		
-		version = new TextField(bundle.getString("version.label"));
-		version.setImmediate(true);
-		version.setWidth("14em");
-		form.addField(bundle.getString("version.label"), version);
-		
-		usrvDescription = new TextField(bundle.getString("description.label"));
-		usrvDescription.setImmediate(true);
-		usrvDescription.setWidth("14em");
-		form.addField(bundle.getString("description.label"), usrvDescription);
-//		vl.addComponent(usrvDescription);
-		
-		provider = new TextField(bundle.getString("provider.label"));
-		provider.setImmediate(true);
-		provider.setWidth("14em");
-		form.addField(bundle.getString("provider.label"), provider);
-//		vl.addComponent(provider);
-		
-		tags = new ListSelect(bundle.getString("tags.label"));
-		tags.setImmediate(true);
-		tags.setWidth("14em");
-//		form.addField(bundle.getString("tags.label"), tags);
-//		vl.addComponent(tags);
-		
-		ok = new Button(bundle.getString("ok.button"));
-		cancel = new Button(bundle.getString("cancel.button"));
-		HorizontalLayout hl = new HorizontalLayout();
-		hl.setMargin(true);
-		hl.setSpacing(true);
-		hl.addComponent(ok);
-		hl.addComponent(cancel);
-		form.setFooter(hl);
-		addComponent(form);
-//		vl.addComponent(hl);
-	}
-	
+    private Button ok;
+    private Button cancel;
+    private TextField nameTxt;
+    private TextField version;
+    private TextField usrvDescription;
+    private TextField provider;
+    private ListSelect tags;
+    private String base;
+    private ResourceBundle bundle;
+    private Form form;
 
-	public Button getOk() {
-		return ok;
-	}
+    public UsrvInformationWindow() {
+	base = "resources.ucc";
+	bundle = ResourceBundle.getBundle(base);
+	form = new Form();
+	form.setSizeFull();
+	form.setWriteThrough(false);
+	setCaption(bundle.getString("usrv.info"));
+	setWidth("425px");
+	setHeight("325px");
+	center();
+	setModal(true);
+	setClosable(false);
+	nameTxt = new TextField(bundle.getString("name.label"));
+	nameTxt.setImmediate(true);
+	nameTxt.setWidth("14em");
+	form.addField(bundle.getString("name.label"), nameTxt);
+	// vl.addComponent(nameTxt);
 
-	public void setOk(Button ok) {
-		this.ok = ok;
-	}
+	version = new TextField(bundle.getString("version.label"));
+	version.setImmediate(true);
+	version.setWidth("14em");
+	form.addField(bundle.getString("version.label"), version);
 
-	public TextField getNameTxt() {
-		return nameTxt;
-	}
+	usrvDescription = new TextField(bundle.getString("description.label"));
+	usrvDescription.setImmediate(true);
+	usrvDescription.setWidth("14em");
+	form.addField(bundle.getString("description.label"), usrvDescription);
+	// vl.addComponent(usrvDescription);
 
-	public void setNameTxt(TextField nameTxt) {
-		this.nameTxt = nameTxt;
-	}
+	provider = new TextField(bundle.getString("provider.label"));
+	provider.setImmediate(true);
+	provider.setWidth("14em");
+	form.addField(bundle.getString("provider.label"), provider);
+	// vl.addComponent(provider);
 
-	public TextField getVersion() {
-		return version;
-	}
+	tags = new ListSelect(bundle.getString("tags.label"));
+	tags.setImmediate(true);
+	tags.setWidth("14em");
+	// form.addField(bundle.getString("tags.label"), tags);
+	// vl.addComponent(tags);
 
-	public void setVersion(TextField version) {
-		this.version = version;
-	}
+	ok = new Button(bundle.getString("ok.button"));
+	cancel = new Button(bundle.getString("cancel.button"));
+	HorizontalLayout hl = new HorizontalLayout();
+	hl.setMargin(true);
+	hl.setSpacing(true);
+	hl.addComponent(ok);
+	hl.addComponent(cancel);
+	form.setFooter(hl);
+	addComponent(form);
+	// vl.addComponent(hl);
+    }
 
-	public TextField getProvider() {
-		return provider;
-	}
+    public Button getOk() {
+	return ok;
+    }
 
-	public void setProvider(TextField provider) {
-		this.provider = provider;
-	}
+    public void setOk(Button ok) {
+	this.ok = ok;
+    }
 
-	public ListSelect getTags() {
-		return tags;
-	}
+    public TextField getNameTxt() {
+	return nameTxt;
+    }
 
-	public void setTags(ListSelect tags) {
-		this.tags = tags;
-	}
-	
-	public Button getCancel() {
-		return cancel;
-	}
+    public void setNameTxt(TextField nameTxt) {
+	this.nameTxt = nameTxt;
+    }
 
-	public void setCancel(Button cancel) {
-		this.cancel = cancel;
-	}
+    public TextField getVersion() {
+	return version;
+    }
 
-	public TextField getUsrvDescription() {
-		return usrvDescription;
-	}
+    public void setVersion(TextField version) {
+	this.version = version;
+    }
 
-	public void setUsrvDescription(TextField usrvDescription) {
-		this.usrvDescription = usrvDescription;
-	}
+    public TextField getProvider() {
+	return provider;
+    }
 
-	public Form getForm() {
-		return form;
-	}
+    public void setProvider(TextField provider) {
+	this.provider = provider;
+    }
 
-	public void setForm(Form form) {
-		this.form = form;
-	}
-	
-	
+    public ListSelect getTags() {
+	return tags;
+    }
 
+    public void setTags(ListSelect tags) {
+	this.tags = tags;
+    }
+
+    public Button getCancel() {
+	return cancel;
+    }
+
+    public void setCancel(Button cancel) {
+	this.cancel = cancel;
+    }
+
+    public TextField getUsrvDescription() {
+	return usrvDescription;
+    }
+
+    public void setUsrvDescription(TextField usrvDescription) {
+	this.usrvDescription = usrvDescription;
+    }
+
+    public Form getForm() {
+	return form;
+    }
+
+    public void setForm(Form form) {
+	this.form = form;
+    }
 
 }

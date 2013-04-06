@@ -18,92 +18,94 @@ import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.webconnection.WebConnector;
 
 public class Activator implements BundleActivator {
-	private static IInstaller installer;
-	private static IDeinstaller deinstaller;
-	private static ServiceReference ref;
-	private static ServiceReference dRef;
-	private static BundleContext bc;
-	private static ServiceRegistration regis;
-	private static IServiceManagement mgmt; 
-	private static IServiceModel model;
-	private static 	IServiceRegistration reg;
+    private static IInstaller installer;
+    private static IDeinstaller deinstaller;
+    private static ServiceReference ref;
+    private static ServiceReference dRef;
+    private static BundleContext bc;
+    private static ServiceRegistration regis;
+    private static IServiceManagement mgmt;
+    private static IServiceModel model;
+    private static IServiceRegistration reg;
 
+    public void start(BundleContext context) throws Exception {
+	Activator.bc = context;
+	ref = context.getServiceReference(IInstaller.class.getName());
+	installer = (IInstaller) context.getService(ref);
+	// Later uncomment, when Deinstaller is implemented in the
+	// ucc.controller
+	dRef = context.getServiceReference(IDeinstaller.class.getName());
+	deinstaller = (IDeinstaller) context.getService(dRef);
 
-	public void start(BundleContext context) throws Exception {
-		Activator.bc = context;
-		ref = context.getServiceReference(IInstaller.class.getName());
-		installer = (IInstaller) context.getService(ref);
-		//Later uncomment, when Deinstaller is implemented in the ucc.controller
-		dRef = context.getServiceReference(IDeinstaller.class.getName());
-		deinstaller = (IDeinstaller) context.getService(dRef);
-		
-		regis = bc.registerService(IFrontend.class.getName(), new FrontendImpl(), null);
-		
-		model = new Model();
-		context.registerService(new String[] { IServiceModel.class.getName() }, model, null);
-		mgmt = model.getServiceManagment();
-		reg= model.getServiceRegistration();
+	regis = bc.registerService(IFrontend.class.getName(),
+		new FrontendImpl(), null);
 
+	model = new Model();
+	context.registerService(new String[] { IServiceModel.class.getName() },
+		model, null);
+	mgmt = model.getServiceManagment();
+	reg = model.getServiceRegistration();
+
+    }
+
+    public static IInstaller getInstaller() {
+	if (installer == null) {
+	    installer = (IInstaller) bc.getService(ref);
 	}
-	
-	public static IInstaller getInstaller() {
-		if(installer == null) {
-			installer = (IInstaller) bc.getService(ref);
-		}
-		return installer;
-	}
-	
-	public static IDeinstaller getDeinstaller() {
-		if(deinstaller == null) {
-			deinstaller = (IDeinstaller)bc.getService(dRef);
-		} return deinstaller;
-	}
-	
+	return installer;
+    }
 
-	public static IServiceManagement getMgmt() {
-		return mgmt;
+    public static IDeinstaller getDeinstaller() {
+	if (deinstaller == null) {
+	    deinstaller = (IDeinstaller) bc.getService(dRef);
 	}
+	return deinstaller;
+    }
 
-	public static void setMgmt(IServiceManagement mgmt) {
-		Activator.mgmt = mgmt;
-	}
+    public static IServiceManagement getMgmt() {
+	return mgmt;
+    }
 
-	public static IServiceModel getModel() {
-		return model;
-	}
+    public static void setMgmt(IServiceManagement mgmt) {
+	Activator.mgmt = mgmt;
+    }
 
-	public static void setModel(IServiceModel model) {
-		Activator.model = model;
-	}
+    public static IServiceModel getModel() {
+	return model;
+    }
 
-	public static IServiceRegistration getReg() {
-		return reg;
-	}
+    public static void setModel(IServiceModel model) {
+	Activator.model = model;
+    }
 
-	public static void setReg(IServiceRegistration reg) {
-		Activator.reg = reg;
-	}
+    public static IServiceRegistration getReg() {
+	return reg;
+    }
 
-	public void stop(BundleContext context) throws Exception {
-		context.ungetService(ref);
-		context.ungetService(dRef);
-		regis.unregister();
-		File file = new File(System.getenv("systemdrive")+"/tempUsrvFiles/");
-		deleteFiles(file);
-		WebConnector.getInstance().stopListening();
-	}
-	
-	private void deleteFiles(File path) {
-		File[] files = path.listFiles();
-		for (File del : files) {
-			if (del.isDirectory()) {
-				deleteFiles(del);
-			}
-			if(!del.getPath().substring(del.getPath().indexOf(".")+1).equals("usrv"))
-				del.delete();
-		}
+    public static void setReg(IServiceRegistration reg) {
+	Activator.reg = reg;
+    }
 
+    public void stop(BundleContext context) throws Exception {
+	context.ungetService(ref);
+	context.ungetService(dRef);
+	regis.unregister();
+	File file = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+	deleteFiles(file);
+	WebConnector.getInstance().stopListening();
+    }
+
+    private void deleteFiles(File path) {
+	File[] files = path.listFiles();
+	for (File del : files) {
+	    if (del.isDirectory()) {
+		deleteFiles(del);
+	    }
+	    if (!del.getPath().substring(del.getPath().indexOf(".") + 1)
+		    .equals("usrv"))
+		del.delete();
 	}
 
-	
+    }
+
 }

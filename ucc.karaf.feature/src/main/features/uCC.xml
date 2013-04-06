@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+<features name="universAAL-uCC-karaf-2.0.1" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
 	<feature name="uCC" description="The uCC for universAAL middleware 2.0"
 		version="2.0.1" resolver='(obr)'>		
@@ -8,7 +8,7 @@
 
 		<bundle start-level="92">wrap:mvn:org.osgi/osgi_R4_compendium/1.0</bundle>
 		
-   		<bundle start-level="93">mvn:org.apache.cxf.dosgi/cxf-dosgi-ri-singlebundle-distribution/1.3.1</bundle>  
+   		<bundle start-level="93">mvn:org.apache.cxf.dosgi/cxf-dosgi-ri-singlebundle-distribution/1.4.0</bundle>  
 		<bundle start-level="93">mvn:org.apache.felix/org.apache.felix.scr/1.6.0</bundle>   
 		<bundle start-level="93">mvn:javax.servlet/com.springsource.javax.servlet/2.5.0</bundle>
 		<bundle start-level="93">mvn:org.slf4j/slf4j-api/1.7.3</bundle>

@@ -3,16 +3,14 @@ package org.universAAL.ucc.configuration.view;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
+import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistryChanged;
+import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
 
-import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Select;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
-
-import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
-import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistryChanged;
-import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
 
 /**
  * 

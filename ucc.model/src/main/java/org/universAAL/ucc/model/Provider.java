@@ -1,56 +1,56 @@
 package org.universAAL.ucc.model;
 
 /**
- * The provider of a usrv file. Has a name, a telephone-number, email and optionally website.
+ * The provider of a usrv file. Has a name, a telephone-number, email and
+ * optionally website.
+ * 
  * @author merkle
- *
+ * 
  */
 
 public class Provider {
-	private String name;
-	private String tel;
-	private String email;
-	private String website;
-	
-	public Provider(String name, String tel, String email, String web) {
-		this.name = name;
-		this.tel = tel;
-		this.email = email;
-		this.website = web;
-	}
+    private String name;
+    private String tel;
+    private String email;
+    private String website;
 
-	public String getName() {
-		return name;
-	}
+    public Provider(String name, String tel, String email, String web) {
+	this.name = name;
+	this.tel = tel;
+	this.email = email;
+	this.website = web;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public String getTel() {
-		return tel;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
+    public String getTel() {
+	return tel;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setTel(String tel) {
+	this.tel = tel;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+	return email;
+    }
 
-	public String getWebsite() {
-		return website;
-	}
+    public void setEmail(String email) {
+	this.email = email;
+    }
 
-	public void setWebsite(String website) {
-		this.website = website;
-	}
-	
-	
+    public String getWebsite() {
+	return website;
+    }
+
+    public void setWebsite(String website) {
+	this.website = website;
+    }
 
 }

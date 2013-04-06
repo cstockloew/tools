@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>ucc.service</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
-  <name>Service management and registration of the uCC</name>
-  <description>This bundle is responsible to manage the registration and display of services/applications/bundles using a local file &quot;services.xml&quot;.</description>
-  <packaging>bundle</packaging>
-    <dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.universAAL.tools.ucc</groupId>
+		<artifactId>ucc.pom</artifactId>
+		<version>1.2.2-SNAPSHOT</version>
+		<relativePath>../ucc.pom/pom.xml</relativePath>
+	</parent>
+	<!--
+		this artefact is to be added to uCC.pom parent into modules and
+		dependencies section if it is to be used in the future
+	-->
+	<artifactId>ucc.service</artifactId>
+	<version>2.0.1-SNAPSHOT</version>
+	<name>universAAL uCC Service management and registration of the uCC</name>
+	<description>This bundle is responsible to manage the registration and display of services/applications/bundles using a local file &quot;services.xml&quot;.</description>
+	<packaging>bundle</packaging>
+	<dependencies>
 		<dependency>
-  			<groupId>org.apache.felix</groupId>
-  			<artifactId>org.apache.felix.framework</artifactId>
-  			<version>3.0.8</version>
-  		</dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.framework</artifactId>
+			<!--  			<version>3.0.8</version>-->
+		</dependency>
 	</dependencies>
-    <build>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -31,5 +42,4 @@
 			</plugin>
 		</plugins>
 	</build>
-    <groupId>org.universAAL.tools.ucc</groupId>
 </project>

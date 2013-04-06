@@ -1,15 +1,16 @@
-
 package org.universAAL.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for uAALException complex type.
+ * <p>
+ * Java class for uAALException complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="uAALException">
@@ -26,9 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "uAALException", propOrder = {
-    "message"
-})
+@XmlType(name = "uAALException", propOrder = { "message" })
 public class UAALException {
 
     protected String message;
@@ -36,25 +35,22 @@ public class UAALException {
     /**
      * Gets the value of the message property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getMessage() {
-        return message;
+	return message;
     }
 
     /**
      * Sets the value of the message property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setMessage(String value) {
-        this.message = value;
+	this.message = value;
     }
 
 }
