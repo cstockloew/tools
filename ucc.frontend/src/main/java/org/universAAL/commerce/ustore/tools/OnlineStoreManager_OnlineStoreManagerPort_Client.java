@@ -25,120 +25,120 @@ import javax.xml.ws.ResponseWrapper;
 
 public final class OnlineStoreManager_OnlineStoreManagerPort_Client {
 
-    private static final QName SERVICE_NAME = new QName(
-	    "http://tools.ustore.commerce.universaal.org/",
-	    "OnlineStoreManagerService");
+	private static final QName SERVICE_NAME = new QName(
+			"http://tools.ustore.commerce.universaal.org/",
+			"OnlineStoreManagerService");
 
-    private OnlineStoreManager_OnlineStoreManagerPort_Client() {
-    }
+	private OnlineStoreManager_OnlineStoreManagerPort_Client() {
+	}
 
-    public static void main(String args[]) throws Exception {
-	URL wsdlURL = OnlineStoreManagerService.WSDL_LOCATION;
-	if (args.length > 0) {
-	    File wsdlFile = new File(args[0]);
-	    try {
-		if (wsdlFile.exists()) {
-		    wsdlURL = wsdlFile.toURI().toURL();
-		} else {
-		    wsdlURL = new URL(args[0]);
+	public static void main(String args[]) throws Exception {
+		URL wsdlURL = OnlineStoreManagerService.WSDL_LOCATION;
+		if (args.length > 0) {
+			File wsdlFile = new File(args[0]);
+			try {
+				if (wsdlFile.exists()) {
+					wsdlURL = wsdlFile.toURI().toURL();
+				} else {
+					wsdlURL = new URL(args[0]);
+				}
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
 		}
-	    } catch (MalformedURLException e) {
-		e.printStackTrace();
-	    }
+
+		OnlineStoreManagerService ss = new OnlineStoreManagerService(wsdlURL,
+				SERVICE_NAME);
+		OnlineStoreManager port = ss.getOnlineStoreManagerPort();
+
+		{
+			System.out.println("Invoking getUserProfile...");
+			java.lang.String _getUserProfile_sessionKey = "";
+			try {
+				java.lang.String _getUserProfile__return = port
+						.getUserProfile(_getUserProfile_sessionKey);
+				System.out.println("getUserProfile.result="
+						+ _getUserProfile__return);
+
+			} catch (UAALException_Exception e) {
+				System.out
+						.println("Expected exception: uAALException has occurred.");
+				System.out.println(e.toString());
+			}
+		}
+		{
+			System.out.println("Invoking getFreeAALServices...");
+			java.lang.String _getFreeAALServices_sessionKey = "";
+			boolean _getFreeAALServices_isFitToUser = false;
+			try {
+				java.lang.String _getFreeAALServices__return = port
+						.getFreeAALServices(_getFreeAALServices_sessionKey,
+								_getFreeAALServices_isFitToUser);
+				System.out.println("getFreeAALServices.result="
+						+ _getFreeAALServices__return);
+
+			} catch (UAALException_Exception e) {
+				System.out
+						.println("Expected exception: uAALException has occurred.");
+				System.out.println(e.toString());
+			}
+		}
+		{
+			System.out.println("Invoking getPurchasedAALServices...");
+			java.lang.String _getPurchasedAALServices_sessionKey = "";
+			try {
+				java.lang.String _getPurchasedAALServices__return = port
+						.getPurchasedAALServices(_getPurchasedAALServices_sessionKey);
+				System.out.println("getPurchasedAALServices.result="
+						+ _getPurchasedAALServices__return);
+
+			} catch (UAALException_Exception e) {
+				System.out
+						.println("Expected exception: uAALException has occurred.");
+				System.out.println(e.toString());
+			}
+		}
+		{
+			System.out.println("Invoking registerDeployManager...");
+			java.lang.String _registerDeployManager_userName = "";
+			java.lang.String _registerDeployManager_password = "";
+			java.lang.String _registerDeployManager_ipAddress = "";
+			java.lang.String _registerDeployManager_port = "";
+			try {
+				java.lang.String _registerDeployManager__return = port
+						.registerDeployManager(_registerDeployManager_userName,
+								_registerDeployManager_password,
+								_registerDeployManager_ipAddress,
+								_registerDeployManager_port);
+				System.out.println("registerDeployManager.result="
+						+ _registerDeployManager__return);
+
+			} catch (UAALException_Exception e) {
+				System.out
+						.println("Expected exception: uAALException has occurred.");
+				System.out.println(e.toString());
+			}
+		}
+		{
+			System.out.println("Invoking purchaseFreeAALService...");
+			java.lang.String _purchaseFreeAALService_sessionKey = "";
+			java.lang.String _purchaseFreeAALService_serviceId = "";
+			try {
+				java.lang.String _purchaseFreeAALService__return = port
+						.purchaseFreeAALService(
+								_purchaseFreeAALService_sessionKey,
+								_purchaseFreeAALService_serviceId);
+				System.out.println("purchaseFreeAALService.result="
+						+ _purchaseFreeAALService__return);
+
+			} catch (UAALException_Exception e) {
+				System.out
+						.println("Expected exception: uAALException has occurred.");
+				System.out.println(e.toString());
+			}
+		}
+
+		System.exit(0);
 	}
-
-	OnlineStoreManagerService ss = new OnlineStoreManagerService(wsdlURL,
-		SERVICE_NAME);
-	OnlineStoreManager port = ss.getOnlineStoreManagerPort();
-
-	{
-	    System.out.println("Invoking getUserProfile...");
-	    java.lang.String _getUserProfile_sessionKey = "";
-	    try {
-		java.lang.String _getUserProfile__return = port
-			.getUserProfile(_getUserProfile_sessionKey);
-		System.out.println("getUserProfile.result="
-			+ _getUserProfile__return);
-
-	    } catch (UAALException_Exception e) {
-		System.out
-			.println("Expected exception: uAALException has occurred.");
-		System.out.println(e.toString());
-	    }
-	}
-	{
-	    System.out.println("Invoking getFreeAALServices...");
-	    java.lang.String _getFreeAALServices_sessionKey = "";
-	    boolean _getFreeAALServices_isFitToUser = false;
-	    try {
-		java.lang.String _getFreeAALServices__return = port
-			.getFreeAALServices(_getFreeAALServices_sessionKey,
-				_getFreeAALServices_isFitToUser);
-		System.out.println("getFreeAALServices.result="
-			+ _getFreeAALServices__return);
-
-	    } catch (UAALException_Exception e) {
-		System.out
-			.println("Expected exception: uAALException has occurred.");
-		System.out.println(e.toString());
-	    }
-	}
-	{
-	    System.out.println("Invoking getPurchasedAALServices...");
-	    java.lang.String _getPurchasedAALServices_sessionKey = "";
-	    try {
-		java.lang.String _getPurchasedAALServices__return = port
-			.getPurchasedAALServices(_getPurchasedAALServices_sessionKey);
-		System.out.println("getPurchasedAALServices.result="
-			+ _getPurchasedAALServices__return);
-
-	    } catch (UAALException_Exception e) {
-		System.out
-			.println("Expected exception: uAALException has occurred.");
-		System.out.println(e.toString());
-	    }
-	}
-	{
-	    System.out.println("Invoking registerDeployManager...");
-	    java.lang.String _registerDeployManager_userName = "";
-	    java.lang.String _registerDeployManager_password = "";
-	    java.lang.String _registerDeployManager_ipAddress = "";
-	    java.lang.String _registerDeployManager_port = "";
-	    try {
-		java.lang.String _registerDeployManager__return = port
-			.registerDeployManager(_registerDeployManager_userName,
-				_registerDeployManager_password,
-				_registerDeployManager_ipAddress,
-				_registerDeployManager_port);
-		System.out.println("registerDeployManager.result="
-			+ _registerDeployManager__return);
-
-	    } catch (UAALException_Exception e) {
-		System.out
-			.println("Expected exception: uAALException has occurred.");
-		System.out.println(e.toString());
-	    }
-	}
-	{
-	    System.out.println("Invoking purchaseFreeAALService...");
-	    java.lang.String _purchaseFreeAALService_sessionKey = "";
-	    java.lang.String _purchaseFreeAALService_serviceId = "";
-	    try {
-		java.lang.String _purchaseFreeAALService__return = port
-			.purchaseFreeAALService(
-				_purchaseFreeAALService_sessionKey,
-				_purchaseFreeAALService_serviceId);
-		System.out.println("purchaseFreeAALService.result="
-			+ _purchaseFreeAALService__return);
-
-	    } catch (UAALException_Exception e) {
-		System.out
-			.println("Expected exception: uAALException has occurred.");
-		System.out.println(e.toString());
-	    }
-	}
-
-	System.exit(0);
-    }
 
 }

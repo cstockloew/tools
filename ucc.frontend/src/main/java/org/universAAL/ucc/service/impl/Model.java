@@ -16,56 +16,56 @@ import org.w3c.dom.Element;
 
 public class Model implements IServiceModel {
 
-    private IServiceRegistration srvReg;
-    private IServiceManagement srvMan;
-    public final static String SERVICEFILENAME = "services.xml";
-    private static Document doc;
+	private IServiceRegistration srvReg;
+	private IServiceManagement srvMan;
+	public final static String SERVICEFILENAME = "services.xml";
+	private static Document doc;
 
-    public Model() {
-	srvReg = (IServiceRegistration) (new ServiceRegistration());
-	srvMan = (IServiceManagement) (new ServiceManagment());
-    }
-
-    public IServiceRegistration getServiceRegistration() {
-	return srvReg;
-    }
-
-    public IServiceManagement getServiceManagment() {
-	return srvMan;
-    }
-
-    static protected Document getSrvDocument() {
-	if (doc == null) {
-	    File file = new File(SERVICEFILENAME);
-	    try {
-		if (file.exists()) {
-		    DocumentBuilderFactory dbf = DocumentBuilderFactory
-			    .newInstance();
-		    DocumentBuilder db;
-		    db = dbf.newDocumentBuilder();
-		    doc = db.parse(file);
-		} else {
-		    doc = DocumentBuilderFactory.newInstance()
-			    .newDocumentBuilder().newDocument();
-		    Element appRoot = doc.createElement("services");
-		    doc.appendChild(appRoot);
-		    try {
-			TransformerFactory
-				.newInstance()
-				.newTransformer()
-				.transform(new DOMSource(doc),
-					new StreamResult(Model.SERVICEFILENAME));
-		    } catch (Exception e) {
-			e.printStackTrace();
-			System.out
-				.println("[Model.getSrvDocument] can not create the root element!");
-		    }
-		}
-
-	    } catch (Exception e) {
-		return null;
-	    }
+	public Model() {
+		srvReg = (IServiceRegistration) (new ServiceRegistration());
+		srvMan = (IServiceManagement) (new ServiceManagment());
 	}
-	return doc;
-    }
+
+	public IServiceRegistration getServiceRegistration() {
+		return srvReg;
+	}
+
+	public IServiceManagement getServiceManagment() {
+		return srvMan;
+	}
+
+	static protected Document getSrvDocument() {
+		if (doc == null) {
+			File file = new File(SERVICEFILENAME);
+			try {
+				if (file.exists()) {
+					DocumentBuilderFactory dbf = DocumentBuilderFactory
+							.newInstance();
+					DocumentBuilder db;
+					db = dbf.newDocumentBuilder();
+					doc = db.parse(file);
+				} else {
+					doc = DocumentBuilderFactory.newInstance()
+							.newDocumentBuilder().newDocument();
+					Element appRoot = doc.createElement("services");
+					doc.appendChild(appRoot);
+					try {
+						TransformerFactory
+								.newInstance()
+								.newTransformer()
+								.transform(new DOMSource(doc),
+										new StreamResult(Model.SERVICEFILENAME));
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.out
+								.println("[Model.getSrvDocument] can not create the root element!");
+					}
+				}
+
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		return doc;
+	}
 }

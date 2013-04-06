@@ -21,9 +21,9 @@ public class DeploymentInformationView extends Window {
 	private HorizontalSplitPanel hp;
 	private final String base;
 	private ResourceBundle bundle;
-	private Button ok; 
+	private Button ok;
 	private Button cancel;
-	
+
 	public DeploymentInformationView(UccUI app) {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
@@ -40,14 +40,15 @@ public class DeploymentInformationView extends Window {
 		ok = new Button(bundle.getString("ok.button"));
 		cancel = new Button(bundle.getString("cancel.button"));
 		setContent(hp);
-		setWidth("800px");
+		setWidth("1024px");
 		setHeight("600px");
 		center();
 		setModal(true);
 		setClosable(false);
 	}
-	
-	public VerticalLayout createSecondComponent(DeployStrategyView stratView, DeployConfigView confView) {
+
+	public VerticalLayout createSecondComponent(DeployStrategyView stratView,
+			DeployConfigView confView) {
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSizeFull();
 		vl.setMargin(true);
@@ -64,7 +65,7 @@ public class DeploymentInformationView extends Window {
 		hp.setSecondComponent(vl);
 		return vl;
 	}
-	
+
 	public void createFirstComponent(Component c) {
 		hp.setFirstComponent(c);
 	}
@@ -100,6 +101,5 @@ public class DeploymentInformationView extends Window {
 	public void setCancel(Button cancel) {
 		this.cancel = cancel;
 	}
-	 
-	
+
 }

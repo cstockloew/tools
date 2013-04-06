@@ -46,18 +46,15 @@ public class UccUI extends Application {
 	private DesktopController desk;
 	private String basename;
 	private ResourceBundle res;
-	private  static UccUI uccUI;
-	
+	private static UccUI uccUI;
+
 	private final static String file = System.getenv("systemdrive")
 			+ "/uccDB/preferences.xml";
 
-	
 	public static UccUI getInstance() {
 		return uccUI;
 	}
 
-	
-	
 	@Override
 	public void init() {
 		setTheme("editortheme");
@@ -75,11 +72,11 @@ public class UccUI extends Application {
 				Locale.setDefault(Locale.ENGLISH);
 			}
 		}
-		//Creating tempUsrvFiles directory 
-		File file = new File(System.getenv("systemdrive")+"/tempUsrvFiles");
-		if(!file.exists()) {
-				file.mkdir();
-				System.err.println("tempUsrvFiles was created!");
+		// Creating tempUsrvFiles directory
+		File file = new File(System.getenv("systemdrive") + "/tempUsrvFiles");
+		if (!file.exists()) {
+			file.mkdir();
+			System.err.println("tempUsrvFiles was created!");
 		}
 		basename = "resources.ucc";
 		res = ResourceBundle.getBundle(basename);

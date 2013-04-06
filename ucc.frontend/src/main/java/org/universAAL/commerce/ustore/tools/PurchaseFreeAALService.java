@@ -29,52 +29,52 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "purchaseFreeAALService", propOrder = { "sessionKey",
-	"serviceId" })
+		"serviceId" })
 public class PurchaseFreeAALService {
 
-    protected String sessionKey;
-    protected String serviceId;
+	protected String sessionKey;
+	protected String serviceId;
 
-    /**
-     * Gets the value of the sessionKey property.
-     * 
-     * @return possible object is {@link String }
-     * 
-     */
-    public String getSessionKey() {
-	return sessionKey;
-    }
+	/**
+	 * Gets the value of the sessionKey property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getSessionKey() {
+		return sessionKey;
+	}
 
-    /**
-     * Sets the value of the sessionKey property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
-     * 
-     */
-    public void setSessionKey(String value) {
-	this.sessionKey = value;
-    }
+	/**
+	 * Sets the value of the sessionKey property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setSessionKey(String value) {
+		this.sessionKey = value;
+	}
 
-    /**
-     * Gets the value of the serviceId property.
-     * 
-     * @return possible object is {@link String }
-     * 
-     */
-    public String getServiceId() {
-	return serviceId;
-    }
+	/**
+	 * Gets the value of the serviceId property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getServiceId() {
+		return serviceId;
+	}
 
-    /**
-     * Sets the value of the serviceId property.
-     * 
-     * @param value
-     *            allowed object is {@link String }
-     * 
-     */
-    public void setServiceId(String value) {
-	this.serviceId = value;
-    }
+	/**
+	 * Sets the value of the serviceId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setServiceId(String value) {
+		this.serviceId = value;
+	}
 
 }

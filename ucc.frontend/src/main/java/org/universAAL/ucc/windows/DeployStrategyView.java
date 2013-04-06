@@ -19,12 +19,14 @@ public class DeployStrategyView extends VerticalLayout {
 	private OptionGroup options;
 	private String base;
 	private ResourceBundle bundle;
-	
+
 	public DeployStrategyView(String name, String serviceId, String uaapPath) {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
-		addComponent(new Label("<b>"+bundle.getString("header.deploy.strategy")+"</b>", Label.CONTENT_XHTML));
-//		setSizeFull();
+		addComponent(new Label("<b>"
+				+ bundle.getString("header.deploy.strategy") + "</b>",
+				Label.CONTENT_XHTML));
+		// setSizeFull();
 		setMargin(true);
 		setSpacing(true);
 		form = new Form();
@@ -33,7 +35,9 @@ public class DeployStrategyView extends VerticalLayout {
 		txt.setValue(name);
 		form.addField(bundle.getString("application.label"), txt);
 		addComponent(form);
-		options = new OptionGroup("", Arrays.asList(new String[]{bundle.getString("opt.available.nodes"), bundle.getString("opt.selected.nodes")}));
+		options = new OptionGroup("", Arrays.asList(new String[] {
+				bundle.getString("opt.available.nodes"),
+				bundle.getString("opt.selected.nodes") }));
 		options.select(bundle.getString("opt.available.nodes"));
 		options.setImmediate(true);
 		options.setNullSelectionAllowed(false);

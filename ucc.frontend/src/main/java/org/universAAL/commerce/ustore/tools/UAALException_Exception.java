@@ -10,36 +10,36 @@ import javax.xml.ws.WebFault;
 
 @WebFault(name = "uAALException", targetNamespace = "http://tools.ustore.commerce.universaal.org/")
 public class UAALException_Exception extends Exception {
-    public static final long serialVersionUID = 20130327125811L;
+	public static final long serialVersionUID = 20130327125811L;
 
-    private org.universAAL.commerce.ustore.tools.UAALException uAALException;
+	private org.universAAL.commerce.ustore.tools.UAALException uAALException;
 
-    public UAALException_Exception() {
-	super();
-    }
+	public UAALException_Exception() {
+		super();
+	}
 
-    public UAALException_Exception(String message) {
-	super(message);
-    }
+	public UAALException_Exception(String message) {
+		super(message);
+	}
 
-    public UAALException_Exception(String message, Throwable cause) {
-	super(message, cause);
-    }
+	public UAALException_Exception(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-    public UAALException_Exception(String message,
-	    org.universAAL.commerce.ustore.tools.UAALException uAALException) {
-	super(message);
-	this.uAALException = uAALException;
-    }
+	public UAALException_Exception(String message,
+			org.universAAL.commerce.ustore.tools.UAALException uAALException) {
+		super(message);
+		this.uAALException = uAALException;
+	}
 
-    public UAALException_Exception(String message,
-	    org.universAAL.commerce.ustore.tools.UAALException uAALException,
-	    Throwable cause) {
-	super(message, cause);
-	this.uAALException = uAALException;
-    }
+	public UAALException_Exception(String message,
+			org.universAAL.commerce.ustore.tools.UAALException uAALException,
+			Throwable cause) {
+		super(message, cause);
+		this.uAALException = uAALException;
+	}
 
-    public org.universAAL.commerce.ustore.tools.UAALException getFaultInfo() {
-	return this.uAALException;
-    }
+	public org.universAAL.commerce.ustore.tools.UAALException getFaultInfo() {
+		return this.uAALException;
+	}
 }
