@@ -22,6 +22,7 @@ import org.universAAL.middleware.interfaces.PeerRole;
 //import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.deploymaneger.uapp.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
@@ -172,13 +173,20 @@ public class DeploymentInfoController implements Button.ClickListener,
 						+ appLocation
 								.substring(appLocation.indexOf("./") + 1);
 				File uf = uf = new File(appLocation.trim());
+				for (PeerCard pc: peerMap.keySet()) {
+					List<Part> parts = peerMap.get(pc);
+					
+					System.out.println("[deploymentInfoController.peerMap] for peer with id: " + pc.getPeerID());
+					for (int i=0; i<parts.size(); i++) 
+						System.out.println("[deploymentInfoController.peerMap] has part: " + parts.get(i).getPartId());
+				}
+				
 				uapack = new UAPPPackage(aal.getServiceId(),
 						uapp.getAppId(), uf.toURI(), peerMap);
 				// Not work with uri, MW not implemented yet
-				 InstallationResults res =
+				 InstallationResultsDetails res =
 				 installer.requestToInstall(uapack);
-				// Shanshan: TODO: add app and bundles to "services.xml"
-				// file.
+				 // add app and bundles to "services.xml" file.
 				if (res.equals(InstallationResults.SUCCESS)) {
 					srvRegistration.registerApp(aal.getServiceId(),
 							uapp.getAppId());
@@ -218,9 +226,20 @@ public class DeploymentInfoController implements Button.ClickListener,
 					bc.ungetService(configRef);
 
 				} else {
+					// get parts mapping from config
+					System.out.println("[DeploymentInfoController] global result: " + res.getGlobalResult().toString());
+					for(Part key : config.keySet()) {
+						List<PeerCard> pcards = config.get(key);
+						for(PeerCard card: pcards) {
+							System.out.println("[DeploymentInfoController] detailed results for part-" + key.getPartId()
+									+ "/peer-" + card.getPeerID() + " is: " + res.getDetailedResult(card, key));
+						}
+					}
 					NoConfigurationWindow ncw = new NoConfigurationWindow(
 							bundle.getString("install.error"));
 					app.getMainWindow().addWindow(ncw);
+					
+					
 				}
 				app.getMainWindow().removeWindow(win);
 				File f = new File(System.getenv("systemdrive")
@@ -303,26 +322,39 @@ public class DeploymentInfoController implements Button.ClickListener,
 		// TODO: Do we need to check AAL space first (aalSpaceCheck)?
 		
 		Map<Part, List<PeerCard>> mpaLayout = new HashMap<Part, List<PeerCard>>();
-		Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
-		peersToCheck.putAll(peers);
-		List<PeerCard> peerList = new ArrayList<PeerCard>();
-		// Shanshan - TODO: update UAPP to return part info
+		//Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
+		//peersToCheck.putAll(peers);
+		//List<PeerCard> peerList = new ArrayList<PeerCard>();
 		for (UAPPPart ua : aal.getUaapList()) {
+			System.out.println("[DeployInfoController] build default layout for: " + ua.getPart().getPartId());
+			Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
+			peersToCheck.putAll(peers);
 			// check: deployment units
 			for (String key : peersToCheck.keySet()) {
 				PeerCard peer = peersToCheck.get(key);
+				System.out.println("[DeployInfoController.buildDefaultLayout] test layout for peer: " + peer.getPeerID());						
 				if (ua.getPart().getDeploymentUnit() == null) {
 					// use any peer for testing
 					System.out
-							.println("[DeployStrategyController] DeploymentUnit is null, use any peer!");
+							.println("[DeploymentInfoController] DeploymentUnit is null, use any peer!");
+					List<PeerCard> peerList = mpaLayout.get(ua.getPart());
+					if (peerList==null)
+						peerList = new ArrayList<PeerCard>();
 					peerList.add(peer);
+					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + ua.getPart().getPartId());
 					mpaLayout.put(ua.getPart(), peerList);
 					peersToCheck.remove(key);
 					break;
 				}
-				if (checkDeployementUnit(ua.getPart().getDeploymentUnit(), peer)) {
+				// TODO: wait for MW to see how to check
+				if (/*checkDeployementUnit(ua.getPart().getDeploymentUnit(), peer)*/ true) {
 					System.err.println("IN CHECK DEPLOYMENT UNIT!");
+					
+					List<PeerCard> peerList = mpaLayout.get(ua.getPart());
+					if (peerList==null)
+						peerList = new ArrayList<PeerCard>();
 					peerList.add(peer);
+					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + ua.getPart().getPartId());					
 					mpaLayout.put(ua.getPart(), peerList);
 					peersToCheck.remove(key);
 					break;
@@ -349,6 +381,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 						.equals(""))) {
 			Collection<String> selPeer = (Collection<String>) dcvMap
 					.get(selected).getSelect().getValue();
+			System.out.println("[DeploymentInfoController.buildUserLayout] user has selected " + selPeer.toArray().length + " peers");
 			for (int i = 0; i < selPeer.toArray().length; i++) {
 				String value = dcvMap.get(selected).getPeerNodes()
 						.get(selPeer.toArray()[i]);
@@ -360,11 +393,12 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.err.println("Peer-ROLE: " + role);
 				System.err.println("ID: " + id);
 				PeerCard peer = new PeerCard(id, role);
-				
-				if (checkDeployementUnit(uapp.getPart().getDeploymentUnit(),
-						peer)) {
-					System.err.println("In CHECKDEPLOYMENTUNIT!");
+				//TODO: update when MW has the right info to check
+				if (/*checkDeployementUnit(uapp.getPart().getDeploymentUnit(),
+						peer)*/ true) {
+					System.err.println("[buildUserInstallationLayout] In CHECKDEPLOYMENTUNIT!");
 					peerList.add(peer);
+					System.out.println("[DeploymentInfoController.buildUserLayout] add one peer " + peer.getPeerID() + " to part " + uapp.getPart().getPartId());
 					peersToCheck.remove(key);
 				} else {
 					app.getMainWindow().showNotification(
@@ -373,6 +407,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				}
 			}
 			mapLayout.put(uapp.getPart(), peerList);
+			
 			
 		} else {
 			app.getMainWindow().showNotification(
