@@ -28,6 +28,7 @@ import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
 import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
+import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.UAPPPart;
@@ -171,10 +172,13 @@ public class DeploymentInfoController implements Button.ClickListener,
 				UAPPPackage uapack = null;
 				// Get uapp location uri
 				String appLocation = uapp.getUappLocation();
-				appLocation = System.getenv("systemdrive")
+				System.err.println(uapp.getUappLocation());
+				String p = appLocation.substring(appLocation.indexOf("bin/"));
+				appLocation = /*System.getenv("systemdrive")
 						+ "/tempUsrvFiles"
 						+ appLocation
-								.substring(appLocation.indexOf("./") + 1);
+								.substring(appLocation.indexOf("./") + 1);*/ FrontendImpl.getUappURI()+"/"+p;
+				System.err.println("LOCATION URI: "+appLocation);
 				File uf = uf = new File(appLocation.trim());
 				for (PeerCard pc: peerMap.keySet()) {
 					List<Part> parts = peerMap.get(pc);
@@ -245,9 +249,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 					
 				}
 				app.getMainWindow().removeWindow(win);
-				File f = new File(System.getenv("systemdrive")
-						+ "/tempUsrvFiles/");
-				deleteFiles(f);
+//				File f = new File(System.getenv("systemdrive")
+//						+ "/tempUsrvFiles/");
+//				deleteFiles(f);
 
 			}
 			}

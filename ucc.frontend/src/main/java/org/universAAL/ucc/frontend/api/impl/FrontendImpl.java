@@ -60,6 +60,8 @@ public class FrontendImpl implements IFrontend {
 
 	private static final String usrvLocalStore = System.getenv("systemdrive")
 			+ "/tempUsrvFiles/";
+	
+	private static String uappURI;
 
 	public void installService(String sessionkey, String downloadUri /*
 																	 * Need from
@@ -86,39 +88,55 @@ public class FrontendImpl implements IFrontend {
 		// if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
-		 String usrvName = "";
-		 try {
-	
-		 usrvName = downloadUsrvFile(downloadUri, "HWO_Service.usrv");
-		 } catch (IOException e2) {
-		 // TODO Auto-generated catch block
-		 e2.printStackTrace();
-		 }
-		 File temp = new File(usrvLocalStore+/*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv");
+//		 String usrvName = "";
+//		 try {
+//	
+//		 usrvName = downloadUsrvFile(downloadUri, "corrected_hwo_usrv.usrv");
+//		 } catch (IOException e2) {
+//		 // TODO Auto-generated catch block
+//		 e2.printStackTrace();
+//		 }
+		 File temp = new File(usrvLocalStore+"corrected_hwo_usrv.usrv" /*"HWO_Service.usrv"*/);
 		if(temp.exists()) {
 			System.err.println("FILE exists");
 		try {
 			// extracts the downloaded usrv file
-			extractUsrvFile(usrvLocalStore + /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
+			extractUsrvFile(usrvLocalStore + "corrected_hwo_usrv.usrv" /*"HWO_Service.usrv"*/);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		//Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
+		uappURI = createUAPPLocation(usrvLocalStore+ "bin");
+		
 		// extract available uapp files
-		File usrv = new File(usrvLocalStore + "bin/");
+		File usrv = new File(usrvLocalStore + "hwo_uapp");
 		File[] uapps = usrv.listFiles();
 		for (File cur : uapps) {
 			try {
-				extractUsrvFile(usrvLocalStore + "bin/" + cur.getName());
+				System.err.println("UAPP getName()"+cur.getName());
+				extractUsrvFile(usrvLocalStore + "hwo_uapp/" + cur.getName());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
-		// parse uapp.config.xml
+		File del = new File(usrvLocalStore+"hwo_uapp/");
+		File[] d = del.listFiles();
+		for(int g = 0; g < d.length; g++) {
+			if(d[g].getName().substring(d[g].getName().indexOf(".")+1).contains("uapp")){
+				d[g].delete();
+			}
+		}
+//
+//		//Copy uapp files to hwo_uapp directory for deployment
+////		 uappURI= createUAPPLocation(usrvLocalStore+"bin");
+//		 
+//		
+//		// parse uapp.config.xml
 		ArrayList<UAPPPart> apps = null;
 		try {
-			apps = parseUappConfiguration("config/hwo.uapp.xml");
+			apps = parseUappConfiguration("hwo_uapp/config/hwo.uapp.xml");
 		} catch (SAXException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -131,12 +149,13 @@ public class FrontendImpl implements IFrontend {
 			// parses the configuration xml from the extracted usrv file
 			// and creates the views (LicenseView and so on) to show to the user
 			// for further processing
-			parseConfiguration(/*"config/hwo.usrv.xml"*/ "config/HWO Service.xml", apps);
+			parseConfiguration("config/hwo.usrv.xml" /*"config/HWO Service.xml"*/, apps);
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+//		createUAPPLocation(usrvLocalStore+"config");
 		// } else {
 		// //TODO: SessionKey was not right, what todo?
 		// }
@@ -190,6 +209,7 @@ public class FrontendImpl implements IFrontend {
 	 * @throws IOException
 	 */
 	public void extractUsrvFile(String usrvName) throws IOException {
+		String filePath = "";
 		System.err.println("Wichtig: " + usrvName);
 		File destDir = new File(usrvName);
 		if (!destDir.exists()) {
@@ -205,7 +225,13 @@ public class FrontendImpl implements IFrontend {
 		// iterates over entries in the zip file
 		while (entry != null) {
 			System.err.println("Entry current: " + entry.getName());
-			String filePath = usrvLocalStore + entry.getName();
+			if(!usrvName.contains(".uapp")) {
+			    filePath = usrvLocalStore + entry.getName();
+			}
+			else {
+				System.err.println("UAPP ENTRY "+entry.getName());
+				filePath = usrvLocalStore+"hwo_uapp/" + entry.getName();
+			}
 			if (!entry.isDirectory()) {
 				// if the entry is a file, extracts it
 				extractFile(zipIn, filePath);
@@ -499,6 +525,30 @@ public class FrontendImpl implements IFrontend {
 		}
 		bos.close();
 	}
+	
+	private String createUAPPLocation(String path) {
+		File pa = new File(path);
+		File[]dirs = pa.listFiles();
+		File rootFile = new File(usrvLocalStore+"hwo_uapp");
+		rootFile.mkdir();
+		for(int i = 0; i < dirs.length; i++) {
+			File f = new File(usrvLocalStore+"hwo_uapp/"+dirs[i].getName());
+			System.err.println("Dir-Name: "+dirs[i].getName());
+			if(dirs[i].isDirectory()) {
+				f.mkdir();
+//				File[] child = dirs[i].listFiles();
+//				for(int j = 0; j < child.length; j++) {
+//					System.err.println("Directory Path + Child Path: "+usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
+//					File cf = new File(usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
+//					child[j].renameTo(cf);
+//				}
+			}
+//			if(!f.getName().substring(f.getName().indexOf(".")+1).equals("uapp")) {
+				dirs[i].renameTo(f);
+				System.err.println(f.getAbsolutePath());
+//			}
+		} return usrvLocalStore+"hwo_uapp";
+	}
 
 	/**
 	 * Uninstalls the a installed AAL service.
@@ -537,5 +587,15 @@ public class FrontendImpl implements IFrontend {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public static String getUappURI() {
+		return uappURI;
+	}
+
+	public static void setUappURI(String uappURI) {
+		FrontendImpl.uappURI = uappURI;
+	}
+	
+	
 
 }
