@@ -160,7 +160,7 @@ public class ApplicationView extends Composite {
 		
 		btnExtractParameters = new Button(grpConfiguration, SWT.NONE);
 		btnExtractParameters.setText("Open Editor");
-		//btnExtractParameters.setEnabled(false);
+		btnExtractParameters.setEnabled(false);
 		
 		Group grpApplicationDescription = new Group(this, SWT.NONE);
 		grpApplicationDescription.setFont(SWTResourceManager.getFont("Lucida Grande", 11, SWT.BOLD));
@@ -197,12 +197,12 @@ public class ApplicationView extends Composite {
 
 		// Project
 		addCommandCallingListener(btnCreate,"org.universaal.tools.newwizard.plugin.command.startNewWizard", "AAL Studio Project Wizards");
-		//		btnImportProject.addSelectionListener(new TemporaryListener(this, "Import Project"));
+		//btnImportProject.addSelectionListener(new TemporaryListener(this, "Import Project"));
 		addCommandCallingListener(btnImportExample,"org.universaal.importexternalproject.commands.importexample", "AAL Studio integration with Developer Depot");
 
 		//Java Classes
 		addCommandCallingListener(btnCreateClass,"org.universaal.tools.newwizard.plugin.command.startNewItemWizard", "AAL Studio Project Wizards");
-		//		btnImportClass.addSelectionListener(new TemporaryListener(this, "Import Class"));
+		//btnImportClass.addSelectionListener(new TemporaryListener(this, "Import Class"));
 
 		//Configuration Editor
 		addCommandCallingListener(btnExtractParameters, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
