@@ -1,10 +1,8 @@
 package org.universAAL.ucc.client.util;
 
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import org.apache.cxf.frontend.ClientProxyFactoryBean;
 
 import javax.xml.namespace.QName;
 import org.osgi.framework.BundleContext;

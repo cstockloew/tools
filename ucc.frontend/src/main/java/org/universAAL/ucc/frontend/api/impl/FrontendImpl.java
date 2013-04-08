@@ -86,18 +86,20 @@ public class FrontendImpl implements IFrontend {
 		// if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
-		// String usrvName = "";
-		// try {
-		// System.err.println(downloadUri);
-		// usrvName = downloadUsrvFile(downloadUri, "HWO_Service.usrv");
-		// } catch (IOException e2) {
-		// // TODO Auto-generated catch block
-		// e2.printStackTrace();
-		// }
-		// Just for testing
+		 String usrvName = "";
+		 try {
+	
+		 usrvName = downloadUsrvFile(downloadUri, "HWO_Service.usrv");
+		 } catch (IOException e2) {
+		 // TODO Auto-generated catch block
+		 e2.printStackTrace();
+		 }
+		 File temp = new File(usrvLocalStore+/*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv");
+		if(temp.exists()) {
+			System.err.println("FILE exists");
 		try {
 			// extracts the downloaded usrv file
-			extractUsrvFile(usrvLocalStore + "corrected_hwo_usrv.usrv");
+			extractUsrvFile(usrvLocalStore + /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -129,7 +131,7 @@ public class FrontendImpl implements IFrontend {
 			// parses the configuration xml from the extracted usrv file
 			// and creates the views (LicenseView and so on) to show to the user
 			// for further processing
-			parseConfiguration("config/hwo.usrv.xml", apps);
+			parseConfiguration(/*"config/hwo.usrv.xml"*/ "config/HWO Service.xml", apps);
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -138,6 +140,7 @@ public class FrontendImpl implements IFrontend {
 		// } else {
 		// //TODO: SessionKey was not right, what todo?
 		// }
+		}
 	}
 
 	/**
@@ -169,15 +172,15 @@ public class FrontendImpl implements IFrontend {
 		return filename;
 	}
 
-	// private String parseFileName(String url){
-	// String result=url;
-	// String[] values=url.split("&");
-	// for(int i=0;i<values.length;i++){
-	// if(values[i].startsWith(FILENAME_SEARCH_TAG))
-	// result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
-	// }
-	// return result;
-	// }
+//	 private String parseFileName(String url){
+//	 String result=url;
+//	 String[] values=url.split("&");
+//	 for(int i=0;i<values.length;i++){
+//	 if(values[i].startsWith(FILENAME_SEARCH_TAG))
+//	 result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
+//	 }
+//	 return result;
+//	 }
 
 	/**
 	 * Extracts the downloaded usrv file.

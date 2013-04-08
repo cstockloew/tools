@@ -61,6 +61,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 	private IServiceRegistration srvRegistration;
 	private BundleContext bc;
 	private List<Part>parts;
+	private Map<Part, List<PeerCard>> mapLayout;
 
 	public DeploymentInfoController(UccUI app, AALService aal,
 			DeploymentInformationView win) {
@@ -75,6 +76,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		parts = new ArrayList<Part>();
 		dsvMap = new HashMap<String, DeployStrategyView>();
 		dcvMap = new HashMap<String, DeployConfigView>();
+		mapLayout = new HashMap<Part, List<PeerCard>>();
 		int i = 0;
 
 		for (UAPPPart uapp : aal.getUaapList()) {
@@ -131,6 +133,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 					else if (dsvMap.get(selected).getOptions().getValue()
 							.toString()
 							.equals(bundle.getString("opt.selected.nodes"))) {
+						System.err.println("User Installation for part: "+uapp.getPart().getPartId());
 						config = buildUserInstallationLayout(uapp);
 						if (config.isEmpty())
 							return;
@@ -321,7 +324,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		// uapp.setPart(parts);
 		// TODO: Do we need to check AAL space first (aalSpaceCheck)?
 		
-		Map<Part, List<PeerCard>> mpaLayout = new HashMap<Part, List<PeerCard>>();
+//		Map<Part, List<PeerCard>> mpaLayout = new HashMap<Part, List<PeerCard>>();
 		//Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 		//peersToCheck.putAll(peers);
 		//List<PeerCard> peerList = new ArrayList<PeerCard>();
@@ -337,12 +340,12 @@ public class DeploymentInfoController implements Button.ClickListener,
 					// use any peer for testing
 					System.out
 							.println("[DeploymentInfoController] DeploymentUnit is null, use any peer!");
-					List<PeerCard> peerList = mpaLayout.get(ua.getPart());
+					List<PeerCard> peerList = mapLayout.get(ua.getPart());
 					if (peerList==null)
 						peerList = new ArrayList<PeerCard>();
 					peerList.add(peer);
 					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + ua.getPart().getPartId());
-					mpaLayout.put(ua.getPart(), peerList);
+					mapLayout.put(ua.getPart(), peerList);
 					peersToCheck.remove(key);
 					break;
 				}
@@ -350,12 +353,12 @@ public class DeploymentInfoController implements Button.ClickListener,
 				if (/*checkDeployementUnit(ua.getPart().getDeploymentUnit(), peer)*/ true) {
 					System.err.println("IN CHECK DEPLOYMENT UNIT!");
 					
-					List<PeerCard> peerList = mpaLayout.get(ua.getPart());
+					List<PeerCard> peerList = mapLayout.get(ua.getPart());
 					if (peerList==null)
 						peerList = new ArrayList<PeerCard>();
 					peerList.add(peer);
 					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + ua.getPart().getPartId());					
-					mpaLayout.put(ua.getPart(), peerList);
+					mapLayout.put(ua.getPart(), peerList);
 					peersToCheck.remove(key);
 					break;
 				} else {
@@ -366,11 +369,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 			}
 		}
 		
-		return mpaLayout;
+		return mapLayout;
 	}
 
 	private Map<Part, List<PeerCard>> buildUserInstallationLayout(UAPPPart uapp) {
-		Map<Part, List<PeerCard>> mapLayout = new HashMap<Part, List<PeerCard>>();
 		Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 		List<PeerCard> peerList = new ArrayList<PeerCard>();
 		// Create peer from user selection and test if peer fits for deployment
