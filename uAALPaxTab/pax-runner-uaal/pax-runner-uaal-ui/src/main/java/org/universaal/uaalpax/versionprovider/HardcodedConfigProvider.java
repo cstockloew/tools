@@ -213,6 +213,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 		f120.put("CHE",
 				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.context/ctxt.che/1.2.0"), "")).add(
 						new BundleEntry(new LaunchURL("mvn:org.universAAL.ontology/ont.che/1.2.0"), "")));
+		f120.put("Log Monitor", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.tools/tools.log_mon/1.2.0"), "")));
 		features.put("1.2.0", f120);
 		
 		Map<String, BundleSet> f121 = new HashMap<String, BundleSet>();
@@ -221,6 +222,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 		f121.put("CHE",
 				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.context/ctxt.che/1.2.1-SNAPSHOT"), "")).add(
 						new BundleEntry(new LaunchURL("mvn:org.universAAL.ontology/ont.che/1.2.1-SNAPSHOT"), "")));
+		f121.put("Log Monitor", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.tools/tools.log_mon/1.2.1-SNAPSHOT"), "")));
 		features.put("1.2.1-SNAPSHOT", f121);
 		
 		Map<String, BundleSet> f130 = new HashMap<String, BundleSet>();
@@ -228,6 +230,7 @@ public class HardcodedConfigProvider implements UAALVersionProvider {
 		f130.put("CHE",
 				new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.context/ctxt.che/1.3.0"), "")).add(
 						new BundleEntry(new LaunchURL("mvn:org.universAAL.ontology/ont.che/1.3.0"), "")));
+		f130.put("Log Monitor", new BundleSet().add(new BundleEntry(new LaunchURL("mvn:org.universAAL.tools/tools.log_mon/1.3.0"), "")));
 		features.put("1.3.0", f130);
 	}
 	

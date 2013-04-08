@@ -36,6 +36,9 @@
 			<bundle>mvn:org.universAAL.context/ctxt.che/1.2.1-SNAPSHOT</bundle>
 			<bundle>mvn:org.universAAL.ontology/ont.che/1.2.1-SNAPSHOT</bundle>
 		</bundleset>
+		<bundleset name="Log Monitor">
+			<bundle>mvn:org.universAAL.tools/tools.log_mon/1.2.1-SNAPSHOT</bundle>
+		</bundleset>
 	</features>
 
 	<relevant>
