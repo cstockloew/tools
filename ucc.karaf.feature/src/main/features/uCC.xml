@@ -4,7 +4,7 @@
 	<feature name="uCC" description="The uCC for universAAL middleware 2.0"
 		version="2.0.1" resolver='(obr)'>		
 
-  		<feature>universAAL2.0</feature>   
+  		<feature>mw.karaf.feature</feature>   
 
 		<bundle start-level="92">wrap:mvn:org.osgi/osgi_R4_compendium/1.0</bundle>
 		
