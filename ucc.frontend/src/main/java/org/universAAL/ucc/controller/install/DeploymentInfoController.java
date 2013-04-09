@@ -249,9 +249,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 					
 				}
 				app.getMainWindow().removeWindow(win);
-//				File f = new File(System.getenv("systemdrive")
-//						+ "/tempUsrvFiles/");
-//				deleteFiles(f);
+				File f = new File(System.getenv("systemdrive")
+						+ "/tempUsrvFiles/");
+				deleteFiles(f);
 
 			}
 			}

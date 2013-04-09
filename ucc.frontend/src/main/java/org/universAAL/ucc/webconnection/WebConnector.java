@@ -105,7 +105,7 @@ public class WebConnector {
 								client.getOutputStream());
 
 						String message = in.readLine();
-						char[] cbuf = new char[2048];
+						char[] cbuf = new char[4096];
 
 						in.read(cbuf);
 						message = String.valueOf(cbuf);
@@ -134,7 +134,6 @@ public class WebConnector {
 				try {
 					url = URLDecoder.decode(url, "UTF-8");
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return url;

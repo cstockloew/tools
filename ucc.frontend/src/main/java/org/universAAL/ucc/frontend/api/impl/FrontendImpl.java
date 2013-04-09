@@ -15,8 +15,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -54,7 +57,7 @@ import org.xml.sax.SAXException;
 
 public class FrontendImpl implements IFrontend {
 
-	private final int BUFFER_SIZE = 4096;
+	private final int BUFFER_SIZE = /*4096*/153600;
 
 	private static final String FILENAME_SEARCH_TAG = "filename";
 
@@ -76,51 +79,66 @@ public class FrontendImpl implements IFrontend {
 		// } catch (Exception e) {
 		// e.printStackTrace();
 		// }
-		URI uri = null;
-		try {
-			uri = new URI(downloadUri);
-		} catch (URISyntaxException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+
 
 		// check for sessionkey
 		// if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
-//		 String usrvName = "";
-//		 try {
-//	
-//		 usrvName = downloadUsrvFile(downloadUri, "corrected_hwo_usrv.usrv");
-//		 } catch (IOException e2) {
-//		 // TODO Auto-generated catch block
-//		 e2.printStackTrace();
-//		 }
-		 File temp = new File(usrvLocalStore+"corrected_hwo_usrv.usrv" /*"HWO_Service.usrv"*/);
+		 String usrvName = "";
+		 try {
+	
+		 usrvName = downloadUsrvFile(downloadUri, /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
+		 } catch (IOException e2) {
+		 e2.printStackTrace();
+		 }
+		 File temp = new File(usrvLocalStore+/*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv");
 		if(temp.exists()) {
 			System.err.println("FILE exists");
-		try {
-			// extracts the downloaded usrv file
-			extractUsrvFile(usrvLocalStore + "corrected_hwo_usrv.usrv" /*"HWO_Service.usrv"*/);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			try {
+				extractFolder(usrvLocalStore+/*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv", usrvLocalStore);
+			} catch (ZipException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+//		try {
+//			// extracts the downloaded usrv file
+//			extractUsrvFile(usrvLocalStore + "corrected_hwo_usrv.usrv" /*"HWO_Service.usrv"*/);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+			
 		
 		//Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
 		uappURI = createUAPPLocation(usrvLocalStore+ "bin");
 		
-		// extract available uapp files
+		
+//		
+//		// extract available uapp files
 		File usrv = new File(usrvLocalStore + "hwo_uapp");
 		File[] uapps = usrv.listFiles();
 		for (File cur : uapps) {
+//			try {
+//				System.err.println("UAPP getName() "+cur.getName());
+//				extractUsrvFile(usrvLocalStore + "hwo_uapp/" + cur.getName());
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			try {
-				System.err.println("UAPP getName()"+cur.getName());
-				extractUsrvFile(usrvLocalStore + "hwo_uapp/" + cur.getName());
+				extractFolder(usrvLocalStore+"hwo_uapp/"+ cur.getName(), usrvLocalStore+"hwo_uapp/");
+			} catch (ZipException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		//delete zipped uapp file in folder uapp
 		File del = new File(usrvLocalStore+"hwo_uapp/");
 		File[] d = del.listFiles();
 		for(int g = 0; g < d.length; g++) {
@@ -133,7 +151,7 @@ public class FrontendImpl implements IFrontend {
 ////		 uappURI= createUAPPLocation(usrvLocalStore+"bin");
 //		 
 //		
-//		// parse uapp.config.xml
+		// parse uapp.config.xml
 		ArrayList<UAPPPart> apps = null;
 		try {
 			apps = parseUappConfiguration("hwo_uapp/config/hwo.uapp.xml");
@@ -149,7 +167,7 @@ public class FrontendImpl implements IFrontend {
 			// parses the configuration xml from the extracted usrv file
 			// and creates the views (LicenseView and so on) to show to the user
 			// for further processing
-			parseConfiguration("config/hwo.usrv.xml" /*"config/HWO Service.xml"*/, apps);
+			parseConfiguration(/*"config/hwo.usrv.xml"*/"config/HWO Service.xml", apps);
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -516,6 +534,8 @@ public class FrontendImpl implements IFrontend {
 	 */
 	private void extractFile(ZipInputStream zipIn, String filePath)
 			throws IOException {
+		File f = new File(filePath);
+		
 		BufferedOutputStream bos = new BufferedOutputStream(
 				new FileOutputStream(filePath));
 		byte[] bytesIn = new byte[BUFFER_SIZE];
@@ -524,6 +544,7 @@ public class FrontendImpl implements IFrontend {
 			bos.write(bytesIn, 0, read);
 		}
 		bos.close();
+		
 	}
 	
 	private String createUAPPLocation(String path) {
@@ -594,6 +615,56 @@ public class FrontendImpl implements IFrontend {
 
 	public static void setUappURI(String uappURI) {
 		FrontendImpl.uappURI = uappURI;
+	}
+	
+	static public void extractFolder(String zipFile, String destdir) throws ZipException, IOException 
+	{
+	    System.out.println("[Installer.extractFolder] the zip file is: " + zipFile + " and dest dir: " + destdir);
+	    int BUFFER = 2048;
+	    File file = new File(zipFile);
+
+	    ZipFile zip = new ZipFile(file);
+	    String newPath = destdir;
+
+	    new File(newPath).mkdir();
+	    Enumeration<? extends ZipEntry> zipFileEntries = zip.entries();
+
+	    // Process each entry
+	    while (zipFileEntries.hasMoreElements())
+	    {
+	        // grab a zip file entry
+	        ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
+	        String currentEntry = entry.getName();
+	        File destFile = new File(newPath, currentEntry);
+	        //destFile = new File(newPath, destFile.getName());
+	        File destinationParent = destFile.getParentFile();
+
+	        // create the parent directory structure if needed
+	        destinationParent.mkdirs();
+
+	        if (!entry.isDirectory())
+	        {
+	            BufferedInputStream is = new BufferedInputStream(zip
+	            .getInputStream(entry));
+	            int currentByte;
+	            // establish buffer for writing file
+	            byte data[] = new byte[BUFFER];
+
+	            // write the current file to disk
+	            FileOutputStream fos = new FileOutputStream(destFile);
+	            BufferedOutputStream dest = new BufferedOutputStream(fos,
+	            BUFFER);
+
+	            // read and write until last byte is encountered
+	            while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
+	                dest.write(data, 0, currentByte);
+	            }
+	            dest.flush();
+	            dest.close();
+	            is.close();
+	        }
+
+	    }       
 	}
 	
 	
