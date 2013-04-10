@@ -139,13 +139,13 @@ public class FrontendImpl implements IFrontend {
 			}
 		}
 		//delete zipped uapp file in folder uapp
-		File del = new File(usrvLocalStore+"hwo_uapp/");
-		File[] d = del.listFiles();
-		for(int g = 0; g < d.length; g++) {
-			if(d[g].getName().substring(d[g].getName().indexOf(".")+1).contains("uapp")){
-				d[g].delete();
-			}
-		}
+//		File del = new File(usrvLocalStore+"hwo_uapp/");
+//		File[] d = del.listFiles();
+//		for(int g = 0; g < d.length; g++) {
+//			if(d[g].getName().substring(d[g].getName().indexOf(".")+1).contains("uapp")){
+//				d[g].delete();
+//			}
+//		}
 //
 //		//Copy uapp files to hwo_uapp directory for deployment
 ////		 uappURI= createUAPPLocation(usrvLocalStore+"bin");

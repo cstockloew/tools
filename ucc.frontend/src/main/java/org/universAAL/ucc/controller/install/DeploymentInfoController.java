@@ -249,9 +249,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 					
 				}
 				app.getMainWindow().removeWindow(win);
-				File f = new File(System.getenv("systemdrive")
-						+ "/tempUsrvFiles/");
-				deleteFiles(f);
+//				File f = new File(System.getenv("systemdrive")
+//						+ "/tempUsrvFiles/");
+//				deleteFiles(f);
 
 			}
 			}
@@ -266,25 +266,25 @@ public class DeploymentInfoController implements Button.ClickListener,
 			app.getMainWindow().showNotification(
 					bundle.getString("break.note"),
 					Notification.TYPE_HUMANIZED_MESSAGE);
-			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
-			deleteFiles(f);
+//			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+//			deleteFiles(f);
 		}
 	}
 
-	private void deleteFiles(File path) {
-		File[] files = path.listFiles();
-		for (File del : files) {
-			if (del.isDirectory()
-					&& !del.getPath().substring(del.getPath().indexOf(".") + 1)
-							.equals("usrv")) {
-				deleteFiles(del);
-			}
-			if (!del.getPath().substring(del.getPath().indexOf(".") + 1)
-					.equals("usrv"))
-				del.delete();
-		}
-
-	}
+//	private void deleteFiles(File path) {
+//		File[] files = path.listFiles();
+//		for (File del : files) {
+//			if (del.isDirectory()
+//					&& !del.getPath().substring(del.getPath().indexOf(".") + 1)
+//							.equals("usrv")) {
+//				deleteFiles(del);
+//			}
+//			if (!del.getPath().substring(del.getPath().indexOf(".") + 1)
+//					.equals("usrv"))
+//				del.delete();
+//		}
+//
+//	}
 
 	public void valueChange(ValueChangeEvent event) {
 		for (UAPPPart ua : aal.getUaapList()) {
@@ -332,24 +332,24 @@ public class DeploymentInfoController implements Button.ClickListener,
 		//Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 		//peersToCheck.putAll(peers);
 		//List<PeerCard> peerList = new ArrayList<PeerCard>();
-		for (UAPPPart ua : aal.getUaapList()) {
-			System.out.println("[DeployInfoController] build default layout for: " + ua.getPart().getPartId());
+//		for (UAPPPart ua : aal.getUaapList()) {
+			System.out.println("[DeployInfoController] build default layout for: " + uapp.getPart().getPartId());
 			Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 			peersToCheck.putAll(peers);
 			// check: deployment units
 			for (String key : peersToCheck.keySet()) {
 				PeerCard peer = peersToCheck.get(key);
 				System.out.println("[DeployInfoController.buildDefaultLayout] test layout for peer: " + peer.getPeerID());						
-				if (ua.getPart().getDeploymentUnit() == null) {
+				if (uapp.getPart().getDeploymentUnit() == null) {
 					// use any peer for testing
 					System.out
 							.println("[DeploymentInfoController] DeploymentUnit is null, use any peer!");
-					List<PeerCard> peerList = mapLayout.get(ua.getPart());
+					List<PeerCard> peerList = mapLayout.get(uapp.getPart());
 					if (peerList==null)
 						peerList = new ArrayList<PeerCard>();
 					peerList.add(peer);
-					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + ua.getPart().getPartId());
-					mapLayout.put(ua.getPart(), peerList);
+					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + uapp.getPart().getPartId());
+					mapLayout.put(uapp.getPart(), peerList);
 					peersToCheck.remove(key);
 					break;
 				}
@@ -357,12 +357,12 @@ public class DeploymentInfoController implements Button.ClickListener,
 				if (/*checkDeployementUnit(ua.getPart().getDeploymentUnit(), peer)*/ true) {
 					System.err.println("IN CHECK DEPLOYMENT UNIT!");
 					
-					List<PeerCard> peerList = mapLayout.get(ua.getPart());
+					List<PeerCard> peerList = mapLayout.get(uapp.getPart());
 					if (peerList==null)
 						peerList = new ArrayList<PeerCard>();
 					peerList.add(peer);
-					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + ua.getPart().getPartId());					
-					mapLayout.put(ua.getPart(), peerList);
+					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + uapp.getPart().getPartId());					
+					mapLayout.put(uapp.getPart(), peerList);
 					peersToCheck.remove(key);
 					break;
 				} else {
@@ -371,7 +371,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 							Notification.TYPE_WARNING_MESSAGE);
 				}
 			}
-		}
+//		}
 		
 		return mapLayout;
 	}
