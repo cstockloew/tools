@@ -2,6 +2,7 @@ package org.universAAL.ucc.controller.install;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import org.universAAL.middleware.interfaces.PeerRole;
 import org.universAAL.middleware.deploymaneger.uapp.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.InstallationResultsDetails;
+import org.universAAL.middleware.managers.api.MatchingResult;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
@@ -318,10 +320,32 @@ public class DeploymentInfoController implements Button.ClickListener,
 	}
 
 	/*
-	 * TODO: this method needs to be updated with MW for the new .uapp file -
-	 * currently use some pre-assigned values
+	 * using the MW getMatchingPeers method
+	 * 
 	 */
 	private Map<Part, List<PeerCard>> buildDefaultInstallationLayout(UAPPPart uapp) {
+			System.out.println("[DeployInfoController] build default layout for: " + uapp.getPart().getPartId());
+			List<PeerCard> validpeers = getValidPeers(uapp.getReqAtoms(), uapp.getPart().getPartId());
+			if (validpeers.size()==0 || validpeers==null) {
+				app.getMainWindow().showNotification(
+						bundle.getString("peer.available.not"),
+						Notification.TYPE_WARNING_MESSAGE);
+				
+			} else {
+				// use any validpeer
+				List<PeerCard> peerList = mapLayout.get(uapp.getPart());
+				if (peerList==null)
+					peerList = new ArrayList<PeerCard>();
+				peerList.add(validpeers.get(0));
+				System.out.println("[DeploymentInfoController] add peer " + validpeers.get(0).getPeerID() + " to " + uapp.getPart().getPartId());					
+				mapLayout.put(uapp.getPart(), peerList);
+			 
+			}
+
+		return mapLayout;
+	}
+
+/*	private Map<Part, List<PeerCard>> buildDefaultInstallationLayout(UAPPPart uapp) {
 		// assign some values for testing
 		// ArrayList<Part> parts = new ArrayList();
 		// Part part1 = new Part();
@@ -345,7 +369,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 			for (String key : peersToCheck.keySet()) {
 				PeerCard peer = peersToCheck.get(key);
 				System.out.println("[DeployInfoController.buildDefaultLayout] test layout for peer: " + peer.getPeerID());						
-/*				if (uapp.getPart().getDeploymentUnit() == null) {
+				if (uapp.getPart().getDeploymentUnit() == null) {
 					// use any peer for testing
 					System.out
 							.println("[DeploymentInfoController] DeploymentUnit is null, use any peer!");
@@ -357,25 +381,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 					mapLayout.put(uapp.getPart(), peerList);
 					peersToCheck.remove(key);
 					break;
-				}  */
+				}  
 				
-				// TODO: currently the Part stored in UAPPPart is empty except partId!!!
-/*				Part.PartRequirements preq = uapp.getPart().getPartRequirements();
-				List<ReqType> rtypes = preq.getRequirement();
-				for (int i=0; i<rtypes.size(); i++)  {
-					System.out.println("has one part requirement: ");
-					ReqAtomType atype = rtypes.get(i).getReqAtom();
-					String name = atype.getReqAtomName();
-					System.out.println("part requirement name: " + name);
-					List<String> value = atype.getReqAtomValue();
-					LogicalCriteriaType criteria = atype.getReqCriteria();
-					System.out.println("part requirement name: " + value);
-					System.out.println("[DeploymentInfoController.buildDefaultLayout] the part requirement - name: " + name + " value: " 
-							+ value);
-					if (criteria==null) System.out.println("the criteria is null!");
-					else System.out.println("the criteria is: "+ criteria.toString());
-					
-				}  */
+
 				
 				//if (checkPartRequirements(uapp.getPart().getPartRequirements(), peer))  {
 				if (checkPartRequirements(uapp.getReqAtoms(), peer)) {
@@ -398,8 +406,8 @@ public class DeploymentInfoController implements Button.ClickListener,
 //		}
 		
 		return mapLayout;
-	}
-
+	}  */
+	
 	private Map<Part, List<PeerCard>> buildUserInstallationLayout(UAPPPart uapp) {
 		Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 		List<PeerCard> peerList = new ArrayList<PeerCard>();
@@ -423,7 +431,8 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.err.println("Peer-ROLE: " + role);
 				System.err.println("ID: " + id);
 				PeerCard peer = new PeerCard(id, role);
-				if (checkPartRequirements(uapp.getReqAtoms(), peer)) {				
+				// TODO: change the logic
+				if (true /*checkPartRequirements(uapp.getReqAtoms(), peer) */) {				
 					System.err.println("[buildUserInstallationLayout] In CHECKDEPLOYMENTUNIT!");
 					peerList.add(peer);
 					System.out.println("[DeploymentInfoController.buildUserLayout] add one peer " + peer.getPeerID() + " to part " + uapp.getPart().getPartId());
@@ -451,28 +460,66 @@ public class DeploymentInfoController implements Button.ClickListener,
 	/**
 	 * 
 	 * @param reqs - a list of ReqAtom for a part
-	 * @param peer - the peer to check
+	 * @param partId - the partId to check
 	 * @return
 	 */
-	public boolean checkPartRequirements(List<UAPPReqAtom> reqs, PeerCard peer) {
-		// Call MW DM getPeerInfo();
-		// Map<String, String> peerInfo = deployManager.getPeerInfo(List<PeerCard>);
+	public static List<PeerCard> getValidPeers(List<UAPPReqAtom> reqs, String PartId) {		
+		// convert reqs to filter to call MW/AALSpaceManager		
+		// the map for reqAtom value that is set other than equal
+		List<UAPPReqAtom> toCheck = new ArrayList();
+		// the map to be sent to MW for fast equal checking
+		Map<String, Serializable> filter = new HashMap();
 		for (int i=0; i<reqs.size(); i++) {
 			String reqname = reqs.get(i).getName();
 			String reqvalue = reqs.get(i).getValue();
 			String reqcriteria = reqs.get(i).getCriteria();
 			if (reqcriteria==null) {
-				// equal checking
-				// if (peerInfo.getName.equal(reqname))
+				filter.put(reqname, reqvalue);
+			} else {
+				if (!reqcriteria.equals("equal")) {
+					filter.put(reqname, null);
+					// put the reqAtom for checking later;
+					toCheck.add(reqs.get(i));	
+				}
 			}
 		}
-		
-		
-		return true;
+		MatchingResult result = installer.getMatchingPeers(filter);
+		PeerCard[] peers = result.getPeers();
+		List<PeerCard> validPeers = new ArrayList();
+		// check for non-equal criteria
+		for (int i=0; i<peers.length; i++)  {
+			boolean valid = true;
+			Map<String, Serializable> attr = result.getPeerAttribute(peers[i]);
+			for (int j=0; j<toCheck.size(); j++)  {
+				UAPPReqAtom req = toCheck.get(j);
+				String reqname = reqs.get(i).getName();
+				String reqvalue = reqs.get(i).getValue();
+				String reqcriteria = reqs.get(i).getCriteria();
+				if (reqcriteria.equals("greater-equal"))  {
+					int rvalue = Integer.parseInt(reqvalue);
+					int peervalue = Integer.parseInt((String) attr.get(reqname));
+					System.out.println("[checkPartRequirements] criteria is: " + reqcriteria + " part has req: " 
+							+ rvalue + " the peer has req: " + peervalue);
+					if (peervalue < rvalue) {
+						// this peer is not eligible
+						valid = false;
+					}
+				}
+				
+				// TODO: extend the list according to LogicalCriteriaType to have a complete check
+					
+			}
+			if (valid)  {
+				// this peer can be used
+				validPeers.add(peers[i]);
+				System.out.println("[checkPartRequirements] has a valid peer: " + peers[i].getPeerID());
+			}
+		}
+		return validPeers;
 	}
 	
 	// obsolete - not according to the new uapp schema
-	public static boolean checkDeployementUnit(List<DeploymentUnit> list,
+/*	public static boolean checkDeployementUnit(List<DeploymentUnit> list,
 			PeerCard peer) {
 		String osUnit;
 		String pUnit;
@@ -508,6 +555,6 @@ public class DeploymentInfoController implements Button.ClickListener,
 			// TODO: check containerUnit?
 		}
 		return true;
-	}
+	}  */
 
 }

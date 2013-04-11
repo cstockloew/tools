@@ -2,12 +2,15 @@ package org.universAAL.ucc.windows;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.ucc.api.IInstaller;
+import org.universAAL.ucc.model.UAPPReqAtom;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
@@ -57,6 +60,8 @@ public class DeployConfigView extends VerticalLayout {
 		select.setMultiSelect(true);
 		// Add Nodes to dropdown box
 		peerNodes = new HashMap<String, String>();
+		// get valid peers for this part
+		//List<PeerCard> validPeers = getValidPeers(List<UAPPReqAtom> reqs, String PartId)
 		for (Iterator entry = installer.getPeers().entrySet().iterator(); entry
 				.hasNext();) {
 			if (entry != null) {
