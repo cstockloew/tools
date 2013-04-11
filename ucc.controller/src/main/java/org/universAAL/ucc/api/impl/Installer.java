@@ -1,11 +1,14 @@
 package org.universAAL.ucc.api.impl;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.InstallationResultsDetails;
+import org.universAAL.middleware.managers.api.MatchingResult;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
@@ -71,5 +74,39 @@ public class Installer implements IInstaller {
 			+ results.getGlobalResult().toString());
 	return results;
     }
+
+	public MatchingResult getMatchingPeers(Map<String, Serializable> filter) {
+		AALSpaceManager aalSpaceManager = Activator.getAALSpaceManager();
+		
+		if (aalSpaceManager != null) {
+		    MatchingResult result = aalSpaceManager.getMatchingPeers(filter);
+		    PeerCard[] peers = result.getPeers();
+		    for (int i=0; i<peers.length; i++)  {
+		    	 System.out.println("[Installer.getMatchingPeers()] has a matching peer: " + peers[i].getPeerID());
+		    }		   		  
+		    return result;
+		}		
+		System.out.println("[Installer.getMatchingPeers()] can not get AALSpaceManager"); 
+		return null;
+				
+	}
+
+	public Map<String, Serializable> getPeerAttributes(List<String> attributes,
+			PeerCard target) {
+		AALSpaceManager aalSpaceManager = Activator.getAALSpaceManager();
+		
+		if (aalSpaceManager != null) {
+		    Map<String, Serializable> result = aalSpaceManager.getPeerAttributes(attributes, target);
+		    
+		    for (String s: result.keySet())  {
+		    	 System.out.println("[Installer.getMatchingPeers()] has an attribute: " + result.get(s));
+		    }		   		  
+		    return result;
+		}		
+		System.out.println("[Installer.getPeerAttributes()] can not get AALSpaceManager"); 
+		return null;
+	}
+
+
 
 }
