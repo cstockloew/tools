@@ -1,6 +1,9 @@
 package org.universAAL.ucc.model;
 
 //import org.universAAL.middleware.interfaces.mpa.model.Part;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.universAAL.middleware.deploymaneger.uapp.model.Part;
 
 /**
@@ -24,6 +27,7 @@ public class UAPPPart {
     private Part part;
     private String bundleId;
     private String bundleVersion;
+    private List<UAPPReqAtom> reqAtoms=new ArrayList();
 
     public UAPPPart() {
     }
@@ -132,4 +136,15 @@ public class UAPPPart {
 	this.bundleVersion = bundleVersion;
     }
 
+    public List<UAPPReqAtom> getReqAtoms()  {
+    	return reqAtoms;
+    }
+        
+    public void addReqAtoms(String name, String value, String criteria) {
+    	this.reqAtoms.add(new UAPPReqAtom(name, value, criteria));
+    }
+    
+    public void addReqAtoms(UAPPReqAtom atom) {
+    	this.reqAtoms.add(atom);
+    }
 }
