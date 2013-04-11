@@ -16,6 +16,9 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.deploymaneger.uapp.model.DeploymentUnit;
+import org.universAAL.middleware.deploymaneger.uapp.model.LogicalCriteriaType;
+import org.universAAL.middleware.deploymaneger.uapp.model.ReqAtomType;
+import org.universAAL.middleware.deploymaneger.uapp.model.ReqType;
 //import org.universAAL.middleware.interfaces.mpa.model.DeploymentUnit;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
@@ -32,6 +35,7 @@ import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.UAPPPart;
+import org.universAAL.ucc.model.UAPPReqAtom;
 import org.universAAL.ucc.service.api.IServiceRegistration;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.DeployConfigView;
@@ -174,10 +178,11 @@ public class DeploymentInfoController implements Button.ClickListener,
 				String appLocation = uapp.getUappLocation();
 				System.err.println(uapp.getUappLocation());
 				String p = appLocation.substring(appLocation.indexOf("bin/"));
-				appLocation = /*System.getenv("systemdrive")
+				/*appLocation = System.getenv("systemdrive")
 						+ "/tempUsrvFiles"
 						+ appLocation
-								.substring(appLocation.indexOf("./") + 1);*/ FrontendImpl.getUappURI()+"/"+p;
+								.substring(appLocation.indexOf("./") + 1); FrontendImpl.getUappURI() +"/"+p; */
+				appLocation = FrontendImpl.getUappURI();
 				System.err.println("LOCATION URI: "+appLocation);
 				File uf = uf = new File(appLocation.trim());
 				for (PeerCard pc: peerMap.keySet()) {
@@ -340,7 +345,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 			for (String key : peersToCheck.keySet()) {
 				PeerCard peer = peersToCheck.get(key);
 				System.out.println("[DeployInfoController.buildDefaultLayout] test layout for peer: " + peer.getPeerID());						
-				if (uapp.getPart().getDeploymentUnit() == null) {
+/*				if (uapp.getPart().getDeploymentUnit() == null) {
 					// use any peer for testing
 					System.out
 							.println("[DeploymentInfoController] DeploymentUnit is null, use any peer!");
@@ -352,10 +357,29 @@ public class DeploymentInfoController implements Button.ClickListener,
 					mapLayout.put(uapp.getPart(), peerList);
 					peersToCheck.remove(key);
 					break;
-				}
-				// TODO: wait for MW to see how to check
-				if (/*checkDeployementUnit(ua.getPart().getDeploymentUnit(), peer)*/ true) {
-					System.err.println("IN CHECK DEPLOYMENT UNIT!");
+				}  */
+				
+				// TODO: currently the Part stored in UAPPPart is empty except partId!!!
+/*				Part.PartRequirements preq = uapp.getPart().getPartRequirements();
+				List<ReqType> rtypes = preq.getRequirement();
+				for (int i=0; i<rtypes.size(); i++)  {
+					System.out.println("has one part requirement: ");
+					ReqAtomType atype = rtypes.get(i).getReqAtom();
+					String name = atype.getReqAtomName();
+					System.out.println("part requirement name: " + name);
+					List<String> value = atype.getReqAtomValue();
+					LogicalCriteriaType criteria = atype.getReqCriteria();
+					System.out.println("part requirement name: " + value);
+					System.out.println("[DeploymentInfoController.buildDefaultLayout] the part requirement - name: " + name + " value: " 
+							+ value);
+					if (criteria==null) System.out.println("the criteria is null!");
+					else System.out.println("the criteria is: "+ criteria.toString());
+					
+				}  */
+				
+				//if (checkPartRequirements(uapp.getPart().getPartRequirements(), peer))  {
+				if (checkPartRequirements(uapp.getReqAtoms(), peer)) {
+					System.err.println("[DeploymentInfoController.buildDefaultLayout] check part requirements!");
 					
 					List<PeerCard> peerList = mapLayout.get(uapp.getPart());
 					if (peerList==null)
@@ -399,9 +423,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.err.println("Peer-ROLE: " + role);
 				System.err.println("ID: " + id);
 				PeerCard peer = new PeerCard(id, role);
-				//TODO: update when MW has the right info to check
-				if (/*checkDeployementUnit(uapp.getPart().getDeploymentUnit(),
-						peer)*/ true) {
+				if (checkPartRequirements(uapp.getReqAtoms(), peer)) {				
 					System.err.println("[buildUserInstallationLayout] In CHECKDEPLOYMENTUNIT!");
 					peerList.add(peer);
 					System.out.println("[DeploymentInfoController.buildUserLayout] add one peer " + peer.getPeerID() + " to part " + uapp.getPart().getPartId());
@@ -424,6 +446,32 @@ public class DeploymentInfoController implements Button.ClickListener,
 		return mapLayout;
 	}
 
+	//TODO: update UAPPPart part info according to UAPP schema, to enable advanced check
+	// Currently only simplified checks
+	/**
+	 * 
+	 * @param reqs - a list of ReqAtom for a part
+	 * @param peer - the peer to check
+	 * @return
+	 */
+	public boolean checkPartRequirements(List<UAPPReqAtom> reqs, PeerCard peer) {
+		// Call MW DM getPeerInfo();
+		// Map<String, String> peerInfo = deployManager.getPeerInfo(List<PeerCard>);
+		for (int i=0; i<reqs.size(); i++) {
+			String reqname = reqs.get(i).getName();
+			String reqvalue = reqs.get(i).getValue();
+			String reqcriteria = reqs.get(i).getCriteria();
+			if (reqcriteria==null) {
+				// equal checking
+				// if (peerInfo.getName.equal(reqname))
+			}
+		}
+		
+		
+		return true;
+	}
+	
+	// obsolete - not according to the new uapp schema
 	public static boolean checkDeployementUnit(List<DeploymentUnit> list,
 			PeerCard peer) {
 		String osUnit;

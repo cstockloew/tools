@@ -34,6 +34,7 @@ import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.UAPPPart;
+import org.universAAL.ucc.model.UAPPReqAtom;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.manager.Activator;
@@ -294,7 +295,9 @@ public class FrontendImpl implements IFrontend {
 					.getAttributes().getNamedItem("partId").getNodeValue();
 			System.out.println("[FrontendImpl] PartId: " + partId);
 			Part p = new Part();
+			// TODO: Nicole check! Currently p/Part has just partId, all other part info is null/unset
 			p.setPartId(partId);
+			
 			ua.setPart(p);
 			NodeList childs = doc.getElementsByTagName("uapp:part").item(j)
 					.getChildNodes();
@@ -311,7 +314,7 @@ public class FrontendImpl implements IFrontend {
 				}
 
 				if (childs.item(t).getNodeName().equals("uapp:deploymentUnit")) {
-					System.err.println("IN DEPLOYMENT UNIT");
+					System.err.println("[FrontendImpl.parseUappConfiguration] IN DEPLOYMENT UNIT");
 					Node dun = childs.item(t);
 					for (int du = 0; du < dun.getChildNodes().getLength(); du++) {
 						if (dun.getChildNodes().item(du).getNodeName()
@@ -383,6 +386,51 @@ public class FrontendImpl implements IFrontend {
 					}
 				}
 
+				// for checking part requirements
+				if (childs.item(t).getNodeName().equals("uapp:partRequirements")) {					
+					System.err.println("[FrontendImpl.parseUappConfiguration] In part requirements");
+					Node dun = childs.item(t);
+					for (int du = 0; du < dun.getChildNodes().getLength(); du++) {
+						if (dun.getChildNodes().item(du).getNodeName()
+								.equals("uapp:requirement")) {
+							Node cun = dun.getChildNodes().item(du);
+							NodeList nl = cun.getChildNodes();
+							System.err.println("IN uapp:requirement!");
+							//
+							for (int n = 0; n < nl.getLength(); n++) {
+								if (nl.item(n).getNodeName()
+										.equals("uapp:reqAtom")) {
+									System.err.println("IN reqAtom");
+									Node ratom = nl.item(n);
+									NodeList rl = ratom.getChildNodes();
+									
+									for (int k=0; k<rl.getLength(); k++)  {
+										UAPPReqAtom atom = new UAPPReqAtom();
+										if (rl.item(k).getNodeName().equals("uapp:reqAtomName"))  {
+											String value = rl.item(k).getTextContent();
+											System.out.println("[FrontendImpl.parsePartConfiguration] get a reqAtomName: " + value);
+											atom.setName(value);
+										}
+										if (rl.item(k).getNodeName().equals("uapp:reqAtomValue"))  {
+											String value = rl.item(k).getTextContent();
+											System.out.println("[FrontendImpl.parsePartConfiguration] get a reqAtomValue: " + value);
+											atom.setValue(value);
+										}	
+										
+										if (rl.item(k).getNodeName().equals("uapp:reqCriteria"))  {
+											String value = rl.item(k).getTextContent();
+											System.out.println("[FrontendImpl.parsePartConfiguration] get a reqCriteria: " + value);
+											atom.setCriteria(value);
+											
+										}
+										ua.addReqAtoms(atom);								}
+								}
+							}
+						}
+					}
+				}  
+				
+				
 				for (int k = 0; k < doc.getElementsByTagName("uapp:app")
 						.getLength(); k++) {
 					String name = doc.getElementsByTagName("uapp:name").item(k)
@@ -599,14 +647,16 @@ public class FrontendImpl implements IFrontend {
 	}
 
 	public String getInstalledServices(String sessionKey) {
-		// TODO Auto-generated method stub
-		return null;
+		String services = Activator.getMgmt().getInstalledServices();
+		System.out.println("[FrontendImpl.getInstalledServices] the services installed: " + services);
+		return services;
 	}
 
 	public String getInstalledUnitsForService(String sessionKey,
-			String serviceId) {
-		// TODO Auto-generated method stub
-		return null;
+			String serviceId) {		
+		String units = Activator.getMgmt().getInstalledUnitsForService(serviceId);
+		System.out.println("[FrontendImpl.getInstalledUnitsForServices] the units installed: " + units);
+		return units;
 	}
 
 	public static String getUappURI() {
