@@ -64,7 +64,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 	private ResourceBundle bundle;
 	private VerticalLayout actVL;
 	private Map<String, PeerCard> peers;
-	private IInstaller installer;
+	private static IInstaller installer;
 	private IServiceRegistration srvRegistration;
 	private BundleContext bc;
 	private List<Part>parts;
