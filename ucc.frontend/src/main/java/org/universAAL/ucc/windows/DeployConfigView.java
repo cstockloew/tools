@@ -61,16 +61,17 @@ public class DeployConfigView extends VerticalLayout {
 		// Add Nodes to dropdown box
 		peerNodes = new HashMap<String, String>();
 		// get valid peers for this part
-		//List<PeerCard> validPeers = getValidPeers(List<UAPPReqAtom> reqs, String PartId)
-		for (Iterator entry = installer.getPeers().entrySet().iterator(); entry
-				.hasNext();) {
-			if (entry != null) {
-				String all = entry.next().toString();
-				String item = all.substring(all.indexOf("=") + 1);
-				peerNodes.put(item, all);
-				select.addItem(item);
-			}
-		}
+////		List<PeerCard> validPeers = getValidPeers(List<UAPPReqAtom> reqs, String PartId)
+////		for (Iterator entry = installer.getPeers().entrySet().iterator(); entry
+////				.hasNext();) {
+//			if (entry != null) {
+//				
+//				String all = entry.next().toString();
+//				String item = all.substring(all.indexOf("=") + 1);
+//				peerNodes.put(item, all);
+//				select.addItem(item);
+//			}
+////		}
 		hl.addComponent(select);
 		addComponent(hl);
 		setComponentAlignment(hl, Alignment.MIDDLE_CENTER);

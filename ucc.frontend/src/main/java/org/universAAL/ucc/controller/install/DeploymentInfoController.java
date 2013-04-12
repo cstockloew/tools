@@ -91,7 +91,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 			if (i == 1) {
 				selected = uapp.getPart().getPartId();
 			}
-			System.err.println(uapp.getPart().getPartId());
+			System.err.println(uapp.getPart().getPartId() + " "+aal.getUaapList().size());
 			win.getTree().addItem(uapp.getPart().getPartId());
 			win.getTree().setChildrenAllowed(uapp.getPart().getPartId(), false);
 			DeployStrategyView dsv = new DeployStrategyView(aal.getName(),
@@ -103,6 +103,21 @@ public class DeploymentInfoController implements Button.ClickListener,
 					aal.getServiceId(), uapp.getUappLocation());
 			dcv.getTxt().setValue(uapp.getPart().getPartId());
 			dcv.getTxt().setEnabled(false);
+			System.err.println("Befor getValidPeers()");
+			//Insert valid PeerNodes to dropbox of DeployConfigView
+			List<PeerCard> validpeers = getValidPeers(uapp.getReqAtoms(), uapp.getPart().getPartId());
+			System.err.println("In validpeers");
+			for(PeerCard pc : validpeers) {
+				if (pc != null) {
+					System.err.println("Valid peers are available");
+					String all = pc.toString();
+					String item = all.substring(all.indexOf("=") + 1);
+					dcv.getPeerNodes().put(item, all);
+					dcv.getSelect().addItem(item);
+				}
+			}
+			 
+			
 			dcv.getSelect().setEnabled(false);
 			dcv.setEnabled(false);
 			dcvMap.put(uapp.getPart().getPartId(), dcv);
@@ -412,7 +427,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 		List<PeerCard> peerList = new ArrayList<PeerCard>();
 		// Create peer from user selection and test if peer fits for deployment
-		peersToCheck.putAll(peers);
+//		peersToCheck.putAll(peers);
 		// Extract Peer Info from user selection
 		if (dcvMap.get(selected).getSelect().getValue() != null
 				&& !(dcvMap.get(selected).getSelect().getValue().toString()
@@ -452,6 +467,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 					Notification.TYPE_ERROR_MESSAGE);
 
 		}
+		
 		return mapLayout;
 	}
 
