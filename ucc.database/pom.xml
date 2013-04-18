@@ -21,6 +21,10 @@
 			<groupId>org.universAAL.tools.ucc</groupId>
 			<artifactId>ucc.model</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -37,7 +41,10 @@
 						<Bundle-Activator>org.universAAL.ucc.database.Activator</Bundle-Activator>
 						<Import-Package>*</Import-Package>
 						<Export-Package>org.universAAL.ucc.database,
-							org.universAAL.ucc.database.*</Export-Package>
+							org.universAAL.ucc.database.*, org.universAAL.ucc.database.aalspace.*,
+							org.universAAL.ucc.database.model.jaxb.*,
+							org.universAAL.ucc.database.listener.interfaces.*,
+							org.universAAL.ucc.database.listener.services.*</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>

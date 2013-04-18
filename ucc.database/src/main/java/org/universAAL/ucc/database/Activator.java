@@ -1,11 +1,18 @@
 package org.universAAL.ucc.database;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+import org.universAAL.ucc.database.aalspace.DataAccess;
+import org.universAAL.ucc.database.aalspace.DataAccessImpl;
+import org.universAAL.ucc.database.listener.interfaces.OntologySupplierService;
+import org.universAAL.ucc.database.listener.services.OntologySupplierServiceImpl;
+import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.database.model.jaxb.Subprofile;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.database.preferences.impl.UserAccountDBImpl;
 import org.universAAL.ucc.model.preferences.Preferences;
@@ -14,6 +21,7 @@ public class Activator implements BundleActivator {
 
     private static BundleContext context;
     private ServiceRegistration reg;
+//    private ServiceRegistration registry;
 
     static BundleContext getContext() {
 	return context;
@@ -54,9 +62,12 @@ public class Activator implements BundleActivator {
 	    db.saveStoreAccessData(p, file.getAbsolutePath()
 		    + "/preferences.xml");
 	}
-
+	
+	
 	reg = context.registerService(UserAccountDB.class.getName(),
 		new UserAccountDBImpl(), null);
+	reg = context.registerService(DataAccess.class.getName(), new DataAccessImpl(), null);
+	reg = context.registerService(OntologySupplierService.class.getName(), new OntologySupplierServiceImpl(), null);
     }
 
     /*
@@ -68,6 +79,7 @@ public class Activator implements BundleActivator {
     public void stop(BundleContext bundleContext) throws Exception {
 	Activator.context = null;
 	reg.unregister();
+//	registry.unregister();
     }
 
 }
