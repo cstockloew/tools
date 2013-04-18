@@ -2,12 +2,14 @@ package org.universAAL.ucc.controller.desktop;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,6 +17,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.ucc.configuration.view.WhichBundleShouldBeConfiguredWindow;
 import org.universAAL.ucc.controller.install.AALServiceReceiver;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
@@ -25,6 +28,10 @@ import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.webconnection.WebConnector;
+import org.universAAL.ucc.windows.AddNewHardwareWindow;
+import org.universAAL.ucc.windows.AddNewPersonWindow;
+import org.universAAL.ucc.windows.HardwareWindow;
+import org.universAAL.ucc.windows.HumansWindow;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -138,6 +145,79 @@ public class ToolController implements Button.ClickListener,
 			// app.getMainWindow().setContent(app.getVLog());
 			app.close();
 			// app.createLogin();
+		}
+		
+		if(event.getButton() == toolWin.getPersonButton()) {
+			AddNewPersonWindow apw = null;
+			try {
+				apw = new AddNewPersonWindow(null, app);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			app.getMainWindow().addWindow(apw);
+		}
+		if(event.getButton() == toolWin.getConfigButton()) {
+			AddNewHardwareWindow anhw = null;
+			try {
+				anhw = new AddNewHardwareWindow(null, null, app);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			app.getMainWindow().addWindow(anhw);
+		}
+		if(event.getButton() == toolWin.getEditHW()) {
+			HardwareWindow hardWare = null;
+			try {
+				hardWare = new HardwareWindow(app);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			app.getMainWindow().addWindow(hardWare);
+		
+		}
+			
+	
+		if(event.getButton() == toolWin.getEditPerson()) {
+			HumansWindow hw = null;
+			try {
+				hw = new HumansWindow(app);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			app.getMainWindow().addWindow(hw);
+		}
+		if(event.getButton() == toolWin.getEditUC()) {
+			WhichBundleShouldBeConfiguredWindow uc = new WhichBundleShouldBeConfiguredWindow("Use Cases");
+			app.getMainWindow().addWindow(uc);
+			
 		}
 
 	}

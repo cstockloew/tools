@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.commerce.ustore.tools.OnlineStoreManager;

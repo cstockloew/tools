@@ -482,9 +482,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 	public static List<PeerCard> getValidPeers(List<UAPPReqAtom> reqs, String PartId) {		
 		// convert reqs to filter to call MW/AALSpaceManager		
 		// the map for reqAtom value that is set other than equal
-		List<UAPPReqAtom> toCheck = new ArrayList();
+		List<UAPPReqAtom> toCheck = new ArrayList<UAPPReqAtom>();
 		// the map to be sent to MW for fast equal checking
-		Map<String, Serializable> filter = new HashMap();
+		Map<String, Serializable> filter = new HashMap<String, Serializable>();
 		for (int i=0; i<reqs.size(); i++) {
 			String reqname = reqs.get(i).getName();
 			String reqvalue = reqs.get(i).getValue();
@@ -501,7 +501,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		}
 		MatchingResult result = installer.getMatchingPeers(filter);
 		PeerCard[] peers = result.getPeers();
-		List<PeerCard> validPeers = new ArrayList();
+		List<PeerCard> validPeers = new ArrayList<PeerCard>();
 		// check for non-equal criteria
 		for (int i=0; i<peers.length; i++)  {
 			boolean valid = true;
@@ -531,6 +531,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.out.println("[checkPartRequirements] has a valid peer: " + peers[i].getPeerID());
 			}
 		}
+		System.err.println("Out of getValidPeers()");
 		return validPeers;
 	}
 	

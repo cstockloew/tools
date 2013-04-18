@@ -67,13 +67,13 @@ public class ToolWindow extends Window {
 		vl.addComponent(addLabel);
 		configButton = new Button(res.getString("add.hardware.button"));
 		configButton.setIcon(new ThemeResource("img/hardware_icon.png"));
-		configButton.setEnabled(false);
+//		configButton.setEnabled(false);
 		HorizontalLayout config = new HorizontalLayout();
 		config.setSpacing(true);
 		config.setStyleName("menubutton");
 		config.addComponent(configButton);
 		personButton = new Button("Person");
-		personButton.setEnabled(false);
+//		personButton.setEnabled(false);
 		personButton.setIcon(new ThemeResource("img/Person_icon.jpg"));
 		config.addComponent(personButton);
 		vl.addComponent(config);
@@ -86,15 +86,15 @@ public class ToolWindow extends Window {
 		editHl.setSpacing(true);
 		editHl.setStyleName("menubutton");
 		editHW = new Button(res.getString("add.hardware.button"));
-		editHW.setEnabled(false);
+//		editHW.setEnabled(false);
 		editHW.setIcon(new ThemeResource("img/Configure.png"));
 		editHl.addComponent(editHW);
 		editPerson = new Button(res.getString("add.person.button"));
-		editPerson.setEnabled(false);
+//		editPerson.setEnabled(false);
 		editPerson.setIcon(new ThemeResource("img/uc.jpg"));
 		editHl.addComponent(editPerson);
 		editUC = new Button(res.getString("aal.service"));
-		editUC.setEnabled(false);
+//		editUC.setEnabled(false);
 		editUC.setIcon(new ThemeResource("img/house_1.png"));
 		editHl.addComponent(editUC);
 		vl.addComponent(editHl);
@@ -145,6 +145,11 @@ public class ToolWindow extends Window {
 		uStoreButton.addListener(tc);
 		openAAL.addListener(tc);
 		logoutButton.addListener(tc);
+		configButton.addListener(tc);
+		personButton.addListener(tc);
+		editHW.addListener(tc);
+		editPerson.addListener(tc);
+		editUC.addListener(tc);
 	}
 
 	public Label getInstallLabel() {

@@ -6,6 +6,8 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
+import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.ucc.api.IDeinstaller;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
@@ -16,6 +18,8 @@ import org.universAAL.ucc.service.api.IServiceModel;
 import org.universAAL.ucc.service.api.IServiceRegistration;
 import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.webconnection.WebConnector;
+import org.universAAL.ucc.subscriber.SensorEventSubscriber;
+
 
 public class Activator implements BundleActivator {
 	private static IInstaller installer;
@@ -27,6 +31,7 @@ public class Activator implements BundleActivator {
 	private static IServiceManagement mgmt;
 	private static IServiceModel model;
 	private static IServiceRegistration reg;
+	private ModuleContext mContext;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
@@ -45,6 +50,9 @@ public class Activator implements BundleActivator {
 				model, null);
 		mgmt = model.getServiceManagment();
 		reg = model.getServiceRegistration();
+		
+		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
+		SensorEventSubscriber sub = SensorEventSubscriber.getInstance(mContext, context);
 
 	}
 

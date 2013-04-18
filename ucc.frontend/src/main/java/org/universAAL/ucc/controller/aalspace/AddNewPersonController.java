@@ -1,0 +1,553 @@
+package org.universAAL.ucc.controller.aalspace;
+
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+
+import org.universAAL.ucc.configuration.model.configurationinstances.Value;
+import org.universAAL.ucc.database.aalspace.DataAccess;
+import org.universAAL.ucc.database.model.jaxb.BooleanValue;
+import org.universAAL.ucc.database.model.jaxb.CalendarValue;
+import org.universAAL.ucc.database.model.jaxb.CollectionValues;
+import org.universAAL.ucc.database.model.jaxb.CollectionValues.Values;
+import org.universAAL.ucc.database.model.jaxb.DoubleValue;
+import org.universAAL.ucc.database.model.jaxb.EnumObject;
+import org.universAAL.ucc.database.model.jaxb.IntegerValue;
+import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.database.model.jaxb.SimpleObject;
+import org.universAAL.ucc.database.model.jaxb.StringValue;
+import org.universAAL.ucc.database.model.jaxb.Subprofile;
+import org.universAAL.ucc.database.model.jaxb.Subprofile.Collections;
+import org.universAAL.ucc.database.model.jaxb.Subprofile.EnumObjects;
+import org.universAAL.ucc.database.model.jaxb.Subprofile.SimpleObjects;
+import org.universAAL.ucc.windows.AddNewPersonWindow;
+import org.universAAL.ucc.windows.HumansWindow;
+import org.universAAL.ucc.windows.UccUI;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.util.Collection;
+import java.util.Date;
+
+import javax.xml.bind.JAXBException;
+
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.NativeSelect;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.Window;
+import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.Window.Notification;
+
+import org.universAAL.ucc.windows.TabForm;
+
+public class AddNewPersonController implements Button.ClickListener, Window.CloseListener {
+	private AddNewPersonWindow win;
+	private UccUI app;
+	private BundleContext context;
+	private DataAccess dataAccess;
+	private TabSheet tabSheet;
+	private HashMap<String, Subprofile> subprofiles;
+	private String ontId;
+	private ArrayList<OntologyInstance> objects;
+	private ArrayList<OntologyInstance>savedObjects;
+	private OntologyInstance instance;
+//	private String flatId;
+	private static String ontoProfile;
+//	private static String flat1DB;
+//	private static String flat2DB;
+//	private static String flat3DB;
+	private String actualFlat;
+	private boolean saved;
+	private String device;
+
+	public AddNewPersonController(AddNewPersonWindow window, HumansWindow hWin,
+			UccUI app) throws JAXBException,
+			IOException, ParseException {
+		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
+		device = System.getenv("systemdrive");
+		ontoProfile = device+"/datastore_schema/EmptyUser.xml";
+//		flat1DB = device+"/jcc_datastore/flat1/Users.xml";
+//		flat2DB = device+"/jcc_datastore/flat2/Users.xml";
+//		flat3DB = device+"/jcc_datastore/flat3/Users.xml";
+		this.app = app;
+		this.saved = false;
+		this.win = window;
+		this.win.addListener(this);
+//		this.flatId = window.getFlatId();
+//		if (flatId.equals("Flat1")) {
+//			actualFlat = flat1DB;
+//		} else if (flatId.equals("Flat2")) {
+//			actualFlat = flat2DB;
+//		} else if (flatId.equals("Flat3")) {
+//			actualFlat = flat3DB;
+//		}
+		actualFlat= device + "/uccDB/Users.xml";
+		ServiceReference ref = context.getServiceReference(DataAccess.class
+				.getName());
+		dataAccess = (DataAccess) context.getService(ref);
+		context.ungetService(ref);
+		savedObjects = dataAccess.getFormFields(actualFlat);
+		instance = new OntologyInstance();
+		subprofiles = new HashMap<String, Subprofile>();
+		tabSheet = new TabSheet();
+		tabSheet.setSizeFull();
+		tabSheet.setImmediate(true);
+		loadData();
+		if (hWin != null) {
+			TabForm tab = (TabForm) tabSheet.getSelectedTab();
+			tab.getField(tab.getId()).setValue(hWin.getUserTree().getValue());
+		}
+		win.addWindowContent(tabSheet);
+
+	}
+
+	private void loadData() throws JAXBException, IOException, ParseException {
+		// Creating Tabs with Forms
+		objects = dataAccess.getEmptyProfile(ontoProfile);
+		TabForm f = null;
+		// Every Subprofile is shown in a seperate tab
+		if(objects.size() > 0) {
+		for (Subprofile tab : objects.get(0).getSubprofiles().getSubprofile()) {
+			instance.getSubprofiles().getSubprofile().add(tab);
+			f = new TabForm();
+			// Save Subprofile Tabs for later use
+			subprofiles.put(tab.getName(), tab);
+			// Creating User tree and Comboboxes
+			for (EnumObject enumObj : tab.getEnumObjects().getEnumObject()) {
+				NativeSelect box = new NativeSelect(enumObj.getLabel());
+//				box.addItem("");
+				box.setDescription(enumObj.getDescription());
+				// Create ComboBox with enum objects and add to form
+				for (String item : enumObj.getValues().getValue()) {
+					box.addItem(item);
+				}
+				box.setImmediate(true);
+				if (enumObj.isRequired()) {
+					box.setRequired(true);
+					box.setRequiredError(enumObj.getLabel() + " is required");
+				}
+				if (enumObj.isTreeParentNode()) {
+					f.setId(enumObj.getType());
+				}
+				f.addField(enumObj.getType(), box);
+
+			}
+			// Add simpel objects to form
+			for (SimpleObject simpl : tab.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+				createForm(simpl, f);
+			}
+			// Adding collection objects as a list to form
+			if (tab.getCollections().getCollection().size() > 0) {
+				for (CollectionValues cols : tab.getCollections().getCollection()) {
+					ListSelect list = new ListSelect();
+					list.setCaption(cols.getLabel());
+					list.setWidth("120px");
+					list.setDescription(cols.getDescription());
+					if (cols.isMultiselection()) {
+						list.setMultiSelect(true);
+					}
+					if(cols.isRequired()) {
+						list.setRequired(true);
+						list.setRequiredError("You have to add one or many preferred Languages");
+					}
+					if(cols.getValues().getStringOrIntegerOrBoolean().size()>0) {
+						for(SimpleObject v : cols.getValues().getStringOrIntegerOrBoolean()) {
+							StringValue st = (StringValue)v;
+							list.addItem(st.getValue());
+							list.select(st.getValue());
+						}
+					}
+						
+					// Adding List to Form
+					list.setImmediate(true);
+					list.setNullSelectionAllowed(false);
+					list.setRows(5);
+					list.setNewItemsAllowed(true);
+					f.addField(cols.getLabel(), list);
+				}
+			}
+			f.createFooter();
+			f.getSaveButton().addListener((Button.ClickListener) this);
+			f.getEditButton().addListener((Button.ClickListener) this);
+			f.getResetButton().addListener((Button.ClickListener) this);
+			f.getDeleteButton().addListener((Button.ClickListener) this);
+			f.getEditButton().setVisible(false);
+			f.getSaveButton().setVisible(true);
+			f.getDeleteButton().setVisible(false);
+			f.setHeader(tab.getName());
+			f.setReadOnly(false);
+			tabSheet.addTab(f, tab.getName());
+			if(tabSheet.getTabPosition(tabSheet.getTab(f)) != 0) {
+				tabSheet.getTab(f).setEnabled(false);
+			}
+				
+		}
+	}
+
+	}
+
+	private TabForm createForm(SimpleObject simpleObject, TabForm form)
+			throws ParseException {
+		if (simpleObject instanceof CalendarValue) {
+			CalendarValue cal = (CalendarValue) simpleObject;
+			PopupDateField date = new PopupDateField(cal.getLabel());
+			date.setResolution(PopupDateField.RESOLUTION_MIN);
+			date.setImmediate(true);
+			date.setInputPrompt(cal.getLabel());
+			date.setShowISOWeekNumbers(true);
+			date.setDescription(cal.getDescription());
+			if (cal.isRequired()) {
+				date.setRequired(true);
+				date.setRequiredError(cal.getLabel() + " is required");
+			}
+			form.addField(cal.getLabel(), date);
+		} else if (simpleObject instanceof StringValue) {
+			StringValue st = (StringValue) simpleObject;
+			if(st.getName().contains("password") || st.getName().contains("Password")) {
+				PasswordField pwd = new PasswordField(st.getLabel());
+				pwd.setWriteThrough(false);
+				pwd.setImmediate(true);
+				pwd.setDescription(st.getDescription());
+				if (st.isRequired()) {
+					pwd.setRequired(true);
+					pwd.setRequiredError(st.getLabel() + " is required");
+				}
+				form.addField(st.getLabel(), pwd);
+			} else 
+			if (st.getValue().length() > 30) {
+				TextArea area = new TextArea(st.getLabel());
+				area.setImmediate(true);
+				area.setWriteThrough(false);
+				area.setRows(5);
+				area.setDescription(st.getDescription());
+				if (st.isRequired()) {
+					area.setRequired(true);
+					area.setRequiredError(st.getLabel() + " is required");
+				}
+				if (st.getValidator() != null) {
+					if (st.getValidator().equals("EmailValidator")) {
+						area.addValidator(new EmailValidator(
+								"The Emailaddress isn't correct"));
+					}
+				}
+				form.addField(st.getLabel(), area);
+			} else {
+				TextField tf = new TextField(st.getLabel());
+				tf.setWriteThrough(false);
+				tf.setImmediate(true);
+				tf.setDescription(st.getDescription());
+				if (st.isRequired()) {
+					tf.setRequired(true);
+					tf.setRequiredError(st.getLabel() + " is required");
+				}
+				if (st.getValidator() != null) {
+					if (st.getValidator().equals("EmailValidator")) {
+						tf.addValidator(new EmailValidator(
+								"The Emailaddress isn't correct"));
+					}
+				}
+				form.addField(simpleObject.getLabel(), tf);
+			}
+			form.createFooter();
+		} else if (simpleObject instanceof IntegerValue) {
+			IntegerValue integer = (IntegerValue) simpleObject;
+			TextField t = new TextField(integer.getLabel());
+			t.setImmediate(true);
+			t.setWriteThrough(false);
+			t.setDescription(integer.getDescription());
+			if (integer.isRequired()) {
+				t.setRequired(true);
+				t.setRequiredError(integer.getLabel() + " is required");
+			}
+			if (integer.getValidator() != null) {
+				if (integer.getValidator().equals("RegexpValidator")) {
+					if (integer.getName().contains("postalCode")) {
+						t.addValidator(new RegexpValidator("[1-9][0-9]{4}",
+								"The postal code isn't correct"));
+					} else {
+						t.addValidator(new RegexpValidator("[1-9][0-9]*",
+								"Please insert an valid number"));
+					}
+				}
+			}
+			form.addField(simpleObject.getLabel(), t);
+		} else if (simpleObject instanceof BooleanValue) {
+			BooleanValue bool = (BooleanValue) simpleObject;
+			CheckBox box = new CheckBox(bool.getLabel());
+			box.setImmediate(true);
+			box.setWriteThrough(false);
+			box.setDescription(bool.getDescription());
+			if (bool.isRequired()) {
+				box.setRequired(true);
+				box.setRequiredError(bool.getLabel() + " is required");
+			}
+			form.addField(bool.getLabel(), box);
+		} else if (simpleObject instanceof DoubleValue) {
+			DoubleValue doub = (DoubleValue) simpleObject;
+			TextField tf = new TextField(doub.getLabel());
+			tf.setImmediate(true);
+			tf.setWriteThrough(false);
+			tf.setDescription(doub.getDescription());
+			if (doub.isRequired()) {
+				tf.setRequired(true);
+				tf.setRequiredError(doub.getLabel() + " is required");
+			}
+			if (doub.getValidator() != null) {
+				if (doub.getValidator().equals("RegexpValidator")) {
+					tf.addValidator(new RegexpValidator("[0-9]*[.][0-9]{5}",
+							"Please insert a valid floating number"));
+				}
+			}
+			form.addField(doub.getLabel(), tf);
+		}
+
+		return form;
+	}
+
+	String user = "";
+	
+	public void buttonClick(ClickEvent event) {
+		if (event.getButton() == ((TabForm) tabSheet.getSelectedTab())
+				.getSaveButton()) {
+			saved = true;
+			TabForm tab = (TabForm) tabSheet.getSelectedTab();
+			String tabHeader = tabSheet.getTab(tab).getCaption();
+			Subprofile sub = new Subprofile();
+			sub.setName(tabHeader);
+			// SimpleObjects
+			ArrayList<SimpleObject> simpleObjects = new ArrayList<SimpleObject>();
+			for (SimpleObject sim : subprofiles.get(tabHeader)
+					.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+				if (sim instanceof StringValue) {
+					StringValue s = (StringValue) sim;
+					
+					s.setValue((String) tab.getField(s.getLabel()).getValue());
+					simpleObjects.add(s);
+					if (s.isId()) {
+						ontId = s.getValue();
+					}
+				}
+				if (sim instanceof IntegerValue) {
+					IntegerValue integer = (IntegerValue) sim;
+					if (isIntegerNum(tab.getField(sim.getLabel()).getValue()
+							.toString()))
+						integer.setValue(Integer.parseInt(tab
+								.getField(sim.getLabel()).getValue().toString()));
+					else
+						integer.setValue(0);
+					simpleObjects.add(integer);
+				}
+				if (sim instanceof DoubleValue) {
+					DoubleValue doub = (DoubleValue) sim;
+					if (isDoubleNum(tab.getField(doub.getLabel()).getValue()
+							.toString()))
+						doub.setValue(Double.parseDouble(tab
+								.getField(doub.getLabel()).getValue()
+								.toString()));
+					else
+						doub.setValue(0.0);
+					simpleObjects.add(doub);
+				}
+				if (sim instanceof BooleanValue) {
+					BooleanValue bool = (BooleanValue) sim;
+					bool.setValue((Boolean) tab.getField(bool.getLabel())
+							.getValue());
+					simpleObjects.add(bool);
+				}
+				if (sim instanceof CalendarValue) {
+					CalendarValue cal = (CalendarValue) sim;
+					DateFormat df = new SimpleDateFormat();
+					if (tab.getField(sim.getLabel()).getValue() != null) {
+						String date = df.format((Date) tab.getField(
+								sim.getLabel()).getValue());
+						cal.setValue(date);
+						simpleObjects.add(cal);
+					}
+				}
+			}
+			SimpleObjects sobs = new SimpleObjects();
+			for(SimpleObject sim : simpleObjects) {
+				sobs.getStringOrIntegerOrBoolean().add(sim);
+			}
+			sub.setSimpleObjects(sobs);
+
+			// EnumObjects
+			ArrayList<EnumObject> enums = new ArrayList<EnumObject>();
+			for (EnumObject en : subprofiles.get(tabHeader).getEnumObjects().getEnumObject()) {
+				en.setSelectedValue((String) tab.getField(en.getType())
+						.getValue());
+				enums.add(en);
+				if(en.getType().equals("userRole")) {
+					user = en.getSelectedValue();
+				}
+			}
+			EnumObjects ens = new EnumObjects();
+			for(EnumObject eo : enums) {
+				ens.getEnumObject().add(eo);
+			}
+			sub.setEnumObjects(ens);
+
+			// CollectionValues
+			ArrayList<CollectionValues> collections = new ArrayList<CollectionValues>();
+			for (CollectionValues cols : subprofiles.get(tabHeader)
+					.getCollections().getCollection()) {
+				Collection<SimpleObject> values = new ArrayList<SimpleObject>();
+				Collection<SimpleObject> newVal = null;
+				for (SimpleObject sim : cols.getValues().getStringOrIntegerOrBoolean()) {
+					if (sim instanceof StringValue) {
+						newVal = (Collection<SimpleObject>) tab.getField(
+								cols.getLabel()).getValue();
+						Object[] array = newVal.toArray();
+						for (int i = 0; i < array.length; i++) {
+							StringValue n = new StringValue();
+							n.setDescription(sim.getDescription());
+							n.setLabel(sim.getLabel());
+							n.setRequired(sim.isRequired());
+							n.setValidator(sim.getValidator());
+							n.setValue(array[i].toString());
+							values.add(n);
+						}
+					} else if (sim instanceof IntegerValue) {
+						newVal = (Collection<SimpleObject>) tab.getField(
+								cols.getLabel()).getValue();
+						Object[] array = newVal.toArray();
+						for (int i = 0; i < array.length; i++) {
+							IntegerValue n = new IntegerValue();
+							n.setDescription(sim.getDescription());
+							n.setLabel(sim.getLabel());
+							n.setRequired(sim.isRequired());
+							n.setValidator(sim.getValidator());
+							if (isIntegerNum(array[i].toString()))
+								n.setValue(Integer.parseInt(array[i].toString()));
+							else
+								n.setValue(0);
+							values.add(n);
+						}
+
+					} else if (sim instanceof DoubleValue) {
+						newVal = (Collection<SimpleObject>) tab.getField(
+								cols.getLabel()).getValue();
+						Object[] array = newVal.toArray();
+						for (int i = 0; i < array.length; i++) {
+							DoubleValue n = new DoubleValue();
+							n.setDescription(sim.getDescription());
+							n.setLabel(sim.getLabel());
+							n.setRequired(sim.isRequired());
+							n.setValidator(sim.getValidator());
+							if (isDoubleNum(array[i].toString()))
+								n.setValue(Double.parseDouble(array[i]
+										.toString()));
+							else
+								n.setValue(0.0);
+							values.add(n);
+						}
+
+					}
+					Values vals = new Values();
+					for(SimpleObject sb : values) {
+						vals.getStringOrIntegerOrBoolean().add(sb);
+					}
+					cols.setValues(vals);
+				}
+				collections.add(cols);
+			}
+			Collections cols = new Collections();
+			for(CollectionValues cov : collections) {
+				cols.getCollection().add(cov);
+			}
+			sub.setCollections(cols);
+			for(OntologyInstance ont : savedObjects) {
+				if(tab.getField("Given name:") != null && tab.getField("Given name:").getValue().equals(ont.getId())) {
+					tab.getField("Given name:").setValue("");
+					app.getMainWindow().showNotification("You can't add a person twice", Notification.TYPE_HUMANIZED_MESSAGE);
+					return;
+				}
+			}
+			instance.setId(ontId);
+			
+			for (Subprofile prof : instance.getSubprofiles().getSubprofile()) {
+				if (prof.getName().equals(sub.getName())) {
+					prof = sub;
+				}
+			}
+			objects.add(instance);
+			
+				
+			tab.setReadOnly(true);
+			tabSheet.removeComponent(tab);
+			if(tabSheet.getComponentCount() > 0) {
+				tabSheet.getTab(tabSheet.getTabIndex()).setEnabled(true);
+			}
+//			if (hWindow != null && tabSheet.getComponentCount() == 0) {
+//				hWindow.getUserTree().addItem(ontId);
+//				hWindow.getUserTree().setParent(ontId,
+//						hWindow.getUserTree().getValue());
+//				hWindow.getUserTree().setChildrenAllowed(ontId, false);
+//			}
+
+			if (tabSheet.getComponentCount() == 0) {
+				dataAccess.saveUserData(actualFlat, instance);
+				app.getMainWindow().removeWindow(win);
+			}
+			if(tabSheet.getComponentCount() == 0) {
+				for(Window w : app.getMainWindow().getChildWindows()) {
+					if(w instanceof HumansWindow) {
+						   HumansWindow users = (HumansWindow)w;
+//						   if(flatId.equals(users.getFlatId())) {
+							   users.getUserTree().addItem(ontId);
+							   users.getUserTree().setParent(ontId, user);
+							   users.getUserTree().setChildrenAllowed(ontId, false);
+//						   }
+						}
+					}
+				}
+			app.getMainWindow().showNotification(
+					tab.getHeader() + " was saved",
+					Notification.POSITION_CENTERED);
+			
+		}
+
+	}
+
+	private boolean isDoubleNum(String s) {
+		try {
+			Double.parseDouble(s);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean isIntegerNum(String s) {
+		try {
+			Integer.parseInt(s);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
+
+
+	public void windowClose(CloseEvent e) {
+		if(tabSheet.getComponentCount() > 0 && saved)
+			app.getMainWindow().showNotification("The person won't be added, <br> because you've broken the operation", Notification.TYPE_HUMANIZED_MESSAGE);
+		
+	}
+
+}
