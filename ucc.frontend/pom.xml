@@ -85,6 +85,18 @@
     			<groupId>org.universAAL.middleware</groupId>
     			<artifactId>mw.schemas</artifactId>
    		</dependency>
+		<dependency>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.bus.context.osgi</artifactId>
+			<version>1.3.2-SNAPSHOT</version>
+			<type>bundle</type>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.ontology</groupId>
+			<artifactId>ont.phWorld</artifactId>
+			<version>1.3.0</version>
+			<type>bundle</type>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -114,6 +126,8 @@
 						<Export-Package>org.universAAL.ucc.client.util,
 							org.universAAL.ucc.controller.desktop,
 							org.universAAL.ucc.controller.install,
+							org.universAAL.ucc.controller.aalspace,
+							org.universAAL.ucc.subscriber,
 							org.universAAL.ucc.controller.preferences,
 							org.universAAL.ucc.deploymanagerservice,
 							org.universAAL.ucc.deploymanagerservice.impl,
