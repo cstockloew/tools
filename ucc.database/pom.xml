@@ -44,7 +44,10 @@
 							org.universAAL.ucc.database.*, org.universAAL.ucc.database.aalspace.*,
 							org.universAAL.ucc.database.model.jaxb.*,
 							org.universAAL.ucc.database.listener.interfaces.*,
-							org.universAAL.ucc.database.listener.services.*</Export-Package>
+							org.universAAL.ucc.database.listener.services.*,
+							org.universAAL.ucc.startup.api.*,
+							org.universAAL.ucc.startup.api.impl.*,
+							org.universAAL.ucc.startup.model.*</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>

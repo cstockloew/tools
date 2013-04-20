@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1366473784201
+Build-Jdk: 1.7.0_13
+Built-By: merkle
+Bundle-Activator: org.universAAL.ucc.database.Activator
+Bundle-Description: A tool to install, manage and configure applications
+  for universAAL an a local maschine.
+Bundle-DocURL: http://www.universAAL.org/
+Bundle-ManifestVersion: 2
+Bundle-Name: org.universAAL.tools.ucc.ucc.database
+Bundle-SymbolicName: ucc.database
+Bundle-Vendor: universAAL Consortium
+Bundle-Version: 2.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.universAAL.ucc.database;uses:="org.universAAL.ucc.da
+ tabase.preferences.impl,org.universAAL.ucc.database.preferences,org.uni
+ versAAL.ucc.model.preferences,org.universAAL.ucc.startup.model,org.univ
+ ersAAL.ucc.startup.api,org.osgi.framework,org.universAAL.ucc.startup.ap
+ i.impl";version="2.0.1.SNAPSHOT",org.universAAL.ucc.database.preference
+ s.impl;uses:="org.universAAL.ucc.database.preferences,org.universAAL.uc
+ c.model.preferences,javax.xml.bind";version="2.0.1.SNAPSHOT",org.univer
+ sAAL.ucc.database.preferences;uses:="org.universAAL.ucc.model.preferenc
+ es";version="2.0.1.SNAPSHOT",org.universAAL.ucc.startup.api;uses:="org.
+ universAAL.ucc.startup.model";version="2.0.1.SNAPSHOT",org.universAAL.u
+ cc.startup.api.impl;uses:="org.universAAL.ucc.startup.model,org.univers
+ AAL.ucc.startup.api,javax.xml.bind";version="2.0.1.SNAPSHOT",org.univer
+ sAAL.ucc.startup.model;uses:="javax.xml.bind.annotation";version="2.0.1
+ .SNAPSHOT"
+Import-Package: javax.xml.bind,javax.xml.bind.annotation,org.osgi.framew
+ ork;version="[1.5,2)",org.universAAL.ucc.model.preferences;version="[2.
+ 0,3)"
+Tool: Bnd-1.50.0
