@@ -2,6 +2,7 @@ package org.universAAL.ucc.windows;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -10,6 +11,8 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
+import org.universAAL.ucc.startup.api.Setup;
+import org.universAAL.ucc.startup.model.User;
 
 import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext.TransactionListener;
@@ -21,11 +24,13 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.themes.Reindeer;
 
 public class UccUI extends Application {
@@ -47,6 +52,10 @@ public class UccUI extends Application {
 	private String basename;
 	private ResourceBundle res;
 	private static UccUI uccUI;
+	private Button link;
+	private TextField user;
+	private PasswordField pwd;
+	private BundleContext context;
 
 	private final static String file = System.getenv("systemdrive")
 			+ "/uccDB/preferences.xml";
@@ -131,6 +140,10 @@ public class UccUI extends Application {
 	}
 
 	public Window createLogin() {
+		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
+		ServiceReference ref = context.getServiceReference(Setup.class.getName());
+		Setup su = (Setup) context.getService(ref);
+		context.ungetService(ref);
 		desk = new DesktopController(this);
 		vLog = new VerticalLayout();
 		vLog.setSizeFull();
@@ -154,20 +167,43 @@ public class UccUI extends Application {
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setMargin(true);
 		hl.setSpacing(true);
-		TextField user = new TextField(res.getString("user.label"));
+		user = new TextField(res.getString("user.label"));
 		hl.addComponent(user);
-		PasswordField pwd = new PasswordField(res.getString("pwd.label"));
+		pwd = new PasswordField(res.getString("pwd.label"));
 		hl.addComponent(pwd);
+		List<User> cu = su.getUsers("file:///../etc/uCC/users.xml");
+		if(!cu.isEmpty()) {
+		for(User u : cu) {
+			if(u.isChecked()) {
+				user.setValue(u.getName());
+				pwd.setValue(u.getPassword());
+			}
+		}
+		} else {
+			getMainWindow().showNotification(res.getString("create.account"), Notification.TYPE_HUMANIZED_MESSAGE);
+		}
 		login = new Button(res.getString("login.label"));
 		hl.addComponent(login);
 		hl.setComponentAlignment(login, Alignment.BOTTOM_RIGHT);
+		link = new Button(res.getString("create.account"));
+		link.addListener(desk);
+		hl.addComponent(link);
+		hl.setComponentAlignment(link, Alignment.BOTTOM_RIGHT);
 		login.addListener(desk);
 		vm.addComponent(hl);
-		loginWindow.setWidth("450px");
-		loginWindow.setHeight("250px");
+		loginWindow.setWidth("530px");
+		loginWindow.setHeight("300px");
 		loginWindow.setContent(vm);
 		mainWindow.addWindow(loginWindow);
 		return loginWindow;
+	}
+
+	public Button getLink() {
+		return link;
+	}
+
+	public void setLink(Button link) {
+		this.link = link;
 	}
 
 	public Button getStartButton() {
@@ -237,5 +273,23 @@ public class UccUI extends Application {
 	public void setBell(Button bell) {
 		this.bell = bell;
 	}
+
+	public TextField getUser() {
+		return user;
+	}
+
+	public void setUser(TextField user) {
+		this.user = user;
+	}
+
+	public PasswordField getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(PasswordField pwd) {
+		this.pwd = pwd;
+	}
+	
+	
 
 }

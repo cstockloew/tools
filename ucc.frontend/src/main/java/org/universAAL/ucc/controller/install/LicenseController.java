@@ -7,6 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
+import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
+import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
+import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.windows.DeploymentInformationView;
@@ -131,6 +138,8 @@ public class LicenseController implements Property.ValueChangeListener,
 				DeploymentInfoController dic = new DeploymentInfoController(
 						app, aal, div);
 				app.getMainWindow().addWindow(div);
+				
+				
 				// iw.getDeployStratgyView(aal.getName(), aal.getServiceId(),
 				// aal.getUaapList().get(0).getUappLocation(), appCounter, aal);
 				// appCounter--;

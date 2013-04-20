@@ -1,6 +1,11 @@
 package org.universAAL.ucc.service.manager;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.Properties;
+
+import javax.xml.bind.JAXB;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -18,6 +23,7 @@ import org.universAAL.ucc.service.api.IServiceModel;
 import org.universAAL.ucc.service.api.IServiceRegistration;
 import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.webconnection.WebConnector;
+import org.universAAL.ucc.startup.model.UccUsers;
 import org.universAAL.ucc.subscriber.SensorEventSubscriber;
 
 
@@ -35,6 +41,23 @@ public class Activator implements BundleActivator {
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
+		//Setting setup properties in etc/ucc directory
+		File confHome = new File("file:///../etc/uCC");
+		if(!confHome.exists()) {
+			confHome.mkdir();
+		}
+		if(confHome.listFiles().length <= 0) {
+			Properties prop = new Properties();
+			prop.setProperty("admin", "admin");
+			prop.setProperty("name", "aal");
+			prop.setProperty("pwd", "hehe");
+			prop.setProperty("store_port", "9090");
+			prop.setProperty("uccPort", "8080");
+			prop.setProperty("url", "");
+			Writer in = new FileWriter(new File(confHome, "setup.properties"));
+			prop.store(in, "Setup properties for initial setup of uCC");
+		}
+		
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
 		// Later uncomment, when Deinstaller is implemented in the
