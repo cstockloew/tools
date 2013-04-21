@@ -35,6 +35,7 @@ public class WhichBundleShouldBeConfiguredWindow extends Window implements Confi
 		super("Configure "+usecase);
 		setWidth("450px");
 		setHeight("365px");
+		center();
 //		this.flatId = flatId;
 		this.twin = this;
 		context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
