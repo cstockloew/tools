@@ -6,32 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
-import javax.xml.bind.JAXB;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.client.util.UstoreUtil;
-import org.universAAL.ucc.controller.Activator;
-import org.universAAL.ucc.database.aalspace.DataAccess;
-import org.universAAL.ucc.database.aalspace.DataAccessImpl;
-import org.universAAL.ucc.database.model.jaxb.CollectionValues;
-import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
-import org.universAAL.ucc.database.model.jaxb.Profiles;
-import org.universAAL.ucc.database.model.jaxb.SimpleObject;
-import org.universAAL.ucc.database.model.jaxb.Subprofile;
-import org.universAAL.ucc.database.model.jaxb.CollectionValues.Values;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.Collections;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.EnumObjects;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.SimpleObjects;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
-import org.universAAL.ucc.deploymanagerservice.DeployManagerService;
-import org.universAAL.ucc.frontend.api.IFrontend;
-import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.User;
@@ -41,9 +23,10 @@ import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.SearchWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
+
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.Notification;
 
 public class DesktopController implements Button.ClickListener {
@@ -141,8 +124,7 @@ public class DesktopController implements Button.ClickListener {
 
 		}
 		if (event.getButton() == app.getAdminButton()) {
-			Preferences pref = db.getPreferencesData(System
-					.getenv("systemdrive") + "/uccDB/preferences.xml");
+			Preferences pref = db.getPreferencesData("file:///../etc/uCC/preferences.xml");
 			PreferencesWindow p = new PreferencesWindow(app, pref);
 			main.addWindow(p);
 		}

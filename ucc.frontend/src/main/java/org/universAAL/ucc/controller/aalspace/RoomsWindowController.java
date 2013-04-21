@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
@@ -36,20 +35,16 @@ import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.Window.Notification;
 
 import org.universAAL.ucc.database.aalspace.DataAccess;
-import org.universAAL.ucc.database.model.jaxb.BooleanValue;
-import org.universAAL.ucc.database.model.jaxb.CalendarValue;
-import org.universAAL.ucc.database.model.jaxb.CollectionValues;
-import org.universAAL.ucc.database.model.jaxb.CollectionValues.Values;
-import org.universAAL.ucc.database.model.jaxb.DoubleValue;
-import org.universAAL.ucc.database.model.jaxb.EnumObject;
-import org.universAAL.ucc.database.model.jaxb.IntegerValue;
-import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
-import org.universAAL.ucc.database.model.jaxb.SimpleObject;
-import org.universAAL.ucc.database.model.jaxb.StringValue;
-import org.universAAL.ucc.database.model.jaxb.Subprofile;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.Collections;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.EnumObjects;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.SimpleObjects;
+import org.universAAL.ucc.model.jaxb.BooleanValue;
+import org.universAAL.ucc.model.jaxb.CalendarValue;
+import org.universAAL.ucc.model.jaxb.CollectionValues;
+import org.universAAL.ucc.model.jaxb.DoubleValue;
+import org.universAAL.ucc.model.jaxb.EnumObject;
+import org.universAAL.ucc.model.jaxb.IntegerValue;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.SimpleObject;
+import org.universAAL.ucc.model.jaxb.StringValue;
+import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.HardwareWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -69,13 +64,13 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 	private HashMap<String, ArrayList<Subprofile>> ontInstances;
 	private HashMap<String, ArrayList<Subprofile>> roomInstances;
 	private String selectedItem;
-//	private String flatId;
-//	private static String hw1;
-//	private static String hw2;
-//	private static String hw3;
-//	private static String flat1DB;
-//	private static String flat2DB;
-//	private static String flat3DB;
+	private String flatId;
+	private static String hw1;
+	private static String hw2;
+	private static String hw3;
+	private static String flat1DB;
+	private static String flat2DB;
+	private static String flat3DB;
 	private String actualFlat;
 	private String actualHW;
 	private String device;
@@ -107,7 +102,6 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 //			actualFlat = flat3DB;
 //			actualHW = hw3;
 //		}
-		
 		actualFlat = device + "/uccDB/Rooms.xml";
 		actualHW = device + "/uccDB/Hardware.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
@@ -142,7 +136,7 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 				roomInstances.get(r.getId()).clear();
 			}
 
-			for(Subprofile s : r.getSubprofiles().getSubprofile()) {
+			for(Subprofile s : r.getSubprofiles()) {
 				roomInstances.get(r.getId()).add(s);
 				roomprofiles.put(s.getName(),s);
 			}
@@ -161,7 +155,7 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 			}
 		
 			// Every Subprofile is shown in a seperate tab
-			for (Subprofile tab : o.getSubprofiles().getSubprofile()) {
+			for (Subprofile tab : o.getSubprofiles()) {
 				f = new TabForm();
 				if(subprofiles.get(tab.getName())!=null)
 					subprofiles.remove(tab.getName());
@@ -169,11 +163,11 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 				subprofiles.put(tab.getName(), tab);
 				String selectedRole = null;
 				// Creating User tree and Comboboxes
-				for (EnumObject enumObj : tab.getEnumObjects().getEnumObject()) {
+				for (EnumObject enumObj : tab.getEnums()) {
 					NativeSelect box = new NativeSelect(enumObj.getLabel());
 					box.setImmediate(true);
 					if (enumObj.isTreeParentNode()) {
-						for (String item : enumObj.getValues().getValue()) {
+						for (String item : enumObj.getValues()) {
 							win.getUserTree().addItem(item);
 							win.getUserTree().setChildrenAllowed(item, true);
 							win.getUserTree().expandItemsRecursively(item);
@@ -188,7 +182,7 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 					} 
 					
 					// Create ComboBox with enum objects and add to form
-					for (String item : enumObj.getValues().getValue()) {
+					for (String item : enumObj.getValues()) {
 						box.addItem(item);
 						box.setValue(enumObj.getSelectedValue());
 						box.setNullSelectionAllowed(false);
@@ -205,37 +199,37 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 					}
 				}
 				// Add simpel objects to form
-				for (SimpleObject simpl : tab.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+				for (SimpleObject simpl : tab.getSimpleObjects()) {
 					createForm(simpl, f);
 				}
 				// Adding collection objects as a list to form
-				if (tab.getCollections().getCollection().size() > 0) {
-					for (CollectionValues cols : tab.getCollections().getCollection()) {
+				if (tab.getCollections().size() > 0) {
+					for (CollectionValues cols : tab.getCollections()) {
 						ListSelect list = new ListSelect();
 						list.setCaption(cols.getLabel());
 						list.setWidth("120px");
 						list.setDescription(cols.getDescription());
-						if (cols.isMultiselection()) {
+						if (cols.isMultiselect()) {
 							list.setMultiSelect(true);
 						}
 
-						if (cols.getValueType().equals("string")) {
-							for (SimpleObject sim : cols.getValues().getStringOrIntegerOrBoolean()) {
+						if (cols.getValue_type().equals("string")) {
+							for (SimpleObject sim : cols.getCollection()) {
 								StringValue s = (StringValue) sim;
 								list.addItem(s.getValue());
 								list.select(s.getValue());
 							}
 						}
-						if (cols.getValueType().equals("integer")) {
-							for (SimpleObject sim : cols.getValues().getStringOrIntegerOrBoolean()) {
+						if (cols.getValue_type().equals("integer")) {
+							for (SimpleObject sim : cols.getCollection()) {
 								IntegerValue i = (IntegerValue) sim;
 								list.addItem(i.getValue());
 								list.select(i.getValue());
 							}
 
 						}
-						if (cols.getValueType().equals("double")) {
-							for (SimpleObject sim : cols.getValues().getStringOrIntegerOrBoolean()) {
+						if (cols.getValue_type().equals("double")) {
+							for (SimpleObject sim : cols.getCollection()) {
 								DoubleValue d = (DoubleValue) sim;
 								list.addItem(d.getValue());
 								list.select(d.getValue());
@@ -269,8 +263,8 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 			CalendarValue cal = (CalendarValue) simpleObject;
 			PopupDateField date = new PopupDateField(cal.getLabel());
 			DateFormat format = new SimpleDateFormat();
-			if (cal.getValue() != null && !cal.getValue().equals("")) {
-				String d = cal.getValue();
+			if (cal.getCalendar() != null && !cal.getCalendar().equals("")) {
+				String d = cal.getCalendar();
 				date.setValue(d);
 				date.setResolution(PopupDateField.RESOLUTION_MIN);
 				date.setImmediate(true);
@@ -358,7 +352,7 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 			CheckBox box = new CheckBox(bool.getLabel());
 			box.setImmediate(true);
 			box.setWriteThrough(false);
-			if (bool.isValue()) {
+			if (bool.getValue()) {
 				box.setValue(true);
 			} else {
 				box.setValue(false);
@@ -392,7 +386,6 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 		return form;
 	}
 
-
 	public void buttonClick(ClickEvent event) {
 		String id = selectedItem;
 		if (event.getButton() == ((TabForm) tabSheet.getSelectedTab())
@@ -402,7 +395,7 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 			Subprofile subRoom = roomprofiles.get(tabSheet.getTab(tab).getCaption());
 			// Aktuelles Subprofile übernimmt die Änderungen des Formulars
 			ArrayList<SimpleObject>tempSim = new ArrayList<SimpleObject>();
-			for(SimpleObject simi : sub.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+			for(SimpleObject simi : sub.getSimpleObjects()) {
 				tempSim.add(simi);
 			}
 			for (SimpleObject simpl : tempSim/*sub.getSimpleObjects()*/) {
@@ -441,13 +434,13 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 					DateFormat df = new SimpleDateFormat();
 					if(cal.getName().equals("hardwareSettingTime")) {
 						String date = df.format(new Date());
-						cal.setValue(date);
+						cal.setCalendar(date);
 					}
 				}
 			}
 			// Enum Objecte
 			ArrayList<EnumObject>tempEnums = new ArrayList<EnumObject>();
-			for(EnumObject e : sub.getEnumObjects().getEnumObject()) {
+			for(EnumObject e : sub.getEnums()) {
 				tempEnums.add(e);
 			}
 			for (EnumObject en : tempEnums/*sub.getEnums()*/) {
@@ -462,13 +455,13 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 
 			//Collections
 			ArrayList<CollectionValues>tempCols = new ArrayList<CollectionValues>();
-			for(CollectionValues v : sub.getCollections().getCollection()) {
+			for(CollectionValues v : sub.getCollections()) {
 				tempCols.add(v);
 			}
 			for (CollectionValues col : tempCols /*sub.getCollections()*/) {
 				Collection<SimpleObject> values = new ArrayList<SimpleObject>();
 				Collection<SimpleObject> newVal = null;
-				for (SimpleObject sim : col.getValues().getStringOrIntegerOrBoolean()) {
+				for (SimpleObject sim : col.getCollection()) {
 					if (sim instanceof StringValue) {
 						newVal = (Collection<SimpleObject>) tab.getField(
 								col.getLabel()).getValue();
@@ -519,17 +512,13 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 						}
 
 					}
-					Values v = new Values();
-					for(SimpleObject so : values) {
-						v.getStringOrIntegerOrBoolean().add(so);
-					}
-					col.setValues(v);
+					col.setCollection(values);
 				}
 			}
 			
 			//Roomsfile
 			ArrayList<SimpleObject>roomSimpls = new ArrayList<SimpleObject>();
-			for(SimpleObject teSim : subRoom.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+			for(SimpleObject teSim : subRoom.getSimpleObjects()) {
 				roomSimpls.add(teSim);
 			}
 			for (SimpleObject simpl : roomSimpls/*subRoom.getSimpleObjects()*/) {
@@ -566,13 +555,13 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 					DateFormat df = new SimpleDateFormat();
 					if(cal.getName().equals("hardwareSettingTime")) {
 						String date = df.format(new Date());
-						cal.setValue(date);
+						cal.setCalendar(date);
 					}
 				}
 			}
 			// Enum Objecte
 			ArrayList<EnumObject>roomEns = new ArrayList<EnumObject>();
-			for(EnumObject te : subRoom.getEnumObjects().getEnumObject()) {
+			for(EnumObject te : subRoom.getEnums()) {
 				roomEns.add(te);
 			}
 			for (EnumObject en : roomEns/*subRoom.getEnums()*/) {
@@ -581,13 +570,13 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 			}
 
 			ArrayList<CollectionValues>roomCols = new ArrayList<CollectionValues>();
-			for(CollectionValues c : subRoom.getCollections().getCollection()) {
+			for(CollectionValues c : subRoom.getCollections()) {
 				roomCols.add(c);
 			}
 			for (CollectionValues col : roomCols /*subRoom.getCollections()*/) {
 				Collection<SimpleObject> values = new ArrayList<SimpleObject>();
 				Collection<SimpleObject> newVal = null;
-				for (SimpleObject sim : col.getValues().getStringOrIntegerOrBoolean()) {
+				for (SimpleObject sim : col.getCollection()) {
 					if (sim instanceof StringValue) {
 						newVal = (Collection<SimpleObject>) tab.getField(
 								col.getLabel()).getValue();
@@ -638,49 +627,17 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 						}
 
 					}
-					Values val =  new Values();
-					for(SimpleObject s : values) {
-						val.getStringOrIntegerOrBoolean().add(s);
-					}
-					col.setValues(val);
+					col.setCollection(values);
 				}
 			}
-			Collections cosl = new Collections();
-			for(CollectionValues cv : tempCols) {
-				cosl.getCollection().add(cv);
-			}
-			sub.setCollections(cosl);
-			
-			EnumObjects ens = new EnumObjects();
-			for(EnumObject eno : tempEnums) {
-				ens.getEnumObject().add(eno);
-			}
-			sub.setEnumObjects(ens);
-			
-			SimpleObjects sims = new SimpleObjects();
-			for(SimpleObject so : tempSim) {
-				sims.getStringOrIntegerOrBoolean().add(so);
-			}
-			sub.setSimpleObjects(sims);
-			
-			Collections cs = new Collections();
-			for(CollectionValues colvs : roomCols) {
-				cs.getCollection().add(colvs);
-			}
-			subRoom.setCollections(cs);
-			
-			EnumObjects enes = new EnumObjects();
-			for(EnumObject ene : roomEns) {
-				enes.getEnumObject().add(ene);
-			}
-			subRoom.setEnumObjects(enes);
-			
-			SimpleObjects os = new SimpleObjects();
-			for(SimpleObject sp : roomSimpls) {
-				os.getStringOrIntegerOrBoolean().add(sp);
-			}
-			subRoom.setSimpleObjects(os);
-			HashMap<String, List<Subprofile>> nOntInstances = new HashMap<String, List<Subprofile>>();
+
+			sub.setCollections(tempCols);
+			sub.setEnums(tempEnums);
+			sub.setSimpleObjects(tempSim);
+			subRoom.setCollections(roomCols);
+			subRoom.setEnums(roomEns);
+			subRoom.setSimpleObjects(roomSimpls);
+			HashMap<String, ArrayList<Subprofile>> nOntInstances = new HashMap<String, ArrayList<Subprofile>>();
 			for(Map.Entry<String, ArrayList<Subprofile>>tOnt : ontInstances.entrySet()) {
 				
 				if(tOnt.getKey().equals(selectedItem)) {
@@ -705,7 +662,7 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 //				}
 //			}
 			//For room
-			HashMap<String, List<Subprofile>> ri = new HashMap<String, List<Subprofile>>();
+			HashMap<String, ArrayList<Subprofile>> ri = new HashMap<String, ArrayList<Subprofile>>();
 			for(Map.Entry<String, ArrayList<Subprofile>>tOnt : roomInstances.entrySet()) {
 				
 				if(tOnt.getKey().equals(id)) {
@@ -790,7 +747,6 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 		this.tabSheet = tabSheet;
 	}
 
-
 	public void valueChange(ValueChangeEvent event) {
 		Tree tree = ((Tree) event.getProperty());
 		if(tree.getValue() != null) {
@@ -818,8 +774,7 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 
 		} else {
 			try {
-				AddNewHardwareWindow roomWindow = new AddNewHardwareWindow(
-						/*win.getFlatId(),*/ null, win, app);
+				AddNewHardwareWindow roomWindow = new AddNewHardwareWindow(null, win, app);
 				app.getMainWindow().addWindow(roomWindow);
 			} catch (JAXBException e) {
 				e.printStackTrace();

@@ -20,12 +20,11 @@ import com.vaadin.ui.themes.Reindeer;
 import org.universAAL.ucc.controller.aalspace.HardwareWindowController;
 import org.universAAL.ucc.controller.aalspace.RoomsWindowController;
 
-
 public class RoomsWindow extends Window {
 	private Tree userTree;
 	private HorizontalSplitPanel split;
 	private UccUI app;
-//	private String flatId;
+	private String flatId;
 	private RoomsWindowController rwc;
 	
 	public RoomsWindow(String flat, UccUI app) throws JAXBException, IOException, ParseException {
@@ -38,14 +37,13 @@ public class RoomsWindow extends Window {
 				breadcrump.append(w.getCaption()+" > ");
 		}
 		
-//		breadcrump.append("Rooms of "+flat);
-//		setCaption(breadcrump.toString());
-		setCaption("Hardware");
+		breadcrump.append("Rooms of "+flat);
+		setCaption(breadcrump.toString());
 //		this.flatId = flat;
+		center();
 		this.app = app;
 		setWidth(500, Sizeable.UNITS_PIXELS);
 		setHeight(365, Sizeable.UNITS_PIXELS);
-		center();
 		userTree = new Tree();
 		userTree.setImmediate(true);
 		userTree.setSelectable(true);
@@ -84,13 +82,13 @@ public class RoomsWindow extends Window {
 		this.userTree = userTree;
 	}
 
-//	public String getFlatId() {
-//		return flatId;
-//	}
-//
-//	public void setFlatId(String flatId) {
-//		this.flatId = flatId;
-//	}	
+	public String getFlatId() {
+		return flatId;
+	}
+
+	public void setFlatId(String flatId) {
+		this.flatId = flatId;
+	}	
 	
 	
 

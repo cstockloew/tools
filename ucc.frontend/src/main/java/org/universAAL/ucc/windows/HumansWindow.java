@@ -17,9 +17,9 @@ public class HumansWindow extends Window {
 	private Tree userTree;
 	private HorizontalSplitPanel split;
 	private UccUI app;
-//	private String flatId;
+	private String flatId;
 	
-	public HumansWindow(/*String flat,*/ UccUI app) throws JAXBException, IOException, ParseException {
+	public HumansWindow(UccUI app) throws JAXBException, IOException, ParseException {
 		StringBuffer breadcrump = new StringBuffer();
 		int counter = 0;
 		for(Window w : app.getMainWindow().getChildWindows()) {
@@ -27,14 +27,13 @@ public class HumansWindow extends Window {
 			if(counter == app.getMainWindow().getChildWindows().size())
 				breadcrump.append(w.getCaption()+" > ");
 		}		
-//		breadcrump.append("Persons of "+flat);
-//		setCaption(breadcrump.toString());
-		setCaption("Persons");
+		breadcrump.append("Persons");
+		setCaption(breadcrump.toString());
 //		this.flatId = flat;
 		this.app = app;
-		center();
 		setWidth(500, Sizeable.UNITS_PIXELS);
 		setHeight(365, Sizeable.UNITS_PIXELS);
+		center();
 		userTree = new Tree();
 		userTree.setImmediate(true);
 		userTree.setSelectable(true);
@@ -65,13 +64,13 @@ public class HumansWindow extends Window {
 		this.userTree = userTree;
 	}
 
-//	public String getFlatId() {
-//		return flatId;
-//	}
-//
-//	public void setFlatId(String flatId) {
-//		this.flatId = flatId;
-//	}	
+	public String getFlatId() {
+		return flatId;
+	}
+
+	public void setFlatId(String flatId) {
+		this.flatId = flatId;
+	}	
 	
 	
 

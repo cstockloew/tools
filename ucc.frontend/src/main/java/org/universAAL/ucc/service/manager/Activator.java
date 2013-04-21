@@ -46,17 +46,18 @@ public class Activator implements BundleActivator {
 		if(!confHome.exists()) {
 			confHome.mkdir();
 		}
-		if(confHome.listFiles().length <= 0) {
+		File temp = new File("file:///../etc/uCC/setup.properties");
+//		if(!temp.exists()) {
 			Properties prop = new Properties();
 			prop.setProperty("admin", "admin");
 			prop.setProperty("name", "aal");
-			prop.setProperty("pwd", "hehe");
-			prop.setProperty("store_port", "9090");
+			prop.setProperty("pwd", "uAAL");
+			prop.setProperty("storePort", "9090");
 			prop.setProperty("uccPort", "8080");
 			prop.setProperty("url", "");
 			Writer in = new FileWriter(new File(confHome, "setup.properties"));
 			prop.store(in, "Setup properties for initial setup of uCC");
-		}
+//		}
 		
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
@@ -68,14 +69,14 @@ public class Activator implements BundleActivator {
 		regis = bc.registerService(IFrontend.class.getName(),
 				new FrontendImpl(), null);
 
-		model = new Model();
-		context.registerService(new String[] { IServiceModel.class.getName() },
-				model, null);
-		mgmt = model.getServiceManagment();
-		reg = model.getServiceRegistration();
-		
-		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
-		SensorEventSubscriber sub = SensorEventSubscriber.getInstance(mContext, context);
+//		model = new Model();
+//		context.registerService(new String[] { IServiceModel.class.getName() },
+//				model, null);
+//		mgmt = model.getServiceManagment();
+//		reg = model.getServiceRegistration();
+//		
+//		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
+//		SensorEventSubscriber sub = SensorEventSubscriber.getInstance(mContext, context);
 
 	}
 

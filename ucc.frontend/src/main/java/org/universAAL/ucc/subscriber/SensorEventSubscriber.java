@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -17,10 +16,10 @@ import org.universAAL.middleware.owl.MergedRestriction;
 import org.universAAL.ontology.phThing.Sensor;
 
 import org.universAAL.ucc.database.aalspace.DataAccess;
-import org.universAAL.ucc.database.model.jaxb.CalendarValue;
-import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
-import org.universAAL.ucc.database.model.jaxb.SimpleObject;
-import org.universAAL.ucc.database.model.jaxb.Subprofile;
+import org.universAAL.ucc.model.jaxb.CalendarValue;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.SimpleObject;
+import org.universAAL.ucc.model.jaxb.Subprofile;
 
 public class SensorEventSubscriber extends ContextSubscriber {
 	private static String room1;
@@ -33,7 +32,7 @@ public class SensorEventSubscriber extends ContextSubscriber {
 	private ArrayList<SensorActivityTimeChangedListener>listener;
 	private DataAccess db;
 	private static BundleContext bContext;
-	private HashMap<String, List<Subprofile>>ontInstances;
+	private HashMap<String, ArrayList<Subprofile>>ontInstances;
 	private String device;
 	
 	private static ContextEventPattern[] getSubscriptions() {
@@ -45,16 +44,16 @@ public class SensorEventSubscriber extends ContextSubscriber {
 	private SensorEventSubscriber(ModuleContext context) {
 		super(context, getSubscriptions());
 		device = System.getenv("systemdrive");
-		room1 = device+"/jcc_datastore/flat1/Rooms.xml";
-		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
-		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
-		flat1DB = device+"/jcc_datastore/flat1/Hardware.xml";
-		flat2DB = device+"/jcc_datastore/flat2/Hardware.xml";
-		flat3DB = device+"/jcc_datastore/flat3/Hardware.xml";
+//		room1 = device+"/jcc_datastore/flat1/Rooms.xml";
+//		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
+//		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
+//		flat1DB = device+"/jcc_datastore/flat1/Hardware.xml";
+//		flat2DB = device+"/jcc_datastore/flat2/Hardware.xml";
+//		flat3DB = device+"/jcc_datastore/flat3/Hardware.xml";
 		listener = new ArrayList<SensorActivityTimeChangedListener>();
-		ontInstances = new HashMap<String, List<Subprofile>>();
+		ontInstances = new HashMap<String, ArrayList<Subprofile>>();
 		ServiceReference ref = bContext.getServiceReference(DataAccess.class.getName());
-		db = (DataAccess) bContext.getService(ref);
+		db = (DataAccess)bContext.getService(ref);
 		bContext.ungetService(ref);
 		
 	}
@@ -93,39 +92,38 @@ public class SensorEventSubscriber extends ContextSubscriber {
 		ArrayList<OntologyInstance> rooms = db.getFormFields(room);
 		for(OntologyInstance oi : rooms) {
 			if(oi.getId().equals(adress)) {
-				for(Subprofile sp : oi.getSubprofiles().getSubprofile()) {
-					for(SimpleObject so : sp.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+				for(Subprofile sp : oi.getSubprofiles()) {
+					for(SimpleObject so : sp.getSimpleObjects()) {
 						if(so instanceof CalendarValue) {
 							CalendarValue cv = (CalendarValue)so;
 							if(cv.getName().equals("lastActivityTime")) {
 								DateFormat df = new SimpleDateFormat();
 								String date = df.format(time);
-								cv.setValue(date);
-//								cv.setCalendar(date);
+								cv.setCalendar(date);
 							}
 						}
 					}
 				} 
-				ontInstances.put(oi.getId(), oi.getSubprofiles().getSubprofile());
+				ontInstances.put(oi.getId(), oi.getSubprofiles());
 				db.updateUserData(room, oi.getId(), ontInstances);
 			}
 		}
 		ArrayList<OntologyInstance> hw = db.getFormFields(device);
 		for(OntologyInstance oi : hw) {
 			if(oi.getId().equals(adress)) {
-				for(Subprofile sp : oi.getSubprofiles().getSubprofile()) {
-					for(SimpleObject so : sp.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+				for(Subprofile sp : oi.getSubprofiles()) {
+					for(SimpleObject so : sp.getSimpleObjects()) {
 						if(so instanceof CalendarValue) {
 							CalendarValue cv = (CalendarValue)so;
 							if(cv.getName().equals("lastActivityTime")) {
 								DateFormat df = new SimpleDateFormat();
 								String date = df.format(time);
-								cv.setValue(date);
+								cv.setCalendar(date);
 							}
 						}
 					}
 				} 
-				ontInstances.put(oi.getId(), oi.getSubprofiles().getSubprofile());
+				ontInstances.put(oi.getId(), oi.getSubprofiles());
 				db.updateUserData(device, oi.getId(), ontInstances);
 			}
 		} 

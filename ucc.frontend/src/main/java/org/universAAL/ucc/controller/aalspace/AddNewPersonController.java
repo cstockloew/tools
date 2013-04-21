@@ -6,31 +6,35 @@ import org.osgi.framework.ServiceReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
+import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
+import org.universAAL.ucc.configuration.model.ConfigOptionRegistry;
+import org.universAAL.ucc.configuration.model.ConfigurationOption;
+import org.universAAL.ucc.configuration.model.Configurator;
+import org.universAAL.ucc.configuration.model.MapConfigurationOption;
+import org.universAAL.ucc.configuration.model.SimpleConfigurationOption;
+import org.universAAL.ucc.configuration.model.configurationdefinition.Category;
+import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
+import org.universAAL.ucc.configuration.model.configurationdefinition.MapConfigItem;
+import org.universAAL.ucc.configuration.model.configurationdefinition.SimpleConfigItem;
+import org.universAAL.ucc.configuration.model.configurationinstances.ConfigOption;
+import org.universAAL.ucc.configuration.model.configurationinstances.ConfigurationInstance;
+import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFactory;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;
+import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
+import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
 import org.universAAL.ucc.database.aalspace.DataAccess;
-import org.universAAL.ucc.database.model.jaxb.BooleanValue;
-import org.universAAL.ucc.database.model.jaxb.CalendarValue;
-import org.universAAL.ucc.database.model.jaxb.CollectionValues;
-import org.universAAL.ucc.database.model.jaxb.CollectionValues.Values;
-import org.universAAL.ucc.database.model.jaxb.DoubleValue;
-import org.universAAL.ucc.database.model.jaxb.EnumObject;
-import org.universAAL.ucc.database.model.jaxb.IntegerValue;
-import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
-import org.universAAL.ucc.database.model.jaxb.SimpleObject;
-import org.universAAL.ucc.database.model.jaxb.StringValue;
-import org.universAAL.ucc.database.model.jaxb.Subprofile;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.Collections;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.EnumObjects;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.SimpleObjects;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
+import org.universAAL.ucc.windows.HardwareWindow;
 import org.universAAL.ucc.windows.HumansWindow;
 import org.universAAL.ucc.windows.UccUI;
+import org.universAAL.ucc.windows.RoomsWindow;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -54,6 +58,16 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.Notification;
 
+import org.universAAL.ucc.model.jaxb.BooleanValue;
+import org.universAAL.ucc.model.jaxb.CalendarValue;
+import org.universAAL.ucc.model.jaxb.CollectionValues;
+import org.universAAL.ucc.model.jaxb.DoubleValue;
+import org.universAAL.ucc.model.jaxb.EnumObject;
+import org.universAAL.ucc.model.jaxb.IntegerValue;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.SimpleObject;
+import org.universAAL.ucc.model.jaxb.StringValue;
+import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.windows.TabForm;
 
 public class AddNewPersonController implements Button.ClickListener, Window.CloseListener {
@@ -67,11 +81,11 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 	private ArrayList<OntologyInstance> objects;
 	private ArrayList<OntologyInstance>savedObjects;
 	private OntologyInstance instance;
-//	private String flatId;
+	private String flatId;
 	private static String ontoProfile;
-//	private static String flat1DB;
-//	private static String flat2DB;
-//	private static String flat3DB;
+	private static String flat1DB;
+	private static String flat2DB;
+	private static String flat3DB;
 	private String actualFlat;
 	private boolean saved;
 	private String device;
@@ -81,7 +95,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 			IOException, ParseException {
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		device = System.getenv("systemdrive");
-		ontoProfile = device+"/datastore_schema/EmptyUser.xml";
+		ontoProfile = device+"/uccDB/EmptyUser.xml";
 //		flat1DB = device+"/jcc_datastore/flat1/Users.xml";
 //		flat2DB = device+"/jcc_datastore/flat2/Users.xml";
 //		flat3DB = device+"/jcc_datastore/flat3/Users.xml";
@@ -97,7 +111,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 //		} else if (flatId.equals("Flat3")) {
 //			actualFlat = flat3DB;
 //		}
-		actualFlat= device + "/uccDB/Users.xml";
+		actualFlat = device + "/uccDB/Users.xml";
 		ServiceReference ref = context.getServiceReference(DataAccess.class
 				.getName());
 		dataAccess = (DataAccess) context.getService(ref);
@@ -122,19 +136,18 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 		objects = dataAccess.getEmptyProfile(ontoProfile);
 		TabForm f = null;
 		// Every Subprofile is shown in a seperate tab
-		if(objects.size() > 0) {
-		for (Subprofile tab : objects.get(0).getSubprofiles().getSubprofile()) {
-			instance.getSubprofiles().getSubprofile().add(tab);
+		for (Subprofile tab : objects.get(0).getSubprofiles()) {
+			instance.getSubprofiles().add(tab);
 			f = new TabForm();
 			// Save Subprofile Tabs for later use
 			subprofiles.put(tab.getName(), tab);
 			// Creating User tree and Comboboxes
-			for (EnumObject enumObj : tab.getEnumObjects().getEnumObject()) {
+			for (EnumObject enumObj : tab.getEnums()) {
 				NativeSelect box = new NativeSelect(enumObj.getLabel());
 //				box.addItem("");
 				box.setDescription(enumObj.getDescription());
 				// Create ComboBox with enum objects and add to form
-				for (String item : enumObj.getValues().getValue()) {
+				for (String item : enumObj.getValues()) {
 					box.addItem(item);
 				}
 				box.setImmediate(true);
@@ -149,25 +162,25 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 
 			}
 			// Add simpel objects to form
-			for (SimpleObject simpl : tab.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+			for (SimpleObject simpl : tab.getSimpleObjects()) {
 				createForm(simpl, f);
 			}
 			// Adding collection objects as a list to form
-			if (tab.getCollections().getCollection().size() > 0) {
-				for (CollectionValues cols : tab.getCollections().getCollection()) {
+			if (tab.getCollections().size() > 0) {
+				for (CollectionValues cols : tab.getCollections()) {
 					ListSelect list = new ListSelect();
 					list.setCaption(cols.getLabel());
 					list.setWidth("120px");
 					list.setDescription(cols.getDescription());
-					if (cols.isMultiselection()) {
+					if (cols.isMultiselect()) {
 						list.setMultiSelect(true);
 					}
 					if(cols.isRequired()) {
 						list.setRequired(true);
 						list.setRequiredError("You have to add one or many preferred Languages");
 					}
-					if(cols.getValues().getStringOrIntegerOrBoolean().size()>0) {
-						for(SimpleObject v : cols.getValues().getStringOrIntegerOrBoolean()) {
+					if(cols.getCollection().size()>0) {
+						for(SimpleObject v : cols.getCollection()) {
 							StringValue st = (StringValue)v;
 							list.addItem(st.getValue());
 							list.select(st.getValue());
@@ -198,7 +211,6 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 			}
 				
 		}
-	}
 
 	}
 
@@ -321,7 +333,6 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 	}
 
 	String user = "";
-	
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == ((TabForm) tabSheet.getSelectedTab())
 				.getSaveButton()) {
@@ -333,7 +344,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 			// SimpleObjects
 			ArrayList<SimpleObject> simpleObjects = new ArrayList<SimpleObject>();
 			for (SimpleObject sim : subprofiles.get(tabHeader)
-					.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+					.getSimpleObjects()) {
 				if (sim instanceof StringValue) {
 					StringValue s = (StringValue) sim;
 					
@@ -376,20 +387,16 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 					if (tab.getField(sim.getLabel()).getValue() != null) {
 						String date = df.format((Date) tab.getField(
 								sim.getLabel()).getValue());
-						cal.setValue(date);
+						cal.setCalendar(date);
 						simpleObjects.add(cal);
 					}
 				}
 			}
-			SimpleObjects sobs = new SimpleObjects();
-			for(SimpleObject sim : simpleObjects) {
-				sobs.getStringOrIntegerOrBoolean().add(sim);
-			}
-			sub.setSimpleObjects(sobs);
+			sub.setSimpleObjects(simpleObjects);
 
 			// EnumObjects
 			ArrayList<EnumObject> enums = new ArrayList<EnumObject>();
-			for (EnumObject en : subprofiles.get(tabHeader).getEnumObjects().getEnumObject()) {
+			for (EnumObject en : subprofiles.get(tabHeader).getEnums()) {
 				en.setSelectedValue((String) tab.getField(en.getType())
 						.getValue());
 				enums.add(en);
@@ -397,19 +404,15 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 					user = en.getSelectedValue();
 				}
 			}
-			EnumObjects ens = new EnumObjects();
-			for(EnumObject eo : enums) {
-				ens.getEnumObject().add(eo);
-			}
-			sub.setEnumObjects(ens);
+			sub.setEnums(enums);
 
 			// CollectionValues
 			ArrayList<CollectionValues> collections = new ArrayList<CollectionValues>();
 			for (CollectionValues cols : subprofiles.get(tabHeader)
-					.getCollections().getCollection()) {
+					.getCollections()) {
 				Collection<SimpleObject> values = new ArrayList<SimpleObject>();
 				Collection<SimpleObject> newVal = null;
-				for (SimpleObject sim : cols.getValues().getStringOrIntegerOrBoolean()) {
+				for (SimpleObject sim : cols.getCollection()) {
 					if (sim instanceof StringValue) {
 						newVal = (Collection<SimpleObject>) tab.getField(
 								cols.getLabel()).getValue();
@@ -459,19 +462,11 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 						}
 
 					}
-					Values vals = new Values();
-					for(SimpleObject sb : values) {
-						vals.getStringOrIntegerOrBoolean().add(sb);
-					}
-					cols.setValues(vals);
+					cols.setCollection(values);
 				}
 				collections.add(cols);
 			}
-			Collections cols = new Collections();
-			for(CollectionValues cov : collections) {
-				cols.getCollection().add(cov);
-			}
-			sub.setCollections(cols);
+			sub.setCollections(collections);
 			for(OntologyInstance ont : savedObjects) {
 				if(tab.getField("Given name:") != null && tab.getField("Given name:").getValue().equals(ont.getId())) {
 					tab.getField("Given name:").setValue("");
@@ -480,8 +475,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 				}
 			}
 			instance.setId(ontId);
-			
-			for (Subprofile prof : instance.getSubprofiles().getSubprofile()) {
+			for (Subprofile prof : instance.getSubprofiles()) {
 				if (prof.getName().equals(sub.getName())) {
 					prof = sub;
 				}
@@ -509,11 +503,11 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 				for(Window w : app.getMainWindow().getChildWindows()) {
 					if(w instanceof HumansWindow) {
 						   HumansWindow users = (HumansWindow)w;
-//						   if(flatId.equals(users.getFlatId())) {
+						   if(flatId.equals(users.getFlatId())) {
 							   users.getUserTree().addItem(ontId);
 							   users.getUserTree().setParent(ontId, user);
 							   users.getUserTree().setChildrenAllowed(ontId, false);
-//						   }
+						   }
 						}
 					}
 				}
@@ -542,7 +536,6 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 		}
 		return true;
 	}
-
 
 	public void windowClose(CloseEvent e) {
 		if(tabSheet.getComponentCount() > 0 && saved)

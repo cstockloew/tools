@@ -18,18 +18,17 @@ public class AddNewPersonWindow extends Window {
 	private HumansWindow hWindow;
 	private String flatId;
 	
-	public AddNewPersonWindow(/*String flat,*/ HumansWindow win, UccUI app) throws JAXBException, IOException, ParseException {
+	public AddNewPersonWindow(HumansWindow win, UccUI app) throws JAXBException, IOException, ParseException {
 		super("Add new Person");
 		this.app = app;
 		this.hWindow = win;
-//		this.flatId = flat;
+		center();
 		setWidth(500, Sizeable.UNITS_PIXELS);
 		setHeight(400, Sizeable.UNITS_PIXELS);
 		layout = new VerticalLayout();
 		layout.setSpacing(true);
 		layout.setMargin(true);
 		setContent(layout);
-		center();
 		new AddNewPersonController(this, hWindow, app);
 	}
 

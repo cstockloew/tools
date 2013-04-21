@@ -63,8 +63,7 @@ public class ToolController implements Button.ClickListener,
 	private ServiceReference ref;
 	private BundleContext bc;
 	private UserAccountDB db;
-	private final static String file = System.getenv("systemdrive")
-			+ "/uccDB/preferences.xml";
+	private final static String file = "file:///../etc/uCC/preferences.xml";
 
 	public ToolController(UccUI app, ToolWindow toolWin) {
 		this.app = app;
@@ -161,6 +160,7 @@ public class ToolController implements Button.ClickListener,
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			app.getMainWindow().removeWindow(toolWin);
 			app.getMainWindow().addWindow(apw);
 		}
 		if(event.getButton() == toolWin.getConfigButton()) {
@@ -177,6 +177,7 @@ public class ToolController implements Button.ClickListener,
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			app.getMainWindow().removeWindow(toolWin);
 			app.getMainWindow().addWindow(anhw);
 		}
 		if(event.getButton() == toolWin.getEditHW()) {
@@ -193,7 +194,9 @@ public class ToolController implements Button.ClickListener,
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			app.getMainWindow().removeWindow(toolWin);
 			app.getMainWindow().addWindow(hardWare);
+			
 		
 		}
 			
@@ -216,6 +219,7 @@ public class ToolController implements Button.ClickListener,
 		}
 		if(event.getButton() == toolWin.getEditUC()) {
 			WhichBundleShouldBeConfiguredWindow uc = new WhichBundleShouldBeConfiguredWindow("Use Cases");
+			app.getMainWindow().removeWindow(toolWin);
 			app.getMainWindow().addWindow(uc);
 			
 		}

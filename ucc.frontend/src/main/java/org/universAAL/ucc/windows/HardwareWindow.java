@@ -6,8 +6,6 @@ import java.text.ParseException;
 
 import javax.xml.bind.JAXBException;
 
-import sun.awt.WindowClosingListener;
-
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalSplitPanel;
@@ -24,24 +22,23 @@ public class HardwareWindow extends Window implements Window.CloseListener{
 	private Tree userTree;
 	private HorizontalSplitPanel split;
 	private UccUI app;
-//	private String flatId;
+	private String flatId;
 	private HardwareWindowController hwc;
 	
-	public HardwareWindow(/*String flat,*/ UccUI app) throws JAXBException, IOException, ParseException {
+	public HardwareWindow(UccUI app) throws JAXBException, IOException, ParseException {
 		//super("Hardware of "+flat);
 //		this.flatId = flat;
 		this.app = app;
 		StringBuffer breadcrump = new StringBuffer();
+		center();
 		int counter = 0;
 		for(Window w : app.getMainWindow().getChildWindows()) {
 			counter++;
 			if(counter == app.getMainWindow().getChildWindows().size())
 				breadcrump.append(w.getCaption()+" > ");
 		}
-//		breadcrump.append("Hardware of "+flat);
-//		setCaption(breadcrump.toString());
-		setCaption("Hardware");
-		center();
+		breadcrump.append("Hardware");
+		setCaption(breadcrump.toString());
 		setWidth(500, Sizeable.UNITS_PIXELS);
 		setHeight(365, Sizeable.UNITS_PIXELS);
 		userTree = new Tree();
@@ -82,14 +79,13 @@ public class HardwareWindow extends Window implements Window.CloseListener{
 		this.userTree = userTree;
 	}
 
-//	public String getFlatId() {
-//		return flatId;
-//	}
-//
-//	public void setFlatId(String flatId) {
-//		this.flatId = flatId;
-//	}
+	public String getFlatId() {
+		return flatId;
+	}
 
+	public void setFlatId(String flatId) {
+		this.flatId = flatId;
+	}
 
 	public void windowClose(CloseEvent e) {
 //		hwc.getSensorEventSubscriber().removeListener(hwc);

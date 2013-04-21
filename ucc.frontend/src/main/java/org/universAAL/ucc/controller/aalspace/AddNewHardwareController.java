@@ -15,8 +15,9 @@ import com.vaadin.ui.Button.ClickEvent;
 
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.HardwareWindow;
-import org.universAAL.ucc.windows.RoomsWindow;
+import org.universAAL.ucc.windows.HumansWindow;
 import org.universAAL.ucc.windows.UccUI;
+import org.universAAL.ucc.windows.RoomsWindow;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -38,19 +39,16 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.Notification;
 
 import org.universAAL.ucc.database.aalspace.DataAccess;
-import org.universAAL.ucc.database.model.jaxb.BooleanValue;
-import org.universAAL.ucc.database.model.jaxb.CalendarValue;
-import org.universAAL.ucc.database.model.jaxb.CollectionValues;
-import org.universAAL.ucc.database.model.jaxb.DoubleValue;
-import org.universAAL.ucc.database.model.jaxb.EnumObject;
-import org.universAAL.ucc.database.model.jaxb.IntegerValue;
-import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
-import org.universAAL.ucc.database.model.jaxb.SimpleObject;
-import org.universAAL.ucc.database.model.jaxb.StringValue;
-import org.universAAL.ucc.database.model.jaxb.Subprofile;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.Collections;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.EnumObjects;
-import org.universAAL.ucc.database.model.jaxb.Subprofile.SimpleObjects;
+import org.universAAL.ucc.model.jaxb.BooleanValue;
+import org.universAAL.ucc.model.jaxb.CalendarValue;
+import org.universAAL.ucc.model.jaxb.CollectionValues;
+import org.universAAL.ucc.model.jaxb.DoubleValue;
+import org.universAAL.ucc.model.jaxb.EnumObject;
+import org.universAAL.ucc.model.jaxb.IntegerValue;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.SimpleObject;
+import org.universAAL.ucc.model.jaxb.StringValue;
+import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.windows.TabForm;
 
 public class AddNewHardwareController implements Button.ClickListener, Window.CloseListener {
@@ -68,16 +66,16 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 	private OntologyInstance roomInstance;
 	private HardwareWindow hWindow;
 	private RoomsWindow rWindow;
-//	private String flatId;
+	private String flatId;
 	private String device;
 	private static String ontoProfile;
 	private static String roomProfile;
-//	private static String room1;
-//	private static String room2;
-//	private static String room3;
-//	private static String flat1DB;
-//	private static String flat2DB;
-//	private static String flat3DB;
+	private static String room1;
+	private static String room2;
+	private static String room3;
+	private static String flat1DB;
+	private static String flat2DB;
+	private static String flat3DB;
 	private String actualFlat;
 	private String actualRoomFile;
 	private ArrayList<OntologyInstance> savedObjects;
@@ -87,8 +85,8 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 			HardwareWindow hWin, RoomsWindow rWin, UccUI app)
 			throws JAXBException, IOException, ParseException {
 		device = System.getenv("systemdrive");
-		ontoProfile = device+"/datastore_schema/EmptyHardware.xml";
-		roomProfile = device+"/datastore_schema/EmptyRoom.xml";
+		ontoProfile = device+"/uccDB/EmptyHardware.xml";
+		roomProfile = device+"/uccDB/EmptyRoom.xml";
 //		room1 = device+"/jcc_datastore/flat1/Rooms.xml";
 //		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
 //		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
@@ -112,8 +110,8 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 //			actualFlat = flat3DB;
 //			actualRoomFile = room3;
 //		}
-		actualRoomFile = device + "/uccDB/Rooms.xml";
 		actualFlat = device + "/uccDB/Hardware.xml";
+		actualRoomFile = device + "/uccDB/Rooms.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = context.getServiceReference(DataAccess.class
 				.getName());
@@ -146,21 +144,19 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 		rooms = dataAccess.getEmptyProfile(roomProfile);
 		TabForm f = null;
 		TabForm form = null;
-		System.err.println("OBJECTS_SIZE: "+objects.size()+ " "+objects.toString());
 		// Every Subprofile is shown in a seperate tab
-		if(objects.size() > 0) {
-		for (Subprofile tab : objects.get(0).getSubprofiles().getSubprofile()) {
-			instance.getSubprofiles().getSubprofile().add(tab);
+		for (Subprofile tab : objects.get(0).getSubprofiles()) {
+			instance.getSubprofiles().add(tab);
 			f = new TabForm();
 			// Save Subprofile Tabs for later use
 			subprofiles.put(tab.getName(), tab);
 			// Creating User tree and Comboboxes
-			for (EnumObject enumObj : tab.getEnumObjects().getEnumObject()) {
+			for (EnumObject enumObj : tab.getEnums()) {
 				NativeSelect box = new NativeSelect(enumObj.getLabel());
 				//box.addItem("");
 				box.setDescription(enumObj.getDescription());
 				// Create ComboBox with enum objects and add to form
-				for (String item : enumObj.getValues().getValue()) {
+				for (String item : enumObj.getValues()) {
 					box.addItem(item);
 				}
 				box.setImmediate(true);
@@ -175,17 +171,17 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 
 			}
 			// Add simpel objects to form
-			for (SimpleObject simpl : tab.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+			for (SimpleObject simpl : tab.getSimpleObjects()) {
 				createForm(simpl, f);
 			}
 			// Adding collection objects as a list to form
-			if (tab.getCollections().getCollection().size() > 0) {
-				for (CollectionValues cols : tab.getCollections().getCollection()) {
+			if (tab.getCollections().size() > 0) {
+				for (CollectionValues cols : tab.getCollections()) {
 					ListSelect list = new ListSelect();
 					list.setCaption(cols.getLabel());
 					list.setWidth("120px");
 					list.setDescription(cols.getDescription());
-					if (cols.isMultiselection()) {
+					if (cols.isMultiselect()) {
 						list.setMultiSelect(true);
 					}
 
@@ -212,17 +208,17 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 		}
 		
 		//Load Rooms Profile 
-		for (Subprofile tab : rooms.get(0).getSubprofiles().getSubprofile()) {
-			roomInstance.getSubprofiles().getSubprofile().add(tab);
+		for (Subprofile tab : rooms.get(0).getSubprofiles()) {
+			roomInstance.getSubprofiles().add(tab);
 			form = new TabForm();
 			roomprofiles.put(tab.getName(), tab);
 			// Creating User tree and Comboboxes
-			for (EnumObject enumObj : tab.getEnumObjects().getEnumObject()) {
+			for (EnumObject enumObj : tab.getEnums()) {
 				NativeSelect box = new NativeSelect(enumObj.getLabel());
 				//box.addItem("");
 				box.setDescription(enumObj.getDescription());
 				// Create ComboBox with enum objects and add to form
-				for (String item : enumObj.getValues().getValue()) {
+				for (String item : enumObj.getValues()) {
 					box.addItem(item);
 				}
 				box.setImmediate(true);
@@ -237,17 +233,17 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 
 			}
 			// Add simpel objects to form
-			for (SimpleObject simpl : tab.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+			for (SimpleObject simpl : tab.getSimpleObjects()) {
 				createForm(simpl, form);
 			}
 			// Adding collection objects as a list to form
-			if (tab.getCollections().getCollection().size() > 0) {
-				for (CollectionValues cols : tab.getCollections().getCollection()) {
+			if (tab.getCollections().size() > 0) {
+				for (CollectionValues cols : tab.getCollections()) {
 					ListSelect list = new ListSelect();
 					list.setCaption(cols.getLabel());
 					list.setWidth("120px");
 					list.setDescription(cols.getDescription());
-					if (cols.isMultiselection()) {
+					if (cols.isMultiselect()) {
 						list.setMultiSelect(true);
 					}
 
@@ -271,7 +267,6 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 			form.setReadOnly(false);
 			if(rWindow != null)
 				tabSheet.addTab(form, tab.getName());
-		}
 		}
 
 	}
@@ -400,7 +395,7 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 			// SimpleObjects
 			ArrayList<SimpleObject> simpleObjects = new ArrayList<SimpleObject>();
 			for (SimpleObject sim : subprofiles.get(tabHeader)
-					.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+					.getSimpleObjects()) {
 				if (sim instanceof StringValue) {
 					StringValue s = (StringValue) sim;
 					s.setValue((String) tab.getField(s.getLabel()).getValue());
@@ -443,9 +438,9 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 					if(cal.getName().equals("hardwareSettingTime")) {
 					tab.getField(sim.getLabel()).setValue(df.format(new Date()));
 					String date = df.format((Date)tab.getField(sim.getLabel()).getValue());
-					cal.setValue(date);
+					cal.setCalendar(date);
 					} else {
-						cal.setValue("");
+						cal.setCalendar("");
 					}
 //					if (tab.getField(sim.getLabel()).getValue() != null && !tab.getField(sim.getLabel()).getValue().equals("")) {
 //						String date = df.format((Date) tab.getField(
@@ -458,32 +453,24 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 //					}
 				}
 			}
-			SimpleObjects sos = new SimpleObjects();
-			for(SimpleObject so : simpleObjects) {
-				sos.getStringOrIntegerOrBoolean().add(so);
-			}
-			sub.setSimpleObjects(sos);
+			sub.setSimpleObjects(simpleObjects);
 
 			// EnumObjects
 			ArrayList<EnumObject> enums = new ArrayList<EnumObject>();
-			for (EnumObject en : subprofiles.get(tabHeader).getEnumObjects().getEnumObject()) {
+			for (EnumObject en : subprofiles.get(tabHeader).getEnums()) {
 				en.setSelectedValue((String) tab.getField(en.getType())
 						.getValue());
 				enums.add(en);
 			}
-			EnumObjects ens = new EnumObjects();
-			for(EnumObject en : enums) {
-				ens.getEnumObject().add(en);
-			}
-			sub.setEnumObjects(ens);
+			sub.setEnums(enums);
 
 			// CollectionValues
 			ArrayList<CollectionValues> collections = new ArrayList<CollectionValues>();
 			for (CollectionValues cols : subprofiles.get(tabHeader)
-					.getCollections().getCollection()) {
+					.getCollections()) {
 				Collection<SimpleObject> values = new ArrayList<SimpleObject>();
 				Collection<SimpleObject> newVal = null;
-				for (SimpleObject sim : cols.getValues().getStringOrIntegerOrBoolean()) {
+				for (SimpleObject sim : cols.getCollection()) {
 					if (sim instanceof StringValue) {
 						newVal = (Collection<SimpleObject>) tab.getField(
 								cols.getLabel()).getValue();
@@ -533,25 +520,16 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 						}
 
 					}
-			
-					CollectionValues cv = new CollectionValues();
-					for(SimpleObject sop : values) {
-						cv.getValues().getStringOrIntegerOrBoolean().add(sop);
-					}
-					cols.setValues(cv.getValues());
+					cols.setCollection(values);
 				}
 				collections.add(cols);
 			}
-			Collections colecs = new Collections();
-			for(CollectionValues cvs : collections) {
-				colecs.getCollection().add(cvs);
-			}
-			sub.setCollections(colecs);
+			sub.setCollections(collections);
 			
 			///ROOM PRofile
 			ArrayList<SimpleObject> roomObjects = new ArrayList<SimpleObject>();
 			for (SimpleObject sim : roomprofiles.get(tabHeader)
-					.getSimpleObjects().getStringOrIntegerOrBoolean()) {
+					.getSimpleObjects()) {
 				if (sim instanceof StringValue) {
 					StringValue s = (StringValue) sim;
 						s.setValue((String) tab.getField(s.getLabel()).getValue());
@@ -593,26 +571,22 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 					DateFormat df = new SimpleDateFormat();
 					if(cal.getName().equals("hardwareSettingTime")) {
 						String date = df.format(new Date());
-						cal.setValue(date);
+						cal.setCalendar(date);
 					} else {
-						cal.setValue("");
+						cal.setCalendar("");
 					}
 						roomObjects.add(cal);
 					
 				}
 			}
-			SimpleObjects sims = new SimpleObjects();
-			for(SimpleObject sin : simpleObjects) {
-				sims.getStringOrIntegerOrBoolean().add(sin);
-			}
-			room.setSimpleObjects(sims);
+			room.setSimpleObjects(simpleObjects);
 
 			// EnumObjects
-			ArrayList<EnumObject> ense = new ArrayList<EnumObject>();
-			for (EnumObject en : roomprofiles.get(tabHeader).getEnumObjects().getEnumObject()) {
+			ArrayList<EnumObject> ens = new ArrayList<EnumObject>();
+			for (EnumObject en : roomprofiles.get(tabHeader).getEnums()) {
 				en.setSelectedValue((String) tab.getField(en.getType())
 						.getValue());
-				ense.add(en);
+				ens.add(en);
 				if(en.getType().equals("devicetype")) {
 					hw = en.getSelectedValue();
 				} 
@@ -620,19 +594,15 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 					ro = en.getSelectedValue();
 				}
 			}
-			EnumObjects els = new EnumObjects();
-			for(EnumObject ehe : ense) {
-				els.getEnumObject().add(ehe);
-			}
-			room.setEnumObjects(els);
+			room.setEnums(ens);
 
 			// CollectionValues
 			ArrayList<CollectionValues> rCollections = new ArrayList<CollectionValues>();
 			for (CollectionValues cols : roomprofiles.get(tabHeader)
-					.getCollections().getCollection()) {
+					.getCollections()) {
 				Collection<SimpleObject> values = new ArrayList<SimpleObject>();
 				Collection<SimpleObject> newVal = null;
-				for (SimpleObject sim : cols.getValues().getStringOrIntegerOrBoolean()) {
+				for (SimpleObject sim : cols.getCollection()) {
 					if (sim instanceof StringValue) {
 						newVal = (Collection<SimpleObject>) tab.getField(
 								cols.getLabel()).getValue();
@@ -682,19 +652,11 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 						}
 
 					}
-					CollectionValues valsi = new CollectionValues();
-					for(SimpleObject obj : values) {
-						valsi.getValues().getStringOrIntegerOrBoolean().add(obj);
-					}
-					cols.setValues(valsi.getValues());
+					cols.setCollection(values);
 				}
 				rCollections.add(cols);
 			}
-			Collections rVals = new Collections();
-			for(CollectionValues colva : rCollections) {
-				rVals.getCollection().add(colva);
-			}
-			room.setCollections(rVals);
+			room.setCollections(rCollections);
 			for(OntologyInstance ont : savedObjects) {
 				if(tab.getField("Device Address:") != null && tab.getField("Device Address:").getValue().equals(ont.getId())) {
 					tab.getField("Device Address:").setValue("");
@@ -704,12 +666,12 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 			}
 			instance.setId(ontId);
 			roomInstance.setId(ontId);
-			for (Subprofile prof : instance.getSubprofiles().getSubprofile()) {
+			for (Subprofile prof : instance.getSubprofiles()) {
 				if (prof.getName().equals(sub.getName())) {
 					prof = sub;
 				}
 			}
-			for (Subprofile r: roomInstance.getSubprofiles().getSubprofile()) {
+			for (Subprofile r: roomInstance.getSubprofiles()) {
 				if (r.getName().equals(sub.getName())) {
 					r = room;
 				}
@@ -746,22 +708,21 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 				for(Window w : app.getMainWindow().getChildWindows()) {
 					if(w instanceof HardwareWindow) {
 						   HardwareWindow users = (HardwareWindow)w;
-//						   if(flatId.equals(users.getFlatId())) {
+						   if(flatId.equals(users.getFlatId())) {
 							   users.getUserTree().addItem(ontId);
 							   users.getUserTree().setParent(ontId, hw);
 							   users.getUserTree().setChildrenAllowed(ontId, false);
-//						   }
-					}
+						   }
 						   else if(w instanceof RoomsWindow) {
 							   RoomsWindow rs = (RoomsWindow)w;
-//							   if(flatId.equals(rs.getFlatId())) {
+							   if(flatId.equals(rs.getFlatId())) {
 								   rs.getUserTree().addItem(ontId);
 								   rs.getUserTree().setParent(ontId, ro);
 								   rs.getUserTree().setChildrenAllowed(ontId, false);
-//							   }
+							   }
 							}
 						}
-					
+					}
 				}
 			
 			
@@ -803,7 +764,7 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 		return true;
 	}
 
-	
+
 	public void windowClose(CloseEvent e) {
 		if(tabSheet.getComponentCount() > 0 && saved) 
 			app.getMainWindow().showNotification("The device won't be added, <br> because you've broken the operation", Notification.TYPE_HUMANIZED_MESSAGE);
