@@ -6,15 +6,13 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
-
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.database.listener.interfaces.OntologyChangedListener;
 import org.universAAL.ucc.database.listener.interfaces.OntologySupplierService;
-import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
 
 public class OntologySupplierServiceImpl implements OntologySupplierService {
 	private static ArrayList<OntologyChangedListener>listeners = new ArrayList<OntologyChangedListener>();
-	
 	
 	public void addListener(OntologyChangedListener listener) {
 		listeners.add(listener);
@@ -30,11 +28,11 @@ public class OntologySupplierServiceImpl implements OntologySupplierService {
 
 	}
 
-	
+
 	public ArrayList<OntologyInstance> getOntology(String flat) {
 		BundleContext context = FrameworkUtil.getBundle(getClass()).getBundleContext();
-		ServiceReference ref = context.getServiceReference(DataAccess.class.getName());
-		DataAccess access = (DataAccess) context.getService(ref);
+		ServiceReference<DataAccess>ref = context.getServiceReference(DataAccess.class);
+		DataAccess access = context.getService(ref);
 			ArrayList<OntologyInstance> ont = access.getFormFields(flat);
 		
 		return ont;

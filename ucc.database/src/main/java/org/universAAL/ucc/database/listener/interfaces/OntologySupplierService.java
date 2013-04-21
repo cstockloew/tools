@@ -2,7 +2,7 @@ package org.universAAL.ucc.database.listener.interfaces;
 
 import java.util.ArrayList;
 
-import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
 
 public interface OntologySupplierService {
 	public void addListener(OntologyChangedListener listener);

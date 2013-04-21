@@ -3,54 +3,38 @@ package org.universAAL.ucc.database.aalspace;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import javax.naming.spi.ObjectFactory;
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
-import org.universAAL.ucc.database.model.jaxb.OntologyInstance;
-import org.universAAL.ucc.database.model.jaxb.Profiles;
-import org.universAAL.ucc.database.model.jaxb.Profiles.OntologyInstances;
-import org.universAAL.ucc.database.model.jaxb.Subprofile;
+import org.universAAL.ucc.model.jaxb.*;
 
 public class DataAccessImpl implements DataAccess{
-    public ArrayList<OntologyInstance> getFormFields(String file) {
+
+	public synchronized ArrayList<OntologyInstance> getFormFields(String file) {
 		ArrayList<OntologyInstance>ontologies = new ArrayList<OntologyInstance>();
-		Profiles profiles = JAXB.unmarshal(new File(file), Profiles.class);
-		OntologyInstances onts = profiles.getOntologyInstances();
-		for(OntologyInstance o : onts.getOntologyInstance()) {
+		Profiles profiles = (Profiles)JAXB.unmarshal(new File(file), Profiles.class);
+		for(OntologyInstance o : profiles.getOntologyInstances()) {
 			ontologies.add(o);
 		}
 				return ontologies;
 	}
 	
-    public void updateUserData( String file, String id, HashMap<String, List<Subprofile>> subprofiles) {
+
+	public synchronized void updateUserData( String file, String id, HashMap<String, ArrayList<Subprofile>> subprofiles) {
 		File f = new File(file);
 		Profiles profiles = JAXB.unmarshal(f, Profiles.class);
 		ArrayList<OntologyInstance> list = new ArrayList<OntologyInstance>();
-		for(OntologyInstance ont : profiles.getOntologyInstances().getOntologyInstance()) {
+		for(OntologyInstance ont : profiles.getOntologyInstances()) {
 			if(!ont.getId().equals(id)) {
 				list.add(ont);
 			} else {
 				OntologyInstance upToDate = new OntologyInstance();
 				upToDate.setId(id);
-				List<Subprofile> temp = subprofiles.get(id);
-				for(Subprofile s : temp) {
-					upToDate.getSubprofiles().getSubprofile().add(s);
-				}
+				upToDate.setSubprofiles(subprofiles.get(id));
 				upToDate.setType(ont.getType());
 				list.add(upToDate);
 			}
 		}
 		Profiles p = new Profiles();
-		OntologyInstances os = new OntologyInstances();
-		for(OntologyInstance o : list) {
-		os.getOntologyInstance().add(o);
-		}
-
+		p.setOntologyInstances(list);
 		f.delete();
 		JAXB.marshal(p, new File(file));
 //		ArrayList<OntologyInstance>del = new ArrayList<OntologyInstance>();
@@ -76,10 +60,11 @@ public class DataAccessImpl implements DataAccess{
 //		JAXB.marshal(profiles, new File(file));	
 	}
 	
-	public boolean saveUserData(String path, OntologyInstance ontologyInstance) {
+
+	public synchronized boolean saveUserData(String path, OntologyInstance ontologyInstance) {
 		File file = new File(path);
 		Profiles profiles = JAXB.unmarshal(file, Profiles.class);
-		profiles.getOntologyInstances().getOntologyInstance().add(ontologyInstance);
+		profiles.getOntologyInstances().add(ontologyInstance);
 //		for(OntologyChangedListener l : OntologySupplierServiceImpl.getListeners()) {
 //			l.ontologySaved(ontologyInstance);
 //		}
@@ -90,12 +75,14 @@ public class DataAccessImpl implements DataAccess{
 	}
 	
 	
-	public  boolean deleteUserData(String file, String instance) {
+
+
+	public synchronized boolean deleteUserData(String file, String instance) {
 		File f = new File(file);
 		Profiles profiles = JAXB.unmarshal(f, Profiles.class);
-		for(OntologyInstance o : profiles.getOntologyInstances().getOntologyInstance()) {
+		for(OntologyInstance o : profiles.getOntologyInstances()) {
 			if(o.getId().equals(instance)) {
-				profiles.getOntologyInstances().getOntologyInstance().remove(o);
+				profiles.getOntologyInstances().remove(o);
 //				for(OntologyChangedListener l : OntologySupplierServiceImpl.getListeners()) {
 //					l.ontologyDeleted(o);
 //				}
@@ -105,11 +92,14 @@ public class DataAccessImpl implements DataAccess{
 		}
 		return false;
 	}
-	
-	public ArrayList<OntologyInstance> getEmptyProfile(String profile) {
+
+
+
+
+	public synchronized ArrayList<OntologyInstance> getEmptyProfile(String profile) {
 		ArrayList<OntologyInstance>ontologies = new ArrayList<OntologyInstance>();
 		Profiles profiles = (Profiles)JAXB.unmarshal(new File(profile), Profiles.class);
-		for(OntologyInstance o : profiles.getOntologyInstances().getOntologyInstance()) {
+		for(OntologyInstance o : profiles.getOntologyInstances()) {
 			ontologies.add(o);
 		}
 				return ontologies;
