@@ -1,0 +1,7 @@
+C:\Users\merkle\Documents\universAAL\svn\uaaltools\branches\uCC\ucc.configuration.configinstancestorage\src\main\java\org\universAAL\ucc\configuration\storage\internal\Activator.java
+C:\Users\merkle\Documents\universAAL\svn\uaaltools\branches\uCC\ucc.configuration.configinstancestorage\src\main\java\org\universAAL\ucc\configuration\api\ConfigPreferences.java
+C:\Users\merkle\Documents\universAAL\svn\uaaltools\branches\uCC\ucc.configuration.configinstancestorage\src\main\java\org\universAAL\ucc\configuration\storage\interfaces\ConfigurationInstancesStorage.java
+C:\Users\merkle\Documents\universAAL\svn\uaaltools\branches\uCC\ucc.configuration.configinstancestorage\src\main\java\org\universAAL\ucc\configuration\storage\exceptions\NoConfigurationFoundException.java
+C:\Users\merkle\Documents\universAAL\svn\uaaltools\branches\uCC\ucc.configuration.configinstancestorage\src\main\java\org\universAAL\ucc\configuration\storage\servicetracker\StorageServiceTracker.java
+C:\Users\merkle\Documents\universAAL\svn\uaaltools\branches\uCC\ucc.configuration.configinstancestorage\src\main\java\org\universAAL\ucc\configuration\storage\ConfigurationInstancesStorageImpl.java
+C:\Users\merkle\Documents\universAAL\svn\uaaltools\branches\uCC\ucc.configuration.configinstancestorage\src\main\java\org\universAAL\ucc\configuration\storage\interfaces\StorageChangedListener.java
