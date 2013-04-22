@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.model.Model;
+import org.universaal.tools.modelling.ontology.wizard.versions.IOntologyProjectGenerator;
 
 public class OntologyProjectModel  {
 	public static final String DEFAULT_ONTOLOGY_NAME = "MyOntology";
@@ -24,6 +25,7 @@ public class OntologyProjectModel  {
 	String mavenGroupId;
 	String mavenName;
 	
+	int mwVersion = IOntologyProjectGenerator.VER_130; // TODO consider to change this version
 
 	List<String> importedOntologies = new ArrayList<String>();	
 	Model mavenModel = new Model();

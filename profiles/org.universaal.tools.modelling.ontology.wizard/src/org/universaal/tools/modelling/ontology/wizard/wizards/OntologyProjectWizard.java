@@ -36,6 +36,8 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.universaal.tools.modelling.ontology.wizard.Activator;
+import org.universaal.tools.modelling.ontology.wizard.versions.IOntologyProjectGenerator;
+import org.universaal.tools.modelling.ontology.wizard.versions.OntologyProjectGeneratorFactory;
 
 public class OntologyProjectWizard extends Wizard implements INewWizard {
 	
@@ -132,7 +134,10 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 			setProperty(IProgressConstants.ACTION_PROPERTY,
 				new OpenMavenConsoleAction());
 			try {
-				CreateOntologyPOM.createPOM(ontologyProjectModel, project, configuration, monitor);
+				IOntologyProjectGenerator gen = OntologyProjectGeneratorFactory.getMWVersion(ontologyProjectModel.mwVersion);
+				gen.createPOM(ontologyProjectModel, project, configuration, monitor);
+				//gen.createUMLArtefacts(ontologyProjectModel);
+				//CreateOntologyPOM.createPOM(ontologyProjectModel, project, configuration, monitor);
 			    return Status.OK_STATUS;
 			} catch (CoreException e) {
 			    return e.getStatus();
@@ -150,7 +155,9 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 			setProperty(IProgressConstants.ACTION_PROPERTY,
 				new OpenMavenConsoleAction());
 			try {
-				OntologyUMLArtefactFactory.createUMLArtefacts(ontologyProjectModel);
+				IOntologyProjectGenerator gen = OntologyProjectGeneratorFactory.getMWVersion(ontologyProjectModel.mwVersion);
+				gen.createUMLArtefacts(ontologyProjectModel);
+				//old OntologyUMLArtefactFactory.createUMLArtefacts(ontologyProjectModel);
 				
 			    // This is like refreshing, because we changed the pom
 			    //MavenPlugin.getProjectConfigurationManager()
@@ -212,7 +219,7 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 		    job.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
 		    job.schedule();
 
-		    // MNGECLIPSE-766 wait until new project is created
+		    // Wait until new project is created
 		    while (listener.getNewProject() == null
 			    && (job.getState() & (Job.WAITING | Job.RUNNING)) > 0) {
 			try {
@@ -225,7 +232,7 @@ public class OntologyProjectWizard extends Wizard implements INewWizard {
 		    // job2.setRule(MavenPlugin.getProjectConfigurationManager().getRule());
 		    job2.schedule();
 
-		    // MNGECLIPSE-766 wait until new project is created
+		    // Wait until new project is created
 		    while (listener.getNewProject() == null
 			    && (job2.getState() & (Job.WAITING | Job.RUNNING)) > 0) {
 			try {

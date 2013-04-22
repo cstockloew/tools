@@ -62,9 +62,6 @@ import org.universaal.tools.modelling.ontology.wizard.Activator;
  */
 public class OntologyUMLArtefactFactory {
 	
-	public static final String MODEL_DIR = "models";
-	public static final String DI_FILE = "model.di";
-	
 	/**
 	 * Creates a set of UML artefacts based on the provided model with content from the Wizard.
 	 * The artefacts are added to the project identified by the Wizard. The Eclipse project must 
@@ -72,8 +69,7 @@ public class OntologyUMLArtefactFactory {
 	 *  
 	 * @param model
 	 */
-	protected static void createUMLArtefacts(OntologyProjectModel model) {
-		URI fromUri = URI.createPlatformPluginURI("/" + Activator.PLUGIN_ID + "/" + MODEL_DIR + "/" + DI_FILE, true);
+	public static void createUMLArtefacts(OntologyProjectModel model, URI fromUri) {
 		URI toUri = URI.createPlatformResourceURI("/" + model.getMavenModel().getArtifactId() + "/" + model.getOntologyName() + ".di", true);		
 	
 		clonePapyrusModel(fromUri.toString(), toUri.toString(), model);	

@@ -14,8 +14,8 @@ import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.project.ProjectImportConfiguration;
 
 public class CreateOntologyPOM {
-	static final String[] folders = new String[] {
-		"src/main/java", "src/test/java", "src/main/resources", "src/test/resources" };
+//	static final String[] folders = new String[] {
+//		"src/main/java", "src/test/java", "src/main/resources", "src/test/resources" };
 
 	/**
 	 * Create a Maven POM file set up for the content of the ontology project
@@ -25,6 +25,9 @@ public class CreateOntologyPOM {
 	 * @param monitor The progress monitor for the job this is performed in
 	 * @throws CoreException
 	 */
+
+	/*	
+	
 	public static void createPOM(OntologyProjectModel ontModel,
 			IProject project, ProjectImportConfiguration configuration,
 			IProgressMonitor monitor) throws CoreException {
@@ -44,7 +47,7 @@ public class CreateOntologyPOM {
 				mavenModel, folders, //
 				configuration, monitor);
 	}
-	
+
 	
 	protected static Dependency dep(String groupId, String artifactId, String version) {
 		Dependency d = new Dependency();
@@ -97,8 +100,8 @@ public class CreateOntologyPOM {
 		}
 		return rep;
 	}
-	
-	
+*/	
+	/*
 	protected static Xpp3Dom dom(String name, String value) {
 		Xpp3Dom dom = new Xpp3Dom(name);
 		dom.setValue(value);
@@ -126,5 +129,5 @@ public class CreateOntologyPOM {
 		return build;
 	}
 		
-	
+	*/
 }
