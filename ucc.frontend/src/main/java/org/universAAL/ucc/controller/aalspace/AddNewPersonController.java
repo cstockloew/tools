@@ -503,11 +503,11 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 				for(Window w : app.getMainWindow().getChildWindows()) {
 					if(w instanceof HumansWindow) {
 						   HumansWindow users = (HumansWindow)w;
-						   if(flatId.equals(users.getFlatId())) {
+//						   if(flatId.equals(users.getFlatId())) {
 							   users.getUserTree().addItem(ontId);
 							   users.getUserTree().setParent(ontId, user);
 							   users.getUserTree().setChildrenAllowed(ontId, false);
-						   }
+//						   }
 						}
 					}
 				}

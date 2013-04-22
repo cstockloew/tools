@@ -715,11 +715,11 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 						   }
 						   else if(w instanceof RoomsWindow) {
 							   RoomsWindow rs = (RoomsWindow)w;
-							   if(flatId.equals(rs.getFlatId())) {
+//							   if(flatId.equals(rs.getFlatId())) {
 								   rs.getUserTree().addItem(ontId);
 								   rs.getUserTree().setParent(ontId, ro);
 								   rs.getUserTree().setChildrenAllowed(ontId, false);
-							   }
+//							   }
 							}
 						}
 					}
