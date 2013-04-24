@@ -26,6 +26,8 @@ import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.startup.model.UccUsers;
 import org.universAAL.ucc.subscriber.SensorEventSubscriber;
 
+//import de.fzi.ipe.evaluation.api.core.IEvaluationEventReceiver;
+
 
 public class Activator implements BundleActivator {
 	private static IInstaller installer;
@@ -38,6 +40,7 @@ public class Activator implements BundleActivator {
 	private static IServiceModel model;
 	private static IServiceRegistration reg;
 	private ModuleContext mContext;
+//	private IEvaluationEventReceiver eventReceiver;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
@@ -69,15 +72,16 @@ public class Activator implements BundleActivator {
 		regis = bc.registerService(IFrontend.class.getName(),
 				new FrontendImpl(), null);
 
-//		model = new Model();
-//		context.registerService(new String[] { IServiceModel.class.getName() },
-//				model, null);
-//		mgmt = model.getServiceManagment();
-//		reg = model.getServiceRegistration();
-//		
-//		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
-//		SensorEventSubscriber sub = SensorEventSubscriber.getInstance(mContext, context);
-
+		model = new Model();
+		context.registerService(new String[] { IServiceModel.class.getName() },
+				model, null);
+		mgmt = model.getServiceManagment();
+		reg = model.getServiceRegistration();
+		
+		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
+		SensorEventSubscriber sub = SensorEventSubscriber.getInstance(mContext, context);
+//		ServiceReference ref = context.getServiceReference(IEvaluationEventReceiver.class.getName());
+//		eventReceiver = (IEvaluationEventReceiver)context.getService(ref);
 	}
 
 	public static IInstaller getInstaller() {

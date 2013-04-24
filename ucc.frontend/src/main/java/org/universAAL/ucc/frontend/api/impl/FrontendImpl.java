@@ -9,9 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -32,7 +30,6 @@ import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
-import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.UAPPPart;
 import org.universAAL.ucc.model.UAPPReqAtom;
 import org.universAAL.ucc.model.install.License;
@@ -87,12 +84,12 @@ public class FrontendImpl implements IFrontend {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
 		 String usrvName = "";
-		 try {
-	
-		 usrvName = downloadUsrvFile(downloadUri, /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
-		 } catch (IOException e2) {
-		 e2.printStackTrace();
-		 }
+//		 try {
+//	
+//		 usrvName = downloadUsrvFile(downloadUri, /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
+//		 } catch (IOException e2) {
+//		 e2.printStackTrace();
+//		 }
 		 File temp = new File(usrvLocalStore+/*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv");
 		if(temp.exists()) {
 			System.err.println("FILE exists");
@@ -395,17 +392,19 @@ public class FrontendImpl implements IFrontend {
 								.equals("uapp:requirement")) {
 							Node cun = dun.getChildNodes().item(du);
 							NodeList nl = cun.getChildNodes();
-							System.err.println("IN uapp:requirement!");
-							//
+						
 							for (int n = 0; n < nl.getLength(); n++) {
 								if (nl.item(n).getNodeName()
 										.equals("uapp:reqAtom")) {
 									System.err.println("IN reqAtom");
 									Node ratom = nl.item(n);
+									System.err.println("NL: "+nl.getLength());
 									NodeList rl = ratom.getChildNodes();
-									
+									System.err.println("RL: "+rl.getLength());
+									UAPPReqAtom atom = new UAPPReqAtom();
+									//Putting values of a reqatom
 									for (int k=0; k<rl.getLength(); k++)  {
-										UAPPReqAtom atom = new UAPPReqAtom();
+										//Here was UAPPReqAtom
 										if (rl.item(k).getNodeName().equals("uapp:reqAtomName"))  {
 											String value = rl.item(k).getTextContent();
 											System.out.println("[FrontendImpl.parsePartConfiguration] get a reqAtomName: " + value);
@@ -423,7 +422,9 @@ public class FrontendImpl implements IFrontend {
 											atom.setCriteria(value);
 											
 										}
-										ua.addReqAtoms(atom);								}
+																		
+									} System.err.println("Criteria: " +atom.getCriteria() + " Name: "+atom.getName()+" Value: "+atom.getValue());
+									ua.addReqAtoms(atom);
 								}
 							}
 						}

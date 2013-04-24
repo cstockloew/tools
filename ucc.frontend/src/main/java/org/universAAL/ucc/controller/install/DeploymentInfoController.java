@@ -487,6 +487,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		Map<String, Serializable> filter = new HashMap<String, Serializable>();
 		for (int i=0; i<reqs.size(); i++) {
 			String reqname = reqs.get(i).getName();
+			System.err.println("Name: "+reqs.get(i).getName() + "VALUE: "+reqs.get(i).getValue()+"Criteria: "+reqs.get(i).getCriteria());
 			String reqvalue = reqs.get(i).getValue();
 			String reqcriteria = reqs.get(i).getCriteria();
 			if (reqcriteria==null) {
@@ -499,7 +500,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 				}
 			}
 		}
+		System.err.println("Before MATCHING PEERS");
 		MatchingResult result = installer.getMatchingPeers(filter);
+		System.err.println(result.getPeers().toString());
 		PeerCard[] peers = result.getPeers();
 		List<PeerCard> validPeers = new ArrayList<PeerCard>();
 		// check for non-equal criteria

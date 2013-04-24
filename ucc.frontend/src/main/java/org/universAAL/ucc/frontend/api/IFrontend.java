@@ -1,8 +1,5 @@
 package org.universAAL.ucc.frontend.api;
 
-import javax.jws.WebParam;
-
-import org.universAAL.ucc.model.AALService;
 
 public interface IFrontend {
 	public void installService(String sessionkey, String usrvFileUri);
