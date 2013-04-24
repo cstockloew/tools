@@ -2,10 +2,17 @@ package org.universAAL.ucc.profile.agent;
 
 import java.util.List;
 
+import javax.jws.WebParam;
+
+import org.universAAL.ontology.phThing.Device;
+import org.universAAL.ontology.profile.AALService;
+import org.universAAL.ontology.profile.AALServiceProfile;
+import org.universAAL.ontology.profile.AALSpace;
 import org.universAAL.ontology.profile.AALSpaceProfile;
 import org.universAAL.ontology.profile.SubProfile;
 import org.universAAL.ontology.profile.User;
 import org.universAAL.ontology.profile.UserProfile;
+import org.universAAL.support.utils.service.low.Request;
 
 /**
  * Interface for the actual profile storage and retrieval.
@@ -18,6 +25,8 @@ import org.universAAL.ontology.profile.UserProfile;
  */
 
 public interface ProfileAgent {
+	
+	/*********** The following APIs use Profiling server ***************/
 
 	public String addUser(User user);
 	
@@ -73,9 +82,9 @@ public interface ProfileAgent {
    * @return the user subprofiles of the user
    */
   //TODO: change to List<SubProfile>?
-  public String getUserSubprofiles(User user);
+  public List getUserSubprofiles(User user);
   
-  public String getUserSubprofiles(UserProfile profile);
+  public List getUserSubprofiles(UserProfile profile);
   
   /**
    * Stores the new {@link org.universAAL.ontology.profile.SubProfile} for the user with userID.
@@ -149,4 +158,48 @@ public interface ProfileAgent {
    * The user whose AAL space profile is to be removed
    */
   public void removeAALSpaceProfile(User user);
+  
+  /************* The following APIs use Space server  ***********************/
+  
+  /** For testing ***/
+  public String addSpace(AALSpace space);  
+  public String getSpace(AALSpace space);
+  
+  public String addSpaceProfile(AALSpaceProfile aalSpaceProfile);
+  
+  public String getDevice(Device device);
+  public String addDevice(Device device);
+  
+  /** Used by uCC ****/
+  // TODO: check which methods are really needed for uCC
+  
+  public String getSpaces();
+  public String getSpaceProfile(AALSpaceProfile aalSpaceProfile);
+  
+  public String addDevicesToSpace(AALSpace aalSpace, Device dev);  
+  public String getDevicesOfSpace(AALSpace aalSpace);
+  
+  public String addService(AALService aalService);
+  public String getService(AALService aalService);
+  public String changeService(AALService aalService);
+  public String removeService(AALService aalService);
+  
+  public String getServices();
+  
+  public String addServiceProf(AALServiceProfile aalServiceProfile);
+  public String getServiceProf(AALServiceProfile aalServiceProfile);
+  public String changeServiceProf(AALServiceProfile aalServiceProfile);
+  public String removeServiceProf(AALServiceProfile aalServiceProfile);
+  
+  public String addServicesToSpace(AALSpace aalSpace, AALService serv);
+  public String getServicesOfSpace(AALSpace aalSpace);
+  
+  public String getHROfServ(AALService aalService);
+  public String getHWOfServ(AALService aalService);
+  public String getAppOfServ(AALService aalService); 
+  
+  /************* APIs for uCC/uStore Web services **********************/
+  public String getAALSpaceProfile();
+  public String getUserProfile(String userId);
+  
 }
