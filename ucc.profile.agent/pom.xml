@@ -38,6 +38,16 @@
 	</build>
 	<dependencies>
 		<dependency>
+     	 	<groupId>org.ops4j.pax.logging</groupId>
+     		 <artifactId>pax-logging-api</artifactId>
+     	 	<version>1.6.2</version>
+   	 	</dependency>
+   	 	<dependency>
+      		<groupId>org.ops4j.pax.logging</groupId>
+      		<artifactId>pax-logging-service</artifactId>
+      		<version>1.6.2</version>
+    	</dependency>
+		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.osgi.core</artifactId>
 		</dependency>

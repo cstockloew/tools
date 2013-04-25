@@ -130,6 +130,14 @@ public class ProfileAgentImpl implements ProfileAgent {
 
     	return returnValue;
     }
+    
+    public String addUserProfile(UserProfile profile) {
+    	System.out.println("Profile Agent: add user Profile: " + profile.getURI());
+    	ServiceRequest req=new ServiceRequest(new ProfilingService(),null);
+    	req.addAddEffect(new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE}, profile);
+    	ServiceResponse resp = caller.call(req);
+    	return resp.getCallStatus().name();
+    }
 
 	public UserProfile getUserProfile(User user) {
 	 	System.out.println("Profile agent: get user profile for user: " + user.getURI());
@@ -193,7 +201,7 @@ public class ProfileAgentImpl implements ProfileAgent {
 	}
 	
 	public String addSubProfile(SubProfile profile) {
-		System.out.println("Profile agent: add subProfile");
+		System.out.println("Profile agent: add subProfile" + profile.getPropertyURIs().toString());
 		ServiceRequest req=new ServiceRequest(new ProfilingService(),null);
 		req.addAddEffect(new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE,Profile.PROP_HAS_SUB_PROFILE}, profile);
 		ServiceResponse resp = caller.call(req);
@@ -225,15 +233,13 @@ public class ProfileAgentImpl implements ProfileAgent {
 		System.out.println("Profile agent: get all Subprofiles for user: " + user.getURI());
 		ServiceRequest req=new ServiceRequest(new ProfilingService(),null);
 		req.addValueFilter(new String[]{ProfilingService.PROP_CONTROLS}, user);
-		// TODO: remove this typeFilter to get all Subprofiles?
-		//req.addTypeFilter(new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE,Profile.PROP_HAS_SUB_PROFILE}, UserIDProfile.MY_URI);
 		req.addRequiredOutput(OUTPUT_GETSUBPROFILES, new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE,Profile.PROP_HAS_SUB_PROFILE});
 		ServiceResponse resp=caller.call(req);
 		if (resp.getCallStatus() == CallStatus.succeeded) {
 		    Object out=getReturnValue(resp.getOutputs(), OUTPUT_GETSUBPROFILES);
 		    if (out != null) {
 		    	System.out.println(out.toString());
-		    	return resp.getOutputs();
+		    	return (List) out;
 		    } else {
 		    	System.out.println("NOTHING!");
 		    	return null;
@@ -267,14 +273,15 @@ public class ProfileAgentImpl implements ProfileAgent {
 		System.out.println("Profile Agent: get Subprofiles for userprofile: " + profile.getURI());
 		ServiceRequest req=new ServiceRequest(new ProfilingService(),null);
 	 	req.addValueFilter(new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE}, profile);
+	 	req.addTypeFilter(new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE,Profile.PROP_HAS_SUB_PROFILE}, SubProfile.MY_URI);
 		req.addRequiredOutput(OUTPUT_GETSUBPROFILES, new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE,Profile.PROP_HAS_SUB_PROFILE});
 		ServiceResponse resp=caller.call(req);
 		if (resp.getCallStatus() == CallStatus.succeeded) {
-			System.out.println(resp.getOutputs());
+			//System.out.println(resp.getOutputs());
 		    Object out=getReturnValue(resp.getOutputs(),OUTPUT_GETSUBPROFILES);
 		    if (out != null) {
 		    	System.out.println(out.toString());
-		    	return resp.getOutputs();
+		    	return (List) out;
 		    } else {
 		    	System.out.println("NOTHING!");
 		    	return null;
