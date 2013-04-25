@@ -28,7 +28,7 @@ import org.universAAL.support.utils.service.Path;
 import org.universAAL.support.utils.service.low.Request;
 import org.universAAL.support.utils.service.mid.UtilEditor;
 import org.universAAL.ucc.profile.agent.ProfileAgent;
-import org.universaal.ontology.health.owl.HealthProfile;
+//import org.universaal.ontology.health.owl.HealthProfile;
 
 public class ProfileAgentImpl implements ProfileAgent {
 	  private static ServiceCaller caller = null;

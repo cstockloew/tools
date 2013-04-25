@@ -107,11 +107,11 @@
       <artifactId>ont.che</artifactId>
       <version>1.3.2-SNAPSHOT</version>
     </dependency>
-    <dependency>
+    <!-- dependency>
       <groupId>org.universAAL.ontology</groupId>
       <artifactId>ont.profile.health</artifactId>
       <version>1.3.3-SNAPSHOT</version>
-    </dependency>
+    </dependency -->
 		
 	</dependencies>
 </project>

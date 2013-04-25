@@ -17,9 +17,9 @@ import org.universAAL.ontology.profile.UserProfile;
 import org.universAAL.ontology.profile.userid.UserIDProfile;
 import org.universAAL.ucc.profile.agent.ProfileAgent;
 import org.universAAL.ucc.profile.agent.impl.ProfileAgentImpl;
-import org.universaal.ontology.health.owl.HealthProfile;
-import org.universaal.ontology.health.owl.TakeMeasurementActivity;
-import org.universaal.ontology.health.owl.Treatment;
+//import org.universaal.ontology.health.owl.HealthProfile;
+//import org.universaal.ontology.health.owl.TakeMeasurementActivity;
+//import org.universaal.ontology.health.owl.Treatment;
 
 public class Activator implements BundleActivator {
 
@@ -63,7 +63,7 @@ public class Activator implements BundleActivator {
     String userURI = "urn:org.universAAL.aal_space:test_env#"+userID;
     String userProfileURI = "urn:org.universAAL.aal_space:test_env#Maria_user_profile";
     String userIDProfileURI = "urn:org.universAAL.aal_space:test_env#Maria_userID_profile";
-    String healthProfileURI = "urn:org.universAAL.aal_space:test_env#Maria_health_profile";
+    //String healthProfileURI = "urn:org.universAAL.aal_space:test_env#Maria_health_profile";
     String aalSpaceProfileURI = "urn:org.universAAL.aal_space:test_env#some_space_profile";
     String device1URI = "urn:org.universAAL.aal_space:test_env#Device1";
     String device2URI = "urn:org.universAAL.aal_space:test_env#Device2";
@@ -114,11 +114,11 @@ public class Activator implements BundleActivator {
     System.out.println("Add subprofile to user Maria. " + userIDProfile.getUSERNAME() + "/" + userIDProfile.getPASSWORD());
     System.out.println("Add subprofile to user Maria. Result is: " + agent.addUserSubprofile(maria, userIDProfile));
 
-    HealthProfile healthProfile = new HealthProfile(healthProfileURI);
-    healthProfile.addTreatment(new TakeMeasurementActivity(healthProfileURI+"treatment"));
-    System.out.println("Add userId subprofile: " + agent.addSubProfile(healthProfile));
-    System.out.println("Add health subprofile to user Maria. " + healthProfile.getPropertyURIs());
-    System.out.println("Add subprofile to user Maria. Result is: " + agent.addUserSubprofile(maria, healthProfile));
+    //HealthProfile healthProfile = new HealthProfile(healthProfileURI);
+    //healthProfile.addTreatment(new TakeMeasurementActivity(healthProfileURI+"treatment"));
+    //System.out.println("Add userId subprofile: " + agent.addSubProfile(healthProfile));
+    //System.out.println("Add health subprofile to user Maria. " + healthProfile.getPropertyURIs());
+    //System.out.println("Add subprofile to user Maria. Result is: " + agent.addUserSubprofile(maria, healthProfile));
     
     
     System.out.println("[TEST] getting user subprofiles...");
@@ -130,10 +130,12 @@ public class Activator implements BundleActivator {
     
     System.out.println("Result is: " + agent.addUserSubprofile(userProfile, userIDProfile));
     
-    System.out.println("[TEST] adding health subprofile...");
+    //System.out.println("[TEST] adding health subprofile...");
     
-    System.out.println("Result is: " + agent.addUserSubprofile(userProfile, healthProfile));
+   // System.out.println("Result is: " + agent.addUserSubprofile(userProfile, healthProfile));
 
+    
+    // has some problem when installing the profile agent if running the following code
     System.out.println("[TEST] getting user subprofiles...");
     log.info("[TEST] getting user subprofiles...");
     List gotUserIdProfile2 = agent.getUserSubprofiles(userProfile);
@@ -143,6 +145,7 @@ public class Activator implements BundleActivator {
     	System.out.println("[TEST] gotten user subprofiles:" + gotUserIdProfile2.toString());
     }
  
+    
   }
 
 
