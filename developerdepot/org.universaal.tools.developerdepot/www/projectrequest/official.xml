@@ -85,4 +85,24 @@
     <tag>request</tag>
   </tags>
 </project>
+<project>
+  <name>Infoframe</name>
+  <developer>Tom Zentek, FZI</developer>
+  <date>29.04.13</date>
+  <url>http://www.fzi.de</url>
+  <svnurl>http://forge.universaal.org/svn/support/trunk/samples/smp.ri.exportComponent/</svnurl>
+  <license>Apache License, Version 2.0, The MIT License (MIT) </license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html, http://opensource.org/licenses/MIT</licenseurl>
+  <subprojects>true</subprojects>
+  <description>Infoframe was developed to creates an image RSS feed with various information: mail, weather, other rss feeds (news, blogs etc). Also, this example gives a good overview about the configuration possibilities.</description>
+  <tags>
+    <tag>Configuration</tag>
+    <tag>uCC</tag>
+    <tag>WebService</tag>
+    <tag>Sevice</tag>
+	<tag>Deployment</tag>
+    <tag>Validation</tag>
+    <tag>Listeners</tag>
+  </tags>
+</project>
 </projects>
