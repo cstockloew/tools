@@ -23,7 +23,6 @@ import org.universaal.tools.uStoreClientapplication.wizzard.PublishWizard;
  */
 public class PublishAction implements IWorkbenchWindowActionDelegate {
 
-
 	private IWorkbenchWindow window;
 
 	/**
@@ -42,76 +41,63 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		try {
 
-			
-			PublishWizard publishWizard=new PublishWizard(null,null,null);
-			WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell(),
+			PublishWizard publishWizard = new PublishWizard(null, null, null);
+			WizardDialog wizardDialog = new WizardDialog(PlatformUI
+					.getWorkbench().getActiveWorkbenchWindow().getShell(),
 					publishWizard);
 			if (wizardDialog.open() == Window.OK) {
 				AALApplicationManagerServiceLocator loc = new AALApplicationManagerServiceLocator();
 				AALApplicationManager man = loc.getAALApplicationManagerPort();
-				Metadata metadata=publishWizard.getMetadata();			
-				
-				
-				
-				String id=man
-						.uploadAnyAALApplication(metadata.getUsername(), 
-								metadata.getPassword(), 
-								metadata.getApplicationId(), 
-								metadata.getApplicationName(), 
-								metadata.getApplicationShortDescription(), 
-								metadata.getApplicationFullDescription(), 
-								metadata.getKeywords(), 
-								metadata.getDeveloperName(), 
-								metadata.getDeveloperEmail(), 
-								metadata.getDeveloperPhone(), 
-								metadata.getOrganizationName(), 
-								metadata.getOrganizationURL(), 
-								metadata.getOrganizationCertificate(), 
-								metadata.getURL(), 
-								metadata.getParentCategoryId(), 
-								metadata.getFullImageFileName(), 
-								metadata.getFullImage(), 
-								metadata.getThumbnailImageFileName(), 
-								metadata.getThumbnail(), 
-								metadata.getListPrice(), 
-								metadata.getVersion(), 
-								metadata.getVersionNotes(), 
-								metadata.getFileName(), 
-								metadata.getFile(), 
-								metadata.getServiceLevelAgreement(), 
-								metadata.getRequirements(), 
-								metadata.getLicenses(), 
-								metadata.getCapabilities(), 
-								metadata.isForPurchase);
-				
-				//check if metadata contain uAAP file
-				if(metadata.getuAAPFileBytes()!=null&&metadata.getuAAPFileName()!=null&&metadata.getuAAPFileName()!=""){
-					//upload uAAP file
-					man.uploadUaapAALApplication(metadata.getUsername(), 
-							metadata.getPassword(), 
-							id, 
-							metadata.getApplicationFullDescription(), 
-							metadata.getURL(), 
-							metadata.getParentCategoryId(), 
-							metadata.getFullImageFileName(), 
-							metadata.getFullImage(), 
-							metadata.getThumbnailImageFileName(), 
-							metadata.getThumbnail(), 
-							metadata.getListPrice(), 
-							metadata.getVersion(), 
-							metadata.getVersionNotes(), 
-							metadata.getuAAPFileName(), 
-							metadata.getuAAPFileBytes(), 
+				Metadata metadata = publishWizard.getMetadata();
+
+				String id = man.uploadAnyAALApplication(metadata.getUsername(),
+						metadata.getPassword(), metadata.getApplicationId(),
+						metadata.getApplicationName(),
+						metadata.getApplicationShortDescription(),
+						metadata.getApplicationFullDescription(),
+						metadata.getKeywords(), metadata.getDeveloperName(),
+						metadata.getDeveloperEmail(),
+						metadata.getDeveloperPhone(),
+						metadata.getOrganizationName(),
+						metadata.getOrganizationURL(),
+						metadata.getOrganizationCertificate(),
+						metadata.getURL(), metadata.getParentCategoryId(),
+						metadata.getFullImageFileName(),
+						metadata.getFullImage(),
+						metadata.getThumbnailImageFileName(),
+						metadata.getThumbnail(), metadata.getListPrice(),
+						metadata.getVersion(), metadata.getVersionNotes(),
+						metadata.getFileName(), metadata.getFile(),
+						metadata.getServiceLevelAgreement(),
+						metadata.getRequirements(), metadata.getLicenses(),
+						metadata.getCapabilities(), metadata.isForPurchase);
+
+				// check if metadata contain uAAP file
+				if (id != null && id != ""
+						&& metadata.getuAAPFileBytes() != null
+						&& metadata.getuAAPFileName() != null
+						&& metadata.getuAAPFileName() != "") {
+					// upload uAAP file
+					man.uploadUaapAALApplication(metadata.getUsername(),
+							metadata.getPassword(), id,
+							metadata.getApplicationFullDescription(),
+							metadata.getURL(), metadata.getParentCategoryId(),
+							metadata.getFullImageFileName(),
+							metadata.getFullImage(),
+							metadata.getThumbnailImageFileName(),
+							metadata.getThumbnail(), metadata.getListPrice(),
+							metadata.getVersion(), metadata.getVersionNotes(),
+							metadata.getuAAPFileName(),
+							metadata.getuAAPFileBytes(),
 							metadata.isForPurchase());
-					
-					
+
 				}
-				MessageDialog.openInformation(window.getShell(), "Success", "Application uploaded with id: \n"+id);
-								
+				MessageDialog.openInformation(window.getShell(), "Success",
+						"Application uploaded with id: \n" + id);
+
 			} else {
 				System.out.println("Canceled");
-			   }
+			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
