@@ -140,6 +140,7 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 
 	private void loadData() throws JAXBException, IOException, ParseException {
 		// Creating Tabs with Forms
+//		objects = dataAccess.getEmptyCHEProfile("Maria");
 		objects = dataAccess.getEmptyProfile(ontoProfile);
 		rooms = dataAccess.getEmptyProfile(roomProfile);
 		TabForm f = null;
@@ -215,7 +216,6 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 			// Creating User tree and Comboboxes
 			for (EnumObject enumObj : tab.getEnums()) {
 				NativeSelect box = new NativeSelect(enumObj.getLabel());
-				//box.addItem("");
 				box.setDescription(enumObj.getDescription());
 				// Create ComboBox with enum objects and add to form
 				for (String item : enumObj.getValues()) {
@@ -442,15 +442,8 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 					} else {
 						cal.setCalendar("");
 					}
-//					if (tab.getField(sim.getLabel()).getValue() != null && !tab.getField(sim.getLabel()).getValue().equals("")) {
-//						String date = df.format((Date) tab.getField(
-//								sim.getLabel()).getValue());
-//						cal.setCalendar(date);
-//						simpleObjects.add(cal);
-//					} else {
-					
+
 					simpleObjects.add(cal);
-//					}
 				}
 			}
 			sub.setSimpleObjects(simpleObjects);
@@ -729,18 +722,6 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 			app.getMainWindow().showNotification(
 					tab.getHeader() + " was saved",
 					Notification.POSITION_CENTERED);
-			
-//			if (hWindow != null) {
-//				hWindow.getUserTree().addItem(ontId);
-//				hWindow.getUserTree().setParent(ontId,
-//						hWindow.getUserTree().getValue());
-//				hWindow.getUserTree().setChildrenAllowed(ontId, false);
-//			}
-//			if(rWindow != null) {
-//				rWindow.getUserTree().addItem(ontId);
-//				rWindow.getUserTree().setParent(ontId, rWindow.getUserTree().getValue());
-//				rWindow.getUserTree().setChildrenAllowed(ontId, false);
-//			}
 
 		}
 

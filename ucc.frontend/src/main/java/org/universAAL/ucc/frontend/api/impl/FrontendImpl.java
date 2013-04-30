@@ -10,8 +10,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -63,6 +65,8 @@ public class FrontendImpl implements IFrontend {
 			+ "/tempUsrvFiles/";
 	
 	private static String uappURI;
+	
+	private static String userSession;
 
 	public void installService(String sessionkey, String downloadUri /*
 																	 * Need from
@@ -716,6 +720,19 @@ public class FrontendImpl implements IFrontend {
 	        }
 
 	    }       
+	}
+	
+	/**
+	 * Returns a generated Sessionkey for uStore
+	 */
+	public String getSessionKey(String username, String password) {
+		SecureRandom sr = new SecureRandom();
+		userSession = new BigInteger(130, sr).toString(32);
+		return userSession;
+	}
+
+	public static String getUserSession() {
+		return userSession;
 	}
 	
 	

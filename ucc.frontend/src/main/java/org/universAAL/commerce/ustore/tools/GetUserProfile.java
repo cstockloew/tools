@@ -1,16 +1,15 @@
+
 package org.universAAL.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for getUserProfile complex type.
+ * <p>Java class for getUserProfile complex type.
  * 
- * <p>
- * The following schema fragment specifies the expected content contained within
- * this class.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="getUserProfile">
@@ -27,30 +26,35 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getUserProfile", propOrder = { "sessionKey" })
+@XmlType(name = "getUserProfile", propOrder = {
+    "sessionKey"
+})
 public class GetUserProfile {
 
-	protected String sessionKey;
+    protected String sessionKey;
 
-	/**
-	 * Gets the value of the sessionKey property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getSessionKey() {
-		return sessionKey;
-	}
+    /**
+     * Gets the value of the sessionKey property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSessionKey() {
+        return sessionKey;
+    }
 
-	/**
-	 * Sets the value of the sessionKey property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setSessionKey(String value) {
-		this.sessionKey = value;
-	}
+    /**
+     * Sets the value of the sessionKey property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSessionKey(String value) {
+        this.sessionKey = value;
+    }
 
 }

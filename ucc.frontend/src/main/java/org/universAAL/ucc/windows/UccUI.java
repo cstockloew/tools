@@ -12,7 +12,7 @@ import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.startup.api.Setup;
-import org.universAAL.ucc.startup.model.User;
+import org.universAAL.ucc.startup.model.UserAccountInfo;
 
 import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext.TransactionListener;
@@ -171,9 +171,9 @@ public class UccUI extends Application {
 		hl.addComponent(user);
 		pwd = new PasswordField(res.getString("pwd.label"));
 		hl.addComponent(pwd);
-		List<User> cu = su.getUsers("file:///../etc/uCC/users.xml");
+		List<UserAccountInfo> cu = su.getUsers("file:///../etc/uCC/users.xml");
 		if(!cu.isEmpty()) {
-		for(User u : cu) {
+		for(UserAccountInfo u : cu) {
 			if(u.isChecked()) {
 				user.setValue(u.getName());
 				pwd.setValue(u.getPassword());

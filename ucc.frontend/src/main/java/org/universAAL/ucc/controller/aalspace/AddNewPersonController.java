@@ -116,6 +116,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 				.getName());
 		dataAccess = (DataAccess) context.getService(ref);
 		context.ungetService(ref);
+//		savedObjects = dataAccess.getCHEFormFields("User", );
 		savedObjects = dataAccess.getFormFields(actualFlat);
 		instance = new OntologyInstance();
 		subprofiles = new HashMap<String, Subprofile>();
@@ -133,6 +134,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 
 	private void loadData() throws JAXBException, IOException, ParseException {
 		// Creating Tabs with Forms
+//		objects = dataAccess.getEmptyCHEProfile("User");
 		objects = dataAccess.getEmptyProfile(ontoProfile);
 		TabForm f = null;
 		// Every Subprofile is shown in a seperate tab
@@ -496,6 +498,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 //			}
 
 			if (tabSheet.getComponentCount() == 0) {
+//				dataAccess.saveUserDataInCHE(instance);
 				dataAccess.saveUserData(actualFlat, instance);
 				app.getMainWindow().removeWindow(win);
 			}

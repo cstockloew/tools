@@ -15,6 +15,7 @@ import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.ucc.api.IDeinstaller;
 import org.universAAL.ucc.api.IInstaller;
+import org.universAAL.ucc.client.util.UstoreUtil;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
@@ -25,6 +26,8 @@ import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.startup.model.UccUsers;
 import org.universAAL.ucc.subscriber.SensorEventSubscriber;
+
+import com.vaadin.ui.Window.Notification;
 
 //import de.fzi.ipe.evaluation.api.core.IEvaluationEventReceiver;
 
@@ -40,17 +43,21 @@ public class Activator implements BundleActivator {
 	private static IServiceModel model;
 	private static IServiceRegistration reg;
 	private ModuleContext mContext;
+	private static String sessionKey;
+	private UstoreUtil client;
 //	private IEvaluationEventReceiver eventReceiver;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
+		client = new UstoreUtil();
 		//Setting setup properties in etc/ucc directory
 		File confHome = new File("file:///../etc/uCC");
 		if(!confHome.exists()) {
 			confHome.mkdir();
 		}
 		File temp = new File("file:///../etc/uCC/setup.properties");
-//		if(!temp.exists()) {
+		if(!temp.exists()) {
+			//Setting default values for setup configuration
 			Properties prop = new Properties();
 			prop.setProperty("admin", "admin");
 			prop.setProperty("name", "aal");
@@ -60,7 +67,7 @@ public class Activator implements BundleActivator {
 			prop.setProperty("url", "");
 			Writer in = new FileWriter(new File(confHome, "setup.properties"));
 			prop.store(in, "Setup properties for initial setup of uCC");
-//		}
+		}
 		
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
@@ -82,7 +89,28 @@ public class Activator implements BundleActivator {
 		SensorEventSubscriber sub = SensorEventSubscriber.getInstance(mContext, context);
 //		ServiceReference ref = context.getServiceReference(IEvaluationEventReceiver.class.getName());
 //		eventReceiver = (IEvaluationEventReceiver)context.getService(ref);
+		
+		//Get SessionKey from uStore
+		sessionKey = client.getSessionKey();
+//		sessionKey = client.registerUser();
+		if (sessionKey == null || sessionKey.equals("")) {
+			System.err.println("No Session key when trying to setup connection to uStore");
+
+		} else {
+			System.err.println("WS-ANSWER: " + sessionKey);
+			//When it works uncomment!
+			client.registerUser(sessionKey);
+		}
+		
 	}
+	
+	
+
+	public static String getSessionKey() {
+		return sessionKey;
+	}
+
+
 
 	public static IInstaller getInstaller() {
 		if (installer == null) {
@@ -90,6 +118,8 @@ public class Activator implements BundleActivator {
 		}
 		return installer;
 	}
+	
+	
 
 	public static IDeinstaller getDeinstaller() {
 		if (deinstaller == null) {

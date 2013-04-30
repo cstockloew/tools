@@ -109,6 +109,7 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 	
 	private void loadData() throws JAXBException, IOException, ParseException {
 		//Creating Tabs with Forms
+//				ArrayList<OntologyInstance>tabs = dataAccess.getEmptyCHEProfile("Maria");
 				ArrayList<OntologyInstance> tabs = dataAccess.getFormFields(actualFlat);
 				TabForm f = null;
 				for(OntologyInstance o : tabs) {

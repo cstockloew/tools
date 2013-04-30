@@ -12,4 +12,6 @@ public interface IFrontend {
 
 	public String getInstalledUnitsForService(String sessionKey,
 			String serviceId);
+	
+	public String getSessionKey(String username, String password);
 }

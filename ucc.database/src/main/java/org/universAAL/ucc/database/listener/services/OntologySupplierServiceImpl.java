@@ -31,8 +31,8 @@ public class OntologySupplierServiceImpl implements OntologySupplierService {
 
 	public ArrayList<OntologyInstance> getOntology(String flat) {
 		BundleContext context = FrameworkUtil.getBundle(getClass()).getBundleContext();
-		ServiceReference<DataAccess>ref = context.getServiceReference(DataAccess.class);
-		DataAccess access = context.getService(ref);
+		ServiceReference ref = context.getServiceReference(DataAccess.class.getName());
+		DataAccess access = (DataAccess)context.getService(ref);
 			ArrayList<OntologyInstance> ont = access.getFormFields(flat);
 		
 		return ont;

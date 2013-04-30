@@ -8,14 +8,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class UccUsers {
-	List<User> user = new ArrayList<User>();
+	List<UserAccountInfo> user = new ArrayList<UserAccountInfo>();
 
 	@XmlElement(name="user")
-		public List<User> getUser() {
+		public List<UserAccountInfo> getUser() {
 		return user;
 	}
 
-	public void setUser(List<User> allUser) {
+	public void setUser(List<UserAccountInfo> allUser) {
 		this.user = allUser;
 	}
 	

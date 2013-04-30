@@ -17,7 +17,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.Role;
-import org.universAAL.ucc.startup.model.User;
+import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.windows.UccUI;
 
 
@@ -66,13 +66,13 @@ public class AccountWindowController implements Button.ClickListener {
 				app.getMainWindow().showNotification(bundle.getString("input.empty"), Notification.TYPE_HUMANIZED_MESSAGE);
 			} else {
 				boolean inDB = false;
-				for(User us : setup.getUsers("file:///../etc/uCC/users.xml")) {
+				for(UserAccountInfo us : setup.getUsers("file:///../etc/uCC/users.xml")) {
 					if(us.getName().equals(win.getUser().getValue())) {
 						inDB = true;
 					}
 				}
 				if(!inDB && win.getPwd().getValue().equals(win.getConfirm().getValue())) {
-					User user = new User();
+					UserAccountInfo user = new UserAccountInfo();
 					user.setName(win.getUser().getValue().toString());
 					user.setPassword(win.getPwd().getValue().toString());
 					List<Role>roles = new ArrayList<Role>();

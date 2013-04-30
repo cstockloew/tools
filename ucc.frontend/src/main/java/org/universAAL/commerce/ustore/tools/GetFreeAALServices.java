@@ -1,16 +1,15 @@
+
 package org.universAAL.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for getFreeAALServices complex type.
+ * <p>Java class for getFreeAALServices complex type.
  * 
- * <p>
- * The following schema fragment specifies the expected content contained within
- * this class.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="getFreeAALServices">
@@ -28,47 +27,53 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getFreeAALServices", propOrder = { "sessionKey", "isFitToUser" })
+@XmlType(name = "getFreeAALServices", propOrder = {
+    "sessionKey",
+    "isFitToUser"
+})
 public class GetFreeAALServices {
 
-	protected String sessionKey;
-	protected boolean isFitToUser;
+    protected String sessionKey;
+    protected boolean isFitToUser;
 
-	/**
-	 * Gets the value of the sessionKey property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getSessionKey() {
-		return sessionKey;
-	}
+    /**
+     * Gets the value of the sessionKey property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSessionKey() {
+        return sessionKey;
+    }
 
-	/**
-	 * Sets the value of the sessionKey property.
-	 * 
-	 * @param value
-	 *            allowed object is {@link String }
-	 * 
-	 */
-	public void setSessionKey(String value) {
-		this.sessionKey = value;
-	}
+    /**
+     * Sets the value of the sessionKey property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSessionKey(String value) {
+        this.sessionKey = value;
+    }
 
-	/**
-	 * Gets the value of the isFitToUser property.
-	 * 
-	 */
-	public boolean isIsFitToUser() {
-		return isFitToUser;
-	}
+    /**
+     * Gets the value of the isFitToUser property.
+     * 
+     */
+    public boolean isIsFitToUser() {
+        return isFitToUser;
+    }
 
-	/**
-	 * Sets the value of the isFitToUser property.
-	 * 
-	 */
-	public void setIsFitToUser(boolean value) {
-		this.isFitToUser = value;
-	}
+    /**
+     * Sets the value of the isFitToUser property.
+     * 
+     */
+    public void setIsFitToUser(boolean value) {
+        this.isFitToUser = value;
+    }
 
 }

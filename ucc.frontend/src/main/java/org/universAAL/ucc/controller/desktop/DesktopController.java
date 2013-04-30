@@ -16,7 +16,7 @@ import org.universAAL.ucc.client.util.UstoreUtil;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.startup.api.Setup;
-import org.universAAL.ucc.startup.model.User;
+import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.windows.AccountWindow;
 import org.universAAL.ucc.windows.PreferencesWindow;
@@ -38,10 +38,11 @@ public class DesktopController implements Button.ClickListener {
 	private String base;
 	private ResourceBundle bundle;
 	private Setup setup;
-	private static String sessionKey;
+//	private static String sessionKey;
 	private BundleContext bc;
 	private String user;
 	private String pwd;
+	private static boolean admin;
 
 	public DesktopController(UccUI app) {
 		base = "resources.ucc";
@@ -87,11 +88,49 @@ public class DesktopController implements Button.ClickListener {
 						main.removeWindow(w);
 					} else {
 						ToolWindow startWindow = new ToolWindow(app);
+						if(admin) {
+							startWindow.getuStoreButton().setEnabled(false);
+							startWindow.getOpenAAL().setEnabled(false);
+							startWindow.getConfigButton().setEnabled(true);
+							startWindow.getEditHW().setEnabled(true);
+							startWindow.getEditPerson().setEnabled(true);
+							startWindow.getEditUC().setEnabled(true);
+							startWindow.getPersonButton().setEnabled(true);
+							startWindow.getInstallButton().setEnabled(true);
+						} else {
+							startWindow.getuStoreButton().setEnabled(true);
+							startWindow.getOpenAAL().setEnabled(false);
+							startWindow.getConfigButton().setEnabled(false);
+							startWindow.getEditHW().setEnabled(false);
+							startWindow.getEditPerson().setEnabled(false);
+							startWindow.getEditUC().setEnabled(true);
+							startWindow.getPersonButton().setEnabled(false);
+							startWindow.getInstallButton().setEnabled(true);
+						}
 						main.addWindow(startWindow);
 					}
 				}
 			} else {
 				ToolWindow startWin = new ToolWindow(app);
+				if(admin) {
+					startWin.getuStoreButton().setEnabled(false);
+					startWin.getOpenAAL().setEnabled(false);
+					startWin.getConfigButton().setEnabled(true);
+					startWin.getEditHW().setEnabled(true);
+					startWin.getEditPerson().setEnabled(true);
+					startWin.getEditUC().setEnabled(true);
+					startWin.getPersonButton().setEnabled(true);
+					startWin.getInstallButton().setEnabled(true);
+				} else {
+					startWin.getuStoreButton().setEnabled(true);
+					startWin.getOpenAAL().setEnabled(false);
+					startWin.getConfigButton().setEnabled(false);
+					startWin.getEditHW().setEnabled(false);
+					startWin.getEditPerson().setEnabled(false);
+					startWin.getEditUC().setEnabled(true);
+					startWin.getPersonButton().setEnabled(false);
+					startWin.getInstallButton().setEnabled(true);
+				}
 				main.addWindow(startWin);
 			}
 		}
@@ -107,10 +146,10 @@ public class DesktopController implements Button.ClickListener {
 				adminLogin();
 			} else {
 				boolean in = false;
-				List<User> users = setup.getUsers("file:///../etc/uCC/users.xml");
-				for(User u : users) {
+				List<UserAccountInfo> users = setup.getUsers("file:///../etc/uCC/users.xml");
+				for(UserAccountInfo u : users) {
 					if(u.getName().equals(app.getUser().getValue()) && u.getPassword().equals(app.getPwd().getValue())) {
-						adminLogin();
+						userLogin();
 						in = true;
 					}
 				}
@@ -137,27 +176,27 @@ public class DesktopController implements Button.ClickListener {
 
 	}
 
-	public static String getSessionKey() {
-		return sessionKey;
-	}
+//	public static String getSessionKey() {
+//		return sessionKey;
+//	}
 	
 	private void adminLogin() {
+		admin = true;
 		main.removeWindow(app.getLoginWindow());
 		main.removeComponent(app.getVLog());
 		main.setContent(app.createContent(this));
-		// Register to uStore
-		sessionKey = client.registerUser();
-		if (sessionKey == null || sessionKey.equals("")) {
-			app.getMainWindow().showNotification(
-					bundle.getString("login.fail"),
-					Notification.TYPE_ERROR_MESSAGE);
-
-		} else {
-			app.getMainWindow().showNotification(
-					bundle.getString("login.success"),
-					Notification.TYPE_HUMANIZED_MESSAGE);
-			System.err.println("WS-ANSWER: " + sessionKey);
-		}
+		app.getMainWindow().showNotification(bundle.getString("login.success"),Notification.TYPE_HUMANIZED_MESSAGE);
+		WebConnector web = WebConnector.getInstance();
+		web.startListening();
+		
+	}
+	
+	private void userLogin() {
+		admin = false;
+		main.removeWindow(app.getLoginWindow());
+		main.removeComponent(app.getVLog());
+		main.setContent(app.createContent(this));
+		app.getMainWindow().showNotification(bundle.getString("login.success"),Notification.TYPE_HUMANIZED_MESSAGE);
 		WebConnector web = WebConnector.getInstance();
 		web.startListening();
 		

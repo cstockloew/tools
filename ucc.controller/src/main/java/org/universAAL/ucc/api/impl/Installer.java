@@ -77,13 +77,18 @@ public class Installer implements IInstaller {
 
 	public MatchingResult getMatchingPeers(Map<String, Serializable> filter) {
 		AALSpaceManager aalSpaceManager = Activator.getAALSpaceManager();
-		
+		System.err.println("[[IInstaller]]: getMatchingPeers()");
 		if (aalSpaceManager != null) {
+			System.err.println("[[Installer]] AALSPACEMANAGER is not NULL "+ aalSpaceManager.getPeers());
+			System.err.println("[[Installer]] filer: "+filter.size()+ " "+filter.toString());
 		    MatchingResult result = aalSpaceManager.getMatchingPeers(filter);
+		    System.err.println(result.getPeers().toString());
 		    PeerCard[] peers = result.getPeers();
+		    System.err.println("PEERS SIZE: "+peers.length);
 		    for (int i=0; i<peers.length; i++)  {
 		    	 System.out.println("[Installer.getMatchingPeers()] has a matching peer: " + peers[i].getPeerID());
-		    }		   		  
+		    }	
+		    System.err.println("[[Installer] BEFORE return of MatchingResult");
 		    return result;
 		}		
 		System.out.println("[Installer.getMatchingPeers()] can not get AALSpaceManager"); 
