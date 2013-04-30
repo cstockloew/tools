@@ -104,6 +104,9 @@ public class PublishWizard extends Wizard {
 			metadata.setForPurchase(true);
 		}else
 			metadata.setForPurchase(false);
+		//for uAAP
+		metadata.setuAAPFileBytes(three.getuAAPFileByte());
+		metadata.setuAAPFileName(three.getuAAPFileName());
 		return true;
 	}
 

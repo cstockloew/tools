@@ -31,6 +31,11 @@ public class Metadata {
 	private String licenses;
 	private String capabilities;
 	boolean isForPurchase;
+	
+	//for uAAP
+	private byte[] uAAPFileBytes;
+	private String uAAPFileName;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -204,6 +209,18 @@ public class Metadata {
 	}
 	public void setForPurchase(boolean isForPurchase) {
 		this.isForPurchase = isForPurchase;
+	}
+	public byte[] getuAAPFileBytes() {
+		return uAAPFileBytes;
+	}
+	public void setuAAPFileBytes(byte[] uAAPFileBytes) {
+		this.uAAPFileBytes = uAAPFileBytes;
+	}
+	public String getuAAPFileName() {
+		return uAAPFileName;
+	}
+	public void setuAAPFileName(String uAAPFileName) {
+		this.uAAPFileName = uAAPFileName;
 	}
 	
 	

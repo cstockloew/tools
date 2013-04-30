@@ -84,6 +84,29 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 								metadata.getLicenses(), 
 								metadata.getCapabilities(), 
 								metadata.isForPurchase);
+				
+				//check if metadata contain uAAP file
+				if(metadata.getuAAPFileBytes()!=null&&metadata.getuAAPFileName()!=null&&metadata.getuAAPFileName()!=""){
+					//upload uAAP file
+					man.uploadUaapAALApplication(metadata.getUsername(), 
+							metadata.getPassword(), 
+							id, 
+							metadata.getApplicationFullDescription(), 
+							metadata.getURL(), 
+							metadata.getParentCategoryId(), 
+							metadata.getFullImageFileName(), 
+							metadata.getFullImage(), 
+							metadata.getThumbnailImageFileName(), 
+							metadata.getThumbnail(), 
+							metadata.getListPrice(), 
+							metadata.getVersion(), 
+							metadata.getVersionNotes(), 
+							metadata.getuAAPFileName(), 
+							metadata.getuAAPFileBytes(), 
+							metadata.isForPurchase());
+					
+					
+				}
 				MessageDialog.openInformation(window.getShell(), "Success", "Application uploaded with id: \n"+id);
 								
 			} else {

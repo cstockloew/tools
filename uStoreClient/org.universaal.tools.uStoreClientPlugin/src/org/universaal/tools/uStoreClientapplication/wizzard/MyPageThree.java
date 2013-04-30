@@ -36,10 +36,13 @@ public class MyPageThree extends WizardPage {
 	private byte[] fileByte;
 	private byte[] thumbnailImageByte;
 	private byte[] fileImageByte;
+	private byte[] uAAPFileByte;
 	private Text text_1;
 	private Text text_2;
+	private Text text_11;
 	private Text text;
 	private String imageName;
+	private String uAAPFileName;
 	private String thumbnailName;
 	private Combo readyForPurchaseCombo;
 	
@@ -320,6 +323,64 @@ public class MyPageThree extends WizardPage {
 		readyForPurchaseCombo.add("No");
 		
 		readyForPurchaseCombo.select(0);
+		
+		
+		//add row for uAAP file
+		Label lbluAAP = new Label(container, SWT.NONE);
+		lbluAAP.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lbluAAP.setAlignment(SWT.RIGHT);
+		lbluAAP.setText("uAAP File");
+		
+		Composite composite_11 = new Composite(container, SWT.NONE);
+		composite_11.setLayout(new BorderLayout(0, 0));
+		GridData gd_composite_11 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_composite_11.heightHint = 24;
+		gd_composite_11.widthHint = 456;
+		composite_11.setLayoutData(gd_composite_11);
+		
+		Button btnBrowse11 = new Button(composite_11, SWT.NONE);
+		btnBrowse11.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dlg = new FileDialog(PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getShell(), SWT.MULTI);
+
+				String fn = dlg.open();
+				if (fn != null) {
+					// Append all the selected files. Since getFileNames()
+					// returns only
+					// the names, and not the path, prepend the path,
+					// normalizing
+					// if necessary
+					StringBuffer buf = new StringBuffer();
+					String[] files = dlg.getFileNames();
+					for (int i = 0, n = files.length; i < n; i++) {
+						buf.append(dlg.getFilterPath());
+						if (buf.charAt(buf.length() - 1) != File.separatorChar) {
+							buf.append(File.separatorChar);
+						}
+						buf.append(files[i]);
+						buf.append(" ");
+					}
+					text_11.setText(buf.toString());
+					File file = new File(buf.toString());
+					uAAPFileName=file.getName();
+					try {
+						uAAPFileByte = getBytesFromFile(file);
+						
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		btnBrowse11.setLayoutData(BorderLayout.WEST);
+		btnBrowse11.setText("Browse");
+		
+		text_11 = new Text(composite_11, SWT.BORDER);
+		text_11.setEditable(false);
+		text_11.setLayoutData(BorderLayout.CENTER);
+		
 	}
 	
 	
@@ -499,6 +560,22 @@ public class MyPageThree extends WizardPage {
 
 	public void setReadyForPurchaseCombo(Combo readyForPurchaseCombo) {
 		this.readyForPurchaseCombo = readyForPurchaseCombo;
+	}
+
+	public byte[] getuAAPFileByte() {
+		return uAAPFileByte;
+	}
+
+	public void setuAAPFileByte(byte[] uAAPFileByte) {
+		this.uAAPFileByte = uAAPFileByte;
+	}
+
+	public String getuAAPFileName() {
+		return uAAPFileName;
+	}
+
+	public void setuAAPFileName(String uAAPFileName) {
+		this.uAAPFileName = uAAPFileName;
 	}
 	
 	
