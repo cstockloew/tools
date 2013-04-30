@@ -83,10 +83,11 @@ public class ProfileAgentImpl implements ProfileAgent {
 			req.addRequiredOutput(OUTPUT_GETPROFILABLE, new String[]{ProfilingService.PROP_CONTROLS});
 			ServiceResponse resp = caller.call(req);
 			if (resp.getCallStatus() == CallStatus.succeeded) {
-			    Object out=getReturnValue(resp.getOutputs(), OUTPUT_GETPROFILABLE);
+			    Object out= getReturnValue(resp.getOutputs(), OUTPUT_GETPROFILABLE);
 			    if (out != null) {
 					System.out.println("Profile agent: result got is - " + out.toString());
-					return (User)out;
+					User u = (User)out;
+					return u;
 			    } else {
 			    	System.out.println("NOTHING!");
 			    	return null;
@@ -229,7 +230,7 @@ public class ProfileAgentImpl implements ProfileAgent {
 		}
 	    }
 
-	public List getUserSubprofiles(User user) {
+	public List<SubProfile> getUserSubprofiles(User user) {
 		System.out.println("Profile agent: get all Subprofiles for user: " + user.getURI());
 		ServiceRequest req=new ServiceRequest(new ProfilingService(),null);
 		req.addValueFilter(new String[]{ProfilingService.PROP_CONTROLS}, user);
@@ -269,7 +270,7 @@ public class ProfileAgentImpl implements ProfileAgent {
 		
 	}
 
-	public List getUserSubprofiles(UserProfile profile) {
+	public List<SubProfile> getUserSubprofiles(UserProfile profile) {
 		System.out.println("Profile Agent: get Subprofiles for userprofile: " + profile.getURI());
 		ServiceRequest req=new ServiceRequest(new ProfilingService(),null);
 	 	req.addValueFilter(new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE}, profile);
@@ -281,7 +282,7 @@ public class ProfileAgentImpl implements ProfileAgent {
 		    Object out=getReturnValue(resp.getOutputs(),OUTPUT_GETSUBPROFILES);
 		    if (out != null) {
 		    	System.out.println(out.toString());
-		    	return (List) out;
+		    	return (List<SubProfile>) out;
 		    } else {
 		    	System.out.println("NOTHING!");
 		    	return null;

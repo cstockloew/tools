@@ -82,9 +82,9 @@ public interface ProfileAgent {
    * @return the user subprofiles of the user
    */
   //TODO: change to List<SubProfile>?
-  public List getUserSubprofiles(User user);
+  public List<SubProfile> getUserSubprofiles(User user);
   
-  public List getUserSubprofiles(UserProfile profile);
+  public List<SubProfile> getUserSubprofiles(UserProfile profile);
   
   /**
    * Stores the new {@link org.universAAL.ontology.profile.SubProfile} for the user with userID.
@@ -197,6 +197,13 @@ public interface ProfileAgent {
   public String getHROfServ(AALService aalService);
   public String getHWOfServ(AALService aalService);
   public String getAppOfServ(AALService aalService); 
+  
+  /**
+   * Added by Nicole: 28.04.2013
+   * Is implemted by Shanshan, but not in ProfileAgent Interface defined
+   */
+  public String addSubProfile(SubProfile profile);
+  public String addUserProfile(UserProfile profile);
   
   /************* APIs for uCC/uStore Web services **********************/
   public String getAALSpaceProfile();

@@ -29,7 +29,8 @@
 						<Bundle-Name>${project.name}</Bundle-Name>
 						<Bundle-Activator>org.universAAL.ucc.profile.agent.osgi.Activator</Bundle-Activator>
 						<Bundle-Description>${project.description}</Bundle-Description>
-						<Export-Package>org.universAAL.ucc.profile.agent.*</Export-Package>
+						<Export-Package>org.universAAL.ucc.profile.agent</Export-Package>
+						<Import-Package>*</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 					</instructions>
 				</configuration>
@@ -76,16 +77,6 @@
       <groupId>org.universAAL.support</groupId>
       <artifactId>uAAL.utils</artifactId>
       <version>1.3.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.universAAL.ontology</groupId>
-      <artifactId>ont.phWorld</artifactId>
-      <version>1.3.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.universAAL.ontology</groupId>
-      <artifactId>ont.profile</artifactId>
-      <version>1.3.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.universAAL.ontology</groupId>

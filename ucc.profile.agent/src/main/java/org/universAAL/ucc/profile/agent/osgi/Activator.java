@@ -108,17 +108,18 @@ public class Activator implements BundleActivator {
     /*test add/get user subprofile via User */
     System.out.println("[TEST] adding user ID subprofile...");
     UserIDProfile userIDProfile = new UserIDProfile(userIDProfileURI);
+    SubProfile sub = new SubProfile(userIDProfileURI);
     userIDProfile.setUSERNAME("Maria");
     userIDProfile.setPASSWORD("Pass");
-    System.out.println("Add userId subprofile: " + agent.addSubProfile(userIDProfile));
+    System.out.println("Add userId subprofile: " + agent.addSubProfile(sub));
     System.out.println("Add subprofile to user Maria. " + userIDProfile.getUSERNAME() + "/" + userIDProfile.getPASSWORD());
     System.out.println("Add subprofile to user Maria. Result is: " + agent.addUserSubprofile(maria, userIDProfile));
 
-    //HealthProfile healthProfile = new HealthProfile(healthProfileURI);
-    //healthProfile.addTreatment(new TakeMeasurementActivity(healthProfileURI+"treatment"));
-    //System.out.println("Add userId subprofile: " + agent.addSubProfile(healthProfile));
-    //System.out.println("Add health subprofile to user Maria. " + healthProfile.getPropertyURIs());
-    //System.out.println("Add subprofile to user Maria. Result is: " + agent.addUserSubprofile(maria, healthProfile));
+//    HealthProfile healthProfile = new HealthProfile(healthProfileURI);
+//    healthProfile.addTreatment(new TakeMeasurementActivity(healthProfileURI+"treatment"));
+//    System.out.println("Add userId subprofile: " + agent.addSubProfile(healthProfile));
+//    System.out.println("Add health subprofile to user Maria. " + healthProfile.getPropertyURIs());
+//    System.out.println("Add subprofile to user Maria. Result is: " + agent.addUserSubprofile(maria, healthProfile));
     
     
     System.out.println("[TEST] getting user subprofiles...");
@@ -126,9 +127,9 @@ public class Activator implements BundleActivator {
     System.out.println("[TEST] gotten user ID profiles:" + gotUserIdProfile.toString());
     
     /*test add/get user subprofile via user profile  */
-    System.out.println("[TEST] adding user ID subprofile...");
+//    System.out.println("[TEST] adding user ID subprofile...");
     
-    System.out.println("Result is: " + agent.addUserSubprofile(userProfile, userIDProfile));
+//    System.out.println("Result is: " + agent.addUserSubprofile(userProfile, /*userIDProfile*/sub));
     
     //System.out.println("[TEST] adding health subprofile...");
     
@@ -138,7 +139,7 @@ public class Activator implements BundleActivator {
     // has some problem when installing the profile agent if running the following code
     System.out.println("[TEST] getting user subprofiles...");
     log.info("[TEST] getting user subprofiles...");
-    List gotUserIdProfile2 = agent.getUserSubprofiles(userProfile);
+    List<SubProfile> gotUserIdProfile2 = agent.getUserSubprofiles(userProfile);
     if (gotUserIdProfile2==null) log.info("[TEST] the result is null");
     else {
     	log.info("[TEST] gotten user subprofiles:" + gotUserIdProfile2.toString());
