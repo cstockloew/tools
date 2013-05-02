@@ -32,7 +32,7 @@ import com.vaadin.ui.Window.Notification;
 public class DesktopController implements Button.ClickListener {
 	private UccUI app;
 	private Window main;
-	private UserAccountDB db;
+//	private UserAccountDB db;
 //	private DeployManagerService dms;
 	private UstoreUtil client;
 	private String base;
@@ -51,10 +51,10 @@ public class DesktopController implements Button.ClickListener {
 		this.main = app.getMainWindow();
 		BundleContext context = FrameworkUtil.getBundle(getClass())
 				.getBundleContext();
-		ServiceReference ref = context.getServiceReference(UserAccountDB.class
-				.getName());
-		db = (UserAccountDB) context.getService(ref);
-		context.ungetService(ref);
+//		ServiceReference ref = context.getServiceReference(UserAccountDB.class
+//				.getName());
+//		db = (UserAccountDB) context.getService(ref);
+//		context.ungetService(ref);
 		client = new UstoreUtil();
 		Properties prop = new Properties();
 		Reader reader = null;
@@ -72,6 +72,12 @@ public class DesktopController implements Button.ClickListener {
 		}
 		user = prop.getProperty("admin");
 		pwd = prop.getProperty("pwd");
+		try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// this.app.getSearchButton().addListener(this);
 		// this.app.getStartButton().addListener(this);
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
@@ -163,9 +169,34 @@ public class DesktopController implements Button.ClickListener {
 
 		}
 		if (event.getButton() == app.getAdminButton()) {
-			Preferences pref = db.getPreferencesData("file:///../etc/uCC/preferences.xml");
+			Preferences pref = new Preferences();
+			Properties prop = new Properties();
+			Reader reader = null;
+			try {
+				reader = new FileReader("file:///../etc/uCC/setup.properties");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			try {
+				prop.load(reader);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			pref.setAdmin(prop.getProperty("admin"));
+			pref.setPwd(prop.getProperty("pwd"));
+			pref.setShopIp(prop.getProperty("shopUrl"));
+			pref.setUccIp(prop.getProperty("uccUrl"));
+			pref.setUccPort(prop.getProperty("uccPort"));
+			pref.setWsPort(prop.getProperty("storePort"));
+			pref.setLanguage(prop.getProperty("lang"));
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			PreferencesWindow p = new PreferencesWindow(app, pref);
-			main.addWindow(p);
+			app.getMainWindow().addWindow(p);
+			
 		}
 		
 		if(event.getButton() == app.getLink()) {

@@ -1,11 +1,15 @@
 package org.universAAL.ucc.controller.desktop;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -63,8 +67,8 @@ public class ToolController implements Button.ClickListener,
 	private final static String dir = "tempUsrvFiles";
 	private ServiceReference ref;
 	private BundleContext bc;
-	private UserAccountDB db;
-	private final static String file = "file:///../etc/uCC/preferences.xml";
+//	private UserAccountDB db;
+	private final static String file = "file:///../etc/uCC/setup.properties";
 
 	public ToolController(UccUI app, ToolWindow toolWin) {
 		this.app = app;
@@ -76,9 +80,9 @@ public class ToolController implements Button.ClickListener,
 			f.mkdir();
 		}
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
-		ref = bc.getServiceReference(UserAccountDB.class.getName());
-		db = (UserAccountDB) bc.getService(ref);
-		bc.ungetService(ref);
+//		ref = bc.getServiceReference(UserAccountDB.class.getName());
+//		db = (UserAccountDB) bc.getService(ref);
+//		bc.ungetService(ref);
 	}
 
 	public void buttonClick(ClickEvent event) {
@@ -231,24 +235,53 @@ public class ToolController implements Button.ClickListener,
 	private String createLink() {
 		String url = "";
 		String shop = "";
-		Preferences pref = db.getPreferencesData(file);
-		if (pref.getShopUrl().contains("https")) {
-			shop = pref.getShopUrl().substring(
-					pref.getShopUrl().lastIndexOf("//") + 2);
-		} else if (pref.getShopUrl().contains("http")) {
-			shop = pref.getShopUrl().substring(
-					pref.getShopUrl().lastIndexOf("//") + 1);
+		Preferences pref = new Preferences();
+		Properties prop = new Properties();
+		Reader reader = null;
+		try {
+			reader = new FileReader(file);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		if (!pref.getUsername2().equals("") && !pref.getPassword2().equals("")) {
-			url = "https://" + pref.getUsername2() + ":" + pref.getPassword2()
+		try {
+			prop.load(reader);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pref.setAdmin(prop.getProperty("admin"));
+		pref.setLanguage(prop.getProperty("lang"));
+		pref.setPwd(prop.getProperty("pwd"));
+		pref.setShopIp(prop.getProperty("shopUrl"));
+		pref.setUccIp(prop.getProperty("uccUrl"));
+		pref.setUccPort(prop.getProperty("uccPort"));
+		pref.setWsPort(prop.getProperty("storePort"));
+		shop = pref.getShopIp();
+		try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (pref.getShopIp().contains("https")) {
+			shop = pref.getShopIp().substring(
+					pref.getShopIp().lastIndexOf("//") + 2);
+		} else if (pref.getShopIp().contains("http")) {
+			shop = pref.getShopIp().substring(
+					pref.getShopIp().lastIndexOf("//") + 1);
+		}
+		if (!pref.getAdmin().equals("") && !pref.getPwd().equals("")) {
+			url = "https://" + pref.getAdmin() + ":" + pref.getPwd()
 					+ "@" + shop;
-		} else if (!pref.getUsername().equals("")
-				&& !pref.getPassword().equals("")) {
-			url = "https://" + pref.getUsername() + ":" + pref.getPassword()
+		} else if (!pref.getAdmin().equals("")
+				&& !pref.getPwd().equals("")) {
+			url = "https://" + pref.getAdmin() + ":" + pref.getPwd()
 					+ "@" + shop;
 		} else {
 			url = "http://" + shop;
 		}
+		System.err.println(url);
 		return url;
 	}
 

@@ -1,9 +1,13 @@
 package org.universAAL.ucc.windows;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.osgi.framework.BundleContext;
@@ -68,14 +72,36 @@ public class UccUI extends Application {
 	public void init() {
 		setTheme("editortheme");
 		uccUI = this;
-		BundleContext context = FrameworkUtil.getBundle(getClass())
-				.getBundleContext();
-		ServiceReference ref = context.getServiceReference(UserAccountDB.class
-				.getName());
-		UserAccountDB db = (UserAccountDB) context.getService(ref);
-		if (db.getPreferencesData(file).getLanguage() != null
-				&& !db.getPreferencesData(file).getLanguage().equals("")) {
-			if (db.getPreferencesData(file).getLanguage().equals("de")) {
+//		BundleContext context = FrameworkUtil.getBundle(getClass())
+//				.getBundleContext();
+//		ServiceReference ref = context.getServiceReference(UserAccountDB.class
+//				.getName());
+//		UserAccountDB db = (UserAccountDB) context.getService(ref);
+//		if (db.getPreferencesData(file).getLanguage() != null
+//				&& !db.getPreferencesData(file).getLanguage().equals("")) {
+//			if (db.getPreferencesData(file).getLanguage().equals("de")) {
+//				Locale.setDefault(Locale.GERMAN);
+//			} else {
+//				Locale.setDefault(Locale.ENGLISH);
+//			}
+//		}
+		Properties prop = new Properties();
+		Reader reader = null;
+		try {
+			reader = new FileReader("file:///../etc/uCC/setup.properties");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			prop.load(reader);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String lang = prop.getProperty("lang");
+		if(lang != null && !lang.equals("")) {
+			if(lang.equals("de")) {
 				Locale.setDefault(Locale.GERMAN);
 			} else {
 				Locale.setDefault(Locale.ENGLISH);

@@ -1,6 +1,13 @@
 package org.universAAL.ucc.controller.preferences;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.osgi.framework.BundleContext;
@@ -19,10 +26,11 @@ public class PreferencesController implements ClickListener {
 	private UccUI app;
 	private String base;
 	private ResourceBundle bundle;
-	private UserAccountDB db;
+//	private UserAccountDB db;
 	private Preferences oldPref;
-	private final static String file = System.getenv("systemdrive")
-			+ "/uccDB/preferences.xml";
+//	private final static String file = System.getenv("systemdrive")
+//			+ "/uccDB/preferences.xml";
+	private final static String propFile = "file:///../etc/uCC/setup.properties";
 
 	public PreferencesController(UccUI app, PreferencesWindow win) {
 		base = "resources.ucc";
@@ -31,24 +39,61 @@ public class PreferencesController implements ClickListener {
 		this.win = win;
 		win.getSave().addListener(this);
 		win.getReset().addListener(this);
-		BundleContext bc = FrameworkUtil.getBundle(getClass())
-				.getBundleContext();
-		ServiceReference ref = bc.getServiceReference(UserAccountDB.class
-				.getName());
-		db = (UserAccountDB) bc.getService(ref);
-		bc.ungetService(ref);
-		oldPref = db.getPreferencesData(file);
+//		BundleContext bc = FrameworkUtil.getBundle(getClass())
+//				.getBundleContext();
+//		ServiceReference ref = bc.getServiceReference(UserAccountDB.class
+//				.getName());
+//		db = (UserAccountDB) bc.getService(ref);
+//		bc.ungetService(ref);
+//		oldPref = db.getPreferencesData(file);
+		
+		//Getting preferences from properties file
+		Properties prop = new Properties();
+		Reader reader = null;
+		try {
+			reader = new FileReader(propFile);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			prop.load(reader);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String admin = prop.getProperty("admin");
+		String pwd = prop.getProperty("pwd");
+		String uccIp = prop.getProperty("uccUrl");
+		String storeIp = prop.getProperty("shopUrl");
+		String uccPort = prop.getProperty("uccPort");
+		String storePort = prop.getProperty("storePort");
+		String lang = prop.getProperty("lang");
+		try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		oldPref = new Preferences();
+		oldPref.setAdmin(admin);
+		oldPref.setPwd(pwd);
+		oldPref.setShopIp(storeIp);
+		oldPref.setUccIp(uccIp);
+		oldPref.setUccPort(uccPort);
+		oldPref.setWsPort(storePort);
+		oldPref.setLanguage(lang);
 	}
 
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == win.getSave()) {
 			Preferences pref = new Preferences();
-			pref.setUsername(win.getUserTxt().getValue().toString());
-			pref.setUsername2(win.getUserTxt2().getValue().toString());
-			pref.setPassword(win.getPwdTxt().getValue().toString());
-			pref.setPassword2(win.getPwdTxt2().getValue().toString());
-			pref.setShopUrl(win.getUrlTxt().getValue().toString());
-			pref.setPort(win.getPortTxt().getValue().toString());
+			pref.setAdmin(win.getUserTxt().getValue().toString());
+			pref.setUccIp(win.getUserTxt2().getValue().toString());
+			pref.setPwd(win.getPwdTxt().getValue().toString());
+			pref.setUccPort(win.getUccPortTxt().getValue().toString());
+			pref.setShopIp(win.getUrlTxt().getValue().toString());
+			pref.setWsPort(win.getPortTxt().getValue().toString());
 			if (win.getLangSelect().getValue().toString().equals("German")
 					|| win.getLangSelect().getValue().toString()
 							.equals("Deutsch")) {
@@ -66,15 +111,36 @@ public class PreferencesController implements ClickListener {
 				Locale.setDefault(Locale.ENGLISH);
 			}
 			app.getMainWindow().removeWindow(win);
-			db.saveStoreAccessData(pref, file);
+			Properties prop = new Properties();
+			Writer writer = null;
+			try {
+				writer = new FileWriter(propFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			prop.setProperty("admin", pref.getAdmin());
+			prop.setProperty("pwd", pref.getPwd());
+			prop.setProperty("uccUrl", pref.getUccIp());
+			prop.setProperty("uccPort", pref.getUccPort());
+			prop.setProperty("shopUrl", pref.getShopIp());
+			prop.setProperty("storePort", pref.getWsPort());
+			prop.setProperty("lang", pref.getLanguage());
+			try {
+				prop.store(writer, "");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			db.saveStoreAccessData(pref, file);
 		}
 		if (event.getButton() == win.getReset()) {
-			win.getUserTxt().setValue(oldPref.getUsername());
-			win.getUserTxt2().setValue(oldPref.getUsername2());
-			win.getPwdTxt().setValue(oldPref.getPassword());
-			win.getPwdTxt2().setValue(oldPref.getPassword2());
-			win.getUrlTxt().setValue(oldPref.getShopUrl());
-			win.getPortTxt().setValue(oldPref.getPort());
+			win.getUserTxt().setValue(oldPref.getAdmin());
+			win.getUserTxt2().setValue(oldPref.getUccIp());
+			win.getPwdTxt().setValue(oldPref.getPwd());
+			win.getUccPortTxt().setValue(oldPref.getUccPort());
+			win.getUrlTxt().setValue(oldPref.getShopIp());
+			win.getPortTxt().setValue(oldPref.getWsPort());
 			if (oldPref.getLanguage().equals("de"))
 				win.getLangSelect().setValue(bundle.getString("german"));
 			else

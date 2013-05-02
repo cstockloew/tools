@@ -25,7 +25,7 @@ public class PreferencesWindow extends Window {
 	private TextField portTxt;
 	private TextField urlTxt;
 	private TextField userTxt2;
-	private PasswordField pwdTxt2;
+	private TextField uccPortTxt;
 	private NativeSelect langSelect;
 	private String base;
 	private ResourceBundle bundle;
@@ -47,50 +47,53 @@ public class PreferencesWindow extends Window {
 		vl.setMargin(true);
 
 		// ustore interface access
-		Label header = new Label(bundle.getString("header.pref"),
+		Label header = new Label("<b>"+bundle.getString("login.info.label")+"</b>",
 				Label.CONTENT_XHTML);
 		vl.addComponent(header);
 
-		userTxt = new TextField(bundle.getString("user.label"));
+		userTxt = new TextField(bundle.getString("admin.label"));
 		userTxt.setImmediate(true);
-		userTxt.setValue(pref.getUsername());
+		userTxt.setValue(pref.getAdmin());
 		vl.addComponent(userTxt);
 
 		pwdTxt = new PasswordField(bundle.getString("pwd.label"));
 		pwdTxt.setImmediate(true);
-		pwdTxt.setValue(pref.getPassword());
+		pwdTxt.setValue(pref.getPwd());
 		vl.addComponent(pwdTxt);
 
 		Label sep1 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep1);
-
+		
+		Label sep12 = new Label("<b>"+bundle.getString("header.pref")+"</b>", Label.CONTENT_XHTML);
+		vl.addComponent(sep12);
+		
 		urlTxt = new TextField(bundle.getString("url.label"));
 		urlTxt.setImmediate(true);
-		urlTxt.setValue(pref.getShopUrl());
+		urlTxt.setValue(pref.getShopIp());
 		vl.addComponent(urlTxt);
 
 		portTxt = new TextField(bundle.getString("port.label"));
 		portTxt.setImmediate(true);
-		portTxt.setValue(pref.getPort());
+		portTxt.setValue(pref.getWsPort());
 		vl.addComponent(portTxt);
 
 		Label sep2 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep2);
 
 		// ustore plugin account
-		Label plugLabel = new Label("<b>" + bundle.getString("plugin.label")
+		Label plugLabel = new Label("<b>" + bundle.getString("ucc.access.label")
 				+ "</b>", Label.CONTENT_XHTML);
 		vl.addComponent(plugLabel);
 
-		userTxt2 = new TextField(bundle.getString("user.label"));
+		userTxt2 = new TextField(bundle.getString("ucc.ip.label"));
 		userTxt2.setImmediate(true);
-		userTxt2.setValue(pref.getUsername2());
+		userTxt2.setValue(pref.getUccIp());
 		vl.addComponent(userTxt2);
 
-		pwdTxt2 = new PasswordField(bundle.getString("pwd.label"));
-		pwdTxt2.setImmediate(true);
-		pwdTxt2.setValue(pref.getPassword2());
-		vl.addComponent(pwdTxt2);
+		uccPortTxt = new TextField(bundle.getString("ucc.port.label"));
+		uccPortTxt.setImmediate(true);
+		uccPortTxt.setValue(pref.getUccPort());
+		vl.addComponent(uccPortTxt);
 
 		Label sep3 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep3);
@@ -203,12 +206,13 @@ public class PreferencesWindow extends Window {
 		this.userTxt2 = userTxt2;
 	}
 
-	public PasswordField getPwdTxt2() {
-		return pwdTxt2;
+	public TextField getUccPortTxt() {
+		return uccPortTxt;
 	}
 
-	public void setPwdTxt2(PasswordField pwdTxt2) {
-		this.pwdTxt2 = pwdTxt2;
+	public void setUccPortTxt(TextField uccPortTxt) {
+		this.uccPortTxt = uccPortTxt;
 	}
+
 
 }

@@ -3,6 +3,7 @@ package org.universAAL.ucc.service.manager;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.xml.bind.JAXB;
@@ -58,15 +59,22 @@ public class Activator implements BundleActivator {
 		File temp = new File("file:///../etc/uCC/setup.properties");
 		if(!temp.exists()) {
 			//Setting default values for setup configuration
-			Properties prop = new Properties();
+			Properties prop = new Properties();	
 			prop.setProperty("admin", "admin");
-			prop.setProperty("name", "aal");
 			prop.setProperty("pwd", "uAAL");
 			prop.setProperty("storePort", "9090");
 			prop.setProperty("uccPort", "8080");
-			prop.setProperty("url", "");
+			prop.setProperty("uccUrl", "ucc-universaal.org");
+			prop.setProperty("shopUrl", "srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
+			if(Locale.getDefault() == Locale.GERMAN) {
+				System.err.println(Locale.getDefault());
+				prop.setProperty("lang", "de");
+			} else {
+				prop.setProperty("lang", "en");
+			}
 			Writer in = new FileWriter(new File(confHome, "setup.properties"));
 			prop.store(in, "Setup properties for initial setup of uCC");
+			in.close();
 		}
 		
 		ref = context.getServiceReference(IInstaller.class.getName());
@@ -87,18 +95,17 @@ public class Activator implements BundleActivator {
 		
 		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
 		SensorEventSubscriber sub = SensorEventSubscriber.getInstance(mContext, context);
+		
 //		ServiceReference ref = context.getServiceReference(IEvaluationEventReceiver.class.getName());
 //		eventReceiver = (IEvaluationEventReceiver)context.getService(ref);
 		
 		//Get SessionKey from uStore
 		sessionKey = client.getSessionKey();
-//		sessionKey = client.registerUser();
 		if (sessionKey == null || sessionKey.equals("")) {
 			System.err.println("No Session key when trying to setup connection to uStore");
 
 		} else {
 			System.err.println("WS-ANSWER: " + sessionKey);
-			//When it works uncomment!
 			client.registerUser(sessionKey);
 		}
 		

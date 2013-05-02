@@ -37,11 +37,11 @@ public class UstoreUtil {
 
 	public UstoreUtil() {
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
-		ref = bc.getServiceReference(UserAccountDB.class.getName());
-		db = (UserAccountDB) bc.getService(ref);
-		pref = db.getPreferencesData(System.getenv("systemdrive")
-				+ "/uccDB/preferences.xml");
-		bc.ungetService(ref);
+//		ref = bc.getServiceReference(UserAccountDB.class.getName());
+//		db = (UserAccountDB) bc.getService(ref);
+//		pref = db.getPreferencesData(System.getenv("systemdrive")
+//				+ "/uccDB/preferences.xml");
+//		bc.ungetService(ref);
 		ref = bc.getServiceReference(Setup.class.getName());
 		setup = (Setup)bc.getService(ref);
 		bc.ungetService(ref);
@@ -78,17 +78,8 @@ public class UstoreUtil {
 		String adminPassword = prop.getProperty("pwd");
 		
 		String portNum = prop.getProperty("storePort");
-		String idAddr = prop.getProperty("url");
+		String idAddr = prop.getProperty("uccUrl");
 		
-		//TODO: Delete when have a Dynamic Adress
-		try {
-			idAddr = InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-//		if (adminUserName == null || adminUserName.equals("") || adminPassword == null || adminPassword.equals("")) {
-//			return;
-//		}
 		System.err.println(adminUserName+" "+adminPassword+" "+sessionKey+" "+portNum+ " "+" "+idAddr);
 		try {
 			client.registerDeployManager(sessionKey, adminUserName, adminPassword, idAddr, portNum);
