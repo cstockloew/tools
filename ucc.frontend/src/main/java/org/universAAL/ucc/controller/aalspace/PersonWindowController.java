@@ -222,8 +222,16 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 			date.setDescription(cal.getDescription());
 			DateFormat format = new SimpleDateFormat();
 			if(cal.getCalendar() != null && !cal.getCalendar().equals("")) {
-			Date d = format.parse(cal.getCalendar());
-			date.setValue(d);
+			String dat = cal.getCalendar();
+			Date da = null;
+			if(dat.contains("/")) {
+				format = new SimpleDateFormat("MM/dd/yy H:mm a");
+				da = format.parse(dat);
+			} else {
+				format = new SimpleDateFormat("dd.MM.yy H:mm");
+				da = format.parse(dat);
+			}
+			date.setValue(da);
 			form.addField(cal.getLabel(), date);
 			} else {
 				date.setValue(format.format(new Date()));

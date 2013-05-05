@@ -43,6 +43,8 @@ public class DesktopController implements Button.ClickListener {
 	private String user;
 	private String pwd;
 	private static boolean admin;
+	private static String currentUser;
+	private static String currentPassword;
 
 	public DesktopController(UccUI app) {
 		base = "resources.ucc";
@@ -55,6 +57,8 @@ public class DesktopController implements Button.ClickListener {
 //				.getName());
 //		db = (UserAccountDB) context.getService(ref);
 //		context.ungetService(ref);
+		currentUser = "";
+		currentPassword = "";
 		client = new UstoreUtil();
 		Properties prop = new Properties();
 		Reader reader = null;
@@ -156,6 +160,8 @@ public class DesktopController implements Button.ClickListener {
 				for(UserAccountInfo u : users) {
 					if(u.getName().equals(app.getUser().getValue()) && u.getPassword().equals(app.getPwd().getValue())) {
 						userLogin();
+						currentUser = app.getUser().getValue().toString();
+						currentPassword = app.getPwd().getValue().toString();
 						in = true;
 					}
 				}
@@ -232,5 +238,23 @@ public class DesktopController implements Button.ClickListener {
 		web.startListening();
 		
 	}
+
+	public static String getCurrentUser() {
+		return currentUser;
+	}
+
+	public static String getCurrentPassword() {
+		return currentPassword;
+	}
+
+	public static void setCurrentUser(String currentUser) {
+		DesktopController.currentUser = currentUser;
+	}
+
+	public static void setCurrentPassword(String currentPassword) {
+		DesktopController.currentPassword = currentPassword;
+	}
+	
+	
 
 }

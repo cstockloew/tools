@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
@@ -259,7 +260,15 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 			DateFormat format = new SimpleDateFormat();
 			if(cal.getCalendar() != null && !cal.getCalendar().equals("")) {
 			String d = cal.getCalendar();
-			date.setValue(d);
+			Date da = null;
+			if(d.contains("/")) {
+				format = new SimpleDateFormat("MM/dd/yy H:mm a");
+				da = format.parse(d);
+			} else {
+				format = new SimpleDateFormat("dd.MM.yy H:mm");
+				da = format.parse(d);
+			}
+			date.setValue(da);
 			date.setResolution(PopupDateField.RESOLUTION_MIN);
 			date.setImmediate(true);
 			date.setInputPrompt(cal.getLabel());

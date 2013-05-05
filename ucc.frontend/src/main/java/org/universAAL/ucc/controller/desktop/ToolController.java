@@ -147,6 +147,8 @@ public class ToolController implements Button.ClickListener,
 			// app.getMainWindow().removeComponent((app.getVs()));
 			// app.getMainWindow().removeWindow(ToolWindow.getTooWindowInstance(app));
 			// app.getMainWindow().setContent(app.getVLog());
+			DesktopController.setCurrentPassword("");
+			DesktopController.setCurrentUser("");
 			app.close();
 			// app.createLogin();
 		}
@@ -271,19 +273,16 @@ public class ToolController implements Button.ClickListener,
 			shop = pref.getShopIp().substring(
 					pref.getShopIp().lastIndexOf("//") + 1);
 		}
-		if (!pref.getAdmin().equals("") && !pref.getPwd().equals("")) {
-			url = "https://" + pref.getAdmin() + ":" + pref.getPwd()
+		if (!DesktopController.getCurrentUser().equals("") && !DesktopController.getCurrentPassword().equals("")) {
+			url = "https://" + DesktopController.getCurrentUser() + ":" + DesktopController.getCurrentPassword()
 					+ "@" + shop;
-		} else if (!pref.getAdmin().equals("")
-				&& !pref.getPwd().equals("")) {
-			url = "https://" + pref.getAdmin() + ":" + pref.getPwd()
-					+ "@" + shop;
-		} else {
+		}  else {
 			url = "http://" + shop;
 		}
 		System.err.println(url);
 		return url;
 	}
+	
 
 	public void uploadFailed(FailedEvent event) {
 		app.getMainWindow().removeWindow(installWindow);

@@ -64,7 +64,7 @@ public class Activator implements BundleActivator {
 			prop.setProperty("pwd", "uAAL");
 			prop.setProperty("storePort", "9090");
 			prop.setProperty("uccPort", "8080");
-			prop.setProperty("uccUrl", "ucc-universaal.org");
+			prop.setProperty("uccUrl", "ucc-universaal.no-ip.org/deploymanager?wsdl");
 			prop.setProperty("shopUrl", "srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
 			if(Locale.getDefault() == Locale.GERMAN) {
 				System.err.println(Locale.getDefault());
@@ -75,6 +75,11 @@ public class Activator implements BundleActivator {
 			Writer in = new FileWriter(new File(confHome, "setup.properties"));
 			prop.store(in, "Setup properties for initial setup of uCC");
 			in.close();
+		}
+		
+		File file = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+		if(!file.exists()) {
+			file.mkdir();
 		}
 		
 		ref = context.getServiceReference(IInstaller.class.getName());
