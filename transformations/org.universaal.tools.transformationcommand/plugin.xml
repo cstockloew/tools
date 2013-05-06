@@ -28,6 +28,11 @@
             id="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
             name="Transform Java ontology to OWL RDF/XML">
       </command>
+      <command
+            categoryId="org.universaal.tools.transformation.category"
+            id="org.universaal.tools.transformationcommand.validateOntUML"
+            name="Validate UML ontology">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -70,6 +75,10 @@
             commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
             class="org.universaal.tools.transformationcommand.handlers.TransformOntJava2OWL">
       </handler>
+      <handler
+            class="org.universaal.tools.transformationcommand.handlers.ValidateOntUML"
+            commandId="org.universaal.tools.transformationcommand.validateOntUML">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -99,11 +108,21 @@
                id="org.universaal.tools.transformationcommand.menu.ontJava2UML"
                style="push">
          </command>
+         <command
+               commandId="org.universaal.tools.transformationcommand.validateOntUML"
+               icon="icons/test.png"
+               id="org.universaal.tools.transformationcommand.validateOntUML"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
          <menu
                label="AAL Studio">
+            <command
+                  commandId="org.universaal.tools.transformationcommand.validateOntUML"
+                  style="push">
+            </command>
             <command
                   commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
                   style="push">
