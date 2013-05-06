@@ -48,7 +48,7 @@
          </command>
          <command
                commandId="org.universaal.tools.uploadopensourceplugin.openemail"
-               icon="icons/question.png"
+               icon="icons/question-16.png"
                id="org.universaal.tools.uploadopensourceplugin.menus.generateemail"
                style="push">
          </command>
