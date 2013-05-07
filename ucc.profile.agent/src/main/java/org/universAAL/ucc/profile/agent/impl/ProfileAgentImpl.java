@@ -411,16 +411,53 @@ public class ProfileAgentImpl implements ProfileAgent {
 		return genericAdd(space, Path.at(ProfilingService.PROP_CONTROLS).path);
 	}
 
-	public String getSpace(AALSpace space) {
-		return genericGet(space, Path.at(ProfilingService.PROP_CONTROLS).path);
+	public AALSpace getSpace(AALSpace space) {
+		String[] path = Path.at(ProfilingService.PROP_CONTROLS).path;
+		ServiceResponse resp = caller.call(UtilEditor.requestGet(
+				ProfilingService.MY_URI, path, Arg.in(space),
+				Arg.out(OUTPUT)));
+		if (resp.getCallStatus() == CallStatus.succeeded) {
+		    Object out=getReturnValue(resp.getOutputs(),OUTPUT);
+		    if (out != null) {
+		    	System.out.println(out.toString());
+		    	return (AALSpace)out;
+		    } else {
+		    	System.out.println("NOTHING!");
+		    	return null;
+		    }
+		}else{
+		   System.out.println("Other results: " + resp.getCallStatus().name());
+		    return null;
+		}	  
 	}
 
-	public String getSpaces() {
+	public List<AALSpace> getSpaces() {
 		Request req=new Request(new ProfilingService(null));
 		req.put(Path.at(ProfilingService.PROP_CONTROLS), Arg.out(OUTPUT));
 		req.put(Path.at(ProfilingService.PROP_CONTROLS), Arg.type(AALSpace.MY_URI)); //This only works if type is set as instance restriction in serv
 		ServiceResponse resp=caller.call(req);
-		return getListOfResults(resp);
+		if (resp.getCallStatus() == CallStatus.succeeded) {
+		    Object out=getReturnValue(resp.getOutputs(),OUTPUT);
+		    if (out != null) {
+		    	System.out.println(out.toString());
+		    	// get each device using the uri
+		    	List<AALSpace> spaces = new ArrayList();
+		    	List outl = (List)out;
+		    	Object ur;
+		    	for (int i=0; i<outl.size(); i++) {
+		    		ur = (Object) outl.get(i);
+		    		AALSpace u = getSpace(new AALSpace(ur.toString()));
+		    		spaces.add(u);
+		    	}			        	 
+		    	return spaces;
+		    } else {
+		    	System.out.println("NOTHING!");
+		    	return null;
+		    }
+		}else{
+			System.out.println("Other results: " + resp.getCallStatus().name());
+			return null;
+		}
 	}
 	
 	public String addSpaceProfile(AALSpaceProfile aalSpaceProfile) {

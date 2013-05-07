@@ -173,8 +173,8 @@ public interface ProfileAgent {
   /** Used by uCC ****/
   
   public String addSpace(AALSpace space);  
-  public String getSpace(AALSpace space);
-  public String getSpaces();
+  public AALSpace getSpace(AALSpace space);
+  public List<AALSpace> getSpaces();
 
   //public String getDevice(Device device);
   public String addDevice(Device device, AALSpace space);

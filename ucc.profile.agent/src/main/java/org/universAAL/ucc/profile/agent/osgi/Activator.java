@@ -68,8 +68,21 @@ public class Activator implements BundleActivator {
 	  Device device2 = new Device(device2URI);
 	  
 	    /*test add/get space*/
-	    System.out.println("[TEST] adding AAL space ..." + space.getURI());
-	    System.out.println("Result is: " + agent.addSpace(space));
+	  	System.out.println("[TEST] getting all AAL spaces...");
+	  	List<AALSpace> spaces = agent.getSpaces();
+	  	if (spaces==null) {
+	  		// TODO: create the space with appropriate properties from MW
+	  		AALSpace myspace = new AALSpace(spaceURI);
+	  		agent.addSpace(myspace);	  	
+	  		spaces = agent.getSpaces();
+	  	}
+	  	System.out.println("Result is: " + spaces);
+	  	for (int i=0; i<spaces.size(); i++) {
+	  		System.out.println("[TEST] has a space: " + spaces.get(i).getURI());
+	  	}
+	  		    
+	    //System.out.println("[TEST] adding AAL space ..." + space.getURI());
+	    //System.out.println("Result is: " + agent.addSpace(space));
 	    System.out.println("[TEST] getting AAL space..." + space.getURI());
 	    System.out.println("Result is: " + agent.getSpace(space));
 	    System.out.println("[TEST] getting all AAL spaces...");
@@ -102,7 +115,7 @@ public class Activator implements BundleActivator {
 	    Object dret2 = agent.getDevice(device2URI);
 	    System.out.println("[TEST] the result is: " + dret2);
 	    System.out.println("[TEST] adding device 1 to space..." + device1.getURI() + " " + space.getURI());
-	    System.out.println("Result is: " + agent.addDeviceToSpace(device1, space));
+	    System.out.println("Result is: " + agent.addDeviceToSpace(device1, space)); 
 	    //System.out.println("[TEST] adding device 2 to space..." + device2.getURI() + " " + space.getURI());
 	    //System.out.println("Result is: " + agent.addDeviceToSpace(device2, space)); 
 	    /** This does not work !!!!**/
