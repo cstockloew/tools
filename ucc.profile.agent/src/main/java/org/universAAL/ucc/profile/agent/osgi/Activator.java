@@ -45,10 +45,10 @@ public class Activator implements BundleActivator {
     this.context.registerService(ProfileAgent.class.getName(), new ProfileAgentImpl(moduleContext), null);
 
     log.info("start testing...");
-    test();
-    //log.info("Test Space server....");
-    //System.out.println("Test Space server....");
-    //testSpaceServer();  
+    //test();
+    log.info("Test Space server....");
+    System.out.println("Test Space server....");
+    testSpaceServer();  
   }
 
 
@@ -62,19 +62,19 @@ public class Activator implements BundleActivator {
 	  
 	  
 	  AALSpace space = new AALSpace(spaceURI);
-	  AALSpaceProfile aalSpaceProfile = new AALSpaceProfile(aalSpaceProfileURI);
+	  //AALSpaceProfile aalSpaceProfile = new AALSpaceProfile(aalSpaceProfileURI);
 	  
 	  Device device1 = new Device(device1URI);
 	  Device device2 = new Device(device2URI);
 	  
 	    /*test add/get space*/
-/*	    System.out.println("[TEST] adding AAL space ..." + space.getURI());
+	    System.out.println("[TEST] adding AAL space ..." + space.getURI());
 	    System.out.println("Result is: " + agent.addSpace(space));
 	    System.out.println("[TEST] getting AAL space..." + space.getURI());
 	    System.out.println("Result is: " + agent.getSpace(space));
 	    System.out.println("[TEST] getting all AAL spaces...");
 	    System.out.println("Result is: " + agent.getSpaces());
-*/	    
+	    
 	    
 	    /*test add/get space profile*/
 /*	    System.out.println("[TEST] adding aalspace profile..." + aalSpaceProfile.getURI());
@@ -85,16 +85,26 @@ public class Activator implements BundleActivator {
 	    /*test add space profile to a space */
 	    
 	    /*test add/get devices*/
-/*	    System.out.println("[TEST] adding device 1..." + device1.getURI());
+	    System.out.println("[TEST] adding device 1..." + device1.getURI());
 	    System.out.println("Result is: " + agent.addDevice(device1));
-	    System.out.println("[TEST] adding device 2..." + device2.getURI());
-	    System.out.println("Result is: " + agent.addDevice(device2));
-	    System.out.println("[TEST] getting device 1..." + device1.getURI());
-	    System.out.println("Result is: " + agent.getDevice(device1));
+	    System.out.println("[TEST] adding device 2 to space..." + device2.getURI());
+	    System.out.println("Result is: " + agent.addDevice(device2, space));
+	    System.out.println("[TEST] getting device 2..." + device2.getURI());
+	    Object dret = agent.getDevice(device2URI);
+	    if (dret instanceof Device)
+	    	System.out.println("Result is a device: " + device2URI);
+	    else System.out.println("Result is not a device!");
+	    System.out.println("[TEST] updating device 2..." + device2.getURI());
+	    System.out.println("Result is: " + agent.updateDevice(device2));
+	    System.out.println("[TEST] deleting device 2..." + device2.getURI());
+	    System.out.println("Result is: " + agent.deleteDevice(device2URI));
+	    System.out.println("[TEST] getting device 2..." + device2.getURI());
+	    Object dret2 = agent.getDevice(device2URI);
+	    System.out.println("[TEST] the result is: " + dret2);
 	    System.out.println("[TEST] adding device 1 to space..." + device1.getURI() + " " + space.getURI());
-	    System.out.println("Result is: " + agent.addDevicesToSpace(space, device1));
-	    System.out.println("[TEST] adding device 2 to space..." + device2.getURI() + " " + space.getURI());
-	    System.out.println("Result is: " + agent.addDevicesToSpace(space, device2)); */
+	    System.out.println("Result is: " + agent.addDeviceToSpace(device1, space));
+	    //System.out.println("[TEST] adding device 2 to space..." + device2.getURI() + " " + space.getURI());
+	    //System.out.println("Result is: " + agent.addDeviceToSpace(device2, space)); 
 	    /** This does not work !!!!**/
 /*	    System.out.println("[TEST] getting devices of space..." + space.getURI());
 	    System.out.println("Result is: " + agent.getDevicesOfSpace(space)); */

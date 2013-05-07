@@ -167,26 +167,25 @@ public interface ProfileAgent {
   /************* The following APIs use Space server  ***********************/
   
   /** For testing ***/
-  public String addSpace(AALSpace space);  
-  public String getSpace(AALSpace space);
   
   public String addSpaceProfile(AALSpaceProfile aalSpaceProfile);
   
   /** Used by uCC ****/
   
+  public String addSpace(AALSpace space);  
+  public String getSpace(AALSpace space);
+  public String getSpaces();
+
   //public String getDevice(Device device);
-  public String addDevice(Device device);
+  public String addDevice(Device device, AALSpace space);
   public Device getDevice(String uri);
-  public boolean updateDevice(String uri);
+  public boolean updateDevice(Device device);
   public boolean deleteDevice(String uri);
-  public List<Device>getAllDevices();
+  public List<Device>getAllDevices(AALSpace space);
   
 //TODO: check which methods below are really needed for uCC
-  public String getSpaces();
-  public String getSpaceProfile(AALSpaceProfile aalSpaceProfile);
   
-  public String addDevicesToSpace(AALSpace aalSpace, Device dev);  
-  public String getDevicesOfSpace(AALSpace aalSpace);
+  public String getSpaceProfile(AALSpaceProfile aalSpaceProfile);
   
   public String addService(AALService aalService);
   public String getService(AALService aalService);

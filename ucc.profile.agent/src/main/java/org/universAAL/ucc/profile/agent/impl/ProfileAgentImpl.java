@@ -434,6 +434,13 @@ public class ProfileAgentImpl implements ProfileAgent {
 	public String addDevice(Device device) {
 		return genericAdd(device, Path.at(ProfilingService.PROP_CONTROLS).to(Profilable.PROP_HAS_PROFILE).to(AALSpaceProfile.PROP_INSTALLED_HARDWARE).path);
 	}
+	
+	public String addDevice(Device device, AALSpace space) {
+		String result = addDevice(device);
+		if (result.equals("call_succeeded"))
+			return addDeviceToSpace(device, space);
+		else return "Add device fail!";
+	}
 
 	public Device getDevice(String uri) {
 		Device device;
@@ -458,25 +465,60 @@ public class ProfileAgentImpl implements ProfileAgent {
 		
 	}
 
-	public boolean updateDevice(String uri) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateDevice(Device device) {
+		String result = genericChange(device, Path.at(ProfilingService.PROP_CONTROLS).to(Profilable.PROP_HAS_PROFILE).to(AALSpaceProfile.PROP_INSTALLED_HARDWARE).path);
+		if (result.equals("call_succeeded"))
+			return true;
+		else return false;
 	}
 
 	public boolean deleteDevice(String uri) {
-		// TODO Auto-generated method stub
-		return false;
+		String result = genericRemove(new Device(uri), Path.at(ProfilingService.PROP_CONTROLS).to(Profilable.PROP_HAS_PROFILE).to(AALSpaceProfile.PROP_INSTALLED_HARDWARE).path);
+		if (result.equals("call_succeeded"))
+			return true;
+		else return false;
+	}
+	
+	// Has not been tested - wait for space server!!!
+	public List<Device> getAllDevices(AALSpace space) {
+		ServiceRequest req=new ServiceRequest(new ProfilingService(),null);
+		req.addValueFilter(new String[]{ProfilingService.PROP_CONTROLS}, space);
+		req.addTypeFilter(new String[]{ProfilingService.PROP_CONTROLS}, AALSpace.MY_URI);
+		req.addRequiredOutput(OUTPUT, new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE,AALSpaceProfile.PROP_INSTALLED_HARDWARE});
+		req.addTypeFilter(new String[]{ProfilingService.PROP_CONTROLS,Profilable.PROP_HAS_PROFILE,AALSpaceProfile.PROP_INSTALLED_HARDWARE}, Device.MY_URI);
+		ServiceResponse resp=caller.call(req);
+		if (resp.getCallStatus() == CallStatus.succeeded) {
+		    Object out=getReturnValue(resp.getOutputs(),OUTPUT_GETUSERS);
+		    if (out != null) {
+		    	System.out.println(out.toString());			    	
+		    	// get each device using the uri
+		    	List<Device> devices = new ArrayList();
+		    	List outl = (List)out;
+		    	Object ur;
+		    	//System.out.println("Profile Agent: the output size: " + outl.size());
+		    	for (int i=0; i<outl.size(); i++) {
+		    		ur = (Object) outl.get(i);
+		    		//System.out.println("Has a device " + ur);			    		
+		    		Device u = getDevice(ur.toString());
+		    		//System.out.println("Profile Agent: get an user: " + u.getURI());
+		    		devices.add(u);
+		    	}			        	 
+		    	return devices;
+		    } else {
+		    	System.out.println("NOTHING!");
+		    	return null;
+		    }
+		}else{
+		    System.out.println("Other results: " + resp.getCallStatus().name());
+		    return null;
+		}
 	}
 
-	public List<Device> getAllDevices() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	public String getSpaceProfile(AALSpaceProfile aalSpaceProfile) {
 		return genericGet(aalSpaceProfile, Path.at(ProfilingService.PROP_CONTROLS).to(Profilable.PROP_HAS_PROFILE).path);
 	}
 
-	public String addDevicesToSpace(AALSpace aalSpace, Device dev) {
+	public String addDeviceToSpace(Device dev, AALSpace aalSpace) {
 		Request req=new Request(new ProfilingService(null));
 		req.put(Path.at(ProfilingService.PROP_CONTROLS), Arg.in(aalSpace));
 		req.put(Path.at(ProfilingService.PROP_CONTROLS), Arg.type(AALSpace.MY_URI));
@@ -623,6 +665,18 @@ public class ProfileAgentImpl implements ProfileAgent {
 		return getListOfResults(resp);
 	}
 	
+    private String genericChange(Resource res, String[] path) {
+    	ServiceResponse resp = caller.call(UtilEditor.requestChange(
+    		ProfilingService.MY_URI, path, Arg.change(res)));
+		return resp.getCallStatus().name();
+    }
+	
+    private String genericRemove(Resource res, String[] path) {
+    	ServiceResponse resp = caller.call(UtilEditor.requestRemove(
+			ProfilingService.MY_URI, path, Arg.remove(res)));
+		return resp.getCallStatus().name();
+    }
+    
 	private String getListOfResults(ServiceResponse resp){
 		if (resp.getCallStatus() == CallStatus.succeeded) {
 		    Object out=getReturnValue(resp.getOutputs(),OUTPUT);
