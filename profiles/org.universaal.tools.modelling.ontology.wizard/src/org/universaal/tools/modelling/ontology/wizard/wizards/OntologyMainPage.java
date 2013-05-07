@@ -20,6 +20,11 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Combo;
+import org.universaal.tools.modelling.ontology.wizard.versions.OntologyProjectGeneratorFactory;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.UpdateListStrategy;
 
 public class OntologyMainPage extends WizardPage {
 	private Binding projectNameBinding;
@@ -64,6 +69,13 @@ public class OntologyMainPage extends WizardPage {
 		txtParentPackage = new Text(container, SWT.BORDER);
 		txtParentPackage.setText("parentPackageName");
 		txtParentPackage.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		lblMiddlewareVersion = new Label(container, SWT.NONE);
+		lblMiddlewareVersion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblMiddlewareVersion.setText("Middleware version");
+		
+		comboMiddlewareVersion = new Combo(container, SWT.NONE);
+		comboMiddlewareVersion.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label label = new Label(container, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
@@ -169,6 +181,8 @@ public class OntologyMainPage extends WizardPage {
 	private Label lblJavaPackageName;
 	private Text txtJavaPackageName;
 	private Button btnGenerateJavaToOWL;
+	private Combo comboMiddlewareVersion;
+	private Label lblMiddlewareVersion;
 	
 	public void setModel(OntologyProjectModel model) {
 		this.model = model;
@@ -227,6 +241,14 @@ public class OntologyMainPage extends WizardPage {
 		IObservableValue btnGenerateJavaToOWLObserveSelectionObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeSelection(btnGenerateJavaToOWL));
 		IObservableValue modelbtnGenerateJavaToOWLObserveValue = BeansObservables.observeValue(model, "generateJavaToOWL");
 		bindingContext.bindValue(btnGenerateJavaToOWLObserveSelectionObserveWidget, modelbtnGenerateJavaToOWLObserveValue, null, null);
+		//
+		IObservableList comboMiddlewareVersionObserveItemsObserveListWidget = SWTObservables.observeItems(comboMiddlewareVersion);
+		IObservableList modelMiddlewareVersionsObserveList = BeansObservables.observeList(Realm.getDefault(), model, "middlewareVersions");
+		bindingContext.bindList(comboMiddlewareVersionObserveItemsObserveListWidget, modelMiddlewareVersionsObserveList, null, null);
+		//
+		IObservableValue comboMiddlewareVersionObserveSingleSelectionIndexObserveWidget = SWTObservables.observeDelayedValue(100, SWTObservables.observeSingleSelectionIndex(comboMiddlewareVersion));
+		IObservableValue modelMwVersionObserveValue = BeansObservables.observeValue(model, "mwVersion");
+		bindingContext.bindValue(comboMiddlewareVersionObserveSingleSelectionIndexObserveWidget, modelMwVersionObserveValue, null, null);
 		//
 		return bindingContext;
 	}

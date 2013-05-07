@@ -147,11 +147,20 @@ public class OntologyProjectGeneratorMW110 implements IOntologyProjectGenerator 
 	public Repository[] getRepositories() {
 		return repositories;
 	}
+	
+	/**
+	 * Get the subdirectory name within the model folder to copy template UML files from for this version
+	 * @return The simple subdirectory name (not full path)
+	 */
+	protected String getModelVersionDirectory() {
+		return "1.0.0";
+	}
+	
 
 	@Override
 	public void createUMLArtefacts(OntologyProjectModel model) {
 		// TODO Auto-generated method stub
-		URI fromUri = URI.createPlatformPluginURI("/" + Activator.PLUGIN_ID + "/" + MODEL_DIR + "/" + DI_FILE, true);
+		URI fromUri = URI.createPlatformPluginURI("/" + Activator.PLUGIN_ID + "/" + MODEL_DIR + "/" + getModelVersionDirectory() + "/" + DI_FILE, true);
 		OntologyUMLArtefactFactory.createUMLArtefacts(model, fromUri);
 	}
 

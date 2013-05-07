@@ -14,7 +14,7 @@ public class OntologyProjectGeneratorMW120 extends OntologyProjectGeneratorMW110
 		dep("org.apache.felix", "org.osgi.core", "1.0.1"),
 		dep("org.universAAL.middleware", "mw.data.serialization.osgi", "1.2.0"),
 		dep("org.universAAL.middleware", "mw.data.representation.osgi", "1.2.0"),
-		dep("org.universAAL.middleware", "mw.bus.mode.osgil", "1.2.0"),
+		dep("org.universAAL.middleware", "mw.bus.model.osgi", "1.2.0"),
 		dep("org.universAAL.middleware", "mw.container.xfaces.osgi", "1.2.0"),
 		dep("org.universAAL.middleware", "mw.container.osgi","1.2.0" ),
 		dep("org.universAAL.middleware", "mw.bus.service.osgi","1.2.0" ),

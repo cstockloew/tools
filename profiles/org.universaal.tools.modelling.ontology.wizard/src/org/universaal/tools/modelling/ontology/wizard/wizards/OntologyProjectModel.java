@@ -3,10 +3,12 @@ package org.universaal.tools.modelling.ontology.wizard.wizards;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.maven.model.Model;
 import org.universaal.tools.modelling.ontology.wizard.versions.IOntologyProjectGenerator;
+import org.universaal.tools.modelling.ontology.wizard.versions.OntologyProjectGeneratorFactory;
 
 public class OntologyProjectModel  {
 	public static final String DEFAULT_ONTOLOGY_NAME = "MyOntology";
@@ -27,6 +29,27 @@ public class OntologyProjectModel  {
 	
 	int mwVersion = IOntologyProjectGenerator.VER_130; // TODO consider to change this version
 
+	public int getMwVersion() {
+		return mwVersion;
+	}
+
+	public void setMwVersion(int mwVersion) {
+		if (this.mwVersion != mwVersion) {		
+			support.firePropertyChange("mwVersion", this.mwVersion, this.mwVersion = mwVersion);
+		}
+	}
+
+	
+	List<String> middlewareVersions;
+	
+	public List<String> getMiddlewareVersions() {
+		if (middlewareVersions == null)
+			middlewareVersions = Arrays.asList(OntologyProjectGeneratorFactory.getAllVersonNames());
+		return middlewareVersions;
+		
+	}
+	
+	
 	List<String> importedOntologies = new ArrayList<String>();	
 	Model mavenModel = new Model();
 
