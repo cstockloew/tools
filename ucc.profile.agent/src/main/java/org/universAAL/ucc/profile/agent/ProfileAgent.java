@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
+import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.ontology.phThing.Device;
 import org.universAAL.ontology.profile.AALService;
 import org.universAAL.ontology.profile.AALServiceProfile;
@@ -29,8 +30,12 @@ public interface ProfileAgent {
 	/*********** The following APIs use Profiling server ***************/
 
 	public String addUser(User user);
+	//public Resource getUser(User user);	
+	public User getUser(String uri);
+	public List<User> getAllUsers();
+	public boolean updateUser(User user);
+	public boolean deleteUser(String uri);
 	
-	public User getUser(User user);
 	
   /**
    * Returns an {@link org.universAAL.ontology.profile.UserProfile} object from the
@@ -40,7 +45,7 @@ public interface ProfileAgent {
    * 
    * @return the user profile of the user
    */
-  public UserProfile getUserProfile(User user);
+  public String getUserProfile(User user);
 
   /**
    * Stores the new {@link org.universAAL.ontology.profile.UserProfile} for the user with userID.
@@ -82,9 +87,9 @@ public interface ProfileAgent {
    * @return the user subprofiles of the user
    */
   //TODO: change to List<SubProfile>?
-  public List<SubProfile> getUserSubprofiles(User user);
+  public String getUserSubprofiles(User user);
   
-  public List<SubProfile> getUserSubprofiles(UserProfile profile);
+  public List getUserSubprofiles(UserProfile profile);
   
   /**
    * Stores the new {@link org.universAAL.ontology.profile.SubProfile} for the user with userID.
@@ -167,12 +172,16 @@ public interface ProfileAgent {
   
   public String addSpaceProfile(AALSpaceProfile aalSpaceProfile);
   
-  public String getDevice(Device device);
-  public String addDevice(Device device);
-  
   /** Used by uCC ****/
-  // TODO: check which methods are really needed for uCC
   
+  //public String getDevice(Device device);
+  public String addDevice(Device device);
+  public Device getDevice(String uri);
+  public boolean updateDevice(String uri);
+  public boolean deleteDevice(String uri);
+  public List<Device>getAllDevices();
+  
+//TODO: check which methods below are really needed for uCC
   public String getSpaces();
   public String getSpaceProfile(AALSpaceProfile aalSpaceProfile);
   
@@ -197,13 +206,6 @@ public interface ProfileAgent {
   public String getHROfServ(AALService aalService);
   public String getHWOfServ(AALService aalService);
   public String getAppOfServ(AALService aalService); 
-  
-  /**
-   * Added by Nicole: 28.04.2013
-   * Is implemted by Shanshan, but not in ProfileAgent Interface defined
-   */
-  public String addSubProfile(SubProfile profile);
-  public String addUserProfile(UserProfile profile);
   
   /************* APIs for uCC/uStore Web services **********************/
   public String getAALSpaceProfile();
