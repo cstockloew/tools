@@ -64,4 +64,5 @@ public class TransformServiceModelEMF2Java extends TransformationHandler {
 		// TODO Auto-generated method stub
 		return SOURCE_FILE_SUFFIX;
 	}
+		
 }

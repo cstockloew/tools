@@ -18,19 +18,54 @@
  */
 package org.universaal.tools.transformationcommand.handlers;
 
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.window.Window;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.transformationcommand.activator.Activator;
 import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
 
 public class TransformOntUML2Java extends TransformationHandler {
-	static final String TRANSFORMATION_FILENAME = "transformations/ontUML2JavaV2.m2t";
+	//static final String TRANSFORMATION_FILENAME = "transformations/ontUML2JavaV2.m2t";
+	static final String TRANSFORMATION_FILENAME = "transformations/OntologyUML2Java";
 	static final String THIS_BUNDLE_NAME = Activator.PLUGIN_ID;
 	private static final String SOURCE_FILE_SUFFIX = ".uml";
 
 	public TransformOntUML2Java() {
-		setFileAndBundleName(TRANSFORMATION_FILENAME, THIS_BUNDLE_NAME);
+		setFileAndBundleName(TRANSFORMATION_FILENAME + "_1_3_0.m2t", THIS_BUNDLE_NAME);
 	}
-
+		
+	@Override
+	public void doTransform(IFile inputFile, ExecutionEvent event) {
+		IWorkbenchWindow window;
+		try {
+			window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+			if (window != null) {
+				ElementListSelectionDialog dialog = 
+						  new ElementListSelectionDialog(window.getShell(), new LabelProvider());
+						dialog.setElements(new String[] { "1_1_0", "1_2_0", "1_3_0" , "2_0_0" });
+						dialog.setTitle("Please select middleware version to transform to:");
+						// User pressed cancel
+						if (dialog.open() != Window.OK) {
+						    return;
+						}
+						Object[] result = dialog.getResult();
+						if (result.length == 1) {
+							setFileAndBundleName(TRANSFORMATION_FILENAME + "_" + (String)result[0] + ".m2t", THIS_BUNDLE_NAME);
+							super.doTransform(inputFile, event);
+						}
+				}
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@Override
 	protected String getRootDirectoryFromPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();

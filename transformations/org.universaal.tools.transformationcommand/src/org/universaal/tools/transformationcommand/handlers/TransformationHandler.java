@@ -85,8 +85,6 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 
 	}	
 
-
-
 	/**
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.
@@ -171,6 +169,20 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		}
 
 		ParserUtil parserUtil = new ParserUtil();
+		
+		// Set path to find any imports of transformation, assuming they are located in same folder as the initial transformation 
+		IPath path2 = new Path(transformationFileName).removeLastSegments(1);
+		URL l2 = FileLocator.find(Platform.getBundle(thisBundleName), path2, null);
+		try {
+			l2 = FileLocator.toFileURL(l2);
+			parserUtil.setCompilePath(l2.getPath());
+			System.out.println("Set transformation path to " + l2.getPath());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 		ExecutionManager execMgr = ExecutionManager.getExecutionManager();       
 		//
 		// The parserutil parses and sets the input transformation model

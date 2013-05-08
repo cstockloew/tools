@@ -5,7 +5,7 @@
  * description: 
  */
 
-texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
+texttransformation OntologyUML2Java_1_1_0 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 
 
 /**
@@ -122,7 +122,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
 
 	StdOut.println("Handling activator of :" + self.name) 
    	self.generateActivator(ontologyNameList)
-
+ 
 	//StdOut.println("Generating the POM file")
 	//create the POM file for the project
 	//self.generatePOMFile() 
@@ -159,7 +159,7 @@ texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0
  	 		}
  	}
  
-	uml.Package::generateActivator(ontNameList:Hashtable) {
+	uml.Model::generateActivator(ontNameList:Hashtable) {
 		// First, find package name for activator
 		var mainPacakageName:String = " "
 		self.ownedMember -> forEach( p:uml.Package ) {

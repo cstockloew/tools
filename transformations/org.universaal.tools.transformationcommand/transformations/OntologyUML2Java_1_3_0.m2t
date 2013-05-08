@@ -1,0 +1,17 @@
+/**
+ * transformation Ontology UML 2 Java transformation for universAAL
+ * date: 8/5/2013
+ * author: Erlend Stav, Ståle Walderhaug
+ * description: 
+ */
+
+import "OntologyUML2Java_1_2_0.m2t"
+
+texttransformation OntologyUML2Java_1_3_0 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") extends OntologyUML2Java_1_2_0 {
+
+ 	uml.Package::processOntologyPackage() {
+		super.processOntologyPackage()
+ 	}
+
+}
+

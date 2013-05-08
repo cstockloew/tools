@@ -1,0 +1,78 @@
+	/**
+ * transformation Ontology UML 2 Java transformation for universAAL
+ * date: 28/6/2011
+ * author: Erlend Stav, StŒle Walderhaug
+ * description: 
+ */
+
+import "OntologyUML2Java_1_3_0.m2t"
+
+texttransformation OntologyUML2JavaV2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") extends OntologyUML2Java_1_3_0 {
+
+	uml.Model::generateActivator(ontNameList:Hashtable) {
+	  	StdOut.println("Activity generator for 2.0")
+	  
+		// First, find package name for activator
+		var mainPacakageName:String = " "
+		self.ownedMember -> forEach( p:uml.Package ) {
+			mainPacakageName = p.name.substring(0, p.name.lastIndexOf("."))
+			//break	
+		}           
+				
+ 		file( javaBasePath + "/" + mainPacakageName.replace("\\.", "/") + '/' + ontologyName.firstToUpper() + "Activator.java" )
+    
+'
+package ' mainPacakageName ';
+
+import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.ModuleActivator;
+import org.universAAL.middleware.owl.OntologyManagement;
+'
+		//only importing valid ontologies - i.e. those that are put into the ontologyList
+		ontNameList.keys()-> forEach( oName:String ) {
+			'import 'oName'.*;\n'
+		}           
+
+'
+
+public class 'ontologyName.firstToUpper()'Activator implements ModuleActivator {
+
+  '//static BundleContext context = null;
+  '
+  '
+  ontNameList.keys()->forEach(oName:String){
+  '
+  'ontNameList.get(oName).firstToUpper()'Ontology _' ontNameList.get(oName) 'ontology = new ' ontNameList.get(oName).firstToUpper() 'Ontology();
+  
+  '
+  }
+  '
+
+  public void start(ModuleContext mc) throws Exception {
+    '//Activator.context = context;
+    '
+    '
+    ontNameList.keys()->forEach(oName:String){ 
+    '
+    OntologyManagement.getInstance().register(mc, _' ontNameList.get(oName) 'ontology);
+    '
+    }
+    '
+  }
+
+  public void stop(ModuleContext mc) throws Exception {
+    '
+    ontNameList.keys()->forEach(oName:String){ 
+    '
+    OntologyManagement.getInstance().unregister(mc, _' ontNameList.get(oName) 'ontology);
+    '
+    }
+    '
+  }
+}	
+'	
+
+  }
+
+}
+
