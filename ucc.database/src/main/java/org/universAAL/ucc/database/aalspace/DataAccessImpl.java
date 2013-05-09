@@ -16,6 +16,7 @@ import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ontology.phThing.Device;
+import org.universAAL.ontology.profile.AALSpace;
 import org.universAAL.ontology.profile.SubProfile;
 import org.universAAL.ontology.profile.User;
 import org.universAAL.ontology.profile.UserProfile;
@@ -98,250 +99,200 @@ public class DataAccessImpl implements DataAccess{
 	}
 
 
-	public ArrayList<OntologyInstance> getEmptyCHEProfile(String id) {
-		ArrayList<OntologyInstance>ontologies = new ArrayList<OntologyInstance>();
-		ArrayList<Subprofile> subprofiles = new ArrayList<Subprofile>();
-		ArrayList<SimpleObject>sims = new ArrayList<SimpleObject>();
-		ArrayList<CollectionValues>colList = new ArrayList<CollectionValues>();
-		ArrayList<EnumObject>enums = new ArrayList<EnumObject>();
-		ProfileAgent pAgent = Activator.getProfileAgent();
-		User t = new User(Activator.USER_SPACE+id);
-		User user = pAgent.getUser(t);
-		UserProfile uP = pAgent.getUserProfile(user);
-		List<SubProfile> sList = pAgent.getUserSubprofiles(uP);
-//		Device d = pAgent.getDevice(new Device(Activator.USER_SPACE+id));
-		OntologyInstance ont = new OntologyInstance();
-		ont.setId(Activator.USER_SPACE+id);
-//	    String up = pAgent.getUserProfile(Activator.USER_SPACE+"Marias_user_profile");
-	    System.err.println("USER: "+user.getURI());
-	    System.err.println("USER_PROFILE: "+uP.getURI());
-//	    System.err.println(u.getProperty(Activator.USER_SPACE+"username"));
-//	    System.err.println(u.getProperty(Activator.USER_SPACE+"password"));
-//	    System.err.println(u.getProperty(Activator.USER_SPACE+"role"));
-	    
-	   
-//	   List<SubProfile> list = pAgent.getUserSubprofiles(user);
-	   if(sList != null) {
-	   for(SubProfile sub : sList) {
-		   System.err.println(sList.size());
-		   Subprofile s = new Subprofile();
-//		   if(sub instanceof UserIDProfile) {
-			   UserIDProfile up = (UserIDProfile)sub;
-			   s.setName(up.getURI().substring(up.getURI().indexOf("#")+1));
-			   
-			   StringValue st = new StringValue();
-			   st.setName("username");
-			   System.err.println((String)sub.getProperty(Activator.USER_SPACE+"username"));
-			   st.setValue((String)sub.getProperty(Activator.USER_SPACE+"username"));
-			   st.setLabel("Username: ");
-			   s.getSimpleObjects().add(st);
-			   
-			   StringValue pwd = new StringValue();
-			   pwd.setName("password");
-			   pwd.setLabel("Password:");
-			   System.err.println((String)sub.getProperty(Activator.USER_SPACE+"password"));
-			   pwd.setValue((String)sub.getProperty(Activator.USER_SPACE+"password"));
-			   s.getSimpleObjects().add(pwd);
-			   
-			   StringValue role = new StringValue();
-			   role.setName("role");
-			   role.setLabel("Role:");
-			   role.setValue((String)sub.getProperty(Activator.USER_SPACE+"role"));
-			   s.getSimpleObjects().add(role);
-//		   }
-//		   s.setName(sub.getURI());
-//		   for(Enumeration<String> prop = sub.getPropertyURIs(); prop.hasMoreElements();) {
-//			   String uri = prop.nextElement().toString();
-//			   System.err.println(sub.getProperty(uri).toString());
-//			   if(sub.getProperty(uri) instanceof String){
-//			   System.err.println("DATA_ACCESS_IMPL: "+uri);
-//			   StringValue str = new StringValue();
-//			   str.setName(Activator.USER_SPACE+uri);
-//			   str.setLabel(uri);
-//			   str.setValue((String)sub.getProperty(uri));
-//			   s.getSimpleObjects().add(str);
-//			   }
-//		   }
-		  ont.getSubprofiles().add(s); 
-	   } 
-		  
-	   }
-	   else {
-		   System.err.println("CRAPPP");
-//		   System.err.println(list.toString());
-	   }
-//			Subprofile sub = new Subprofile();
-//			
-//			for(Enumeration en = u.getPropertyURIs(); en.hasMoreElements();) {
-//				String name = en.nextElement().toString();
-//				System.err.println(name);
-//				//SimpleObjects
-//				
-//				if(u.getProperty(name) instanceof String) {
-//					System.err.println("Is a STRINGVALUE"+u.getProperty(name).toString());
-					
-//					if(name.contains("deviceName")) {
-//						sv.setLabel("Name: ");
-//					}
-//					if(name.contains("deviceType")) {
-//						sv.setLabel("Device Type:");
-//					}
-//					if(name.contains("room")) {
-//						sv.setLabel("Room:");
-//					}
-//					if(name.contains("deviceId")) {
-//						sv.setLabel("Device-Address:");
-//					}
-//					if(name.contains("username")) {
-//						StringValue sv = new StringValue();
-//						sv.setName("username");
-//						sv.setLabel("Username:");
-//						sims.add(sv);
-//					}
-//					if(name.contains("password")) {
-//						StringValue sv = new StringValue();
-//						sv.setName("password");
-//						sv.setLabel("Password:");
-//						sims.add(sv);
-//					}
-//					if(name.contains("confirm")) {
-//						StringValue sv = new StringValue();
-//						sv.setLabel("Confirm Password:");
-//						sv.setName("confirmPassword");
-//						sims.add(sv);
-//					}
-//					if(name.contains("role")) {
-//						StringValue sv = new StringValue();
-//						sv.setName("role");
-//						sv.setLabel("Role:");
-//						sims.add(sv);
-//					}
-//					
-//				}
-//				
-//			}
-//			sub.setName(u.getURI().substring(u.getURI().indexOf("#")+1));
-//			sub.setCollections(colList);
-//			sub.setEnums(enums);
-//			sub.setSimpleObjects(sims);
-//			subprofiles.add(sub);
-//			
-//
-//		ont.setSubprofiles(subprofiles);
-		ontologies.add(ont);
-		return ontologies;
-	}
 
 
-	public boolean saveUserDataInCHE(OntologyInstance ont) {
+	public void saveUserDataInCHE(OntologyInstance ont) {
 		ProfileAgent pAgent = Activator.getProfileAgent();
 		//Create new user with userprofile
-		User user = new User(Activator.USER_SPACE+ont.getId());
-		UserProfile uProfile = new UserProfile(Activator.USER_SPACE+"UserProfile");
-		//Add user and userProfile
-		pAgent.addUser(user);
-		pAgent.addUserProfile(uProfile);
-		//Connect each other
-		pAgent.addUserProfile(user, uProfile);
-		//Create new UserIDProfile
-		
-		
-		//Set new values of UserIDProfile
-		for(Subprofile sub : ont.getSubprofiles()) {
-			UserIDProfile up = new UserIDProfile(Activator.USER_SPACE+sub.getName());
-			SubProfile helper = new SubProfile(Activator.USER_SPACE+sub.getName());
-			for(SimpleObject sim : sub.getSimpleObjects()) {
-				StringValue s = (StringValue)sim;
-				if(s.getName().contains("username")) {
-					System.err.println("ADD username: "+s.getValue());
-					up.setUSERNAME(s.getValue());
-					helper.setProperty(Activator.USER_SPACE+"username", s.getValue());
+		System.err.println(ont.getId());
+		System.err.println(ont.getSubprofiles().size());
+		String userId = ont.getId().replace(" ", "_");
+			User user = new User(Activator.USER_SPACE+userId);
+			System.err.println(ont.getSubprofiles().size());
+			for(Subprofile sub : ont.getSubprofiles()) {
+				for(SimpleObject sim : sub.getSimpleObjects()) {
+					StringValue st = (StringValue)sim;
+					System.err.println(st.getName());
+					if(st.getName().equals("username")) {
+						String id = st.getValue().replace(" ", "_");
+						user.setProperty(Activator.USER_SPACE+"username", id);
+					} else
+						if(st.getName().equals("password")) {
+							user.setProperty(Activator.USER_SPACE+"password", st.getValue());
+					} 
 				}
-				if(s.getName().contains("password")) {
-					System.err.println("ADD password: "+s.getValue());
-					up.setPASSWORD(s.getValue());
-					helper.setProperty(Activator.USER_SPACE+"password", s.getValue());
+				for(EnumObject eo : sub.getEnums()) {
+					if(eo.getType().equals("userRole")) {
+						String role = eo.getSelectedValue().replace(" ", "_");
+						user.setProperty(Activator.USER_SPACE+"userRole", role);
+					}
 				}
-				if(s.getName().contains("role")) {
-					System.err.println("ADD role: "+s.getValue());
-					up.setProperty(Activator.USER_SPACE+"role", s.getValue());
-					helper.setProperty(Activator.USER_SPACE+"role", s.getValue());
-				}
-				
 			}
-			pAgent.addSubProfile(up);
-			pAgent.addSubProfile(helper);
-			
-			pAgent.addUserSubprofile(uProfile, up);
-			pAgent.addUserSubprofile(user, up);
-			pAgent.addUserSubprofile(user, helper);
-			pAgent.addUserSubprofile(uProfile, helper);
-		}
-		
-		return true;
+			if(pAgent.addUser(user) != null) {
+				System.err.println("User was added to CHE");
+			}
 	}
 
 
-	public ArrayList<OntologyInstance> getEmptyCHEFormFields(String instance, String uri) {
+	public ArrayList<OntologyInstance> getEmptyCHEFormFields(String instance) {
 		ProfileAgent pAgent = Activator.getProfileAgent();
 		ArrayList<OntologyInstance>ontologies = new ArrayList<OntologyInstance>();
+		ArrayList<String>roles = new ArrayList<String>();
+		ArrayList<String>rooms = new ArrayList<String>();
+		ArrayList<String>devTypes = new ArrayList<String>();
+		ArrayList<String>sensType = new ArrayList<String>();
 		if(instance.equals("User")) {
-			User get = new User(Activator.USER_SPACE+uri);
-			User user = pAgent.getUser(get);
-			UserProfile uP = pAgent.getUserProfile(user);
-			List<SubProfile> sList = pAgent.getUserSubprofiles(uP);
-			OntologyInstance ont = new OntologyInstance();
-			ont.setId(Activator.USER_SPACE+uri);
-
-		   if(sList != null) {
-		   for(SubProfile sub : sList) {
-			   
-			   Subprofile s = new Subprofile();
-//			   if(sub instanceof UserIDProfile) {
-				   UserIDProfile up = (UserIDProfile)sub;
-				   s.setName(up.getURI().substring(up.getURI().indexOf("#")+1));
-				   
-				   StringValue st = new StringValue();
-				   st.setName("username");
-				   if(up.getUSERNAME() == null)
-					   st.setValue("");
-				   else
-					   st.setValue(up.getUSERNAME());
-				   st.setLabel("Username: ");
-				   s.getSimpleObjects().add(st);
-				   
-				   StringValue pwd = new StringValue();
-				   pwd.setName("password");
-				   pwd.setLabel("Password:");
-				   if(up.getPASSWORD() == null)
-					   pwd.setValue("");
-				   else
-					   pwd.setValue(up.getPASSWORD());
-				   s.getSimpleObjects().add(pwd);
-				   
-				   StringValue role = new StringValue();
-				   role.setName("role");
-				   role.setLabel("Role:");
-				   if((String)up.getProperty(Activator.USER_SPACE+"role") == null) 
-					   role.setValue("");
-				   else
-					   role.setValue((String)up.getProperty(Activator.USER_SPACE+"role"));
-				   s.getSimpleObjects().add(role);
-//			   }
-
-			  ont.getSubprofiles().add(s); 
-		   } 
-			  
-		   } ontologies.add(ont);
+			List<User> users = pAgent.getAllUsers();
+			for(User ur : users) {
+				roles.add((String)ur.getProperty(Activator.USER_SPACE+"userRole"));
+			}
+			for(User u : users) {
+				String filter = ((String)u.getProperty(Activator.USER_SPACE+"username")).replace("_", " ");
+				System.err.println(filter);
+				OntologyInstance ont = new OntologyInstance();
+				ont.setId(filter);
+				ont.setType("User");
+			
+				Subprofile sub = new Subprofile();
+				String header = u.getURI().substring(u.getURI().indexOf("#")+1);
+				sub.setName(header);
+				StringValue st = new StringValue();
+				st.setLabel("Username:");
+				st.setName("username");
+				st.setId(true);
+				st.setRequired(true);
+				st.setValue(filter);
+				sub.getSimpleObjects().add(st);
+				
+				StringValue pw = new StringValue();
+				pw.setLabel("Password");
+				pw.setName("password");
+				pw.setRequired(true);
+				pw.setValue((String)u.getProperty(Activator.USER_SPACE+"password"));
+				sub.getSimpleObjects().add(pw);
+				
+				StringValue confirm = new StringValue();
+				confirm.setLabel("Confirm Password:");
+				confirm.setName("confirmpassword");
+				confirm.setRequired(true);
+				confirm.setValue((String)u.getProperty(Activator.USER_SPACE+"confirmpassword"));
+				sub.getSimpleObjects().add(confirm);
+			
+				EnumObject en = new EnumObject();
+				en.setType("userRole");
+				en.setTreeParentNode(true);
+				en.setLabel("Role:");
+				en.setRequired(true);
+				en.setValues(roles);
+				en.setSelectedValue((String)u.getProperty(Activator.USER_SPACE+"userRole"));
+				sub.getEnums().add(en);
+				
+				ont.getSubprofiles().add(sub);
+				ontologies.add(ont);
+				
+			}
+	
 		}
-		
-		
-		if(instance.equals("Device")) {
+		//Devices
+		else if(instance.equals("Device")) {
+			for(AALSpace space : pAgent.getSpaces()) {
+				for(Device dev : pAgent.getAllDevices(space)) { 
+					rooms.add((String)dev.getProperty(Activator.DEVICE_SPACE+"room"));
+					devTypes.add((String)dev.getProperty(Activator.DEVICE_SPACE+"deviceType"));
+					sensType.add((String)dev.getProperty(Activator.DEVICE_SPACE+"deviceName"));
+				}
+				for(Device dev : pAgent.getAllDevices(space)) {
+					String filter = ((String)dev.getProperty(Activator.DEVICE_SPACE+"deviceId")).replace("_", " ");
+					System.err.println(filter);
+					OntologyInstance ont = new OntologyInstance();
+					ont.setId(filter);
+					Subprofile sub = new Subprofile();
+					String header = dev.getURI().substring(dev.getURI().indexOf("#")+1);
+					sub.setName(header);
+					//Device-Address
+					StringValue st = new StringValue();
+					st.setLabel("Device-Adress:");
+					st.setName("deviceId");
+					st.setId(true);
+					st.setRequired(true);
+					st.setValue((String)dev.getProperty(Activator.DEVICE_SPACE+"deviceId"));
+					sub.getSimpleObjects().add(st);
+					
+					//Setting Time
+					CalendarValue setTime = new CalendarValue();
+					setTime.setLabel("Setting Time:");
+					setTime.setName("hardwareSettingTime");
+					setTime.setCalendar((String)dev.getProperty(Activator.DEVICE_SPACE+"hardwareSettingTime"));
+					sub.getSimpleObjects().add(setTime);
+					//Last Activity Time
+					CalendarValue actTime = new CalendarValue();
+					actTime.setLabel("Last activity time:");
+					actTime.setName("lastActivityTime");
+					actTime.setCalendar((String)dev.getProperty(Activator.DEVICE_SPACE+"lastActivityTime"));
+					sub.getSimpleObjects().add(actTime);
+					
+					//Enums 3
+					EnumObject en = new EnumObject();
+					en.setLabel("Room:");
+					en.setRequired(true);
+					en.setSelectedValue((String)dev.getProperty(Activator.DEVICE_SPACE+"room"));
+					en.setType("rooms");
+					en.setValues(rooms);
+					en.setTreeParentNode(true);
+					sub.getEnums().add(en);
+					
+					EnumObject dTypes = new EnumObject();
+					dTypes.setLabel("Device Type:");
+					dTypes.setRequired(true);
+					dTypes.setSelectedValue((String)dev.getProperty(Activator.DEVICE_SPACE+"deviceType"));
+					dTypes.setType("deviceType");
+					dTypes.setValues(devTypes);
+					sub.getEnums().add(dTypes);
+					
+					EnumObject sTypes = new EnumObject();
+					sTypes.setLabel("Sensor/Actor Type:");
+					sTypes.setRequired(true);
+					sTypes.setSelectedValue((String)dev.getProperty(Activator.DEVICE_SPACE+"deviceName"));
+					sTypes.setType("deviceName");
+					sTypes.setValues(sensType);
+					sub.getEnums().add(sTypes);
+					ont.getSubprofiles().add(sub);
+					ontologies.add(ont);
+				}
+			}
 			
 		}
-		
 	return ontologies;
 	
+	}
+
+
+	public void updateUserData(String id, HashMap<String, ArrayList<Subprofile>> subprofiles) {
+		ProfileAgent pAgent = Activator.getProfileAgent();
+		String temp = id.replace(" ", "_");
+		User user = new User(Activator.USER_SPACE+temp);
+		for(Subprofile sub : subprofiles.get(id)) {
+			for(SimpleObject sim : sub.getSimpleObjects()) {
+				if(sim instanceof StringValue) {
+					StringValue sv = (StringValue)sim;
+					user.setProperty(Activator.USER_SPACE+sv.getName(), sv.getValue());
+				}
+				//TODO: other types like IntegerValue, DoubleValue, BooleanValue to test
+			}
+			for(EnumObject en : sub.getEnums()) {
+				user.setProperty(Activator.USER_SPACE+en.getType(), en.getSelectedValue());
+			}
+		}
+		pAgent.updateUser(user);
+		
+	}
+
+
+	public void deleteUserDataInChe(String instance) {
+		ProfileAgent pAgent = Activator.getProfileAgent();
+		String id = instance.replace(" ", "_");
+		pAgent.deleteUser(Activator.USER_SPACE+id);
+		
 	}	
 	
 	

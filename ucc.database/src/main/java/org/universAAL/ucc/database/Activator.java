@@ -2,6 +2,7 @@ package org.universAAL.ucc.database;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +14,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.universAAL.ontology.phThing.Device;
+import org.universAAL.ontology.profile.AALSpace;
+import org.universAAL.ontology.profile.AALSpaceProfile;
 import org.universAAL.ontology.profile.SubProfile;
 import org.universAAL.ontology.profile.User;
 import org.universAAL.ontology.profile.UserProfile;
@@ -53,7 +56,9 @@ public class Activator implements BundleActivator {
     private final static String uProfileURI = "EmptyUserProfile";
     private final static String subProfURI = "User Identification";
     private static ServiceReference pRef;
-    public static final String USER_SPACE = "urn:org.universAAL.aal_space:test_env#";
+    public static final String USER_SPACE = "urn:org.universAAL.aal_space:user_env#";
+    public static final String HOME_SPACE = "urn:org.universAAL.aal.space:home_env#my_home_space";
+    public static final String DEVICE_SPACE = "urn:org.universAAL.aal.space:home_env#";
     
     static BundleContext getContext() {
 	return context;
@@ -69,29 +74,10 @@ public class Activator implements BundleActivator {
     public void start(BundleContext bundleContext) throws Exception {
 	Activator.context = bundleContext;
 	File file = new File("file:///../etc/uCC");
-//	File prefFile = new File("file:///../etc/uCC/preferences.xml");
-//	UserAccountDB db = new UserAccountDBImpl();
 	if (!file.exists()) {
 	    file.mkdir();
 	}
-//	if (!prefFile.exists()) {
-//	    prefFile.createNewFile();
-//	    Preferences p = new Preferences();
-//	    if (Locale.getDefault().getLanguage().equals(
-//		    new Locale("de").getLanguage())) {
-//		p.setLanguage("de");
-//	    } else {
-//		p.setLanguage("en");
-//	    }
-//	    p.setPassword("");
-//	    p.setPassword2("");
-//	    p.setPort("9988");
-//	    p
-//		    .setShopUrl("https://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
-//	    p.setUsername("");
-//	    p.setUsername2("");
-//	    db.saveStoreAccessData(p, "file:///../etc/uCC/preferences.xml");
-//	}
+
 	File uf = new File("file:///../etc/uCC/users.xml");
 	if(!uf.exists()) {
 		uf.createNewFile();
@@ -107,8 +93,7 @@ public class Activator implements BundleActivator {
 		users.add(u);
 		set.saveUsers(users, "file:///../etc/uCC/users.xml");
 	}
-//	reg = context.registerService(UserAccountDB.class.getName(),
-//		new UserAccountDBImpl(), null);
+
 	reg = context.registerService(Setup.class.getName(), new SetupImpl(), null);
 	reg = context.registerService(DataAccess.class.getName(), new DataAccessImpl(), null);
 	reg = context.registerService(OntologySupplierService.class.getName(), new OntologySupplierServiceImpl(), null);
@@ -118,84 +103,136 @@ public class Activator implements BundleActivator {
 	pRef = context.getServiceReference(ProfileAgent.class.getName());
 	pAgent = (ProfileAgent)context.getService(pRef);
 	createEmptyUser();
-	createEmptyDevice();
+//	createEmptyDevice();
 	
     }
     
     private void createEmptyUser() {
-    	User user = new User(USER_SPACE+"User");
-    	UserProfile uProfile = new UserProfile(USER_SPACE+"UserProfile");
+    	User enduser = new User(USER_SPACE+"User");
+    	enduser.setProperty(USER_SPACE+"username", "");
+    	enduser.setProperty(USER_SPACE+"password", "");
+    	enduser.setProperty(USER_SPACE+"confirmpassword", "");
+    	enduser.setProperty(USER_SPACE+"userRole", new String("ENDUSER"));
     	
-    	pAgent.addUser(user);
-    	pAgent.addUserProfile(uProfile);
+    	User deployer = new User(USER_SPACE+"Deployer");
+    	deployer.setProperty(USER_SPACE+"username", "");
+    	deployer.setProperty(USER_SPACE+"password", "");
+    	deployer.setProperty(USER_SPACE+"confirmpassword", "");
+    	deployer.setProperty(USER_SPACE+"userRole", "DEPLOYER");
     	
-    	pAgent.addUserProfile(user, uProfile);
+    	User tec = new User(USER_SPACE+"Technician");
+    	tec.setProperty(USER_SPACE+"username", "");
+    	tec.setProperty(USER_SPACE+"password", "");
+    	tec.setProperty(USER_SPACE+"confirmpassword", "");
+    	tec.setProperty(USER_SPACE+"userRole", "TECHNICIAN");
     	
-    	UserIDProfile userId = new UserIDProfile(USER_SPACE+"UserIdProfile");
-    	userId.setPASSWORD("pass");
-    	userId.setUSERNAME("nic");
-    	userId.setProperty(USER_SPACE+"role", "ENDUSER");
-    	pAgent.addSubProfile(userId);
+    	User care = new User(USER_SPACE+"Caregiver");
+    	care.setProperty(USER_SPACE+"username", "");
+    	care.setProperty(USER_SPACE+"password", "");
+    	care.setProperty(USER_SPACE+"confirmpassword", "");
+    	care.setProperty(USER_SPACE+"userRole", "CAREGIVER");
     	
-    	//Strange thing, have also to add another Subprofile, UserIDProfile does not work without
-    	SubProfile su = new SubProfile(USER_SPACE+"UserIdProfile");
-    	su.setProperty(USER_SPACE+"password", "");
-    	su.setProperty(USER_SPACE+"username", "");
-    	su.setProperty(USER_SPACE+"role", "");
-    	
-    	pAgent.addSubProfile(su);
-    	pAgent.addUserSubprofile(user, su);
-    	pAgent.addUserSubprofile(uProfile, su);
-    	
-    	pAgent.addUserSubprofile(user, userId);
-    	pAgent.addUserSubprofile(uProfile, userId);
-    	
-    	
-    	
-
-    	
-    	
-//    	pAgent.addUserSubprofile(user, userId);
-        
-    	
+    	User assisted = new User(USER_SPACE+"AssistedPerson");
+    	assisted.setProperty(USER_SPACE+"username", "");
+    	assisted.setProperty(USER_SPACE+"password", "");
+    	assisted.setProperty(USER_SPACE+"confirmpassword", "");
+    	assisted.setProperty(USER_SPACE+"userRole", "ASSISTEDPERSON");
     
-    	//Create Dummy User from JAXB Structure
-//    	DataAccess da = new DataAccessImpl();
-    
-//    	ArrayList<OntologyInstance>onts = da.getEmptyProfile(System.getenv("systemdrive")+"/uccDB/EmptyUser.xml");
-//    	for(OntologyInstance o : onts) {
-//    		for(Subprofile sub : o.getSubprofiles()) {
-//    			System.err.println(sub.getName());
-//    			SubProfile sp = new SubProfile(USER_SPACE+sub.getName().replace(" ", "_").replace("-", "_"));
-//    			for(SimpleObject sim : sub.getSimpleObjects()) {
-//    				if(sim instanceof StringValue) {
-//    					StringValue s = (StringValue)sim;
-//    					sp.setProperty(USER_SPACE+s.getName().replace(" ", "_"), s.getValue());
-//    					
-//    				}
-//    				if(sim instanceof IntegerValue) {
-//    					IntegerValue in = new IntegerValue();
-//    					sp.setProperty(USER_SPACE+in.getName().replace(" ", "_"), in.getValue());
-//    				}
-//    			}
-//    			
-//    			pAgent.addUserSubprofile(uProfile, sp);
-//    		}
-//    	}
-//    	user.setProperty(USER_SPACE+"username", "");
-//    	user.setProperty(USER_SPACE+"password", "");
-//    	user.setProperty(USER_SPACE+"confirmPassword", "");
-//    	user.setProperty(USER_SPACE+"role", "");
+    	pAgent.addUser(enduser);
+    	pAgent.addUser(deployer);
+    	pAgent.addUser(tec);
+    	pAgent.addUser(care);
+    	pAgent.addUser(assisted);
     	
     }
     
     private void createEmptyDevice() {
-    	Device dev = new Device(USER_SPACE+"Device");
-    	dev.setProperty(USER_SPACE+"deviceName", "");
-    	dev.setProperty(USER_SPACE+"room", "");
-    	dev.setProperty(USER_SPACE+"deviceType", "");
-    	dev.setProperty(USER_SPACE+"deviceId", "");
-    	pAgent.addDevice(dev);
+    	AALSpace mySpace = null;
+    	List<AALSpace> spaces = pAgent.getSpaces();
+    	if(spaces == null) {
+    		mySpace = new AALSpace(HOME_SPACE);
+    		pAgent.addSpace(mySpace);
+    	}
+    	Device dev = new Device(DEVICE_SPACE+"Device");
+    	dev.setProperty(DEVICE_SPACE+"deviceName", "Contact_Sensor");
+    	dev.setProperty(DEVICE_SPACE+"room", "Kitchen");
+    	dev.setProperty(DEVICE_SPACE+"deviceType", "FS20_Sensor");
+    	dev.setProperty(DEVICE_SPACE+"deviceId", "");
+    	dev.setProperty(DEVICE_SPACE+"hardwareSettingTime", new Date());
+    	dev.setProperty(DEVICE_SPACE+"lastActivityTime", new Date());
+    	pAgent.addDevice(dev, mySpace);
+    	
+    	Device dev2 = new Device(DEVICE_SPACE+"Motion_Sensor");
+    	dev2.setProperty(DEVICE_SPACE+"deviceName", "Motion Sensor");
+    	dev2.setProperty(DEVICE_SPACE+"room", "Bath");
+    	dev2.setProperty(DEVICE_SPACE+"deviceType", "FS20_Actuator");
+    	dev2.setProperty(DEVICE_SPACE+"deviceId", "");
+    	dev2.setProperty(DEVICE_SPACE+"hardwareSettingTime", new Date());
+    	dev2.setProperty(DEVICE_SPACE+"lastActivityTime", new Date());
+    	pAgent.addDevice(dev2, mySpace);
+    	
+    	Device dev3 = new Device(DEVICE_SPACE+"OnOff_Actuator");
+    	dev3.setProperty(DEVICE_SPACE+"deviceName", "On/Off_Actuator");
+    	dev3.setProperty(DEVICE_SPACE+"room", "Dining_Room");
+    	dev3.setProperty(DEVICE_SPACE+"deviceType", "FS20_Actuator");
+    	dev3.setProperty(DEVICE_SPACE+"deviceId", "");
+    	dev3.setProperty(DEVICE_SPACE+"hardwareSettingTime", new Date());
+    	dev3.setProperty(DEVICE_SPACE+"lastActivityTime", new Date());
+    	pAgent.addDevice(dev3, mySpace);
+    	
+    	Device dev4 = new Device(DEVICE_SPACE+"OnOff_Sensor");
+    	dev4.setProperty(DEVICE_SPACE+"deviceName", "On/Off_Sensor");
+    	dev4.setProperty(DEVICE_SPACE+"room", "Nursery");
+    	dev4.setProperty(DEVICE_SPACE+"deviceType", "FS20_Sensor");
+    	dev4.setProperty(DEVICE_SPACE+"deviceId", "");
+    	dev4.setProperty(DEVICE_SPACE+"hardwareSettingTime", new Date());
+    	dev4.setProperty(DEVICE_SPACE+"lastActivityTime", new Date());
+    	pAgent.addDevice(dev4, mySpace);
+    	
+    	Device dev5 = new Device(DEVICE_SPACE+"Plug_PC");
+    	dev5.setProperty(DEVICE_SPACE+"deviceName", "Plug_PC");
+    	dev5.setProperty(DEVICE_SPACE+"room", "Living_Room");
+    	dev5.setProperty(DEVICE_SPACE+"deviceType", "Other_Hardware");
+    	dev5.setProperty(DEVICE_SPACE+"deviceId", "");
+    	dev5.setProperty(DEVICE_SPACE+"hardwareSettingTime", new Date());
+    	dev5.setProperty(DEVICE_SPACE+"lastActivityTime", new Date());
+    	pAgent.addDevice(dev5, mySpace);
+    	
+    	Device dev6 = new Device(DEVICE_SPACE+"Humidity_Sensor");
+    	dev6.setProperty(DEVICE_SPACE+"deviceName", "Humidity_Sensor");
+    	dev6.setProperty(DEVICE_SPACE+"room", "Storage_Room");
+    	dev6.setProperty(DEVICE_SPACE+"deviceType", "FS20_Sensor");
+    	dev6.setProperty(DEVICE_SPACE+"deviceId", "");
+    	dev6.setProperty(DEVICE_SPACE+"hardwareSettingTime", new Date());
+    	dev6.setProperty(DEVICE_SPACE+"lastActivityTime", new Date());
+    	pAgent.addDevice(dev6, mySpace);
+    	
+    	Device dev7 = new Device(DEVICE_SPACE+"Temperature");
+    	dev7.setProperty(DEVICE_SPACE+"deviceName", "Tempearture");
+    	dev7.setProperty(DEVICE_SPACE+"room", "Bed_Room");
+    	dev7.setProperty(DEVICE_SPACE+"deviceType", "FS20_Sensor");
+    	dev7.setProperty(DEVICE_SPACE+"deviceId", "");
+    	dev7.setProperty(DEVICE_SPACE+"hardwareSettingTime", new Date());
+    	dev7.setProperty(DEVICE_SPACE+"lastActivityTime", new Date());
+    	pAgent.addDevice(dev7, mySpace);
+    	
+    	Device dev8 = new Device(DEVICE_SPACE+"Gesture_Sensor");
+    	dev8.setProperty(DEVICE_SPACE+"deviceName", "Gesture_Sensor");
+    	dev8.setProperty(DEVICE_SPACE+"room", "Corridor");
+    	dev8.setProperty(DEVICE_SPACE+"deviceType", "FS20_Sensor");
+    	dev8.setProperty(DEVICE_SPACE+"deviceId", "");
+    	dev8.setProperty(DEVICE_SPACE+"hardwareSettingTime", new Date());
+    	dev8.setProperty(DEVICE_SPACE+"lastActivityTime", new Date());
+    	pAgent.addDevice(dev8, mySpace);
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     }
 
     /*

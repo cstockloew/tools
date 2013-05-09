@@ -15,9 +15,10 @@ public interface DataAccess {
 	public ArrayList<OntologyInstance>getEmptyProfile(String profile);
 	
 	//For CHE usage
-	public ArrayList<OntologyInstance>getEmptyCHEProfile(String id);
-	public boolean saveUserDataInCHE(OntologyInstance ont);
-	public ArrayList<OntologyInstance>getEmptyCHEFormFields(String instance, String uri);
+	public void saveUserDataInCHE(OntologyInstance ont);
+	public ArrayList<OntologyInstance>getEmptyCHEFormFields(String instance);
+	public void updateUserData(String id, HashMap<String, ArrayList<Subprofile>>subprofiles);
+	public void deleteUserDataInChe(String instance);
 	
 	
 }
