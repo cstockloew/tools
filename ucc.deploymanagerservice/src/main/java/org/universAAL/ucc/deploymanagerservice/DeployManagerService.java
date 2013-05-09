@@ -101,4 +101,9 @@ public interface DeployManagerService {
      */
     public String getUserProfile(
 	    @WebParam(name = "sessionKey") String sessionKey);
+    
+    
+    public String getSessionKey(
+    		@WebParam(name = "userName") String userName, 
+    		@WebParam(name = "password") String password);
 }
