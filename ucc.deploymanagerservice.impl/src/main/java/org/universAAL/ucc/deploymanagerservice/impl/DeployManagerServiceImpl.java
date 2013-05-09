@@ -6,22 +6,23 @@ import org.universAAL.ucc.deploymanagerservice.DeployManagerService;
  * Implemenation of the DeployManager Web service
  * 
  * @author sji
+ * @modified by Nicole Merkle
  * 
  */
 
 public class DeployManagerServiceImpl implements DeployManagerService {
 
     // private IInstaller installer;
-    public void install(String sessionKey, String usrvfile) {
+    public void install(String sessionKey, String serviceId, String serviceLink) {
 	System.out
 		.println("[DeployManagerServiceImpl] Install with sessionKey: "
-			+ sessionKey + " for URL: " + usrvfile);
+			+ sessionKey + " for URL: " + serviceId);
 	// String fileOnHardDrive =
 	// "C:/tempUsrvFiles/&filename=corrected_hwo_usrv.usrv";
 	// fileOnHardDrive = fileOnHardDrive.replace("/", "\\");
 	// System.out.println("[DeployManagerServiceImpl] the file on the hard drive: "
 	// + fileOnHardDrive);
-	Activator.getFrontend().installService(sessionKey, usrvfile);
+	Activator.getFrontend().installService(sessionKey, serviceId, serviceLink);
 	// System.out.println("[DeployManagerServiceImpl] the result for installation is: "
 	// + results);
 	/*
@@ -33,9 +34,9 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 
     }
 
-    public void update(String sessionKey, String usrvfile) {
+    public void update(String sessionKey, String serviceId, String serviceLink) {
 	System.out.println("[DeployManagerService] Update with sessionKey: "
-		+ sessionKey + " for URL: " + usrvfile);
+		+ sessionKey + " for URL: " + serviceId);
 	/*
 	 * try { URL usrvURL = new URL(usrvfile); } catch(MalformedURLException
 	 * e) { System.out.println("[ERROR] Malformed URL Exception for " +
@@ -45,7 +46,7 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 	// get serviceId
 	// uninstall service first
 	// just for testing
-	uninstall(sessionKey, usrvfile);
+	uninstall(sessionKey, serviceId);
 	// install the updated service
     }
 
@@ -78,5 +79,12 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 	// TODO Auto-generated method stub
 	return null;
     }
+
+	public String getSessionKey(String userName, String password) {
+		String sessionKey = Activator.getFrontend().getSessionKey(userName, password);
+		return sessionKey;
+	}
+    
+    
 
 }
