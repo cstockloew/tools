@@ -140,7 +140,7 @@ public class UAPPPart {
     	return reqAtoms;
     }
         
-    public void addReqAtoms(String name, String value, String criteria) {
+    public void addReqAtoms(String name, List<String> value, String criteria) {
     	this.reqAtoms.add(new UAPPReqAtom(name, value, criteria));
     }
     

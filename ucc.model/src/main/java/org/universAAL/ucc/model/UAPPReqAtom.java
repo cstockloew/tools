@@ -1,14 +1,16 @@
 package org.universAAL.ucc.model;
 
+import java.util.List;
+
 public class UAPPReqAtom {
 	String name;
-	String value;
+	List<String> value;
 	String criteria;
 	
 	public UAPPReqAtom() {
 		
 	}
-	public UAPPReqAtom(String n, String v, String c) {
+	public UAPPReqAtom(String n, List<String> v, String c) {
 		this.name = n;
 		this.value = v;
 		this.criteria = c;
@@ -22,11 +24,11 @@ public class UAPPReqAtom {
 		this.name = n;
 	}
 	
-	public String getValue() {
+	public List<String> getValue() {
 		return value;
 	}
 	
-	public void setValue(String v) {
+	public void setValue(List<String> v) {
 		this.value = v;
 	}
 	
