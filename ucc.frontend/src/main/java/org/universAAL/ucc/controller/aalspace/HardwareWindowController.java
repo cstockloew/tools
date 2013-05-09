@@ -264,9 +264,11 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 			if(d.contains("/")) {
 				format = new SimpleDateFormat("MM/dd/yy H:mm a");
 				da = format.parse(d);
+				date.setLocale(Locale.US);
 			} else {
 				format = new SimpleDateFormat("dd.MM.yy H:mm");
 				da = format.parse(d);
+				date.setLocale(Locale.GERMANY);
 			}
 			date.setValue(da);
 			date.setResolution(PopupDateField.RESOLUTION_MIN);

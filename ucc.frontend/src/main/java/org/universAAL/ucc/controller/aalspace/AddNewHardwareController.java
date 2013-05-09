@@ -118,6 +118,7 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 		dataAccess = (DataAccess) context.getService(ref);
 		context.ungetService(ref);
 		savedObjects = dataAccess.getFormFields(actualFlat);
+//		savedObjects = dataAccess.getEmptyCHEFormFields("Device");
 		instance = new OntologyInstance();
 		roomInstance = new OntologyInstance();
 		subprofiles = new HashMap<String, Subprofile>();
@@ -140,9 +141,10 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 
 	private void loadData() throws JAXBException, IOException, ParseException {
 		// Creating Tabs with Forms
-//		objects = dataAccess.getEmptyCHEProfile("Maria");
+//		objects = dataAccess.getEmptyCHEFormFields("Device");
 		objects = dataAccess.getEmptyProfile(ontoProfile);
 		rooms = dataAccess.getEmptyProfile(roomProfile);
+//		rooms = dataAccess.getEmptyCHEFormFields("Device");
 		TabForm f = null;
 		TabForm form = null;
 		// Every Subprofile is shown in a seperate tab

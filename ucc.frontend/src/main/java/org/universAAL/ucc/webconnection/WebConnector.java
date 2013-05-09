@@ -67,7 +67,7 @@ public class WebConnector {
 		System.err.println("IM WEBCONNECTOR " + url);
 
 		if (url != null) {
-			front.installService("", url);
+			front.installService("", "", url);
 			// PackageDownloader downloader=new PackageDownloader();
 			// String fileOnHardDrive=downloader.download(url);
 			// if(new File(fileOnHardDrive).exists()){

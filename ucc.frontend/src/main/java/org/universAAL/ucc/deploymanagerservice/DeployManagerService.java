@@ -7,6 +7,7 @@ import javax.jws.WebService;
  * The interface for uStore to interact with uCC (the local deploy manager)
  * 
  * @author sji
+ * @modified by Nicole Merkle
  * 
  */
 @WebService(serviceName = "DeployManagerService", portName = "DeployManagerServicePort")
@@ -22,7 +23,7 @@ public interface DeployManagerService {
 	 *            is provided in .usrv file.
 	 */
 	public void install(@WebParam(name = "sessionKey") String sessionKey,
-			@WebParam(name = "usrvfile") String usrvfile);
+			@WebParam(name = "serviceId") String serviceId, @WebParam(name = "serviceLink")String serviceLink);
 
 	/**
 	 * update a service as specified in the .usrv file
@@ -35,7 +36,7 @@ public interface DeployManagerService {
 	 *            is provided in .usrv file.
 	 */
 	public void update(@WebParam(name = "sessionKey") String sessionKey,
-			@WebParam(name = "usrvfile") String usrvfile);
+			@WebParam(name = "serviceId") String serviceId, @WebParam(name = "serviceLink") String serviceLink);
 
 	/**
 	 * uninstall a service
@@ -101,4 +102,14 @@ public interface DeployManagerService {
 	 */
 	public String getUserProfile(
 			@WebParam(name = "sessionKey") String sessionKey);
+	
+	/**
+	 * Get a sessionkey
+	 * @param userName: Name of the current user
+	 * @param password: Password of the current user
+	 * @return a new generated sesionkey
+	 */
+	public String getSessionKey(
+			@WebParam(name = "userName") String userName, 
+			@WebParam(name = "password") String password);
 }

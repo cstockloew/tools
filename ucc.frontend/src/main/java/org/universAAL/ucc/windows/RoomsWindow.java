@@ -27,7 +27,7 @@ public class RoomsWindow extends Window {
 	private String flatId;
 	private RoomsWindowController rwc;
 	
-	public RoomsWindow(String flat, UccUI app) throws JAXBException, IOException, ParseException {
+	public RoomsWindow(/*String flat,*/ UccUI app) throws JAXBException, IOException, ParseException {
 		//super("Rooms of "+flat);
 		StringBuffer breadcrump = new StringBuffer();
 		int counter = 0;
@@ -37,7 +37,7 @@ public class RoomsWindow extends Window {
 				breadcrump.append(w.getCaption()+" > ");
 		}
 		
-		breadcrump.append("Rooms of "+flat);
+		breadcrump.append("Rooms of with Hardware");
 		setCaption(breadcrump.toString());
 //		this.flatId = flat;
 		center();

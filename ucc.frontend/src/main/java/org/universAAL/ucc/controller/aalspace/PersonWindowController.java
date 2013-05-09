@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
@@ -109,8 +110,8 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 	
 	private void loadData() throws JAXBException, IOException, ParseException {
 		//Creating Tabs with Forms
-//				ArrayList<OntologyInstance>tabs = dataAccess.getEmptyCHEProfile("Maria");
-				ArrayList<OntologyInstance> tabs = dataAccess.getFormFields(actualFlat);
+				ArrayList<OntologyInstance>tabs = dataAccess.getEmptyCHEFormFields("User");
+//				ArrayList<OntologyInstance> tabs = dataAccess.getFormFields(actualFlat);
 				TabForm f = null;
 				for(OntologyInstance o : tabs) {
 					userForms.put(o.getId(), new ArrayList<TabForm>());
@@ -227,9 +228,11 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 			if(dat.contains("/")) {
 				format = new SimpleDateFormat("MM/dd/yy H:mm a");
 				da = format.parse(dat);
+				date.setLocale(Locale.US);
 			} else {
 				format = new SimpleDateFormat("dd.MM.yy H:mm");
 				da = format.parse(dat);
+				date.setLocale(Locale.GERMANY);
 			}
 			date.setValue(da);
 			form.addField(cal.getLabel(), date);
@@ -498,7 +501,8 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 			tab.getSaveButton().setVisible(false);
 			tab.getEditButton().setVisible(true);
 			tab.getDeleteButton().setVisible(true);
-			dataAccess.updateUserData(actualFlat, selectedItem, nOntInstances);
+			dataAccess.updateUserData(selectedItem, nOntInstances);
+//			dataAccess.updateUserData(actualFlat, selectedItem, nOntInstances);
 			app.getMainWindow().showNotification(tab.getHeader()+" was updated", Notification.POSITION_CENTERED);	
 		
 			
@@ -510,12 +514,16 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 			tab.getResetButton().setVisible(true);
 			tab.getDeleteButton().setVisible(false);
 			tab.setReadOnly(false);
-			if(tab.getField("Given name:") != null) {
-				tab.getField("Given name:").setReadOnly(true);
+//			if(tab.getField("Given name:") != null) {
+//				tab.getField("Given name:").setReadOnly(true);
+//			}
+			if(tab.getField("Username:") != null) {
+				tab.getField("Username:").setReadOnly(true);
 			}
 		} //Delete Button was pushed
 		else if(event.getButton() == ((TabForm)tabSheet.getSelectedTab()).getDeleteButton()) {
-			dataAccess.deleteUserData(actualFlat, selectedItem);
+			dataAccess.deleteUserDataInChe(selectedItem);
+//			dataAccess.deleteUserData(actualFlat, selectedItem);
 			win.getUserTree().removeListener(this);
 			win.getUserTree().removeItem(selectedItem);
 			win.getUserTree().addListener(this);

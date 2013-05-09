@@ -134,8 +134,8 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 
 	private void loadData() throws JAXBException, IOException, ParseException {
 		// Creating Tabs with Forms
-//		objects = dataAccess.getEmptyCHEProfile("User");
-		objects = dataAccess.getEmptyProfile(ontoProfile);
+		objects = dataAccess.getEmptyCHEFormFields("User");
+//		objects = dataAccess.getEmptyProfile(ontoProfile);
 		TabForm f = null;
 		// Every Subprofile is shown in a seperate tab
 		for (Subprofile tab : objects.get(0).getSubprofiles()) {
@@ -498,8 +498,8 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 //			}
 
 			if (tabSheet.getComponentCount() == 0) {
-//				dataAccess.saveUserDataInCHE(instance);
-				dataAccess.saveUserData(actualFlat, instance);
+				dataAccess.saveUserDataInCHE(instance);
+//				dataAccess.saveUserData(actualFlat, instance);
 				app.getMainWindow().removeWindow(win);
 			}
 			if(tabSheet.getComponentCount() == 0) {

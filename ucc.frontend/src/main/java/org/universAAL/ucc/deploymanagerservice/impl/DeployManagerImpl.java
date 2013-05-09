@@ -12,14 +12,14 @@ public class DeployManagerImpl implements DeployManagerService {
 
 	}
 
-	public void install(String sessionKey, String usrvfile) {
+	public void install(String sessionKey, String serviceId, String serviceLink) {
 		// ToDo installation process. Showing license agreement etc.
 		// after usrv file was downloaded then calling IInstaller Service to
 		// install to nodes
-		front.installService(sessionKey, usrvfile);
+		front.installService(sessionKey, serviceId, serviceLink);
 	}
 
-	public void update(String sessionKey, String usrvfile) {
+	public void update(String sessionKey, String serviceId, String serviceLink) {
 		// TODO Auto-generated method stub
 
 	}
@@ -49,5 +49,12 @@ public class DeployManagerImpl implements DeployManagerService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public String getSessionKey(String userName, String password) {
+		String sessionKey = front.getSessionKey(userName, password);
+		return sessionKey;
+	}
+	
+	
 
 }

@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 
 import java.math.BigInteger;
 import java.net.URL;
@@ -22,9 +23,18 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+import javax.xml.bind.JAXB;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import org.universAAL.ucc.model.uapp.AalUapp;
+import org.universAAL.ucc.model.uapp.Bundle;
+import org.universAAL.ucc.model.uapp.DeploymentUnit;
+import org.universAAL.ucc.model.uapp.Feature;
+import org.universAAL.ucc.model.uapp.FeaturesRoot;
+import org.universAAL.ucc.model.uapp.Part.PartRequirements;
+import org.universAAL.ucc.model.uapp.ReqType;
 import org.universAAL.middleware.deploymaneger.uapp.model.Part;
 //import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
@@ -57,23 +67,18 @@ import org.xml.sax.SAXException;
 
 public class FrontendImpl implements IFrontend {
 
-	private final int BUFFER_SIZE = /*4096*/153600;
+	private final int BUFFER_SIZE = /* 4096 */153600;
 
 	private static final String FILENAME_SEARCH_TAG = "filename";
 
 	private static final String usrvLocalStore = System.getenv("systemdrive")
 			+ "/tempUsrvFiles/";
-	
+
 	private static String uappURI;
-	
+
 	private static String userSession;
 
-	public void installService(String sessionkey, String downloadUri /*
-																	 * Need from
-																	 * uStore
-																	 * String
-																	 * filename
-																	 */) {
+	public boolean installService(String sessionkey, String serviceId, String serviceLink) {
 		// Opens a browser window and loads the ucc site
 		// Desktop desk = Desktop.getDesktop();
 		// try {
@@ -82,23 +87,26 @@ public class FrontendImpl implements IFrontend {
 		// e.printStackTrace();
 		// }
 
-
 		// check for sessionkey
 		// if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
-		 String usrvName = "";
-//		 try {
-//	
-//		 usrvName = downloadUsrvFile(downloadUri, /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
-//		 } catch (IOException e2) {
-//		 e2.printStackTrace();
-//		 }
-		 File temp = new File(usrvLocalStore+/*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv");
-		if(temp.exists()) {
+		String usrvName = "";
+		// try {
+		//
+		// usrvName = downloadUsrvFile(downloadUri,
+		// /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
+		// } catch (IOException e2) {
+		// e2.printStackTrace();
+		// }
+		File temp = new File(usrvLocalStore
+				+ /* "corrected_hwo_usrv.usrv" */"HWO_Service.usrv");
+		if (temp.exists()) {
 			System.err.println("FILE exists");
 			try {
-				extractFolder(usrvLocalStore+/*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv", usrvLocalStore);
+				extractFolder(usrvLocalStore
+						+ /* "corrected_hwo_usrv.usrv" */"HWO_Service.usrv",
+						usrvLocalStore);
 			} catch (ZipException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
@@ -106,80 +114,84 @@ public class FrontendImpl implements IFrontend {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-//		try {
-//			// extracts the downloaded usrv file
-//			extractUsrvFile(usrvLocalStore + "corrected_hwo_usrv.usrv" /*"HWO_Service.usrv"*/);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-			
-		
-		//Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
-		uappURI = createUAPPLocation(usrvLocalStore+ "bin");
-		
-		
-//		
-//		// extract available uapp files
-		File usrv = new File(usrvLocalStore + "hwo_uapp");
-		File[] uapps = usrv.listFiles();
-		for (File cur : uapps) {
-//			try {
-//				System.err.println("UAPP getName() "+cur.getName());
-//				extractUsrvFile(usrvLocalStore + "hwo_uapp/" + cur.getName());
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			// try {
+			// // extracts the downloaded usrv file
+			// extractUsrvFile(usrvLocalStore + "corrected_hwo_usrv.usrv"
+			// /*"HWO_Service.usrv"*/);
+			// } catch (IOException e) {
+			// e.printStackTrace();
+			// }
+
+			// Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
+			uappURI = createUAPPLocation(usrvLocalStore + "bin");
+
+			//
+			// // extract available uapp files
+			File usrv = new File(usrvLocalStore + "hwo_uapp");
+			File[] uapps = usrv.listFiles();
+			for (File cur : uapps) {
+				// try {
+				// System.err.println("UAPP getName() "+cur.getName());
+				// extractUsrvFile(usrvLocalStore + "hwo_uapp/" +
+				// cur.getName());
+				// } catch (IOException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
+				try {
+					extractFolder(usrvLocalStore + "hwo_uapp/" + cur.getName(),
+							usrvLocalStore + "hwo_uapp/");
+				} catch (ZipException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			// delete zipped uapp file in folder uapp
+			// File del = new File(usrvLocalStore+"hwo_uapp/");
+			// File[] d = del.listFiles();
+			// for(int g = 0; g < d.length; g++) {
+			// if(d[g].getName().substring(d[g].getName().indexOf(".")+1).contains("uapp")){
+			// d[g].delete();
+			// }
+			// }
+			//
+			// //Copy uapp files to hwo_uapp directory for deployment
+			// //uappURI= createUAPPLocation(usrvLocalStore+"bin");
+			//
+			//
+			// parse uapp.config.xml
+			ArrayList<UAPPPart> apps = null;
 			try {
-				extractFolder(usrvLocalStore+"hwo_uapp/"+ cur.getName(), usrvLocalStore+"hwo_uapp/");
-			} catch (ZipException e) {
+				apps = parseUappConfiguration("hwo_uapp/config/hwo.uapp.xml");
+			} catch (SAXException e1) {
 				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			try {
+				// parses the configuration xml from the extracted usrv file
+				// and creates the views (LicenseView and so on) to show to the
+				// user
+				// for further processing
+				parseConfiguration(
+						/* "config/hwo.usrv.xml" */"config/HWO Service.xml",
+						apps);
+			} catch (SAXException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-		}
-		//delete zipped uapp file in folder uapp
-//		File del = new File(usrvLocalStore+"hwo_uapp/");
-//		File[] d = del.listFiles();
-//		for(int g = 0; g < d.length; g++) {
-//			if(d[g].getName().substring(d[g].getName().indexOf(".")+1).contains("uapp")){
-//				d[g].delete();
-//			}
-//		}
-//
-//		//Copy uapp files to hwo_uapp directory for deployment
-////		 uappURI= createUAPPLocation(usrvLocalStore+"bin");
-//		 
-//		
-		// parse uapp.config.xml
-		ArrayList<UAPPPart> apps = null;
-		try {
-			apps = parseUappConfiguration("hwo_uapp/config/hwo.uapp.xml");
-		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		try {
-			// parses the configuration xml from the extracted usrv file
-			// and creates the views (LicenseView and so on) to show to the user
-			// for further processing
-			parseConfiguration(/*"config/hwo.usrv.xml"*/"config/HWO Service.xml", apps);
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-//		createUAPPLocation(usrvLocalStore+"config");
-		// } else {
-		// //TODO: SessionKey was not right, what todo?
-		// }
-		}
+			} return true;
+			// createUAPPLocation(usrvLocalStore+"config");
+			// } else {
+			// //TODO: SessionKey was not right, what todo?
+			// }
+		} return false;
 	}
 
 	/**
@@ -211,15 +223,15 @@ public class FrontendImpl implements IFrontend {
 		return filename;
 	}
 
-//	 private String parseFileName(String url){
-//	 String result=url;
-//	 String[] values=url.split("&");
-//	 for(int i=0;i<values.length;i++){
-//	 if(values[i].startsWith(FILENAME_SEARCH_TAG))
-//	 result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
-//	 }
-//	 return result;
-//	 }
+	// private String parseFileName(String url){
+	// String result=url;
+	// String[] values=url.split("&");
+	// for(int i=0;i<values.length;i++){
+	// if(values[i].startsWith(FILENAME_SEARCH_TAG))
+	// result=values[i].substring(FILENAME_SEARCH_TAG.length()+1);
+	// }
+	// return result;
+	// }
 
 	/**
 	 * Extracts the downloaded usrv file.
@@ -245,12 +257,11 @@ public class FrontendImpl implements IFrontend {
 		// iterates over entries in the zip file
 		while (entry != null) {
 			System.err.println("Entry current: " + entry.getName());
-			if(!usrvName.contains(".uapp")) {
-			    filePath = usrvLocalStore + entry.getName();
-			}
-			else {
-				System.err.println("UAPP ENTRY "+entry.getName());
-				filePath = usrvLocalStore+"hwo_uapp/" + entry.getName();
+			if (!usrvName.contains(".uapp")) {
+				filePath = usrvLocalStore + entry.getName();
+			} else {
+				System.err.println("UAPP ENTRY " + entry.getName());
+				filePath = usrvLocalStore + "hwo_uapp/" + entry.getName();
 			}
 			if (!entry.isDirectory()) {
 				// if the entry is a file, extracts it
@@ -277,6 +288,62 @@ public class FrontendImpl implements IFrontend {
 	private ArrayList<UAPPPart> parseUappConfiguration(String f)
 			throws SAXException, IOException {
 		File config = new File(usrvLocalStore + f);
+		// System.err.println(config.getAbsolutePath());
+		// ArrayList<UAPPPart> appsList = new ArrayList<UAPPPart>();
+		// //Read uapp config xml
+		// AalUapp uapp = JAXB.unmarshal(config, AalUapp.class);
+		// System.err.println("uapp config is unmarshalled!!!");
+		// List<org.universAAL.ucc.model.uapp.Part> parts =
+		// uapp.getApplicationPart().getPart();
+		// for(org.universAAL.ucc.model.uapp.Part p : parts) {
+		// UAPPPart ua = new UAPPPart();
+		// Part part = new Part();
+		// part.setPartId(p.getPartId());
+		// ua.setPart(part);
+		// ua.setBundleId(p.getBundleId());
+		// ua.setBundleVersion(p.getBundleVersion());
+		//
+		// for(DeploymentUnit du : p.getDeploymentUnit()) {
+		// //Get Karaf container unit
+		// FeaturesRoot fRoot = du.getContainerUnit().getKaraf().getFeatures();
+		// for(Serializable feat : fRoot.getRepositoryOrFeature()) {
+		// Feature fe = (Feature)feat;
+		// for(Serializable bundle : fe.getDetailsOrConfigOrConfigfile()) {
+		// Bundle b = (Bundle)bundle;
+		// ua.setUappLocation(b.getValue());
+		// }
+		// }
+		// //Get Android locations, but there are more than one and you can set
+		// only one per part???
+		// for(String loc : du.getContainerUnit().getAndroid().getLocation()) {
+		// ua.setUappLocation(loc);
+		// }
+		//
+		//
+		// }
+		// UAPPReqAtom atom = null;
+		// PartRequirements pr = p.getPartRequirements();
+		// for(ReqType rt : pr.getRequirement()) {
+		// atom = new UAPPReqAtom();
+		// atom.setName(rt.getReqAtom().getReqAtomName());
+		// atom.setCriteria(rt.getReqAtom().getReqCriteria().name());
+		// List<String> values = new ArrayList<String>();
+		// for(String val : rt.getReqAtom().getReqAtomValue()) {
+		// values.add(val);
+		// } atom.setValue(values);
+		// }
+		// ua.addReqAtoms(atom);
+		//
+		// ua.setAppId(uapp.getApp().getAppId());
+		// ua.setDescription(uapp.getApp().getDescription());
+		// ua.setMultipart(uapp.getApp().isMultipart());
+		// ua.setName(uapp.getApp().getName());
+		// ua.setMajor(uapp.getApp().getVersion().getMajor());
+		// ua.setMicro(uapp.getApp().getVersion().getMicro());
+		// ua.setMinor(uapp.getApp().getVersion().getMinor());
+		// appsList.add(ua);
+		// }
+		// Start of old/hardcoded parsing
 		ArrayList<UAPPPart> appsList = new ArrayList<UAPPPart>();
 		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
@@ -296,9 +363,10 @@ public class FrontendImpl implements IFrontend {
 					.getAttributes().getNamedItem("partId").getNodeValue();
 			System.out.println("[FrontendImpl] PartId: " + partId);
 			Part p = new Part();
-			// TODO: Nicole check! Currently p/Part has just partId, all other part info is null/unset
+			// TODO: Nicole check! Currently p/Part has just partId, all other
+			// part info is null/unset
 			p.setPartId(partId);
-			
+
 			ua.setPart(p);
 			NodeList childs = doc.getElementsByTagName("uapp:part").item(j)
 					.getChildNodes();
@@ -315,7 +383,8 @@ public class FrontendImpl implements IFrontend {
 				}
 
 				if (childs.item(t).getNodeName().equals("uapp:deploymentUnit")) {
-					System.err.println("[FrontendImpl.parseUappConfiguration] IN DEPLOYMENT UNIT");
+					System.err
+							.println("[FrontendImpl.parseUappConfiguration] IN DEPLOYMENT UNIT");
 					Node dun = childs.item(t);
 					for (int du = 0; du < dun.getChildNodes().getLength(); du++) {
 						if (dun.getChildNodes().item(du).getNodeName()
@@ -388,54 +457,73 @@ public class FrontendImpl implements IFrontend {
 				}
 
 				// for checking part requirements
-				if (childs.item(t).getNodeName().equals("uapp:partRequirements")) {					
-					System.err.println("[FrontendImpl.parseUappConfiguration] In part requirements");
+				if (childs.item(t).getNodeName()
+						.equals("uapp:partRequirements")) {
+					System.err
+							.println("[FrontendImpl.parseUappConfiguration] In part requirements");
 					Node dun = childs.item(t);
 					for (int du = 0; du < dun.getChildNodes().getLength(); du++) {
 						if (dun.getChildNodes().item(du).getNodeName()
 								.equals("uapp:requirement")) {
 							Node cun = dun.getChildNodes().item(du);
 							NodeList nl = cun.getChildNodes();
-						
+
 							for (int n = 0; n < nl.getLength(); n++) {
 								if (nl.item(n).getNodeName()
 										.equals("uapp:reqAtom")) {
 									System.err.println("IN reqAtom");
 									Node ratom = nl.item(n);
-									System.err.println("NL: "+nl.getLength());
+									System.err.println("NL: " + nl.getLength());
 									NodeList rl = ratom.getChildNodes();
-									System.err.println("RL: "+rl.getLength());
+									System.err.println("RL: " + rl.getLength());
 									UAPPReqAtom atom = new UAPPReqAtom();
-									//Putting values of a reqatom
-									for (int k=0; k<rl.getLength(); k++)  {
-										//Here was UAPPReqAtom
-										if (rl.item(k).getNodeName().equals("uapp:reqAtomName"))  {
-											String value = rl.item(k).getTextContent();
-											System.out.println("[FrontendImpl.parsePartConfiguration] get a reqAtomName: " + value);
+									// Putting values of a reqatom
+									for (int k = 0; k < rl.getLength(); k++) {
+										// Here was UAPPReqAtom
+										if (rl.item(k).getNodeName()
+												.equals("uapp:reqAtomName")) {
+											String value = rl.item(k)
+													.getTextContent();
+											System.out
+													.println("[FrontendImpl.parsePartConfiguration] get a reqAtomName: "
+															+ value);
 											atom.setName(value);
 										}
-										if (rl.item(k).getNodeName().equals("uapp:reqAtomValue"))  {
-											String value = rl.item(k).getTextContent();
-											System.out.println("[FrontendImpl.parsePartConfiguration] get a reqAtomValue: " + value);
-											atom.setValue(value);
-										}	
-										
-										if (rl.item(k).getNodeName().equals("uapp:reqCriteria"))  {
-											String value = rl.item(k).getTextContent();
-											System.out.println("[FrontendImpl.parsePartConfiguration] get a reqCriteria: " + value);
-											atom.setCriteria(value);
-											
+										if (rl.item(k).getNodeName()
+												.equals("uapp:reqAtomValue")) {
+											String value = rl.item(k)
+													.getTextContent();
+											System.out
+													.println("[FrontendImpl.parsePartConfiguration] get a reqAtomValue: "
+															+ value);
+											List<String> vals = new ArrayList<String>();
+											vals.add(value);
+											atom.setValue(vals);
 										}
-																		
-									} System.err.println("Criteria: " +atom.getCriteria() + " Name: "+atom.getName()+" Value: "+atom.getValue());
+
+										if (rl.item(k).getNodeName()
+												.equals("uapp:reqCriteria")) {
+											String value = rl.item(k)
+													.getTextContent();
+											System.out
+													.println("[FrontendImpl.parsePartConfiguration] get a reqCriteria: "
+															+ value);
+											atom.setCriteria(value);
+
+										}
+
+									}
+									System.err.println("Criteria: "
+											+ atom.getCriteria() + " Name: "
+											+ atom.getName() + " Value: "
+											+ atom.getValue());
 									ua.addReqAtoms(atom);
 								}
 							}
 						}
 					}
-				}  
-				
-				
+				}
+
 				for (int k = 0; k < doc.getElementsByTagName("uapp:app")
 						.getLength(); k++) {
 					String name = doc.getElementsByTagName("uapp:name").item(k)
@@ -470,7 +558,7 @@ public class FrontendImpl implements IFrontend {
 
 		}
 		// }
-		System.err.println("parseUAPPconfiguration");
+		// System.err.println("parseUAPPconfiguration");
 		return appsList;
 
 	}
@@ -588,7 +676,7 @@ public class FrontendImpl implements IFrontend {
 	private void extractFile(ZipInputStream zipIn, String filePath)
 			throws IOException {
 		File f = new File(filePath);
-		
+
 		BufferedOutputStream bos = new BufferedOutputStream(
 				new FileOutputStream(filePath));
 		byte[] bytesIn = new byte[BUFFER_SIZE];
@@ -597,31 +685,34 @@ public class FrontendImpl implements IFrontend {
 			bos.write(bytesIn, 0, read);
 		}
 		bos.close();
-		
+
 	}
-	
+
 	private String createUAPPLocation(String path) {
 		File pa = new File(path);
-		File[]dirs = pa.listFiles();
-		File rootFile = new File(usrvLocalStore+"hwo_uapp");
+		File[] dirs = pa.listFiles();
+		File rootFile = new File(usrvLocalStore + "hwo_uapp");
 		rootFile.mkdir();
-		for(int i = 0; i < dirs.length; i++) {
-			File f = new File(usrvLocalStore+"hwo_uapp/"+dirs[i].getName());
-			System.err.println("Dir-Name: "+dirs[i].getName());
-			if(dirs[i].isDirectory()) {
+		for (int i = 0; i < dirs.length; i++) {
+			File f = new File(usrvLocalStore + "hwo_uapp/" + dirs[i].getName());
+			System.err.println("Dir-Name: " + dirs[i].getName());
+			if (dirs[i].isDirectory()) {
 				f.mkdir();
-//				File[] child = dirs[i].listFiles();
-//				for(int j = 0; j < child.length; j++) {
-//					System.err.println("Directory Path + Child Path: "+usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
-//					File cf = new File(usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
-//					child[j].renameTo(cf);
-//				}
+				// File[] child = dirs[i].listFiles();
+				// for(int j = 0; j < child.length; j++) {
+				// System.err.println("Directory Path + Child Path: "+usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
+				// File cf = new
+				// File(usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
+				// child[j].renameTo(cf);
+				// }
 			}
-//			if(!f.getName().substring(f.getName().indexOf(".")+1).equals("uapp")) {
-				dirs[i].renameTo(f);
-				System.err.println(f.getAbsolutePath());
-//			}
-		} return usrvLocalStore+"hwo_uapp";
+			// if(!f.getName().substring(f.getName().indexOf(".")+1).equals("uapp"))
+			// {
+			dirs[i].renameTo(f);
+			System.err.println(f.getAbsolutePath());
+			// }
+		}
+		return usrvLocalStore + "hwo_uapp";
 	}
 
 	/**
@@ -646,21 +737,26 @@ public class FrontendImpl implements IFrontend {
 
 	}
 
-	public void update(String sessionKey, String usrvfile, String serviceId) {
+	public void update(String sessionKey, String serviceId, String serviceLink) {
 		uninstallService(sessionKey, serviceId);
-		installService(sessionKey, usrvfile);
+		installService(sessionKey, serviceId, serviceLink);
 	}
 
 	public String getInstalledServices(String sessionKey) {
 		String services = Activator.getMgmt().getInstalledServices();
-		System.out.println("[FrontendImpl.getInstalledServices] the services installed: " + services);
+		System.out
+				.println("[FrontendImpl.getInstalledServices] the services installed: "
+						+ services);
 		return services;
 	}
 
 	public String getInstalledUnitsForService(String sessionKey,
-			String serviceId) {		
-		String units = Activator.getMgmt().getInstalledUnitsForService(serviceId);
-		System.out.println("[FrontendImpl.getInstalledUnitsForServices] the units installed: " + units);
+			String serviceId) {
+		String units = Activator.getMgmt().getInstalledUnitsForService(
+				serviceId);
+		System.out
+				.println("[FrontendImpl.getInstalledUnitsForServices] the units installed: "
+						+ units);
 		return units;
 	}
 
@@ -671,57 +767,56 @@ public class FrontendImpl implements IFrontend {
 	public static void setUappURI(String uappURI) {
 		FrontendImpl.uappURI = uappURI;
 	}
-	
-	static public void extractFolder(String zipFile, String destdir) throws ZipException, IOException 
-	{
-	    System.out.println("[Installer.extractFolder] the zip file is: " + zipFile + " and dest dir: " + destdir);
-	    int BUFFER = 2048;
-	    File file = new File(zipFile);
 
-	    ZipFile zip = new ZipFile(file);
-	    String newPath = destdir;
+	static public void extractFolder(String zipFile, String destdir)
+			throws ZipException, IOException {
+		System.out.println("[Installer.extractFolder] the zip file is: "
+				+ zipFile + " and dest dir: " + destdir);
+		int BUFFER = 2048;
+		File file = new File(zipFile);
 
-	    new File(newPath).mkdir();
-	    Enumeration<? extends ZipEntry> zipFileEntries = zip.entries();
+		ZipFile zip = new ZipFile(file);
+		String newPath = destdir;
 
-	    // Process each entry
-	    while (zipFileEntries.hasMoreElements())
-	    {
-	        // grab a zip file entry
-	        ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
-	        String currentEntry = entry.getName();
-	        File destFile = new File(newPath, currentEntry);
-	        //destFile = new File(newPath, destFile.getName());
-	        File destinationParent = destFile.getParentFile();
+		new File(newPath).mkdir();
+		Enumeration<? extends ZipEntry> zipFileEntries = zip.entries();
 
-	        // create the parent directory structure if needed
-	        destinationParent.mkdirs();
+		// Process each entry
+		while (zipFileEntries.hasMoreElements()) {
+			// grab a zip file entry
+			ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
+			String currentEntry = entry.getName();
+			File destFile = new File(newPath, currentEntry);
+			// destFile = new File(newPath, destFile.getName());
+			File destinationParent = destFile.getParentFile();
 
-	        if (!entry.isDirectory())
-	        {
-	            BufferedInputStream is = new BufferedInputStream(zip
-	            .getInputStream(entry));
-	            int currentByte;
-	            // establish buffer for writing file
-	            byte data[] = new byte[BUFFER];
+			// create the parent directory structure if needed
+			destinationParent.mkdirs();
 
-	            // write the current file to disk
-	            FileOutputStream fos = new FileOutputStream(destFile);
-	            BufferedOutputStream dest = new BufferedOutputStream(fos,
-	            BUFFER);
+			if (!entry.isDirectory()) {
+				BufferedInputStream is = new BufferedInputStream(
+						zip.getInputStream(entry));
+				int currentByte;
+				// establish buffer for writing file
+				byte data[] = new byte[BUFFER];
 
-	            // read and write until last byte is encountered
-	            while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
-	                dest.write(data, 0, currentByte);
-	            }
-	            dest.flush();
-	            dest.close();
-	            is.close();
-	        }
+				// write the current file to disk
+				FileOutputStream fos = new FileOutputStream(destFile);
+				BufferedOutputStream dest = new BufferedOutputStream(fos,
+						BUFFER);
 
-	    }       
+				// read and write until last byte is encountered
+				while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
+					dest.write(data, 0, currentByte);
+				}
+				dest.flush();
+				dest.close();
+				is.close();
+			}
+
+		}
 	}
-	
+
 	/**
 	 * Returns a generated Sessionkey for uStore
 	 */
@@ -734,7 +829,5 @@ public class FrontendImpl implements IFrontend {
 	public static String getUserSession() {
 		return userSession;
 	}
-	
-	
 
 }

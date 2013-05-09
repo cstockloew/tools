@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.xml.bind.JAXBException;
 
@@ -128,6 +130,8 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 		// Creating Tabs with Forms
 		ArrayList<OntologyInstance> tabs = dataAccess.getFormFields(actualFlat);
 		ArrayList<OntologyInstance>roomSubs = dataAccess.getFormFields(actualHW);
+//		ArrayList<OntologyInstance>tabs = dataAccess.getEmptyCHEFormFields("Device");
+//		ArrayList<OntologyInstance>roomSubs = dataAccess.getEmptyCHEFormFields("Device");
 		TabForm f = null;
 		for(OntologyInstance r : roomSubs) {
 			if(roomInstances.get(r.getId()) == null) {
@@ -269,11 +273,14 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 				if(d.contains("/")) {
 					format = new SimpleDateFormat("MM/dd/yy H:mm a");
 					da = format.parse(d);
+					date.setLocale(Locale.US);
+					
 				} else {
 					format = new SimpleDateFormat("dd.MM.yy H:mm");
 					da = format.parse(d);
+					date.setLocale(Locale.GERMANY);
 				}
-
+				
 				date.setValue(da);
 				date.setResolution(PopupDateField.RESOLUTION_MIN);
 				date.setImmediate(true);

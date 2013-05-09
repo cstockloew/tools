@@ -488,15 +488,17 @@ public class DeploymentInfoController implements Button.ClickListener,
 		for (int i=0; i<reqs.size(); i++) {
 			String reqname = reqs.get(i).getName();
 			System.err.println("Name: "+reqs.get(i).getName() + "VALUE: "+reqs.get(i).getValue()+"Criteria: "+reqs.get(i).getCriteria());
-			String reqvalue = reqs.get(i).getValue();
-			String reqcriteria = reqs.get(i).getCriteria();
-			if (reqcriteria==null) {
-				filter.put(reqname, reqvalue);
-			} else {
-				if (!reqcriteria.equals("equal")) {
-					filter.put(reqname, null);
-					// put the reqAtom for checking later;
-					toCheck.add(reqs.get(i));	
+			for(String s : reqs.get(i).getValue()) {
+				String reqvalue = s;
+				String reqcriteria = reqs.get(i).getCriteria();
+				if (reqcriteria==null) {
+					filter.put(reqname, reqvalue);
+				} else {
+					if (!reqcriteria.equals("equal")) {
+						filter.put(reqname, null);
+						// put the reqAtom for checking later;
+						toCheck.add(reqs.get(i));	
+					}
 				}
 			}
 		}
@@ -512,19 +514,21 @@ public class DeploymentInfoController implements Button.ClickListener,
 			for (int j=0; j<toCheck.size(); j++)  {
 				UAPPReqAtom req = toCheck.get(j);
 				String reqname = reqs.get(i).getName();
-				String reqvalue = reqs.get(i).getValue();
-				String reqcriteria = reqs.get(i).getCriteria();
-				if (reqcriteria.equals("greater-equal"))  {
-					int rvalue = Integer.parseInt(reqvalue);
-					int peervalue = Integer.parseInt((String) attr.get(reqname));
-					System.out.println("[checkPartRequirements] criteria is: " + reqcriteria + " part has req: " 
+				//one atom can have more than one value
+				for(String sr : reqs.get(i).getValue()) {
+					String reqvalue = sr;
+					String reqcriteria = reqs.get(i).getCriteria();
+					if (reqcriteria.equals("greater-equal"))  {
+						int rvalue = Integer.parseInt(reqvalue);
+						int peervalue = Integer.parseInt((String) attr.get(reqname));
+						System.out.println("[checkPartRequirements] criteria is: " + reqcriteria + " part has req: " 
 							+ rvalue + " the peer has req: " + peervalue);
-					if (peervalue < rvalue) {
-						// this peer is not eligible
-						valid = false;
+						if (peervalue < rvalue) {
+							// this peer is not eligible
+							valid = false;
+						}
 					}
 				}
-				
 				// TODO: extend the list according to LogicalCriteriaType to have a complete check
 					
 			}

@@ -2,11 +2,11 @@ package org.universAAL.ucc.frontend.api;
 
 
 public interface IFrontend {
-	public void installService(String sessionkey, String usrvFileUri);
+	public boolean installService(String sessionkey, String serviceId, String serviceLink);
 
 	public void uninstallService(String sessionkey, String serviceId);
 
-	public void update(String sessionKey, String usrvfile, String serviceId);
+	public void update(String sessionKey, String serviceId, String serviceLink);
 
 	public String getInstalledServices(String sessionKey);
 
