@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -13,8 +14,14 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.client.util.UstoreUtil;
+import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.SimpleObject;
+import org.universAAL.ucc.model.jaxb.StringValue;
+import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.webconnection.WebConnector;
@@ -157,6 +164,34 @@ public class DesktopController implements Button.ClickListener {
 			} else {
 				boolean in = false;
 				List<UserAccountInfo> users = setup.getUsers("file:///../etc/uCC/users.xml");
+				//AAL Space test
+//				DataAccess da = Activator.getDataAccess();
+//				ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
+//				String uname = "";
+//				String pw = "";
+//				for(OntologyInstance o : ontList) {
+//					
+//					for(Subprofile s : o.getSubprofiles()) {
+//						for(SimpleObject sim : s.getSimpleObjects()) {
+//							StringValue st = (StringValue)sim;
+//							if(st.getName().equals("username")) {
+//								uname = st.getValue();
+//							}
+//							if(st.getName().equals("password")) {
+//								pw = st.getValue();
+//							}
+//							if(!uname.equals("") && !pw.equals("")) {
+//								if(uname.equals(app.getUser().getValue()) && pw.equals(app.getPwd().getValue())) {
+//									userLogin();
+//									currentUser = app.getUser().getValue().toString();
+//									currentPassword = app.getPwd().getValue().toString();
+//									in = true;
+//								}
+//							}
+//						}
+//						
+//					}
+//				}
 				for(UserAccountInfo u : users) {
 					if(u.getName().equals(app.getUser().getValue()) && u.getPassword().equals(app.getPwd().getValue())) {
 						userLogin();

@@ -253,6 +253,7 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 					pwd.setWriteThrough(false);
 					pwd.setImmediate(true);
 					pwd.setDescription(st.getDescription());
+					pwd.setValue(st.getValue());
 					if (st.isRequired()) {
 						pwd.setRequired(true);
 						pwd.setRequiredError(st.getLabel() + " is required");

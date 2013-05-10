@@ -30,6 +30,10 @@ import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
 import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
 import org.universAAL.ucc.database.aalspace.DataAccess;
+import org.universAAL.ucc.startup.api.Setup;
+import org.universAAL.ucc.startup.model.Role;
+import org.universAAL.ucc.startup.model.UccUsers;
+import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
 import org.universAAL.ucc.windows.HardwareWindow;
 import org.universAAL.ucc.windows.HumansWindow;
@@ -89,6 +93,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 	private String actualFlat;
 	private boolean saved;
 	private String device;
+	private Setup setup;
 
 	public AddNewPersonController(AddNewPersonWindow window, HumansWindow hWin,
 			UccUI app) throws JAXBException,
@@ -115,7 +120,10 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 		ServiceReference ref = context.getServiceReference(DataAccess.class
 				.getName());
 		dataAccess = (DataAccess) context.getService(ref);
+		ServiceReference ref2 = context.getServiceReference(Setup.class.getName());
+		setup = (Setup)context.getService(ref2);
 		context.ungetService(ref);
+		context.ungetService(ref2);
 //		savedObjects = dataAccess.getCHEFormFields("User", );
 		savedObjects = dataAccess.getFormFields(actualFlat);
 		instance = new OntologyInstance();
@@ -349,7 +357,6 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 					.getSimpleObjects()) {
 				if (sim instanceof StringValue) {
 					StringValue s = (StringValue) sim;
-					
 					s.setValue((String) tab.getField(s.getLabel()).getValue());
 					simpleObjects.add(s);
 					if (s.isId()) {
@@ -499,6 +506,37 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 
 			if (tabSheet.getComponentCount() == 0) {
 				dataAccess.saveUserDataInCHE(instance);
+				//Save in Users.xml
+//				List<UserAccountInfo>ul = setup.getUsers("file:///../etc/uCC/users.xml");
+//				UserAccountInfo uinfo = new UserAccountInfo();
+//				uinfo.setChecked(true);
+//				ArrayList<Role> roles = new ArrayList<Role>();
+//				for(Subprofile s : instance.getSubprofiles()) {
+//					for(SimpleObject si : s.getSimpleObjects()) {
+//						StringValue sv = (StringValue)si;
+//						System.err.println(sv.getName());
+//						System.err.println(sv.getValue());
+//						if(sv.getName().equals("username")) {
+//							uinfo.setName(sv.getValue());
+//						}
+//						if(sv.getName().equals("password")) {
+//							uinfo.setPassword(sv.getValue());
+//						}
+//						
+//					}
+//					for(EnumObject eo : s.getEnums()) {
+//						System.err.println(eo.getType());
+//						if(eo.getType().equals("userRole")) {
+//							System.err.println(eo.getSelectedValue());
+//							roles.add(Role.valueOf(eo.getSelectedValue()));
+//							uinfo.setRole(roles);
+//						}
+//					}
+//				}
+//				
+//				ul.add(uinfo);
+//				setup.saveUsers(ul, "file:///../etc/uCC/users.xml");
+				
 //				dataAccess.saveUserData(actualFlat, instance);
 				app.getMainWindow().removeWindow(win);
 			}

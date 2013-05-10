@@ -18,8 +18,14 @@ import org.universAAL.ucc.api.IDeinstaller;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.client.util.UstoreUtil;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
+import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
+import org.universAAL.ucc.model.jaxb.EnumObject;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.StringValue;
+import org.universAAL.ucc.model.jaxb.Subprofile;
+import org.universAAL.ucc.profile.agent.ProfileAgent;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.api.IServiceModel;
 import org.universAAL.ucc.service.api.IServiceRegistration;
@@ -46,11 +52,14 @@ public class Activator implements BundleActivator {
 	private ModuleContext mContext;
 	private static String sessionKey;
 	private UstoreUtil client;
+	private static DataAccess dataAccess;
 //	private IEvaluationEventReceiver eventReceiver;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
 		client = new UstoreUtil();
+		ServiceReference ref = bc.getServiceReference(DataAccess.class.getName());
+		dataAccess = (DataAccess)bc.getService(ref);
 		//Setting setup properties in etc/ucc directory
 		File confHome = new File("file:///../etc/uCC");
 		if(!confHome.exists()) {
@@ -77,6 +86,37 @@ public class Activator implements BundleActivator {
 			in.close();
 		}
 		
+		//Write Techician/Deployer into AALSpace
+		OntologyInstance ont = new OntologyInstance();
+		ont.setId("Admin");
+		ont.setType("User");
+		Subprofile sub = new Subprofile();
+		StringValue name = new StringValue();
+		name.setId(false);
+		name.setLabel("Username:");
+		name.setName("username");
+		name.setRequired(true);
+		name.setValue("admin");
+		sub.getSimpleObjects().add(name);
+		
+		StringValue pass = new StringValue();
+		pass.setId(false);
+		pass.setLabel("Password:");
+		pass.setName("password");
+		pass.setRequired(true);
+		pass.setValue("uAAL");
+		sub.getSimpleObjects().add(pass);
+		
+		EnumObject role = new EnumObject();
+		role.setLabel("Role:");
+		role.setRequired(true);
+		role.setSelectedValue("DEPLOYER");
+		role.setTreeParentNode(true);
+		role.setType("userRole");
+		sub.getEnums().add(role);
+		ont.getSubprofiles().add(sub);
+		dataAccess.saveUserDataInCHE(ont);
+		
 		File file = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
 		if(!file.exists()) {
 			file.mkdir();
@@ -99,7 +139,7 @@ public class Activator implements BundleActivator {
 		reg = model.getServiceRegistration();
 		
 		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
-		SensorEventSubscriber sub = SensorEventSubscriber.getInstance(mContext, context);
+		SensorEventSubscriber ses = SensorEventSubscriber.getInstance(mContext, context);
 		
 //		ServiceReference ref = context.getServiceReference(IEvaluationEventReceiver.class.getName());
 //		eventReceiver = (IEvaluationEventReceiver)context.getService(ref);
@@ -185,5 +225,13 @@ public class Activator implements BundleActivator {
 		}
 
 	}
+
+
+
+	public static DataAccess getDataAccess() {
+		return dataAccess;
+	}
+	
+	
 
 }
