@@ -111,31 +111,31 @@ public class Activator implements BundleActivator {
     	User enduser = new User(USER_SPACE+"User");
     	enduser.setProperty(USER_SPACE+"username", "");
     	enduser.setProperty(USER_SPACE+"password", "");
-    	enduser.setProperty(USER_SPACE+"confirmpassword", "");
+//    	enduser.setProperty(USER_SPACE+"confirmpassword", "");
     	enduser.setProperty(USER_SPACE+"userRole", new String("ENDUSER"));
     	
     	User deployer = new User(USER_SPACE+"Deployer");
     	deployer.setProperty(USER_SPACE+"username", "");
     	deployer.setProperty(USER_SPACE+"password", "");
-    	deployer.setProperty(USER_SPACE+"confirmpassword", "");
+//    	deployer.setProperty(USER_SPACE+"confirmpassword", "");
     	deployer.setProperty(USER_SPACE+"userRole", "DEPLOYER");
     	
     	User tec = new User(USER_SPACE+"Technician");
     	tec.setProperty(USER_SPACE+"username", "");
     	tec.setProperty(USER_SPACE+"password", "");
-    	tec.setProperty(USER_SPACE+"confirmpassword", "");
+//    	tec.setProperty(USER_SPACE+"confirmpassword", "");
     	tec.setProperty(USER_SPACE+"userRole", "TECHNICIAN");
     	
     	User care = new User(USER_SPACE+"Caregiver");
     	care.setProperty(USER_SPACE+"username", "");
     	care.setProperty(USER_SPACE+"password", "");
-    	care.setProperty(USER_SPACE+"confirmpassword", "");
+//    	care.setProperty(USER_SPACE+"confirmpassword", "");
     	care.setProperty(USER_SPACE+"userRole", "CAREGIVER");
     	
     	User assisted = new User(USER_SPACE+"AssistedPerson");
     	assisted.setProperty(USER_SPACE+"username", "");
     	assisted.setProperty(USER_SPACE+"password", "");
-    	assisted.setProperty(USER_SPACE+"confirmpassword", "");
+//    	assisted.setProperty(USER_SPACE+"confirmpassword", "");
     	assisted.setProperty(USER_SPACE+"userRole", "ASSISTEDPERSON");
     
     	pAgent.addUser(enduser);

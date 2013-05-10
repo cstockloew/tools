@@ -165,18 +165,18 @@ public class DataAccessImpl implements DataAccess{
 				sub.getSimpleObjects().add(st);
 				
 				StringValue pw = new StringValue();
-				pw.setLabel("Password");
+				pw.setLabel("Password:");
 				pw.setName("password");
 				pw.setRequired(true);
 				pw.setValue((String)u.getProperty(Activator.USER_SPACE+"password"));
 				sub.getSimpleObjects().add(pw);
 				
-				StringValue confirm = new StringValue();
-				confirm.setLabel("Confirm Password:");
-				confirm.setName("confirmpassword");
-				confirm.setRequired(true);
-				confirm.setValue((String)u.getProperty(Activator.USER_SPACE+"confirmpassword"));
-				sub.getSimpleObjects().add(confirm);
+//				StringValue confirm = new StringValue();
+//				confirm.setLabel("Confirm Password:");
+//				confirm.setName("confirmpassword");
+//				confirm.setRequired(true);
+//				confirm.setValue((String)u.getProperty(Activator.USER_SPACE+"confirmpassword"));
+//				sub.getSimpleObjects().add(confirm);
 			
 				EnumObject en = new EnumObject();
 				en.setType("userRole");
