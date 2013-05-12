@@ -172,12 +172,12 @@
 										<xs:element name="experience" type="xs:string"/>
 						</xs:sequence>
 				</xs:complexType>
-				<xs:complexType name="toBeDefinedUsrv">
+				<!-- <xs:complexType name="toBeDefinedUsrv">
 								<xs:annotation>
 												<xs:documentation> temporary type</xs:documentation>
 								</xs:annotation>
 								<xs:complexContent>
 												<xs:extension base="xs:anyType"/>
 								</xs:complexContent>
-				</xs:complexType>
+				</xs:complexType> -->
 </xs:schema>

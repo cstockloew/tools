@@ -44,7 +44,8 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Import-Package>*</Import-Package>
 						<Export-Package>org.universAAL.ucc.model,
-							org.universAAL.ucc.model.*, org.universAAL.ucc.model.jaxb.*</Export-Package>
+							org.universAAL.ucc.model.*, org.universAAL.ucc.model.jaxb.*,
+							org.universAAL.ucc.model.uapp, org.universAAL.ucc.mode.usrv</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
