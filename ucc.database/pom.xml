@@ -48,7 +48,8 @@
 							org.universAAL.ucc.database.listener.services.*,
 							org.universAAL.ucc.startup.api.*,
 							org.universAAL.ucc.startup.api.impl.*,
-							org.universAAL.ucc.startup.model.*</Export-Package>
+							org.universAAL.ucc.startup.model.*,
+							org.universAAL.ucc.database.parser</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>

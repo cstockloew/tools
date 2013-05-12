@@ -26,6 +26,8 @@ import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.database.aalspace.DataAccessImpl;
 import org.universAAL.ucc.database.listener.interfaces.OntologySupplierService;
 import org.universAAL.ucc.database.listener.services.OntologySupplierServiceImpl;
+import org.universAAL.ucc.database.parser.ParserService;
+import org.universAAL.ucc.database.parser.ParserServiceImpl;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.database.preferences.impl.UserAccountDBImpl;
 import org.universAAL.ucc.model.jaxb.BooleanValue;
@@ -97,6 +99,7 @@ public class Activator implements BundleActivator {
 	reg = context.registerService(Setup.class.getName(), new SetupImpl(), null);
 	reg = context.registerService(DataAccess.class.getName(), new DataAccessImpl(), null);
 	reg = context.registerService(OntologySupplierService.class.getName(), new OntologySupplierServiceImpl(), null);
+	reg = context.registerService(ParserService.class.getName(), new ParserServiceImpl(), null);
 	
 	//connection to profile agent and setting an empty user from xml definition
 	System.err.println("Before profileagent");
