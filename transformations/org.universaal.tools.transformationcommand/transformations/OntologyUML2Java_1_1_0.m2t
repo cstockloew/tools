@@ -186,38 +186,41 @@ import org.universAAL.middleware.owl.OntologyManagement;
 public class Activator implements BundleActivator {
 
   static BundleContext context = null;
-  '
+'
   ontNameList.keys()->forEach(oName:String){
-  '
-  'ontNameList.get(oName).firstToUpper()'Ontology _' ontNameList.get(oName) 'ontology = new ' ontNameList.get(oName).firstToUpper() 'Ontology();
-  
-  '
+  '  'ontNameList.get(oName).firstToUpper()'Ontology _' ontNameList.get(oName) 'Ontology = new ' ontNameList.get(oName).firstToUpper() 'Ontology();\n'
   }
   '
 
   public void start(BundleContext context) throws Exception {
-    Activator.context = context;
-    '
+    Activator.context = context;\n'
     ontNameList.keys()->forEach(oName:String){ 
-    '
-    OntologyManagement.getInstance().register(_' ontNameList.get(oName) 'ontology);
-    '
+    '    OntologyManagement.getInstance().register(_' ontNameList.get(oName) 'Ontology);\n'
     }
-    '
-  }
+'  }
 
-  public void stop(BundleContext arg0) throws Exception {
-    '
+  public void stop(BundleContext arg0) throws Exception {\n'
     ontNameList.keys()->forEach(oName:String){ 
-    '
-    OntologyManagement.getInstance().unregister(_' ontNameList.get(oName) 'ontology);
-    '
+    '    OntologyManagement.getInstance().unregister(_' ontNameList.get(oName) 'Ontology);\n'
     }
-    '
-  }
+'  }
 }	
 '	
 
+  }
+
+  uml.Package::generatMainOntologyClassStaticImports() {
+'import org.universAAL.middleware.owl.BoundingValueRestriction;
+import org.universAAL.middleware.owl.DataRepOntology;
+import org.universAAL.middleware.owl.ManagedIndividual;
+import org.universAAL.middleware.owl.MergedRestriction;
+import org.universAAL.middleware.owl.OntClassInfoSetup;
+import org.universAAL.middleware.owl.Ontology;
+import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.rdf.TypeMapper;
+import org.universAAL.middleware.service.owl.ServiceBusOntology;
+import org.universAAL.ontology.location.LocationOntology;
+'    
   }
 
 
@@ -233,17 +236,8 @@ public class Activator implements BundleActivator {
 '
 package ' importName ';
 
-import org.universAAL.middleware.owl.BoundingValueRestriction;
-import org.universAAL.middleware.owl.DataRepOntology;
-import org.universAAL.middleware.owl.ManagedIndividual;
-import org.universAAL.middleware.owl.MergedRestriction;
-import org.universAAL.middleware.owl.OntClassInfoSetup;
-import org.universAAL.middleware.owl.Ontology;
-import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.rdf.TypeMapper;
-import org.universAAL.middleware.service.owl.ServiceBusOntology;
-import org.universAAL.ontology.location.LocationOntology;
-
+' self.generatMainOntologyClassStaticImports()
+'
 ' 
 //use the import hastables to generate a complete list of imports.
 //for each class in the ontologyClassList, get the import classes and put them into a new hashtable.
