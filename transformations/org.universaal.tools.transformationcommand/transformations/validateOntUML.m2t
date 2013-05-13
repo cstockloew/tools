@@ -1,4 +1,4 @@
-texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
+texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 	
 	var EntityList:list
 	var PropertyList:list
@@ -6,39 +6,54 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 	var dataWarningMap:hashtable
 	var errorsList:list
 	
-	var debugEnabled:boolean = false
-	var logEnabled:boolean = false
+	var debugEnabled:boolean = true
+	var logEnabled:boolean = true
 	
 	var general:hashtable
-	var generalFinalList:list
+	var listOfUpperOntologyEntities:list
 	
 	uml.Model::main() {
 	    // Init
 	   	verbose("Initializing...", false, true)
 	
-	   	// Create list of general class that MUST BE DERIVED from all the other classes
-	    self.createGeneralList()
+	   	// Create the list of upper ontology entities
+	    self.createSuperentitiesList()
 	    
-	    self.ownedMember -> forEach( p:uml.Package ) {
-			verbose("Start Processing Model...", false, true)
-			if (!p.hasStereotype("owlOntology")) {
-				verbose("The package " + p.name + " is not stereotyped with owlOntology!\nIt is required to set the owlOntology stereotype on ALL root packages.",true,true)
-			} else {
-	    		p.processOntologyPackage()
-			}
+	    if(listOfUpperOntologyEntities.size() == 0){
+	    	verbose("No upper ontology defined!!",true,false)
+	    } else {
+	        self.ownedMember -> forEach( p:uml.Package ) {
+				verbose("Start Processing Model Packages...", false, true)
+				if (!p.hasStereotype("owlOntology")) {
+					verbose("The package " + p.name + " is not stereotyped with owlOntology!\nIt is required to set the owlOntology stereotype on ALL root packages.",true,true)
+				} else {
+		    		p.processOntologyPackage()
+				}
+		 	}
 	 	}
-	 	
+	    
+	    if(!errorsList.isEmpty()) { 
+			verbose("*** ERRORS OCCURRED WHILE CHECKING ***",false,true)
+			if(!debugEnabled){
+				errorsList->forEach(e){
+					verbose(e,false,true);
+				}
+			}
+		} else {
+			verbose("\n\n--- EVERYTHING'S OK ---",false,false)
+		}
 	}
 
 	uml.Package::processOntologyPackage() {
-	  	// Creates the Entity List 
-	  	verbose("INFO: Building Class list and tree",false,false) 
+	  	// Creates the Model Entity List 
+	  	verbose("Building Model Class list and tree",false,true) 
 		self.ownedElement->forEach(c : uml.Class) {
 		  	EntityList.add(c)
 		  	c.updateGeneralHashtable()
 		}
    		
-   		// Check for empty Entity names or duplicate entry
+   		verbose("Start checking...",false,true) 
+		// Check for empty Entity names or duplicate entry
     	if(self.checkEmpty(EntityList) && self.checkUnity(EntityList)){
       
       		
@@ -62,16 +77,6 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 			
     	}
     
-		if(!errorsList.isEmpty()) { 
-			verbose("*** ERRORS OCCURRED WHILE CHECKING ***",false,true)
-			if(!debugEnabled){
-				errorsList->forEach(e){
-					verbose(e,false,true);
-				}
-			}
-		} else {
-			verbose("\n\n--- EVERYTHING'S OK ---",false,false)
-		}
 	}
 	
 	uml.Class::updateGeneralHashtable() {
@@ -95,17 +100,17 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 			if (self.checkIfFinal()) verbose("OK!!",false,false)
 			else {
 				var superEntities:string
-				generalFinalList->forEach(e) {
-					superEntities = superEntities + e +"; "
+				listOfUpperOntologyEntities->forEach(e:uml.Class) {
+					superEntities = superEntities + e.name +"; "
 				}
-				verbose(name+": Must be a direct or indirect derived class of one of these class: "+superEntities,true,false)
-			}
+				verbose(name+": Must derive directly or indirectly from one of the entities of the upper ontology: "+superEntities,true,false)
+    		}
 		}
 	}
 	
 	uml.Class::checkIfFinal():boolean {
-		generalFinalList->forEach(e) {
-			if(e.equals(self.name)) return true
+		listOfUpperOntologyEntities->forEach(e:uml.Class) {
+			if(e.name.equals(self.name)) return true
 		}
 		return false
 	}
@@ -207,19 +212,26 @@ texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 		} 
 	}
   
-	// Create list of general class that MUST BE DERIVED from all the other classes
-	uml.Model::createGeneralList() {
-		generalFinalList.add("Service")
-		generalFinalList.add("Device")
-		generalFinalList.add("ManagedIndividual")
-	}
+	// OLD: Create list of general class that MUST BE DERIVED from all the other classes
+	/*uml.Model::createSuperentitiesList() {
+		listOfUpperOntologyEntities.add("Service")
+		listOfUpperOntologyEntities.add("Device")
+		listOfUpperOntologyEntities.add("ManagedIndividual")
+	}*/
 	
-	uml.Package::inGeneralList(what:string):boolean {
-	  	generalFinalList->forEach(e){
-	  		if(e.equals(what)) return true
-	  	}
-		return false
+	// Create list of general class that MUST BE DERIVED from all the other classes
+	uml.Model::createSuperentitiesList(){
+		self.packageImport->forEach(p:uml.PackageImport){
+			p.relatedElement->forEach(m:uml.Model | m.name.startsWith("org.universaal.")){
+				m.ownedMember->forEach(package:uml.Package){
+					package.ownedMember->forEach(class:uml.Class){
+						listOfUpperOntologyEntities.add(class)
+					}
+				}
+			}
+		}
 	}
+
 	
 	uml.Package::checkDuplicates(someList:list, what:string):integer {
 		var times:integer = 0
