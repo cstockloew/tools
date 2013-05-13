@@ -1,354 +1,242 @@
-/**
- * transformation Validate Ontology UML for universAAL
- * date: 6/5/2013
- * author: Erlend Stav, ...
- * description: 
- */
+texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
+	
+	var EntityList:list
+	var PropertyList:list
+	var ClassHashtable:hashtable
+	var dataWarningMap:hashtable
+	var errorsList:list
+	
+	var debugEnabled:boolean = false
+	var logEnabled:boolean = false
+	
+	var general:hashtable
+	var generalFinalList:list
+	
+	uml.Model::main() {
+	    // Init
+	   	verbose("Initializing...", false, true)
+	
+	   	// Create list of general class that MUST BE DERIVED from all the other classes
+	    self.createGeneralList()
+	    
+	    self.ownedMember -> forEach( p:uml.Package ) {
+			verbose("Start Processing Model...", false, true)
+			if (!p.hasStereotype("owlOntology")) {
+				verbose("The package " + p.name + " is not stereotyped with owlOntology!\nIt is required to set the owlOntology stereotype on ALL root packages.",true,true)
+			} else {
+	    		p.processOntologyPackage()
+			}
+	 	}
+	 	
+	}
 
-texttransformation ValidateOntUML (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
-
-  var ontologyNamespace:String
-  var ontologyName:String
-  var propertyHashtable: Hashtable  
-  var projectInfo: Hashtable
-  var importedModels: Hashtable
-  var datatypeImportMap:Hashtable 
-  
-  var ontologyClassList:Hashtable 
-  var ontologyEnumerationList:Hashtable 
-  var subPackageList:Hashtable
-  
-  
- 
-   /**
-   * Main (entry point)
-   */
-    
-  uml.Model::main() {
-  	var ontologyNameList:Hashtable
-   
-    if (self.hasStereotype("owlOntology")) {
-      
-      StdOut.println("WARNING!!! The owlOntology stereotype should NOW be applied to the root package(s).")
-      StdOut.println("Remember to set all required values (defaultnamespace and name) for each package!") 
-      StdOut.println("Continuing with validation...") 
-      StdOut.println("");
-      
-    }
-    
-   
-  	// Initiate a hashmap that contains the supported datatypes and their corresponding java import statements
-    self.initDatatypeImportMap()
-         
-  	self.ownedMember -> forEach( p:uml.Package ){   
-  	   ontologyClassList = null
-       ontologyEnumerationList = null
-       subPackageList = null
-        
-  	    if (!p.hasStereotype("owlOntology")) {
-			StdOut.println("WARNING!!! The package " + p.name + " is not stereotyped with owlOntology!")  
-			StdOut.println("It is required to set the owlOntology stereotype on ALL root packages.")
+	uml.Package::processOntologyPackage() {
+	  	// Creates the Entity List 
+	  	verbose("INFO: Building Class list and tree",false,false) 
+		self.ownedElement->forEach(c : uml.Class) {
+		  	EntityList.add(c)
+		  	c.updateGeneralHashtable()
 		}
-    
-    	ontologyName = p.name.substring(p.name.lastIndexOf(".")+1, p.name.size()) //get the last segment of the packagename 
-    	StdOut.println("Generating Java classes for package: " + ontologyName)
-    
-    	ontologyNamespace = p.getStereotypeValue("owlOntology", "defaultNamespace")
-    	StdOut.println("Namespace: "+ontologyNamespace)        
+   		
+   		// Check for empty Entity names or duplicate entry
+    	if(self.checkEmpty(EntityList) && self.checkUnity(EntityList)){
       
-        //recursively create the ontology classes and enumerations
-        p.processOntologyPackage()  
-		subPackageList.remove(p.getFullPackageName().trim()) //remove own reference      
-              		   		
-   		//at the package to list of ontologies
-   		ontologyNameList.put(p.name.trim(), ontologyName)
-   		
-  	}
-
-  }
- 
- 	uml.Package::processOntologyPackage() {
- 	      	//Create a hashtable containing the properties of the classes in the model.  		
-   			StdOut.println("Handling properties of classes (not interfaces) in the package: " + self.name)
-   			self.ownedElement->forEach(c : uml.Class) {
-   				c.createPropertyList()
-  				c.createPropertyListForAssociations()
-   			}
-			//now see if there are any associations that own both its ends
-			self.ownedElement->forEach(ass : uml.Association) {ass.createPropertyForAssociations()}	
-
-		  	StdOut.println("Handling classes of package :" + self.name) 
-  	
-  			self.ownedElement -> forEach( component:uml.Class ) { 
-			    ontologyClassList.put(component.name, component)
-				component.validateOntologyClass()
+      		
+      		// If everything's ok continue..
+			EntityList->forEach(entity : uml.Class) {
+    			verbose("Start "+entity.name+" analisys...",false,false)
+    			
+    			// 1. Class Generalization Check
+				verbose("Checking for right generalization of "+entity.name,false,false)
+				entity.checkRightGeneralization(entity.name)
+				
+				// 2. Creates the Property List for each class
+				// and checks for no empty props, undefined props types and dupicate entry for props
+				PropertyList = entity.getPropertyList()
+    			if(self.checkUnity(PropertyList) && errorsList.isEmpty()){
+					entity.updateHashtableClass(PropertyList)
+				} 
+						
 			}
-   		
-			self.ownedElement -> forEach( component:uml.Enumeration ) { 
-			    ontologyEnumerationList.put(component.name, component)
-				component.validateEnumerationClass()
+			
+			
+    	}
+    
+		if(!errorsList.isEmpty()) { 
+			verbose("*** ERRORS OCCURRED WHILE CHECKING ***",false,true)
+			if(!debugEnabled){
+				errorsList->forEach(e){
+					verbose(e,false,true);
+				}
 			}
- 	
- 	 		//process subpackages
- 	 		self.ownedMember->forEach(subPack : uml.Package) {
- 	 			subPack.processOntologyPackage()
- 	 		}
- 	}
- 
-
-
-
-
-  uml.Class::validateOntologyClass () {
-    'Class ' self.getFullOwnerPackageName() + '.' + self.name
-    
-    //get the property's hashtable and intialize the properties
-    Hashtable props = propertyHashtable.get(self.name)
-    
-    //properties first
-    props->forEach(att: uml.Property) {
-  	   att.name.trim() '\n'
+		} else {
+			verbose("\n\n--- EVERYTHING'S OK ---",false,false)
+		}
 	}
+	
+	uml.Class::updateGeneralHashtable() {
+	  	if(self.general.size() > 0){
+	  		if(self.general.size() > 1) verbose(self.name + ": Multiple superclasses found. Use interfaces instead - additional superclasses are igonered!",true,false)
+			general.put(self.name, self.general.first()) // key: derived class name, value: parent class
+		}
+	}
+		
+	uml.Class::checkRightGeneralization(name:string) {
+	  	var parent:uml.Class = general.get(self.name)
+		if(parent != null){
+			verbose(self.name+"->"+parent.name,false,false)
+			if(parent.name.equals(name)){
+				verbose(name+": circular derivation found!",true,false)
+				return
+			}
+			if(self.checkIfFinal()) verbose(self.name+": Cannot have parent class!!",true,false)
+			else parent.checkRightGeneralization(name)
+		} else {
+			if (self.checkIfFinal()) verbose("OK!!",false,false)
+			else {
+				var superEntities:string
+				generalFinalList->forEach(e) {
+					superEntities = superEntities + e +"; "
+				}
+				verbose(name+": Must be a direct or indirect derived class of one of these class: "+superEntities,true,false)
+			}
+		}
+	}
+	
+	uml.Class::checkIfFinal():boolean {
+		generalFinalList->forEach(e) {
+			if(e.equals(self.name)) return true
+		}
+		return false
+	}
+	
+	uml.Class::getPropertyList():list {
+		var pList:list
 
-	//association properties next
-	props->forEach (ass : uml.Association) 
-	{
-	  ass.name.trim() '\n'
+		verbose("Getting properties of entity "+self.name,false,false)
+
+		self.ownedMember->forEach(att : uml.Property) {
+		 	verbose('\tAdding property '+att.name+' (type:'+att.type.name+', size:'+att.name.size()+')',false,false)
+			
+			att.name = att.name.trim()
+			
+			if(att.name.size() == 0) verbose(self.name+": Empty property found",true,false)
+			if(att.type == null) verbose(self.name+": Property "+att.name+" has UNDEFINED type",true,false)
+				
+			pList.add(att)
+		}
+
+		if(pList.isEmpty()){
+		  	verbose(self.name + ": NO properties found",true,false)
+		}
+
+		return pList
+	}
+	
+	uml.Package::checkEmpty (someList:list):boolean {
+		someList->forEach(e) {
+			var elementProps:hashtable = e.getElementProps()
+			verbose("INFO: Element name:"+elementProps.get('name')+", element type:"+elementProps.get('type'), false, false)
+			if(elementProps.get('name').size() == 0) {
+        		verbose(elementProps.get('parent')+"Empty "+elementProps.get('type')+" names not allowed\n----",true,false)
+        		return false
+			}
+		}
+		return true
+	}
+	
+	uml.Package::checkUnity (someList:list):boolean {
 	  
+		var toBeChecked:string
+		var repetitions:integer
+		var repeatedElements:hashtable
+		var parent:string
+		
+		someList->forEach(e) {
+		  	var elementProps:hashtable = e.getElementProps()
+			parent = elementProps.get('parent')
+			toBeChecked = elementProps.get('name');
+			repetitions = self.checkDuplicates(someList, toBeChecked)
+			if(repetitions > 1) repeatedElements.put(elementProps.get('name')+":"+elementProps.get('type'), repetitions)
+		}
+	  
+		if(!repeatedElements.isEmpty()) {
+	
+			var repeatedEntitiesNames:list = repeatedElements.keys()
+		     
+			repeatedEntitiesNames->forEach(e){
+				var times:integer = repeatedElements.get(e)
+				var eName:string  = e.substring(0, e.lastIndexOf(":"))
+				var eType:string  = e.substring(e.lastIndexOf(":")+1, e.size())
+		      
+				verbose(parent+"Duplicated entry for "+eType+" "+eName+" ("+times+" duplicates)\n----",true,false)
+			}
+		
+			return false
+		  
+		}
+		return true
+ 
 	}
-  	'\n'
- 
-  }
 
-  uml.Enumeration::validateEnumerationClass () {
-
-	if (self.isAbstract) {
-	  'Enum ' self.name ' is abstract\n'
+	
+	uml.Class::getElementProps():hashtable {
+		var pHash:hashtable
+		pHash.put('name',self.name);
+		pHash.put('type',self.oclGetType());
+		pHash.put('parent',false);
+		return pHash
 	}
-	else {
-	  'Enum ' self.name ': '
-	  self.ownedLiteral->forEach(enumLit : uml.EnumerationLiteral) {
-	    enumLit.name.trim() ' '
-	  }
-      '\n'
-	}   
-  }
-
-  
-  
 	
-	
-	
-	
-		
-		
-  /*****************************************************************************
-   * Utility functions that can be useful also for validation below this point
-   */
-	
-	
-  /**
-   * Crate a map containing the basic datatypes supported.
-   */		
-  uml.Model::initDatatypeImportMap() {
-    datatypeImportMap.put("Boolean", " ")
-    datatypeImportMap.put("Integer", " ")
-    datatypeImportMap.put("Float", " ")
-    datatypeImportMap.put("UnlimitedNatural", " ")
-    datatypeImportMap.put("Long", " ")
-    datatypeImportMap.put("String", " ")
-    datatypeImportMap.put("Float", " ")
-    datatypeImportMap.put("Double", " ")
-    datatypeImportMap.put("XMLGregorianCalendar", "javax.xml.datatype.XMLGregorianCalendar")
-    datatypeImportMap.put("Duration", "javax.xml.datatype.Duration")
-    datatypeImportMap.put("Locale", "java.util.Locale")
-  }		
-		
-		
-  /**
-   * Check if a property is one of the defined basic data types
-   */		
-  uml.Property::isDataType() {
-	var theTypeName:String = "String"	
-	
-	if (self.type != null) {
-		  theTypeName = self.type.name
+	uml.Property::getElementProps():hashtable {
+		var pHash:hashtable
+		pHash.put('name',self.name);
+		pHash.put('type',self.oclGetType());
+		pHash.put('parent',self.class.name+": ");
+		return pHash
 	}
-	var isDatatype:boolean = (datatypeImportMap.get(theTypeName) != null)
 	
-	return isDatatype
-  }
-
-
-  uml.Classifier::toUpperFormat():String {
-    var txt:String
-    var res:String
+	uml.Class::updateHashtableClass(pList:list) {
+		if (!pList.isEmpty()){
+			var pHash:hashtable
+			pList->forEach(e:uml.Property){
+				pHash.put(e.name,e)
+			}
+			ClassHashtable.put(self.name,pHash) //key=class.name. pHash = hashtable of properties
+			verbose("Entity Hashtable updated for key " + self.name + " (properties=" + pHash.size() +"). Hashtable size=" + ClassHashtable.size() ,false,false)
+		} 
+	}
   
-    txt = self.name.trim()
-    res = ""
-
-    txt->forEach(aChar:String) {
-      if (aChar.isUpperCase(0)) {
-        res = res + "_";
-      }
-      res = res + aChar;
-    }  
-
-  	return res.toUpper()
-  }   
-
-
+	// Create list of general class that MUST BE DERIVED from all the other classes
+	uml.Model::createGeneralList() {
+		generalFinalList.add("Service")
+		generalFinalList.add("Device")
+		generalFinalList.add("ManagedIndividual")
+	}
 	
-  /**
-   * Get a tagged value associated with a stereotyped element
-   */
-  uml.NamedElement::getStereotypeValue(stereotypeName:String, tag:String):String {
-    // Find and return the value of a stereotype    
-   var mySType:uml.Stereotype
-   if (self.hasStereotype(stereotypeName)) {
-     mySType = self.getAppliedStereotype(stereotypeName);
-     return self.getValue(mySType, tag)
-   }
-   else {
-     //StdOut.println(self.name+" do not have the expected stereotype : " + stereotypeName)
-     return ""
-   }
-  }
-
-
-  uml.NamedElement::getFirstCommentText():String {
-    if (self.ownedComment.isEmpty()) {
-      return ""
-    }
-    else {
-      // Checking the body for null do not work, so instead we check that the body is of type String
-      if (self.ownedComment.first().body.oclGetType().equals("String"))
-        return self.ownedComment.first().body.trim()
-      else
-        return ""
-    }    
-  }  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  /*
-   * Will get the properties for the class and put it into the propertyHashtable
-   * The properties are stored as as <class.name,hashtable<property.name, property>> records
-   */
-  uml.Class::createPropertyList() {
- 	//look if there is an entry in the hashtable for the active classifier.
- 	var pHash:Hashtable = propertyHashtable.get(self.name)
- 	
- 	self.ownedMember->forEach(att : uml.Property) {
- 		//add property to list and update the hashtable. 
- 	   	pHash.put(att.name, att) //key=property.name. ELement = property
-    }
- 
-    //update propertyHashtable
-    if (!pHash.isEmpty()){
- 		propertyHashtable.put(self.name,pHash) //key=class.name. Element = hashtable
-    	//stdout.println("INFO: Property hashtable updated for key " + self.name + " (size=" + pHash.size() +"). Total size=" + propertyHashtable.size() )
-   }
-  }
-  
-  /**
-   * This function will only deal with associations. It updates the navigable classifiers in the propertyHash
-   * with information about their navigable ends   *
-   */
-  uml.Association::createPropertyForAssociations() {
-    //get the navigable ends
-  	self.navigableOwnedEnd->forEach(p : uml.Property) {
-  		//stdout.println("Navigable property on association " + self.name + " - called " + p.name + " of type " + p.type.name )
-  		//must get the navigator classifier.
-  		self.memberEnd->forEach(prop : uml.Property) {
-  			if (!prop.name.equals(p.name)){
-  				//must get the global hashtable entry before updating it
-  				var naviHash:Hashtable = propertyHashtable.get(prop.type.name)
-  				naviHash.put(prop.type.name, p) //key= propertytype.name. Element=Property
-  				propertyHashtable.put(prop.type.name, naviHash) //key propertytype.name (the name of the class that can navigate)
-  			} //if
-  		}//foreach prop
-   	} //foreach p
-  }
-   
-  /*
-   * This function will find properties for the associations defined in the model and store them in the propertyHashtable hashtable
-   * Each association that is navigable will result in a propory at its corresponding member end.
-   * The records are stored as <association.name, hashtable<association.name,association>>	
-   */
-
- uml.Classifier::createPropertyListForAssociations() {
-   
-    //now get the properties for this classifier from the global hashtable
-    Hashtable pHash = propertyHashtable.get(self.name)
-    
-    //for each association owned by the classifier, check for navigation and update local hashtable
-    self.getAssociations()->forEach(ass : uml.Association ) {
-      	//stdout.println("INFO: Found association:" + ass.name + " for " + self.name)
-      	     	
-      	//only add the assocations that are navigable for the classifier in question
-        ass.navigableOwnedEnd->forEach(c : uml.Classifier) {
-           	if (c.name.equals(ass.name)){
-        		pHash.put(ass.name, ass)  //key=association.name. Element= association
-        	}
-        }
-    }
- 	
- 	//update propertyHashtable
-    if (!pHash.isEmpty()){
- 		propertyHashtable.put(self.name,pHash)  //key=classifier.name. Element=hashtable
-   }
- }
- 
-
-
-  //get the full name of the root package
-  uml.Classifier::getFullOwnerPackageName():String {
-    if (self.owner!=null) {
-      return self.owner.getFullPackageName()
-    }
-  	return ""
-  }
-  
- 
-  uml.Classifier::getFullPackageName():String {
-  	if(self.owner !=null) {
-  	  var targetName:String
-  	  targetName = self.owner.getFullPackageName() 
-  	  if (targetName.equals("")) {
-  	  	return self.name.trim()
-  	  }
-  	  else {
-  	  	return targetName.trim() + "." + self.name
-  	  }
-  	}
-  	else {
-  		return ""
-  	}
-  }
-
-
-/**
- * print the property hashtable for debugging purposes
- */   
-  uml.Classifier::printHashtable() {
-  //this will just print the complete hashtable to console
-  stdout.println("PropertyHashtable has " + propertyHashtable.size() + " elements")
-  stdout.println("Keys: " + propertyHashtable.keys())
-  propertyHashtable.keys()->forEach(c) {
-  	stdout.println("Classifier:" + propertyHashtable.get(c))
-  	}
-  }
-   	
- }
-
+	uml.Package::inGeneralList(what:string):boolean {
+	  	generalFinalList->forEach(e){
+	  		if(e.equals(what)) return true
+	  	}
+		return false
+	}
+	
+	uml.Package::checkDuplicates(someList:list, what:string):integer {
+		var times:integer = 0
+		someList->forEach(e){
+        var elementName:string = e.name.trim();
+        if (elementName.equals(what)) times = times + 1;
+	   }
+	   return times
+	}
+	
+	verbose(message:string, error:boolean, force:boolean) {
+		if(error){
+		  	message = "*** WARNING *** : " + message
+		 	errorsList.add(message)
+		} 
+		if(debugEnabled || force) stdout.println(message)
+		if(logEnabled) log(message)
+	}
+		
 }
-
