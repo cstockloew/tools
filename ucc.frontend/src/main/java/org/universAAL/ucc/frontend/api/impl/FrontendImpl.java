@@ -41,7 +41,7 @@ import org.universAAL.ucc.model.uapp.ReqType;
 import org.universAAL.ucc.model.usrv.AalUsrv;
 import org.universAAL.ucc.model.usrv.AalUsrv.Srv.Licenses;
 import org.universAAL.ucc.model.usrv.LicenseType;
-import org.universAAL.middleware.deploymaneger.uapp.model.Part;
+import org.universAAL.middleware.deploymanager.uapp.model.Part;
 //import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.ucc.controller.desktop.DesktopController;
