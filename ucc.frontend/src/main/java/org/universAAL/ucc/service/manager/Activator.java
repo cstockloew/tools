@@ -6,8 +6,6 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Properties;
 
-import javax.xml.bind.JAXB;
-
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -25,6 +23,7 @@ import org.universAAL.ucc.model.jaxb.EnumObject;
 import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
+import org.universAAL.ucc.database.parser.ParserService;
 import org.universAAL.ucc.profile.agent.ProfileAgent;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.api.IServiceModel;
@@ -34,7 +33,6 @@ import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.startup.model.UccUsers;
 import org.universAAL.ucc.subscriber.SensorEventSubscriber;
 
-import com.vaadin.ui.Window.Notification;
 
 //import de.fzi.ipe.evaluation.api.core.IEvaluationEventReceiver;
 
@@ -53,6 +51,7 @@ public class Activator implements BundleActivator {
 	private static String sessionKey;
 	private UstoreUtil client;
 	private static DataAccess dataAccess;
+	private static ParserService parserService;
 //	private IEvaluationEventReceiver eventReceiver;
 
 	public void start(BundleContext context) throws Exception {
@@ -153,7 +152,8 @@ public class Activator implements BundleActivator {
 			System.err.println("WS-ANSWER: " + sessionKey);
 			client.registerUser(sessionKey);
 		}
-		
+		ServiceReference sr = context.getServiceReference(ParserService.class.getName());
+		parserService = (ParserService) context.getService(sr);
 	}
 	
 	
@@ -230,6 +230,12 @@ public class Activator implements BundleActivator {
 
 	public static DataAccess getDataAccess() {
 		return dataAccess;
+	}
+
+
+
+	public static ParserService getParserService() {
+		return parserService;
 	}
 	
 	
