@@ -1,9 +1,14 @@
 package org.universAAL.ucc.service.manager;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.Reader;
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.osgi.framework.BundleActivator;
@@ -84,6 +89,19 @@ public class Activator implements BundleActivator {
 			prop.store(in, "Setup properties for initial setup of uCC");
 			in.close();
 		}
+		//Read CHE properties
+		Properties che = new Properties();
+		Properties prop2 = new Properties();
+		Reader read = new FileReader(new File("file:///../etc/ctxt.che/CHe.properties"));
+		che.load(read);
+		for(Map.Entry entry : che.entrySet()) {
+			prop2.setProperty(entry.getKey().toString(), entry.getValue().toString());
+		}
+		 //Set CHE property
+		prop2.setProperty("RECYCLE.DEBUG", "false");
+		Writer wr = new FileWriter(new File("file:///../etc/ctxt.che/CHe.properties"));
+		prop2.store(wr, "");
+		wr.close();
 		
 		//Write Techician/Deployer into AALSpace
 		OntologyInstance ont = new OntologyInstance();

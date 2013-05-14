@@ -107,43 +107,43 @@ public class FrontendImpl implements IFrontend {
 		// } catch (IOException e2) {
 		// e2.printStackTrace();
 		// }
-//		System.err.println("In installService [FrontendImpl]");
-//		File temp = new File(usrvLocalStore
-//				+ /* "corrected_hwo_usrv.usrv" */"HWO_Service.usrv");
-//		 if (temp.exists()) {
-//		 try {
-//		 extractFolder(usrvLocalStore + /* "corrected_hwo_usrv.usrv" */"HWO_Service.usrv",usrvLocalStore);
-//		 } catch (ZipException e2) {
-//		 // TODO Auto-generated catch block
-//		 e2.printStackTrace();
-//		 } catch (IOException e2) {
-//		 // TODO Auto-generated catch block
-//		 e2.printStackTrace();
-//		 }
+		System.err.println("In installService [FrontendImpl]");
+		File temp = new File(usrvLocalStore
+				+ /* "corrected_hwo_usrv.usrv" */"HWO_Service.usrv");
+		 if (temp.exists()) {
+		 try {
+		 extractFolder(usrvLocalStore + /* "corrected_hwo_usrv.usrv" */"HWO_Service.usrv",usrvLocalStore);
+		 } catch (ZipException e2) {
+		 // TODO Auto-generated catch block
+		 e2.printStackTrace();
+		 } catch (IOException e2) {
+		 // TODO Auto-generated catch block
+		 e2.printStackTrace();
+		 }
 
 		// Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
-//		 uappURI = createUAPPLocation(usrvLocalStore + "bin");
+		 uappURI = createUAPPLocation(usrvLocalStore + "bin", serviceId);
 
 		//
 		// // extract available uapp files
-//		 File usrv = new File(usrvLocalStore + "hwo_uapp");
-//		 File[] uapps = usrv.listFiles();
-//		 for (File cur : uapps) {
-//		 try {
-//		 extractFolder(usrvLocalStore + "hwo_uapp/" + cur.getName(),
-//		 usrvLocalStore + "hwo_uapp/");
-//		 } catch (ZipException e) {
-//		 // TODO Auto-generated catch block
-//		 e.printStackTrace();
-//		 } catch (IOException e) {
-//		 // TODO Auto-generated catch block
-//		 e.printStackTrace();
-//		 }
-//		 }
+		 File usrv = new File(uappURI);
+		 File[] uapps = usrv.listFiles();
+		 for (File cur : uapps) {
+		 try {
+		 extractFolder(usrvLocalStore + serviceId+ "/" + cur.getName(),
+		 usrvLocalStore + serviceId+ "/");
+		 } catch (ZipException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 } catch (IOException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 }
+		 }
 		 
 		// parse uapp.config.xml
 		ArrayList<UAPPPart> apps = null;
-		apps = parseUappConfiguration("hwo_uapp/config/hwo.uapp.xml");
+		apps = parseUappConfiguration(serviceId+"/config/hwo.uapp.xml", "hwo_uapp");
 
 		// try {
 		// parses the configuration xml from the extracted usrv file
@@ -160,7 +160,7 @@ public class FrontendImpl implements IFrontend {
 		// } else {
 		// //TODO: SessionKey was not right, what todo?
 		// }
-//		 }
+		 }
 		return false;
 	}
 
@@ -198,7 +198,7 @@ public class FrontendImpl implements IFrontend {
 	 * information from the uapp file
 	 * 
 	 */
-	private ArrayList<UAPPPart> parseUappConfiguration(String f) {
+	private ArrayList<UAPPPart> parseUappConfiguration(String f, String serviceId) {
 		File config = new File(usrvLocalStore + f);
 		ArrayList<UAPPPart> appsList = new ArrayList<UAPPPart>();
 		File l = null;
@@ -207,11 +207,11 @@ public class FrontendImpl implements IFrontend {
 		License license = null;
 		ArrayList<License> licenseList = new ArrayList<License>();
 		ArrayList<File> list = new ArrayList<File>();
-		AALService aal = null;
+		AALService aal = new AALService();
 		// Read uapp config xml
 		AalUapp uapp = null;
 		ParserService ps = Activator.getParserService();
-		uapp = ps.getUapp("C:/tmpConfigFiles/hwo.uapp.xml");
+		uapp = ps.getUapp(config.getAbsolutePath());
 		List<org.universAAL.ucc.model.uapp.Part> parts = uapp
 				.getApplicationPart().getPart();
 		System.err.println(parts.size());
@@ -289,9 +289,9 @@ public class FrontendImpl implements IFrontend {
 				atom = new UAPPReqAtom();
 				if(rt.isSetReqAtom()) {
 					System.err.println("ReqAtom Name: "+rt.getReqAtom().getReqAtomName());
-//					atom.setName(rt.getReqAtom().getReqAtomName());
+					atom.setName(rt.getReqAtom().getReqAtomName());
 					System.err.println("ReqAtom Value: "+rt.getReqAtom().getReqAtomValue());
-//					atom.setValue(rt.getReqAtom().getReqAtomValue());
+					atom.setValue(rt.getReqAtom().getReqAtomValue());
 					if(rt.getReqAtom().getReqCriteria() != null) {
 						System.err.println("ReqAtom Criteria: "+rt.getReqAtom().getReqCriteria().value());
 						atom.setCriteria(rt.getReqAtom().getReqCriteria().value());
@@ -313,14 +313,28 @@ public class FrontendImpl implements IFrontend {
 			ua.setDescription(uapp.getApp().getDescription());
 			ua.setMultipart(uapp.getApp().isMultipart());
 			ua.setName(uapp.getApp().getName());
-			ua.setMajor(uapp.getApp().getVersion().getMajor());
-			ua.setMicro(uapp.getApp().getVersion().getMicro());
-			ua.setMinor(uapp.getApp().getVersion().getMinor());
+		
+			if(uapp.getApp().isSetVersion()) {
+				if(uapp.getApp().getVersion().isSetMajor()) {
+					ua.setMajor(uapp.getApp().getVersion().getMajor());
+					aal.setMajor(ua.getMajor());
+					System.err.println(ua.getMajor());
+				}
+				if(uapp.getApp().getVersion().isSetMinor()) {
+					ua.setMinor(uapp.getApp().getVersion().getMinor());
+					aal.setMinor(ua.getMinor());
+					System.err.println(ua.getMinor());
+				}
+				if(uapp.getApp().getVersion().isSetMicro()) {
+					ua.setMicro(uapp.getApp().getVersion().getMicro());
+					aal.setMicro(ua.getMicro());
+					System.err.println(ua.getMicro());
+				}
+				
+			}
 			appsList.add(ua);
 			
-			//Only for testing
-			
-			aal = new AALService();
+			//Creating license files
 			for(org.universAAL.ucc.model.uapp.AalUapp.App.Licenses ls : uapp.getApp().getLicenses()) {
 				license = new License();
 				if(ls.isSetSla()) {
@@ -330,9 +344,9 @@ public class FrontendImpl implements IFrontend {
 					if(ls.getSla().isSetLink()) {
 						String link = ls.getSla().getLink();
 						System.err.println(link);
-						link = link.substring(link.lastIndexOf("/"));
+						link = link.substring(link.indexOf("/"));
 						System.err.println(link);
-						File file = new File(usrvLocalStore + "licenses" + link);
+						File file = new File(usrvLocalStore + serviceId + link);
 						license.getSlaList().add(file);
 					}
 					
@@ -344,9 +358,9 @@ public class FrontendImpl implements IFrontend {
 							if(lt.isSetLink()) {
 								txt = lt.getLink();
 								System.err.println(txt);
-								txt = txt.substring(txt.lastIndexOf("/"));
+								txt = txt.substring(txt.indexOf("/"));
 								System.err.println(txt);
-								l = new File(usrvLocalStore + "licenses" + txt);
+								l = new File(usrvLocalStore + serviceId + txt);
 								list.add(l);
 							}
 						
@@ -593,16 +607,18 @@ public class FrontendImpl implements IFrontend {
 		File licenceFile = new File(usrvLocalStore + f);
 		//Parsing usrv.xml
 //		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
-		File l = null;
-		String txt = "";
-		String slaName = "";
-		License license = null;
+//		File l = null;
+//		String txt = "";
+//		String slaName = "";
+//		License license = null;
 //		ArrayList<License> licenseList = new ArrayList<License>();
-		ArrayList<File> list = new ArrayList<File>();
+//		ArrayList<File> list = new ArrayList<File>();
 //		AALService aal = null;
 		ParserService ps = Activator.getParserService();
-		AalUsrv usrv = ps.getUsrv("C:/tmpConfigFiles/HWO Service.xml");
-		aal = new AALService();
+		AalUsrv usrv = ps.getUsrv(licenceFile.getAbsolutePath());
+//		aal = new AALService();
+		System.err.println(aal.getMajor()+"."+aal.getMinor()+"."+aal.getMicro());
+		
 		for(UAPPPart ua : apps) {
 			System.err.println(ua.getAppId());
 			aal.getUaapList().add(ua);
@@ -624,11 +640,22 @@ public class FrontendImpl implements IFrontend {
 				aal.setDescription(usrv.getSrv().getDescription());
 				System.err.println("Description: "+aal.getDescription());
 			}
-			if(usrv.getSrv().isSetVersion()) {
-				aal.setMajor(usrv.getSrv().getVersion().getMajor());
-				aal.setMinor(usrv.getSrv().getVersion().getMinor());
-				aal.setMicro(usrv.getSrv().getVersion().getMicro());
-			}
+			
+			
+//			if(usrv.getSrv().isSetVersion()) {
+//				if(usrv.getSrv().getVersion().isSetMajor()) {
+//					aal.setMajor(usrv.getSrv().getVersion().getMajor());
+//					System.err.println(aal.getMajor());
+//				}
+//				if(usrv.getSrv().getVersion().isSetMinor()) {
+//					aal.setMinor(usrv.getSrv().getVersion().getMinor());
+//					System.err.println(aal.getMinor());
+//				}
+//				if(usrv.getSrv().getVersion().isSetMicro()) {
+//					aal.setMicro(usrv.getSrv().getVersion().getMicro());
+//					System.err.println(aal.getMicro());
+//				}
+//			}
 			if(usrv.getSrv().isSetTags()) {
 				aal.getTags().add(usrv.getSrv().getTags());
 				System.err.println("Tags: "+aal.getTags());
@@ -786,13 +813,13 @@ public class FrontendImpl implements IFrontend {
 	//
 	// }
 
-	private String createUAPPLocation(String path) {
+	private String createUAPPLocation(String path, String newPath) {
 		File pa = new File(path);
 		File[] dirs = pa.listFiles();
-		File rootFile = new File(usrvLocalStore + "hwo_uapp");
+		File rootFile = new File(usrvLocalStore +newPath);
 		rootFile.mkdir();
 		for (int i = 0; i < dirs.length; i++) {
-			File f = new File(usrvLocalStore + "hwo_uapp/" + dirs[i].getName());
+			File f = new File(usrvLocalStore + newPath +"/" + dirs[i].getName());
 			System.err.println("Dir-Name: " + dirs[i].getName());
 			if (dirs[i].isDirectory()) {
 				f.mkdir();
@@ -810,7 +837,7 @@ public class FrontendImpl implements IFrontend {
 			System.err.println(f.getAbsolutePath());
 			// }
 		}
-		return usrvLocalStore + "hwo_uapp";
+		return usrvLocalStore + newPath;
 	}
 
 	/**
