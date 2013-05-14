@@ -434,7 +434,7 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 
 	@Override
 	public void addPages(){
-		setWindowTitle("Import External Project");
+		setWindowTitle("Import Example Project");
 		addPage(page);
 	}
 

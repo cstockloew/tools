@@ -33,11 +33,11 @@
             category="org.universaal.importexternalproject.import"
             class="org.universaal.tools.importexternalproject.wizards.ImportExternalWizard"
             id="org.universaal.importexternalproject.wizard1"
-            name="Import Third Party Application">
+            name="Import Example Application">
       </wizard>
       <category
             id="org.universaal.importexternalproject.import"
-            name="universAAL">
+            name="AAL Studio">
       </category>
    </extension>
    <extension

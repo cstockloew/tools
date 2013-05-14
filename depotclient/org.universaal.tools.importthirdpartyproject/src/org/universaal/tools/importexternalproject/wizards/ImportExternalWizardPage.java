@@ -82,8 +82,8 @@ public class ImportExternalWizardPage extends WizardPage {
 	 */
 	protected ImportExternalWizardPage(boolean input) {
 		super("Import external project");
-		setTitle("Import External Project.");
-		setDescription("Please select a project to import.");
+		setTitle("Import official or third party example project");
+		setDescription("Please select a project to import");
 		importExtension=input;
 	}
 
