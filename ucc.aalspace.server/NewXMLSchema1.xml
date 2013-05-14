@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="NewXMLSchema1.xsd">
+  <ontologyInstances>
+    <ontologyInstance id="">
+      <subprofiles>
+        <subprofile name="">
+          <collections>
+            <collection name="" value_type="">
+              <values>
+                <string name="">
+                  <description>description</description>
+                  <id>true</id>
+                  <label>label</label>
+                  <required>true</required>
+                  <validator>validator</validator>
+                  <defaultValue>defaultValue</defaultValue>
+                  <value>value</value>
+                </string>
+              </values>
+              <description>description</description>
+              <label>label</label>
+              <multiselection>true</multiselection>
+              <required>true</required>
+            </collection>
+          </collections>
+          <enumObjects>
+            <enumObject type="">
+              <description>description</description>
+              <label>label</label>
+              <required>true</required>
+              <selectedValue>selectedValue</selectedValue>
+              <treeParentNode>true</treeParentNode>
+              <values>
+                <value>value</value>
+              </values>
+            </enumObject>
+          </enumObjects>
+          <simpleObjects>
+            <string name="">
+              <description>description</description>
+              <id>true</id>
+              <label>label</label>
+              <required>true</required>
+              <validator>validator</validator>
+              <defaultValue>defaultValue</defaultValue>
+              <value>value</value>
+            </string>
+          </simpleObjects>
+        </subprofile>
+      </subprofiles>
+      <type>type</type>
+    </ontologyInstance>
+  </ontologyInstances>
+</profiles>

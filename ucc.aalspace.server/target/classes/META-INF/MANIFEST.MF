@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1366440287539
+Build-Jdk: 1.7.0_13
+Built-By: merkle
+Bundle-Activator: org.universAAL.ucc.aalspace.server.Activator
+Bundle-ManifestVersion: 2
+Bundle-Name: ucc.aalspace.server
+Bundle-SymbolicName: org.universAAL.tools.ucc.ucc.aalspace.server
+Bundle-Version: 2.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.universAAL.ucc.aalspace.server;uses:="org.osgi.frame
+ work,org.universAAL.ucc.database.aalspace";version="2.0.1.SNAPSHOT",org
+ .universAAL.ucc.database.aalspace;uses:="org.universAAL.ucc.database.mo
+ del.jaxb,javax.xml.bind";version="2.0.1.SNAPSHOT",org.universAAL.ucc.da
+ tabase.listener.interfaces;uses:="org.universAAL.ucc.database.model.jax
+ b";version="2.0.1.SNAPSHOT",org.universAAL.ucc.database.listener.servic
+ es;uses:="org.universAAL.ucc.database.model.jaxb,org.universAAL.ucc.dat
+ abase.listener.interfaces,org.osgi.framework,org.universAAL.ucc.databas
+ e.aalspace";version="2.0.1.SNAPSHOT",org.universAAL.ucc.database.model.
+ jaxb;uses:="javax.xml.bind.annotation,javax.xml.bind,javax.xml.namespac
+ e";version="2.0.1.SNAPSHOT"
+Import-Package: javax.xml.bind,javax.xml.bind.annotation;version="2.1.0"
+ ,javax.xml.bind.helpers,javax.xml.bind.util,javax.xml.namespace,org.osg
+ i.framework;version="1.3.0"
+Tool: Bnd-1.50.0
