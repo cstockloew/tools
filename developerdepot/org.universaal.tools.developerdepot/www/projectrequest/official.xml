@@ -67,7 +67,7 @@
 <project>
   <name>SOAP Server, service and client</name>
   <developer>Ioannis Moulos,Vassilis Kilinzis, CERTH</developer>
-  <date>20.02.13</date>
+  <date>14.05.2013</date>
   <url>http://www.certh.gr</url>
   <svnurl>http://forge.universaal.org/svn/support/trunk/samples/smp.ri.exportComponent/</svnurl>
   <license>Apache License, Version 2.0, The MIT License (MIT) </license>
@@ -88,7 +88,7 @@
 <project>
   <name>Infoframe</name>
   <developer>Tom Zentek, FZI</developer>
-  <date>29.04.13</date>
+  <date>29.04.2013</date>
   <url>http://www.fzi.de</url>
   <svnurl>http://forge.universaal.org/svn/support/trunk/samples/usrv.infoframe/</svnurl>
   <license>Apache License, Version 2.0, The MIT License (MIT) </license>
@@ -103,6 +103,20 @@
 	<tag>Deployment</tag>
     <tag>Validation</tag>
     <tag>Listeners</tag>
+  </tags>
+</project>
+<project>
+  <name>ActivityHub</name>
+  <developer>Thomas Fuxreiter, AIT</developer>
+  <date>14.05.2013</date>
+  <url>http://www.ait.ac.at</url>
+  <svnurl>http://forge.universaal.org/svn/support/trunk/samples/activityhub</svnurl>
+  <license>Apache License, Version 2.0</license>
+  <licenseurl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseurl>
+  <subprojects>true</subprojects>
+  <description>ActivityHub Client with GUI and Sensor Event Simulator</description>
+  <tags>
+    <tag>ActivityHub</tag> <tag>caller</tag> <tag>context</tag> <tag>publisher</tag> <tag>subscriber</tag> <tag>example</tag> <tag>server</tag> <tag>client</tag>
   </tags>
 </project>
 </projects>
