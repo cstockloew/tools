@@ -109,10 +109,10 @@ public class FrontendImpl implements IFrontend {
 		// }
 		System.err.println("In installService [FrontendImpl]");
 		File temp = new File(usrvLocalStore
-				+ /* "corrected_hwo_usrv.usrv" */"HWO_Service.usrv");
+				+  /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
 		 if (temp.exists()) {
 		 try {
-		 extractFolder(usrvLocalStore + /* "corrected_hwo_usrv.usrv" */"HWO_Service.usrv",usrvLocalStore);
+		 extractFolder(usrvLocalStore + /*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv", usrvLocalStore);
 		 } catch (ZipException e2) {
 		 // TODO Auto-generated catch block
 		 e2.printStackTrace();
@@ -123,44 +123,45 @@ public class FrontendImpl implements IFrontend {
 
 		// Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
 		 uappURI = createUAPPLocation(usrvLocalStore + "bin", serviceId);
-
-		//
-		// // extract available uapp files
+//		 uappURI = usrvLocalStore + serviceId;
+		
+		 // extract available uapp files
 		 File usrv = new File(uappURI);
 		 File[] uapps = usrv.listFiles();
 		 for (File cur : uapps) {
-		 try {
-		 extractFolder(usrvLocalStore + serviceId+ "/" + cur.getName(),
-		 usrvLocalStore + serviceId+ "/");
-		 } catch (ZipException e) {
+			 try {
+				 extractFolder(usrvLocalStore + serviceId+ "/" + cur.getName(),
+						 usrvLocalStore + serviceId+ "/");
+			 } catch (ZipException e) {
 		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 } catch (IOException e) {
+				 e.printStackTrace();
+			 } catch (IOException e) {
 		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 }
+				 e.printStackTrace();
+			 }
 		 }
 		 
 		// parse uapp.config.xml
 		ArrayList<UAPPPart> apps = null;
-		apps = parseUappConfiguration(serviceId+"/config/hwo.uapp.xml", "hwo_uapp");
+//		TODO: Get hwo.uapp.xml name out of the file extension
+		apps = parseUappConfiguration(usrvLocalStore+serviceId+"/config/hwo.uapp.xml", serviceId);
 
-		// try {
-		// parses the configuration xml from the extracted usrv file
-		// and creates the views (LicenseView and so on) to show to the
-		// user
-		// for further processing
+//		 try {
+//		// parses the configuration xml from the extracted usrv file
+//		// and creates the views (LicenseView and so on) to show to the
+//		// user
+//		// for further processing
 //		 parseConfiguration(
 //		 /* "config/hwo.usrv.xml" */"config/HWO Service.xml",apps);
-		// } catch (SAXException e) {
-		// e.printStackTrace();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// } return true;
-		// } else {
-		// //TODO: SessionKey was not right, what todo?
-		// }
-		 }
+//		 } catch (SAXException e) {
+//		 e.printStackTrace();
+//		 } catch (IOException e) {
+//		 e.printStackTrace();
+//		 } return true;
+//		 } else {
+//		 //TODO: SessionKey was not right, what todo?
+//		 }
+	}
 		return false;
 	}
 
@@ -211,7 +212,7 @@ public class FrontendImpl implements IFrontend {
 		// Read uapp config xml
 		AalUapp uapp = null;
 		ParserService ps = Activator.getParserService();
-		uapp = ps.getUapp(config.getAbsolutePath());
+		uapp = ps.getUapp(f);
 		List<org.universAAL.ucc.model.uapp.Part> parts = uapp
 				.getApplicationPart().getPart();
 		System.err.println(parts.size());
@@ -373,7 +374,7 @@ public class FrontendImpl implements IFrontend {
 			aal.setLicenses(license);
 			
 		}
-		parseConfiguration(f, appsList, licenseList, aal);
+		parseConfiguration(serviceId, appsList, licenseList, aal);
 		// Start of old/hardcoded parsing
 		// ArrayList<UAPPPart> appsList = new ArrayList<UAPPPart>();
 		// DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
@@ -615,7 +616,7 @@ public class FrontendImpl implements IFrontend {
 //		ArrayList<File> list = new ArrayList<File>();
 //		AALService aal = null;
 		ParserService ps = Activator.getParserService();
-		AalUsrv usrv = ps.getUsrv(licenceFile.getAbsolutePath());
+		AalUsrv usrv = ps.getUsrv(usrvLocalStore+"config/HWO Service.xml");
 //		aal = new AALService();
 		System.err.println(aal.getMajor()+"."+aal.getMinor()+"."+aal.getMicro());
 		
@@ -798,20 +799,20 @@ public class FrontendImpl implements IFrontend {
 	 * @param filePath
 	 * @throws IOException
 	 */
-	// private void extractFile(ZipInputStream zipIn, String filePath)
-	// throws IOException {
-	// File f = new File(filePath);
-	//
-	// BufferedOutputStream bos = new BufferedOutputStream(
-	// new FileOutputStream(filePath));
-	// byte[] bytesIn = new byte[BUFFER_SIZE];
-	// int read = 0;
-	// while ((read = zipIn.read(bytesIn)) != -1) {
-	// bos.write(bytesIn, 0, read);
-	// }
-	// bos.close();
-	//
-	// }
+	 private void extractFile(ZipInputStream zipIn, String filePath)
+	 throws IOException {
+	 File f = new File(filePath);
+	
+	 BufferedOutputStream bos = new BufferedOutputStream(
+	 new FileOutputStream(filePath));
+	 byte[] bytesIn = new byte[BUFFER_SIZE];
+	 int read = 0;
+	 while ((read = zipIn.read(bytesIn)) != -1) {
+	 bos.write(bytesIn, 0, read);
+	 }
+	 bos.close();
+	
+	 }
 
 	private String createUAPPLocation(String path, String newPath) {
 		File pa = new File(path);
@@ -837,6 +838,7 @@ public class FrontendImpl implements IFrontend {
 			System.err.println(f.getAbsolutePath());
 			// }
 		}
+		System.err.println("UAPP Path: "+usrvLocalStore + newPath);
 		return usrvLocalStore + newPath;
 	}
 
