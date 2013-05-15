@@ -20,7 +20,7 @@ public class StartupClass implements IStartup {
 				.getLocation().toOSString();
 		File keyDir = new File(workspacePath + File.separator + "rundir"
 				+ File.separator + "confadmin" + File.separator
-				+ "mw.bus.model");
+				+ "mw.bus.model.osgi");
 		keyDir.mkdirs();
 		File keyFile = new File(keyDir + File.separator + "sodapop.key");
 		if (!keyFile.exists()) {
