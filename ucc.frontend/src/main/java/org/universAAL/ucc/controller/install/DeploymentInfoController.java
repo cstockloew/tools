@@ -106,7 +106,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 			System.err.println("Befor getValidPeers()");
 			//Insert valid PeerNodes to dropbox of DeployConfigView
 			List<PeerCard> validpeers = getValidPeers(uapp.getReqAtoms(), uapp.getPart().getPartId());
-			System.err.println("In validpeers");
+			System.err.println("In validpeers size: "+validpeers.size());
 			for(PeerCard pc : validpeers) {
 				if (pc != null) {
 					System.err.println("Valid peers are available");
@@ -116,7 +116,6 @@ public class DeploymentInfoController implements Button.ClickListener,
 					dcv.getSelect().addItem(item);
 				}
 			}
-			 
 			
 			dcv.getSelect().setEnabled(false);
 			dcv.setEnabled(false);
@@ -164,14 +163,17 @@ public class DeploymentInfoController implements Button.ClickListener,
 				}
 			}
 			// Remove installed part view and item from tree
-			win.getHp().removeComponent(actVL);
-			win.getTree().removeListener(this);
-			win.getTree().removeItem(selected);
-			win.getTree().addListener(this);
-			System.err.println("Selected and removed node is: " + selected);
-			System.err.println("Tree node was removed");
-			dsvMap.remove(selected);
-			dcvMap.remove(selected);
+//			if (!config.isEmpty()) {
+				win.getHp().removeComponent(actVL);
+				win.getTree().removeListener(this);
+				win.getTree().removeItem(selected);
+				win.getTree().addListener(this);
+				System.err.println("Selected and removed node is: " + selected);
+				System.err.println("Tree node was removed");
+				dsvMap.remove(selected);
+				dcvMap.remove(selected);
+//			}
+			//All parts are processed
 			if (dsvMap.isEmpty() && dcvMap.isEmpty()) {
 				// app.getMainWindow().showNotification(
 				// bundle.getString("success.install.msg"),
@@ -182,6 +184,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				for(Part key : config.keySet()) {
 					List<PeerCard> val = config.get(key);
 					for(PeerCard pc : val) {
+						System.err.println("PEER-ID: "+pc.getPeerID());
 						if(!peerMap.containsKey(pc)) {
 							peerMap.put(pc, new ArrayList<Part>());
 						} peerMap.get(pc).add(key);
@@ -439,24 +442,29 @@ public class DeploymentInfoController implements Button.ClickListener,
 				String value = dcvMap.get(selected).getPeerNodes()
 						.get(selPeer.toArray()[i]);
 				System.err.println("The user selected value: " + value);
-				String key = value.substring(0, value.indexOf("="));
+				String key = value.substring(value.indexOf(":")+1, value.lastIndexOf("-")).trim();
 				System.err.println("KEY is: " + key);
+				//Only testing
+				for(String set : peers.keySet()) {
+					System.err.println("Key in PEER: "+set);
+				}
+				//Only testing end
 				String id = peers.get(key).getPeerID();
 				PeerRole role = peers.get(key).getRole();
 				System.err.println("Peer-ROLE: " + role);
 				System.err.println("ID: " + id);
 				PeerCard peer = new PeerCard(id, role);
 				// TODO: change the logic
-				if (true /*checkPartRequirements(uapp.getReqAtoms(), peer) */) {				
+//				if (checkPartRequirements(uapp.getReqAtoms(), peer)) {				
 					System.err.println("[buildUserInstallationLayout] In CHECKDEPLOYMENTUNIT!");
 					peerList.add(peer);
 					System.out.println("[DeploymentInfoController.buildUserLayout] add one peer " + peer.getPeerID() + " to part " + uapp.getPart().getPartId());
 					peersToCheck.remove(key);
-				} else {
-					app.getMainWindow().showNotification(
-							bundle.getString("peer.available.not"),
-							Notification.TYPE_WARNING_MESSAGE);
-				}
+//				} else {
+//					app.getMainWindow().showNotification(
+//							bundle.getString("peer.available.not"),
+//							Notification.TYPE_WARNING_MESSAGE);
+//				}
 			}
 			mapLayout.put(uapp.getPart(), peerList);
 			
@@ -506,19 +514,29 @@ public class DeploymentInfoController implements Button.ClickListener,
 		MatchingResult result = installer.getMatchingPeers(filter);
 		System.err.println(result.getPeers().toString());
 		PeerCard[] peers = result.getPeers();
+		System.err.println("[[DeploymentInfoController: Peers-Length: ]] "+peers.length);
 		List<PeerCard> validPeers = new ArrayList<PeerCard>();
 		// check for non-equal criteria
 		for (int i=0; i<peers.length; i++)  {
 			boolean valid = true;
 			Map<String, Serializable> attr = result.getPeerAttribute(peers[i]);
+			System.err.println("[[DeploymentInfoController]] result.getPeerAttribute() size: "+attr.size());
 			for (int j=0; j<toCheck.size(); j++)  {
 				UAPPReqAtom req = toCheck.get(j);
+				System.err.println("[[DeploymentInfoController]] Criteria: "+req.getCriteria());
+				System.err.println("[[DeploymentInfoController]] Name: "+req.getName());
+				System.err.println("[[DeploymentInfoController]] Values: "+req.getValue().toString());
 				String reqname = reqs.get(i).getName();
 				//one atom can have more than one value
+				
 				for(String sr : reqs.get(i).getValue()) {
 					String reqvalue = sr;
+					System.err.println("[[DeploymentInfoController]] atom value: "+sr);
 					String reqcriteria = reqs.get(i).getCriteria();
+					System.err.println("[[DeploymentInfoController]] current Criteria: "+reqcriteria);
+					if(reqcriteria != null) {
 					if (reqcriteria.equals("greater-equal"))  {
+						System.err.println("[[DeploymentInfoController]] in greater-equal criteria ReqValue: "+reqvalue);
 						int rvalue = Integer.parseInt(reqvalue);
 						int peervalue = Integer.parseInt((String) attr.get(reqname));
 						System.out.println("[checkPartRequirements] criteria is: " + reqcriteria + " part has req: " 
@@ -528,6 +546,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 							valid = false;
 						}
 					}
+				}
 				}
 				// TODO: extend the list according to LogicalCriteriaType to have a complete check
 					

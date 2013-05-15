@@ -3,6 +3,7 @@ package org.universAAL.ucc.windows;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import org.osgi.framework.BundleContext;
@@ -58,6 +59,9 @@ public class DeployConfigView extends VerticalLayout {
 		select.setImmediate(true);
 		select.setNullSelectionAllowed(false);
 		select.setMultiSelect(true);
+//		for(Entry<String, String> pNode : peerNodes.entrySet()) {
+//			select.addItem(pNode.getValue());
+//		}
 		// Add Nodes to dropdown box
 		peerNodes = new HashMap<String, String>();
 		// get valid peers for this part

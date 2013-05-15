@@ -107,23 +107,20 @@ public class FrontendImpl implements IFrontend {
 		// } catch (IOException e2) {
 		// e2.printStackTrace();
 		// }
-		System.err.println("In installService [FrontendImpl]");
+	
 		File temp = new File(usrvLocalStore
 				+  /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
 		 if (temp.exists()) {
 		 try {
 		 extractFolder(usrvLocalStore + /*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv", usrvLocalStore);
 		 } catch (ZipException e2) {
-		 // TODO Auto-generated catch block
 		 e2.printStackTrace();
 		 } catch (IOException e2) {
-		 // TODO Auto-generated catch block
 		 e2.printStackTrace();
 		 }
 
 		// Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
 		 uappURI = createUAPPLocation(usrvLocalStore + "bin", serviceId);
-//		 uappURI = usrvLocalStore + serviceId;
 		
 		 // extract available uapp files
 		 File usrv = new File(uappURI);
@@ -133,31 +130,26 @@ public class FrontendImpl implements IFrontend {
 				 extractFolder(usrvLocalStore + serviceId+ "/" + cur.getName(),
 						 usrvLocalStore + serviceId+ "/");
 			 } catch (ZipException e) {
-		 // TODO Auto-generated catch block
 				 e.printStackTrace();
 			 } catch (IOException e) {
-		 // TODO Auto-generated catch block
 				 e.printStackTrace();
 			 }
 		 }
 		 
 		// parse uapp.config.xml
 		ArrayList<UAPPPart> apps = null;
-//		TODO: Get hwo.uapp.xml name out of the file extension
-		apps = parseUappConfiguration(usrvLocalStore+serviceId+"/config/hwo.uapp.xml", serviceId);
+//		Get uapp.xml name out of the file extension
+		File f = new File(usrvLocalStore + serviceId + "/config");
+		File[] confi = f.listFiles();
+		String configFileName = "";
+		for(File cf : confi) {
+			if(cf.getName().contains(".xml")) {
+				configFileName = cf.getName();
+				System.err.println(configFileName);
+			}
+		}
+		apps = parseUappConfiguration(usrvLocalStore+serviceId+"/config/"+configFileName, serviceId);
 
-//		 try {
-//		// parses the configuration xml from the extracted usrv file
-//		// and creates the views (LicenseView and so on) to show to the
-//		// user
-//		// for further processing
-//		 parseConfiguration(
-//		 /* "config/hwo.usrv.xml" */"config/HWO Service.xml",apps);
-//		 } catch (SAXException e) {
-//		 e.printStackTrace();
-//		 } catch (IOException e) {
-//		 e.printStackTrace();
-//		 } return true;
 //		 } else {
 //		 //TODO: SessionKey was not right, what todo?
 //		 }
@@ -375,223 +367,6 @@ public class FrontendImpl implements IFrontend {
 			
 		}
 		parseConfiguration(serviceId, appsList, licenseList, aal);
-		// Start of old/hardcoded parsing
-		// ArrayList<UAPPPart> appsList = new ArrayList<UAPPPart>();
-		// DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
-		// DocumentBuilder builder = null;
-		// try {
-		// builder = fact.newDocumentBuilder();
-		// } catch (ParserConfigurationException e) {
-		// e.printStackTrace();
-		// }
-
-		// Document doc = builder.parse(config);
-
-		// for(int i = 0; i <
-		// doc.getElementsByTagName("uapp:applicationPart").getLength(); i++) {
-		// for (int j = 0; j <
-		// doc.getElementsByTagName("uapp:part").getLength(); j++) {
-		// UAPPPart ua = new UAPPPart();
-		// String partId = doc.getElementsByTagName("uapp:part").item(j)
-		// .getAttributes().getNamedItem("partId").getNodeValue();
-		// System.out.println("[FrontendImpl] PartId: " + partId);
-		// Part p = new Part();
-		// // TODO: Nicole check! Currently p/Part has just partId, all other
-		// // part info is null/unset
-		// p.setPartId(partId);
-		//
-		// ua.setPart(p);
-		// NodeList childs = doc.getElementsByTagName("uapp:part").item(j)
-		// .getChildNodes();
-		// for (int t = 0; t < childs.getLength(); t++) {
-		// if (childs.item(t).getNodeName().equals("uapp:bundleId")) {
-		// String bundleId = childs.item(t).getTextContent();
-		// System.err.println("Bundle-ID: " + bundleId);
-		// ua.setBundleId(bundleId);
-		// }
-		// if (childs.item(t).getNodeName().equals("uapp:bundleVersion")) {
-		// String bundleVersion = childs.item(t).getTextContent();
-		// System.err.println("Bundle-Version: " + bundleVersion);
-		// ua.setBundleVersion(bundleVersion);
-		// }
-		//
-		// if (childs.item(t).getNodeName().equals("uapp:deploymentUnit")) {
-		// System.err
-		// .println("[FrontendImpl.parseUappConfiguration] IN DEPLOYMENT UNIT");
-		// Node dun = childs.item(t);
-		// for (int du = 0; du < dun.getChildNodes().getLength(); du++) {
-		// if (dun.getChildNodes().item(du).getNodeName()
-		// .equals("uapp:containerUnit")) {
-		// Node cun = dun.getChildNodes().item(du);
-		// NodeList nl = cun.getChildNodes();
-		// System.err.println("IN CONTAINER UNIT!");
-		// //
-		// for (int n = 0; n < nl.getLength(); n++) {
-		// if (nl.item(n).getNodeName()
-		// .equals("uapp:karaf")) {
-		// System.err.println("IN KARAF");
-		// NodeList kn = nl.item(n).getChildNodes();
-		// for (int k = 0; k < kn.getLength(); k++) {
-		// if (kn.item(k).getNodeName()
-		// .equals("features")) {
-		// System.err.println("IN FEATURES");
-		// NodeList fn = kn.item(k)
-		// .getChildNodes();
-		// for (int fi = 0; fi < fn
-		// .getLength(); fi++) {
-		// if (fn.item(fi).getNodeName()
-		// .equals("feature")) {
-		// System.err
-		// .println("IN FEATURE");
-		// Node nn = fn.item(fi);
-		// NodeList nnList = nn
-		// .getChildNodes();
-		// for (int cam = 0; cam < nnList
-		// .getLength(); cam++) {
-		// if (nnList
-		// .item(cam)
-		// .getNodeName()
-		// .equals("bundle")) {
-		// System.err
-		// .println("IN BUNDLE");
-		// String location = nnList
-		// .item(cam)
-		// .getTextContent();
-		// ua.setUappLocation(location);
-		// System.err
-		// .println("LOCATION is: "
-		// + location);
-		// }
-		// }
-		// }
-		// }
-		// }
-		//
-		// }
-		// } else {
-		// NodeList childList = nl.item(n)
-		// .getChildNodes();
-		// for (int cl = 0; cl < childList.getLength(); cl++) {
-		// if (childList.item(cl).getNodeName()
-		// .equals("uapp:location")) {
-		// String location = nl.item(n)
-		// .getTextContent();
-		// ua.setUappLocation(location);
-		// System.err.println("Location is: "
-		// + location);
-		// }
-		// }
-		// }
-		//
-		// }
-		//
-		// }
-		// }
-		// }
-		//
-		// // for checking part requirements
-		// if (childs.item(t).getNodeName()
-		// .equals("uapp:partRequirements")) {
-		// System.err
-		// .println("[FrontendImpl.parseUappConfiguration] In part requirements");
-		// Node dun = childs.item(t);
-		// for (int du = 0; du < dun.getChildNodes().getLength(); du++) {
-		// if (dun.getChildNodes().item(du).getNodeName()
-		// .equals("uapp:requirement")) {
-		// Node cun = dun.getChildNodes().item(du);
-		// NodeList nl = cun.getChildNodes();
-		//
-		// for (int n = 0; n < nl.getLength(); n++) {
-		// if (nl.item(n).getNodeName()
-		// .equals("uapp:reqAtom")) {
-		// System.err.println("IN reqAtom");
-		// Node ratom = nl.item(n);
-		// System.err.println("NL: " + nl.getLength());
-		// NodeList rl = ratom.getChildNodes();
-		// System.err.println("RL: " + rl.getLength());
-		// UAPPReqAtom atom = new UAPPReqAtom();
-		// // Putting values of a reqatom
-		// for (int k = 0; k < rl.getLength(); k++) {
-		// // Here was UAPPReqAtom
-		// if (rl.item(k).getNodeName()
-		// .equals("uapp:reqAtomName")) {
-		// String value = rl.item(k)
-		// .getTextContent();
-		// System.out
-		// .println("[FrontendImpl.parsePartConfiguration] get a reqAtomName: "
-		// + value);
-		// atom.setName(value);
-		// }
-		// if (rl.item(k).getNodeName()
-		// .equals("uapp:reqAtomValue")) {
-		// String value = rl.item(k)
-		// .getTextContent();
-		// System.out
-		// .println("[FrontendImpl.parsePartConfiguration] get a reqAtomValue: "
-		// + value);
-		// List<String> vals = new ArrayList<String>();
-		// vals.add(value);
-		// atom.setValue(vals);
-		// }
-		//
-		// if (rl.item(k).getNodeName()
-		// .equals("uapp:reqCriteria")) {
-		// String value = rl.item(k)
-		// .getTextContent();
-		// System.out
-		// .println("[FrontendImpl.parsePartConfiguration] get a reqCriteria: "
-		// + value);
-		// atom.setCriteria(value);
-		//
-		// }
-		//
-		// }
-		// System.err.println("Criteria: "
-		// + atom.getCriteria() + " Name: "
-		// + atom.getName() + " Value: "
-		// + atom.getValue());
-		// ua.addReqAtoms(atom);
-		// }
-		// }
-		// }
-		// }
-		// }
-		//
-		// for (int k = 0; k < doc.getElementsByTagName("uapp:app")
-		// .getLength(); k++) {
-		// String name = doc.getElementsByTagName("uapp:name").item(k)
-		// .getTextContent();
-		// ua.setName(name);
-		// String desc = doc.getElementsByTagName("uapp:description")
-		// .item(k).getTextContent();
-		// ua.setDescription(desc);
-		// String appId = doc.getElementsByTagName("uapp:appId")
-		// .item(k).getTextContent();
-		// ua.setAppId(appId);
-		// for (int m = 0; m < doc
-		// .getElementsByTagName("uapp:version").getLength(); m++) {
-		// String major = doc.getElementsByTagName("uapp:major")
-		// .item(m).getTextContent();
-		// ua.setMajor(Integer.valueOf(major));
-		// String micro = doc.getElementsByTagName("uapp:micro")
-		// .item(m).getTextContent();
-		// ua.setMicro(Integer.valueOf(micro));
-		// String minor = doc.getElementsByTagName("uapp:minor")
-		// .item(m).getTextContent();
-		// ua.setMinor(Integer.valueOf(minor));
-		// }
-		// boolean multi = Boolean.valueOf(doc
-		// .getElementsByTagName("uapp:multipart").item(k)
-		// .getTextContent());
-		// ua.setMultipart(multi);
-		//
-		// }
-		// }
-		// appsList.add(ua);
-		//
-		// }
-		// }
-		// System.err.println("parseUAPPconfiguration");
 		return appsList;
 
 	}
@@ -607,17 +382,17 @@ public class FrontendImpl implements IFrontend {
 	private AALService parseConfiguration(String f, ArrayList<UAPPPart> apps, ArrayList<License>licenseList, AALService aal) {
 		File licenceFile = new File(usrvLocalStore + f);
 		//Parsing usrv.xml
-//		DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
-//		File l = null;
-//		String txt = "";
-//		String slaName = "";
-//		License license = null;
-//		ArrayList<License> licenseList = new ArrayList<License>();
-//		ArrayList<File> list = new ArrayList<File>();
-//		AALService aal = null;
 		ParserService ps = Activator.getParserService();
-		AalUsrv usrv = ps.getUsrv(usrvLocalStore+"config/HWO Service.xml");
-//		aal = new AALService();
+		//Getting usrv.xml
+		File configFile = new File(usrvLocalStore+"config");
+		File[]confis = configFile.listFiles();
+		String configFileName = "";
+		for(File cf : confis) {
+			if(cf.getName().contains(".xml")) {
+				configFileName = cf.getName();
+			}
+		}
+		AalUsrv usrv = ps.getUsrv(usrvLocalStore+"config/"+configFileName);
 		System.err.println(aal.getMajor()+"."+aal.getMinor()+"."+aal.getMicro());
 		
 		for(UAPPPart ua : apps) {
@@ -661,124 +436,8 @@ public class FrontendImpl implements IFrontend {
 				aal.getTags().add(usrv.getSrv().getTags());
 				System.err.println("Tags: "+aal.getTags());
 			}
-//		if(usrv.getSrv().isSetLicenses()) {
-//			System.err.println("Size of licenses: "+usrv.getSrv().getLicenses().size());
-//			for(Licenses ls : usrv.getSrv().getLicenses()) {
-//				license = new License();
-//	
-//				if(ls.isSetSla()) {
-//					slaName = ls.getSla().getName();
-//					System.err.println("SLA-Name: "+slaName);
-//					license.setAppName(slaName);
-//					if(ls.getSla().isSetLink()) {
-//						String link = ls.getSla().getLink();
-//						System.err.println(link);
-//						link = link.substring(link.lastIndexOf("/"));
-//						System.err.println(link);
-//						File file = new File(usrvLocalStore + "licenses" + link);
-//						license.getSlaList().add(file);
-//					}
-//				} 
-//				else 
-//				if(ls.isSetLicense()) {
-//					System.err.println("In Licenses "+ls.getLicense().size());
-//					
-//					for(LicenseType lt : ls.getLicense()) {
-//						System.err.println("LicenseType is set!!! "+lt.getLink());
-//						if(lt.isSetLink()) {
-//							txt = lt.getLink();
-//							System.err.println(txt);
-//							txt = txt.substring(txt.lastIndexOf("/"));
-//							System.err.println(txt);
-//							l = new File(usrvLocalStore + "licenses" + txt);
-//							list.add(l);
-//						}
-//					}
-//				}
-//				
-//			}
-//			license.setLicense(list);
-//			licenseList.add(license);
-//			aal.setLicenses(license);
-//		}
-		
-		
-//		DocumentBuilder builder = null;
-//		try {
-//			builder = fact.newDocumentBuilder();
-//		} catch (ParserConfigurationException e) {
-//			e.printStackTrace();
-//		}
-//		Document doc = builder.parse(licenceFile);
-//		for (int k = 0; k < doc.getElementsByTagName("usrv:srv").getLength(); k++) {
-//			aal = new AALService();
-//
-//			for (UAPPPart ua : apps) {
-//				aal.getUaapList().add(ua);
-//			}
-//			aal.setServiceId(doc.getElementsByTagName("usrv:serviceId").item(0)
-//					.getTextContent());
-//			aal.setName(doc.getElementsByTagName("usrv:name").item(0)
-//					.getTextContent());
-//			aal.setProvider(doc.getElementsByTagName("usrv:serviceProvider")
-//					.item(0).getTextContent());
-//			aal.setDescription(doc.getElementsByTagName("usrv:description")
-//					.item(0).getTextContent());
-//			aal.setMajor(Integer.parseInt(doc
-//					.getElementsByTagName("usrv:major").item(0)
-//					.getTextContent()));
-//			aal.setMinor(Integer.parseInt(doc
-//					.getElementsByTagName("usrv:minor").item(0)
-//					.getTextContent()));
-//			aal.setMicro(Integer.parseInt(doc
-//					.getElementsByTagName("usrv:micro").item(0)
-//					.getTextContent()));
-//			String h = doc.getElementsByTagName("usrv:tags").item(0)
-//					.getTextContent();
-//			for (String t : h.split(",")) {
-//				aal.getTags().add(t);
-//			}
-//			license = new License();
-//			for (int s = 0; s < doc.getElementsByTagName("usrv:sla")
-//					.getLength(); s++) {
-//				Node node = (Node) doc.getElementsByTagName("usrv:sla").item(s);
-//				NodeList nodeList = node.getChildNodes();
-//				for (int c = 0; c < nodeList.getLength(); c++) {
-//					if (nodeList.item(c).getNodeName().equals("usrv:name")) {
-//						slaName = nodeList.item(c).getTextContent();
-//						license.setAppName(slaName);
-//					}
-//					if (nodeList.item(c).getNodeName().equals("usrv:link")) {
-//						String link = nodeList.item(c).getTextContent();
-//						link = link.substring(link.lastIndexOf("/"));
-//						File file = new File(usrvLocalStore + "licenses" + link);
-//						license.getSlaList().add(file);
-//					}
-//				}
-//			}
-//
-//			for (int i = 0; i < doc.getElementsByTagName("usrv:license")
-//					.getLength(); i++) {
-//				Node n = (Node) doc.getElementsByTagName("usrv:license")
-//						.item(i);
-//				NodeList nlist = n.getChildNodes();
-//
-//				for (int j = 0; j < nlist.getLength(); j++) {
-//					if (nlist.item(j).getNodeName().equals("usrv:link")) {
-//						txt = nlist.item(j).getTextContent();
-//						txt = txt.substring(txt.lastIndexOf("/"));
-//						l = new File(usrvLocalStore + "licenses" + txt);
-//						list.add(l);
-//					}
-//
-//				}
-//			}
-//
-//			license.setLicense(list);
-//			licenseList.add(license);
-//			aal.setLicenses(license);
-//
-//		}
+
+
 		System.err.println("SET LicenseWindow");
 		LicenceWindow lw = null;
 		try {
