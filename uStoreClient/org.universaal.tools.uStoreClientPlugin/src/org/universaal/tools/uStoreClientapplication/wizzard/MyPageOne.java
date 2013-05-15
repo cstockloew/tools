@@ -16,8 +16,8 @@ public class MyPageOne extends WizardPage {
 	private Text usernameText;
 	private Text passwordText;
 	private Composite container;
-	private String username;
-	private String password;
+private String username;
+private String password;
 
 
 	public MyPageOne(String username,String password) {
@@ -93,11 +93,13 @@ public class MyPageOne extends WizardPage {
 		// Required to avoid an error in the system
 		setControl(container);
 		setPageComplete(false);
-		if(username!=null&&password!=null){
-			setPageComplete(true);
-			usernameText.setText(username);
-			passwordText.setText(password);
+		if(username!=null&&!username.equals("")){
+		usernameText.setText(username);
 		}
+		if(password!=null&&!password.equals("")){
+		passwordText.setText(password);
+		}
+		
 	}
 	
 	public boolean canFlipToNextPage(){

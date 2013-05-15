@@ -1,131 +1,202 @@
 package org.universaal.tools.uStoreClientapplication.wizzard;
 
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.universaal.commerce.ustore.tools.AALApplicationManager;
+import org.universaal.commerce.ustore.tools.AALApplicationManagerServiceLocator;
 import org.universaal.commerce.ustore.tools.CatalogManager;
 import org.universaal.commerce.ustore.tools.CatalogManagerServiceLocator;
 
+import org.universaal.tools.uStoreClientapplication.actions.Application;
 import org.universaal.tools.uStoreClientapplication.actions.ApplicationCategory;
 import org.universaal.tools.uStoreClientapplication.actions.ApplicationCategoryParser;
 import org.universaal.tools.uStoreClientapplication.actions.Metadata;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 public class PublishWizard extends Wizard {
-	static private String USTORE_USERNAME = "admin";
-	static private String USTORE_PASSWORD = "bigim222";
 	protected MyPageOne one;
-	protected MyPageTwo two;
-	protected MyPageThree three;
+	protected MyPageTwoNew two;
+	// protected MyPageThree three;
+	protected MyPageThreeUAAP threeUAAP;
+	protected MyPageThreeApplication threeApplication;
 	private List<ApplicationCategory> categoryList;
 	private Metadata metadata;
 	private String applicationId;
 	private String username;
 	private String password;
+	private boolean isUAAP = false;
 
-	public PublishWizard(String applicationId,String username,String password) {
+	public PublishWizard(String applicationId, String username, String password) {
 		super();
 		setNeedsProgressMonitor(true);
-		this.applicationId=applicationId;
-		this.username=username;
-		this.password=password;
+		this.applicationId = applicationId;
+		this.username = username;
+		this.password = password;
 		ImageDescriptor image = AbstractUIPlugin.imageDescriptorFromPlugin(
 				"org.universaal.tools.uStoreClientPlugin", //$NON-NLS-1$
 				"icons/ic-uAAL-hdpi.png"); //$NON-NLS-1$
 		setDefaultPageImageDescriptor(image);
 		setWindowTitle("Publish application to uStore");
 
-		try {
-			CatalogManagerServiceLocator loc = new CatalogManagerServiceLocator();
-			CatalogManager man = loc.getCatalogManagerPort();
-			String catalog = man.getAALApplicationsCategories(USTORE_USERNAME,
-					USTORE_PASSWORD);
-			ApplicationCategoryParser applicationCategoryParser = new ApplicationCategoryParser(
-					catalog);
-			applicationCategoryParser.createCategoryList();
-			categoryList = applicationCategoryParser.getCategoryList();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 	}
 
 	public void addPages() {
-		
+
 		one = new MyPageOne(username,password);
-		two = new MyPageTwo();
-		three = new MyPageThree();
-		
+		two = new MyPageTwoNew();
+		// three = new MyPageThree();
+		threeUAAP = new MyPageThreeUAAP();
+		threeApplication = new MyPageThreeApplication();
 		addPage(one);
 		addPage(two);
-		addPage(three);
+		// addPage(three);
+		addPage(threeUAAP);
+		addPage(threeApplication);
 		
-
-		two.setCategoryList(categoryList);
 	}
 
 	public boolean performFinish() {
 		metadata = new Metadata();
-		//page one
-		metadata.setUsername(one.getUsernameText().getText());
-		metadata.setPassword(one.getPasswordText().getText());
-		//page two
-		metadata.setApplicationId(applicationId);
-		metadata.setApplicationName(two.getApplicationNameText().getText());
-		metadata.setApplicationShortDescription(two.getShortDescriptionText().getText());
-		metadata.setApplicationFullDescription(two.getDescriptionText().getText());
-		metadata.setKeywords(two.getKeywordsText().getText());
-		metadata.setDeveloperName(two.getDeveloperNameText().getText());
-		metadata.setDeveloperEmail(two.getDeveloperEmailText().getText());
-		metadata.setDeveloperPhone(two.getDeveloperPhoneText().getText());
-		metadata.setOrganizationName(two.getOrganizationNameText().getText());
-		metadata.setOrganizationURL(two.getOrganizationURLText().getText());
-		metadata.setOrganizationCertificate(two.getOrganizationCertificateText().getText());
-		metadata.setURL(two.getURLText().getText());
-		metadata.setParentCategoryId(two.getCategoryList().get(two.getCombo().getSelectionIndex()).getCategoryNumber());
-		//page three
-		metadata.setFullImageFileName(three.getImageName());
-		metadata.setFullImage(three.getFileImageByte());
-		metadata.setThumbnailImageFileName(three.getThumbnailName());
-		metadata.setThumbnail(three.getThumbnailImageByte());
-		metadata.setListPrice(three.getListPriceText().getText());
-		metadata.setVersion(three.getVersionText().getText());
-		metadata.setVersionNotes(three.getVersionNotesText().getText());
-		metadata.setFileName(three.getFileName());
-		metadata.setFile(three.getFileByte());
-		metadata.setServiceLevelAgreement(three.getServiceLevelAgreementText().getText());
-		metadata.setRequirements(three.getRequirementsText().getText());
-		metadata.setLicenses(three.getLicensesText().getText());
-		metadata.setCapabilities(three.getCapabilitiesText().getText());
-		if(three.getReadyForPurchaseCombo().getItem(three.getReadyForPurchaseCombo().getSelectionIndex()).equals("Yes")){
-			metadata.setForPurchase(true);
-		}else
-			metadata.setForPurchase(false);
-		//for uAAP
-		metadata.setuAAPFileBytes(three.getuAAPFileByte());
-		metadata.setuAAPFileName(three.getuAAPFileName());
+		if (isUAAP) {
+			metadata.setUsername(one.getUsernameText().getText());
+			metadata.setPassword(one.getPasswordText().getText());
+			metadata.setApplicationId(threeUAAP.getApplications()
+					.get(threeUAAP.getApplicationsCombo().getSelectionIndex())
+					.getId());
+			metadata.setApplicationFullDescription(threeUAAP
+					.getDescriptionText().getText());
+			metadata.setURL(threeUAAP.getURLText().getText());
+			String parentCategoryId = two.getCategoryList()
+					.get(two.getCombo().getSelectionIndex())
+					.getCategoryNumber();
+			metadata.setParentCategoryId(parentCategoryId);
+			metadata.setFullImageFileName(threeUAAP.getImageFileName());
+			metadata.setFullImage(threeUAAP.getImageFile());
+			metadata.setThumbnailImageFileName(threeUAAP.getThumbnailFileName());
+			metadata.setThumbnail(threeUAAP.getThumbnailFile());
+			metadata.setListPrice(threeUAAP.getPriceText().getText());
+			metadata.setVersion(two.getVersionText().getText());
+			metadata.setVersionNotes(two.getVersionDescriptionText().getText());
+			metadata.setFileName(two.getFileName());
+			metadata.setFile(two.getFileByte());
+			if (threeUAAP
+					.getReadyForPurchaseCombo()
+					.getItem(
+							threeUAAP.getReadyForPurchaseCombo()
+									.getSelectionIndex()).equals("Yes")) {
+				metadata.setForPurchase(true);
+			} else
+				metadata.setForPurchase(false);
+
+		} else {
+			metadata.setUsername(one.getUsernameText().getText());
+			metadata.setPassword(one.getPasswordText().getText());
+			// page two
+			metadata.setApplicationId(applicationId);
+			metadata.setApplicationName(threeApplication.getNameText()
+					.getText());
+			metadata.setApplicationShortDescription(threeApplication
+					.getShortDescriptionText().getText());
+			metadata.setApplicationFullDescription(threeApplication
+					.getDescriptionText().getText());
+			metadata.setKeywords(threeApplication.getKeywordsText().getText());
+			metadata.setDeveloperName(threeApplication.getDeveloperNameText()
+					.getText());
+			metadata.setDeveloperEmail(threeApplication.getDeveloperEmailText()
+					.getText());
+			metadata.setDeveloperPhone(threeApplication.getDeveloperPhoneText()
+					.getText());
+			metadata.setOrganizationName(threeApplication
+					.getOrganizationNameText().getText());
+			metadata.setOrganizationURL(threeApplication
+					.getOrganizationURLText().getText());
+			metadata.setOrganizationCertificate(threeApplication
+					.getOrganizationCertificateText().getText());
+			metadata.setURL(threeApplication.getURLText().getText());
+			String parentCategoryId = two.getCategoryList()
+					.get(two.getCombo().getSelectionIndex())
+					.getCategoryNumber();
+			metadata.setParentCategoryId(parentCategoryId);
+			// page three
+			metadata.setFullImageFileName(threeApplication.getImageFileName());
+			metadata.setFullImage(threeApplication.getImageFile());
+			metadata.setThumbnailImageFileName(threeApplication
+					.getThumbnailFileName());
+			metadata.setThumbnail(threeApplication.getThumbnailFile());
+			metadata.setListPrice(threeApplication.getPriceText().getText());
+			metadata.setVersion(two.getVersionText().getText());
+			metadata.setVersionNotes(two.getVersionDescriptionText().getText());
+			metadata.setFileName(two.getFileName());
+			metadata.setFile(two.getFileByte());
+			metadata.setServiceLevelAgreement(threeApplication
+					.getServiceLevelAgreementText().getText());
+			metadata.setRequirements(threeApplication.getRequirementsText()
+					.getText());
+			metadata.setLicenses(threeApplication.getLicensesText().getText());
+			metadata.setCapabilities(threeApplication.getCapabilitiesText()
+					.getText());
+			if (threeApplication
+					.getReadyForPurchaseCombo()
+					.getItem(
+							threeApplication.getReadyForPurchaseCombo()
+									.getSelectionIndex()).equals("Yes")) {
+				metadata.setForPurchase(true);
+			} else
+				metadata.setForPurchase(false);
+
+		}
+
 		return true;
 	}
 
-	
-	
-	
 	@Override
 	public boolean canFinish() {
-		if(!one.getUsernameText().getText().equals("")&&
-				!one.getPasswordText().getText().equals("")&&
-				!two.getApplicationNameText().getText().equals("")&&
-				!three.getVersionText().getText().equals("")&&
-				!three.getVersionNotesText().getText().equals("")&&
-				three.getFileByte()!=null
-				){
-			return true;
-			
-		}else
-			return false;
+		if (isUAAP) {
+			if (!one.getUsernameText().getText().equals("")
+					&& !one.getPasswordText().getText().equals("")
+					&& !two.getFileName().equals("")
+					&& two.getFileByte() != null
+					&& !two.getVersionText().getText().equals("")
+					&& !two.getVersionDescriptionText().getText().equals("")
+					&& two.getCategoryList().size() != 0
+					&& threeUAAP.getApplicationsCombo().getSelectionIndex() != -1) {
+				return true;
+
+			} else
+				return false;
+		} else {
+			if (!one.getUsernameText().getText().equals("")
+					&& !one.getPasswordText().getText().equals("")
+					&& !two.getFileName().equals("")
+					&& two.getFileByte() != null
+					&& !two.getVersionText().getText().equals("")
+					&& !two.getVersionDescriptionText().getText().equals("")
+					&& two.getCategoryList().size() != 0
+					&& !threeApplication.getNameText().getText().equals("")) {
+				return true;
+
+			} else
+				return false;
+		}
+
 	}
 
 	public List<ApplicationCategory> getCategoryList() {
@@ -134,6 +205,123 @@ public class PublishWizard extends Wizard {
 
 	public Metadata getMetadata() {
 		return metadata;
+	}
+
+	@Override
+	public IWizardPage getNextPage(IWizardPage page) {
+		// TODO Auto-generated method stub
+
+		if (page instanceof MyPageOne) {
+			try {
+				CatalogManagerServiceLocator loc = new CatalogManagerServiceLocator();
+				CatalogManager man = loc.getCatalogManagerPort();
+				String catalog = man.getAALApplicationsCategories(one
+						.getUsernameText().getText(), one.getPasswordText()
+						.getText());
+				ApplicationCategoryParser applicationCategoryParser = new ApplicationCategoryParser(
+						catalog);
+				applicationCategoryParser.createCategoryList();
+				categoryList = applicationCategoryParser.getCategoryList();
+				two.setCategoryList(categoryList);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				MessageDialog.openError(PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getShell(), "Error",
+						ex.toString());
+				return null;
+			}
+
+		} else if (page instanceof MyPageTwoNew) {
+			String str = ((MyPageTwoNew) page).getFileName();
+
+			if (str.toLowerCase().trim().endsWith("uaap")) {
+				isUAAP = true;
+				// get parent category id from second page
+
+				String parentCategoryId = two.getCategoryList()
+						.get(two.getCombo().getSelectionIndex())
+						.getCategoryNumber();
+
+				// get list of available uStore applications
+				try {
+					AALApplicationManagerServiceLocator loc = new AALApplicationManagerServiceLocator();
+					AALApplicationManager man = loc
+							.getAALApplicationManagerPort();
+					String result = man.getAALApplications(one
+							.getUsernameText().getText(), one.getPasswordText()
+							.getText(), parentCategoryId);
+					// parse result
+					List<Application> applications = parseXml(result);
+					threeUAAP.setApplications(applications);
+
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				return threeUAAP;
+			} else {
+				isUAAP = false;
+				return threeApplication;
+			}
+		}
+		return super.getNextPage(page);
+	}
+
+	@Override
+	public IWizardPage getPreviousPage(IWizardPage page) {
+		// TODO Auto-generated method stub
+		return super.getPreviousPage(page);
+	}
+
+	private List<Application> parseXml(String xml) {
+		List<Application> list = new ArrayList<Application>();
+
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = loadXMLFromString(xml);
+			NodeList nList = doc.getElementsByTagName("application");
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				Application app = new Application();
+				Node nNode = nList.item(temp);
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+					app.setId(getTagValue("id", eElement));
+					app.setName(getTagValue("name", eElement));
+
+					list.add(app);
+				}
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return list;
+	}
+
+	private String getTagValue(String sTag, Element eElement) {
+		NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
+				.getChildNodes();
+
+		Node nValue = (Node) nlList.item(0);
+
+		return nValue.getNodeValue();
+	}
+
+	private Document loadXMLFromString(String xml) throws Exception {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		InputSource is = new InputSource(new StringReader(xml));
+		return builder.parse(is);
+	}
+
+	public boolean isUAAP() {
+		return isUAAP;
+	}
+
+	public void setUAAP(boolean isUAAP) {
+		this.isUAAP = isUAAP;
 	}
 
 }

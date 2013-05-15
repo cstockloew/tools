@@ -150,11 +150,7 @@ public class MyPageTwo extends WizardPage {
 	
 		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
-		for (int i = 0; i < categoryList.size(); i++) {
-			combo.add(categoryList.get(i).getCategoryName());
-		}
-		if (combo.getItemCount() != 0)
-			combo.select(0);
+		
 		setPageComplete(false);
 	}
 
@@ -260,6 +256,11 @@ public class MyPageTwo extends WizardPage {
 
 	public void setCategoryList(List<ApplicationCategory> categoryList) {
 		this.categoryList = categoryList;
+		for (int i = 0; i < categoryList.size(); i++) {
+			combo.add(categoryList.get(i).getCategoryName());
+		}
+		if (combo.getItemCount() != 0)
+			combo.select(0);
 	}
 
 	

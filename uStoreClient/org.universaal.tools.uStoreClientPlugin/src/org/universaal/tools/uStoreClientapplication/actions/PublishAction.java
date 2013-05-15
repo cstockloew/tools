@@ -50,36 +50,11 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 				AALApplicationManager man = loc.getAALApplicationManagerPort();
 				Metadata metadata = publishWizard.getMetadata();
 
-				String id = man.uploadAnyAALApplication(metadata.getUsername(),
-						metadata.getPassword(), metadata.getApplicationId(),
-						metadata.getApplicationName(),
-						metadata.getApplicationShortDescription(),
-						metadata.getApplicationFullDescription(),
-						metadata.getKeywords(), metadata.getDeveloperName(),
-						metadata.getDeveloperEmail(),
-						metadata.getDeveloperPhone(),
-						metadata.getOrganizationName(),
-						metadata.getOrganizationURL(),
-						metadata.getOrganizationCertificate(),
-						metadata.getURL(), metadata.getParentCategoryId(),
-						metadata.getFullImageFileName(),
-						metadata.getFullImage(),
-						metadata.getThumbnailImageFileName(),
-						metadata.getThumbnail(), metadata.getListPrice(),
-						metadata.getVersion(), metadata.getVersionNotes(),
-						metadata.getFileName(), metadata.getFile(),
-						metadata.getServiceLevelAgreement(),
-						metadata.getRequirements(), metadata.getLicenses(),
-						metadata.getCapabilities(), metadata.isForPurchase);
-
-				// check if metadata contain uAAP file
-				if (id != null && id != ""
-						&& metadata.getuAAPFileBytes() != null
-						&& metadata.getuAAPFileName() != null
-						&& metadata.getuAAPFileName() != "") {
-					// upload uAAP file
-					man.uploadUaapAALApplication(metadata.getUsername(),
-							metadata.getPassword(), id,
+				// check if it is for UAAP file
+				if (publishWizard.isUAAP()) {
+					String id = man.uploadUaapAALApplication(
+							metadata.getUsername(), metadata.getPassword(),
+							metadata.getApplicationId(),
 							metadata.getApplicationFullDescription(),
 							metadata.getURL(), metadata.getParentCategoryId(),
 							metadata.getFullImageFileName(),
@@ -87,13 +62,40 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 							metadata.getThumbnailImageFileName(),
 							metadata.getThumbnail(), metadata.getListPrice(),
 							metadata.getVersion(), metadata.getVersionNotes(),
-							metadata.getuAAPFileName(),
-							metadata.getuAAPFileBytes(),
+							metadata.getFileName(),
+							metadata.getFile(),
 							metadata.isForPurchase());
+					MessageDialog.openInformation(window.getShell(), "Success",
+							"uAAP file uploaded with id: \n" + id);
+				} else {
 
+					String id = man.uploadAnyAALApplication(
+							metadata.getUsername(), metadata.getPassword(),
+							metadata.getApplicationId(),
+							metadata.getApplicationName(),
+							metadata.getApplicationShortDescription(),
+							metadata.getApplicationFullDescription(),
+							metadata.getKeywords(),
+							metadata.getDeveloperName(),
+							metadata.getDeveloperEmail(),
+							metadata.getDeveloperPhone(),
+							metadata.getOrganizationName(),
+							metadata.getOrganizationURL(),
+							metadata.getOrganizationCertificate(),
+							metadata.getURL(), metadata.getParentCategoryId(),
+							metadata.getFullImageFileName(),
+							metadata.getFullImage(),
+							metadata.getThumbnailImageFileName(),
+							metadata.getThumbnail(), metadata.getListPrice(),
+							metadata.getVersion(), metadata.getVersionNotes(),
+							metadata.getFileName(), metadata.getFile(),
+							metadata.getServiceLevelAgreement(),
+							metadata.getRequirements(), metadata.getLicenses(),
+							metadata.getCapabilities(), metadata.isForPurchase);
+
+					MessageDialog.openInformation(window.getShell(), "Success",
+							"Application uploaded with id: \n" + id);
 				}
-				MessageDialog.openInformation(window.getShell(), "Success",
-						"Application uploaded with id: \n" + id);
 
 			} else {
 				System.out.println("Canceled");
