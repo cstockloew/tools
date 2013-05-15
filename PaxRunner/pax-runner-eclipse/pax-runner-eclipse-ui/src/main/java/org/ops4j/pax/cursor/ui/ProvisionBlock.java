@@ -963,6 +963,8 @@ public class ProvisionBlock extends CursorTabBlock {
 			return;
 		}
 		updateURL(provisionURL, dialog.getValue());
+		updateStartImages();
+		notifyUpdate();
 	}
 
 	/**
