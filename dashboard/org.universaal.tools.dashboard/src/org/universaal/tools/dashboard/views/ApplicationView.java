@@ -32,7 +32,8 @@ public class ApplicationView extends Composite {
 	private Button btnPublishOpenSource;
 	private Button btnCreateAndEdit;
 	private Group grpConfiguration;
-	private Button btnExtractParameters;
+	private Button btnNewConfiguration;
+	private Button btnOpenConfiguration;
 	private Button btnNewParameters;
 	
 	/**
@@ -150,7 +151,7 @@ public class ApplicationView extends Composite {
 		grpConfiguration = new Group(this, SWT.NONE);
 		grpConfiguration.setFont(SWTResourceManager.getFont("Lucida Grande", 11, SWT.BOLD));
 		grpConfiguration.setBackground(SWTResourceManager.getColor(135, 206, 250));
-		grpConfiguration.setLayout(new FillLayout(SWT.HORIZONTAL));
+		grpConfiguration.setLayout(new FillLayout(SWT.VERTICAL));
 		grpConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		grpConfiguration.setText("Configuration");
 		
@@ -158,9 +159,13 @@ public class ApplicationView extends Composite {
 		btnNewParameters.setText("Create New");
 		btnNewParameters.setEnabled(false);
 		
-		btnExtractParameters = new Button(grpConfiguration, SWT.NONE);
-		btnExtractParameters.setText("Open Editor");
-		btnExtractParameters.setEnabled(false);
+		btnNewConfiguration = new Button(grpConfiguration, SWT.NONE);
+		btnNewConfiguration.setText("Create");
+		btnNewConfiguration.setEnabled(false);
+		
+		btnOpenConfiguration = new Button(grpConfiguration, SWT.NONE);
+		btnOpenConfiguration.setText("Open");
+		btnOpenConfiguration.setEnabled(false);
 		
 		Group grpApplicationDescription = new Group(this, SWT.NONE);
 		grpApplicationDescription.setFont(SWTResourceManager.getFont("Lucida Grande", 11, SWT.BOLD));
@@ -205,7 +210,9 @@ public class ApplicationView extends Composite {
 		//btnImportClass.addSelectionListener(new TemporaryListener(this, "Import Class"));
 
 		//Configuration Editor
-		addCommandCallingListener(btnExtractParameters, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
+		//addCommandCallingListener(btnNewConfiguration, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
+		addCommandCallingListener(btnNewConfiguration, "org.universaal.tools.configurationEditor.newConfiguration", "AAL Studio New Configuration Wizard");
+		addCommandCallingListener(btnOpenConfiguration, "org.universaal.tools.configurationEditor.openConfiguration", "AAL Studio Open Configuration Wizard");
 		//addCommandCallingListener(btnNewParameters, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
 
 		//Package
