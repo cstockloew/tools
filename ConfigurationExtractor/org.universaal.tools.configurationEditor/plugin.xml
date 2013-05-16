@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Configuration Editor"
+            extensions="xml"
+            icon="icons/sample.gif"
+            contributorClass="org.universaal.tools.configurationEditor.editors.ConfigurationEditorContributor"
+            class="org.universaal.tools.configurationEditor.editors.ConfigurationEditor"
+            id="org.universaal.tools.configurationEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.universaal.tools.handlers.NewConfigurationHandler"
+            id="org.universaal.tools.configurationEditor.newConfiguration"
+            name="New Configuration Command">
+      </command>
+      <command
+            defaultHandler="org.universaal.tools.handlers.OpenConfigurationHandler"
+            id="org.universaal.tools.configurationEditor.openConfiguration"
+            name="Open Configuration Command">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="org.universaal.tools.configurationEditor.utils.NewConfigurationWizard"
+            id="org.universaal.tools.configurationEditor.newConfigurationWizard"
+            name="Configuration Wizard">
+      </wizard>
+   </extension>
+
+</plugin>
