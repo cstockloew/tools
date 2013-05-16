@@ -18,12 +18,12 @@
       <command
             defaultHandler="org.universaal.tools.handlers.NewConfigurationHandler"
             id="org.universaal.tools.configurationEditor.newConfiguration"
-            name="New Configuration Command">
+            name="Create new configuration">
       </command>
       <command
             defaultHandler="org.universaal.tools.handlers.OpenConfigurationHandler"
             id="org.universaal.tools.configurationEditor.openConfiguration"
-            name="Open Configuration Command">
+            name="Open configuration">
       </command>
    </extension>
    <extension
@@ -33,6 +33,19 @@
             id="org.universaal.tools.configurationEditor.newConfigurationWizard"
             name="Configuration Wizard">
       </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=new">
+         <command
+               commandId="org.universaal.tools.configurationEditor.newConfiguration"
+               icon="icons/new-document-16.png"
+               id="org.universaal.tools.configurationEditor.menu.newConfiguration"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
 
 </plugin>
