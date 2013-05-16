@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.configurationExtractor.feature"
       label="AAL Studio Configuration Editor"
-      version="0.9.2"
+      version="0.9.6"
       provider-name="universAAL">
 
    <description url="http://www.example.com/description">
