@@ -92,14 +92,14 @@ public class Activator implements BundleActivator {
 		//Read CHE properties
 		Properties che = new Properties();
 		Properties prop2 = new Properties();
-		Reader read = new FileReader(new File("file:///../etc/ctxt.che/CHe.properties"));
+		Reader read = new FileReader(new File("file:///../etc/system.properties"));
 		che.load(read);
 		for(Map.Entry entry : che.entrySet()) {
 			prop2.setProperty(entry.getKey().toString(), entry.getValue().toString());
 		}
 		 //Set CHE property
 		prop2.setProperty("RECYCLE.DEBUG", "false");
-		Writer wr = new FileWriter(new File("file:///../etc/ctxt.che/CHe.properties"));
+		Writer wr = new FileWriter(new File("file:///../etc/system.properties"));
 		prop2.store(wr, "");
 		wr.close();
 		

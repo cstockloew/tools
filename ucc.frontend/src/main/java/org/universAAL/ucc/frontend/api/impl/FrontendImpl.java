@@ -118,7 +118,7 @@ public class FrontendImpl implements IFrontend {
 		 } catch (IOException e2) {
 		 e2.printStackTrace();
 		 }
-
+		 System.err.println("The Service-ID: "+serviceId);
 		// Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
 		 uappURI = createUAPPLocation(usrvLocalStore + "bin", serviceId);
 		

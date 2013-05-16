@@ -196,7 +196,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				UAPPPackage uapack = null;
 				// Get uapp location uri
 				String appLocation = uapp.getUappLocation();
-				System.err.println(uapp.getUappLocation());
+				System.err.println("THE UAPP_LOCATION: "+uapp.getUappLocation());
 				String p = appLocation.substring(appLocation.indexOf("bin/"));
 				/*appLocation = System.getenv("systemdrive")
 						+ "/tempUsrvFiles"
@@ -204,7 +204,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 								.substring(appLocation.indexOf("./") + 1); FrontendImpl.getUappURI() +"/"+p; */
 				appLocation = FrontendImpl.getUappURI();
 				System.err.println("LOCATION URI: "+appLocation);
-				File uf = uf = new File(appLocation.trim());
+				File uf  = new File(appLocation.trim());
 				for (PeerCard pc: peerMap.keySet()) {
 					List<Part> parts = peerMap.get(pc);
 					
