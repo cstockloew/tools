@@ -1,4 +1,4 @@
-package org.universAAL.tools.makrorecorder.pattern;
+package org.universAAL.tools.makrorecorder.osgi.pattern;
 
 import java.util.Iterator;
 
@@ -6,10 +6,10 @@ import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.tools.makrorecorder.Activator;
+import org.universAAL.tools.makrorecorder.osgi.Activator;
 
 /**
-*
+* 
 * @author maxim djakow
 */
 public class PatternListener extends ContextSubscriber {

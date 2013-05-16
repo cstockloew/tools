@@ -1,4 +1,4 @@
-package org.universAAL.tools.makrorecorder.pattern;
+package org.universAAL.tools.makrorecorder.osgi.pattern;
 
 import java.io.File;
 
@@ -13,7 +13,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.tools.makrorecorder.Activator;
+import org.universAAL.tools.makrorecorder.osgi.Activator;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -116,7 +116,9 @@ public class PatternXMLParser {
 			transformer.transform(source, result);
 			
 		} catch (DOMException e) {
+			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerException e) {

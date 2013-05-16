@@ -1,4 +1,4 @@
-package org.universAAL.tools.makrorecorder.gui.pattern;
+package org.universAAL.tools.makrorecorder.swingGUI.pattern;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -11,17 +11,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.tools.makrorecorder.MakroRecorder;
-import org.universAAL.tools.makrorecorder.gui.pattern.resource.EditResourceGUI;
-import org.universAAL.tools.makrorecorder.gui.pattern.resource.ResourceInfoPanel;
-import org.universAAL.tools.makrorecorder.gui.pattern.resource.ResourceList;
-import org.universAAL.tools.makrorecorder.pattern.Pattern;
+import org.universAAL.tools.makrorecorder.osgi.pattern.Pattern;
+import org.universAAL.tools.makrorecorder.swingGUI.Activator;
+import org.universAAL.tools.makrorecorder.swingGUI.pattern.resource.EditResourceGUI;
+import org.universAAL.tools.makrorecorder.swingGUI.pattern.resource.ResourceInfoPanel;
+import org.universAAL.tools.makrorecorder.swingGUI.pattern.resource.ResourceList;
 
 /**
 *
 * @author maxim djakow
 */
 public class PatternPanel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
 
 	private Pattern pattern;
 	
@@ -145,7 +148,7 @@ public class PatternPanel extends JPanel {
         sendButton.setText("Test");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	MakroRecorder.sendOut(resourceInfoPanel.getResource());
+            	Activator.getMakroRecorder().sendOut(resourceInfoPanel.getResource());            		
             }
         });
         resourceEditPanel.add(sendButton);

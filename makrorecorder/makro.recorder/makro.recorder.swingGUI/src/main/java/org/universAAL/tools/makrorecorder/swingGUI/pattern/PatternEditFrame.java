@@ -1,44 +1,34 @@
-package org.universAAL.tools.makrorecorder.gui.pattern;
+package org.universAAL.tools.makrorecorder.swingGUI.pattern;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Vector;
+import java.util.Observable;
+import java.util.Observer;
 
-import javax.swing.DefaultListModel;
-import javax.swing.DropMode;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.TransferHandler;
 
-import org.bouncycastle.util.test.Test;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceRequest;
-import org.universAAL.tools.makrorecorder.MakroRecorder;
-import org.universAAL.tools.makrorecorder.pattern.Pattern;
+import org.universAAL.tools.makrorecorder.osgi.pattern.Pattern;
+import org.universAAL.tools.makrorecorder.swingGUI.Activator;
 
 /**
  *
  * @author maxim djakow
  */
-public class PatternEditFrame extends javax.swing.JFrame {
+public class PatternEditFrame extends javax.swing.JFrame implements Observer{
+	
+	
+	private static final long serialVersionUID = 1L;
 	
 	private javax.swing.JPanel RecordingPanel;
     private javax.swing.JButton cancelButton;
@@ -55,17 +45,18 @@ public class PatternEditFrame extends javax.swing.JFrame {
 	
 	private Pattern pattern = null;
 	
-    public PatternEditFrame() {
-    	initComponents();
+    public PatternEditFrame() {    	
         this.pattern = new Pattern();
+        initComponents();
         readPattern();
+        pattern.addObserver(this); 
     }
 
-    public PatternEditFrame(Pattern pattern) {
-        
+    public PatternEditFrame(Pattern pattern) {        
         this.pattern = pattern;
         initComponents();
-        readPattern();        
+        readPattern();
+        pattern.addObserver(this); 
     }
     
       
@@ -121,7 +112,7 @@ public class PatternEditFrame extends javax.swing.JFrame {
     		JOptionPane.showMessageDialog(this, "Please enter Name", "info", JOptionPane.WARNING_MESSAGE);
     		return;
     	}
-    	if(MakroRecorder.getAllPatternNames().contains(nameTextField.getText())) {
+    	if(Activator.getMakroRecorder().getAllPatternNames().contains(nameTextField.getText())) {
     		if (JOptionPane.showConfirmDialog(
     				null, 
     				"Pattern '"+nameTextField.getText()+"' already exist.\nOverwrite?", 
@@ -132,8 +123,8 @@ public class PatternEditFrame extends javax.swing.JFrame {
     	}
         pattern.setName(nameTextField.getText());
         pattern.setDescription(descriptionTextArea.getText());
-        if(MakroRecorder.savePattern(pattern)) {
-        	MakroRecorder.reload();
+        if(Activator.getMakroRecorder().savePattern(pattern)) {
+        	Activator.getMakroRecorder().reload();
         	this.dispose();
         }
     }
@@ -340,4 +331,8 @@ public class PatternEditFrame extends javax.swing.JFrame {
         
         pack();
     }
+
+	public void update(Observable o, Object arg) {
+		readPattern();
+	}
 }

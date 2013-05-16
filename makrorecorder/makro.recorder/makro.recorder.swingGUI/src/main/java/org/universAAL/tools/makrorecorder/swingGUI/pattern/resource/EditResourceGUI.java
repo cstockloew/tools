@@ -1,4 +1,4 @@
-package org.universAAL.tools.makrorecorder.gui.pattern.resource;
+package org.universAAL.tools.makrorecorder.swingGUI.pattern.resource;
 
 import java.awt.Dialog;
 import java.awt.GridBagConstraints;
@@ -9,14 +9,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.tools.makrorecorder.Activator;
-import org.universAAL.tools.makrorecorder.MakroRecorder;
+import org.universAAL.tools.makrorecorder.swingGUI.Activator;
 
 /**
 *
 * @author maxim djakow
 */
 public class EditResourceGUI extends Dialog {
+
+	private static final long serialVersionUID = 1L;
 
 	Resource resource;
 	
@@ -52,7 +53,7 @@ public class EditResourceGUI extends Dialog {
         tb.setText("Test");
         tb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	MakroRecorder.sendOut((Resource)Activator.getSerializer().deserialize(ta.getText()));
+            	Activator.getMakroRecorder().sendOut((Resource)Activator.getSerializer().deserialize(ta.getText()));
             }
         });
         gbc = new java.awt.GridBagConstraints();

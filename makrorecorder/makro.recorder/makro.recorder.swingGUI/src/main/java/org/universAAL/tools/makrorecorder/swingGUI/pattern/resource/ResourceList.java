@@ -1,4 +1,4 @@
-package org.universAAL.tools.makrorecorder.gui.pattern.resource;
+package org.universAAL.tools.makrorecorder.swingGUI.pattern.resource;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -23,6 +23,7 @@ import org.universAAL.middleware.service.ServiceRequest;
 */
 public class ResourceList extends JList {
 
+	private static final long serialVersionUID = 1L;
 	private Vector<Resource> resources;
 	
 	public ResourceList(Vector<Resource> resources) {
@@ -49,7 +50,8 @@ public class ResourceList extends JList {
         setDragEnabled(true);
         setDropMode(DropMode.INSERT);
         setTransferHandler(new TransferHandler(){
-            public boolean canImport(TransferHandler.TransferSupport info) {
+			private static final long serialVersionUID = 1L;
+			public boolean canImport(TransferHandler.TransferSupport info) {
                 if (!info.isDataFlavorSupported(DataFlavor.stringFlavor)) {
                     return false;
                 }

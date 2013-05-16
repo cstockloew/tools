@@ -1,11 +1,13 @@
-package org.universAAL.tools.makrorecorder;
+package org.universAAL.tools.makrorecorder.swingGUI;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+
 import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
 
+import org.universAAL.tools.makrorecorder.osgi.MakroRecorder;
 
 /**
 *
@@ -18,13 +20,14 @@ public class Activator implements BundleActivator{
 	
 	private static MessageContentSerializer serializer = null;
 	
+	private static MakroRecorder makroRecorder = null;
 	
 	public void start(BundleContext context) throws Exception {
 		bundleContext = context;
 		moduleContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { bundleContext });
-		serializer = (MessageContentSerializer) Activator.getBundleContext().getService(Activator.getBundleContext().getServiceReference(MessageContentSerializer.class.getName()));
+		serializer = (MessageContentSerializer) context.getService(context.getServiceReference(MessageContentSerializer.class.getName()));
 		
-		MakroRecorder.getInstance().showGUI();
+		new MakroRecorderSwingGUI(new MakroRecorder(moduleContext)).setVisible(true);
 	}
 	
 	public void stop(BundleContext arg0) throws Exception {
@@ -41,6 +44,10 @@ public class Activator implements BundleActivator{
 	
 	public static MessageContentSerializer getSerializer() {
 		return serializer;
+	}
+	
+	public static MakroRecorder getMakroRecorder() {
+		return makroRecorder;
 	}
 
 }

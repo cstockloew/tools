@@ -1,12 +1,13 @@
-package org.universAAL.tools.makrorecorder.pattern;
+package org.universAAL.tools.makrorecorder.osgi.pattern;
 
 
 import org.osgi.framework.ServiceRegistration;
 import org.universAAL.middleware.container.LogListener;
+import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceRequest;
-import org.universAAL.tools.makrorecorder.Activator;
+import org.universAAL.tools.makrorecorder.osgi.Activator;
 
 /**
 *
@@ -16,6 +17,7 @@ public class BusRecorder  implements LogListener {
 
 	private Pattern pattern = null;
 	
+	ModuleContext context = null;
 	private ServiceRegistration sr = null;
 	
 	public void start() {

@@ -1,4 +1,4 @@
-package org.universAAL.tools.makrorecorder.gui.pattern.resource;
+package org.universAAL.tools.makrorecorder.swingGUI.pattern.resource;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceRequest;
-import org.universAAL.tools.makrorecorder.Activator;
+import org.universAAL.tools.makrorecorder.swingGUI.Activator;
 
 /**
 *
@@ -69,7 +69,6 @@ public class ResourceInfoPanel extends JPanel {
     }
 	
 	private void init() {
-		//setBorder(javax.swing.BorderFactory.createTitledBorder("Resource Information")); 
 
 		setLayout(new BorderLayout());
 		

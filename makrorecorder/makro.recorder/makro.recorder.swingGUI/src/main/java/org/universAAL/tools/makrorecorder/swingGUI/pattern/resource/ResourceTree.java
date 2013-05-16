@@ -1,4 +1,4 @@
-package org.universAAL.tools.makrorecorder.gui.pattern.resource;
+package org.universAAL.tools.makrorecorder.swingGUI.pattern.resource;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -16,6 +16,8 @@ import org.universAAL.middleware.rdf.Resource;
 */
 public class ResourceTree extends JTree {
 	
+	private static final long serialVersionUID = 1L;
+
 	Object data = null;
 	
 	Hashtable<Resource, DefaultMutableTreeNode> visitedElements = new Hashtable<Resource, DefaultMutableTreeNode>();
