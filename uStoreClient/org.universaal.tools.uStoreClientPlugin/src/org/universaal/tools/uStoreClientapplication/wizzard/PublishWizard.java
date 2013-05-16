@@ -234,7 +234,7 @@ public class PublishWizard extends Wizard {
 		} else if (page instanceof MyPageTwoNew) {
 			String str = ((MyPageTwoNew) page).getFileName();
 
-			if (str.toLowerCase().trim().endsWith("uaap")) {
+			if (str.toLowerCase().trim().endsWith("uapp")) {
 				isUAAP = true;
 				// get parent category id from second page
 
