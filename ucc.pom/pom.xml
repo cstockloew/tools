@@ -14,6 +14,7 @@
 		<module>../ucc.model</module>
 		<module>../ucc.karaf.feature</module>
 		<module>../ucc.controller</module>
+		<module>../ucc.profile.agent</module>
 		<module>../ucc.database</module>
 		<module>../ucc.frontend</module>
 		<module>../ucc.configuration.model</module>
