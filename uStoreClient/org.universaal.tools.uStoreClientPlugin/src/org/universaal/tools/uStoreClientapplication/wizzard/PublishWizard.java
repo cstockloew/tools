@@ -78,9 +78,7 @@ public class PublishWizard extends Wizard {
 		if (isUAAP) {
 			metadata.setUsername(one.getUsernameText().getText());
 			metadata.setPassword(one.getPasswordText().getText());
-			metadata.setApplicationId(threeUAAP.getApplications()
-					.get(threeUAAP.getApplicationsCombo().getSelectionIndex())
-					.getId());
+			metadata.setApplicationId(applicationId);
 			metadata.setApplicationFullDescription(threeUAAP
 					.getDescriptionText().getText());
 			metadata.setURL(threeUAAP.getURLText().getText());
@@ -177,7 +175,7 @@ public class PublishWizard extends Wizard {
 					&& !two.getVersionText().getText().equals("")
 					&& !two.getVersionDescriptionText().getText().equals("")
 					&& two.getCategoryList().size() != 0
-					&& threeUAAP.getApplicationsCombo().getSelectionIndex() != -1) {
+					) {
 				return true;
 
 			} else
@@ -238,25 +236,9 @@ public class PublishWizard extends Wizard {
 				isUAAP = true;
 				// get parent category id from second page
 
-				String parentCategoryId = two.getCategoryList()
-						.get(two.getCombo().getSelectionIndex())
-						.getCategoryNumber();
+				
 
-				// get list of available uStore applications
-				try {
-					AALApplicationManagerServiceLocator loc = new AALApplicationManagerServiceLocator();
-					AALApplicationManager man = loc
-							.getAALApplicationManagerPort();
-					String result = man.getAALApplications(one
-							.getUsernameText().getText(), one.getPasswordText()
-							.getText(), parentCategoryId);
-					// parse result
-					List<Application> applications = parseXml(result);
-					threeUAAP.setApplications(applications);
-
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				
 				return threeUAAP;
 			} else {
 				isUAAP = false;

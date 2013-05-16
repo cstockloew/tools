@@ -39,8 +39,7 @@ public class MyPageThreeUAAP extends WizardPage {
 	private Text URLText;
 	private Text priceText;
 	private Text thumbnailText;
-	private List<Application> applications;
-	private Combo applicationsCombo ;
+
 	private String thumbnailFileName;
 	private byte[] thumbnailFile;
 	private String imageFileName;
@@ -226,32 +225,13 @@ public class MyPageThreeUAAP extends WizardPage {
 		
 		readyForPurchaseCombo.select(0);
 		
-		Label lblSelectApplication = new Label(container, SWT.NONE);
-		lblSelectApplication.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblSelectApplication.setText("Select application*");
-		
-		 applicationsCombo = new Combo(container, SWT.READ_ONLY);
-		applicationsCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
 		
 		setPageComplete(true); 
 		
 		
 	}
 
-	public List<Application> getApplications() {
-		return applications;
-	}
-
-	public void setApplications(List<Application> applications) {
-		this.applications = applications;
-		applicationsCombo.removeAll();
-		for(int i=0;i<applications.size();i++){
-			applicationsCombo.add(applications.get(i).toString());
-			
-		}
-		applicationsCombo.select(0);
-	}
+	
 	
 	
 
@@ -293,9 +273,7 @@ public class MyPageThreeUAAP extends WizardPage {
 		return bytes;
 	}
 
-	public Combo getApplicationsCombo() {
-		return applicationsCombo;
-	}
+	
 
 	public Text getDescriptionText() {
 		return descriptionText;
@@ -339,6 +317,11 @@ public class MyPageThreeUAAP extends WizardPage {
 
 	public Combo getReadyForPurchaseCombo() {
 		return readyForPurchaseCombo;
+	}
+
+	@Override
+	public boolean canFlipToNextPage() {
+		return false;
 	}
 	
 	
