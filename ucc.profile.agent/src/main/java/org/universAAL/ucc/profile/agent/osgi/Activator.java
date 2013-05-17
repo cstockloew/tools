@@ -48,7 +48,7 @@ public class Activator implements BundleActivator {
     //test();
     log.info("Test Space server....");
     System.out.println("Test Space server....");
-    testSpaceServer();  
+    //testSpaceServer();  
   }
 
 

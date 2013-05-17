@@ -12,8 +12,10 @@
 
 	<modules>
 		<module>../ucc.model</module>
+		<module>../profiling.server.feature</module>
 		<module>../ucc.karaf.feature</module>
 		<module>../ucc.controller</module>
+		<module>../ucc.profileagent.feature</module>
 		<module>../ucc.profile.agent</module>
 		<module>../ucc.database</module>
 		<module>../ucc.frontend</module>
