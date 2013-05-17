@@ -1,8 +1,12 @@
 package org.universAAL.ucc.deploymanagerservice.impl;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
 import java.net.InetAddress;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Properties;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -23,8 +27,11 @@ public class Activator implements BundleActivator {
 	props.put("service.exported.interfaces", "*");
 	props.put("service.exported.configs", "org.apache.cxf.ws");
 	InetAddress thisIp = InetAddress.getLocalHost();
-	String url = "http://" + thisIp.getHostAddress()
-		+ ":9090/deploymanager";
+	//Get port of uCC from setup.properties
+	Properties prop = new Properties();
+	Reader reader = new FileReader(new File("file:///../etc/uCC/setup.properties"));
+	prop.load(reader);
+	String url = "http://" + thisIp.getHostAddress() + ":" + prop.getProperty("storePort") + "/deploymanager";
 	System.out.println("url:" + url);
 	// props.put("org.apache.cxf.ws.address",
 	// "http://localhost:9090/deploymanager");
