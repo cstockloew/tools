@@ -18,6 +18,8 @@
  */
 package org.universaal.tools.transformationcommand.handlers;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.universaal.tools.transformationcommand.activator.Activator;
 import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
@@ -26,7 +28,7 @@ public class ValidateOntUML extends TransformationHandler {
 	static final String TRANSFORMATION_FILENAME = "transformations/validateOntUML.m2t";
 	static final String THIS_BUNDLE_NAME = Activator.PLUGIN_ID;
 	private static final String SOURCE_FILE_SUFFIX = ".uml";
-
+	
 	public ValidateOntUML() {
 		setFileAndBundleName(TRANSFORMATION_FILENAME, THIS_BUNDLE_NAME);
 	}
@@ -62,4 +64,18 @@ public class ValidateOntUML extends TransformationHandler {
 	protected String getSourceFileSuffix() {
 		return SOURCE_FILE_SUFFIX;
 	}
+	
+	public void executionMessage(String arg0, String arg1) {
+		// Send MofScript Message to Error Log	
+		if ((arg0 == null || arg0.equals("") || arg0.equals("println")) || (arg0.equalsIgnoreCase("print"))) {
+			
+			arg1 = arg1.trim();
+			this.getStream().println(arg1);
+			
+			if(!arg1.startsWith("#") && arg1.startsWith("***")){
+				Activator.getDefault().getLog().log(new Status(IStatus.ERROR, "org.universaal.tools.transformationcommand", arg1));
+			}
+		}
+	}
+	
 }
