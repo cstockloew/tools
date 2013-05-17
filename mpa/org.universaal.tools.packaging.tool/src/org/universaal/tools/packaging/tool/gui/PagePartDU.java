@@ -1,5 +1,6 @@
 package org.universaal.tools.packaging.tool.gui;
 
+import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,13 +29,14 @@ import org.universaal.tools.packaging.tool.parts.Embedding;
 import org.universaal.tools.packaging.tool.parts.OS;
 import org.universaal.tools.packaging.tool.parts.Platform;
 import org.universaal.tools.packaging.tool.util.KarafFeaturesGenerator;
+import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.UriV;
 
 public class PagePartDU extends PageImpl {
 
 	private IProject part;
-	//private POMParser p;
+	private POMParser p;
 	private int partNumber;
 	private String value;
 
@@ -280,7 +282,7 @@ public class PagePartDU extends PageImpl {
 
 	public void setArtifact(IProject part){
 		this.part = part;
-		//p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
+		p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
 	}
 
 	@Override
@@ -311,6 +313,10 @@ public class PagePartDU extends PageImpl {
 					cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), "");				
 			}
 			else if(cu1.getText().equals(Container.ANDROID.toString())){
+				if(andURI.getText() == null || andURI.getText().isEmpty()){
+					String fileName = p.getArtifactID()+"-"+p.getVersion()+".jar";
+					andURI.setText("file://../bin/part"+numb+"/"+fileName);	
+				}
 				cu = new ContainerUnit(new Android(andN.getText(), andD.getText(), URI.create(removeBlanks(andURI.getText()))));
 			}
 			else if(!cu1.getText().equals(Container.KARAF.toString()) && !cu1.getText().equals(Container.ANDROID.toString())){

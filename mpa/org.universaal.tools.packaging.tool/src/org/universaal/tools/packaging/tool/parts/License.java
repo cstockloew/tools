@@ -38,7 +38,7 @@ public class License {
 		String link_string = "";
 		if(link.getScheme() != null && link.getScheme().equalsIgnoreCase("file")){
 			String[] splitted = link.toASCIIString().split("/"); 
-			link_string = splitted[splitted.length-1];
+			link_string = "file://../license/"+splitted[splitted.length-1];
 		}
 		else
 			link_string = link.toASCIIString();

@@ -28,7 +28,7 @@ public class StartPage extends PageImpl {
 	private List<IProject> parts;
 
 	protected StartPage(String pageName) {
-		super(pageName, "This is the starting page for the Application Packager");
+		super(pageName, "This is the starting page for the universAAL Application Packager");
 	}
 
 	public void createControl(final Composite parent) { 

@@ -32,18 +32,9 @@ public class CreateJar {
 		String destination_path = g.getTempDir()+"/bin/part"+partNumber+"/";
 		POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));			
 
-		String sourcePath = part.getLocation().toString(); //ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+		String sourcePath = part.getLocation().toString();
 		try{							
 			String fileName = p.getArtifactID()+"-"+p.getVersion()+".jar";
-			//
-			//			Manifest manifest = new Manifest();
-			//			manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");			
-			//
-			//			JarOutputStream target = new JarOutputStream(new FileOutputStream(destination_path+fileName), manifest);
-			//			add(new File(path), target, ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/");
-			//			target.close();
-
-			/* */
 
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = g.getPart(part.getName()).getFile(IMavenConstants.POM_FILE_NAME);
@@ -71,8 +62,6 @@ public class CreateJar {
 
 				copyFile(new File(sourcePath+"/target/"+fileName), new File(destination_path+fileName));
 			}	
-			/* */
-
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -81,8 +70,6 @@ public class CreateJar {
 		try{
 			//if file KAR is present, add it to partX folder
 
-			//String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
-			//POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
 			String fileName = p.getArtifactID()+"-"+p.getVersion()+".kar";
 			File kar = new File(sourcePath+"/target/"+fileName);
 			if(kar.exists())

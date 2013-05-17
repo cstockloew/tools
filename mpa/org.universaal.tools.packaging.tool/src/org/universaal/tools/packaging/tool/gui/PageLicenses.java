@@ -37,7 +37,7 @@ public class PageLicenses extends PageImpl {
 
 	private File f1, f2;
 
-	private final String ERROR_MESSAGE = "Please verify the value";
+	private final String ERROR_MESSAGE = "Unrecognized value!";
 
 	protected PageLicenses(String pageName) {
 		super(pageName, "Add SLA and license(s) for your Application - each artifact should be licensed under different license.");
