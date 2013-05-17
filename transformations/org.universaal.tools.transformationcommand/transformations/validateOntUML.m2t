@@ -15,7 +15,10 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	uml.Model::main() {
 	    // Init
 	   	verbose("Initializing...", false, true)
-	
+		if (self.hasStereotype("owlOntology")) {
+		    verbose("WARNING!!! The owlOntology stereotype should NOW be applied to the root package(s).\nRemember to set all required values (defaultnamespace and name) for each package!",true,true)
+		}
+	   	
 	   	// Create the list of upper ontology entities
 	    self.createSuperentitiesList()
 	    
@@ -97,7 +100,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 			if(self.checkIfFinal()) verbose(self.name+": Cannot have parent class!!",true,false)
 			else parent.checkRightGeneralization(name)
 		} else {
-			if (self.checkIfFinal()) verbose("OK!!",false,false)
+			if (self.checkIfFinal()) verbose("--- OK!!",false,false)
 			else {
 				var superEntities:string
 				listOfUpperOntologyEntities->forEach(e:uml.Class) {
@@ -244,10 +247,11 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	
 	verbose(message:string, error:boolean, force:boolean) {
 		if(error){
-		  	message = "*** WARNING *** : " + message
+		  	message = "*** ERROR *** : " + message
 		 	errorsList.add(message)
 		} 
 		if(debugEnabled || force) stdout.println(message)
+		
 		if(logEnabled) log(message)
 	}
 		
