@@ -19,9 +19,9 @@ public interface Page {
 	
 	public final String KARAF_NAMESPACE = "krf";
 	
-	public final String XSD = "http://www.universaal.org/aal-uapp/v1.0.0";//"http://www.universaal.org/aal-uapp/v1.0.0/AAL-UAPP.xsd";
-	public final String Karaf = "http://karaf.apache.org/xmlns/features/v1.0.0";
-	public final String w3c = "http://www.w3.org/2001/XMLSchema";
+	public final String XSD = "'http://www.universaal.org/aal-uapp/v1.0.0'"; //"http://www.universaal.org/aal-uapp/v1.0.0/AAL-UAPP.xsd";
+	public final String Karaf = "'http://karaf.apache.org/xmlns/features/v1.0.0'";
+	public final String w3c = "'http://www.w3.org/2001/XMLSchema'";
 	
 	public final String HEADER_DESCRIPTOR = "<?xml version='1.0' encoding='UTF-8'?>" +
 				"<aal-uapp xmlns="+XSD+" " +
