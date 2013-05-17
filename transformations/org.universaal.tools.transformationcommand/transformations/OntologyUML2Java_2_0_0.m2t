@@ -85,17 +85,17 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
 import org.universAAL.middleware.owl.OntologyManagement;
-import org.universAAL.middleware.sodapop.msg.MessageContentSerializer;
-import org.universAAL.serialization.turtle.TurtleParser;
+import org.universAAL.middleware.serialization.MessageContentSerializer;
+import org.universAAL.middleware.serialization.turtle.TurtleSerializer;
 import ' pName '.' ontologyName.firstToUpper() 'Ontology;
 
 public class ' ontologyName.firstToUpper() 'OWLCreator {
 
 	private static ' ontologyName.firstToUpper() 'Ontology ontology = new ' ontologyName.firstToUpper() 'Ontology();
-	private static MessageContentSerializer contentSerializer = new TurtleParser();
+	private static MessageContentSerializer contentSerializer = new TurtleSerializer();
 
 	public static void main(String[] args) {
-		OntologyManagement.getInstance().register(ontology);
+		OntologyManagement.getInstance().register(null, ontology);
 		String serializedOntology = contentSerializer.serialize(ontology);
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter("' ontologyName.firstToUpper() '.owl", false));
