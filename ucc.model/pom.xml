@@ -45,7 +45,7 @@
 						<Import-Package>*</Import-Package>
 						<Export-Package>org.universAAL.ucc.model,
 							org.universAAL.ucc.model.*, org.universAAL.ucc.model.jaxb.*,
-							org.universAAL.ucc.model.uapp, org.universAAL.ucc.mode.usrv</Export-Package>
+							org.universAAL.ucc.model.usrv</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
