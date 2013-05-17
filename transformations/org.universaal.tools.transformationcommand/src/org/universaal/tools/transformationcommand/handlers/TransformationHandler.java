@@ -318,6 +318,16 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	}
 
 	/**
+	 * Added by Federico Volpini
+	 * 
+	 * Return the MessageConsoleStream
+	 * @return stream
+	 */
+	public MessageConsoleStream getStream(){
+		return this.stream;
+	}
+	
+	/**
 	 * Reads preferences and finds the correct directory to save files to.
 	 * @param inputFile
 	 * @return
