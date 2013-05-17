@@ -323,7 +323,7 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 	 * Return the MessageConsoleStream
 	 * @return stream
 	 */
-	public MessageConsoleStream getStream(){
+	protected MessageConsoleStream getStream(){
 		return this.stream;
 	}
 	
