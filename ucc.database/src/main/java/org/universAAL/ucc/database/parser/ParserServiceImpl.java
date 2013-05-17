@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.xml.bind.JAXB;
 
-import org.universAAL.ucc.model.uapp.AalUapp;
+import org.universAAL.middleware.deploymanager.uapp.model.AalUapp;
 import org.universAAL.ucc.model.usrv.AalUsrv;
 
 public class ParserServiceImpl implements ParserService {
