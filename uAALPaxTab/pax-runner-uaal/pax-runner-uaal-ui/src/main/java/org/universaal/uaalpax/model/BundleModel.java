@@ -93,7 +93,7 @@ public class BundleModel {
 	
 	public void addChangeListener(BundleChangeListener listener) {
 		if (listener == null)
-			throw new NullPointerException("listeners is null");
+			throw new NullPointerException("listener is null");
 		
 		changeListeners.add(listener);
 	}
@@ -495,7 +495,8 @@ public class BundleModel {
 	}
 	
 	public void changeToVersion(String newVersion) {
-		waitGraph();
+		//waitGraph();
+		cancelRebuildGraph();
 		
 		BundleSet oldBS = versionProvider.getBundlesOfVersion(currentVersion);
 		if (oldBS != null)
@@ -616,15 +617,21 @@ public class BundleModel {
 		List<Object> arguments = new LinkedList<Object>();
 		
 		try {
-			arguments = configuration.getAttribute(Attribute.RUN_ARGUMENTS, arguments);
+			List<Object> prev = configuration.getAttribute(Attribute.RUN_ARGUMENTS,(List) null);
+			if(prev != null) {
+				for(Object o:prev) {
+					if((o instanceof String && ((String)o).startsWith("-")))
+						arguments.add(o);
+				}
+			} else {
+				arguments.add("--overwrite=true");
+				arguments.add("--overwriteUserBundles=true");
+				arguments.add("--overwriteSystemBundles=true");
+				arguments.add("--log=DEBUG");
+				arguments.add("--profiles=obr");
+			}
 		} catch (CoreException e1) {
-		}
-		
-		arguments.add("--overwrite=true");
-		arguments.add("--overwriteUserBundles=true");
-		arguments.add("--overwriteSystemBundles=true");
-		arguments.add("--log=DEBUG");
-		arguments.add("--profiles=obr");
+		} 
 		
 		Map<Object, Object> toSave = new HashMap<Object, Object>();
 		for (BundleEntry be : currentBundles) {

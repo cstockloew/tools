@@ -20,6 +20,11 @@
 package org.universaal.uaalpax.handlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -35,6 +40,7 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.universaal.uaalpax.shared.Attribute;
 import org.universaal.uaalpax.ui.dialogs.NewRunconfigDialog;
 
 public class NewRunConfigHandler extends AbstractHandler {
@@ -102,6 +108,16 @@ public class NewRunConfigHandler extends AbstractHandler {
 			configuration.setAttribute("useDefaultConfigArea", false);
 			
 			configuration.removeAttribute("target_bundles");
+			
+			Map<Object, Object> toSave = new HashMap<Object, Object>();
+			List<Object> arguments = new LinkedList<Object>();
+			arguments.add("--overwrite=true");
+			arguments.add("--overwriteUserBundles=true");
+			arguments.add("--overwriteSystemBundles=true");
+			arguments.add("--log=DEBUG");
+			arguments.add("--profiles=obr");
+			configuration.setAttribute(Attribute.PROVISION_ITEMS, toSave);
+			configuration.setAttribute(Attribute.RUN_ARGUMENTS, arguments);
 			
 			configuration.doSave();
 			

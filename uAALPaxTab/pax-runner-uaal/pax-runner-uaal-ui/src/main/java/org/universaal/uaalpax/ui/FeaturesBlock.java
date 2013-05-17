@@ -30,6 +30,8 @@ public class FeaturesBlock extends UIBlock {
 		
 		Control[] toDispose = containerComposite.getChildren();
 		
+		BundleSet remaining = new BundleSet(launchProjects);
+		
 		for (String f : features) {
 			Button btn = new Button(containerComposite, SWT.CHECK);
 			btn.setText(f);
@@ -39,13 +41,16 @@ public class FeaturesBlock extends UIBlock {
 			if (required != null) {
 				boolean notContained = false;
 				for (BundleEntry be : required) {
+					sb.append(be.getLaunchUrl().url).append("\n");
+					
 					if (!modelBundles.containsBundle(be)) {
 						notContained = true;
-						sb.append(be.getLaunchUrl().url).append("\n");
 					}
 				}
 				
 				btn.setSelection(!notContained);
+				if(!notContained)
+					remaining.removeAll(required.allBundles());
 			}
 			
 			btn.setToolTipText(sb.toString());
@@ -55,7 +60,8 @@ public class FeaturesBlock extends UIBlock {
 		for (Control ctrl : toDispose)
 			ctrl.dispose();
 		
-		return launchProjects;
+		
+		return remaining;
 	}
 	
 	@Override
