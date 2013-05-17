@@ -31,13 +31,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.universAAL.ucc.model.uapp.AalUapp;
-import org.universAAL.ucc.model.uapp.Bundle;
-import org.universAAL.ucc.model.uapp.DeploymentUnit;
-import org.universAAL.ucc.model.uapp.Feature;
-import org.universAAL.ucc.model.uapp.FeaturesRoot;
-import org.universAAL.ucc.model.uapp.Part.PartRequirements;
-import org.universAAL.ucc.model.uapp.ReqType;
+import org.universAAL.middleware.deploymanager.uapp.model.AalUapp;
+import org.universAAL.middleware.deploymanager.uapp.model.Bundle;
+import org.universAAL.middleware.deploymanager.uapp.model.DeploymentUnit;
+import org.universAAL.middleware.deploymanager.uapp.model.Feature;
+import org.universAAL.middleware.deploymanager.uapp.model.FeaturesRoot;
+import org.universAAL.middleware.deploymanager.uapp.model.Part.PartRequirements;
+import org.universAAL.middleware.deploymanager.uapp.model.ReqType;
 import org.universAAL.ucc.model.usrv.AalUsrv;
 import org.universAAL.ucc.model.usrv.AalUsrv.Srv.Licenses;
 import org.universAAL.ucc.model.usrv.LicenseType;
@@ -205,10 +205,10 @@ public class FrontendImpl implements IFrontend {
 		AalUapp uapp = null;
 		ParserService ps = Activator.getParserService();
 		uapp = ps.getUapp(f);
-		List<org.universAAL.ucc.model.uapp.Part> parts = uapp
+		List<Part> parts = uapp
 				.getApplicationPart().getPart();
 		System.err.println(parts.size());
-		for (org.universAAL.ucc.model.uapp.Part p : parts) {
+		for (Part p : parts) {
 			UAPPPart ua = new UAPPPart();
 			Part part = new Part();
 			System.err.println(p.getPartId());
@@ -328,7 +328,7 @@ public class FrontendImpl implements IFrontend {
 			appsList.add(ua);
 			
 			//Creating license files
-			for(org.universAAL.ucc.model.uapp.AalUapp.App.Licenses ls : uapp.getApp().getLicenses()) {
+			for(AalUapp.App.Licenses ls : uapp.getApp().getLicenses()) {
 				license = new License();
 				if(ls.isSetSla()) {
 					slaName = ls.getSla().getName();
@@ -345,7 +345,7 @@ public class FrontendImpl implements IFrontend {
 					
 				}
 				if(ls.isSetLicense()) {
-					for(org.universAAL.ucc.model.uapp.LicenseType lt : ls.getLicense()) {
+					for(org.universAAL.middleware.deploymanager.uapp.model.LicenseType lt : ls.getLicense()) {
 						
 							System.err.println("LicenseType is set!!! "+lt.getLink());
 							if(lt.isSetLink()) {
