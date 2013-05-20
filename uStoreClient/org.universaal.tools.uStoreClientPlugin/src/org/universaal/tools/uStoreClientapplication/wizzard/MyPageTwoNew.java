@@ -33,15 +33,16 @@ public class MyPageTwoNew extends WizardPage {
 	private byte[] fileByte;
 	private List<ApplicationCategory> categoryList;
 	private Combo combo;
-	
+	private String pathForUAPPFile;
 	
 	/**
 	 * Create the wizard.
 	 */
-	public MyPageTwoNew() {
+	public MyPageTwoNew(String pathForUAPPFile) {
 		super("wizardPage");
 		setTitle("Publish to uStore");
 		setDescription("Provide general details");
+		this.pathForUAPPFile=pathForUAPPFile;
 	}
 
 	/**
@@ -163,6 +164,25 @@ public class MyPageTwoNew extends WizardPage {
 		combo = new Combo(container, SWT.READ_ONLY);
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		setPageComplete(false);
+		
+		if(pathForUAPPFile!=null){
+			
+			File file = new File(pathForUAPPFile);
+			fileName=file.getName();
+			text.setText(pathForUAPPFile);
+			
+			try {
+				fileByte = getBytesFromFile(file);
+				if(!versionText.getText().equals("")&&!versionDescriptionText.getText().equals("")&&fileByte!=null&&!text.getText().equals("")){
+					setPageComplete(true);
+				}else
+					setPageComplete(false);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				setPageComplete(false);
+			}
+		}
+		
 	}
 	
 	

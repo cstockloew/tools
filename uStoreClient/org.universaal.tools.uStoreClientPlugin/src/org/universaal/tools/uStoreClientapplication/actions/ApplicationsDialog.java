@@ -151,7 +151,7 @@ public class ApplicationsDialog extends Dialog {
 						}
 					}
 
-					PublishWizard publishWizard = new PublishWizard(id,username, password);
+					PublishWizard publishWizard = new PublishWizard(id,username, password,null);
 					WizardDialog wizardDialog = new WizardDialog(PlatformUI
 							.getWorkbench().getActiveWorkbenchWindow()
 							.getShell(), publishWizard);

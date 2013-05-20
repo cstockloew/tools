@@ -24,12 +24,12 @@ import org.universaal.tools.uStoreClientapplication.wizzard.PublishWizard;
 public class PublishAction implements IWorkbenchWindowActionDelegate {
 
 	private IWorkbenchWindow window;
-
+	private String pathForUAPPFile;
 	/**
 	 * The constructor.
 	 */
-	public PublishAction() {
-
+	public PublishAction(String pathForUAPPFile) {
+		this.pathForUAPPFile=pathForUAPPFile;
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		try {
 
-			PublishWizard publishWizard = new PublishWizard(null, null, null);
+			PublishWizard publishWizard = new PublishWizard(null, null, null,pathForUAPPFile);
 			WizardDialog wizardDialog = new WizardDialog(PlatformUI
 					.getWorkbench().getActiveWorkbenchWindow().getShell(),
 					publishWizard);

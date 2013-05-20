@@ -10,7 +10,8 @@ public class PublishApplicationHandler extends AbstractHandler{
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		PublishAction publishAction=new PublishAction();
+		String filePathParam = event.getParameter("org.universaal.tools.uStoreClienteapplication.filePathParameter"); 
+		PublishAction publishAction=new PublishAction(filePathParam);
 		publishAction.run(null);		
 		return null;
 	}

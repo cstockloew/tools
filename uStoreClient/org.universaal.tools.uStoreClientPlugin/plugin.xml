@@ -39,6 +39,10 @@
             name="Publish application"
             categoryId="org.universaal.tools.uStoreClientapplication.commands"
             id="org.universaal.tools.uStoreClienteapplication.actions.PublishAction">
+            <commandParameter 
+         		id="org.universaal.tools.uStoreClienteapplication.filePathParameter" 
+         		name="File Path"> 
+   </commandParameter> 
       </command>            
    </extension> 
    <extension

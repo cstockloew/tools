@@ -43,8 +43,10 @@ public class PublishWizard extends Wizard {
 	private String username;
 	private String password;
 	private boolean isUAAP = false;
-
-	public PublishWizard(String applicationId, String username, String password) {
+	private String pathForUAPPFile;
+	
+	
+	public PublishWizard(String applicationId, String username, String password,String pathForUAPPFile) {
 		super();
 		setNeedsProgressMonitor(true);
 		this.applicationId = applicationId;
@@ -55,13 +57,13 @@ public class PublishWizard extends Wizard {
 				"icons/ic-uAAL-hdpi.png"); //$NON-NLS-1$
 		setDefaultPageImageDescriptor(image);
 		setWindowTitle("Publish application to uStore");
-
+		this.pathForUAPPFile=pathForUAPPFile;
 	}
 
 	public void addPages() {
 
 		one = new MyPageOne(username,password);
-		two = new MyPageTwoNew();
+		two = new MyPageTwoNew(pathForUAPPFile);
 		// three = new MyPageThree();
 		threeUAAP = new MyPageThreeUAAP();
 		threeApplication = new MyPageThreeApplication();
