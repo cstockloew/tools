@@ -105,7 +105,7 @@ public class Activator implements BundleActivator {
 		
 		//Write Techician/Deployer into AALSpace
 		OntologyInstance ont = new OntologyInstance();
-		ont.setId("Admin");
+		ont.setId("admin");
 		ont.setType("User");
 		Subprofile sub = new Subprofile();
 		StringValue name = new StringValue();

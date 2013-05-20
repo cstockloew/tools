@@ -1,6 +1,12 @@
 package org.universAAL.ucc.controller.aalspace;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
 
@@ -503,6 +510,59 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 			tab.getEditButton().setVisible(true);
 			tab.getDeleteButton().setVisible(true);
 			dataAccess.updateUserData(selectedItem, nOntInstances);
+			//Update admin user in setup.properties
+			if(selectedItem.equals("admin")) {
+				Properties prop = new Properties();
+				Properties prop2 = new Properties();
+				Reader reader = null;
+				try {
+					reader = new FileReader(new File("file:///../etc/uCC/setup.properties"));
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					prop.load(reader);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				for(Map.Entry entry : prop.entrySet()) {
+					System.err.println(entry.getKey().toString());
+					
+					if(entry.getKey().toString().equals("pwd")) {
+						prop2.setProperty(entry.getKey().toString(), tab.getField("Password:").getValue().toString());
+					} else {
+						prop2.setProperty(entry.getKey().toString(), entry.getValue().toString());
+					}
+				}
+				Writer wr = null;
+				try {
+					wr = new FileWriter(new File("file:///../etc/uCC/setup.properties"));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					prop2.store(wr, "");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					wr.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					reader.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 //			dataAccess.updateUserData(actualFlat, selectedItem, nOntInstances);
 			app.getMainWindow().showNotification(tab.getHeader()+" was updated", Notification.POSITION_CENTERED);	
 		

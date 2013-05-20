@@ -79,12 +79,6 @@
 			<version>1.3.3-SNAPSHOT</version>
 			<type>bundle</type>
 		</dependency>
-		<dependency>
-			<groupId>org.universAAL.middleware</groupId>
-			<artifactId>mw.schemas</artifactId>
-			<type>bundle</type>
-			<version>1.3.3-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -119,8 +113,6 @@
 							org.universAAL.ucc.controller.preferences,
 							org.universAAL.ucc.deploymanagerservice,
 							org.universAAL.ucc.deploymanagerservice.impl,
-							org.universAAL.ucc.deploymanagerservice.unused,
-							org.universAAL.ucc.deploymanagerservice.unused.impl,
 							org.universAAL.ucc.frontend.api,
 							org.universAAL.ucc.frontend.api.impl,
 							org.universAAL.ucc.service.api,
