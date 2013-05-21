@@ -32,11 +32,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.tools.ucc</groupId>
-			<artifactId>ucc.frontend</artifactId>
+			<artifactId>ucc.deploymanagerservice</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.universAAL.tools.ucc</groupId>
-			<artifactId>ucc.deploymanagerservice</artifactId>
+			<artifactId>ucc.frontend</artifactId>
 		</dependency>
 	</dependencies>
 

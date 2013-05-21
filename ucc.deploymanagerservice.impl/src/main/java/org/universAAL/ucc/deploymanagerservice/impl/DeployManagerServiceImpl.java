@@ -2,6 +2,10 @@ package org.universAAL.ucc.deploymanagerservice.impl;
 
 import org.universAAL.ucc.deploymanagerservice.DeployManagerService;
 
+
+
+
+
 /**
  * Implemenation of the DeployManager Web service
  * 
@@ -16,7 +20,7 @@ public class DeployManagerServiceImpl implements DeployManagerService {
     public void install(String sessionKey, String serviceId, String serviceLink) {
 	System.out
 		.println("[DeployManagerServiceImpl] Install with sessionKey: "
-			+ sessionKey + " for URL: " + serviceId);
+			+ sessionKey + " for Service-ID: " + serviceId+" and URL: "+serviceLink);
 	// String fileOnHardDrive =
 	// "C:/tempUsrvFiles/&filename=corrected_hwo_usrv.usrv";
 	// fileOnHardDrive = fileOnHardDrive.replace("/", "\\");
@@ -83,6 +87,11 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 	public String getSessionKey(String userName, String password) {
 		String sessionKey = Activator.getFrontend().getSessionKey(userName, password);
 		return sessionKey;
+	}
+
+	public void update(String sessionKey, String usrvfile) {
+		// TODO Auto-generated method stub
+		
 	}
     
     
