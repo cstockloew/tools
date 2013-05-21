@@ -100,7 +100,7 @@ public class FrontendImpl implements IFrontend {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
 		String usrvName = "";
-		System.err.println("The service link from ustore: "+serviceLink);
+//		System.err.println("The service link from ustore: "+serviceLink);
 //		 try {
 //		
 //		 usrvName = downloadUsrvFile(serviceLink,
@@ -119,7 +119,7 @@ public class FrontendImpl implements IFrontend {
 		 } catch (IOException e2) {
 		 e2.printStackTrace();
 		 }
-		 System.err.println("The Service-ID: "+serviceId);
+//		 System.err.println("The Service-ID: "+serviceId);
 		// Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
 		 uappURI = createUAPPLocation(usrvLocalStore + "bin", serviceId);
 		

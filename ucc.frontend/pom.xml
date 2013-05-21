@@ -79,6 +79,11 @@
 			<version>1.3.3-SNAPSHOT</version>
 			<type>bundle</type>
 		</dependency>
+		<dependency>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.schemas</artifactId>
+			<type>jar</type>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -102,7 +107,7 @@
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-Activator>org.universAAL.ucc.service.manager.Activator</Bundle-Activator>
-						<Bundle-Vendor>Nicole Merkle</Bundle-Vendor>
+						<Bundle-Vendor>FZI Karlsruhe</Bundle-Vendor>
 						<Import-Package>*</Import-Package>
 						<Private-Package>javax.xml.bind.*</Private-Package>
 						<Export-Package>org.universAAL.ucc.client.util,

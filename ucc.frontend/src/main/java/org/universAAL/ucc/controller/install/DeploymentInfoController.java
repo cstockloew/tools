@@ -216,10 +216,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 				uapack = new UAPPPackage(aal.getServiceId(),
 						uapp.getAppId(), uf.toURI(), peerMap);
 				// Not work with uri, MW not implemented yet
-				 InstallationResultsDetails res =
-				 installer.requestToInstall(uapack);
+				 InstallationResultsDetails res = installer.requestToInstall(uapack);
 				 // add app and bundles to "services.xml" file.
-				if (res.equals(InstallationResults.SUCCESS)) {
+				 System.err.println("The GLOBAL RESULT: "+res.getGlobalResult().toString());
+				if (res.getGlobalResult().toString().equals(InstallationResults.SUCCESS.name())) {
 					srvRegistration.registerApp(aal.getServiceId(),
 							uapp.getAppId());
 					// get bundles for each part in the appId;
@@ -257,9 +257,22 @@ public class DeploymentInfoController implements Button.ClickListener,
 					}
 					bc.ungetService(configRef);
 
-				} else {
+				} else if(res.getGlobalResult().toString().equals(InstallationResults.APPLICATION_ALREADY_INSTALLED.name())){
 					// get parts mapping from config
 					System.out.println("[DeploymentInfoController] global result: " + res.getGlobalResult().toString());
+					for(Part key : config.keySet()) {
+						List<PeerCard> pcards = config.get(key);
+						for(PeerCard card: pcards) {
+							System.out.println("[DeploymentInfoController] detailed results for part-" + key.getPartId()
+									+ "/peer-" + card.getPeerID() + " is: " + res.getDetailedResult(card, key));
+						}
+					}
+					NoConfigurationWindow ncw = new NoConfigurationWindow(
+							bundle.getString("srv.already.exists"));
+					app.getMainWindow().addWindow(ncw);
+					
+					
+				} else {
 					for(Part key : config.keySet()) {
 						List<PeerCard> pcards = config.get(key);
 						for(PeerCard card: pcards) {

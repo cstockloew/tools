@@ -163,41 +163,46 @@ public class DesktopController implements Button.ClickListener {
 				adminLogin();
 			} else {
 				boolean in = false;
+				//Later comment out, only CHE is to be used
 				List<UserAccountInfo> users = setup.getUsers("file:///../etc/uCC/users.xml");
+				if(users.size() <= 1) {
 				//AAL Space test
-//				DataAccess da = Activator.getDataAccess();
-//				ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
-//				String uname = "";
-//				String pw = "";
-//				for(OntologyInstance o : ontList) {
-//					
-//					for(Subprofile s : o.getSubprofiles()) {
-//						for(SimpleObject sim : s.getSimpleObjects()) {
-//							StringValue st = (StringValue)sim;
-//							if(st.getName().equals("username")) {
-//								uname = st.getValue();
-//							}
-//							if(st.getName().equals("password")) {
-//								pw = st.getValue();
-//							}
-//							if(!uname.equals("") && !pw.equals("")) {
-//								if(uname.equals(app.getUser().getValue()) && pw.equals(app.getPwd().getValue())) {
-//									userLogin();
-//									currentUser = app.getUser().getValue().toString();
-//									currentPassword = app.getPwd().getValue().toString();
-//									in = true;
-//								}
-//							}
-//						}
-//						
-//					}
-//				}
-				for(UserAccountInfo u : users) {
-					if(u.getName().equals(app.getUser().getValue()) && u.getPassword().equals(app.getPwd().getValue())) {
-						userLogin();
-						currentUser = app.getUser().getValue().toString();
-						currentPassword = app.getPwd().getValue().toString();
-						in = true;
+					DataAccess da = Activator.getDataAccess();
+					ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
+					String uname = "";
+					String pw = "";
+					for(OntologyInstance o : ontList) {
+					
+						for(Subprofile s : o.getSubprofiles()) {
+							for(SimpleObject sim : s.getSimpleObjects()) {
+								StringValue st = (StringValue)sim;
+								if(st.getName().equals("username")) {
+									uname = st.getValue();
+								}
+								if(st.getName().equals("password")) {
+									pw = st.getValue();
+								}
+								if(!uname.equals("") && !pw.equals("")) {
+									if(uname.equals(app.getUser().getValue()) && pw.equals(app.getPwd().getValue())) {
+										userLogin();
+										currentUser = app.getUser().getValue().toString();
+										currentPassword = app.getPwd().getValue().toString();
+										in = true;
+									}
+								}
+							}
+						
+						}
+					}
+				} //Later comment out, only CHE is to be used
+				else {
+					for(UserAccountInfo u : users) {
+						if(u.getName().equals(app.getUser().getValue()) && u.getPassword().equals(app.getPwd().getValue())) {
+							userLogin();
+							currentUser = app.getUser().getValue().toString();
+							currentPassword = app.getPwd().getValue().toString();
+							in = true;
+						}
 					}
 				}
 					if(!in) {

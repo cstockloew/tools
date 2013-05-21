@@ -80,7 +80,6 @@ public class Activator implements BundleActivator {
 			prop.setProperty("uccUrl", "ucc-universaal.no-ip.org");
 			prop.setProperty("shopUrl", "srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
 			if(Locale.getDefault() == Locale.GERMAN) {
-				System.err.println(Locale.getDefault());
 				prop.setProperty("lang", "de");
 			} else {
 				prop.setProperty("lang", "en");
