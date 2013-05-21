@@ -44,7 +44,6 @@ import org.universAAL.ucc.windows.DeployConfigView;
 import org.universAAL.ucc.windows.DeployStrategyView;
 import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.NoConfigurationWindow;
-import org.universAAL.ucc.windows.ProgressWindow;
 import org.universAAL.ucc.windows.UccUI;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
