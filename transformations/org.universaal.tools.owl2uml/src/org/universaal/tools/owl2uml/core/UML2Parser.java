@@ -470,7 +470,7 @@ public class UML2Parser {
 				}
 				if (xIndex>1 && rIndex>1 && !x.equals(r)) {
 					String nameChild = x.substring(xIndex + 1);
-					String nameParent = r.substring(rIndex + 1);
+					String nameParent = x.substring(rIndex+1);
 					
 
 					if (!processedSubs.contains(nameChild)) {
