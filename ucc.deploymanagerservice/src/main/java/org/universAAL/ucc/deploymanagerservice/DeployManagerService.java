@@ -21,8 +21,8 @@ public interface DeployManagerService {
      *            : the link to download the .usrv file, serviceId from uStore
      *            is provided in .usrv file.
      */
-    public void install(@WebParam(name = "sessionKey") String sessionKey,
-	    @WebParam(name = "usrvfile") String usrvfile);
+    public void install(@WebParam(name = "sessionKey") String sessionKey, @WebParam(name = "serviceId") String serviceId,
+	    @WebParam(name = "serviceLink") String serviceLink);
 
     /**
      * update a service as specified in the .usrv file
