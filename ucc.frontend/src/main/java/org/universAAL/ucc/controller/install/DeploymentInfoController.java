@@ -44,11 +44,13 @@ import org.universAAL.ucc.windows.DeployConfigView;
 import org.universAAL.ucc.windows.DeployStrategyView;
 import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.NoConfigurationWindow;
+import org.universAAL.ucc.windows.ProgressWindow;
 import org.universAAL.ucc.windows.UccUI;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.Notification;
 
@@ -179,6 +181,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				// bundle.getString("success.install.msg"),
 				// Notification.TYPE_HUMANIZED_MESSAGE);
 				
+			
 				//Change Map<Part, List<PeerCard>> to Map<PeerCard, List<Part>>
 				Map<PeerCard, List<Part>> peerMap = new HashMap<PeerCard, List<Part>>();
 				for(Part key : config.keySet()) {
@@ -355,7 +358,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 	 * 
 	 */
 	private Map<Part, List<PeerCard>> buildDefaultInstallationLayout(UAPPPart uapp) {
-			System.out.println("[DeployInfoController] build default layout for: " + uapp.getPart().getPartId());
+		System.out.println("[DeployInfoController] build default layout for: " + uapp.getPart().getPartId());
 			List<PeerCard> validpeers = getValidPeers(uapp.getReqAtoms(), uapp.getPart().getPartId());
 			if (validpeers.size()==0 || validpeers==null) {
 				app.getMainWindow().showNotification(
@@ -372,7 +375,6 @@ public class DeploymentInfoController implements Button.ClickListener,
 				mapLayout.put(uapp.getPart(), peerList);
 			 
 			}
-
 		return mapLayout;
 	}
 

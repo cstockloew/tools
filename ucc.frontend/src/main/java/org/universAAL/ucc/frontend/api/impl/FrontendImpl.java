@@ -99,15 +99,16 @@ public class FrontendImpl implements IFrontend {
 		// if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
+		System.err.println("[[FrontendImpl]] SessionKey: "+sessionkey+ " Service-Link: "+serviceLink+ " Service-ID: "+serviceId);
 		String usrvName = "";
-//		System.err.println("The service link from ustore: "+serviceLink);
-//		 try {
-//		
-//		 usrvName = downloadUsrvFile(serviceLink,
-//		 /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
-//		 } catch (IOException e2) {
-//		 e2.printStackTrace();
-//		 }
+		System.err.println("The service link from ustore: "+serviceLink);
+		 try {
+		
+		 usrvName = downloadUsrvFile(serviceLink,
+		 /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
+		 } catch (IOException e2) {
+		 e2.printStackTrace();
+		 }
 	
 		File temp = new File(usrvLocalStore
 				+  /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");

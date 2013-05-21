@@ -116,8 +116,6 @@
 							org.universAAL.ucc.controller.aalspace,
 							org.universAAL.ucc.subscriber,
 							org.universAAL.ucc.controller.preferences,
-							org.universAAL.ucc.deploymanagerservice,
-							org.universAAL.ucc.deploymanagerservice.impl,
 							org.universAAL.ucc.frontend.api,
 							org.universAAL.ucc.frontend.api.impl,
 							org.universAAL.ucc.service.api,

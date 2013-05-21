@@ -29,6 +29,7 @@ public class ToolWindow extends Window {
 	private Button openAAL;
 	private Button logoutButton;
 	private Button searchButton;
+	private Button uninstallButton;
 	private TextField searchText;
 	private VerticalLayout vl;
 	private Window installWindow;
@@ -48,18 +49,23 @@ public class ToolWindow extends Window {
 		vl.setSpacing(true);
 		Label sep0 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep0);
-		installLabel = new Label(res.getString("install.label"),
+		installLabel = new Label("<b>"+res.getString("aal.service")+"</b>",
 				Label.CONTENT_XHTML);
 		vl.addComponent(installLabel);
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
 		hl.setStyleName("menubutton");
-		hl.setWidth("100%");
-		installButton = new Button(res.getString("aal.service"));
+//		hl.setWidth("100%");
+		installButton = new Button(res.getString("install.label"));
 		installButton.setDescription(res.getString("install.button.tooltip"));
 		installButton.setIcon(new ThemeResource(
 				"img/48px-Icon-installation.png"));
 		hl.addComponent(installButton);
+		uninstallButton = new Button(res.getString("uninstall.usrv"));
+		uninstallButton.setDescription(res.getString("uninstall.button"));
+		uninstallButton.setIcon(new ThemeResource("img/uninstall.png"));
+		uninstallButton.setEnabled(false);
+		hl.addComponent(uninstallButton);
 		vl.addComponent(hl);
 		vl.setComponentAlignment(hl, Alignment.TOP_LEFT);
 		addLabel = new Label(res.getString("add.label"), Label.CONTENT_XHTML);

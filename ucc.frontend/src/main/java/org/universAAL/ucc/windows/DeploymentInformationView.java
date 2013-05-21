@@ -11,6 +11,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -101,5 +102,7 @@ public class DeploymentInformationView extends Window {
 	public void setCancel(Button cancel) {
 		this.cancel = cancel;
 	}
+	
+	
 
 }
