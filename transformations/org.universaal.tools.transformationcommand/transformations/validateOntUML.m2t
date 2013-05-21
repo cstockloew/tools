@@ -3,24 +3,25 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	var EntityList:list
 	var PropertyList:list
 	var ClassHashtable:hashtable
-	var dataWarningMap:hashtable
+	var datatypeImportMap:hashtable
 	var errorsList:list
 	
-	var debugEnabled:boolean = true
+	var debugEnabled:boolean = false
 	var logEnabled:boolean = true
 	
-	var general:hashtable
-	var listOfUpperOntologyEntities:list
+	var generalEntityTree:hashtable
+	var listOfUpperOntologyEntities:hashtable
 	
 	uml.Model::main() {
 	    // Init
 	   	verbose("Initializing...", false, true)
 		if (self.hasStereotype("owlOntology")) {
-		    verbose("WARNING!!! The owlOntology stereotype should NOW be applied to the root package(s).\nRemember to set all required values (defaultnamespace and name) for each package!",true,true)
+		    verbose("The owlOntology stereotype should NOW be applied to the root package(s).\nRemember to set all required values (defaultnamespace and name) for each package!",true,true)
 		}
 	   	
 	   	// Create the list of upper ontology entities
 	    self.createSuperentitiesList()
+	    self.initDatatypeImportMap()
 	    
 	    if(listOfUpperOntologyEntities.size() == 0){
 	    	verbose("No upper ontology defined!!",true,false)
@@ -51,8 +52,8 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	  	// Creates the Model Entity List 
 	  	verbose("Building Model Class list and tree",false,true) 
 		self.ownedElement->forEach(c : uml.Class) {
-		  	EntityList.add(c)
-		  	c.updateGeneralHashtable()
+			EntityList.add(c)
+		  	c.updategeneralEntityTreeHashtable()
 		}
    		
    		verbose("Start checking...",false,true) 
@@ -62,35 +63,62 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
       		
       		// If everything's ok continue..
 			EntityList->forEach(entity : uml.Class) {
+				entity.name = entity.name.trim()
+				
     			verbose("Start "+entity.name+" analisys...",false,false)
     			
-    			// 1. Class Generalization Check
+    			// 1. Class generalization Check
 				verbose("Checking for right generalization of "+entity.name,false,false)
-				entity.checkRightGeneralization(entity.name)
+				entity.checkRightgeneralEntityTreeization(entity.name)
 				
 				// 2. Creates the Property List for each class
-				// and checks for no empty props, undefined props types and dupicate entry for props
+				// checking for no empty props or undefined props types
 				PropertyList = entity.getPropertyList()
-    			if(self.checkUnity(PropertyList) && errorsList.isEmpty()){
-					entity.updateHashtableClass(PropertyList)
+				
+				// 2.1 look for dupicate entry for props
+    			if(self.checkUnity(PropertyList) /*&& errorsList.isEmpty()*/){
+    				//entity.updateHashtableClass(PropertyList)
+    				
+    				verbose("Checking for right Naming conventions for "+entity.name,false,false)
+					// 3. Check naming conventions for classes and properties
+    				entity.checkNamingConventions()
+    				PropertyList->forEach(p:uml.Property){
+    					p.checkNamingConventions()
+    				}
 				} 
-						
 			}
-			
-			
     	}
-    
 	}
 	
-	uml.Class::updateGeneralHashtable() {
+	uml.Element::checkNamingConventions(){
+		var elementProps:hashtable = self.getElementProps()
+		var name:string = elementProps.get('name')
+	  	var type:string = elementProps.get('type')
+		var parent:string = elementProps.get('parent')
+		
+		if(self.allowedCharlist()){
+			
+			if(type=='Class'){
+				if(!name.isUpperCase(0)){
+					verbose (parent+name+": First character should be Uppercase",true,false)
+				}
+			} else {
+				if(name.isUpperCase(0)){
+					verbose (parent+name+": First character should be lowercase",true,false)
+				}
+			}
+		} else verbose (parent+name+": No valid characters in name",true,false);
+	}
+	
+	uml.Class::updategeneralEntityTreeHashtable() {
 	  	if(self.general.size() > 0){
 	  		if(self.general.size() > 1) verbose(self.name + ": Multiple superclasses found. Use interfaces instead - additional superclasses are igonered!",true,false)
-			general.put(self.name, self.general.first()) // key: derived class name, value: parent class
+			generalEntityTree.put(self.name, self.general.first()) // key: derived class name, value: parent class
 		}
 	}
 		
-	uml.Class::checkRightGeneralization(name:string) {
-	  	var parent:uml.Class = general.get(self.name)
+	uml.Class::checkRightgeneralEntityTreeization(name:string) {
+	  	var parent:uml.Class = generalEntityTree.get(self.name)
 		if(parent != null){
 			verbose(self.name+"->"+parent.name,false,false)
 			if(parent.name.equals(name)){
@@ -98,9 +126,9 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 				return
 			}
 			if(self.checkIfFinal()) verbose(self.name+": Cannot have parent class!!",true,false)
-			else parent.checkRightGeneralization(name)
+			else parent.checkRightgeneralEntityTreeization(name)
 		} else {
-			if (self.checkIfFinal()) verbose("--- OK!!",false,false)
+			if (self.checkIfFinal()) verbose("OK!!",false,false)
 			else {
 				var superEntities:string
 				listOfUpperOntologyEntities->forEach(e:uml.Class) {
@@ -112,10 +140,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	}
 	
 	uml.Class::checkIfFinal():boolean {
-		listOfUpperOntologyEntities->forEach(e:uml.Class) {
-			if(e.name.equals(self.name)) return true
-		}
-		return false
+		return (listOfUpperOntologyEntities.get(self.name) != null)
 	}
 	
 	uml.Class::getPropertyList():list {
@@ -124,14 +149,16 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		verbose("Getting properties of entity "+self.name,false,false)
 
 		self.ownedMember->forEach(att : uml.Property) {
-		 	verbose('\tAdding property '+att.name+' (type:'+att.type.name+', size:'+att.name.size()+')',false,false)
 			
 			att.name = att.name.trim()
 			
-			if(att.name.size() == 0) verbose(self.name+": Empty property found",true,false)
-			if(att.type == null) verbose(self.name+": Property "+att.name+" has UNDEFINED type",true,false)
-				
+			verbose('\tAdding property '+att.name+' (type:'+att.type.name+', size:'+att.name.size()+')',false,false)
 			pList.add(att)
+			
+		 	if(att.name.size() == 0) verbose(self.name+": Empty "+att.oclGetType()+" name found",true,false)
+		 	
+		 	if(att.type == null) verbose(self.name+": Property "+att.name+" has UNDEFINED type",true,false)
+			else if(!att.isDataType()) verbose(self.name+": Property "+att.name+" has UNKNOWN type",true,false)
 		}
 
 		if(pList.isEmpty()){
@@ -142,11 +169,13 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	}
 	
 	uml.Package::checkEmpty (someList:list):boolean {
-		someList->forEach(e) {
-			var elementProps:hashtable = e.getElementProps()
-			verbose("INFO: Element name:"+elementProps.get('name')+", element type:"+elementProps.get('type'), false, false)
-			if(elementProps.get('name').size() == 0) {
-        		verbose(elementProps.get('parent')+"Empty "+elementProps.get('type')+" names not allowed\n----",true,false)
+		someList->forEach(e:uml.Classifier) {
+			verbose("INFO: Element name:"+e.name+", element type:"+e.oclGetType(), false, false)
+			if(e.name.size() == 0) {
+				var parent:string
+				if(e.oclGetType() == 'Class') parent = e.name
+				else parent = e.owner.name
+				verbose(parent+": Empty "+e.oclGetType()+" name not allowed",true,false)
         		return false
 			}
 		}
@@ -154,18 +183,20 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	}
 	
 	uml.Package::checkUnity (someList:list):boolean {
-	  
 		var toBeChecked:string
 		var repetitions:integer
 		var repeatedElements:hashtable
 		var parent:string
+		var res:boolean = true
 		
 		someList->forEach(e) {
-		  	var elementProps:hashtable = e.getElementProps()
+			var elementProps:hashtable = e.getElementProps()
 			parent = elementProps.get('parent')
 			toBeChecked = elementProps.get('name');
-			repetitions = self.checkDuplicates(someList, toBeChecked)
-			if(repetitions > 1) repeatedElements.put(elementProps.get('name')+":"+elementProps.get('type'), repetitions)
+			repetitions = repeatedElements.get(elementProps.get('name')+":"+elementProps.get('type'))
+			if (repetitions == null) repetitions = 1
+			else repetitions = repetitions + 1
+			repeatedElements.put(elementProps.get('name')+":"+elementProps.get('type'), repetitions)
 		}
 	  
 		if(!repeatedElements.isEmpty()) {
@@ -176,23 +207,22 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 				var times:integer = repeatedElements.get(e)
 				var eName:string  = e.substring(0, e.lastIndexOf(":"))
 				var eType:string  = e.substring(e.lastIndexOf(":")+1, e.size())
-		      
-				verbose(parent+"Duplicated entry for "+eType+" "+eName+" ("+times+" duplicates)\n----",true,false)
+		    	
+		    	if(times >1){
+		    		verbose(parent+"Duplicate entry for "+eType+" "+eName+" ("+times+" duplicates)",true,false)
+		    		res = false
+		    	}
 			}
-		
-			return false
-		  
 		}
-		return true
+		return res
  
 	}
-
 	
 	uml.Class::getElementProps():hashtable {
 		var pHash:hashtable
 		pHash.put('name',self.name);
 		pHash.put('type',self.oclGetType());
-		pHash.put('parent',false);
+		pHash.put('parent','');
 		return pHash
 	}
 	
@@ -200,7 +230,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		var pHash:hashtable
 		pHash.put('name',self.name);
 		pHash.put('type',self.oclGetType());
-		pHash.put('parent',self.class.name+": ");
+		pHash.put('parent',self.class.name+': ');
 		return pHash
 	}
 	
@@ -215,34 +245,77 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		} 
 	}
   
-	// OLD: Create list of general class that MUST BE DERIVED from all the other classes
+	// OLD: Create list of generic class that MUST BE DERIVED from all the other classes
 	/*uml.Model::createSuperentitiesList() {
 		listOfUpperOntologyEntities.add("Service")
 		listOfUpperOntologyEntities.add("Device")
 		listOfUpperOntologyEntities.add("ManagedIndividual")
 	}*/
 	
-	// Create list of general class that MUST BE DERIVED from all the other classes
+	// Create list of generic class that MUST BE DERIVED from all the other classes
 	uml.Model::createSuperentitiesList(){
 		self.packageImport->forEach(p:uml.PackageImport){
 			p.relatedElement->forEach(m:uml.Model | m.name.startsWith("org.universaal.")){
 				m.ownedMember->forEach(package:uml.Package){
 					package.ownedMember->forEach(class:uml.Class){
-						listOfUpperOntologyEntities.add(class)
+						listOfUpperOntologyEntities.put(class.name,class)
 					}
 				}
 			}
 		}
 	}
 
+	/**
+	 * Crate a map containing the basic datatypes supported.
+	 */		
+	uml.Model::initDatatypeImportMap() {
+		datatypeImportMap.put("Boolean", " ")
+	    datatypeImportMap.put("Integer", " ")
+	    datatypeImportMap.put("Float", " ")
+	    datatypeImportMap.put("UnlimitedNatural", " ")
+	    datatypeImportMap.put("Long", " ")
+	    datatypeImportMap.put("String", " ")
+	    datatypeImportMap.put("Float", " ")
+	    datatypeImportMap.put("Double", " ")
+	    datatypeImportMap.put("XMLGregorianCalendar", "javax.xml.datatype.XMLGregorianCalendar")
+	    datatypeImportMap.put("Duration", "javax.xml.datatype.Duration")
+	    datatypeImportMap.put("Locale", "java.util.Locale")
+	}		
+		
+		
+	/**
+	 * Check if a property is one of the defined basic data types
+	 */		
+	uml.Property::isDataType() {
+		var theTypeName:String = self.type.name
+		var isDatatype:boolean = (datatypeImportMap.get(theTypeName) != null)
+		return isDatatype
+	}
 	
-	uml.Package::checkDuplicates(someList:list, what:string):integer {
-		var times:integer = 0
-		someList->forEach(e){
-        var elementName:string = e.name.trim();
-        if (elementName.equals(what)) times = times + 1;
-	   }
-	   return times
+	// Common check for Class and Property
+	uml.Element::allowedCharlist():boolean{
+		var elementProps:hashtable = self.getElementProps()
+		var what:string = elementProps.get('name')
+	  	var type:string = elementProps.get('type')
+		var parent:string = elementProps.get('parent')
+		// no whitespaces
+		if(what.contains(" ")) verbose(parent+what+": Spaces not allowed in name's "+type,true,false)
+		
+		// no numbers at the beginning
+		if(what.startsWith("0") ||
+		   what.startsWith("1") ||
+		   what.startsWith("2") ||
+		   what.startsWith("3") ||
+		   what.startsWith("4") ||
+		   what.startsWith("5") ||
+		   what.startsWith("6") ||
+		   what.startsWith("7") ||
+		   what.startsWith("8") ||
+		   what.startsWith("9")) verbose(parent+what+": First "+type+" character's name cannot be a number",true,false)
+		
+		// only alphanumeric chars plus the undescore allowed
+		what = what.replace("[A-za-z0-9_ ]","")
+		return (what.size()==0)
 	}
 	
 	verbose(message:string, error:boolean, force:boolean) {
