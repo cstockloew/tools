@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.packaging.tool.feature"
       label="AAL Studio Application Packager"
-      version="0.7.3"
+      version="0.7.6"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -41,17 +41,17 @@ limitations under the License.
    </license>
 
    <requires>
-      <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="javax.xml"/>
       <import plugin="javax.xml.bind"/>
       <import plugin="org.eclipse.m2e.core"/>
       <import plugin="org.eclipse.m2e.maven.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui" version="3.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.eclipse.m2e.core.ui"/>
       <import plugin="org.eclipse.ui.console"/>
-      <import plugin="org.eclipse.ui.ide"/>
    </requires>
 
    <plugin
