@@ -52,6 +52,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	  	// Creates the Model Entity List 
 	  	verbose("Building Model Class list and tree",false,true) 
 		self.ownedElement->forEach(c : uml.Class) {
+			c.name = c.name.trim()
 			EntityList.add(c)
 		  	c.updategeneralEntityTreeHashtable()
 		}
@@ -159,6 +160,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		 	
 		 	if(att.type == null) verbose(self.name+": Property "+att.name+" has UNDEFINED type",true,false)
 			else if(!att.isDataType()) verbose(self.name+": Property "+att.name+" has UNKNOWN type",true,false)
+			
 		}
 
 		if(pList.isEmpty()){
@@ -173,7 +175,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 			verbose("INFO: Element name:"+e.name+", element type:"+e.oclGetType(), false, false)
 			if(e.name.size() == 0) {
 				var parent:string
-				if(e.oclGetType() == 'Class') parent = e.name
+				if(e.oclGetType().equals('Class')) parent = e.name
 				else parent = e.owner.name
 				verbose(parent+": Empty "+e.oclGetType()+" name not allowed",true,false)
         		return false
@@ -217,23 +219,21 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		return res
  
 	}
-	
-	uml.Class::getElementProps():hashtable {
+
+	uml.Classifier::getElementProps(){
 		var pHash:hashtable
 		pHash.put('name',self.name);
 		pHash.put('type',self.oclGetType());
-		pHash.put('parent','');
+		if(self.oclGetType().equals('Class')){
+			pHash.put('parent','');
+		} else {
+			var prop:uml.Property
+			prop = self
+			pHash.put('parent',prop.class.name+': ');
+		}
 		return pHash
 	}
-	
-	uml.Property::getElementProps():hashtable {
-		var pHash:hashtable
-		pHash.put('name',self.name);
-		pHash.put('type',self.oclGetType());
-		pHash.put('parent',self.class.name+': ');
-		return pHash
-	}
-	
+
 	uml.Class::updateHashtableClass(pList:list) {
 		if (!pList.isEmpty()){
 			var pHash:hashtable
@@ -245,13 +245,6 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		} 
 	}
   
-	// OLD: Create list of generic class that MUST BE DERIVED from all the other classes
-	/*uml.Model::createSuperentitiesList() {
-		listOfUpperOntologyEntities.add("Service")
-		listOfUpperOntologyEntities.add("Device")
-		listOfUpperOntologyEntities.add("ManagedIndividual")
-	}*/
-	
 	// Create list of generic class that MUST BE DERIVED from all the other classes
 	uml.Model::createSuperentitiesList(){
 		self.packageImport->forEach(p:uml.PackageImport){
