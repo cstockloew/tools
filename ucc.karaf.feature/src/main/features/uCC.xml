@@ -35,16 +35,16 @@
 		<bundle start-level="95">mvn:org.vaadin.osgi/org.vaadin.osgi.staticres/1.0.1</bundle>	 	  
 		<bundle start-level="95">mvn:org.vaadin.osgi/org.vaadin.osgi/1.0.1</bundle>
 		<bundle start-level="95">mvn:org.universAAL.tools.ucc/ucc.configuration.model/2.0.1-SNAPSHOT</bundle>
-		<bundle start-level="96">mvn:org.universAAL.tools.ucc/ucc.database/2.0.1-SNAPSHOT</bundle>
-		<bundle start-level="96">mvn:org.universAAL.tools.ucc/ucc.configuration.configdefinitionregistry/2.0.1-SNAPSHOT</bundle>
-  		<bundle start-level="96">mvn:org.universAAL.tools.ucc/ucc.configuration.configinstancestorage/2.0.1-SNAPSHOT</bundle>
-  		<bundle start-level="96">mvn:org.universAAL.tools.ucc/ucc.configuration.configurator/2.0.1-SNAPSHOT</bundle>
+		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.database/2.0.1-SNAPSHOT</bundle>
+		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configdefinitionregistry/2.0.1-SNAPSHOT</bundle>
+  		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configinstancestorage/2.0.1-SNAPSHOT</bundle>
+  		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configurator/2.0.1-SNAPSHOT</bundle>
 		
- 		<bundle start-level="96">mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/2.0.1-SNAPSHOT</bundle> 
+ 		<bundle start-level="98">mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/2.0.1-SNAPSHOT</bundle> 
 			
- 		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.frontend/2.0.1-SNAPSHOT</bundle>   
+ 		<bundle start-level="98">mvn:org.universAAL.tools.ucc/ucc.frontend/2.0.1-SNAPSHOT</bundle>   
  		
-  		<bundle start-level="98">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/2.0.1-SNAPSHOT</bundle> 
+  		<bundle start-level="99">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/2.0.1-SNAPSHOT</bundle> 
 		
 	</feature>
 </features>
