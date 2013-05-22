@@ -397,7 +397,7 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 			TabForm tab = ((TabForm) tabSheet.getSelectedTab());
 			Subprofile sub = subprofiles.get(tabSheet.getTab(tab).getCaption());
 			Subprofile subRoom = roomprofiles.get(tabSheet.getTab(tab).getCaption());
-			// Aktuelles Subprofile übernimmt die Änderungen des Formulars
+			// Aktuelles Subprofile ubernimmt die anderungen des Formulars
 			ArrayList<SimpleObject>tempSim = new ArrayList<SimpleObject>();
 			for(SimpleObject simi : sub.getSimpleObjects()) {
 				tempSim.add(simi);
