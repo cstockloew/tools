@@ -61,9 +61,6 @@ public class UccUI extends Application {
 	private PasswordField pwd;
 	private BundleContext context;
 
-	private final static String file = System.getenv("systemdrive")
-			+ "/uccDB/preferences.xml";
-
 	public static UccUI getInstance() {
 		return uccUI;
 	}
@@ -135,7 +132,7 @@ public class UccUI extends Application {
 		startButton.setDescription(res.getString("start.desc"));
 		VerticalLayout startLayout = new VerticalLayout();
 		startLayout.setStyleName("buttonstyle");
-		startButton.setIcon(new ThemeResource("img/Konfiguration50.png"));
+		startButton.setIcon(new ThemeResource("img/Zahnraeder-01-01.png"));
 		startLayout.addComponent(startButton);
 		startLayout.setComponentAlignment(startButton, Alignment.TOP_LEFT);
 		mainLayout.setSpacing(true);
@@ -145,14 +142,14 @@ public class UccUI extends Application {
 		hl.setStyleName("buttonstyle");
 		bell = new Button();
 		bell.setDescription(res.getString("notification.desc"));
-		bell.setIcon(new ThemeResource("img/bell.png"));
+		bell.setIcon(new ThemeResource("img/Bell-01-01.png"));
 		hl.addComponent(bell);
 		adminButton = new Button();
 		adminButton.setDescription(res.getString("options.desc"));
-		adminButton.setIcon(new ThemeResource("img/person_black.png"));
+		adminButton.setIcon(new ThemeResource("img/Person black-01-01.png"));
 		searchButton = new Button();
 		searchButton.setDescription(res.getString("search.desc"));
-		searchButton.setIcon(new ThemeResource("img/icon_lupe.gif"));
+		searchButton.setIcon(new ThemeResource("img/Lupe-01-01.png"));
 		hl.addComponent(adminButton);
 		hl.addComponent(searchButton);
 		mainLayout.addComponent(startLayout);

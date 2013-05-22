@@ -59,11 +59,11 @@ public class ToolWindow extends Window {
 		installButton = new Button(res.getString("install.label"));
 		installButton.setDescription(res.getString("install.button.tooltip"));
 		installButton.setIcon(new ThemeResource(
-				"img/48px-Icon-installation.png"));
+				"img/Harddisk50x52.png"));
 		hl.addComponent(installButton);
 		uninstallButton = new Button(res.getString("uninstall.usrv"));
 		uninstallButton.setDescription(res.getString("uninstall.button"));
-		uninstallButton.setIcon(new ThemeResource("img/uninstall.png"));
+		uninstallButton.setIcon(new ThemeResource("img/Schluessel50x52.png"));
 		uninstallButton.setEnabled(false);
 		hl.addComponent(uninstallButton);
 		vl.addComponent(hl);
@@ -74,7 +74,7 @@ public class ToolWindow extends Window {
 		vl.addComponent(addLabel);
 		configButton = new Button(res.getString("add.hardware.button"));
 		configButton.setDescription(res.getString("add.hardware.tooltip"));
-		configButton.setIcon(new ThemeResource("img/hardware.png"));
+		configButton.setIcon(new ThemeResource("img/Hardware50x50.png"));
 //		configButton.setEnabled(false);
 		HorizontalLayout config = new HorizontalLayout();
 		config.setSpacing(true);
@@ -83,7 +83,7 @@ public class ToolWindow extends Window {
 		personButton = new Button("Person");
 		personButton.setDescription(res.getString("add.person.tooltip"));
 //		personButton.setEnabled(false);
-		personButton.setIcon(new ThemeResource("img/person.png"));
+		personButton.setIcon(new ThemeResource("img/Person-01.png"));
 		config.addComponent(personButton);
 		vl.addComponent(config);
 		Label sep2 = new Label("<hr/>", Label.CONTENT_XHTML);
@@ -97,17 +97,17 @@ public class ToolWindow extends Window {
 		editHW = new Button(res.getString("add.hardware.button"));
 		editHW.setDescription(res.getString("edit.hardware.tooltip"));
 //		editHW.setEnabled(false);
-		editHW.setIcon(new ThemeResource("img/hw.png"));
+		editHW.setIcon(new ThemeResource("img/Hardware-01.png"));
 		editHl.addComponent(editHW);
 		editPerson = new Button(res.getString("add.person.button"));
 		editPerson.setDescription(res.getString("edit.person.tooltip"));
 //		editPerson.setEnabled(false);
-		editPerson.setIcon(new ThemeResource("img/person_ohne.png"));
+		editPerson.setIcon(new ThemeResource("img/Person ohne-01.png"));
 		editHl.addComponent(editPerson);
-		editUC = new Button(res.getString("aal.service"));
+		editUC = new Button(res.getString("config.usrv"));
 		editUC.setDescription(res.getString("edit.uc.tooltip"));
 //		editUC.setEnabled(false);
-		editUC.setIcon(new ThemeResource("img/infoframe.png"));
+		editUC.setIcon(new ThemeResource("img/Zahnrad50x50.png"));
 		editHl.addComponent(editUC);
 		vl.addComponent(editHl);
 		Label sep3 = new Label("<hr/>", Label.CONTENT_XHTML);
@@ -120,7 +120,7 @@ public class ToolWindow extends Window {
 		store.setSpacing(true);
 		uStoreButton = new Button("uStore");
 		uStoreButton.setDescription(res.getString("ustore.button.tooltip"));
-		uStoreButton.setIcon(new ThemeResource("img/use_cases_ohne.png"));
+		uStoreButton.setIcon(new ThemeResource("img/Use Cases 1 ohne-01.png"));
 
 		store.addComponent(uStoreButton);
 		openAAL = new Button("openAAL");

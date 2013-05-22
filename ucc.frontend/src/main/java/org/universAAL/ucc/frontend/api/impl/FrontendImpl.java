@@ -10,10 +10,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
 import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -84,6 +86,7 @@ public class FrontendImpl implements IFrontend {
 	private static String uappURI;
 
 	private static String userSession;
+	
 
 	public boolean installService(String sessionkey, String serviceId,
 			String serviceLink) {
@@ -102,19 +105,20 @@ public class FrontendImpl implements IFrontend {
 		System.err.println("[[FrontendImpl]] SessionKey: "+sessionkey+ " Service-Link: "+serviceLink+ " Service-ID: "+serviceId);
 		String usrvName = "";
 		System.err.println("The service link from ustore: "+serviceLink);
+		
 		 try {
 		
 		 usrvName = downloadUsrvFile(serviceLink,
-		 /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
+		 /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv");
 		 } catch (IOException e2) {
 		 e2.printStackTrace();
 		 }
 	
 		File temp = new File(usrvLocalStore
-				+  /*"corrected_hwo_usrv.usrv"*/ "HWO_Service.usrv");
+				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv");
 		 if (temp.exists()) {
 		 try {
-		 extractFolder(usrvLocalStore + /*"corrected_hwo_usrv.usrv"*/"HWO_Service.usrv", usrvLocalStore);
+		 extractFolder(usrvLocalStore + /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv", usrvLocalStore);
 		 } catch (ZipException e2) {
 		 e2.printStackTrace();
 		 } catch (IOException e2) {
@@ -122,15 +126,15 @@ public class FrontendImpl implements IFrontend {
 		 }
 //		 System.err.println("The Service-ID: "+serviceId);
 		// Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
-		 uappURI = createUAPPLocation(usrvLocalStore + "bin", serviceId);
+		 uappURI = createUAPPLocation(usrvLocalStore + "bin", serviceId+"_temp");
 		
 		 // extract available uapp files
 		 File usrv = new File(uappURI);
 		 File[] uapps = usrv.listFiles();
 		 for (File cur : uapps) {
 			 try {
-				 extractFolder(usrvLocalStore + serviceId+ "/" + cur.getName(),
-						 usrvLocalStore + serviceId+ "/");
+				 extractFolder(usrvLocalStore + serviceId+"_temp"+ "/" + cur.getName(),
+						 usrvLocalStore + serviceId+"_temp"+ "/");
 			 } catch (ZipException e) {
 				 e.printStackTrace();
 			 } catch (IOException e) {
@@ -141,7 +145,7 @@ public class FrontendImpl implements IFrontend {
 		// parse uapp.config.xml
 		ArrayList<UAPPPart> apps = null;
 //		Get uapp.xml name out of the file extension
-		File f = new File(usrvLocalStore + serviceId + "/config");
+		File f = new File(usrvLocalStore + serviceId+"_temp" + "/config");
 		File[] confi = f.listFiles();
 		String configFileName = "";
 		for(File cf : confi) {
@@ -150,7 +154,7 @@ public class FrontendImpl implements IFrontend {
 				System.err.println(configFileName);
 			}
 		}
-		apps = parseUappConfiguration(usrvLocalStore+serviceId+"/config/"+configFileName, serviceId);
+		apps = parseUappConfiguration(usrvLocalStore+serviceId+"_temp"+"/config/"+configFileName, serviceId);
 
 //		 } else {
 //		 //TODO: SessionKey was not right, what todo?
@@ -194,7 +198,6 @@ public class FrontendImpl implements IFrontend {
 	 * 
 	 */
 	private ArrayList<UAPPPart> parseUappConfiguration(String f, String serviceId) {
-		File config = new File(usrvLocalStore + f);
 		ArrayList<UAPPPart> appsList = new ArrayList<UAPPPart>();
 		File l = null;
 		String txt = "";
@@ -205,8 +208,13 @@ public class FrontendImpl implements IFrontend {
 		AALService aal = new AALService();
 		// Read uapp config xml
 		AalUapp uapp = null;
+		System.err.println(f);
 		ParserService ps = Activator.getParserService();
+		if(ps != null)
+			System.err.println("Got ParserService");
 		uapp = ps.getUapp(f);
+		System.err.println(f);
+		System.err.println(uapp.getApp().getAppId());
 		List<Part> parts = uapp
 				.getApplicationPart().getPart();
 		System.err.println(parts.size());
@@ -341,7 +349,7 @@ public class FrontendImpl implements IFrontend {
 						System.err.println(link);
 						link = link.substring(link.indexOf("/"));
 						System.err.println(link);
-						File file = new File(usrvLocalStore + serviceId + link);
+						File file = new File(usrvLocalStore + serviceId+"_temp" + link);
 						license.getSlaList().add(file);
 					}
 					
@@ -355,7 +363,7 @@ public class FrontendImpl implements IFrontend {
 								System.err.println(txt);
 								txt = txt.substring(txt.indexOf("/"));
 								System.err.println(txt);
-								l = new File(usrvLocalStore + serviceId + txt);
+								l = new File(usrvLocalStore + serviceId+"_temp" + txt);
 								list.add(l);
 							}
 						
@@ -368,7 +376,7 @@ public class FrontendImpl implements IFrontend {
 			aal.setLicenses(license);
 			
 		}
-		parseConfiguration(serviceId, appsList, licenseList, aal);
+		parseConfiguration(serviceId+"_temp", appsList, licenseList, aal);
 		return appsList;
 
 	}
@@ -382,7 +390,7 @@ public class FrontendImpl implements IFrontend {
 	 * @throws IOException
 	 */
 	private AALService parseConfiguration(String f, ArrayList<UAPPPart> apps, ArrayList<License>licenseList, AALService aal) {
-		File licenceFile = new File(usrvLocalStore + f);
+		
 		//Parsing usrv.xml
 		ParserService ps = Activator.getParserService();
 		//Getting usrv.xml
@@ -616,6 +624,25 @@ public class FrontendImpl implements IFrontend {
 
 	public static String getUserSession() {
 		return userSession;
+	}
+	
+	private String parseURL(String post) {
+		String url = "";
+		String[] lines = post.split("\n");
+		String[] content = lines[lines.length - 1].split("&");
+		for (int i = 0; i < content.length; i++) {
+//			if (content[i].startsWith(URL_SEARCH_TAG + "=")) {
+
+				url += content[i];
+				try {
+					url = URLDecoder.decode(url, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				return url;
+//			}
+		}
+		return null;
 	}
 
 }
