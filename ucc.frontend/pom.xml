@@ -82,7 +82,6 @@
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.schemas</artifactId>
-			<type>jar</type>
 		</dependency>
 	</dependencies>
 
