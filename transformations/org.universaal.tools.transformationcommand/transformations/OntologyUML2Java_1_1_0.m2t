@@ -210,7 +210,10 @@ public class Activator implements BundleActivator {
   }
 
   uml.Package::generatMainOntologyClassStaticImports() {
-'import org.universAAL.middleware.owl.BoundingValueRestriction;
+'import org.universAAL.middleware.owl.IntRestriction;
+import org.universAAL.middleware.owl.FloatRestriction;
+import org.universAAL.middleware.owl.DoubleRestriction;
+import org.universAAL.middleware.owl.LongRestriction;
 import org.universAAL.middleware.owl.DataRepOntology;
 import org.universAAL.middleware.owl.ManagedIndividual;
 import org.universAAL.middleware.owl.MergedRestriction;
@@ -410,11 +413,15 @@ public final class ' ontologyName.firstToUpper() 'Ontology extends Ontology {
 		  		else if (!prop.type.name.trim().equals("") ) {  //this is a datatype property that has been set.
 						'    ' oci '.addRestriction(MergedRestriction\n'
 						'      .getAllValuesRestrictionWithCardinality(' c.name '.PROP_' prop.toUpperFormat() ', \n'	  
-						'      'self.getURIExpressionForType(prop.type.name.trim())', ' prop.lower ', ' prop.upper ')'
-						if (prop.defaultValue.name.equals("values")) { //TODO: this is a temporary solution. See doc for more info
+						if (prop.defaultValue.name.equals("values")) { 
+							'      ' prop.getBoundingRestriction(c.name) ', ' prop.lower ', ' prop.upper ')'
+						} else {
+							'      'self.getURIExpressionForType(prop.type.name.trim())', ' prop.lower ', ' prop.upper ')'
+						}
+/*						if (prop.defaultValue.name.equals("values")) { //TODO: this is a temporary solution. See doc for more info
 							//TODO: must check for property type. Now supporting Integer only
 							'\n      ' prop.getBoundingRestriction(c.name)
-						}
+						}*/
 						');\n'
 						'    \n'
 		 		 	} //else if
@@ -598,16 +605,29 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
     var txt:String
     var res:String
   
+  	var typeName:String
+  
     //get the default value string specification. This string holds the range - min, max.
     //TODO: add support for more ranges and sets.
     txt = self.defaultValue.value.trim()
  
     res = ""
   
+  
+    typeName = self.type.name
+ 	if (typeName.equals("UnlimitedNatural")) {
+ 	  typeName = "Long"
+ 	} 
+ 	
+  
     //currently only integer is supported
     if (self.type.name.equals("Integer")) {
- 	  res = ".addRestriction(new BoundingValueRestriction(" + className + ".PROP_" + self.toUpperFormat() 
-  	  res = res + ", new Integer(" + txt.substringBefore("..") + "), true, new Integer(" + txt.substringAfter("..")+  "), true))"
+      res = "new IntRestriction(new Integer(" + txt.substringBefore("..") + "), true, new Integer(" + txt.substringAfter("..")+  "), true)"
+ //	  res = ".addRestriction(new BoundingValueRestriction(" + className + ".PROP_" + self.toUpperFormat() 
+//  	  res = res + ", new Integer(" + txt.substringBefore("..") + "), true, new Integer(" + txt.substringAfter("..")+  "), true))"
+    } 
+    else if (typeName.equals("Float") || typeName.equals("Double") || typeName.equals("Long")) {
+      res = "new " + typeName + "Restriction(new " + typeName + "(" + txt.substringBefore("..") + "), true, new " + typeName + "(" + txt.substringAfter("..")+  "), true)"
     }
  
     return res //empty or a boundingrestriction.

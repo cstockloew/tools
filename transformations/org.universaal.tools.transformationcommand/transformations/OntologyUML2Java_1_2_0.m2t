@@ -12,7 +12,7 @@ texttransformation OntologyUML2Java_1_2_0 (in uml:"http://www.eclipse.org/uml2/3
  	uml.Package::processOntologyPackage() {
 		super.processOntologyPackage()
  	}
-
+/*
   uml.Package::generatMainOntologyClassStaticImports() {
 'import org.universAAL.middleware.owl.BoundedValueRestriction;
 import org.universAAL.middleware.owl.DataRepOntology;
@@ -26,7 +26,7 @@ import org.universAAL.middleware.service.owl.ServiceBusOntology;
 import org.universAAL.ontology.location.LocationOntology;
 '    
   }
-  
+ */ 
 	uml.Model::generateActivator(ontNameList:Hashtable) {
 	  	StdOut.println("Generating activator for MW 1.2.0")
 	  
