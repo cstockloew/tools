@@ -40,7 +40,7 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 
     public void update(String sessionKey, String serviceId, String serviceLink) {
 	System.out.println("[DeployManagerService] Update with sessionKey: "
-		+ sessionKey + " for URL: " + serviceId);
+		+ sessionKey + " for serviceId: " + serviceId);
 	/*
 	 * try { URL usrvURL = new URL(usrvfile); } catch(MalformedURLException
 	 * e) { System.out.println("[ERROR] Malformed URL Exception for " +
