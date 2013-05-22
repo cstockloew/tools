@@ -9,12 +9,22 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.resources.IProject;
-import org.universaal.tools.packaging.api.Page;
-import org.universaal.tools.packaging.api.WizardMod;
-import org.universaal.tools.packaging.impl.PageImpl;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
+import org.universaal.tools.packaging.tool.api.Page;
+import org.universaal.tools.packaging.tool.api.WizardMod;
+import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
@@ -22,7 +32,6 @@ import org.universaal.tools.packaging.tool.zip.UAPP;
 
 public class GUI extends WizardMod {
 
-	//private ExecutionEvent event;
 	public MPA mpa;
 	private PageImpl p0, p1, p2, pl, p3, p4, p5, ppDU, ppEU, ppPC, ppPR, p, p_end;
 	private List<IProject> parts;
@@ -32,12 +41,11 @@ public class GUI extends WizardMod {
 	private String tempDir;  
 	private String destination;
 
-	public GUI(/*ExecutionEvent event*/List<IProject> parts) {
+	public GUI(List<IProject> parts) {
 
 		super();
 		setNeedsProgressMonitor(true);
 
-		//this.event = event; 
 		mpa = new MPA();
 		instance = this;
 		this.parts = parts;
@@ -51,11 +59,6 @@ public class GUI extends WizardMod {
 	public void addPages() {
 
 		if(this.parts != null){
-			//			try {
-			//				analyzeSelection(HandlerUtil.getActiveWorkbenchWindowChecked(event));
-			//			} catch (Exception e) {
-			//				e.printStackTrace();
-			//			}
 
 			p0 = new StartPage(Page.PAGE_START);
 			addPage(p0);
@@ -94,7 +97,6 @@ public class GUI extends WizardMod {
 
 				String partName = parts.get(i).getName();
 
-				//POMParser p = new POMParser(new File(parts.get(i).getFile("pom.xml").getLocation()+""));
 				mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1)));
 
 				ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
@@ -175,6 +177,8 @@ public class GUI extends WizardMod {
 
 			UAPP descriptor = new UAPP();
 			descriptor.createUAPPfile(tempDir, destination);
+
+			callUSTORE(destination);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -183,25 +187,31 @@ public class GUI extends WizardMod {
 		return true;
 	}
 
-	//	private void analyzeSelection(IWorkbenchWindow window){
-	//
-	//		parts = new ArrayList<IProject>();
-	//
-	//		ISelection selection = window.getSelectionService().getSelection("org.eclipse.jdt.ui.PackageExplorer");
-	//		if(selection == null)
-	//			selection = window.getSelectionService().getSelection("org.eclipse.ui.navigator.ProjectExplorer");
-	//
-	//		if ((selection != null) && (selection instanceof StructuredSelection)) {
-	//
-	//			Iterator selected = ((StructuredSelection) selection).iterator();
-	//			while(selected.hasNext()){
-	//				Object sel = selected.next();
-	//
-	//				if(sel instanceof IProject)
-	//					parts.add((IProject) sel);
-	//			}
-	//		}
-	//	}
+	private void callUSTORE(String pathToUAPPFile){
+
+		if (MessageDialog.openConfirm(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Confirm", "Do you want to upload the configuration to uStore?")) 
+		{
+			try {
+				IHandlerService handlerService = (IHandlerService) (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
+
+				ICommandService commandService = (ICommandService) (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+				Command showElement = commandService.getCommand("org.universaal.tools.uStoreClienteapplication.actions.PublishAction");
+
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("org.universaal.tools.uStoreClienteapplication.filePathParameter", pathToUAPPFile);
+				ParameterizedCommand paramShowElement = ParameterizedCommand.generateCommand(showElement, params);
+
+				ExecutionEvent execEvent = handlerService.createExecutionEvent(paramShowElement, new Event());
+				try {
+					showElement.executeWithChecks(execEvent);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}	
+	}
 
 	public int getPartsCount(){
 		return parts.size();

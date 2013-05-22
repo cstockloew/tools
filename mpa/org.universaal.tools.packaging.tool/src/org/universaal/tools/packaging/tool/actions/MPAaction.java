@@ -15,7 +15,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.universaal.tools.packaging.api.WizardDialogMod;
+import org.universaal.tools.packaging.tool.api.WizardDialogMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 
 /**

@@ -1,6 +1,6 @@
 package org.universaal.tools.packaging.tool.parts;
 
-import org.universaal.tools.packaging.api.Page;
+import org.universaal.tools.packaging.tool.api.Page;
 
 
 public class MPA {

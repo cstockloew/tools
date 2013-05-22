@@ -1,4 +1,4 @@
-package org.universaal.tools.packaging.impl;
+package org.universaal.tools.packaging.tool.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-import org.universaal.tools.packaging.api.Page;
-import org.universaal.tools.packaging.api.WizardPageMod;
+import org.universaal.tools.packaging.tool.api.Page;
+import org.universaal.tools.packaging.tool.api.WizardPageMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;

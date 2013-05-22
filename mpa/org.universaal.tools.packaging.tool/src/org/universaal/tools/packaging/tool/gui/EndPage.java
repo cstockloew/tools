@@ -7,7 +7,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.universaal.tools.packaging.impl.PageImpl;
+import org.universaal.tools.packaging.tool.impl.PageImpl;
 
 public class EndPage extends PageImpl {
 

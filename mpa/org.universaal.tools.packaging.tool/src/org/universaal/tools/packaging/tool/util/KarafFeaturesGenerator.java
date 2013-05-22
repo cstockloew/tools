@@ -33,7 +33,7 @@ import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
-import org.universaal.tools.packaging.api.Page;
+import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

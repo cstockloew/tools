@@ -1,4 +1,4 @@
-package org.universaal.tools.packaging.api;
+package org.universaal.tools.packaging.tool.api;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
