@@ -114,11 +114,13 @@ public class FrontendImpl implements IFrontend {
 		 e2.printStackTrace();
 		 }
 	
-		File temp = new File(usrvLocalStore
-				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv");
+		System.out.println("Using the usrfile:"+System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
+				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv"));
+		File temp = new File(System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
+				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv"));
 		 if (temp.exists()) {
 		 try {
-		 extractFolder(usrvLocalStore + /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv", usrvLocalStore);
+		 extractFolder(temp.getAbsolutePath(),usrvLocalStore);
 		 } catch (ZipException e2) {
 		 e2.printStackTrace();
 		 } catch (IOException e2) {
