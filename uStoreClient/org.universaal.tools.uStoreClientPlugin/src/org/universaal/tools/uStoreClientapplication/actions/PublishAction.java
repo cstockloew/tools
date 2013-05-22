@@ -28,6 +28,11 @@ public class PublishAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * The constructor.
 	 */
+	
+	public PublishAction() {
+		
+	}
+	
 	public PublishAction(String pathForUAPPFile) {
 		this.pathForUAPPFile=pathForUAPPFile;
 	}
