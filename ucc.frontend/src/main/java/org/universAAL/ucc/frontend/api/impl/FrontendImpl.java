@@ -4,18 +4,14 @@ import java.awt.Desktop;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 
 import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -23,30 +19,16 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
-
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.universAAL.middleware.deploymanager.uapp.model.AalUapp;
 import org.universAAL.middleware.deploymanager.uapp.model.Bundle;
 import org.universAAL.middleware.deploymanager.uapp.model.DeploymentUnit;
 import org.universAAL.middleware.deploymanager.uapp.model.Feature;
-import org.universAAL.middleware.deploymanager.uapp.model.FeaturesRoot;
 import org.universAAL.middleware.deploymanager.uapp.model.Part.PartRequirements;
 import org.universAAL.middleware.deploymanager.uapp.model.ReqType;
 import org.universAAL.ucc.model.usrv.AalUsrv;
-import org.universAAL.ucc.model.usrv.AalUsrv.Srv.Licenses;
-import org.universAAL.ucc.model.usrv.LicenseType;
 import org.universAAL.middleware.deploymanager.uapp.model.Part;
 //import org.universAAL.middleware.interfaces.mpa.model.Part;
-import org.universAAL.middleware.managers.api.InstallationResults;
-import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
@@ -58,9 +40,6 @@ import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.UccUI;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -75,10 +54,6 @@ import org.xml.sax.SAXException;
  */
 
 public class FrontendImpl implements IFrontend {
-
-	private final int BUFFER_SIZE = /* 4096 */153600;
-
-	private static final String FILENAME_SEARCH_TAG = "filename";
 
 	private static final String usrvLocalStore = System.getenv("systemdrive")
 			+ "/tempUsrvFiles/";
@@ -103,15 +78,14 @@ public class FrontendImpl implements IFrontend {
 		// downloads a usrv-file from the given download-uri
 		// TO be unmarked
 		System.err.println("[[FrontendImpl]] SessionKey: "+sessionkey+ " Service-Link: "+serviceLink+ " Service-ID: "+serviceId);
-		String usrvName = "";
+		
 		System.err.println("The service link from ustore: "+serviceLink);
 		
 		 try {
 		
-		 usrvName = downloadUsrvFile(serviceLink,
-		 /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv");
+			downloadUsrvFile(serviceLink, serviceId+".usrv");
 		 } catch (IOException e2) {
-		 e2.printStackTrace();
+			 e2.printStackTrace();
 		 }
 	
 		System.out.println("Using the usrfile:"+System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
@@ -126,7 +100,7 @@ public class FrontendImpl implements IFrontend {
 		 } catch (IOException e2) {
 		 e2.printStackTrace();
 		 }
-//		 System.err.println("The Service-ID: "+serviceId);
+
 		// Copy uapp files to C:/tempUsrvFiles/hwo_uapp/
 		 uappURI = createUAPPLocation(usrvLocalStore + "bin", serviceId+"_temp");
 		
@@ -145,7 +119,6 @@ public class FrontendImpl implements IFrontend {
 		 }
 		 
 		// parse uapp.config.xml
-		ArrayList<UAPPPart> apps = null;
 //		Get uapp.xml name out of the file extension
 		File f = new File(usrvLocalStore + serviceId+"_temp" + "/config");
 		File[] confi = f.listFiles();
@@ -156,7 +129,7 @@ public class FrontendImpl implements IFrontend {
 				System.err.println(configFileName);
 			}
 		}
-		apps = parseUappConfiguration(usrvLocalStore+serviceId+"_temp"+"/config/"+configFileName, serviceId);
+		parseUappConfiguration(usrvLocalStore+serviceId+"_temp"+"/config/"+configFileName, serviceId);
 		return true;
 //		 } else {
 //		 //TODO: SessionKey was not right, what todo?
@@ -464,27 +437,7 @@ public class FrontendImpl implements IFrontend {
 		return aal;
 	}
 
-	/**
-	 * Extracts a zip entry (file entry)
-	 * 
-	 * @param zipIn
-	 * @param filePath
-	 * @throws IOException
-	 */
-	 private void extractFile(ZipInputStream zipIn, String filePath)
-	 throws IOException {
-	 File f = new File(filePath);
 	
-	 BufferedOutputStream bos = new BufferedOutputStream(
-	 new FileOutputStream(filePath));
-	 byte[] bytesIn = new byte[BUFFER_SIZE];
-	 int read = 0;
-	 while ((read = zipIn.read(bytesIn)) != -1) {
-	 bos.write(bytesIn, 0, read);
-	 }
-	 bos.close();
-	
-	 }
 
 	private String createUAPPLocation(String path, String newPath) {
 		File pa = new File(path);
@@ -627,25 +580,6 @@ public class FrontendImpl implements IFrontend {
 
 	public static String getUserSession() {
 		return userSession;
-	}
-	
-	private String parseURL(String post) {
-		String url = "";
-		String[] lines = post.split("\n");
-		String[] content = lines[lines.length - 1].split("&");
-		for (int i = 0; i < content.length; i++) {
-//			if (content[i].startsWith(URL_SEARCH_TAG + "=")) {
-
-				url += content[i];
-				try {
-					url = URLDecoder.decode(url, "UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				return url;
-//			}
-		}
-		return null;
 	}
 
 }
