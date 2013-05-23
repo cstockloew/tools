@@ -81,13 +81,13 @@ public class FrontendImpl implements IFrontend {
 		
 		System.err.println("The service link from ustore: "+serviceLink);
 		
-		 try {
-		
-			downloadUsrvFile(serviceLink, serviceId+".usrv");
-		 } catch (IOException e2) {
-			 e2.printStackTrace();
-		 }
-	
+		if(serviceLink != null && !serviceLink.equals("")) {
+			try {
+				downloadUsrvFile(serviceLink, serviceId+".usrv");
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+		}
 		System.out.println("Using the usrfile:"+System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
 				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv"));
 		File temp = new File(System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
@@ -211,8 +211,8 @@ public class FrontendImpl implements IFrontend {
 				if(du.isSetContainerUnit()) {
 					//Karaf features
 					if(du.getContainerUnit().isSetKaraf()) {
-						System.err.println(du.getId());
-						System.err.println(du.getContainerUnit().getKaraf().getFeatures().getName());
+//						System.err.println(du.getId());
+//						System.err.println(du.getContainerUnit().getKaraf().getFeatures().getName());
 						for(Serializable so : du.getContainerUnit().getKaraf().getFeatures().getRepositoryOrFeature()) {
 							if(so instanceof Feature) {
 								Feature feat = (Feature)so;

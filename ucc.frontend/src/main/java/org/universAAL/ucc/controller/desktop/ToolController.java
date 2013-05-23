@@ -141,7 +141,7 @@ public class ToolController implements Button.ClickListener,
 			// IFrontend.installService()
 			IFrontend frontend = new FrontendImpl();
 			frontend.installService(
-					Activator.getSessionKey(), "28002",
+					Activator.getSessionKey(), "HWO_Service_withKarf",
 					"http://srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/StoreRetrieveServiceFile?langId=-1&catalogId=10001&storeId=10001&service-24501=24501&item-24001=24001&item-12001=12001&item-11503=11503");
 		}
 		if (event.getButton() == toolWin.getLogoutButton()) {
@@ -154,12 +154,10 @@ public class ToolController implements Button.ClickListener,
 				try {
 					DesktopController.web.getSocket().close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 			app.close();
-			// app.createLogin();
 		}
 		
 		if(event.getButton() == toolWin.getPersonButton()) {
