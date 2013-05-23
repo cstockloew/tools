@@ -142,4 +142,12 @@ public class WebConnector {
 		return null;
 	}
 
+	public ServerSocket getSocket() {
+		return socket;
+	}
+
+	public void setSocket(ServerSocket socket) {
+		this.socket = socket;
+	}
+  
 }

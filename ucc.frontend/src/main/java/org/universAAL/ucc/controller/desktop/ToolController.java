@@ -150,6 +150,14 @@ public class ToolController implements Button.ClickListener,
 			// app.getMainWindow().setContent(app.getVLog());
 			DesktopController.setCurrentPassword("");
 			DesktopController.setCurrentUser("");
+			if(!DesktopController.web.getSocket().isClosed()) {
+				try {
+					DesktopController.web.getSocket().close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			app.close();
 			// app.createLogin();
 		}

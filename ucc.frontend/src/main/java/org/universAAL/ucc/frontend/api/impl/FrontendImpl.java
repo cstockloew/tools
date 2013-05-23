@@ -157,9 +157,10 @@ public class FrontendImpl implements IFrontend {
 			}
 		}
 		apps = parseUappConfiguration(usrvLocalStore+serviceId+"_temp"+"/config/"+configFileName, serviceId);
-
+		return true;
 //		 } else {
 //		 //TODO: SessionKey was not right, what todo?
+//		return false;
 //		 }
 	}
 		return false;

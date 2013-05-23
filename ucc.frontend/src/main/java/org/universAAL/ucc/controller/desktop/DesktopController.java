@@ -52,6 +52,7 @@ public class DesktopController implements Button.ClickListener {
 	private static boolean admin;
 	private static String currentUser;
 	private static String currentPassword;
+	public static WebConnector web;
 
 	public DesktopController(UccUI app) {
 		base = "resources.ucc";
@@ -263,7 +264,7 @@ public class DesktopController implements Button.ClickListener {
 		main.removeComponent(app.getVLog());
 		main.setContent(app.createContent(this));
 		app.getMainWindow().showNotification(bundle.getString("login.success"),Notification.TYPE_HUMANIZED_MESSAGE);
-		WebConnector web = WebConnector.getInstance();
+		web = WebConnector.getInstance();
 		web.startListening();
 		
 	}
@@ -274,7 +275,7 @@ public class DesktopController implements Button.ClickListener {
 		main.removeComponent(app.getVLog());
 		main.setContent(app.createContent(this));
 		app.getMainWindow().showNotification(bundle.getString("login.success"),Notification.TYPE_HUMANIZED_MESSAGE);
-		WebConnector web = WebConnector.getInstance();
+		web = WebConnector.getInstance();
 		web.startListening();
 		
 	}
