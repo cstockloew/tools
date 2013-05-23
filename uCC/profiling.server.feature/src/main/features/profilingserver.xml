@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="universAAL-profilingserver-1.0.0" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+
+	<feature name="profilingserver" description="The profiling server for universAAL middleware 2.0"
+		version="1.0.0" resolver='(obr)'>		
+
+  		<feature>uAAL-MW</feature>   
+
+		<bundle start-level="90">mvn:org.openrdf.sesame/sesame-runtime-osgi/2.6.0</bundle>
+		<bundle start-level="90">wrap:mvn:jp.go.ipa/jgcl/1.0</bundle>
+		<bundle start-level="90">wrap:mvn:java3d/j3d-core/1.3.1</bundle>
+		<bundle start-level="90">wrap:mvn:java3d/vecmath/1.3.1</bundle>
+		
+		<bundle start-level="91">mvn:org.universAAL.ontology/ont.phWorld/1.3.2-SNAPSHOT</bundle>	
+		<bundle start-level="91">mvn:org.universAAL.ontology/ont.profile/1.3.3-SNAPSHOT</bundle>	
+   		<bundle start-level="91">mvn:org.universAAL.ontology/ont.che/1.3.2-SNAPSHOT</bundle>  
+		
+		<bundle start-level="93">mvn:org.universAAL.context/ctxt.che/1.3.3-SNAPSHOT</bundle>
+		<bundle start-level="93">mvn:org.universAAL.context/ctxt.prof.server/1.3.2-SNAPSHOT</bundle>
+		
+		
+	</feature>
+</features>

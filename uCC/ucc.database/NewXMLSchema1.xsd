@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="profiles" type="profiles"/>
+
+  <xs:complexType name="collectionValues">
+    <xs:sequence>
+      <xs:element name="values" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="string" type="stringValue"/>
+              <xs:element name="integer" type="integerValue"/>
+              <xs:element name="boolean" type="booleanValue"/>
+              <xs:element name="double" type="doubleValue"/>
+              <xs:element name="calendar" type="calendarValue"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
+      <xs:element name="multiselection" type="xs:boolean"/>
+      <xs:element name="required" type="xs:boolean"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="value_type" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="stringValue">
+    <xs:complexContent>
+      <xs:extension base="simpleObject">
+        <xs:sequence>
+          <xs:element name="defaultValue" type="xs:string" minOccurs="0"/>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="simpleObject">
+    <xs:sequence>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="id" type="xs:boolean"/>
+      <xs:element name="label" type="xs:string"/>
+      <xs:element name="required" type="xs:boolean"/>
+      <xs:element name="validator" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="integerValue">
+    <xs:complexContent>
+      <xs:extension base="simpleObject">
+        <xs:sequence>
+          <xs:element name="defaultValue" type="xs:int"/>
+          <xs:element name="value" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="booleanValue">
+    <xs:complexContent>
+      <xs:extension base="simpleObject">
+        <xs:sequence>
+          <xs:element name="value" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="doubleValue">
+    <xs:complexContent>
+      <xs:extension base="simpleObject">
+        <xs:sequence>
+          <xs:element name="defaultValue" type="xs:double"/>
+          <xs:element name="value" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="calendarValue">
+    <xs:complexContent>
+      <xs:extension base="simpleObject">
+        <xs:sequence>
+          <xs:element name="value" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="enumObject">
+    <xs:sequence>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="label" type="xs:string" minOccurs="0"/>
+      <xs:element name="required" type="xs:boolean"/>
+      <xs:element name="selectedValue" type="xs:string" minOccurs="0"/>
+      <xs:element name="treeParentNode" type="xs:boolean"/>
+      <xs:element name="values" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="ontologyInstance">
+    <xs:sequence>
+      <xs:element name="subprofiles" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="subprofile" type="subprofile" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="subprofile">
+    <xs:sequence>
+      <xs:element name="collections" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="collection" type="collectionValues" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="enumObjects" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="enumObject" type="enumObject" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="simpleObjects" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="string" type="stringValue"/>
+              <xs:element name="integer" type="integerValue"/>
+              <xs:element name="boolean" type="booleanValue"/>
+              <xs:element name="double" type="doubleValue"/>
+              <xs:element name="calendar" type="calendarValue"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="profiles">
+    <xs:sequence>
+      <xs:element name="ontologyInstances" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ontologyInstance" type="ontologyInstance" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

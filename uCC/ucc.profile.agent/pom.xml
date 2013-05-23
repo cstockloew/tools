@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.universAAL.tools.ucc</groupId>
+		<artifactId>ucc.pom</artifactId>
+		<version>1.2.2-SNAPSHOT</version>
+		<relativePath>../ucc.pom/pom.xml</relativePath>
+	</parent>
+	<artifactId>ucc.profile.agent</artifactId>
+	<version>2.0.1-SNAPSHOT</version>
+	<packaging>bundle</packaging>
+	<name>Profile Agent</name>
+	<description>This is a profile agent for connecting uCC to CHE/Profiling server.</description>
+	<properties>
+		<universaal.version>1.3.0</universaal.version>
+	</properties>
+	<build>
+		<pluginManagement />
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-Name>${project.name}</Bundle-Name>
+						<Bundle-Activator>org.universAAL.ucc.profile.agent.osgi.Activator</Bundle-Activator>
+						<Bundle-Description>${project.description}</Bundle-Description>
+						<Export-Package>org.universAAL.ucc.profile.agent</Export-Package>
+						<Import-Package>*</Import-Package>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+     	 	<groupId>org.ops4j.pax.logging</groupId>
+     		 <artifactId>pax-logging-api</artifactId>
+     	 	<version>1.6.2</version>
+   	 	</dependency>
+   	 	<dependency>
+      		<groupId>org.ops4j.pax.logging</groupId>
+      		<artifactId>pax-logging-service</artifactId>
+      		<version>1.6.2</version>
+    	</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.osgi.core</artifactId>
+		</dependency>
+		
+ 	<dependency>
+      <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.data.representation.osgi</artifactId>
+      <version>1.3.2-SNAPSHOT</version>
+    </dependency>
+<!--     <dependency>
+      <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.bus.context.osgi</artifactId>
+      <version>1.3.2-SNAPSHOT</version>
+    </dependency>  -->
+    <dependency>
+      <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.bus.service.osgi</artifactId>
+      <version>1.3.2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.middleware</groupId>
+      <artifactId>mw.data.serialization.osgi</artifactId>
+      <version>1.3.2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.support</groupId>
+      <artifactId>uAAL.utils</artifactId>
+      <version>1.3.2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.ontology</groupId>
+      <artifactId>ont.device</artifactId>
+      <version>1.3.2-SNAPSHOT</version>
+    </dependency>
+<!--     <dependency>
+      <groupId>org.universAAL.ontology</groupId>
+      <artifactId>ont.furniture</artifactId>
+      <version>1.3.2-SNAPSHOT</version>
+    </dependency> -->
+    <dependency>
+      <groupId>org.universAAL.ontology</groupId>
+      <artifactId>ont.profile.userid</artifactId>
+       <version>1.3.2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.universAAL.ontology</groupId>
+      <artifactId>ont.che</artifactId>
+      <version>1.3.2-SNAPSHOT</version>
+    </dependency>
+    <!-- dependency>
+      <groupId>org.universAAL.ontology</groupId>
+      <artifactId>ont.profile.health</artifactId>
+      <version>1.3.3-SNAPSHOT</version>
+    </dependency -->
+		
+	</dependencies>
+</project>
