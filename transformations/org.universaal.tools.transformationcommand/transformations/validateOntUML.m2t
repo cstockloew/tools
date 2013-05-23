@@ -94,6 +94,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
     			// 2. Creates the Property List for each class
 				// checking for no empty props or undefined props types
 				PropertyList = entity.getPropertyList()
+				
 				self.checkEmpty(PropertyList)
 				self.checkUnity(PropertyList)
 				
@@ -112,7 +113,6 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		var name:string = elementProps.get('name')
 	  	var type:string = elementProps.get('type')
 		var parent:string = elementProps.get('parent')
-		
 		if(self.allowedCharlist()){
 			
 			if(name.size()>0){
@@ -347,7 +347,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		   what.startsWith("9")) verbose("*"+parent+what+": First "+type+" character's name cannot be a number\n",true,false)
 		
 		// only alphanumeric chars plus the undescore allowed
-		what = what.replace("[A-za-z0-9_ ]","")
+		what = what.replace("[A-za-z0-9_]","")
 		return (what.size()==0)
 	}
 	
