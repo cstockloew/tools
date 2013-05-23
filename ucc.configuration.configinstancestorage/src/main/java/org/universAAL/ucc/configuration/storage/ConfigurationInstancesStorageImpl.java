@@ -12,6 +12,7 @@ import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import org.universAAL.ucc.configuration.model.configurationinstances.ConfigurationInstance;
 import org.universAAL.ucc.configuration.storage.exceptions.NoConfigurationFoundException;
 import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
@@ -43,6 +44,7 @@ public class ConfigurationInstancesStorageImpl implements ConfigurationInstances
 	 */
 	public ConfigurationInstancesStorageImpl() {
 		logger = LoggerFactory.getLogger(this.getClass());
+		
 		basedir = System.getenv("systemdrive")+"/tmpConfigFiles/";
 		checkFolderOrCreate(basedir);
 		instances = new HashMap<String, ConfigurationInstance>();
