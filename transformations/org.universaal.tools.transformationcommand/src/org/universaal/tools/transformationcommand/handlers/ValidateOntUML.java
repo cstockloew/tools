@@ -65,17 +65,16 @@ public class ValidateOntUML extends TransformationHandler {
 		return SOURCE_FILE_SUFFIX;
 	}
 	
+
 	public void executionMessage(String arg0, String arg1) {
-		// Send MofScript Message to Error Log	
-		if ((arg0 == null || arg0.equals("") || arg0.equals("println")) || (arg0.equalsIgnoreCase("print"))) {
-			
-			arg1 = arg1.trim();
-			this.getStream().println(arg1);
-			
-			if(!arg1.startsWith("#") && arg1.startsWith("***")){
-				Activator.getDefault().getLog().log(new Status(IStatus.ERROR, "org.universaal.tools.transformationcommand", arg1));
+		if(!arg1.trim().startsWith("#")){
+			if(arg1.trim().startsWith("*")){
+				Activator.getDefault().getLog().log(new Status(IStatus.ERROR, "org.universaal.tools.transformationcommand", arg1.substring(1).trim()));
+			} else if(arg1.trim().startsWith("!")){
+				Activator.getDefault().getLog().log(new Status(IStatus.WARNING, "org.universaal.tools.transformationcommand", arg1.substring(1).trim()));
+			} else {
+				this.getStream().print(arg1);
 			}
 		}
 	}
-	
 }
