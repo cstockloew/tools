@@ -24,7 +24,8 @@ Bundle-ClassPath: .,
  lib/iri.jar,
  lib/jena.jar,
  lib/pellet-core.jar,
- lib/pellet-jena.jar
+ lib/pellet-jena.jar,
+ lib/concurrent.jar
 Bundle-Vendor: CERTH-IBBR
 Import-Package: org.eclipse.emf.common.notify,
  org.eclipse.emf.common.util,

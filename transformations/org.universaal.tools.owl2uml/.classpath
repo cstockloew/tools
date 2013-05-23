@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/concurrent.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/arq.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/iri.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jena.jar"/>
