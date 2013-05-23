@@ -32,6 +32,7 @@ extends FieldEditorPreferencePage
 implements IWorkbenchPreferencePage {
 
 	StringFieldEditor javaPathName;
+	StringFieldEditor testPathName;
 	StringFieldEditor rootPathName;
 	BooleanFieldEditor absoluteBoolean;
 
@@ -52,10 +53,12 @@ implements IWorkbenchPreferencePage {
 		absoluteBoolean = new BooleanFieldEditor(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN, "Use absolute path.", getFieldEditorParent());
 		rootPathName = new StringFieldEditor(PreferenceConstants.P_UML2JAVA_ROOTPATH, "Please enter the desired root output path (blank for project root)", getFieldEditorParent());
 		javaPathName = new StringFieldEditor(PreferenceConstants.P_UML2JAVA_JAVAPATH, "Please enter the relative subdirectory within the root for Java files.", getFieldEditorParent());
+		testPathName = new StringFieldEditor(PreferenceConstants.P_UML2JAVA_TESTPATH, "Please enter the relative subdirectory within the root for Java test files.", getFieldEditorParent());
 
 		addField(absoluteBoolean);
 		addField(rootPathName);
 		addField(javaPathName);
+		addField(testPathName);
 
 
 	}

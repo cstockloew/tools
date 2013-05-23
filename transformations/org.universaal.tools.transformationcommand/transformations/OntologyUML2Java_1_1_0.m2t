@@ -28,6 +28,7 @@ texttransformation OntologyUML2Java_1_1_0 (in uml:"http://www.eclipse.org/uml2/3
   var projectInfo: Hashtable
   var importedModels: Hashtable
   var javaBasePath:String
+  var testBasePath:String
   var javaOWLSupport:String
   var datatypeImportMap:Hashtable 
   
@@ -48,6 +49,7 @@ texttransformation OntologyUML2Java_1_1_0 (in uml:"http://www.eclipse.org/uml2/3
   	var ontologyNameList:Hashtable
    
     javaBasePath = getEnv("org.universaal.tools.transformationcommand.javadir")
+    testBasePath = getEnv("org.universaal.tools.transformationcommand.testdir")
     javaOWLSupport = getEnv("org.universaal.tools.transformationcommand.javaowlsupport")
     
     if (self.hasStereotype("owlOntology")) {
@@ -122,6 +124,10 @@ texttransformation OntologyUML2Java_1_1_0 (in uml:"http://www.eclipse.org/uml2/3
 
 	StdOut.println("Handling activator of :" + self.name) 
    	self.generateActivator(ontologyNameList)
+
+	StdOut.println("Generating test:" + self.name) 
+   	self.generateTest()
+ 
  
 	//StdOut.println("Generating the POM file")
 	//create the POM file for the project
@@ -208,6 +214,28 @@ public class Activator implements BundleActivator {
 '	
 
   }
+
+
+  uml.Model::generateTest() {
+    file( testBasePath + "/org/universAAL/ontology/test/ArtifactIntegrationTest.java" )
+"package org.universAAL.ontology.test;
+
+import org.universAAL.itests.IntegrationTest;
+
+/**
+ * Here developer's of this artifact should code their integration tests.
+ * 
+ */
+public class ArtifactIntegrationTest extends IntegrationTest {
+
+    public void testComposite() {
+	logAllBundles();
+    }
+
+}
+"    
+  }
+
 
   uml.Package::generatMainOntologyClassStaticImports() {
 'import org.universAAL.middleware.owl.IntRestriction;

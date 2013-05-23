@@ -21,14 +21,12 @@ package org.universaal.tools.transformationcommand.handlers;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.transformationcommand.activator.Activator;
-import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
 
 public class TransformOntUML2Java extends TransformationHandler {
 	//static final String TRANSFORMATION_FILENAME = "transformations/ontUML2JavaV2.m2t";
@@ -63,29 +61,6 @@ public class TransformOntUML2Java extends TransformationHandler {
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	
-	@Override
-	protected String getRootDirectoryFromPreferences() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String directory = store.getString(PreferenceConstants.P_UML2JAVA_ROOTPATH);
-		return directory;
-	}
-
-	@Override
-	protected String getJavaDirectoryFromPreferences() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String directory = store.getString(PreferenceConstants.P_UML2JAVA_JAVAPATH);
-		return directory;
-	}
-
-	
-	@Override
-	protected boolean getAbsolutePathBooleanFromPreferences() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		boolean absolutePath = store.getBoolean(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN);
-		return absolutePath;
 	}
 
 	@Override

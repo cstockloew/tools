@@ -18,9 +18,7 @@
  */
 package org.universaal.tools.transformationcommand.handlers;
 
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.universaal.tools.transformationcommand.activator.Activator;
-import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
 
 public class TransformServiceModelUML2Java extends TransformationHandler {
 	static final String TRANSFORMATION_FILENAME = "transformations/serviceModelUML2Java.m2t";
@@ -29,28 +27,6 @@ public class TransformServiceModelUML2Java extends TransformationHandler {
 
 	public TransformServiceModelUML2Java() {
 		setFileAndBundleName(TRANSFORMATION_FILENAME, THIS_BUNDLE_NAME);
-	}
-
-	@Override
-	protected String getRootDirectoryFromPreferences() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String directory = store.getString(PreferenceConstants.P_UML2JAVA_ROOTPATH);
-		return directory;
-	}
-
-	@Override
-	protected String getJavaDirectoryFromPreferences() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String directory = store.getString(PreferenceConstants.P_UML2JAVA_JAVAPATH);
-		return directory;
-	}
-
-	
-	@Override
-	protected boolean getAbsolutePathBooleanFromPreferences() {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		boolean absolutePath = store.getBoolean(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN);
-		return absolutePath;
 	}
 
 	@Override

@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.m2e.core.MavenPlugin;
@@ -63,6 +64,8 @@ import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.universaal.tools.transformationcommand.activator.Activator;
+import org.universaal.tools.transformationcommand.preferences.PreferenceConstants;
 
 
 /**
@@ -269,6 +272,8 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 		execMgr.setRootDirectory(findRootDirectory(project));		
 		System.setProperty("org.universaal.tools.transformationcommand.javadir", 
 				getTrimmedJavaDirectoryFromPreferences() );
+		System.setProperty("org.universaal.tools.transformationcommand.testdir", 
+				getTrimmedTestDirectoryFromPreferences() );
 		System.setProperty("org.universaal.tools.transformationcommand.javaowlsupport", 
 				generateOWLSupport);
 
@@ -354,10 +359,40 @@ public abstract class TransformationHandler extends AbstractHandler implements E
 			return javaDir.substring(1);
 		return javaDir;		
 	}
+	private String getTrimmedTestDirectoryFromPreferences() {
+		// Strip away any leading "/" in directory name
+		String javaDir = getTestDirectoryFromPreferences();
+		if (javaDir.charAt(0)=='/')
+			return javaDir.substring(1);
+		return javaDir;		
+	}
 	
-	protected abstract String getRootDirectoryFromPreferences();
-	protected abstract String getJavaDirectoryFromPreferences();
-	protected abstract boolean getAbsolutePathBooleanFromPreferences();
+	// The following methods can be overriden in subclasses if different preferences and directories are wanted
+
+	protected String getRootDirectoryFromPreferences() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		String directory = store.getString(PreferenceConstants.P_UML2JAVA_ROOTPATH);
+		return directory;
+	}
+
+	protected String getJavaDirectoryFromPreferences() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		String directory = store.getString(PreferenceConstants.P_UML2JAVA_JAVAPATH);
+		return directory;
+	}
+
+	protected boolean getAbsolutePathBooleanFromPreferences() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		boolean absolutePath = store.getBoolean(PreferenceConstants.P_UML2JAVA_ABSOLUTE_BOOLEAN);
+		return absolutePath;
+	}	
+	
+	protected String getTestDirectoryFromPreferences() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		String directory = store.getString(PreferenceConstants.P_UML2JAVA_TESTPATH);
+		return directory;
+	}
+
 	protected abstract boolean dualMetamodel();
 	protected abstract String getSourceFileSuffix();
 	
