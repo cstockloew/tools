@@ -9,29 +9,21 @@ import org.universaal.tools.modelling.ontology.wizard.wizards.OntologyProjectMod
 
 public interface IOntologyProjectGenerator {
     /**
-     * Identifies MW version 0.3.0-SNAPSHOT.
-     */
-    public static final int VER_030=0;
-    /**
-     * Identifies MW version 1.0.0.
-     */
-    public static final int VER_100=1;
-    /**
      * Identifies MW version 1.1.0.
      */
-    public static final int VER_110=2;
+    public static final int VER_110=0;
     /**
      * Identifies MW version 1.2.0.
      */
-    public static final int VER_120=3;
+    public static final int VER_120=1;
     /**
      * Identifies MW version 1.3.0.
      */
-    public static final int VER_130=4;
+    public static final int VER_130=2;
     /**
      * Identifies MW version 2.0.0.
      */
-    public static final int VER_200=5;
+    public static final int VER_200=3;
     
     /**
      * Get the MW version identifier.
@@ -41,6 +33,12 @@ public interface IOntologyProjectGenerator {
      */
     public int getMWVersionNumber();
     
+    /**
+     * Get the string representing the Maven version number for the middleware version
+     * 
+     * @return String containing the middleware version
+     */
+    public String getMWVersionName();    
     
 	/**
 	 * Create a Maven POM file set up for the content of the ontology project

@@ -11,7 +11,7 @@ public class OntologyProjectGeneratorMW200 extends OntologyProjectGeneratorMW130
 	}
 
 	static Dependency[] dependencies = new Dependency[] {
-		dep("org.apache.felix", "org.osgi.core", "1.0.1"),
+/*		dep("org.apache.felix", "org.osgi.core", "1.0.1"),
 		dep("org.universAAL.middleware", "mw.data.serialization.osgi", "1.3.2-SNAPSHOT"),
 		dep("org.universAAL.middleware", "mw.data.representation.osgi", "1.3.2-SNAPSHOT"),
 		dep("org.universAAL.middleware", "mw.bus.model.osgi", "1.3.2-SNAPSHOT"),
@@ -23,6 +23,20 @@ public class OntologyProjectGeneratorMW200 extends OntologyProjectGeneratorMW130
 		dep("org.universAAL.ontology", "ont.phWorld", "1.3.2-SNAPSHOT"),
 		dep("org.universAAL.ontology", "ont.profile", "1.3.2-SNAPSHOT"),
 		dep("org.coode.owlapi", "owlapi", "3.3")
+*/		
+		dep("org.universAAL.support", "itests"),
+		dep("org.apache.felix", "org.osgi.core"),
+		dep("org.universAAL.middleware", "mw.data.serialization.core"),
+		dep("org.universAAL.middleware", "mw.data.representation.core"),
+		//dep("org.universAAL.middleware", "mw.bus.model", "1.1.0"),
+		dep("org.universAAL.middleware", "mw.container.xfaces.core"),
+		//dep("org.universAAL.middleware", "mw.container.osgi"),
+		dep("org.universAAL.middleware", "mw.bus.service.core"),
+		//dep("org.universAAL.middleware", "mw.bus.context", "1.1.0"),
+		//dep("org.universAAL.middleware", "mw.bus.ui", "1.1.0"),
+		dep("org.universAAL.ontology", "ont.phWorld"),
+		//dep("org.universAAL.ontology", "ont.profile", "1.1.0"),
+		dep("org.coode.owlapi", "owlapi", "3.3")		
 	};	
 
 	

@@ -12,10 +12,6 @@ public class OntologyProjectGeneratorFactory {
      */
     public static IOntologyProjectGenerator getMWVersion(int versionIndex){
 	switch (versionIndex) {
-	case  IOntologyProjectGenerator.VER_030:
-	    return new OntologyProjectGeneratorMW110();  // No real support for vesions before 1.1
-	case IOntologyProjectGenerator.VER_100:
-	    return new OntologyProjectGeneratorMW110();
 	case IOntologyProjectGenerator.VER_110:
 	    return new OntologyProjectGeneratorMW110();
 	case IOntologyProjectGenerator.VER_120:
@@ -38,10 +34,6 @@ public class OntologyProjectGeneratorFactory {
      */
     public static String getVersonName(int version){
 	switch (version) {
-	case IOntologyProjectGenerator.VER_030:
-	    return "0.3.0-SNAPSHOT";
-	case IOntologyProjectGenerator.VER_100:
-	    return "1.0.0";
 	case IOntologyProjectGenerator.VER_110:
 	    return "1.1.0";
 	case IOntologyProjectGenerator.VER_120:
@@ -49,9 +41,9 @@ public class OntologyProjectGeneratorFactory {
 	case IOntologyProjectGenerator.VER_130:
 	    return "1.3.0";
 	case IOntologyProjectGenerator.VER_200:
-	    return "2.0.0 Preview";
+	    return "1.3.2-SNAPSHOT";
 	default:
-	    return "2.0.0 Preview";
+	    return "1.3.2-SNAPSHOT";
 	}
     }
 
@@ -63,8 +55,6 @@ public class OntologyProjectGeneratorFactory {
      */
     public static String[] getAllVersonNames() {
 	return new String[] { 
-		getVersonName(IOntologyProjectGenerator.VER_030),
-		getVersonName(IOntologyProjectGenerator.VER_100), 
 		getVersonName(IOntologyProjectGenerator.VER_110),
 		getVersonName(IOntologyProjectGenerator.VER_120), 
 		getVersonName(IOntologyProjectGenerator.VER_130),

@@ -3,6 +3,7 @@ package org.universaal.tools.modelling.ontology.wizard.versions;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
+import org.apache.maven.model.Parent;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.Repository;
 import org.apache.maven.model.RepositoryPolicy;
@@ -28,21 +29,31 @@ public class OntologyProjectGeneratorMW110 implements IOntologyProjectGenerator 
 	public int getMWVersionNumber() {
 		return IOntologyProjectGenerator.VER_110;
 	}
+	
+
+	@Override
+	public String getMWVersionName() {
+		return OntologyProjectGeneratorFactory.getVersonName(getMWVersionNumber());
+	}	
 
 	@Override
 	public void createPOM(OntologyProjectModel ontModel, IProject project,
 			ProjectImportConfiguration configuration, IProgressMonitor monitor)
 			throws CoreException {
 		this.createPOMImpl(ontModel, project, configuration, monitor);
-		// TODO: modify for version
 	}
 	
 	protected static Dependency dep(String groupId, String artifactId, String version) {
 		Dependency d = new Dependency();
 		d.setGroupId(groupId);
 		d.setArtifactId(artifactId);
-		d.setVersion(version);
+		if (version != null)
+			d.setVersion(version);
 		return d;
+	}	
+	
+	protected static Dependency dep(String groupId, String artifactId) {
+		return dep(groupId, artifactId, null);
 	}	
 	
 	public void createPOMImpl(OntologyProjectModel ontModel,
@@ -52,6 +63,10 @@ public class OntologyProjectGeneratorMW110 implements IOntologyProjectGenerator 
 		// Here we use the maven plugin to create and shape the
 		// project
 		Model mavenModel = ontModel.getMavenModel();
+		
+		mavenModel.setParent(createParent(ontModel));
+		mavenModel.setPackaging("bundle");
+		
 		Dependency[] deps = getDependencies();
 		for (Dependency dep : deps) {
 			mavenModel.addDependency(dep);
@@ -74,7 +89,16 @@ public class OntologyProjectGeneratorMW110 implements IOntologyProjectGenerator 
 	}
 	
 	
-	static protected Build createBuild(OntologyProjectModel ontologyProjectModel) {
+	protected Parent createParent(OntologyProjectModel ontologyProjectModel) {
+		Parent parent = new Parent();
+		parent.setGroupId("org.universAAL.ontology");
+		parent.setArtifactId("ont.pom");
+		parent.setVersion(getMWVersionName());
+		parent.setRelativePath("../ont.pom");
+		return parent;
+	}
+	
+	protected Build createBuild(OntologyProjectModel ontologyProjectModel) {
 		Build build = new Build();
 		Plugin plugin = new Plugin();
 		plugin.setGroupId("org.apache.felix");
@@ -117,17 +141,18 @@ public class OntologyProjectGeneratorMW110 implements IOntologyProjectGenerator 
 	}
 	
 	static Dependency[] dependencies = new Dependency[] {
-		dep("org.apache.felix", "org.osgi.core", "1.0.1"),
-		dep("org.universAAL.middleware", "mw.data.serialization", "1.1.0"),
-		dep("org.universAAL.middleware", "mw.data.representation", "1.1.0"),
-		dep("org.universAAL.middleware", "mw.bus.model", "1.1.0"),
-		dep("org.universAAL.middleware", "mw.container.xfaces", "1.1.0"),
-		dep("org.universAAL.middleware", "mw.container.osgi","1.1.0" ),
-		dep("org.universAAL.middleware", "mw.bus.service","1.1.0" ),
-		dep("org.universAAL.middleware", "mw.bus.context", "1.1.0"),
-		dep("org.universAAL.middleware", "mw.bus.ui", "1.1.0"),
-		dep("org.universAAL.ontology", "ont.phWorld", "1.1.0"),
-		dep("org.universAAL.ontology", "ont.profile", "1.1.0"),
+		dep("org.universAAL.support", "itests"),
+		dep("org.apache.felix", "org.osgi.core"),
+		dep("org.universAAL.middleware", "mw.data.serialization"),
+		dep("org.universAAL.middleware", "mw.data.representation"),
+		//dep("org.universAAL.middleware", "mw.bus.model", "1.1.0"),
+		dep("org.universAAL.middleware", "mw.container.xfaces"),
+		//dep("org.universAAL.middleware", "mw.container.osgi"),
+		dep("org.universAAL.middleware", "mw.bus.service"),
+		//dep("org.universAAL.middleware", "mw.bus.context", "1.1.0"),
+		//dep("org.universAAL.middleware", "mw.bus.ui", "1.1.0"),
+		dep("org.universAAL.ontology", "ont.phWorld"),
+		//dep("org.universAAL.ontology", "ont.profile", "1.1.0"),
 		dep("org.coode.owlapi", "owlapi", "3.3")
 	};	
 
@@ -163,5 +188,6 @@ public class OntologyProjectGeneratorMW110 implements IOntologyProjectGenerator 
 		URI fromUri = URI.createPlatformPluginURI("/" + Activator.PLUGIN_ID + "/" + MODEL_DIR + "/" + getModelVersionDirectory() + "/" + DI_FILE, true);
 		OntologyUMLArtefactFactory.createUMLArtefacts(model, fromUri);
 	}
+
 
 }
