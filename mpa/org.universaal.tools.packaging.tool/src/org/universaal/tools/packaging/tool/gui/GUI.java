@@ -189,28 +189,33 @@ public class GUI extends WizardMod {
 
 	private void callUSTORE(String pathToUAPPFile){
 
-		if (MessageDialog.openConfirm(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Confirm", "Do you want to upload the configuration to uStore?")) 
-		{
-			try {
-				IHandlerService handlerService = (IHandlerService) (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
-
-				ICommandService commandService = (ICommandService) (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
-				Command showElement = commandService.getCommand("org.universaal.tools.uStoreClienteapplication.actions.PublishAction");
-
-				Map<String, Object> params = new HashMap<String, Object>();
-				params.put("org.universaal.tools.uStoreClienteapplication.filePathParameter", pathToUAPPFile);
-				ParameterizedCommand paramShowElement = ParameterizedCommand.generateCommand(showElement, params);
-
-				ExecutionEvent execEvent = handlerService.createExecutionEvent(paramShowElement, new Event());
+		try{
+			if (MessageDialog.openConfirm(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Confirm", "Do you want to upload the configuration to uStore?")) 
+			{
 				try {
-					showElement.executeWithChecks(execEvent);
+					IHandlerService handlerService = (IHandlerService) (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
+
+					ICommandService commandService = (ICommandService) (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
+					Command showElement = commandService.getCommand("org.universaal.tools.uStoreClienteapplication.actions.PublishAction");
+
+					Map<String, Object> params = new HashMap<String, Object>();
+					params.put("org.universaal.tools.uStoreClienteapplication.filePathParameter", pathToUAPPFile);
+					ParameterizedCommand paramShowElement = ParameterizedCommand.generateCommand(showElement, params);
+
+					ExecutionEvent execEvent = handlerService.createExecutionEvent(paramShowElement, new Event());
+					try {
+						showElement.executeWithChecks(execEvent);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}	
+			}	
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 
 	public int getPartsCount(){
