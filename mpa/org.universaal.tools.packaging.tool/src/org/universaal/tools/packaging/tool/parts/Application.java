@@ -9,6 +9,7 @@ public class Application {
 	public static final String defaultString = "";
 	public static final String defaultFile = "";
 	public static final String defaultVersion = "major.minor.micro.build";
+	public static final String file_prefix = "file://../license/";
 
 	private App application;
 	private ApplicationCapabilities appCapabilities;

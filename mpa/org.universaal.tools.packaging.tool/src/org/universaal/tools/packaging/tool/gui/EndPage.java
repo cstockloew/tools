@@ -27,7 +27,9 @@ public class EndPage extends PageImpl {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		Label end = new Label(container, SWT.NULL);
-		end.setText("Congratulations, you are a single step away from creating your Application, just press the Finish button to generate it!");		
+		end.setText("Congratulations, you have packaged your universAAL application in the UAPP container, press Finish to save it." +
+				"\nIf you also want to upload it automatically to the uStore please follow the next wizard." +
+				"\nIf not, the file will be available at the location you chosed initially.");		
 
 		FontData[] fD = end.getFont().getFontData();
 		fD[0].setStyle(SWT.BOLD);

@@ -14,7 +14,7 @@ public class SingleRequirement {
 	public SingleRequirement(String requirementName, String requirementValue){
 		this.requirementName = requirementName;
 		this.requirementValue = requirementValue;
-		this.requirementCriteria = LogicalCriteria.EQUAL;
+		this.requirementCriteria = LogicalCriteria.equal;
 	}
 
 	public String getRequirementName() {
@@ -41,7 +41,7 @@ public class SingleRequirement {
 
 		if(other == this)
 			return true;
-		
+
 		if(other instanceof SingleRequirement){
 
 			SingleRequirement req = (SingleRequirement)other;

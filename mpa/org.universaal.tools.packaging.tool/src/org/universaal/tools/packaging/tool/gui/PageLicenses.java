@@ -18,10 +18,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
-import org.universaal.tools.packaging.tool.parts.App.LicenseSet;
-import org.universaal.tools.packaging.tool.parts.App.SLA;
 import org.universaal.tools.packaging.tool.parts.License;
 import org.universaal.tools.packaging.tool.parts.LicenseCategory;
+import org.universaal.tools.packaging.tool.parts.LicenseSet;
+import org.universaal.tools.packaging.tool.parts.SLA;
 import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.UriV;
@@ -61,7 +61,7 @@ public class PageLicenses extends PageImpl {
 		//gd.horizontalSpan = 2;
 
 		List<LicenseSet> ls = app.getApplication().getLicenses();
-		LicenseSet l = app.getApplication().new LicenseSet();		
+		LicenseSet l = new LicenseSet();		
 
 		lic = new License();
 
@@ -69,7 +69,7 @@ public class PageLicenses extends PageImpl {
 		ls.add(l);
 
 		if(!onlyLicense){
-			sla = app.getApplication().new SLA();
+			sla = new SLA();
 
 			Label l1 = new Label(container, SWT.NULL);
 			slaLink = new Text(container, SWT.BORDER | SWT.SINGLE);

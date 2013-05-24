@@ -1,6 +1,5 @@
 package org.universaal.tools.packaging.tool.parts;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class App {
 
 	public List<LicenseSet> getLicenses() {
 		if(licenses == null)
-			licenses = new ArrayList<App.LicenseSet>();
+			licenses = new ArrayList<LicenseSet>();
 		return licenses;
 	}
 
@@ -103,117 +102,4 @@ public class App {
 
 		return r;
 	}
-
-	public class SLA {
-
-		private String name;		
-		private URI link;
-
-		public SLA(){
-
-			name = Application.defaultString;
-			link = URI.create(Application.defaultURL);
-		}
-
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public URI getLink() {
-			return link;
-		}
-		public void setLink(URI link) {
-			this.link = link;
-		}
-
-		public String getXML(){
-			
-			String link_string = "";
-			if(link.getScheme() != null && link.getScheme().equalsIgnoreCase("file")){
-				String[] splitted = link.toASCIIString().split("/"); 
-				link_string = splitted[splitted.length-1];
-			}
-			else
-				link_string = link.toASCIIString();
-			
-			return "<sla><name>"+name+"</name><link>"+link_string+"</link></sla>";
-		}
-	}
-
-	public class LicenseSet{
-
-		private SLA sla;
-		private List<License> licenseList;
-
-		public LicenseSet(){
-			sla = new SLA();
-		}
-
-		public SLA getSla() {
-			return sla;
-		}
-		public void setSla(SLA sla) {
-			this.sla = sla;
-		}
-		public List<License> getLicenseList() {
-			if(licenseList == null)
-				licenseList = new ArrayList<License>();
-			return licenseList;
-		}
-
-		public String getXML(){
-
-			String r = "";
-			r = r.concat("<licenses>");
-			for(int i = 0; i< licenseList.size(); i++)
-				r = r.concat("<license>"+licenseList.get(i).getXML()+"</license>");
-			r = r.concat(sla.getXML());
-			r = r.concat("</licenses>");
-
-			return r;
-		}
-	}
-
-	/*
-	 * <xs:element name="app">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="name" type="xs:string">
-							</xs:element>
-							<xs:element name="version" type="uapp:versionType">
-							</xs:element>
-							<xs:element name="appId" type="xs:string">
-							</xs:element>
-							<xs:element name="description" type="xs:string">
-							</xs:element>
-							<xs:element name="multipart" type="xs:boolean">
-							</xs:element>
-							<xs:element name="tags" type="xs:string">
-							</xs:element>
-							<xs:element name="applicationProvider" type="uapp:contactType">
-							</xs:element>
-							<xs:element maxOccurs="unbounded" minOccurs="0" name="licenses">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element maxOccurs="unbounded" minOccurs="0"
-											name="license" type="uapp:licenseType" />
-										<xs:element minOccurs="0" name="sla">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="name" type="xs:string" />
-													<xs:element name="link" type="xs:anyURI" />
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="applicationProfile" type="xs:string">
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-	 */
 }

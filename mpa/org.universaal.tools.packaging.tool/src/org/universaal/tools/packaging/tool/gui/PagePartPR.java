@@ -85,7 +85,7 @@ public class PagePartPR extends PageImpl {
 				vals.add(list.get(i).getSingleRequirement().getRequirementValue().toString());
 				logicalCriteria.add(list.get(i).getSingleRequirement().getRequirementCriteria().toString());
 
-				logicalRelations.add(LogicalRelation.NONE.toString());
+				logicalRelations.add(LogicalRelation.none.toString());
 			}
 			else{
 				reqs.add(list.get(i).getRequirementGroup().getReq1().getRequirementName().toString());
@@ -104,12 +104,12 @@ public class PagePartPR extends PageImpl {
 			for(int i = reqs.size(); i < 5; i++){
 				reqs.add("");
 				vals.add("");
-				logicalCriteria.add(LogicalCriteria.EQUAL.toString());
+				logicalCriteria.add(LogicalCriteria.equal.toString());
 			}
 
 		if(logicalRelations.isEmpty() || logicalRelations.size() < 5)
 			for(int i = logicalRelations.size(); i < 5; i++)
-				logicalRelations.add(LogicalRelation.NONE.toString());
+				logicalRelations.add(LogicalRelation.none.toString());
 
 		Label l1 = new Label(container, SWT.NULL);
 		l1.setText("Requirement name");
@@ -154,7 +154,7 @@ public class PagePartPR extends PageImpl {
 		c1 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c1.add(LogicalCriteria.values()[i].toString());
-		c1.setText(LogicalCriteria.EQUAL.toString());
+		c1.setText(LogicalCriteria.equal.toString());
 		c1.setLayoutData(gd);
 
 		val1 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -169,7 +169,7 @@ public class PagePartPR extends PageImpl {
 		l4.setText("Relation between rule #"+(1+offset)+" and #"+(2+offset));
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c12.add(LogicalRelation.values()[i].toString());
-		c12.setText(LogicalRelation.NONE.toString());
+		c12.setText(LogicalRelation.none.toString());
 		c12.setLayoutData(gd);
 
 		Label empty1 = new Label(container, SWT.NULL);
@@ -184,7 +184,7 @@ public class PagePartPR extends PageImpl {
 		c2 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c2.add(LogicalCriteria.values()[i].toString());
-		c2.setText(LogicalCriteria.EQUAL.toString());
+		c2.setText(LogicalCriteria.equal.toString());
 		c2.setLayoutData(gd);
 
 		val2 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -199,7 +199,7 @@ public class PagePartPR extends PageImpl {
 		l5.setText("Relation between rule #"+(2+offset)+" and #"+(3+offset));
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c23.add(LogicalRelation.values()[i].toString());
-		c23.setText(LogicalRelation.NONE.toString());
+		c23.setText(LogicalRelation.none.toString());
 		c23.setLayoutData(gd);
 
 		Label empty2 = new Label(container, SWT.NULL);
@@ -214,7 +214,7 @@ public class PagePartPR extends PageImpl {
 		c3 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c3.add(LogicalCriteria.values()[i].toString());
-		c3.setText(LogicalCriteria.EQUAL.toString());
+		c3.setText(LogicalCriteria.equal.toString());
 		c3.setLayoutData(gd);
 
 		val3 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -229,7 +229,7 @@ public class PagePartPR extends PageImpl {
 		l6.setText("Relation between rule #"+(3+offset)+" and #"+(4+offset));
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c34.add(LogicalRelation.values()[i].toString());
-		c34.setText(LogicalRelation.NONE.toString());
+		c34.setText(LogicalRelation.none.toString());
 		c34.setLayoutData(gd);
 
 		Label empty3 = new Label(container, SWT.NULL);
@@ -245,7 +245,7 @@ public class PagePartPR extends PageImpl {
 		c4 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c4.add(LogicalCriteria.values()[i].toString());
-		c4.setText(LogicalCriteria.EQUAL.toString());
+		c4.setText(LogicalCriteria.equal.toString());
 		c4.setLayoutData(gd);
 
 		val4 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -260,7 +260,7 @@ public class PagePartPR extends PageImpl {
 		l7.setText("Relation between rule #"+(4+offset)+" and #"+(5+offset));
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c45.add(LogicalRelation.values()[i].toString());
-		c45.setText(LogicalRelation.NONE.toString());
+		c45.setText(LogicalRelation.none.toString());
 		c45.setLayoutData(gd);
 
 		Label empty4 = new Label(container, SWT.NULL);
@@ -275,7 +275,7 @@ public class PagePartPR extends PageImpl {
 		c5 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c5.add(LogicalCriteria.values()[i].toString());
-		c5.setText(LogicalCriteria.EQUAL.toString());
+		c5.setText(LogicalCriteria.equal.toString());
 		c5.setLayoutData(gd);
 
 		val5 = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -289,7 +289,7 @@ public class PagePartPR extends PageImpl {
 
 		for(int i = 0; i < LogicalRelation.values().length; i++)
 			c56.add(LogicalRelation.values()[i].toString());
-		c56.setText(LogicalRelation.NONE.toString());
+		c56.setText(LogicalRelation.none.toString());
 		c56.setLayoutData(gd);
 		final Button b = new Button(container, SWT.PUSH);
 		b.setText("Click to add more requirements");
@@ -342,39 +342,39 @@ public class PagePartPR extends PageImpl {
 
 		if(offset == 0){
 			// first page of requirements
-			if(c12.getText().equals(LogicalRelation.NONE.toString())){
+			if(c12.getText().equals(LogicalRelation.none.toString())){
 				if(isValid(req1, val1, c1))
 					single(req1, val1, LogicalCriteria.valueOf(c1.getText()));
-				if(isValid(req2, val2, c2) && c23.getText().equals(LogicalRelation.NONE.toString()))
+				if(isValid(req2, val2, c2) && c23.getText().equals(LogicalRelation.none.toString()))
 					single(req2, val2, LogicalCriteria.valueOf(c2.getText()));
 			}			
 			else{
 				if(isValid(req1, val1, c1) && isValid(req2, val2, c2) && isValid(c12))
 					group(LogicalRelation.valueOf(c12.getText()), req1, val1, LogicalCriteria.valueOf(c1.getText()), req2, val2, LogicalCriteria.valueOf(c2.getText()));
 			}
-			if(c23.getText().equals(LogicalRelation.NONE.toString())){
+			if(c23.getText().equals(LogicalRelation.none.toString())){
 				//single(req2, val2, LogicalCriteria.valueOf(c2.getText()));
-				if(isValid(req3, val3, c3) && c34.getText().equals(LogicalRelation.NONE.toString()))
+				if(isValid(req3, val3, c3) && c34.getText().equals(LogicalRelation.none.toString()))
 					single(req3, val3, LogicalCriteria.valueOf(c3.getText()));
 			}			
 			else{
 				if(isValid(req2, val2, c2) && isValid(req3,  val3, c3) && isValid(c23))
 					group(LogicalRelation.valueOf(c23.getText()), req2, val2, LogicalCriteria.valueOf(c2.getText()), req3, val3, LogicalCriteria.valueOf(c3.getText()));
 			}
-			if(c34.getText().equals(LogicalRelation.NONE.toString())){
+			if(c34.getText().equals(LogicalRelation.none.toString())){
 				//single(req2, val2, LogicalCriteria.valueOf(c2.getText()));
-				if(isValid(req4, val4, c4) && c45.getText().equals(LogicalRelation.NONE.toString()))
+				if(isValid(req4, val4, c4) && c45.getText().equals(LogicalRelation.none.toString()))
 					single(req4, val4, LogicalCriteria.valueOf(c4.getText()));
 			}			
 			else{
 				if(isValid(req3, val3, c3) && isValid(req4, val4, c4) && isValid(c34))
 					group(LogicalRelation.valueOf(c34.getText()), req3, val3, LogicalCriteria.valueOf(c3.getText()), req4, val4, LogicalCriteria.valueOf(c4.getText()));
 			}
-			if(c45.getText().equals(LogicalRelation.NONE.toString())){
+			if(c45.getText().equals(LogicalRelation.none.toString())){
 				//single(req2, val2, LogicalCriteria.valueOf(c2.getText()));
 				if(isValid(req5, val5, c5) && 
 						(!moreRequirementsInNextPage || // no more pages
-								(c56.getText().equals(LogicalRelation.NONE.toString()) && moreRequirementsInNextPage))) //new page and NONE
+								(c56.getText().equals(LogicalRelation.none.toString()) && moreRequirementsInNextPage))) //new page and NONE
 					single(req5, val5, LogicalCriteria.valueOf(c5.getText()));
 			}			
 			else{
@@ -384,7 +384,7 @@ public class PagePartPR extends PageImpl {
 		}
 		else{
 			// new page of requirements
-			if(c01.getText().equals(LogicalRelation.NONE.toString())){
+			if(c01.getText().equals(LogicalRelation.none.toString())){
 				// nothing to do - already added as single requirement in previous page	
 			}			
 			else{
@@ -396,39 +396,39 @@ public class PagePartPR extends PageImpl {
 							req1.getText(), val1.getText(), LogicalCriteria.valueOf(c1.getText()));
 
 			}
-			if(c12.getText().equals(LogicalRelation.NONE.toString())){
-				if(isValid(req1, val1, c1) && c01.getText().equals(LogicalRelation.NONE.toString()))
+			if(c12.getText().equals(LogicalRelation.none.toString())){
+				if(isValid(req1, val1, c1) && c01.getText().equals(LogicalRelation.none.toString()))
 					single(req1, val1, LogicalCriteria.valueOf(c1.getText()));
-				if(isValid(req2, val2, c2) && c23.getText().equals(LogicalRelation.NONE.toString()))
+				if(isValid(req2, val2, c2) && c23.getText().equals(LogicalRelation.none.toString()))
 					single(req2, val2, LogicalCriteria.valueOf(c2.getText()));
 			}			
 			else{
 				if(isValid(req1, val1, c1) && isValid(req2, val2, c2) && isValid(c12))
 					group(LogicalRelation.valueOf(c12.getText()), req1, val1, LogicalCriteria.valueOf(c1.getText()), req2, val2, LogicalCriteria.valueOf(c2.getText()));
 			}
-			if(c23.getText().equals(LogicalRelation.NONE.toString())){
+			if(c23.getText().equals(LogicalRelation.none.toString())){
 				//single(req2, val2, LogicalCriteria.valueOf(c2.getText()));
-				if(isValid(req3, val3, c3) && c34.getText().equals(LogicalRelation.NONE.toString()))
+				if(isValid(req3, val3, c3) && c34.getText().equals(LogicalRelation.none.toString()))
 					single(req3, val3, LogicalCriteria.valueOf(c3.getText()));
 			}			
 			else{
 				if(isValid(req2, val2, c2) && isValid(req3,  val3, c3) && isValid(c23))
 					group(LogicalRelation.valueOf(c23.getText()), req2, val2, LogicalCriteria.valueOf(c2.getText()), req3, val3, LogicalCriteria.valueOf(c3.getText()));
 			}
-			if(c34.getText().equals(LogicalRelation.NONE.toString())){
+			if(c34.getText().equals(LogicalRelation.none.toString())){
 				//single(req2, val2, LogicalCriteria.valueOf(c2.getText()));
-				if(isValid(req4, val4, c4) && c45.getText().equals(LogicalRelation.NONE.toString()))
+				if(isValid(req4, val4, c4) && c45.getText().equals(LogicalRelation.none.toString()))
 					single(req4, val4, LogicalCriteria.valueOf(c4.getText()));
 			}			
 			else{
 				if(isValid(req3, val3, c3) && isValid(req4, val4, c4) && isValid(c34))
 					group(LogicalRelation.valueOf(c34.getText()), req3, val3, LogicalCriteria.valueOf(c3.getText()), req4, val4, LogicalCriteria.valueOf(c4.getText()));
 			}
-			if(c45.getText().equals(LogicalRelation.NONE.toString())){
+			if(c45.getText().equals(LogicalRelation.none.toString())){
 				//single(req2, val2, LogicalCriteria.valueOf(c2.getText()));
 				if(isValid(req5, val5, c5) && 
 						(!moreRequirementsInNextPage || // no more pages
-								(c56.getText().equals(LogicalRelation.NONE.toString()) && moreRequirementsInNextPage))) //new page and NONE
+								(c56.getText().equals(LogicalRelation.none.toString()) && moreRequirementsInNextPage))) //new page and NONE
 					single(req5, val5, LogicalCriteria.valueOf(c5.getText()));
 			}			
 			else{
@@ -511,16 +511,14 @@ public class PagePartPR extends PageImpl {
 
 						if(current.getKey().equals(r)){
 							current.setValue(REQ_STATE.ALREADY_IN);
-							//System.out.println("ALREADY_IN");
 							return true;
 						}
 					}					
-
 				}
 			}
 		}
 
-		this.thisReqsPage.put(r, REQ_STATE.NEW); //System.out.println("NEW");
+		this.thisReqsPage.put(r, REQ_STATE.NEW);
 		return false;
 	}
 
@@ -530,7 +528,7 @@ public class PagePartPR extends PageImpl {
 		Iterator<Entry<Requirement, REQ_STATE>> it = entryset.iterator();
 		while(it.hasNext()){
 			Entry<Requirement, REQ_STATE> current = it.next();
-			current.setValue(REQ_STATE.PREVIOUS); //System.out.println("PREVIOUS");
+			current.setValue(REQ_STATE.PREVIOUS); 
 		}
 	}
 
@@ -541,7 +539,7 @@ public class PagePartPR extends PageImpl {
 		while(it.hasNext()){
 			Entry<Requirement, REQ_STATE> current = it.next();
 			if(current.getValue() == REQ_STATE.PREVIOUS){
-				current.setValue(REQ_STATE.TO_BE_DELETED); //System.out.println("TO_BE_DELETED");
+				current.setValue(REQ_STATE.TO_BE_DELETED); 
 			}
 		}
 	}
@@ -580,7 +578,7 @@ public class PagePartPR extends PageImpl {
 			this.thisReqsPage.remove(removeMe.get(i));
 	}
 
-	private void debugPrint(String s){
+	/*private void debugPrint(String s){
 
 		System.out.println("\ndebugPrint "+s);
 
@@ -591,7 +589,7 @@ public class PagePartPR extends PageImpl {
 
 			System.out.println(""+current.getKey().getXML()+" "+current.getValue());
 		}
-	}
+	}*/
 
 	private enum REQ_STATE{
 		NEW, PREVIOUS, ALREADY_IN, TO_BE_DELETED
