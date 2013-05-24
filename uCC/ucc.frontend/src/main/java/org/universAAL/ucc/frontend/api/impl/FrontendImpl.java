@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 
 import java.math.BigInteger;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.SecureRandom;
@@ -65,14 +66,16 @@ public class FrontendImpl implements IFrontend {
 
 	public boolean installService(String sessionkey, String serviceId,
 			String serviceLink) {
+		if(UccUI.getInstance() == null) {
+			System.err.println("UCC is null so not running");
 		// Opens a browser window and loads the ucc site
-		// Desktop desk = Desktop.getDesktop();
-		// try {
-		// desk.browse(new URI("http://127.0.0.1:8080/ucc"));
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-
+		 Desktop desk = Desktop.getDesktop();
+		 try {
+		 desk.browse(new URI("http://127.0.0.1:8080/ucc"));
+		 } catch (Exception e) {
+		 e.printStackTrace();
+		 }
+		}
 		// check for sessionkey
 		// if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
