@@ -1,5 +1,7 @@
 package org.universAAL.ucc.windows;
 
+import java.util.ResourceBundle;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.HorizontalLayout;
@@ -16,9 +18,13 @@ public class AccountWindow extends Window {
 	private Button save;
 	private Button reset;
 	private CheckBox check;
+	private String base;
+	private ResourceBundle bundle;
 	
 	public AccountWindow() {
-		super("Create new Account");
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
+		setCaption(bundle.getString("create.new.account"));
 		setWidth("375px");
 		setHeight("300px");
 		center();
@@ -26,18 +32,18 @@ public class AccountWindow extends Window {
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSizeFull();
 		vl.setMargin(true);
-		user = new TextField("Username:");
-		pwd = new PasswordField("Password:");
-		confirm = new PasswordField("Confirm Password:");
-		check = new CheckBox("Save");
+		user = new TextField(bundle.getString("user.name"));
+		pwd = new PasswordField(bundle.getString("pwd.label"));
+		confirm = new PasswordField(bundle.getString("confirm.pwd"));
+		check = new CheckBox(bundle.getString("save.button"));
 		vl.addComponent(user);
 		vl.addComponent(pwd);
 		vl.addComponent(confirm);
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setMargin(true);
 		hl.setSpacing(true);
-		save = new Button("Save");
-		reset = new Button("Reset");
+		save = new Button(bundle.getString("save.button"));
+		reset = new Button(bundle.getString("reset.button"));
 		hl.addComponent(save);
 		hl.addComponent(reset);
 		vl.addComponent(check);

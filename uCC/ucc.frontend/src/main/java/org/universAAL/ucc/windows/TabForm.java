@@ -2,6 +2,7 @@ package org.universAAL.ucc.windows;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ResourceBundle;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
@@ -16,8 +17,12 @@ public class TabForm extends Form{
 	private Button deleteButton;
 	private String header;
 	private String id;
+	private ResourceBundle bundle;
+	private String base;
 	
 	public TabForm() {
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
 		setSizeFull();
 		setImmediate(true);
 		setWriteThrough(false);
@@ -28,12 +33,12 @@ public class TabForm extends Form{
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
 		hl.setMargin(true);
-		saveButton = new Button("Save", this, "commit");
+		saveButton = new Button(bundle.getString("save.button"), this, "commit");
 		saveButton.setVisible(false);
-		resetButton = new Button("Reset", this, "discard");
+		resetButton = new Button(bundle.getString("reset.button"), this, "discard");
 		resetButton.setVisible(false);
-		editButton = new Button("Edit");
-		deleteButton = new Button("Delete");
+		editButton = new Button(bundle.getString("edit.button"));
+		deleteButton = new Button(bundle.getString("delete.button"));
 		hl.addComponent(editButton);
 		hl.addComponent(saveButton);
 		//hl.addComponent(resetButton);

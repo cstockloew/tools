@@ -2,6 +2,7 @@ package org.universAAL.ucc.windows;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBException;
 
@@ -18,8 +19,12 @@ public class HumansWindow extends Window {
 	private HorizontalSplitPanel split;
 	private UccUI app;
 	private String flatId;
+	private ResourceBundle bundle;
+	private String base;
 	
 	public HumansWindow(UccUI app) throws JAXBException, IOException, ParseException {
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
 		StringBuffer breadcrump = new StringBuffer();
 		int counter = 0;
 		for(Window w : app.getMainWindow().getChildWindows()) {
@@ -27,7 +32,7 @@ public class HumansWindow extends Window {
 			if(counter == app.getMainWindow().getChildWindows().size())
 				breadcrump.append(w.getCaption()+" > ");
 		}		
-		breadcrump.append("Persons");
+		breadcrump.append(bundle.getString("persons.title"));
 		setCaption(breadcrump.toString());
 //		this.flatId = flat;
 		this.app = app;

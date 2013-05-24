@@ -2,6 +2,7 @@ package org.universAAL.ucc.windows;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBException;
 
@@ -26,9 +27,13 @@ public class RoomsWindow extends Window {
 	private UccUI app;
 	private String flatId;
 	private RoomsWindowController rwc;
+	private ResourceBundle bundle;
+	private String base;
 	
 	public RoomsWindow(/*String flat,*/ UccUI app) throws JAXBException, IOException, ParseException {
 		//super("Rooms of "+flat);
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
 		StringBuffer breadcrump = new StringBuffer();
 		int counter = 0;
 		for(Window w : app.getMainWindow().getChildWindows()) {
@@ -37,7 +42,7 @@ public class RoomsWindow extends Window {
 				breadcrump.append(w.getCaption()+" > ");
 		}
 		
-		breadcrump.append("Rooms of with Hardware");
+		breadcrump.append(bundle.getString("rooms.view"));
 		setCaption(breadcrump.toString());
 //		this.flatId = flat;
 		center();

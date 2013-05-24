@@ -3,6 +3,7 @@ package org.universAAL.ucc.windows;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBException;
 
@@ -24,10 +25,14 @@ public class HardwareWindow extends Window implements Window.CloseListener{
 	private UccUI app;
 	private String flatId;
 	private HardwareWindowController hwc;
+	private String base;
+	private ResourceBundle bundle;
 	
 	public HardwareWindow(UccUI app) throws JAXBException, IOException, ParseException {
 		//super("Hardware of "+flat);
 //		this.flatId = flat;
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
 		this.app = app;
 		StringBuffer breadcrump = new StringBuffer();
 		center();
@@ -37,7 +42,7 @@ public class HardwareWindow extends Window implements Window.CloseListener{
 			if(counter == app.getMainWindow().getChildWindows().size())
 				breadcrump.append(w.getCaption()+" > ");
 		}
-		breadcrump.append("Hardware");
+		breadcrump.append(bundle.getString("hardware.title"));
 		setCaption(breadcrump.toString());
 		setWidth(500, Sizeable.UNITS_PIXELS);
 		setHeight(365, Sizeable.UNITS_PIXELS);
