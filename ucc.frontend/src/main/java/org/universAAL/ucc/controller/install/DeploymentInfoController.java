@@ -289,9 +289,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 					
 				}
 				app.getMainWindow().removeWindow(win);
-//				File f = new File(System.getenv("systemdrive")
-//						+ "/tempUsrvFiles/");
-//				deleteFiles(f);
+				File f = new File(System.getenv("systemdrive")
+						+ "/tempUsrvFiles/");
+				deleteFiles(f);
 
 			}
 			}
@@ -306,25 +306,25 @@ public class DeploymentInfoController implements Button.ClickListener,
 			app.getMainWindow().showNotification(
 					bundle.getString("break.note"),
 					Notification.TYPE_HUMANIZED_MESSAGE);
-//			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
-//			deleteFiles(f);
+			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+			deleteFiles(f);
 		}
 	}
 
-//	private void deleteFiles(File path) {
-//		File[] files = path.listFiles();
-//		for (File del : files) {
-//			if (del.isDirectory()
-//					&& !del.getPath().substring(del.getPath().indexOf(".") + 1)
-//							.equals("usrv")) {
-//				deleteFiles(del);
-//			}
-//			if (!del.getPath().substring(del.getPath().indexOf(".") + 1)
-//					.equals("usrv"))
-//				del.delete();
-//		}
-//
-//	}
+	private void deleteFiles(File path) {
+		File[] files = path.listFiles();
+		for (File del : files) {
+			if (del.isDirectory()
+					&& !del.getPath().substring(del.getPath().indexOf(".") + 1)
+							.equals("usrv")) {
+				deleteFiles(del);
+			}
+			if (!del.getPath().substring(del.getPath().indexOf(".") + 1)
+					.equals("usrv"))
+				del.delete();
+		}
+
+	}
 
 	public void valueChange(ValueChangeEvent event) {
 		for (UAPPPart ua : aal.getUaapList()) {
