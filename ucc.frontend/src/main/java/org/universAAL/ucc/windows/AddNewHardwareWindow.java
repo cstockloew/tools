@@ -2,6 +2,7 @@ package org.universAAL.ucc.windows;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBException;
 
@@ -17,9 +18,13 @@ public class AddNewHardwareWindow extends Window {
 	private VerticalLayout layout;
 	private HardwareWindow hWindow;
 	private String flatId;
+	private String base;
+	private ResourceBundle bundle;
 	
 	public AddNewHardwareWindow(HardwareWindow win, RoomsWindow rWin, UccUI app) throws JAXBException, IOException, ParseException {
-		super("Add new Hardware");
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
+		setCaption(bundle.getString("add.new.hw"));
 		this.app = app;
 		this.hWindow = win;
 		center();

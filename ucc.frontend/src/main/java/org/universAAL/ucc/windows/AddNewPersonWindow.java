@@ -2,6 +2,7 @@ package org.universAAL.ucc.windows;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBException;
 
@@ -17,9 +18,13 @@ public class AddNewPersonWindow extends Window {
 	private VerticalLayout layout;
 	private HumansWindow hWindow;
 	private String flatId;
+	private String base;
+	private ResourceBundle bundle;
 	
 	public AddNewPersonWindow(HumansWindow win, UccUI app) throws JAXBException, IOException, ParseException {
-		super("Add new Person");
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
+		setCaption(bundle.getString("add.new.person"));
 		this.app = app;
 		this.hWindow = win;
 		center();
