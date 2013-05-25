@@ -27,8 +27,8 @@ import org.universAAL.commerce.ustore.tools.UAALException_Exception;
 public class UstoreUtil {
 	private BundleContext bc;
 	private ServiceReference ref;
-	private UserAccountDB db;
-	private Preferences pref;
+//	private UserAccountDB db;
+//	private Preferences pref;
 	private Setup setup;
 	private OnlineStoreManager client;
 	private static final QName SERVICE_NAME = new QName(
