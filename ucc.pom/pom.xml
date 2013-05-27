@@ -8,7 +8,7 @@
 	<version>1.2.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>universAAL Control Center</name>
-	<description>A tool to install, manage and configure applications for universAAL an a local maschine.</description>
+	<description>A tool to install, manage and configure applications for universAAL at a local maschine.</description>
 
 	<modules>
 		<module>../ucc.model</module>
