@@ -64,7 +64,7 @@ public class ToolWindow extends Window {
 		uninstallButton = new Button(res.getString("uninstall.usrv"));
 		uninstallButton.setDescription(res.getString("uninstall.button"));
 		uninstallButton.setIcon(new ThemeResource("img/Schluessel50x52.png"));
-		uninstallButton.setEnabled(false);
+//		uninstallButton.setEnabled(false);
 		hl.addComponent(uninstallButton);
 		vl.addComponent(hl);
 		vl.setComponentAlignment(hl, Alignment.TOP_LEFT);
@@ -156,6 +156,7 @@ public class ToolWindow extends Window {
 		setContent(vl);
 		ToolController tc = new ToolController(app, this);
 		installButton.addListener(tc);
+		uninstallButton.addListener(tc);
 		uStoreButton.addListener(tc);
 		openAAL.addListener(tc);
 		logoutButton.addListener(tc);
@@ -164,6 +165,14 @@ public class ToolWindow extends Window {
 		editHW.addListener(tc);
 		editPerson.addListener(tc);
 		editUC.addListener(tc);
+	}
+
+	public Button getUninstallButton() {
+		return uninstallButton;
+	}
+
+	public void setUninstallButton(Button uninstallButton) {
+		this.uninstallButton = uninstallButton;
 	}
 
 	public Label getInstallLabel() {

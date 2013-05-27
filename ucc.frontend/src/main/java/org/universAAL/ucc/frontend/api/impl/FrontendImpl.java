@@ -17,6 +17,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -29,6 +30,8 @@ import org.universAAL.middleware.deploymanager.uapp.model.Part.PartRequirements;
 import org.universAAL.middleware.deploymanager.uapp.model.ReqType;
 import org.universAAL.ucc.model.usrv.AalUsrv;
 import org.universAAL.middleware.deploymanager.uapp.model.Part;
+import org.universAAL.middleware.managers.api.InstallationResults;
+import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 //import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
@@ -40,6 +43,8 @@ import org.universAAL.ucc.database.parser.ParserService;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.LicenceWindow;
+import org.universAAL.ucc.windows.NoConfigurationWindow;
+import org.universAAL.ucc.windows.NotificationWindow;
 import org.universAAL.ucc.windows.UccUI;
 import org.xml.sax.SAXException;
 
@@ -60,9 +65,14 @@ public class FrontendImpl implements IFrontend {
 			+ "/tempUsrvFiles/";
 
 	private static String uappURI;
-
 	private static String userSession;
+	private String base;
+	private ResourceBundle bundle;
 	
+	public FrontendImpl() {
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
+	}
 
 	public boolean installService(String sessionkey, String serviceId,
 			String serviceLink) {
@@ -483,11 +493,17 @@ public class FrontendImpl implements IFrontend {
 		List<String> uappList = sm.getInstalledApps(serviceId);
 		for (String del : uappList) {
 			// Later uncomment this
-			// InstallationResults result =
-			// Activator.getDeinstaller().requestToUninstall(serviceId, del);
-			// if(result.equals(InstallationResults.SUCCESS)) {
-			// Activator.getReg().unregisterService(serviceId);
-			// }
+			 InstallationResultsDetails result =
+			 Activator.getDeinstaller().requestToUninstall(serviceId, del);
+			 if(result.getGlobalResult().toString().equals(InstallationResults.SUCCESS)) {
+				 Activator.getReg().unregisterService(serviceId);
+			 } else if(result.getGlobalResult().toString().equals(InstallationResults.MISSING_PEER)){
+				 NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("uninstall.failure")+"<br>Error: Missing peer");
+				 UccUI.getInstance().getMainWindow().addWindow(nw);
+			 } else {
+				 NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("uninstall.failure"));
+				 UccUI.getInstance().getMainWindow().addWindow(nw);
+			 }
 		}
 
 	}

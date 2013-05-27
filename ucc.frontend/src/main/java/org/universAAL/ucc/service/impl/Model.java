@@ -18,7 +18,7 @@ public class Model implements IServiceModel {
 
 	private IServiceRegistration srvReg;
 	private IServiceManagement srvMan;
-	public final static String SERVICEFILENAME = "services.xml";
+	public final static String SERVICEFILENAME = "file:///../services.xml";
 	private static Document doc;
 
 	public Model() {
