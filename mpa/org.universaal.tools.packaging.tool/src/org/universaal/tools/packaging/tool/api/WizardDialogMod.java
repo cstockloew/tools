@@ -41,6 +41,7 @@ public class WizardDialogMod extends WizardDialog {
 
 	public WizardDialogMod(Shell parentShell, IWizard newWizard) {
 		super(parentShell, newWizard);
+		super.setHelpAvailable(false);
 	}
 
 	@Override

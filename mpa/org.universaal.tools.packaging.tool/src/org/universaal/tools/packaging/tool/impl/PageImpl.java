@@ -122,6 +122,10 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 
 	public void setArtifact(IProject p){}
 
+	public void setDialogHelpAvailable(boolean v){
+		this.setDialogHelpAvailable(v);
+	}
+	
 	public abstract class QL implements KeyListener{
 
 		public void keyPressed(KeyEvent e) {

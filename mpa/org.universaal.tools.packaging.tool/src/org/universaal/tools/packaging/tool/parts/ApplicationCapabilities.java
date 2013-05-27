@@ -3,27 +3,37 @@ package org.universaal.tools.packaging.tool.parts;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import org.universaal.tools.packaging.tool.parts.Capability.Mandatory;
-import org.universaal.tools.packaging.tool.parts.Capability.Optional;
-
 public class ApplicationCapabilities {
 
 	private Properties capabilities;
 
 	public ApplicationCapabilities(){
+
 		capabilities = new Properties();
 
-		Mandatory[] mandatory = Capability.Mandatory.values();
-		for(int i = 0; i < mandatory.length; i++){
-			Capability c = new Capability(mandatory[i].toString(), Application.defaultString);
-			capabilities.put(c.getName(), c.getValue());
-		}
+		//		Mandatory[] mandatory = Capability.Mandatory.values();
+		//		for(int i = 0; i < mandatory.length; i++){
+		//			Capability c = new Capability(mandatory[i].toString(), Application.defaultString);
+		//			capabilities.put(c.getName(), c.getValue());
+		//		}
+		//
+		//		Optional[] optional = Capability.Optional.values();
+		//		for(int i = 0; i < optional.length; i++){
+		//			Capability c = new Capability(optional[i].toString(), Application.defaultString);
+		//			capabilities.put(c.getName(), c.getValue());
+		//		}
 
-		Optional[] optional = Capability.Optional.values();
-		for(int i = 0; i < optional.length; i++){
-			Capability c = new Capability(optional[i].toString(), Application.defaultString);
-			capabilities.put(c.getName(), c.getValue());
-		}
+		capabilities.put(Capability.MANDATORY_TARGET_SPACE, "");
+		capabilities.put(Capability.MANDATORY_TARGET_SPACE_VERSION, "");
+		capabilities.put(Capability.MANDATORY_MW_VERSION, "");
+		capabilities.put(Capability.MANDATORY_ONTOLOGIES, "");
+		capabilities.put(Capability.MANDATORY_TARGET_CONTAINER_NAME, "");
+		capabilities.put(Capability.MANDATORY_TARGET_CONTAINER_VERSION, "");
+		capabilities.put(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL, "");
+		capabilities.put(Capability.OPTIONAL_OS, "");
+		capabilities.put(Capability.OPTIONAL_PLATFORM, "");
+		capabilities.put(Capability.OPTIONAL_DEVICE_FEATURES_AUDIO, "");
+		capabilities.put(Capability.OPTIONAL_DEVICE_FEATURES_VISUAL, "");
 	}
 
 	public Properties getCapabilities() {

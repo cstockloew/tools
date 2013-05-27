@@ -5,9 +5,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
-import org.universaal.tools.packaging.tool.parts.Capability.Mandatory;
-import org.universaal.tools.packaging.tool.parts.Capability.Optional;
-
 public class Part {
 
 	private String id; // unique
@@ -21,17 +18,29 @@ public class Part {
 		this.id = id;
 
 		partCapabilities = new Properties();
-		Mandatory[] mandatory = Capability.Mandatory.values();
-		for(int i = 0; i < mandatory.length; i++){
-			Capability c = new Capability(mandatory[i].toString(), Application.defaultString);
-			partCapabilities.put(c.getName(), c.getValue());
-		}
+		//		Mandatory[] mandatory = Capability.Mandatory.values();
+		//		for(int i = 0; i < mandatory.length; i++){
+		//			Capability c = new Capability(mandatory[i].toString(), Application.defaultString);
+		//			partCapabilities.put(c.getName(), c.getValue());
+		//		}
+		//
+		//		Optional[] optional = Capability.Optional.values();
+		//		for(int i = 0; i < optional.length; i++){
+		//			Capability c = new Capability(optional[i].toString(), Application.defaultString);
+		//			partCapabilities.put(c.getName(), c.getValue());
+		//		}
 
-		Optional[] optional = Capability.Optional.values();
-		for(int i = 0; i < optional.length; i++){
-			Capability c = new Capability(optional[i].toString(), Application.defaultString);
-			partCapabilities.put(c.getName(), c.getValue());
-		}
+		partCapabilities.put(Capability.MANDATORY_TARGET_SPACE, "");
+		partCapabilities.put(Capability.MANDATORY_TARGET_SPACE_VERSION, "");
+		partCapabilities.put(Capability.MANDATORY_MW_VERSION, "");
+		partCapabilities.put(Capability.MANDATORY_ONTOLOGIES, "");
+		partCapabilities.put(Capability.MANDATORY_TARGET_CONTAINER_NAME, "");
+		partCapabilities.put(Capability.MANDATORY_TARGET_CONTAINER_VERSION, "");
+		partCapabilities.put(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL, "");
+		partCapabilities.put(Capability.OPTIONAL_OS, "");
+		partCapabilities.put(Capability.OPTIONAL_PLATFORM, "");
+		partCapabilities.put(Capability.OPTIONAL_DEVICE_FEATURES_AUDIO, "");
+		partCapabilities.put(Capability.OPTIONAL_DEVICE_FEATURES_VISUAL, "");
 	}
 
 	public String getId() {

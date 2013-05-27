@@ -58,14 +58,14 @@ public class PagePartPC extends PageImpl {
 		}
 		mandatory.add(targetSpace);
 		l1.setText("* Target Space");
-		targetSpace.setText(capabilities.getProperty(Capability.Mandatory.TARGET_SPACE.toString()));
+		targetSpace.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_SPACE));
 		targetSpace.setLayoutData(gd);	
 
 		Label l2 = new Label(container, SWT.NULL);
 		targetSpaceVersion = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetSpaceVersion);
 		l2.setText("* Target Space Version");
-		targetSpaceVersion.setText(capabilities.getProperty(Capability.Mandatory.TARGET_SPACE_VERSION.toString()));			
+		targetSpaceVersion.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_SPACE_VERSION));			
 		targetSpaceVersion.addVerifyListener(new IntegerV());
 		targetSpaceVersion.setLayoutData(gd);	
 
@@ -75,14 +75,14 @@ public class PagePartPC extends PageImpl {
 		l3.setText("* Middleware Version");
 		for(int i = 0; i < MiddlewareVersion.getMWversion().length; i++)
 			mw_version.add(MiddlewareVersion.getMWversion()[i]);
-		mw_version.setText(capabilities.getProperty(Capability.Mandatory.MW_VERSION.toString()));			
+		mw_version.setText(capabilities.getProperty(Capability.MANDATORY_MW_VERSION));			
 		mw_version.setLayoutData(gd);	
 
 		Label l4 = new Label(container, SWT.NULL);
 		targetOntologies = new Text(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(targetOntologies);
 		l4.setText("Ontologies, comma separated");
-		targetOntologies.setText(capabilities.getProperty(Capability.Mandatory.ONTOLOGIES.toString()));			
+		targetOntologies.setText(capabilities.getProperty(Capability.MANDATORY_ONTOLOGIES));			
 		targetOntologies.addVerifyListener(new AlphabeticV());
 		targetOntologies.setLayoutData(gd);	
 
@@ -92,14 +92,14 @@ public class PagePartPC extends PageImpl {
 		l5.setText("* Target Container Name");
 		for(int i = 0; i < Container.values().length; i++)
 			targetContainerName.add(Container.values()[i].toString());
-		targetContainerName.setText(capabilities.getProperty(Capability.Mandatory.TARGET_SPACE_VERSION.toString()));			
+		targetContainerName.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_CONTAINER_NAME));			
 		targetContainerName.setLayoutData(gd);	
 
 		Label l6 = new Label(container, SWT.NULL);
 		targetContainerVersion = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetContainerVersion);
 		l6.setText("* Target Container Version");
-		targetContainerVersion.setText(capabilities.getProperty(Capability.Mandatory.TARGET_CONTAINER_VERSION.toString()));			
+		targetContainerVersion.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_CONTAINER_VERSION));			
 		targetContainerVersion.addVerifyListener(new IntegerV());
 		targetContainerVersion.setLayoutData(gd);	
 
@@ -107,7 +107,7 @@ public class PagePartPC extends PageImpl {
 		targetDeploymentTool = new Text(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetDeploymentTool);
 		l7.setText("* Target Deployment Tool");
-		targetDeploymentTool.setText(capabilities.getProperty(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString()));			
+		targetDeploymentTool.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL));			
 		targetDeploymentTool.addVerifyListener(new AlphabeticV());
 		final ToolTip t = Tooltips.getDeploymentToolTooltip();
 		targetDeploymentTool.addFocusListener(new FocusListener() {
@@ -126,49 +126,49 @@ public class PagePartPC extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_SPACE.toString(), targetSpace.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_SPACE, targetSpace.getText());				
 			}
 		});
 		targetSpaceVersion.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_SPACE_VERSION.toString(), targetSpaceVersion.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_SPACE_VERSION, targetSpaceVersion.getText());				
 			}
 		});
 		mw_version.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.MW_VERSION.toString(), mw_version.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_MW_VERSION, mw_version.getText());				
 			}
 		});
 		targetOntologies.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.ONTOLOGIES.toString(), targetOntologies.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_ONTOLOGIES, targetOntologies.getText());				
 			}
 		});
 		targetContainerName.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_CONTAINER_NAME.toString(), targetContainerName.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_CONTAINER_NAME, targetContainerName.getText());				
 			}
 		});
 		targetContainerVersion.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_CONTAINER_VERSION.toString(), targetContainerVersion.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_CONTAINER_VERSION, targetContainerVersion.getText());				
 			}
 		});
 		targetDeploymentTool.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getAppParts().get(partNumber).setCapability(Capability.Mandatory.TARGET_DEPLOYMENT_TOOL.toString(), targetDeploymentTool.getText());				
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL, targetDeploymentTool.getText());				
 			}
 		});
 	}

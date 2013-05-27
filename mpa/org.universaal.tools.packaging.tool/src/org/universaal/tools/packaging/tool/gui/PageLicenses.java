@@ -73,8 +73,9 @@ public class PageLicenses extends PageImpl {
 
 			Label l1 = new Label(container, SWT.NULL);
 			slaLink = new Text(container, SWT.BORDER | SWT.SINGLE);
-			mandatory.add(slaLink);
-			l1.setText("* SLA link");
+			//mandatory.add(slaLink);
+			//l1.setText("* SLA link");
+			l1.setText("SLA link");
 			slaLink.setText(sla.getLink().toString());			
 			slaLink.addVerifyListener(new UriV());
 			slaLink.setLayoutData(gd);		
@@ -99,8 +100,9 @@ public class PageLicenses extends PageImpl {
 
 			Label l2 = new Label(container, SWT.NULL);
 			slaName = new Text(container, SWT.BORDER | SWT.SINGLE);
-			mandatory.add(slaName);
-			l2.setText("* SLA name");
+			//mandatory.add(slaName);
+			//l2.setText("* SLA name");
+			l2.setText("SLA name");
 			slaName.setText(sla.getName());			
 			slaName.addVerifyListener(new AlphabeticV());
 			slaName.setLayoutData(gd);
@@ -125,8 +127,9 @@ public class PageLicenses extends PageImpl {
 		for(int i = 0; i < licCat.length; i++){
 			licCategory.add(licCat[i].toString());
 		}
-		mandatory.add(licCategory);
-		l3.setText("* License category");
+		//mandatory.add(licCategory);
+		//l3.setText("* License category");
+		l3.setText("License category");
 		licCategory.setText(lic.getCategory().toString());
 		licCategory.setLayoutData(gd);	
 
@@ -135,8 +138,9 @@ public class PageLicenses extends PageImpl {
 
 		Label l4 = new Label(container, SWT.NULL);
 		licLink = new Text(container, SWT.BORDER | SWT.SINGLE);
-		mandatory.add(licLink);
-		l4.setText("* License link");
+		//mandatory.add(licLink);
+		//l4.setText("* License link");
+		l4.setText("License link");
 		licLink.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getLink().toString());			
 		licLink.addVerifyListener(new UriV());
 		licLink.setLayoutData(gd);	
@@ -161,8 +165,9 @@ public class PageLicenses extends PageImpl {
 
 		Label l5 = new Label(container, SWT.NULL);
 		licName = new Text(container, SWT.BORDER | SWT.SINGLE);
-		mandatory.add(licName);
-		l5.setText("* License Name");
+		//mandatory.add(licName);
+		//l5.setText("* License Name");
+		l5.setText("License Name");
 		licName.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getName());		
 		licName.addVerifyListener(new AlphabeticV());
 		licName.setLayoutData(gd);	
@@ -217,6 +222,8 @@ public class PageLicenses extends PageImpl {
 		empty5.setText("");
 		Label empty6 = new Label(container, SWT.NULL);
 		empty6.setText("");
+
+		setPageComplete(validate());
 	}
 
 	@Override
@@ -254,7 +261,7 @@ public class PageLicenses extends PageImpl {
 		if(addLicense){
 			PageLicenses pl = new PageLicenses(Page.PAGE_LICENSE+PageImpl.otherLicenses++, true);
 			pl.setMPA(multipartApplication);
-			pl.setPageComplete(false);
+			//pl.setPageComplete(false);
 			addPageCustom(this, pl);
 		}
 

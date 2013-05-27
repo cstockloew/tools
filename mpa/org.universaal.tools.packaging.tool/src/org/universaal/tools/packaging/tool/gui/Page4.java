@@ -132,11 +132,11 @@ public class Page4 extends PageImpl {
 		req1.setText("");		
 		final ToolTip t = Tooltips.getRequirementTooltip();
 		req1.addFocusListener(new FocusListener() {
-			
+
 			public void focusLost(FocusEvent e) {
 				t.setVisible(false);				
 			}
-			
+
 			public void focusGained(FocusEvent e) {
 				t.setVisible(true);				
 			}

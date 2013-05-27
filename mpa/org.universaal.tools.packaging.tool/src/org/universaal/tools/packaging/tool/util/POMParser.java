@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.model.Dependency;
+import org.apache.maven.model.License;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 
@@ -15,11 +16,13 @@ public class POMParser {
 	private File pom;
 	private String groupID, artifactID, packaging, version, name, url, description;
 	private List<Dependency> deps;
+	private List<License> licenses;
 
 	public POMParser(File pom){
 
 		groupID = artifactID = packaging = version = name = url = description = "";
 		deps = new ArrayList<Dependency>();
+		licenses = new ArrayList<License>();
 		this.pom = pom;
 		analyzePom();
 	}
@@ -49,10 +52,16 @@ public class POMParser {
 				description = model.getDescription();
 			if(model.getDependencies() != null)
 				deps = model.getDependencies();
+			if(model.getLicenses() != null)
+				licenses = model.getLicenses();
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+
+	public List<License> getLicenses() {
+		return licenses;
 	}
 
 	public String getGroupID() {

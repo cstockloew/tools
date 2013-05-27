@@ -54,7 +54,7 @@ public class MPAaction extends AbstractHandler {
 		}
 		else{
 			MessageDialog.openInformation(w.getShell(),
-					"Application Packager", "Please make a valid selection.");
+					"Application Packager", "Please verify the selection of parts.");
 		}
 
 		return null;

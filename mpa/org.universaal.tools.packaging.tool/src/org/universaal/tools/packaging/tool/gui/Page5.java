@@ -30,10 +30,10 @@ public class Page5 extends PageImpl {
 		artifacts = new ArrayList<Text>();
 		protocols = new ArrayList<Text>();
 		versions = new ArrayList<Text>();
-	}
+			}
 
 	public void createControl(Composite parent) {
-
+		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);	
 
