@@ -69,6 +69,7 @@ public class ToolController implements Button.ClickListener,
 	private ServiceReference ref;
 	private BundleContext bc;
 //	private UserAccountDB db;
+	private IFrontend frontend;
 	private final static String file = "file:///../etc/uCC/setup.properties";
 
 	public ToolController(UccUI app, ToolWindow toolWin) {
@@ -80,6 +81,7 @@ public class ToolController implements Button.ClickListener,
 		if (!f.exists()) {
 			f.mkdir();
 		}
+		frontend = new FrontendImpl();
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
 //		ref = bc.getServiceReference(UserAccountDB.class.getName());
 //		db = (UserAccountDB) bc.getService(ref);
@@ -139,7 +141,6 @@ public class ToolController implements Button.ClickListener,
 
 			// Only for testing, later will be deleted. uStore has to call
 			// IFrontend.installService()
-			IFrontend frontend = new FrontendImpl();
 			frontend.installService(
 					Activator.getSessionKey(), "HWO_Service_withKarf","");
 		}
@@ -157,6 +158,10 @@ public class ToolController implements Button.ClickListener,
 				}
 			}
 			app.close();
+		}
+		
+		if(event.getButton() == toolWin.getUninstallButton()) {
+			frontend.uninstallService(Activator.getSessionKey(), "24501");
 		}
 		
 		if(event.getButton() == toolWin.getPersonButton()) {
