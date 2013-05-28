@@ -18,11 +18,10 @@ import org.universaal.tools.dashboard.buttonlisteners.TemporaryListener;
 public class ApplicationView extends Composite {
 
 	private Button btnCreate;
-	private Button btnImportProject;
 	private Button btnImportExample;
 	private Button btnTransform;
 	private Button btnCreateClass;
-	private Button btnImportClass;
+	//private Button btnImportClass;
 	private Button btnBuild;
 	private Button btnTestConformance;
 	private Button btnRun;
@@ -34,7 +33,6 @@ public class ApplicationView extends Composite {
 	private Group grpConfiguration;
 	private Button btnNewConfiguration;
 	private Button btnOpenConfiguration;
-	private Button btnNewParameters;
 	
 	/**
 	 * Create the composite.
@@ -54,10 +52,6 @@ public class ApplicationView extends Composite {
 		
 		btnCreate = new Button(grpProject, SWT.NONE);
 		btnCreate.setText("Create");
-		
-		btnImportProject = new Button(grpProject, SWT.NONE);
-		btnImportProject.setEnabled(false);
-		btnImportProject.setText("Import Project");
 		
 		btnImportExample = new Button(grpProject, SWT.NONE);
 		btnImportExample.setText("Import Example");
@@ -87,9 +81,9 @@ public class ApplicationView extends Composite {
 		btnCreateClass = new Button(grpJavaClasses, SWT.NONE);
 		btnCreateClass.setText("Create");
 		
-		btnImportClass = new Button(grpJavaClasses, SWT.NONE);
-		btnImportClass.setEnabled(false);
-		btnImportClass.setText("Import");
+		//btnImportClass = new Button(grpJavaClasses, SWT.NONE);
+		//btnImportClass.setEnabled(false);
+		//btnImportClass.setText("Import");
 		
 		Composite composite_1 = new Composite(this, SWT.NONE);
 		RowLayout rl_composite_1 = new RowLayout(SWT.VERTICAL);
@@ -155,17 +149,13 @@ public class ApplicationView extends Composite {
 		grpConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		grpConfiguration.setText("Configuration");
 		
-		btnNewParameters = new Button(grpConfiguration, SWT.NONE);
-		btnNewParameters.setText("Create New");
-		btnNewParameters.setEnabled(false);
-		
 		btnNewConfiguration = new Button(grpConfiguration, SWT.NONE);
 		btnNewConfiguration.setText("Create");
-		btnNewConfiguration.setEnabled(false);
+		btnNewConfiguration.setEnabled(true);
 		
 		btnOpenConfiguration = new Button(grpConfiguration, SWT.NONE);
 		btnOpenConfiguration.setText("Open");
-		btnOpenConfiguration.setEnabled(false);
+		btnOpenConfiguration.setEnabled(true);
 		
 		Group grpApplicationDescription = new Group(this, SWT.NONE);
 		grpApplicationDescription.setFont(SWTResourceManager.getFont("Lucida Grande", 11, SWT.BOLD));
@@ -202,7 +192,6 @@ public class ApplicationView extends Composite {
 
 		// Project
 		addCommandCallingListener(btnCreate,"org.universaal.tools.newwizard.plugin.command.startNewWizard", "AAL Studio Project Wizards");
-		//btnImportProject.addSelectionListener(new TemporaryListener(this, "Import Project"));
 		addCommandCallingListener(btnImportExample,"org.universaal.importexternalproject.commands.importexample", "AAL Studio integration with Developer Depot");
 
 		//Java Classes
@@ -210,10 +199,8 @@ public class ApplicationView extends Composite {
 		//btnImportClass.addSelectionListener(new TemporaryListener(this, "Import Class"));
 
 		//Configuration Editor
-		//addCommandCallingListener(btnNewConfiguration, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
 		addCommandCallingListener(btnNewConfiguration, "org.universaal.tools.configurationEditor.newConfiguration", "AAL Studio New Configuration Wizard");
 		addCommandCallingListener(btnOpenConfiguration, "org.universaal.tools.configurationEditor.openConfiguration", "AAL Studio Open Configuration Wizard");
-		//addCommandCallingListener(btnNewParameters, "org.universaal.tools.configurationExtractor.ExtractorAction", "AAL Studio Configuration Extractor");
 
 		//Package
 		addCommandCallingListener(btnCombine, "org.universaal.tools.packaging.tool.commands.MPAaction", "AAL Studio Application Packager");

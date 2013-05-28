@@ -18,7 +18,6 @@ import org.universaal.tools.dashboard.buttonlisteners.TemporaryListener;
 public class OntologyView extends Composite {
 
 	Button btnCreate;
-	Button btnImportProject;
 	Button btnImportExample;
 	Button btnTransform;
 	Button btnCreateClass;
@@ -46,11 +45,7 @@ public class OntologyView extends Composite {
 		
 		btnCreate = new Button(grpProject, SWT.NONE);
 		btnCreate.setText("Create");
-		
-		btnImportProject = new Button(grpProject, SWT.NONE);
-		btnImportProject.setEnabled(false);
-		btnImportProject.setText("Import Project");
-		
+				
 		btnImportExample = new Button(grpProject, SWT.NONE);
 		btnImportExample.setText("Import Example");
 		
@@ -156,7 +151,6 @@ public class OntologyView extends Composite {
 	 */
 	protected void createActions(DashboardView containingPart) {
 		this.containingPart = containingPart;
-//		btnImportProject.addSelectionListener(new TemporaryListener(this, "Import Project"));
 		//btnImportExample.addSelectionListener(new ImportExampleListener(this));
 		addCommandCallingListener(btnImportExample,"org.universaal.importexternalproject.commands.importexample", "AAL Studio integration with Developer Depot");
 
