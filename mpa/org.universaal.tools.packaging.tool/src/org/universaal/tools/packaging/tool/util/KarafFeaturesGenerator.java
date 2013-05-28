@@ -21,6 +21,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.maven.execution.ExecutionListener;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
 import org.eclipse.core.resources.IFile;
@@ -42,6 +43,7 @@ import org.w3c.dom.NodeList;
 
 public class KarafFeaturesGenerator {
 
+    
 	// add to pom.xml of project to add to Karaf container the following declaration:
 	/*
 	 * <plugin>
@@ -62,12 +64,14 @@ public class KarafFeaturesGenerator {
 	private GUI g = GUI.getInstance();
 	private MavenExecutionResult execution_result;
 
-	private final String GROUP_ID = "org.apache.karaf.tooling";
-	private final String ARTIFACT_ID = "features-maven-plugin";
-	private final String VERSION = "2.3.0";//"2.3.1";
+	private final String GROUP_ID = System.getProperty("karaf.tool.groupId","org.apache.karaf.tooling");
+	private final String ARTIFACT_ID = System.getProperty("karaf.tool.artifacId","features-maven-plugin");
+	private final String VERSION = System.getProperty("karaf.tool.version","2.3.0");
+	private final Boolean OFFLINE_MODE = Boolean.valueOf(System.getProperty("org.uAAL.packager.offline","false"));
+	private final String LOG_LEVEL = System.getProperty("org.uAAL.packager.loglevel","DEBUG");
 
-	private final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-
+	private final static String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	
 	public String generate(IProject part, boolean createKar, int partNumber){		
 
 		if(verifyPreConditions(part.getName()))
@@ -177,7 +181,34 @@ public class KarafFeaturesGenerator {
 			IMaven maven = MavenPlugin.getMaven();
 			if(pomResource != null && projectFacade != null){
 				MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
-
+				System.out.println(
+					"Preparing to run maven, the log level was:" + request.getLoggingLevel() + 
+					" but we increased to "+MavenExecutionRequest.LOGGING_LEVEL_DEBUG 
+				);
+				
+				request.setLoggingLevel( getLogLevel() );
+				if ( request.isOffline() && OFFLINE_MODE ) {
+				    System.out.println("Maven was configured to work OFFLINE, that is fine");
+				} else {
+				    System.out.println("Maven was configured to work ONLINE, " +
+				    		"but we are using it OFFLINE for speed it up");
+				    request.setOffline(true);
+				}
+				
+				ExecutionListener listener = request.getExecutionListener();
+				if ( listener != null ) {
+				    System.out.println(
+					    "The following ExecutionListener was set " + listener 
+					    + " but is going to be replaced"
+					    );
+				} else {
+				    System.out.println("NO ExecutionListener was set, creating one");
+				}
+				/*
+				ConsoleLogger logger = new ConsoleLogger(Logger.LEVEL_DEBUG,"MavenLogger");
+				ExecutionEventLogger execLogger = new ExecutionEventLogger(logger);
+				request.setExecutionListener(execLogger);
+				*/
 				List<String> goals = new ArrayList<String>();
 				Properties props = new Properties();
 
@@ -216,6 +247,24 @@ public class KarafFeaturesGenerator {
 		}
 
 		return false;
+	}
+
+	private int getLogLevel() {
+	    if ("DEBUG".equalsIgnoreCase(LOG_LEVEL)) {
+		return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
+	    } else if ("WARN".equalsIgnoreCase(LOG_LEVEL)) {
+		return MavenExecutionRequest.LOGGING_LEVEL_WARN;
+	    } else if ("ERROR".equalsIgnoreCase(LOG_LEVEL)) {
+		return MavenExecutionRequest.LOGGING_LEVEL_ERROR;
+	    } else if ("FATAL".equalsIgnoreCase(LOG_LEVEL)) {
+		return MavenExecutionRequest.LOGGING_LEVEL_FATAL;
+	    } else if ("DISABLED".equalsIgnoreCase(LOG_LEVEL)) {
+		return MavenExecutionRequest.LOGGING_LEVEL_DISABLED;
+	    } else if ("INFO".equalsIgnoreCase(LOG_LEVEL)) {
+		return MavenExecutionRequest.LOGGING_LEVEL_INFO;
+	    }
+	    System.err.println("Unable to get log level from enviroment using DEBUG level");
+	    return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
 	}
 
 	private void generateKarFile(IProject part){
