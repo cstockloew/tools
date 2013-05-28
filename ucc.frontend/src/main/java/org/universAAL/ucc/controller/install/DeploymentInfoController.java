@@ -289,7 +289,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 					
 				}
 				app.getMainWindow().removeWindow(win);
-				File f = new File(System.getenv("systemdrive")
+				File f = new File(Activator.getModuleConfigHome().getAbsolutePath()
 						+ "/tempUsrvFiles/");
 				deleteFiles(f);
 
@@ -306,7 +306,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 			app.getMainWindow().showNotification(
 					bundle.getString("break.note"),
 					Notification.TYPE_HUMANIZED_MESSAGE);
-			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+			File f = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/");
 			deleteFiles(f);
 		}
 	}

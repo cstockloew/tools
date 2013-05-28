@@ -71,7 +71,7 @@ public class DesktopController implements Button.ClickListener {
 		Properties prop = new Properties();
 		Reader reader = null;
 		try {
-			reader = new FileReader(new File("file:///../etc/uCC/setup.properties"));
+			reader = new FileReader(new File(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -165,7 +165,7 @@ public class DesktopController implements Button.ClickListener {
 			} else {
 				boolean in = false;
 				//Later comment out, only CHE is to be used
-				List<UserAccountInfo> users = setup.getUsers("file:///../etc/uCC/users.xml");
+				List<UserAccountInfo> users = setup.getUsers(/*"file:///../etc/uCC/users.xml"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
 				if(users.size() <= 1) {
 				//AAL Space test
 					DataAccess da = Activator.getDataAccess();
@@ -220,7 +220,7 @@ public class DesktopController implements Button.ClickListener {
 			Properties prop = new Properties();
 			Reader reader = null;
 			try {
-				reader = new FileReader("file:///../etc/uCC/setup.properties");
+				reader = new FileReader(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

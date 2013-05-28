@@ -12,6 +12,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.deploymanagerservice.DeployManagerService;
 import org.universAAL.ucc.frontend.api.IFrontend;
 
@@ -19,9 +20,12 @@ public class Activator implements BundleActivator {
     private ServiceRegistration registration;
     private static IFrontend frontend = null;
     private static BundleContext context;
+    private static ModuleConfigHome moduleConfigHome;
 
     public void start(BundleContext bc) throws Exception {
 	context = bc;
+	moduleConfigHome = new ModuleConfigHome("uCC", "setup");
+	System.err.println("[[DeploymanagerImpl]] "+moduleConfigHome.getAbsolutePath());
 	Dictionary<String, String> props = new Hashtable<String, String>();
 	System.err.println("DEPLOYMANAGER STARTED");
 	props.put("service.exported.interfaces", "*");
@@ -29,7 +33,7 @@ public class Activator implements BundleActivator {
 	InetAddress thisIp = InetAddress.getLocalHost();
 	//Get port of uCC from setup.properties
 	Properties prop = new Properties();
-	Reader reader = new FileReader(new File("file:///../etc/uCC/setup.properties"));
+	Reader reader = new FileReader(new File(/*"file:///../etc/uCC/setup.properties"*/ moduleConfigHome.getAbsolutePath()+"/setup.properties"));
 	prop.load(reader);
 	String url = "http://" + thisIp.getHostAddress() + ":" + prop.getProperty("storePort") + "/deploymanager";
 	System.out.println("url:" + url);

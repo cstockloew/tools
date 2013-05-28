@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.universAAL.ucc.service.manager.Activator;
+
 import com.vaadin.ui.Upload.Receiver;
 
 public class AALServiceReceiver implements Receiver {
@@ -23,13 +25,13 @@ public class AALServiceReceiver implements Receiver {
 		InputStream is = null;
 		OutputStream os = null;
 		try {
-			arch = new ZipFile(System.getenv("systemdrive") + "/" + dir + "/"
+			arch = new ZipFile(Activator.getModuleConfigHome().getAbsolutePath() + "/" + dir + "/"
 					+ filename);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		for (ZipEntry entry : Collections.list(arch.entries())) {
-			File file = new File(System.getenv("systemdrive") + "/" + dir,
+			File file = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/" + dir,
 					entry.getName());
 			byte[] buffer = new byte[8192];
 			if (entry.isDirectory())

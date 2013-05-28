@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ResourceBundle;
 
 import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.UccUI;
 import org.universAAL.ucc.windows.UsrvInformationWindow;
@@ -77,7 +78,7 @@ public class UsrvInfoController implements Button.ClickListener {
 			app.getMainWindow().removeWindow(win);
 			app.getMainWindow()
 					.showNotification(bundle.getString("break.note"));
-			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+			File f = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/");
 			deleteFiles(f);
 		}
 

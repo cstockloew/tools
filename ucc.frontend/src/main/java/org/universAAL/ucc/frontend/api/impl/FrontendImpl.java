@@ -61,8 +61,7 @@ import org.xml.sax.SAXException;
 
 public class FrontendImpl implements IFrontend {
 
-	private static final String usrvLocalStore = System.getenv("systemdrive")
-			+ "/tempUsrvFiles/";
+	private static String usrvLocalStore;
 
 	private static String uappURI;
 	private static String userSession;
@@ -72,6 +71,7 @@ public class FrontendImpl implements IFrontend {
 	public FrontendImpl() {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
+		usrvLocalStore = Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/";
 	}
 
 	public boolean installService(String sessionkey, String serviceId,
@@ -167,7 +167,7 @@ public class FrontendImpl implements IFrontend {
 		URLConnection con = url.openConnection();
 		InputStream in = new BufferedInputStream(con.getInputStream());
 		FileOutputStream out = new FileOutputStream(
-				System.getenv("systemdrive") + "/tempUsrvFiles/" + filename);
+				Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/" + filename);
 		byte[] chunk = new byte[153600];
 		int chunkSize;
 		while ((chunkSize = in.read(chunk)) > 0) {

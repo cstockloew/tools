@@ -16,6 +16,7 @@ import org.universAAL.ucc.configuration.model.configurationdefinition.Configurat
 import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -123,7 +124,7 @@ public class LicenseController implements Property.ValueChangeListener,
 			app.getMainWindow().showNotification(res.getString("break.note"),
 					Notification.TYPE_ERROR_MESSAGE);
 			app.getMainWindow().removeWindow(win);
-			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+			File f = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/");
 			deleteFiles(f);
 		}
 		if (event.getButton() == win.getGo()) {

@@ -70,14 +70,15 @@ public class ToolController implements Button.ClickListener,
 	private BundleContext bc;
 //	private UserAccountDB db;
 	private IFrontend frontend;
-	private final static String file = "file:///../etc/uCC/setup.properties";
+	private static String file;
 
 	public ToolController(UccUI app, ToolWindow toolWin) {
 		this.app = app;
 		this.toolWin = toolWin;
 		base = "resources.ucc";
 		res = ResourceBundle.getBundle(base);
-		File f = new File(System.getenv("systemdrive") + "/" + dir + "/");
+		file = Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties";
+		File f = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/" + dir + "/");
 		if (!f.exists()) {
 			f.mkdir();
 		}
@@ -161,6 +162,7 @@ public class ToolController implements Button.ClickListener,
 		}
 		
 		if(event.getButton() == toolWin.getUninstallButton()) {
+			app.getMainWindow().removeWindow(toolWin);
 			frontend.uninstallService(Activator.getSessionKey(), "24501");
 		}
 		

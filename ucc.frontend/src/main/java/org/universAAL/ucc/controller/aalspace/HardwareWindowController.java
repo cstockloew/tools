@@ -15,6 +15,7 @@ import javax.xml.bind.JAXBException;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.windows.HardwareWindow;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -45,6 +46,7 @@ import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.subscriber.SensorEventSubscriber;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -75,12 +77,13 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 	private String actualRoom;
 	private SensorEventSubscriber sensorEventSubscriber;
 	private String device;
-	
+	private ModuleConfigHome mc;
 
 
 	
 	public HardwareWindowController(HardwareWindow window, UccUI app) throws JAXBException, IOException, ParseException {
-		device = System.getenv("systemdrive");
+		mc = new ModuleConfigHome("uccDB", "");
+		device = /*System.getenv("systemdrive")*/ mc.getAbsolutePath();
 //		room1 = device+"/jcc_datastore/flat1/Rooms.xml";
 //		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
 //		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
@@ -100,8 +103,8 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 //			actualFlat = flat3DB;
 //			actualRoom = room3;
 //		}
-		actualFlat = device + "/uccDB/Hardware.xml";
-		actualRoom = device + "/uccDB/Rooms.xml";
+		actualFlat = device + "/Hardware.xml";
+		actualRoom = device + "/Rooms.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 //		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
 //		sensorEventSubscriber = SensorEventSubscriber.getInstance(mContext, context);

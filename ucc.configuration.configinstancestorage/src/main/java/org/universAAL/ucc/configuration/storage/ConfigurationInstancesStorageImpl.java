@@ -17,6 +17,7 @@ import org.universAAL.ucc.configuration.model.configurationinstances.Configurati
 import org.universAAL.ucc.configuration.storage.exceptions.NoConfigurationFoundException;
 import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
 import org.universAAL.ucc.configuration.storage.interfaces.StorageChangedListener;
+import org.universAAL.ucc.configuration.storage.internal.Activator;
 
 /**
  * 
@@ -45,7 +46,7 @@ public class ConfigurationInstancesStorageImpl implements ConfigurationInstances
 	public ConfigurationInstancesStorageImpl() {
 		logger = LoggerFactory.getLogger(this.getClass());
 		
-		basedir = System.getenv("systemdrive")+"/tmpConfigFiles/";
+		basedir = Activator.getModuleConfigHome().getAbsolutePath() +"/";
 		checkFolderOrCreate(basedir);
 		instances = new HashMap<String, ConfigurationInstance>();
 		listeners = new LinkedList<StorageChangedListener>();

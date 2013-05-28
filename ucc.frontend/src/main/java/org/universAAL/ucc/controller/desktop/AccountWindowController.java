@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.Role;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
@@ -45,15 +46,15 @@ public class AccountWindowController implements Button.ClickListener {
 		this.win = win;
 		win.getSave().addListener(this);
 		win.getReset().addListener(this);
-		f = new File("file:///../etc/uCC/users.xml");
-		if(!f.exists()) {
-			try {
-				f.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} 
+		f = new File(/*"file:///../etc/uCC/users.xml"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
+//		if(!f.exists()) {
+//			try {
+//				f.createNewFile();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		} 
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = context.getServiceReference(Setup.class.getName());
 		setup = (Setup) context.getService(ref);
@@ -66,7 +67,7 @@ public class AccountWindowController implements Button.ClickListener {
 				app.getMainWindow().showNotification(bundle.getString("input.empty"), Notification.TYPE_HUMANIZED_MESSAGE);
 			} else {
 				boolean inDB = false;
-				for(UserAccountInfo us : setup.getUsers("file:///../etc/uCC/users.xml")) {
+				for(UserAccountInfo us : setup.getUsers(/*"file:///../etc/uCC/users.xml"*/f.getAbsolutePath())) {
 					if(us.getName().equals(win.getUser().getValue())) {
 						inDB = true;
 					}

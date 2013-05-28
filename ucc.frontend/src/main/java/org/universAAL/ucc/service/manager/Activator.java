@@ -17,6 +17,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.api.IDeinstaller;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.client.util.UstoreUtil;
@@ -58,18 +59,20 @@ public class Activator implements BundleActivator {
 	private static DataAccess dataAccess;
 	private static ParserService parserService;
 //	private IEvaluationEventReceiver eventReceiver;
+	private static ModuleConfigHome moduleConfigHome;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
+		moduleConfigHome = new ModuleConfigHome("uCC", "");
 		client = new UstoreUtil();
 		ServiceReference ref = bc.getServiceReference(DataAccess.class.getName());
 		dataAccess = (DataAccess)bc.getService(ref);
 		//Setting setup properties in etc/ucc directory
-		File confHome = new File("file:///../etc/uCC");
+		File confHome = new File(/*"file:///../etc/uCC"*/ moduleConfigHome.getAbsolutePath()+"/setup/");
 		if(!confHome.exists()) {
 			confHome.mkdir();
 		}
-		File temp = new File("file:///../etc/uCC/setup.properties");
+		File temp = new File(/*"file:///../etc/uCC/setup.properties"*/ moduleConfigHome.getAbsolutePath()+"/setup/setup.properties");
 		if(!temp.exists()) {
 			//Setting default values for setup configuration
 			Properties prop = new Properties();	
@@ -84,23 +87,24 @@ public class Activator implements BundleActivator {
 			} else {
 				prop.setProperty("lang", "en");
 			}
-			Writer in = new FileWriter(new File(confHome, "setup.properties"));
+			System.err.println(confHome.getAbsolutePath());
+			Writer in = new FileWriter(new File(confHome.getAbsolutePath(), "setup.properties"));
 			prop.store(in, "Setup properties for initial setup of uCC");
 			in.close();
 		}
 		//Read CHE properties
-		Properties che = new Properties();
-		Properties prop2 = new Properties();
-		Reader read = new FileReader(new File("file:///../etc/system.properties"));
-		che.load(read);
-		for(Map.Entry entry : che.entrySet()) {
-			prop2.setProperty(entry.getKey().toString(), entry.getValue().toString());
-		}
-		 //Set CHE property
-		prop2.setProperty("RECYCLE.DEBUG", "false");
-		Writer wr = new FileWriter(new File("file:///../etc/system.properties"));
-		prop2.store(wr, "");
-		wr.close();
+//		Properties che = new Properties();
+//		Properties prop2 = new Properties();
+//		Reader read = new FileReader(new File(/*"file:///../etc/system.properties"*/ moduleConfigHome.getAbsolutePath()+"/system.properties"));
+//		che.load(read);
+//		for(Map.Entry entry : che.entrySet()) {
+//			prop2.setProperty(entry.getKey().toString(), entry.getValue().toString());
+//		}
+//		 //Set CHE property
+//		prop2.setProperty("RECYCLE.DEBUG", "false");
+//		Writer wr = new FileWriter(new File("file:///../etc/system.properties"));
+//		prop2.store(wr, "");
+//		wr.close();
 		
 		//Write Techician/Deployer into AALSpace
 		OntologyInstance ont = new OntologyInstance();
@@ -133,7 +137,7 @@ public class Activator implements BundleActivator {
 		ont.getSubprofiles().add(sub);
 		dataAccess.saveUserDataInCHE(ont);
 		
-		File file = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+		File file = new File(/*System.getenv("systemdrive")*/moduleConfigHome.getAbsolutePath() + "/tempUsrvFiles/");
 		if(!file.exists()) {
 			file.mkdir();
 		}
@@ -225,7 +229,7 @@ public class Activator implements BundleActivator {
 		context.ungetService(ref);
 		context.ungetService(dRef);
 		regis.unregister();
-		File file = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+		File file = new File(/*System.getenv("systemdrive")*/ moduleConfigHome.getAbsolutePath() + "/tempUsrvFiles/");
 		deleteFiles(file);
 		WebConnector.getInstance().stopListening();
 	}
@@ -253,6 +257,18 @@ public class Activator implements BundleActivator {
 
 	public static ParserService getParserService() {
 		return parserService;
+	}
+
+
+
+	public static ModuleConfigHome getModuleConfigHome() {
+		return moduleConfigHome;
+	}
+
+
+
+	public static void setModuleConfigHome(ModuleConfigHome moduleConfigHome) {
+		Activator.moduleConfigHome = moduleConfigHome;
 	}
 	
 	

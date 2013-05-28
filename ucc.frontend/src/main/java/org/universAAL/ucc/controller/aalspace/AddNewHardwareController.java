@@ -13,6 +13,8 @@ import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.HardwareWindow;
 import org.universAAL.ucc.windows.HumansWindow;
@@ -80,13 +82,15 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 	private String actualRoomFile;
 	private ArrayList<OntologyInstance> savedObjects;
 	private boolean saved;
+	private ModuleConfigHome mc;
 
 	public AddNewHardwareController(AddNewHardwareWindow window,
 			HardwareWindow hWin, RoomsWindow rWin, UccUI app)
 			throws JAXBException, IOException, ParseException {
-		device = System.getenv("systemdrive");
-		ontoProfile = device+"/uccDB/EmptyHardware.xml";
-		roomProfile = device+"/uccDB/EmptyRoom.xml";
+		mc = new ModuleConfigHome("uccDB", "");
+		device = /*System.getenv("systemdrive")*/ mc.getAbsolutePath();
+		ontoProfile = device+"/EmptyHardware.xml";
+		roomProfile = device+"/EmptyRoom.xml";
 //		room1 = device+"/jcc_datastore/flat1/Rooms.xml";
 //		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
 //		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
@@ -110,8 +114,8 @@ public class AddNewHardwareController implements Button.ClickListener, Window.Cl
 //			actualFlat = flat3DB;
 //			actualRoomFile = room3;
 //		}
-		actualFlat = device + "/uccDB/Hardware.xml";
-		actualRoomFile = device + "/uccDB/Rooms.xml";
+		actualFlat = device + "/Hardware.xml";
+		actualRoomFile = device + "/Rooms.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = context.getServiceReference(DataAccess.class
 				.getName());

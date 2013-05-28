@@ -13,6 +13,7 @@ import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
 import org.universAAL.ucc.configuration.model.ConfigOptionRegistry;
 import org.universAAL.ucc.configuration.model.ConfigurationOption;
@@ -30,6 +31,7 @@ import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
 import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
 import org.universAAL.ucc.database.aalspace.DataAccess;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.Role;
 import org.universAAL.ucc.startup.model.UccUsers;
@@ -94,13 +96,15 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 	private boolean saved;
 	private String device;
 	private Setup setup;
+	private ModuleConfigHome mc;
 
 	public AddNewPersonController(AddNewPersonWindow window, HumansWindow hWin,
 			UccUI app) throws JAXBException,
 			IOException, ParseException {
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
-		device = System.getenv("systemdrive");
-		ontoProfile = device+"/uccDB/EmptyUser.xml";
+		mc = new ModuleConfigHome("uccDB", "");
+		device = /*System.getenv("systemdrive")*/ mc.getAbsolutePath();
+		ontoProfile = device+"/EmptyUser.xml";
 //		flat1DB = device+"/jcc_datastore/flat1/Users.xml";
 //		flat2DB = device+"/jcc_datastore/flat2/Users.xml";
 //		flat3DB = device+"/jcc_datastore/flat3/Users.xml";
@@ -116,7 +120,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 //		} else if (flatId.equals("Flat3")) {
 //			actualFlat = flat3DB;
 //		}
-		actualFlat = device + "/uccDB/Users.xml";
+		actualFlat = device + "/Users.xml";
 		ServiceReference ref = context.getServiceReference(DataAccess.class
 				.getName());
 		dataAccess = (DataAccess) context.getService(ref);

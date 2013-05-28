@@ -36,6 +36,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.Window.Notification;
 
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.model.jaxb.BooleanValue;
 import org.universAAL.ucc.model.jaxb.CalendarValue;
@@ -47,6 +48,7 @@ import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.HardwareWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -76,11 +78,13 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 	private String actualFlat;
 	private String actualHW;
 	private String device;
+	private ModuleConfigHome mc;
 
 	public RoomsWindowController(RoomsWindow window,
 			UccUI app) throws JAXBException,
 			IOException, ParseException {
-		device = System.getenv("systemdrive");
+		mc = new ModuleConfigHome("uccDB", "");
+		device = /*System.getenv("systemdrive")*/ mc.getAbsolutePath();
 //		hw1 = device+"/jcc_datastore/flat1/Hardware.xml";
 //	    hw2 = device+"/jcc_datastore/flat2/Hardware.xml";
 //		hw3 = device+"/jcc_datastore/flat3/Hardware.xml";
@@ -104,8 +108,8 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 //			actualFlat = flat3DB;
 //			actualHW = hw3;
 //		}
-		actualFlat = device + "/uccDB/Rooms.xml";
-		actualHW = device + "/uccDB/Hardware.xml";
+		actualFlat = device + "/Rooms.xml";
+		actualHW = device + "/Hardware.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = context.getServiceReference(DataAccess.class
 				.getName());

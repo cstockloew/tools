@@ -13,6 +13,7 @@ import com.vaadin.ui.Window;
 
 import org.universAAL.ucc.configuration.beans.ConfigurationSaveOptions;
 import org.universAAL.ucc.configuration.exception.ConfigurationInstanceAlreadyExistsException;
+import org.universAAL.ucc.configuration.internal.Activator;
 import org.universAAL.ucc.configuration.model.ConfigOptionRegistry;
 import org.universAAL.ucc.configuration.model.ConfigurationOption;
 import org.universAAL.ucc.configuration.model.Configurator;
@@ -58,8 +59,7 @@ public class VaadinConfigurationController {
 //		this.flatId = view.getFlatId();
 		modelRegistry = new ConfigOptionRegistry();
 		configurator = new Configurator(config);
-		configFileFolder = System.getenv("systemdrive")+"/tmpConfigFiles/"+config.getBundlename()+"/";
-		System.err.println(System.getenv("systemdrive"));
+		configFileFolder = Activator.getModuleConfigHome().getAbsolutePath() +"/"+config.getBundlename()+"/";
 		File file = new File(configFileFolder);
 		if(!file.isDirectory()){
 			try{

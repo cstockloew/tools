@@ -18,6 +18,7 @@ import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
@@ -62,7 +63,7 @@ public class UstoreUtil {
 	public void registerUser(String sessionKey) {
 		Reader reader = null;
 		try {
-			reader = new FileReader("file:///../etc/uCC/setup.properties");
+			reader = new FileReader(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties");
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -91,7 +92,7 @@ public class UstoreUtil {
 	
 	public String getSessionKey() {
 		//Calling registered Users from Database
-		List<UserAccountInfo>list = setup.getUsers("file:///../etc/uCC/users.xml");
+		List<UserAccountInfo>list = setup.getUsers(/*"file:///../etc/uCC/users.xml"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
 		String sessionKey = "";
 		//Connection to uStore to get a session key for one user
 		for(UserAccountInfo info : list) {

@@ -48,6 +48,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.Window.Notification;
 
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.model.jaxb.BooleanValue;
 import org.universAAL.ucc.model.jaxb.CalendarValue;
@@ -59,6 +60,7 @@ import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
 import org.universAAL.ucc.windows.HumansWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -80,10 +82,12 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 	private static String flat3DB;
 	private String actualFlat;
 	private String device;
+	private ModuleConfigHome mc;
 
 	
 	public PersonWindowController(HumansWindow window, UccUI app) throws JAXBException, IOException, ParseException {
-		device = System.getenv("systemdrive");
+		mc = new ModuleConfigHome("uccDB", "");
+		device = /*System.getenv("systemdrive")*/ mc.getAbsolutePath();
 //		flat1DB = device+"/jcc_datastore/flat1/Users.xml";
 //		flat2DB = device+"/jcc_datastore/flat2/Users.xml";
 //		flat3DB = device+"/jcc_datastore/flat3/Users.xml";
@@ -97,7 +101,7 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 //		} else if(flatId.equals("Flat3")) {
 //			actualFlat = flat3DB;
 //		}
-		actualFlat = device + "/uccDB/Users.xml";
+		actualFlat = device + "/Users.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = context.getServiceReference(DataAccess.class.getName());
 		dataAccess = (DataAccess)context.getService(ref);
@@ -516,7 +520,7 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 				Properties prop2 = new Properties();
 				Reader reader = null;
 				try {
-					reader = new FileReader(new File("file:///../etc/uCC/setup.properties"));
+					reader = new FileReader(new File(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -539,7 +543,7 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 				}
 				Writer wr = null;
 				try {
-					wr = new FileWriter(new File("file:///../etc/uCC/setup.properties"));
+					wr = new FileWriter(new File(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

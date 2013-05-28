@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
@@ -20,6 +21,7 @@ import org.universAAL.ucc.model.jaxb.CalendarValue;
 import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.Subprofile;
+import org.universAAL.ucc.service.manager.Activator;
 
 public class SensorEventSubscriber extends ContextSubscriber {
 	private static String room1;
@@ -34,6 +36,7 @@ public class SensorEventSubscriber extends ContextSubscriber {
 	private static BundleContext bContext;
 	private HashMap<String, ArrayList<Subprofile>>ontInstances;
 	private String device;
+	private ModuleConfigHome mc;
 	
 	private static ContextEventPattern[] getSubscriptions() {
 		ContextEventPattern ev = new ContextEventPattern();
@@ -43,11 +46,12 @@ public class SensorEventSubscriber extends ContextSubscriber {
 	
 	private SensorEventSubscriber(ModuleContext context) {
 		super(context, getSubscriptions());
-		device = System.getenv("systemdrive");
-//		room1 = device+"/jcc_datastore/flat1/Rooms.xml";
+		mc = new ModuleConfigHome("uccDB", "");
+		device = mc.getAbsolutePath();
+		room1 = device+"/Rooms.xml";
 //		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
 //		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
-//		flat1DB = device+"/jcc_datastore/flat1/Hardware.xml";
+		flat1DB = device+"/Hardware.xml";
 //		flat2DB = device+"/jcc_datastore/flat2/Hardware.xml";
 //		flat3DB = device+"/jcc_datastore/flat3/Hardware.xml";
 		listener = new ArrayList<SensorActivityTimeChangedListener>();
@@ -75,8 +79,8 @@ public class SensorEventSubscriber extends ContextSubscriber {
 		String uri = event.getRDFSubject().toString();
 		String adress = uri.substring(uri.lastIndexOf(":")+1).trim();
 		updateDB(adress, room1, flat1DB, new Date(event.getTimestamp()));
-		updateDB(adress, room2, flat2DB, new Date(event.getTimestamp()));
-		updateDB(adress, room3, flat3DB, new Date(event.getTimestamp()));
+//		updateDB(adress, room2, flat2DB, new Date(event.getTimestamp()));
+//		updateDB(adress, room3, flat3DB, new Date(event.getTimestamp()));
 		
 	}
 	

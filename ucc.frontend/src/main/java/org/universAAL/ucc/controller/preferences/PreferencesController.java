@@ -15,6 +15,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.UccUI;
 
@@ -30,11 +31,12 @@ public class PreferencesController implements ClickListener {
 	private Preferences oldPref;
 //	private final static String file = System.getenv("systemdrive")
 //			+ "/uccDB/preferences.xml";
-	private final static String propFile = "file:///../etc/uCC/setup.properties";
+	private static String propFile;
 
 	public PreferencesController(UccUI app, PreferencesWindow win) {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
+		propFile = Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties";
 		this.app = app;
 		this.win = win;
 		win.getSave().addListener(this);

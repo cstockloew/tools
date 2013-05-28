@@ -15,6 +15,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 
@@ -85,7 +86,7 @@ public class UccUI extends Application {
 		Properties prop = new Properties();
 		Reader reader = null;
 		try {
-			reader = new FileReader("file:///../etc/uCC/setup.properties");
+			reader = new FileReader(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,7 +106,7 @@ public class UccUI extends Application {
 			}
 		}
 		// Creating tempUsrvFiles directory
-		File file = new File(System.getenv("systemdrive") + "/tempUsrvFiles");
+		File file = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles");
 		if (!file.exists()) {
 			file.mkdir();
 			System.err.println("tempUsrvFiles was created!");
@@ -194,7 +195,7 @@ public class UccUI extends Application {
 		hl.addComponent(user);
 		pwd = new PasswordField(res.getString("pwd.label"));
 		hl.addComponent(pwd);
-		List<UserAccountInfo> cu = su.getUsers("file:///../etc/uCC/users.xml");
+		List<UserAccountInfo> cu = su.getUsers(/*"file:///../etc/uCC/users.xml"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
 		if(!cu.isEmpty()) {
 		for(UserAccountInfo u : cu) {
 			if(u.isChecked()) {

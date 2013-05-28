@@ -13,6 +13,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ontology.phThing.Device;
 import org.universAAL.ontology.profile.AALSpace;
 import org.universAAL.ontology.profile.AALSpaceProfile;
@@ -61,6 +62,7 @@ public class Activator implements BundleActivator {
     public static final String USER_SPACE = "urn:org.universAAL.aal_space:user_env#";
     public static final String HOME_SPACE = "urn:org.universAAL.aal.space:home_env#my_home_space";
     public static final String DEVICE_SPACE = "urn:org.universAAL.aal.space:home_env#";
+    private static ModuleConfigHome moduleConfigHome;
     
     static BundleContext getContext() {
 	return context;
@@ -75,12 +77,13 @@ public class Activator implements BundleActivator {
      */
     public void start(BundleContext bundleContext) throws Exception {
 	Activator.context = bundleContext;
-	File file = new File("file:///../etc/uCC");
-	if (!file.exists()) {
-	    file.mkdir();
-	}
+	moduleConfigHome = new ModuleConfigHome("uCC", "user");
+//	File file = new File("file:///../etc/uCC");
+//	if (!file.exists()) {
+//	    file.mkdir();
+//	}
 
-	File uf = new File("file:///../etc/uCC/users.xml");
+	File uf = new File(/*"file:///../etc/uCC/users.xml"*/ moduleConfigHome.getAbsolutePath()+"/users.xml");
 	if(!uf.exists()) {
 		uf.createNewFile();
 		UserAccountInfo u = new UserAccountInfo();
@@ -93,7 +96,7 @@ public class Activator implements BundleActivator {
 		Setup set = new SetupImpl();
 		List<UserAccountInfo>users = new ArrayList<UserAccountInfo>();
 		users.add(u);
-		set.saveUsers(users, "file:///../etc/uCC/users.xml");
+		set.saveUsers(users, /*"file:///../etc/uCC/users.xml"*/ moduleConfigHome.getAbsolutePath()+"/users.xml");
 	}
 
 	reg = context.registerService(Setup.class.getName(), new SetupImpl(), null);
