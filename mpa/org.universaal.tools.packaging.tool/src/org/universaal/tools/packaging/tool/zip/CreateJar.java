@@ -49,16 +49,23 @@ public class CreateJar {
 
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IWorkspaceDescription description = workspace.getDescription();
-				if (!description.isAutoBuilding())
+				System.out.println("[Application Packager] - Preparing for packaging "+part.getName()+" project...");
+				if (!description.isAutoBuilding()){
 					goals.add("compiler:compile"); // compile it if autobuilding is off
+				}
+				System.out.println("[Application Packager] - Packaging "+part.getName()+" project...");
 				goals.add("package");
 
 				request.setGoals(goals);
 				request.setUserProperties(props);
 				MavenExecutionResult execution_result = maven.execute(request, null);
 				if(execution_result.getExceptions() != null && !execution_result.getExceptions().isEmpty())
-					for(int i = 0; i < execution_result.getExceptions().size(); i++)
-						System.out.println("\nERROR: "+execution_result.getExceptions().get(i).getMessage());
+					for(int i = 0; i < execution_result.getExceptions().size(); i++){
+						System.out.println("[Application Packager] - Packaging ended with errors:.");
+						System.out.println("[Application Packager] - ERROR: "+execution_result.getExceptions().get(i).getMessage());
+					}
+				else
+					System.out.println("[Application Packager] - Packaging ended successfully.");
 
 				copyFile(new File(sourcePath+"/target/"+fileName), new File(destination_path+fileName));
 			}	

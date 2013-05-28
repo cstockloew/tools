@@ -306,7 +306,7 @@ public class PagePartDU extends PageImpl {
 			if(cu1.getText().equals(Container.KARAF.toString())){
 
 				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
-				String karaf = krf.generate(this.part, /*ckbKar.getSelection()*/true, partNumber);
+				String karaf = krf.generate(this.part, true, partNumber);
 				if(karaf != null && !karaf.isEmpty())
 					cu = new ContainerUnit(Embedding.valueOf(emb1.getText()), karaf);
 				else

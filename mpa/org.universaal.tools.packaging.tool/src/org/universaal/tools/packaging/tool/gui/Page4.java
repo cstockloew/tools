@@ -500,7 +500,6 @@ public class Page4 extends PageImpl {
 
 						if(current.getKey().equals(r)){
 							current.setValue(REQ_STATE.ALREADY_IN);
-							//System.out.println("ALREADY_IN");
 							return true;
 						}
 					}					
@@ -509,7 +508,7 @@ public class Page4 extends PageImpl {
 			}
 		}
 
-		this.thisReqsPage.put(r, REQ_STATE.NEW); //System.out.println("NEW");
+		this.thisReqsPage.put(r, REQ_STATE.NEW); 
 		return false;
 	}
 
@@ -519,7 +518,7 @@ public class Page4 extends PageImpl {
 		Iterator<Entry<Requirement, REQ_STATE>> it = entryset.iterator();
 		while(it.hasNext()){
 			Entry<Requirement, REQ_STATE> current = it.next();
-			current.setValue(REQ_STATE.PREVIOUS); //System.out.println("PREVIOUS");
+			current.setValue(REQ_STATE.PREVIOUS); 
 		}
 	}
 
@@ -530,7 +529,7 @@ public class Page4 extends PageImpl {
 		while(it.hasNext()){
 			Entry<Requirement, REQ_STATE> current = it.next();
 			if(current.getValue() == REQ_STATE.PREVIOUS){
-				current.setValue(REQ_STATE.TO_BE_DELETED); //System.out.println("TO_BE_DELETED");
+				current.setValue(REQ_STATE.TO_BE_DELETED);
 			}
 		}
 	}
@@ -545,17 +544,12 @@ public class Page4 extends PageImpl {
 			if(current.getValue() == REQ_STATE.TO_BE_DELETED){
 
 				for(int i = 0; i < this.app.getAppRequirements().getRequirementsList().size(); i++){
-					if(//this.app.getRequirements().getRequirementsList().get(i) != null && 
-							this.app.getAppRequirements().getRequirementsList().get(i).equals(current.getKey())){
-						//System.out.println("\n**removing: "+this.app.getRequirements().getRequirementsList().get(i).getXML());
+					if(this.app.getAppRequirements().getRequirementsList().get(i).equals(current.getKey())){
 						this.app.getAppRequirements().getRequirementsList().set(i, null);
 					}
 				}
 			}
 		}
-
-		//System.out.println(this.toString()+" thisReqsPage: "+this.thisReqsPage.size());
-		//System.out.println(this.toString()+" getRequirementsList: "+this.app.getRequirements().getRequirementsList().size());
 	}
 
 	private void updateMap(){
@@ -573,19 +567,6 @@ public class Page4 extends PageImpl {
 		for(int i = 0; i < removeMe.size(); i++)
 			this.thisReqsPage.remove(removeMe.get(i));
 	}
-
-	//	private void debugPrint(String s){
-	//
-	//		System.out.println("\ndebugPrint "+s);
-	//
-	//		Set<Entry<Requirement, REQ_STATE>> entryset = this.thisReqsPage.entrySet();
-	//		Iterator<Entry<Requirement, REQ_STATE>> it = entryset.iterator();
-	//		while(it.hasNext()){
-	//			Entry<Requirement, REQ_STATE> current = it.next();
-	//
-	//			System.out.println(""+current.getKey().getXML()+" "+current.getValue());
-	//		}
-	//	}
 
 	private enum REQ_STATE{
 		NEW, PREVIOUS, ALREADY_IN, TO_BE_DELETED

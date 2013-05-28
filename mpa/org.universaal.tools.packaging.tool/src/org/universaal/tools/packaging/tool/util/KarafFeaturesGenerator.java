@@ -81,7 +81,7 @@ public class KarafFeaturesGenerator {
 		if(execution_result != null && execution_result.getExceptions() != null)
 			for(int i = 0; i < execution_result.getExceptions().size(); i++)
 				ret = ret.concat(execution_result.getExceptions().get(i).getMessage()+"\n");
-		System.out.println("[ERROR] The generation of Karaf features is failed: "+ret);
+		System.out.println("[Application Packager] - ERROR! The generation of Karaf features is failed: "+ret);
 
 		return "";
 	}
@@ -183,17 +183,32 @@ public class KarafFeaturesGenerator {
 
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IWorkspaceDescription description = workspace.getDescription();
-				if (!description.isAutoBuilding())
+				System.out.println("[Application Packager] - Preparing for Karaf features file generation...");
+				if (!description.isAutoBuilding()){
+					System.out.println("[Application Packager] - "+projectName+" will be compiled now because autobuilding is off.");
 					goals.add("compiler:compile"); // compile it if autobuilding is off
+					request.setGoals(goals);
+					request.setUserProperties(props);
+					execution_result = maven.execute(request, null);
+					System.out.println("[Application Packager] - Compiling operation ended.");
+				}
 
+				System.out.println("[Application Packager] - Generating Karaf features file...");
+				goals.clear();
+				props = new Properties();
 				goals.add("features:generate-features-xml");
-
 				request.setGoals(goals);
 				request.setUserProperties(props);
 				execution_result = maven.execute(request, null);
-				if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty())
+				if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty()){
+					System.out.println("[Application Packager] - Karaf features file generated successfully.");
 					return true;
-
+				}
+				else{
+					System.out.println("[Application Packager] - Karaf features file not generated because of errors:");
+					for(int i = 0; i < execution_result.getExceptions().size(); i++)
+						System.out.println("[Application Packager] - "+execution_result.getExceptions().get(i).getMessage());
+				}
 			}
 		}
 		catch(Exception ex){
