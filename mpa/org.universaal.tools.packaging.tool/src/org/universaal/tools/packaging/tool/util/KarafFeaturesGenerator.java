@@ -41,6 +41,27 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * This class links the eclipse project to Maven and it used for generating the features 
+ * file, by means of executing the Karaf's Maven plugin (e.g. features-maven-plugin)
+ * <br>
+ * <ul><b>Karaf's Maven plugin reference</b>
+ * <li> Karaf 2.X: 
+ * 	<a href="https://svn.apache.org/repos/asf/karaf/tags/karaf-2.3.1/tooling/features-maven-plugin/">
+ * 		features-maven-plugin
+ * 	</a>
+ * </li>  
+ * <li> Karaf 3.X: 
+ * 	<a href="https://svn.apache.org/repos/asf/karaf/trunk/tooling/karaf-maven-plugin/">
+ * 		karaf-maven-plugin
+ * 	</a>
+ * </li>
+ * </ul>
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
+ */
 public class KarafFeaturesGenerator {
 
     
@@ -189,7 +210,7 @@ public class KarafFeaturesGenerator {
 				request.setLoggingLevel( getLogLevel() );
 				if ( request.isOffline() && OFFLINE_MODE ) {
 				    System.out.println("Maven was configured to work OFFLINE, that is fine");
-				} else {
+				} else if ( OFFLINE_MODE ){
 				    System.out.println("Maven was configured to work ONLINE, " +
 				    		"but we are using it OFFLINE for speed it up");
 				    request.setOffline(true);
