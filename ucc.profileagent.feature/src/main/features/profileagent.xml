@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="universAAL-profileagent-1.0.0" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+
+	<feature name="profileagent" description="The profile agent in ucc to connecting to the profiling server"
+		version="1.0.0" resolver='(obr)'>		
+
+<!-- currently profiling server and space server can not run at the same time, so remark one of them when running -->
+  		<!-- >feature>profilingserver</feature -->
+  		<!-- >feature>spaceserver</feature  -->   
+		<bundle start-level="93">mvn:org.universAAL.ontology/ont.profile/1.3.3-SNAPSHOT</bundle>
+		<bundle start-level="94">mvn:org.universAAL.ontology/ont.profile.userid/1.3.2-SNAPSHOT</bundle>
+		<!-- bundle start-level="94">mvn:org.universAAL.ontology/ont.device/1.3.2-SNAPSHOT</bundle-->
+		<!-- bundle start-level="94">mvn:org.universAAL.ontology/ont.furniture/1.3.2-SNAPSHOT</bundle-->
+		<bundle start-level="94">wrap:mvn:org.universAAL.support/uAAL.utils/1.3.2-SNAPSHOT</bundle>
+		<!-- bundle start-level="94">mvn:org.universAAL.ontology/ont.profile.health/1.3.3-SNAPSHOT</bundle-->
+		<!-- bundle start-level="94">mvn:org.universAAL.ontology/ont.health.measurement/1.3.2-SNAPSHOT</bundle-->
+		
+		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.profile.agent/2.0.1-SNAPSHOT</bundle>
+		
+	</feature>
+</features>
