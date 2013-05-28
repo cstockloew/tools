@@ -1,5 +1,10 @@
 package org.universaal.tools.packaging.tool;
 
+import java.io.File;
+import java.io.PrintStream;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -15,6 +20,8 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 
+	public static String tempDir;  
+
 	/**
 	 * The constructor
 	 */
@@ -29,6 +36,14 @@ public class Activator extends AbstractUIPlugin {
 
 		super.start(context);
 		plugin = this;
+
+		SecureRandom random = new SecureRandom();			
+		tempDir = System.getProperty("java.io.tmpdir")+"MPA_"+new BigInteger(130, random).toString(32);
+		new File(tempDir).mkdirs();
+		
+		System.out.println("*** [Application Packager] - The log file is available at "+tempDir+" ***");
+		System.setOut(new PrintStream(new File(tempDir+"/log.txt")));
+		System.setErr(new PrintStream(new File(tempDir+"/errlog.txt")));
 	}
 
 	/*

@@ -7,8 +7,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +36,8 @@ public class GUI extends WizardMod {
 
 	private static GUI instance;
 
-	private String tempDir;  
 	private String destination;
+	private String tempDir = org.universaal.tools.packaging.tool.Activator.tempDir;
 
 	public GUI(List<IProject> parts) {
 
@@ -237,8 +235,6 @@ public class GUI extends WizardMod {
 	private void createTempContainer(){
 
 		try{
-			SecureRandom random = new SecureRandom();			
-			tempDir = System.getProperty("java.io.tmpdir")+"/MPA_"+new BigInteger(130, random).toString(32)+"/";
 			File f = new File(tempDir);
 			f.mkdir();
 
