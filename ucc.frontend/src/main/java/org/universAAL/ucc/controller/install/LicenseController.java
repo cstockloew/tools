@@ -152,10 +152,12 @@ public class LicenseController implements Property.ValueChangeListener,
 	private void deleteFiles(File path) {
 		File[] files = path.listFiles();
 		for (File del : files) {
-			if (del.isDirectory()) {
+			if (del.isDirectory()
+					&& !del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
+							.equals("usrv")) {
 				deleteFiles(del);
 			}
-			if (!del.getPath().substring(del.getPath().indexOf(".") + 1)
+			if (!del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
 					.equals("usrv"))
 				del.delete();
 		}
