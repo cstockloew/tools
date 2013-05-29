@@ -17,7 +17,6 @@ public class AddNewPersonWindow extends Window {
 	private UccUI app;
 	private VerticalLayout layout;
 	private HumansWindow hWindow;
-	private String flatId;
 	private String base;
 	private ResourceBundle bundle;
 	
@@ -40,14 +39,5 @@ public class AddNewPersonWindow extends Window {
 public void addWindowContent(Component c) {
 		layout.addComponent(c);
 	}
-
-public String getFlatId() {
-	return flatId;
-}
-
-public void setFlatId(String flatId) {
-	this.flatId = flatId;
-}
-
 
 }

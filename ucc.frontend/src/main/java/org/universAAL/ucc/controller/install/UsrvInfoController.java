@@ -13,7 +13,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window;
 
 public class UsrvInfoController implements Button.ClickListener {
-	private AALService usrv;
+//	private AALService usrv;
 	private UsrvInformationWindow win;
 	private LicenceWindow lWin;
 	private UccUI app;
@@ -24,7 +24,7 @@ public class UsrvInfoController implements Button.ClickListener {
 		System.err.println("in UsrvInfoController");
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
-		this.usrv = usrv;
+//		this.usrv = usrv;
 		this.app = app;
 		win = new UsrvInformationWindow();
 		win.getOk().addListener(this);

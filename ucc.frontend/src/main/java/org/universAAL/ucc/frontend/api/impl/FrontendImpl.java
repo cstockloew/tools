@@ -53,7 +53,7 @@ import org.xml.sax.SAXException;
  * DeployManagerService to trigger the different processes like installation and
  * de-installation.
  * 
- * @author merkle
+ * @author Nicole Merkle
  * 
  *         modified by Shanshan, 13-03-2013
  * 
@@ -102,9 +102,9 @@ public class FrontendImpl implements IFrontend {
 			}
 		}
 		System.out.println("Using the usrfile:"+System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
-				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv"));
+				+  serviceId+".usrv"));
 		File temp = new File(System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
-				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv"));
+				+ serviceId+".usrv"));
 		 if (temp.exists()) {
 		 try {
 		 extractFolder(temp.getAbsolutePath(),usrvLocalStore);
@@ -224,8 +224,6 @@ public class FrontendImpl implements IFrontend {
 				if(du.isSetContainerUnit()) {
 					//Karaf features
 					if(du.getContainerUnit().isSetKaraf()) {
-//						System.err.println(du.getId());
-//						System.err.println(du.getContainerUnit().getKaraf().getFeatures().getName());
 						for(Serializable so : du.getContainerUnit().getKaraf().getFeatures().getRepositoryOrFeature()) {
 							if(so instanceof Feature) {
 								Feature feat = (Feature)so;
@@ -462,19 +460,9 @@ public class FrontendImpl implements IFrontend {
 			System.err.println("Dir-Name: " + dirs[i].getName());
 			if (dirs[i].isDirectory()) {
 				f.mkdir();
-				// File[] child = dirs[i].listFiles();
-				// for(int j = 0; j < child.length; j++) {
-				// System.err.println("Directory Path + Child Path: "+usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
-				// File cf = new
-				// File(usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
-				// child[j].renameTo(cf);
-				// }
 			}
-			// if(!f.getName().substring(f.getName().indexOf(".")+1).equals("uapp"))
-			// {
 			dirs[i].renameTo(f);
 			System.err.println(f.getAbsolutePath());
-			// }
 		}
 		System.err.println("UAPP Path: "+usrvLocalStore + newPath);
 		return usrvLocalStore + newPath;

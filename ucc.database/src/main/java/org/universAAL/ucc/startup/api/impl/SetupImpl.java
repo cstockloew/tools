@@ -8,6 +8,11 @@ import org.universAAL.ucc.startup.model.UccUsers;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import javax.xml.bind.JAXB;
 
+/**
+ * 
+ * @author Nicole Merkle
+ *
+ */
 public class SetupImpl implements Setup {
 
 	public void saveUsers(List<UserAccountInfo> users, String file) {

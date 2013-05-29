@@ -9,11 +9,6 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
-import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.PreferencesWindow;
@@ -27,10 +22,7 @@ public class PreferencesController implements ClickListener {
 	private UccUI app;
 	private String base;
 	private ResourceBundle bundle;
-//	private UserAccountDB db;
 	private Preferences oldPref;
-//	private final static String file = System.getenv("systemdrive")
-//			+ "/uccDB/preferences.xml";
 	private static String propFile;
 
 	public PreferencesController(UccUI app, PreferencesWindow win) {
@@ -41,13 +33,6 @@ public class PreferencesController implements ClickListener {
 		this.win = win;
 		win.getSave().addListener(this);
 		win.getReset().addListener(this);
-//		BundleContext bc = FrameworkUtil.getBundle(getClass())
-//				.getBundleContext();
-//		ServiceReference ref = bc.getServiceReference(UserAccountDB.class
-//				.getName());
-//		db = (UserAccountDB) bc.getService(ref);
-//		bc.ungetService(ref);
-//		oldPref = db.getPreferencesData(file);
 		
 		//Getting preferences from properties file
 		Properties prop = new Properties();
@@ -55,13 +40,11 @@ public class PreferencesController implements ClickListener {
 		try {
 			reader = new FileReader(propFile);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			prop.load(reader);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String admin = prop.getProperty("admin");
@@ -74,7 +57,6 @@ public class PreferencesController implements ClickListener {
 		try {
 			reader.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		oldPref = new Preferences();
@@ -118,7 +100,6 @@ public class PreferencesController implements ClickListener {
 			try {
 				writer = new FileWriter(propFile);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			prop.setProperty("admin", pref.getAdmin());
@@ -131,10 +112,8 @@ public class PreferencesController implements ClickListener {
 			try {
 				prop.store(writer, "");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			db.saveStoreAccessData(pref, file);
 		}
 		if (event.getButton() == win.getReset()) {
 			win.getUserTxt().setValue(oldPref.getAdmin());

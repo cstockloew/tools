@@ -76,10 +76,6 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 	private HashMap<String, ArrayList<TabForm>>userForms;
 	private HashMap<String, ArrayList<Subprofile>>ontInstances;
 	private String selectedItem;
-	private String flatId;
-	private static String flat1DB;
-	private static String flat2DB;
-	private static String flat3DB;
 	private String actualFlat;
 	private String device;
 	private ModuleConfigHome mc;
@@ -87,20 +83,9 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 	
 	public PersonWindowController(HumansWindow window, UccUI app) throws JAXBException, IOException, ParseException {
 		mc = new ModuleConfigHome("uccDB", "");
-		device = /*System.getenv("systemdrive")*/ mc.getAbsolutePath();
-//		flat1DB = device+"/jcc_datastore/flat1/Users.xml";
-//		flat2DB = device+"/jcc_datastore/flat2/Users.xml";
-//		flat3DB = device+"/jcc_datastore/flat3/Users.xml";
+		device = mc.getAbsolutePath();
 		this.app = app;
 		this.win = window;
-//		this.flatId = window.getFlatId();
-//		if(flatId.equals("Flat1")) {
-//			actualFlat = flat1DB;
-//		} else if(flatId.equals("Flat2")) {
-//			actualFlat = flat2DB;
-//		} else if(flatId.equals("Flat3")) {
-//			actualFlat = flat3DB;
-//		}
 		actualFlat = device + "/Users.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = context.getServiceReference(DataAccess.class.getName());
@@ -520,7 +505,7 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 				Properties prop2 = new Properties();
 				Reader reader = null;
 				try {
-					reader = new FileReader(new File(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
+					reader = new FileReader(new File(Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -528,7 +513,6 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 				try {
 					prop.load(reader);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -543,27 +527,23 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 				}
 				Writer wr = null;
 				try {
-					wr = new FileWriter(new File(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
+					wr = new FileWriter(new File(Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				try {
 					prop2.store(wr, "");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				try {
 					wr.close();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				try {
 					reader.close();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

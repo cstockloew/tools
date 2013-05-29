@@ -1,23 +1,17 @@
 package org.universAAL.ucc.windows;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.ucc.api.IInstaller;
-import org.universAAL.ucc.model.UAPPReqAtom;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -54,28 +48,11 @@ public class DeployConfigView extends VerticalLayout {
 		hl.addComponent(txt);
 		select = new ListSelect(bundle.getString("node.label"));
 		select.setWidth("40em");
-		// select.setHeight("2em");
 		select.setRows(5);
 		select.setImmediate(true);
 		select.setNullSelectionAllowed(false);
 		select.setMultiSelect(true);
-//		for(Entry<String, String> pNode : peerNodes.entrySet()) {
-//			select.addItem(pNode.getValue());
-//		}
-		// Add Nodes to dropdown box
 		peerNodes = new HashMap<String, String>();
-		// get valid peers for this part
-////		List<PeerCard> validPeers = getValidPeers(List<UAPPReqAtom> reqs, String PartId)
-////		for (Iterator entry = installer.getPeers().entrySet().iterator(); entry
-////				.hasNext();) {
-//			if (entry != null) {
-//				
-//				String all = entry.next().toString();
-//				String item = all.substring(all.indexOf("=") + 1);
-//				peerNodes.put(item, all);
-//				select.addItem(item);
-//			}
-////		}
 		hl.addComponent(select);
 		addComponent(hl);
 		setComponentAlignment(hl, Alignment.MIDDLE_CENTER);

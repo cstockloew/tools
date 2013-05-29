@@ -1,16 +1,11 @@
 package org.universAAL.ucc.windows;
 
 import java.util.ResourceBundle;
-
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class UsrvInformationWindow extends Window {
@@ -41,7 +36,6 @@ public class UsrvInformationWindow extends Window {
 		nameTxt.setImmediate(true);
 		nameTxt.setWidth("14em");
 		form.addField(bundle.getString("name.label"), nameTxt);
-		// vl.addComponent(nameTxt);
 
 		version = new TextField(bundle.getString("version.label"));
 		version.setImmediate(true);
@@ -52,19 +46,15 @@ public class UsrvInformationWindow extends Window {
 		usrvDescription.setImmediate(true);
 		usrvDescription.setWidth("14em");
 		form.addField(bundle.getString("description.label"), usrvDescription);
-		// vl.addComponent(usrvDescription);
 
 		provider = new TextField(bundle.getString("provider.label"));
 		provider.setImmediate(true);
 		provider.setWidth("14em");
 		form.addField(bundle.getString("provider.label"), provider);
-		// vl.addComponent(provider);
 
 		tags = new ListSelect(bundle.getString("tags.label"));
 		tags.setImmediate(true);
 		tags.setWidth("14em");
-		// form.addField(bundle.getString("tags.label"), tags);
-		// vl.addComponent(tags);
 
 		ok = new Button(bundle.getString("ok.button"));
 		cancel = new Button(bundle.getString("cancel.button"));
@@ -75,7 +65,6 @@ public class UsrvInformationWindow extends Window {
 		hl.addComponent(cancel);
 		form.setFooter(hl);
 		addComponent(form);
-		// vl.addComponent(hl);
 	}
 
 	public Button getOk() {

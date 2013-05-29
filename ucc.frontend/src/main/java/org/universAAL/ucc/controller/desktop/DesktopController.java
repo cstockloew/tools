@@ -15,7 +15,6 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.client.util.UstoreUtil;
 import org.universAAL.ucc.database.aalspace.DataAccess;
-import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.StringValue;
@@ -36,16 +35,19 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.Notification;
 
+/**
+ * Controlls the whole rendering of the uCC.
+ * 
+ * @author Nicole Merkle
+ *
+ */
+
 public class DesktopController implements Button.ClickListener {
 	private UccUI app;
 	private Window main;
-//	private UserAccountDB db;
-//	private DeployManagerService dms;
-	private UstoreUtil client;
 	private String base;
 	private ResourceBundle bundle;
 	private Setup setup;
-//	private static String sessionKey;
 	private BundleContext bc;
 	private String user;
 	private String pwd;
@@ -59,27 +61,19 @@ public class DesktopController implements Button.ClickListener {
 		bundle = ResourceBundle.getBundle(base);
 		this.app = app;
 		this.main = app.getMainWindow();
-		BundleContext context = FrameworkUtil.getBundle(getClass())
-				.getBundleContext();
-//		ServiceReference ref = context.getServiceReference(UserAccountDB.class
-//				.getName());
-//		db = (UserAccountDB) context.getService(ref);
-//		context.ungetService(ref);
 		currentUser = "";
 		currentPassword = "";
-		client = new UstoreUtil();
+		new UstoreUtil();
 		Properties prop = new Properties();
 		Reader reader = null;
 		try {
-			reader = new FileReader(new File(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
+			reader = new FileReader(new File(Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties"));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			prop.load(reader);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		user = prop.getProperty("admin");
@@ -87,11 +81,8 @@ public class DesktopController implements Button.ClickListener {
 		try {
 			reader.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// this.app.getSearchButton().addListener(this);
-		// this.app.getStartButton().addListener(this);
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference refer = bc.getServiceReference(Setup.class.getName());
 		setup = (Setup) bc.getService(refer);
@@ -165,7 +156,7 @@ public class DesktopController implements Button.ClickListener {
 			} else {
 				boolean in = false;
 				//Later comment out, only CHE is to be used
-				List<UserAccountInfo> users = setup.getUsers(/*"file:///../etc/uCC/users.xml"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
+				List<UserAccountInfo> users = setup.getUsers(Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
 				if(users.size() <= 1) {
 				//AAL Space test
 					DataAccess da = Activator.getDataAccess();
@@ -220,7 +211,7 @@ public class DesktopController implements Button.ClickListener {
 			Properties prop = new Properties();
 			Reader reader = null;
 			try {
-				reader = new FileReader(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties");
+				reader = new FileReader(Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -248,15 +239,11 @@ public class DesktopController implements Button.ClickListener {
 		
 		if(event.getButton() == app.getLink()) {
 			AccountWindow aw = new AccountWindow();
-			AccountWindowController awc = new AccountWindowController(aw, app);
+			new AccountWindowController(aw, app);
 			app.getMainWindow().addWindow(aw);
 		}
 
 	}
-
-//	public static String getSessionKey() {
-//		return sessionKey;
-//	}
 	
 	private void adminLogin() {
 		admin = true;

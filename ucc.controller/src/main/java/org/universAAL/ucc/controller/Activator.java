@@ -11,6 +11,12 @@ import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.api.impl.Deinstaller;
 import org.universAAL.ucc.api.impl.Installer;
 
+/**
+ * Activator of ucc.controller
+ * 
+ * @author Shanshan Jiang
+ *
+ */
 public class Activator implements BundleActivator {
 
     private static BundleContext context;

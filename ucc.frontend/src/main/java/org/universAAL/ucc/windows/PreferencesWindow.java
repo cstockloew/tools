@@ -128,7 +128,6 @@ public class PreferencesWindow extends Window {
 		vl.setComponentAlignment(hl, Alignment.BOTTOM_RIGHT);
 		setContent(vl);
 		setWidth("265px");
-		// setHeight("400px");
 		setPositionX(app.getMainWindow().getBrowserWindowWidth() - 325);
 		setPositionY(45);
 		con = new PreferencesController(app, this);

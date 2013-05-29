@@ -68,11 +68,11 @@ public class Activator implements BundleActivator {
 		ServiceReference ref = bc.getServiceReference(DataAccess.class.getName());
 		dataAccess = (DataAccess)bc.getService(ref);
 		//Setting setup properties in etc/ucc directory
-		File confHome = new File(/*"file:///../etc/uCC"*/ moduleConfigHome.getAbsolutePath()+"/setup/");
+		File confHome = new File(moduleConfigHome.getAbsolutePath()+"/setup/");
 		if(!confHome.exists()) {
 			confHome.mkdir();
 		}
-		File temp = new File(/*"file:///../etc/uCC/setup.properties"*/ moduleConfigHome.getAbsolutePath()+"/setup/setup.properties");
+		File temp = new File(moduleConfigHome.getAbsolutePath()+"/setup/setup.properties");
 		if(!temp.exists()) {
 			//Setting default values for setup configuration
 			Properties prop = new Properties();	
@@ -137,7 +137,7 @@ public class Activator implements BundleActivator {
 		ont.getSubprofiles().add(sub);
 		dataAccess.saveUserDataInCHE(ont);
 		
-		File file = new File(/*System.getenv("systemdrive")*/moduleConfigHome.getAbsolutePath() + "/tempUsrvFiles/");
+		File file = new File(moduleConfigHome.getAbsolutePath() + "/tempUsrvFiles/");
 		if(!file.exists()) {
 			file.mkdir();
 		}
@@ -229,7 +229,7 @@ public class Activator implements BundleActivator {
 		context.ungetService(ref);
 		context.ungetService(dRef);
 		regis.unregister();
-		File file = new File(/*System.getenv("systemdrive")*/ moduleConfigHome.getAbsolutePath() + "/tempUsrvFiles/");
+		File file = new File(moduleConfigHome.getAbsolutePath() + "/tempUsrvFiles/");
 		deleteFiles(file);
 		WebConnector.getInstance().stopListening();
 	}
@@ -245,7 +245,7 @@ public class Activator implements BundleActivator {
 			if (!del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
 					.equals("usrv"))
 				del.delete();
-		}
+			}
 
 	}
 

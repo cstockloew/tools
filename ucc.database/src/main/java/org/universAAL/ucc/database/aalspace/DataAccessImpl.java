@@ -2,25 +2,12 @@ package org.universAAL.ucc.database.aalspace;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.xml.bind.JAXB;
-
-//import org.universAAL.ontology.profile.SubProfile;
-//import org.universAAL.ontology.profile.User;
-//import org.universAAL.ontology.profile.UserProfile;
-import org.omg.PortableInterceptor.USER_EXCEPTION;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 import org.universAAL.ontology.phThing.Device;
 import org.universAAL.ontology.profile.AALSpace;
-import org.universAAL.ontology.profile.SubProfile;
 import org.universAAL.ontology.profile.User;
-import org.universAAL.ontology.profile.UserProfile;
-import org.universAAL.ontology.profile.userid.UserIDProfile;
 import org.universAAL.ucc.database.Activator;
 import org.universAAL.ucc.model.jaxb.*;
 import org.universAAL.ucc.profile.agent.ProfileAgent;
@@ -170,13 +157,6 @@ public class DataAccessImpl implements DataAccess{
 				pw.setRequired(true);
 				pw.setValue((String)u.getProperty(Activator.USER_SPACE+"password"));
 				sub.getSimpleObjects().add(pw);
-				
-//				StringValue confirm = new StringValue();
-//				confirm.setLabel("Confirm Password:");
-//				confirm.setName("confirmpassword");
-//				confirm.setRequired(true);
-//				confirm.setValue((String)u.getProperty(Activator.USER_SPACE+"confirmpassword"));
-//				sub.getSimpleObjects().add(confirm);
 			
 				EnumObject en = new EnumObject();
 				en.setType("userRole");

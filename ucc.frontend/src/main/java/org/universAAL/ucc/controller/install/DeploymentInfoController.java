@@ -1,14 +1,10 @@
 package org.universAAL.ucc.controller.install;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -16,14 +12,8 @@ import java.util.ResourceBundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.universAAL.middleware.deploymanager.uapp.model.DeploymentUnit;
-import org.universAAL.middleware.deploymanager.uapp.model.LogicalCriteriaType;
-import org.universAAL.middleware.deploymanager.uapp.model.ReqAtomType;
-import org.universAAL.middleware.deploymanager.uapp.model.ReqType;
-//import org.universAAL.middleware.interfaces.mpa.model.DeploymentUnit;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
-//import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.middleware.deploymanager.uapp.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.InstallationResultsDetails;
@@ -35,7 +25,6 @@ import org.universAAL.ucc.configuration.model.configurationdefinition.Configurat
 import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.AALService;
-import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.UAPPPart;
 import org.universAAL.ucc.model.UAPPReqAtom;
 import org.universAAL.ucc.service.api.IServiceRegistration;
@@ -49,7 +38,6 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.Notification;
 
@@ -68,7 +56,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 	private static IInstaller installer;
 	private IServiceRegistration srvRegistration;
 	private BundleContext bc;
-	private List<Part>parts;
+//	private List<Part>parts;
 	private Map<Part, List<PeerCard>> mapLayout;
 
 	public DeploymentInfoController(UccUI app, AALService aal,
@@ -81,7 +69,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		this.aal = aal;
 		this.win = win;
 		this.app = app;
-		parts = new ArrayList<Part>();
+//		parts = new ArrayList<Part>();
 		dsvMap = new HashMap<String, DeployStrategyView>();
 		dcvMap = new HashMap<String, DeployConfigView>();
 		mapLayout = new HashMap<Part, List<PeerCard>>();
@@ -164,7 +152,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				}
 			}
 			// Remove installed part view and item from tree
-//			if (!config.isEmpty()) {
+
 				win.getHp().removeComponent(actVL);
 				win.getTree().removeListener(this);
 				win.getTree().removeItem(selected);
@@ -173,13 +161,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.err.println("Tree node was removed");
 				dsvMap.remove(selected);
 				dcvMap.remove(selected);
-//			}
+
 			//All parts are processed
 			if (dsvMap.isEmpty() && dcvMap.isEmpty()) {
-				// app.getMainWindow().showNotification(
-				// bundle.getString("success.install.msg"),
-				// Notification.TYPE_HUMANIZED_MESSAGE);
-				
 			
 				//Change Map<Part, List<PeerCard>> to Map<PeerCard, List<Part>>
 				Map<PeerCard, List<Part>> peerMap = new HashMap<PeerCard, List<Part>>();
@@ -200,10 +184,6 @@ public class DeploymentInfoController implements Button.ClickListener,
 				String appLocation = uapp.getUappLocation();
 				System.err.println("THE UAPP_LOCATION: "+uapp.getUappLocation());
 				String p = appLocation.substring(appLocation.indexOf("bin/"));
-				/*appLocation = System.getenv("systemdrive")
-						+ "/tempUsrvFiles"
-						+ appLocation
-								.substring(appLocation.indexOf("./") + 1); FrontendImpl.getUappURI() +"/"+p; */
 				appLocation = FrontendImpl.getUappURI();
 				System.err.println("LOCATION URI: "+appLocation);
 				File uf  = new File(appLocation.trim());
@@ -377,74 +357,12 @@ public class DeploymentInfoController implements Button.ClickListener,
 		return mapLayout;
 	}
 
-/*	private Map<Part, List<PeerCard>> buildDefaultInstallationLayout(UAPPPart uapp) {
-		// assign some values for testing
-		// ArrayList<Part> parts = new ArrayList();
-		// Part part1 = new Part();
-		// part1.setPartId("part1");
-		// Part part2 = new Part();
-		// part2.setPartId("part2");
-		// parts.add(part1);
-		// parts.add(part2);
-		// uapp.setPart(parts);
-		// TODO: Do we need to check AAL space first (aalSpaceCheck)?
-		
-//		Map<Part, List<PeerCard>> mpaLayout = new HashMap<Part, List<PeerCard>>();
-		//Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
-		//peersToCheck.putAll(peers);
-		//List<PeerCard> peerList = new ArrayList<PeerCard>();
-//		for (UAPPPart ua : aal.getUaapList()) {
-			System.out.println("[DeployInfoController] build default layout for: " + uapp.getPart().getPartId());
-			Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
-			peersToCheck.putAll(peers);
-			// check: deployment units
-			for (String key : peersToCheck.keySet()) {
-				PeerCard peer = peersToCheck.get(key);
-				System.out.println("[DeployInfoController.buildDefaultLayout] test layout for peer: " + peer.getPeerID());						
-				if (uapp.getPart().getDeploymentUnit() == null) {
-					// use any peer for testing
-					System.out
-							.println("[DeploymentInfoController] DeploymentUnit is null, use any peer!");
-					List<PeerCard> peerList = mapLayout.get(uapp.getPart());
-					if (peerList==null)
-						peerList = new ArrayList<PeerCard>();
-					peerList.add(peer);
-					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + uapp.getPart().getPartId());
-					mapLayout.put(uapp.getPart(), peerList);
-					peersToCheck.remove(key);
-					break;
-				}  
-				
 
-				
-				//if (checkPartRequirements(uapp.getPart().getPartRequirements(), peer))  {
-				if (checkPartRequirements(uapp.getReqAtoms(), peer)) {
-					System.err.println("[DeploymentInfoController.buildDefaultLayout] check part requirements!");
-					
-					List<PeerCard> peerList = mapLayout.get(uapp.getPart());
-					if (peerList==null)
-						peerList = new ArrayList<PeerCard>();
-					peerList.add(peer);
-					System.out.println("[DeploymentInfoController] add peer " + peer.getPeerID() + " to " + uapp.getPart().getPartId());					
-					mapLayout.put(uapp.getPart(), peerList);
-					peersToCheck.remove(key);
-					break;
-				} else {
-					app.getMainWindow().showNotification(
-							bundle.getString("peer.available.not"),
-							Notification.TYPE_WARNING_MESSAGE);
-				}
-			}
-//		}
-		
-		return mapLayout;
-	}  */
 	
 	private Map<Part, List<PeerCard>> buildUserInstallationLayout(UAPPPart uapp) {
 		Map<String, PeerCard> peersToCheck = new HashMap<String, PeerCard>();
 		List<PeerCard> peerList = new ArrayList<PeerCard>();
 		// Create peer from user selection and test if peer fits for deployment
-//		peersToCheck.putAll(peers);
 		// Extract Peer Info from user selection
 		if (dcvMap.get(selected).getSelect().getValue() != null
 				&& !(dcvMap.get(selected).getSelect().getValue().toString()
@@ -467,18 +385,11 @@ public class DeploymentInfoController implements Button.ClickListener,
 				PeerRole role = peers.get(key).getRole();
 				System.err.println("Peer-ROLE: " + role);
 				System.err.println("ID: " + id);
-				PeerCard peer = new PeerCard(id, role);
-				// TODO: change the logic
-//				if (checkPartRequirements(uapp.getReqAtoms(), peer)) {				
+				PeerCard peer = new PeerCard(id, role);				
 					System.err.println("[buildUserInstallationLayout] In CHECKDEPLOYMENTUNIT!");
 					peerList.add(peer);
 					System.out.println("[DeploymentInfoController.buildUserLayout] add one peer " + peer.getPeerID() + " to part " + uapp.getPart().getPartId());
 					peersToCheck.remove(key);
-//				} else {
-//					app.getMainWindow().showNotification(
-//							bundle.getString("peer.available.not"),
-//							Notification.TYPE_WARNING_MESSAGE);
-//				}
 			}
 			mapLayout.put(uapp.getPart(), peerList);
 			
@@ -574,44 +485,5 @@ public class DeploymentInfoController implements Button.ClickListener,
 		System.err.println("Out of getValidPeers()");
 		return validPeers;
 	}
-	
-	// obsolete - not according to the new uapp schema
-/*	public static boolean checkDeployementUnit(List<DeploymentUnit> list,
-			PeerCard peer) {
-		String osUnit;
-		String pUnit;
-		for (DeploymentUnit deployementUnit : list) {
-			// check the existence of: osUnit and platformUnit
-			if (deployementUnit.getOsUnit() != null) {
-				osUnit = deployementUnit.getOsUnit().value();
-				if (osUnit == null || osUnit.isEmpty()) {
-					System.out
-							.println("[DeployStrategyView.checkDeploymentUnit] OSunit is present but not consistent. OSUnit is null or empty");
-					return false;
-				}
-				// Check if compatible?
-				if (!osUnit.equals("any")) {
-					// only considers equal definition
-					// if (!osUnit.equalsIgnoreCase(peer.getOS())) return false;
-					System.out.println("osUnit: " + osUnit);
-					if (!(peer.getOS().contains(osUnit)))
-						return false;
-				}
-			} else if (deployementUnit.getPlatformUnit() != null) {
-				pUnit = deployementUnit.getPlatformUnit().value();
-				if (pUnit == null || pUnit.isEmpty()) {
-					System.out
-							.println("[DeployStrategyView.checkDeploymentUnit] PlatformUnit is present but not consistent. Plaform is null or empty");
-					return false;
-
-				}
-				// check if compatible?
-				if (!pUnit.equalsIgnoreCase(peer.getPLATFORM_UNIT()))
-					return false;
-			}
-			// TODO: check containerUnit?
-		}
-		return true;
-	}  */
 
 }

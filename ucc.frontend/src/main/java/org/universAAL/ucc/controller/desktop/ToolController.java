@@ -6,46 +6,25 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.configuration.view.WhichBundleShouldBeConfiguredWindow;
-import org.universAAL.ucc.controller.install.AALServiceReceiver;
-import org.universAAL.ucc.controller.install.UsrvInfoController;
-import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
-import org.universAAL.ucc.model.AALService;
-import org.universAAL.ucc.model.UAPP;
-import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.service.manager.Activator;
-import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
-import org.universAAL.ucc.windows.HardwareWindow;
 import org.universAAL.ucc.windows.HumansWindow;
-import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.RoomsWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
-import org.universAAL.ucc.windows.UsrvInformationWindow;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
@@ -58,6 +37,13 @@ import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.FinishedEvent;
 import com.vaadin.ui.Window.Notification;
 
+/**
+ * Controlls the ToolWindow.
+ * 
+ * @author Nicole Merkle
+ *
+ */
+
 public class ToolController implements Button.ClickListener,
 		Upload.FinishedListener, Upload.FailedListener {
 	private UccUI app;
@@ -68,7 +54,6 @@ public class ToolController implements Button.ClickListener,
 	private final static String dir = "tempUsrvFiles";
 	private ServiceReference ref;
 	private BundleContext bc;
-//	private UserAccountDB db;
 	private IFrontend frontend;
 	private static String file;
 
@@ -84,9 +69,6 @@ public class ToolController implements Button.ClickListener,
 		}
 		frontend = new FrontendImpl();
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
-//		ref = bc.getServiceReference(UserAccountDB.class.getName());
-//		db = (UserAccountDB) bc.getService(ref);
-//		bc.ungetService(ref);
 	}
 
 	public void buttonClick(ClickEvent event) {
@@ -146,9 +128,6 @@ public class ToolController implements Button.ClickListener,
 					Activator.getSessionKey(), "HWO_Service_withKarf","");
 		}
 		if (event.getButton() == toolWin.getLogoutButton()) {
-			// app.getMainWindow().removeComponent((app.getVs()));
-			// app.getMainWindow().removeWindow(ToolWindow.getTooWindowInstance(app));
-			// app.getMainWindow().setContent(app.getVLog());
 			DesktopController.setCurrentPassword("");
 			DesktopController.setCurrentUser("");
 			if(!DesktopController.web.getSocket().isClosed()) {
@@ -171,13 +150,10 @@ public class ToolController implements Button.ClickListener,
 			try {
 				apw = new AddNewPersonWindow(null, app);
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			app.getMainWindow().removeWindow(toolWin);
@@ -188,13 +164,10 @@ public class ToolController implements Button.ClickListener,
 			try {
 				anhw = new AddNewHardwareWindow(null, null, app);
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			app.getMainWindow().removeWindow(toolWin);
@@ -205,13 +178,10 @@ public class ToolController implements Button.ClickListener,
 			try {
 				hardWare = new RoomsWindow(app);
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			app.getMainWindow().removeWindow(toolWin);
@@ -226,13 +196,10 @@ public class ToolController implements Button.ClickListener,
 			try {
 				hw = new HumansWindow(app);
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			app.getMainWindow().removeWindow(toolWin);
@@ -256,13 +223,11 @@ public class ToolController implements Button.ClickListener,
 		try {
 			reader = new FileReader(file);
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
 			prop.load(reader);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		pref.setAdmin(prop.getProperty("admin"));
@@ -276,7 +241,6 @@ public class ToolController implements Button.ClickListener,
 		try {
 			reader.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (pref.getShopIp().contains("https")) {

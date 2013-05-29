@@ -14,22 +14,18 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.desktop.DesktopController;
-import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 
 import com.vaadin.Application;
-import com.vaadin.service.ApplicationContext.TransactionListener;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Link;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -39,9 +35,6 @@ import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.themes.Reindeer;
 
 public class UccUI extends Application {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Window mainWindow;
 	private Button startButton;
@@ -70,31 +63,16 @@ public class UccUI extends Application {
 	public void init() {
 		setTheme("editortheme");
 		uccUI = this;
-//		BundleContext context = FrameworkUtil.getBundle(getClass())
-//				.getBundleContext();
-//		ServiceReference ref = context.getServiceReference(UserAccountDB.class
-//				.getName());
-//		UserAccountDB db = (UserAccountDB) context.getService(ref);
-//		if (db.getPreferencesData(file).getLanguage() != null
-//				&& !db.getPreferencesData(file).getLanguage().equals("")) {
-//			if (db.getPreferencesData(file).getLanguage().equals("de")) {
-//				Locale.setDefault(Locale.GERMAN);
-//			} else {
-//				Locale.setDefault(Locale.ENGLISH);
-//			}
-//		}
 		Properties prop = new Properties();
 		Reader reader = null;
 		try {
-			reader = new FileReader(/*"file:///../etc/uCC/setup.properties"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties");
+			reader = new FileReader(Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			prop.load(reader);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String lang = prop.getProperty("lang");
@@ -195,7 +173,7 @@ public class UccUI extends Application {
 		hl.addComponent(user);
 		pwd = new PasswordField(res.getString("pwd.label"));
 		hl.addComponent(pwd);
-		List<UserAccountInfo> cu = su.getUsers(/*"file:///../etc/uCC/users.xml"*/ Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
+		List<UserAccountInfo> cu = su.getUsers(Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
 		if(!cu.isEmpty()) {
 		for(UserAccountInfo u : cu) {
 			if(u.isChecked()) {

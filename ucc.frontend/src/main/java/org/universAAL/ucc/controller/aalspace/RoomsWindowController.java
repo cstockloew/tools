@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.xml.bind.JAXBException;
 
@@ -48,13 +47,18 @@ import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
-import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.HardwareWindow;
 import org.universAAL.ucc.windows.UccUI;
 import org.universAAL.ucc.windows.RoomsWindow;
 import org.universAAL.ucc.windows.TabForm;
 
+/**
+ * Profile controller for adding devices to rooms.
+ * 
+ * @author Nicole Merkle
+ *
+ */
 public class RoomsWindowController implements Property.ValueChangeListener,
 		Button.ClickListener {
 	private RoomsWindow win;
@@ -68,13 +72,6 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 	private HashMap<String, ArrayList<Subprofile>> ontInstances;
 	private HashMap<String, ArrayList<Subprofile>> roomInstances;
 	private String selectedItem;
-	private String flatId;
-	private static String hw1;
-	private static String hw2;
-	private static String hw3;
-	private static String flat1DB;
-	private static String flat2DB;
-	private static String flat3DB;
 	private String actualFlat;
 	private String actualHW;
 	private String device;
@@ -84,30 +81,9 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 			UccUI app) throws JAXBException,
 			IOException, ParseException {
 		mc = new ModuleConfigHome("uccDB", "");
-		device = /*System.getenv("systemdrive")*/ mc.getAbsolutePath();
-//		hw1 = device+"/jcc_datastore/flat1/Hardware.xml";
-//	    hw2 = device+"/jcc_datastore/flat2/Hardware.xml";
-//		hw3 = device+"/jcc_datastore/flat3/Hardware.xml";
-//		flat1DB = device+"/jcc_datastore/flat1/Rooms.xml";
-//		flat2DB = device+"/jcc_datastore/flat2/Rooms.xml";
-//		flat3DB = device+"/jcc_datastore/flat3/Rooms.xml";
+		device = mc.getAbsolutePath();
 		this.app = app;
 		this.win = window;
-//		this.flatId = window.getFlatId();
-		// if(flatId.equals("Basement")) {
-		// actualFlat = basement;
-		// actualHW = hwBasement;
-		// } else
-//		if (flatId.equals("Flat1")) {
-//			actualFlat = flat1DB;
-//			actualHW = hw1;
-//		} else if (flatId.equals("Flat2")) {
-//			actualFlat = flat2DB;
-//			actualHW = hw2;
-//		} else if (flatId.equals("Flat3")) {
-//			actualFlat = flat3DB;
-//			actualHW = hw3;
-//		}
 		actualFlat = device + "/Rooms.xml";
 		actualHW = device + "/Hardware.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
@@ -673,14 +649,6 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 					nOntInstances.put(tOnt.getKey(), tOnt.getValue());
 				}
 			}
-//			for(Map.Entry<String, ArrayList<Subprofile>>tOnt : ontInstances.entrySet()) {
-//				if(tOnt.getKey().equals(id)) {
-//					nOntInstances.put(tOnt.getKey(), new ArrayList<Subprofile>());
-//					nOntInstances.get(tOnt.getKey()).add(sub);
-//				} else  {
-//					nOntInstances.put(tOnt.getKey(), tOnt.getValue());
-//				}
-//			}
 			//For room
 			HashMap<String, ArrayList<Subprofile>> ri = new HashMap<String, ArrayList<Subprofile>>();
 			for(Map.Entry<String, ArrayList<Subprofile>>tOnt : roomInstances.entrySet()) {
@@ -698,14 +666,6 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 					ri.put(tOnt.getKey(), tOnt.getValue());
 				}
 			}
-//			for(Map.Entry<String, ArrayList<Subprofile>>rOnt : roomInstances.entrySet()) {
-//				if(rOnt.getKey().equals(id)) {
-//					ri.put(rOnt.getKey(), new ArrayList<Subprofile>());
-//					ri.get(rOnt.getKey()).add(subRoom);
-//				} else  {
-//					ri.put(rOnt.getKey(), rOnt.getValue());
-//				}
-//			}
 			dataAccess.updateUserData(actualFlat, id, nOntInstances);
 	        dataAccess.updateUserData(actualHW, id, ri);
 			tab.setReadOnly(true);
@@ -776,13 +736,10 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 			try {
 					loadData();
 				} catch (JAXBException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 

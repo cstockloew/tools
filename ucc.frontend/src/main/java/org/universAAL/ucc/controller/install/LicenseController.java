@@ -7,13 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
-import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
-import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
-import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.service.manager.Activator;
@@ -39,7 +32,6 @@ public class LicenseController implements Property.ValueChangeListener,
 	private ArrayList<License> lix;
 	private UccUI app;
 	private AALService aal;
-	// private IWindow iw;
 	private static int appCounter;
 
 	public LicenseController(UccUI app, LicenceWindow win,
@@ -50,7 +42,6 @@ public class LicenseController implements Property.ValueChangeListener,
 		this.app = app;
 		this.aal = aal;
 		appCounter = aal.getUaapList().size();
-		// iw = new InstallProcessImpl();
 		win.getGo().addListener((Button.ClickListener) this);
 		win.getCancel().addListener((Button.ClickListener) this);
 	}
@@ -136,14 +127,9 @@ public class LicenseController implements Property.ValueChangeListener,
 				// Load Infoview for Deployment of uapps
 				DeploymentInformationView div = new DeploymentInformationView(
 						app);
-				DeploymentInfoController dic = new DeploymentInfoController(
+				new DeploymentInfoController(
 						app, aal, div);
 				app.getMainWindow().addWindow(div);
-				
-				
-				// iw.getDeployStratgyView(aal.getName(), aal.getServiceId(),
-				// aal.getUaapList().get(0).getUappLocation(), appCounter, aal);
-				// appCounter--;
 			}
 		}
 

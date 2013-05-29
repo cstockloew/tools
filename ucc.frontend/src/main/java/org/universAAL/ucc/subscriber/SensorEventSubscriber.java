@@ -21,15 +21,10 @@ import org.universAAL.ucc.model.jaxb.CalendarValue;
 import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.Subprofile;
-import org.universAAL.ucc.service.manager.Activator;
 
 public class SensorEventSubscriber extends ContextSubscriber {
 	private static String room1;
-	private static String room2;
-	private static String room3;
 	private static String flat1DB;
-	private static String flat2DB;
-	private static String flat3DB;
 	private static SensorEventSubscriber sub;
 	private ArrayList<SensorActivityTimeChangedListener>listener;
 	private DataAccess db;
@@ -49,11 +44,7 @@ public class SensorEventSubscriber extends ContextSubscriber {
 		mc = new ModuleConfigHome("uccDB", "");
 		device = mc.getAbsolutePath();
 		room1 = device+"/Rooms.xml";
-//		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
-//		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
 		flat1DB = device+"/Hardware.xml";
-//		flat2DB = device+"/jcc_datastore/flat2/Hardware.xml";
-//		flat3DB = device+"/jcc_datastore/flat3/Hardware.xml";
 		listener = new ArrayList<SensorActivityTimeChangedListener>();
 		ontInstances = new HashMap<String, ArrayList<Subprofile>>();
 		ServiceReference ref = bContext.getServiceReference(DataAccess.class.getName());
@@ -79,8 +70,6 @@ public class SensorEventSubscriber extends ContextSubscriber {
 		String uri = event.getRDFSubject().toString();
 		String adress = uri.substring(uri.lastIndexOf(":")+1).trim();
 		updateDB(adress, room1, flat1DB, new Date(event.getTimestamp()));
-//		updateDB(adress, room2, flat2DB, new Date(event.getTimestamp()));
-//		updateDB(adress, room3, flat3DB, new Date(event.getTimestamp()));
 		
 	}
 	
@@ -131,11 +120,6 @@ public class SensorEventSubscriber extends ContextSubscriber {
 				db.updateUserData(device, oi.getId(), ontInstances);
 			}
 		} 
-//		for(SensorActivityTimeChangedListener l : listener) {
-//			System.err.println(listener.size());
-//			l.sensorActivityTimeChanged(adress, time);
-//			
-//		} 
 	}
 	
 

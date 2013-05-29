@@ -18,12 +18,10 @@ public class ServiceManagment implements IServiceManagement {
 	public String getInstalledServices() {
 		if (new File(Model.SERVICEFILENAME).exists()) {
 			String services = "<services>";
-			// List<String> list = new ArrayList<String>();
 			Document doc = Model.getSrvDocument();
 			NodeList nodeList = doc.getElementsByTagName("service");
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Element element = (Element) nodeList.item(i);
-				// list.add(element.getAttribute("serviceId"));
 				services = services + "<serviceId>"
 						+ element.getAttribute("serviceId") + "</serviceId>";
 			}

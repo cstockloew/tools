@@ -1,6 +1,5 @@
 package org.universAAL.ucc.model;
 
-//import org.universAAL.middleware.interfaces.mpa.model.Part;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import org.universAAL.middleware.deploymanager.uapp.model.Part;
  * a uapplocation, a version, a description and consists a Part, a bundleId and
  * bundleVersion.
  * 
- * @author merkle
+ * @author Nicole Merkle
  * 
  */
 
@@ -27,7 +26,7 @@ public class UAPPPart {
     private Part part;
     private String bundleId;
     private String bundleVersion;
-    private List<UAPPReqAtom> reqAtoms=new ArrayList();
+    private List<UAPPReqAtom> reqAtoms = new ArrayList<UAPPReqAtom>();
 
     public UAPPPart() {
     }
