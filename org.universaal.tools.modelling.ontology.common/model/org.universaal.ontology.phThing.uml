@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OWL="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8 pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww">
+  <uml:Model xmi:id="_INViAKFHEeCPiYRKlVcMuQ" name="org.universaal.ontology.phThing">
+    <packageImport xmi:id="_nh1P8P4eEeCMDfYSajZxow">
+      <importedPackage xmi:type="uml:Model" href="org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
+    </packageImport>
+    <packageImport xmi:id="_5QVSoDhhEeGXFsuJsZAP1w">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_CGOSIPqREeCQQaPCMdH-vA" name="org.universAAL.ontology.phThing">
+      <ownedComment xmi:id="_zXdp4KFHEeCPiYRKlVcMuQ" annotatedElement="_Kbe0kKFHEeCPiYRKlVcMuQ">
+        <body>This property could be derived from the class' name
+</body>
+      </ownedComment>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Kbe0kKFHEeCPiYRKlVcMuQ" name="Device">
+        <generalization xmi:id="_CCaX4PqLEeCQQaPCMdH-vA" general="_pwGuEKFHEeCPiYRKlVcMuQ"/>
+        <ownedAttribute xmi:id="_v70CYKFHEeCPiYRKlVcMuQ" name="device_namespace"/>
+        <ownedAttribute xmi:id="_42Z-0KFHEeCPiYRKlVcMuQ" name="MY_URI"/>
+        <ownedAttribute xmi:id="_6p25cKFHEeCPiYRKlVcMuQ" name="battery_level"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_pwGuEKFHEeCPiYRKlVcMuQ" name="PhysicalThing">
+        <ownedAttribute xmi:id="_aN5ZkPqNEeCQQaPCMdH-vA" name="is_portable">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_dI-DkPqNEeCQQaPCMdH-vA" name="is_stationary">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_hH7zgPqNEeCQQaPCMdH-vA" name="has_shape" type="_l7pV4DhhEeGXFsuJsZAP1w"/>
+        <ownedAttribute xmi:id="_TD-hwDhgEeGXFsuJsZAP1w" name="hasLocation" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_TEAW8DhgEeGXFsuJsZAP1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TD-hwThgEeGXFsuJsZAP1w" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_TD-hwjhgEeGXFsuJsZAP1w" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_gjbJcDhgEeGXFsuJsZAP1w" name="physicalThing" type="_pwGuEKFHEeCPiYRKlVcMuQ" association="_gjbwgDhgEeGXFsuJsZAP1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gjbJcThgEeGXFsuJsZAP1w" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gjbJcjhgEeGXFsuJsZAP1w"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_bA7UwDhhEeGXFsuJsZAP1w" name="partOf" type="_pwGuEKFHEeCPiYRKlVcMuQ" association="_bA8i4DhhEeGXFsuJsZAP1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_bA7UwThhEeGXFsuJsZAP1w" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_bA7UwjhhEeGXFsuJsZAP1w"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_m-tPEPqMEeCQQaPCMdH-vA" name="Sensor">
+        <generalization xmi:id="_sOQdIPqMEeCQQaPCMdH-vA" general="_Kbe0kKFHEeCPiYRKlVcMuQ"/>
+        <ownedAttribute xmi:id="_uDuxAPqMEeCQQaPCMdH-vA" name="measured_value"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_zkqC8PqMEeCQQaPCMdH-vA" name="PhysicalContainer">
+        <generalization xmi:id="_8okTcPqMEeCQQaPCMdH-vA" general="_pwGuEKFHEeCPiYRKlVcMuQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_03SIcPqMEeCQQaPCMdH-vA" name="PhThingOntology"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_2HPUcPqMEeCQQaPCMdH-vA" name="DeviceService">
+        <generalization xmi:id="_xa8AkPqQEeCQQaPCMdH-vA">
+          <general xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_60ZK8KFGEeCPiYRKlVcMuQ"/>
+        </generalization>
+        <generalization xmi:id="_xeXxkP4eEeCMDfYSajZxow">
+          <general xmi:type="uml:Class" href="org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
+        </generalization>
+        <ownedAttribute xmi:id="_MBQUsPqNEeCQQaPCMdH-vA" name="controls"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_3AEZ4PqMEeCQQaPCMdH-vA" name="DimmerActuator">
+        <generalization xmi:id="_4PQUYPqNEeCQQaPCMdH-vA" general="_-26aUPqMEeCQQaPCMdH-vA"/>
+        <ownedAttribute xmi:id="_4sTcwPqNEeCQQaPCMdH-vA" name="dimmable_status"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_4V0r4PqMEeCQQaPCMdH-vA" name="OnOffActuator">
+        <generalization xmi:id="_66JNUPqNEeCQQaPCMdH-vA" general="_-26aUPqMEeCQQaPCMdH-vA"/>
+        <ownedAttribute xmi:id="_84RG4PqNEeCQQaPCMdH-vA" name="status"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_6qNwYPqMEeCQQaPCMdH-vA" name="OnOffSensor">
+        <generalization xmi:id="__Zd4UPqNEeCQQaPCMdH-vA" general="_m-tPEPqMEeCQQaPCMdH-vA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_-26aUPqMEeCQQaPCMdH-vA" name="Actuator">
+        <generalization xmi:id="_A2uV8PqNEeCQQaPCMdH-vA" general="_Kbe0kKFHEeCPiYRKlVcMuQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_TEAW8DhgEeGXFsuJsZAP1w" name="physicalThing_location" memberEnd="_TEAW8ThgEeGXFsuJsZAP1w _TD-hwDhgEeGXFsuJsZAP1w">
+        <ownedEnd xmi:id="_TEAW8ThgEeGXFsuJsZAP1w" name="physicalThing" type="_pwGuEKFHEeCPiYRKlVcMuQ" association="_TEAW8DhgEeGXFsuJsZAP1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TEAW8jhgEeGXFsuJsZAP1w" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_TEAW8zhgEeGXFsuJsZAP1w"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_gjbwgDhgEeGXFsuJsZAP1w" name="carried_by" memberEnd="_gjbwgThgEeGXFsuJsZAP1w _gjbJcDhgEeGXFsuJsZAP1w">
+        <ownedEnd xmi:id="_gjbwgThgEeGXFsuJsZAP1w" name="physicalThing" type="_pwGuEKFHEeCPiYRKlVcMuQ" association="_gjbwgDhgEeGXFsuJsZAP1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gjbwgjhgEeGXFsuJsZAP1w" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gjbwgzhgEeGXFsuJsZAP1w"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_bA8i4DhhEeGXFsuJsZAP1w" name="partOf" memberEnd="_bA8i4ThhEeGXFsuJsZAP1w _bA7UwDhhEeGXFsuJsZAP1w">
+        <ownedEnd xmi:id="_bA8i4ThhEeGXFsuJsZAP1w" name="physicalThing" type="_pwGuEKFHEeCPiYRKlVcMuQ" association="_bA8i4DhhEeGXFsuJsZAP1w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_bA8i4jhhEeGXFsuJsZAP1w" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_bA8i4zhhEeGXFsuJsZAP1w"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_PwmsgDhgEeGXFsuJsZAP1w" name="Location">
+        <ownedAttribute xmi:id="_IPpVIDhjEeGXFsuJsZAP1w" name="locName">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_l7pV4DhhEeGXFsuJsZAP1w" name="Shape"/>
+    </packagedElement>
+    <profileApplication xmi:id="__p06cPqLEeCQQaPCMdH-vA">
+      <eAnnotations xmi:id="__q-J8PqLEeCQQaPCMdH-vA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://TwoUse_Profiles/OWL.profile.uml#_0"/>
+    </profileApplication>
+    <profileApplication xmi:id="_A8mJ4PqMEeCQQaPCMdH-vA">
+      <eAnnotations xmi:id="_A9PqIPqMEeCQQaPCMdH-vA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://TwoUse_Profiles/RDF.profile.uml#_0R89QCqWEd6tAp0dWJ5sSg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
+    </profileApplication>
+  </uml:Model>
+  <OWL:owlOntology xmi:id="_CaDmYPqMEeCQQaPCMdH-vA" defaultNamespace="org.universaal.ontology.phThing" base_Package="_INViAKFHEeCPiYRKlVcMuQ" versionInfo="1.0"/>
+</xmi:XMI>

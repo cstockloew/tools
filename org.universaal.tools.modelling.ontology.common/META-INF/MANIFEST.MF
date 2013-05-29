@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: universAAL ontologies
+Bundle-SymbolicName: org.universaal.tools.modelling.ontology.common;singleton:=true
+Bundle-Version: 0.9.5
+Bundle-Activator: org.universaal.tools.modelling.ontology.common.Activator
+Bundle-Vendor: universAAL
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
