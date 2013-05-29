@@ -27,6 +27,9 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthir
 org.universaal.tools.packaging.tool.feature/.project -text
 org.universaal.tools.packaging.tool.feature/build.properties -text
 org.universaal.tools.packaging.tool.feature/feature.xml -text
+org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
+org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.classpath -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.project -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
