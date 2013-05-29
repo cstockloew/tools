@@ -125,7 +125,7 @@ public class ToolController implements Button.ClickListener,
 			// Only for testing, later will be deleted. uStore has to call
 			// IFrontend.installService()
 			frontend.installService(
-					Activator.getSessionKey(), "HWO_Service_withKarf","");
+					Activator.getSessionKey(), "HWO_Service_with_1_part","");
 		}
 		if (event.getButton() == toolWin.getLogoutButton()) {
 			DesktopController.setCurrentPassword("");

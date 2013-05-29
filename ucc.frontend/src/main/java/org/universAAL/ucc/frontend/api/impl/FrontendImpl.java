@@ -334,7 +334,7 @@ public class FrontendImpl implements IFrontend {
 					if(ls.getSla().isSetLink()) {
 						String link = ls.getSla().getLink();
 						System.err.println(link);
-						link = link.substring(link.indexOf("/"));
+						link = link.substring(link.indexOf("./"));
 						System.err.println(link);
 						File file = new File(usrvLocalStore + serviceId+"_temp" + link);
 						license.getSlaList().add(file);
@@ -348,7 +348,7 @@ public class FrontendImpl implements IFrontend {
 							if(lt.isSetLink()) {
 								txt = lt.getLink();
 								System.err.println(txt);
-								txt = txt.substring(txt.indexOf("/"));
+								txt = txt.substring(txt.indexOf("./"));
 								System.err.println(txt);
 								l = new File(usrvLocalStore + serviceId+"_temp" + txt);
 								list.add(l);
