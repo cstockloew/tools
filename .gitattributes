@@ -294,6 +294,9 @@ org.universaal.tools.packaging.tool/src/org/universaal/tools/packaging/tool/zip/
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.uStoreClientFeature/.project -text
+org.universaal.tools.uStoreClientFeature/build.properties -text
+org.universaal.tools.uStoreClientFeature/feature.xml -text
 org.universaal.tools.wizardplugin/.classpath -text
 org.universaal.tools.wizardplugin/.project -text
 org.universaal.tools.wizardplugin/.settings/org.eclipse.jdt.core.prefs -text
