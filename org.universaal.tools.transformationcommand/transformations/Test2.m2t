@@ -1,0 +1,115 @@
+/**
+ * transformation Test2
+ * date: 19/8/2012
+ * author: null
+ * description: 
+ */
+
+texttransformation Test2 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
+
+  var effectTypeMap:Hashtable
+
+  uml.Operation::main () {
+    self.createEffectTypeMap()
+'
+	@ServiceOperation
+'
+	var separator:String = ""
+
+	// Print any outputs 
+	var outList:List = self.ownedParameter->select(par:uml.Parameter | par.direction == "out")
+	if (!outList.isEmpty()) {
+	
+		'	@Outputs(value = { '
+		separator = ""
+		outList->forEach(outParam:uml.Parameter) {
+			separator + '@Output(name = "' + outParam.name + '")'  // TODO: replace name with correct value
+			separator = ", "
+		}
+		'})
+'
+	}	
+
+	// Print any change effects
+
+	if (self.hasStereotype("ServiceProfile")) {
+		var effectList:List = self.getValue("ServiceProfile", "effects")
+		effectList->forEach(c) {
+			var effectCls:uml.Class = c._getFeature("base_Class")
+			var effectType:String = effectCls.getValue("ServiceEffect", "effectType").name
+			'	' + effectTypeMap.get(effectType) + '(propertyPaths = { '
+			
+			var effectProps:List = effectCls.getValue("ServiceEffect", "effectProperties")
+			separator = ""
+			effectProps->forEach(p:uml.Property) {
+			    separator + p.owner.name + '.' + p.name
+				separator = ", "
+			}
+			' },\n'
+			'		value = "' + effectCls.getValue("ServiceEffect", "effectValue") + '",'
+			' valueType = ' + ')\n'
+			// TODO: find what to use for value type
+		}
+	}
+	// Print the method signature
+	'	public ' 
+	// Determine return type
+	if (outList.size() == 0) {
+		'void '
+	} else if (outList.size() > 1) {
+	  'Object[] '
+	} else {
+	  var returnParam:uml.Parameter =outList.first()
+	  returnParam.name ' '
+	}
+	
+	self.name
+
+	'('
+	separator = ""
+    self.ownedParameter->forEach(par:uml.Parameter) {
+    	if (par.direction == "in") {
+ 	   		separator + '@Input(name = "'par.name'") '+ par.type.name + ' ' par.name 
+			separator = ", "
+    	}
+    }
+	')
+'
+    self.reverseDelimitedString("www.sintef.no", ".") '\n'
+    self.reverseDelimitedString2("www.sintef.no", ".") '\n'
+    self.reverseDelimitedString("sintef", ".") '\n'
+  }
+  
+  uml.Operation::createEffectTypeMap() {
+    effectTypeMap.put("CHANGE_EFFECT","@ChangeEffect")
+    effectTypeMap.put("ADD_EFFECT","@AddEffect")
+    effectTypeMap.put("REMOVE_EFFECT","@RemoveEffect")    
+  }
+
+  uml.Operation::reverseDelimitedString(ds:String, delimiter:String):String {
+    var rest:String = ds
+    var reversed:String = ""
+	while (rest.indexOf(".") > 0) {
+	  	if (reversed != "") {
+	  		reversed = delimiter + reversed
+	  	}
+	 	reversed = rest.substringBefore(delimiter) + reversed
+	 	rest = rest.substringAfter(delimiter) 
+	}
+  	if (reversed != "") {
+  		reversed = delimiter + reversed
+  	}
+	return rest + reversed
+  }
+
+  uml.Operation::reverseDelimitedString2(ds:String, delimiter:String):String {
+    var reversed:String = ds.substringBefore(delimiter)
+    var rest:String = ds.substringAfter(delimiter)
+	while (rest.size() > 0) {
+	  	reversed = rest.substringBefore(delimiter) + delimiter + reversed
+	 	rest = rest.substringAfter(delimiter) 
+	}
+	return reversed
+  }
+
+}

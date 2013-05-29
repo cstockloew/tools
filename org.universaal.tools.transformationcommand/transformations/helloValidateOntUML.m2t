@@ -1,0 +1,19 @@
+texttransformation HelloValidateOntUML (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
+
+  uml.Model::main() {
+    'Hello ontology with name: ' + self.name '\n'
+  	self.ownedMember -> forEach( p:uml.Package ) {
+  	  p.processOntologyPackage()   
+  	}
+  }
+ 
+  uml.Package::processOntologyPackage() {
+  	'Package : ' self.name '\n'
+  
+	self.ownedElement->forEach(c : uml.Class) {
+   		'  Class ' c.name '\n'  
+   	}
+  }
+
+}
+
