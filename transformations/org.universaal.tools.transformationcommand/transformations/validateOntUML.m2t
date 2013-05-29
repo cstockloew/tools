@@ -112,7 +112,9 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		verbose("\n--- Associations Check ---\n",false,true)
 		var AssList:list = associationHashtable.keys()
 		if(AssList.size() > 0){
-			self.checkEmpty(AssList)
+			verbose("Checking for unnamed Associations... ",false,true) 
+	   		self.checkEmpty(AssList)
+	   		self.checkErrors()
 			//self.checkUnity(AssList)
 			AssList->forEach(ass:uml.Association){
 			  	var class:list = associationHashtable.get(ass).get('class')
@@ -124,6 +126,9 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 			  	else if(class.size()==1) prefix = "Association "+ass.getName()+" (Class "+class.first().getName()+")"
 			  	else prefix = "Association "+ass.getName()+" between "+class.first().getName()+" and "+class.last().getName()
 			  
+			  	verbose(prefix+"...",false,true) 
+	   		
+			  
 			  	if (ass.name.trim().replace(validChars,"").size()!=0) verbose("*"+prefix+" has invalid characters in name\n",true,false)
 			  	
 			  	if(members.first().name.trim().size() != 0 || members.last().name.trim().size() != 0)
@@ -134,18 +139,20 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 			  		if (members.first().name.trim().replace(validChars,"").size()!=0) verbose("*"+prefix+" has invalid characters\n",true,false)
 			  		if (members.last().name.trim().replace(validChars,"").size()!=0) verbose("*"+prefix+": memberEnd "+members.last().name.trim()+" has invalid characters\n",true,false)
 				}
+				self.checkErrors()
 			}
-			
-			self.checkErrors()
 			
 		} else verbose ("No Associations found\n",false,true)
 		
 		verbose("\n--- Enumeration Check ---\n",false,true)
   		if(enumerationHashtable.size()>0){
   			var EnumKeys:list = enumerationHashtable.keys()
-  			self.checkEmpty(EnumKeys)
+  			verbose("Checking for unnamed Enumerations or duplicated Enumeration's name... ",false,true) 
+	   		self.checkEmpty(EnumKeys)
   			self.checkUnity(EnumKeys)
+  			self.checkErrors()
 	  		EnumKeys->forEach(key:uml.Enumeration){
+	  			verbose("Enumeration "+key.getName()+"...",false,true)
 	  			key.checkNamingConventions()
 		  		var literals:list = enumerationHashtable.get(key)
 		      	if(literals.size()>0){
@@ -155,8 +162,10 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 			    		lit.checkNamingConventions()
 			    	}
 			    } else verbose("!Enumeration "+key.name+" is empty\n",true,false)
+			    
+			    self.checkErrors()
+			    
 	  		}
-	  		self.checkErrors();
   		} else verbose ("No Enumerations found\n",false,true)
 		
 	}
