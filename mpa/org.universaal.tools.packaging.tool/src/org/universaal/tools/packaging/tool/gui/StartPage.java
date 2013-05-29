@@ -1,8 +1,33 @@
+/*
+        Copyright 2007-2014 CNR-ISTI, http://isti.cnr.it
+        Institute of Information Science and Technologies
+        of the Italian National Research Council
+
+        See the NOTICE file distributed with this work for additional
+        information regarding copyright ownership
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+ */
 package org.universaal.tools.packaging.tool.gui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 
+import org.codehaus.plexus.util.FileUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -16,9 +41,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
+import org.universaal.tools.packaging.tool.parts.MPA;
+import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.validators.FileV;
 
+/**
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
+ */
 public class StartPage extends PageImpl {
 
 	private File destination;
@@ -156,6 +189,26 @@ public class StartPage extends PageImpl {
 	public boolean nextPressed() {
 
 		g.setDestination(destination.getAbsolutePath());
+		if ( ! Configurator.local.isPersistanceEnabled() ) {
+		    return true;
+		}
+		
+		if ( destination.exists() ) {
+		    File parent = destination.getParentFile();
+		    File recovery = new File( parent, ".org.uAAL.tool.packager.recovery");
+		    GUI.getInstance().recoveryStorage = recovery;
+		    if ( recovery.exists() ) {
+			try {
+			    ObjectInputStream ois = new ObjectInputStream( new FileInputStream( recovery ) );
+			    MPA recoveredStatus = (MPA) ois.readObject();
+			    multipartApplication.setApplication(recoveredStatus.getAAL_UAPP());
+			} catch (Exception e) {		
+			    e.printStackTrace();
+			}
+		    } else {
+			System.out.println("[WARNING] No recovery data found even if package exists");
+		    }
+		}
 		return true;
 	}
 }

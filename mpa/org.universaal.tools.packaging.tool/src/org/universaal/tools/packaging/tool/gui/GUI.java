@@ -1,3 +1,24 @@
+/*
+
+        Copyright 2007-2014 CNR-ISTI, http://isti.cnr.it
+        Institute of Information Science and Technologies
+        of the Italian National Research Council
+
+        See the NOTICE file distributed with this work for additional
+        information regarding copyright ownership
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+ */
 package org.universaal.tools.packaging.tool.gui;
 
 import java.io.BufferedWriter;
@@ -7,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +38,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
@@ -23,11 +46,20 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.api.WizardMod;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
+import org.universaal.tools.packaging.tool.impl.PersistencePageDecorator;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
+import org.universaal.tools.packaging.tool.util.ConfigProperties;
+import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
 import org.universaal.tools.packaging.tool.zip.UAPP;
 
+/**
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
+ */
 public class GUI extends WizardMod {
 
 	public MPA mpa;
@@ -38,6 +70,7 @@ public class GUI extends WizardMod {
 
 	private String destination;
 	private String tempDir = org.universaal.tools.packaging.tool.Activator.tempDir;
+	public File recoveryStorage = null;
 
 	public GUI(List<IProject> parts) {
 
@@ -57,7 +90,6 @@ public class GUI extends WizardMod {
 	public void addPages() {
 
 		if(this.parts != null){
-
 			p0 = new StartPage(Page.PAGE_START);
 			addPage(p0);
 			p0.setMPA(mpa);
@@ -121,6 +153,7 @@ public class GUI extends WizardMod {
 			p_end = new EndPage(Page.PAGE_END);
 			addPage(p_end);
 			p_end.setMPA(mpa);
+			addingPermanentStorageDecorator();
 		}
 		else{
 			p = new ErrorPage(Page.PAGE_ERROR);
@@ -128,6 +161,20 @@ public class GUI extends WizardMod {
 		}	
 
 		createTempContainer();
+	}
+	
+	private void addingPermanentStorageDecorator() {
+	    if ( ! Configurator.local.isPersistanceEnabled() ) return;
+	    IWizardPage[] phases = getPages();
+	    ArrayList<IWizardPage> decoratedPhases = new ArrayList<IWizardPage>();
+	    for (int i = 0; i < phases.length; i++) {
+		if ( phases[i] instanceof PageImpl ) {
+		   decoratedPhases.add( new PersistencePageDecorator( (PageImpl) phases[i]) );
+		} else {
+		    decoratedPhases.add( phases[i] );
+		}
+	    }
+	    setPages(decoratedPhases);
 	}
 
 	@Override
