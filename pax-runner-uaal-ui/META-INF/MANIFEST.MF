@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: universAAL Pax Runner UI
+Bundle-SymbolicName: org.universaal.igd.uaal.runner.ui;singleton:=true
+Bundle-Version: 0.9.6
+Bundle-Vendor: universAAL
+Fragment-Host: org.eclipse.pde.ui
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.forms,
+ org.eclipse.m2e.maven.runtime
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.universaal.uaalpax.shared,
+ org.universaal.uaalpax.ui
+Bundle-ClassPath: .,
+ lib/aether.jar
