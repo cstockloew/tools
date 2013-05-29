@@ -364,6 +364,35 @@ org.universaal.tools.perspective.feature/feature.xml -text svneol=unset#text/pla
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.classpath -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.project -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/.settings/org.eclipse.papyrus.preferences.prefs -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/EPL1.0.html -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/build.properties -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/icons/datatypeProperty.png -text
+org.universaal.tools.profileplugin/icons/objectProperty.png -text
+org.universaal.tools.profileplugin/model/ODM_SoaML.profile.di -text
+org.universaal.tools.profileplugin/model/ODM_SoaML.profile.notation -text
+org.universaal.tools.profileplugin/model/ODM_SoaML.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/OWL.profile.di -text
+org.universaal.tools.profileplugin/model/OWL.profile.notation -text
+org.universaal.tools.profileplugin/model/OWL.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/RDF.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/SWRL.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/SWRL.profile.umldi -text
+org.universaal.tools.profileplugin/model/SoaML.profile.di -text
+org.universaal.tools.profileplugin/model/SoaML.profile.notation -text
+org.universaal.tools.profileplugin/model/SoaML.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/model/uaal_ml.profile.di -text
+org.universaal.tools.profileplugin/model/uaal_ml.profile.notation -text
+org.universaal.tools.profileplugin/model/uaal_ml.profile.uml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/palettes/Palette_org.universaal.tools.profileplugin.ontologyPalette.xml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/palettes/Palette_org.universaal.tools.profileplugin.serviceModelPalette.xml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.profileplugin/src/icons/patient_ns16.gif -text
 org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
 org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
