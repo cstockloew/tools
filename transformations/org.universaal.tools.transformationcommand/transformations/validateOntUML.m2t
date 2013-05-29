@@ -9,9 +9,12 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	var datatypeImportMap:hashtable
 	
 	var errorsList:list
-	var errors:integer = 0
 	var generalErrors:integer = 0
+	var errors:integer = 0
 	var warnings:integer = 0
+	var tot_errors:integer = 0
+	var tot_warnings:integer = 0
+	var validChars:string = "[A-Za-z0-9_]"
 	
 	var debugEnabled:boolean = false
 	var logEnabled:boolean = true
@@ -48,10 +51,10 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		 	}
 	 	}
 	    
-	    verbose("\n----\nCheck Report:\t",false,true)
+	    verbose("\n----\nCheck Report: ",false,true)
 	    
 	    if(!errorsList.isEmpty()) { 
-			verbose(errorsList.size()+" problem(s) occurred when validating UML ontology model "+self.name+"\n----\n\n",false,true)
+			verbose(errorsList.size()+" problem(s) ("+tot_errors+" error(s), "+tot_warnings+" warning(s)) occurred when validating UML ontology model "+self.name+"\n----\n\n",false,true)
 			if(!debugEnabled){
 				errorsList->forEach(e){
 					verbose(e,false,true);
@@ -117,18 +120,19 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 				var members:list = ass.memberEnd
 			  	var prefix:string
 			  	
-			  	if(class.size()==1) prefix = "Association "+ass.getName()+" (Class "+class.first().getName()+")"
+			  	if(class.size()==0) prefix = "Association "+ass.getName()
+			  	else if(class.size()==1) prefix = "Association "+ass.getName()+" (Class "+class.first().getName()+")"
 			  	else prefix = "Association "+ass.getName()+" between "+class.first().getName()+" and "+class.last().getName()
-			  	
-			  	if (ass.name.replace("[A-Za-z0-9_ ]","").size()!=0) verbose("*"+prefix+" has invalid characters in name\n",true,false)
+			  
+			  	if (ass.name.trim().replace(validChars,"").size()!=0) verbose("*"+prefix+" has invalid characters in name\n",true,false)
 			  	
 			  	if(members.first().name.trim().size() != 0 || members.last().name.trim().size() != 0)
 					/*verbose(prefix+" has unnamed memberEnd(s)\n",true,false)
 				else */{
 					if(members.first().name.trim().toLower() == members.last().name.trim().toLower())
 						verbose("!"+prefix+" has the same memberEnd name\n",true,false)
-			  		if (members.first().name.trim().replace("[A-Za-z0-9_ ]","").size()!=0) verbose("*"+prefix+" has invalid characters\n",true,false)
-			  		if (members.last().name.trim().replace("[A-Za-z0-9_ ]","").size()!=0) verbose("*"+prefix+": memberEnd "+members.last().name.trim()+" has invalid characters\n",true,false)
+			  		if (members.first().name.trim().replace(validChars,"").size()!=0) verbose("*"+prefix+" has invalid characters\n",true,false)
+			  		if (members.last().name.trim().replace(validChars,"").size()!=0) verbose("*"+prefix+": memberEnd "+members.last().name.trim()+" has invalid characters\n",true,false)
 				}
 			}
 			
@@ -420,7 +424,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		   what.startsWith("9")) verbose("*"+parent+type+" "+what+": First character's name cannot be a number\n",true,false)
 		
 		// only alphanumeric chars plus the undescore allowed
-		what = what.replace("[A-Za-z0-9_]","")
+		what = what.replace(validChars,"")
 		return (what.size()==0)
 	}
 	
@@ -470,6 +474,8 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	uml.Package::checkErrors(){
 	  	if(errors > 0 || warnings > 0){
 			verbose("  "+errors+" error(s), "+warnings+" warning(s)!\n",false,true)
+			tot_errors = tot_errors + errors
+			tot_warnings = tot_warnings + warnings
 		} else {
 			verbose("  OK!\n",false,true)
 		}
