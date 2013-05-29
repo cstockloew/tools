@@ -291,6 +291,39 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexte
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceConstants.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/.classpath -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/.project -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/MITX.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/build.properties -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/icons/ic-uAAL-hdpi.png -text
+org.universaal.tools.modelling.ontology.wizard/icons/new-project-16.png -text
+org.universaal.tools.modelling.ontology.wizard/icons/uAALmicro.png -text
+org.universaal.tools.modelling.ontology.wizard/models/1.0.0/model.di -text
+org.universaal.tools.modelling.ontology.wizard/models/1.0.0/model.notation -text
+org.universaal.tools.modelling.ontology.wizard/models/1.0.0/model.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/eclipse/wb/swt/ResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/eclipse/wb/swt/SWTResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/handlers/NewOntologyProjectHandler.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/versions/IOntologyProjectGenerator.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/versions/OntologyProjectGeneratorFactory.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/versions/OntologyProjectGeneratorMW110.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/versions/OntologyProjectGeneratorMW120.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/versions/OntologyProjectGeneratorMW130.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/versions/OntologyProjectGeneratorMW200.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/wizards/CreateOntologyPOM.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/wizards/Messages.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/wizards/OntologyImportPage.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/wizards/OntologyMainPage.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/wizards/OntologyProjectModel.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/wizards/OntologyProjectWizard.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/wizards/OntologyUMLArtefactFactory.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.wizard/src/org/universaal/tools/modelling/ontology/wizard/wizards/messages.properties -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.edit/.classpath -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.edit/.project -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.edit/ASL2.0.txt -text svneol=unset#text/plain
