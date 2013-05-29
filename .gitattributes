@@ -1,1 +1,16 @@
 * text=auto !eol
+org.universaal.tools.xmlEditor/.classpath -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/.project -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/MITX.txt -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/build.properties -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/icons/uaal-16.png -text
+org.universaal.tools.xmlEditor/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/FieldsPage.java -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/SourcePage.java -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/XmlEditor.java -text svneol=unset#text/plain
+org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/model/ProjectModel.java -text svneol=unset#text/plain
