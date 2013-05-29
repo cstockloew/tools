@@ -78,7 +78,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
   		var classList:list = classHashtable.keys()
    		
    		if(classList.size() != 0){
-	  		verbose("Checking for unnamed Class or duplicated Class'name... ",false,true) 
+	  		verbose("Checking for unnamed Class or Class with the same name... ",false,true) 
 	   		self.checkEmpty(classList)
 	   		self.checkUnity(classList)
 	   		self.checkErrors()
@@ -86,11 +86,11 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 			classList->forEach(entity : uml.Class) {
 	  		  	verbose("Class "+entity.getName()+"...",false,true)
 			
-				verbose("\nChecking for right generalization of "+entity.name+"...\n",false,false)
+				verbose("\nChecking for right generalization of "+entity.getName()+"...\n",false,false)
 				generalErrors = 0
 				if(entity.checkRightGeneralization(entity) == 0) verbose ("OK!\n",false,false)
 				
-				verbose("\nChecking for right naming conventions of "+entity.name+"...\n",false,false)
+				verbose("\nChecking for right naming conventions of "+entity.getName()+"...\n",false,false)
 				entity.checkNamingConventions()
 	    		
 	    		var PropertyList:list = classHashtable.get(entity)
@@ -101,6 +101,8 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 					self.checkUnity(PropertyList)
 					
 					PropertyList->forEach(p:uml.Property){
+						if(p.type == null) verbose("!"+entity.getName()+": Property "+p.getName()+" has UNDEFINED type\n",true,false)
+						else if(!p.isDataType()) verbose("!"+entity.getName()+": Property "+p.getName()+" has UNKNOWN type\n",true,false)
 						p.checkNamingConventions()
 					}
 				}
@@ -147,7 +149,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		verbose("\n--- Enumeration Check ---\n",false,true)
   		if(enumerationHashtable.size()>0){
   			var EnumKeys:list = enumerationHashtable.keys()
-  			verbose("Checking for unnamed Enumerations or duplicated Enumeration's name... ",false,true) 
+  			verbose("Checking for unnamed Enumerations or Enumerations with the same name... ",false,true) 
 	   		self.checkEmpty(EnumKeys)
   			self.checkUnity(EnumKeys)
   			self.checkErrors()
