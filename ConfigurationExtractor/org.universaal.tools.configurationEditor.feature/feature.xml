@@ -2,8 +2,9 @@
 <feature
       id="org.universaal.tools.configurationExtractor.feature"
       label="AAL Studio Configuration Editor"
-      version="0.9.6"
-      provider-name="universAAL">
+      version="1.0.0"
+      provider-name="universAAL"
+      plugin="org.universaal.tools.aalstudio.core">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -75,6 +76,10 @@ limitations under the License.
 
 END OF TERMS AND CONDITIONS
    </license>
+
+   <url>
+      <update url="http://depot.universaal.org/eclipse-update/"/>
+   </url>
 
    <plugin
          id="org.universaal.tools.configurationEditor"
