@@ -64,6 +64,9 @@ org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplicatio
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/BuildApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/DebugApplicationHandler.java -text
 org.universaal.tools.buildPlugin/src/org/universaal/tools/buildserviceapplication/handlers/RunApplicationHandler.java -text
+org.universaal.tools.codeAssistantFeature/.project -text
+org.universaal.tools.codeAssistantFeature/build.properties -text
+org.universaal.tools.codeAssistantFeature/feature.xml -text
 org.universaal.tools.configurationEditor.feature/.project -text
 org.universaal.tools.configurationEditor.feature/build.properties -text
 org.universaal.tools.configurationEditor.feature/feature.xml -text
