@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.transformationfeature"
       label="AAL Studio Transformations"
-      version="0.9.5"
+      version="0.9.6"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
