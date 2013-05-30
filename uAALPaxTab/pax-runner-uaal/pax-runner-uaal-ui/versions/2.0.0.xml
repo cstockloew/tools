@@ -45,7 +45,6 @@
 			<bundle>mvn:org.universAAL.ui/ui.dm/1.3.3-SNAPSHOT</bundle>
 			<bundle>mvn:org.universAAL.ontology/ont.profile.ui.mainmenu/2.0.0</bundle>
 			<bundle>mvn:org.universAAL.ontology/ont.profile.userid/2.0.0</bundle>
-			<bundle>mvn:org.universAAL.ui/ui.dm/1.3.3-SNAPSHOT</bundle>
 			<bundle>mvn:org.universAAL.ontology/ont.impairment/2.0.0</bundle>
 			mvn:org.universAAL.ontology/ont.profile.ui.preferences/1.3.6-SNAPSHOT
 		</bundleset>
@@ -53,7 +52,6 @@
 			<bundle>mvn:org.universAAL.ui/ui.dm/1.3.3-SNAPSHOT</bundle>
 			<bundle>mvn:org.universAAL.ontology/ont.profile.ui.mainmenu/2.0.0</bundle>
 			<bundle>mvn:org.universAAL.ontology/ont.profile.userid/2.0.0</bundle>
-			<bundle>mvn:org.universAAL.ui/ui.dm/1.3.3-SNAPSHOT</bundle>
 			<bundle>mvn:org.universAAL.ontology/ont.impairment/2.0.0</bundle>
 			<bundle>mvn:org.universAAL.ui/ui.handler.gui.swing/2.0.0</bundle>
 		</bundleset>
