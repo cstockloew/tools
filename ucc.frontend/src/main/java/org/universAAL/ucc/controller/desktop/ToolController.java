@@ -142,7 +142,7 @@ public class ToolController implements Button.ClickListener,
 		
 		if(event.getButton() == toolWin.getUninstallButton()) {
 			app.getMainWindow().removeWindow(toolWin);
-			frontend.uninstallService(Activator.getSessionKey(), "24501");
+			frontend.uninstallService(Activator.getSessionKey(), "28002");
 		}
 		
 		if(event.getButton() == toolWin.getPersonButton()) {

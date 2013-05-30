@@ -480,7 +480,7 @@ public class FrontendImpl implements IFrontend {
 		IServiceManagement sm = Activator.getMgmt();
 		List<String> uappList = sm.getInstalledApps(serviceId);
 		for (String del : uappList) {
-			// Later uncomment this
+			System.err.println("Apps to delete: "+del);
 			 InstallationResultsDetails result =
 			 Activator.getDeinstaller().requestToUninstall(serviceId, del);
 			 if(result.getGlobalResult().toString().equals(InstallationResults.SUCCESS)) {
@@ -493,6 +493,7 @@ public class FrontendImpl implements IFrontend {
 				 UccUI.getInstance().getMainWindow().addWindow(nw);
 			 }
 		}
+		
 
 	}
 
