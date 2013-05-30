@@ -20,9 +20,14 @@
 
 package org.universaal.uaalpax.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -95,10 +100,24 @@ public class ArtifactGraph {
 	public void rebuildFromSetInBackground(BundleSet bs) {
 		clear();
 		
-		for (BundleEntry be : bs) {
-			if (!be.isMavenBundle())
-				continue;
-			
+		List<BundleEntry> bl = new ArrayList<BundleEntry>(bs.size());
+		
+		for (BundleEntry be : bs)
+			if (be.isMavenBundle())
+				bl.add(be);
+		
+		Collections.sort(bl, new Comparator<BundleEntry>() {
+			public int compare(BundleEntry o1, BundleEntry o2) {
+				if (o1.getLevel() < o2.getLevel())
+					return 1;
+				else if (o1.getLevel() == o2.getLevel())
+					return 0;
+				else
+					return -1;
+			}
+		});
+		
+		for (BundleEntry be : bl) {			
 			Artifact a;
 			try {
 				a = be.toArtifact();
@@ -174,8 +193,10 @@ public class ArtifactGraph {
 	}
 	
 	/**
-	 * @param bes bundles to remove
-	 * @param versionBundles middleware bundles which may not be removed anyway
+	 * @param bes
+	 *            bundles to remove
+	 * @param versionBundles
+	 *            middleware bundles which may not be removed anyway
 	 * @return all bundles ADDITIONALLY to remove because they are not longer needed.
 	 */
 	public Set<ArtifactURL> removeEntries(Collection<BundleEntry> bes, BundleSet versionBundles) {

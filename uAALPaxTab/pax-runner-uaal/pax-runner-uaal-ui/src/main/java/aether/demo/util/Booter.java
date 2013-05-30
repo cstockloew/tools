@@ -83,20 +83,20 @@ public class Booter {
 		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
 		repos.add(r);
 		
-		r = new RemoteRepository("ima-thirdparty", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/thirdparty/");
-		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		repos.add(r);
-		
-		r = new RemoteRepository("ima-release", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/releases/");
-		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		repos.add(r);
-		
-		r = new RemoteRepository("ima-snapshot", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/snapshots/");
-		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
-		repos.add(r);
+//		r = new RemoteRepository("ima-thirdparty", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/thirdparty/");
+//		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+//		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+//		repos.add(r);
+//		
+//		r = new RemoteRepository("ima-release", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/releases/");
+//		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+//		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+//		repos.add(r);
+//		
+//		r = new RemoteRepository("ima-snapshot", "default", "http://v2me.igd.fraunhofer.de/nexus/content/repositories/snapshots/");
+//		r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+//		r.setPolicy(false, r.getPolicy(false).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
+//		repos.add(r);
 		
 		// r = new RemoteRepository("igd_releases", "default", "http://a1gforge.igd.fraunhofer.de/nexus/content/repositories/releases/");
 		// r.setPolicy(true, r.getPolicy(true).setUpdatePolicy(RepositoryPolicy.UPDATE_POLICY_NEVER));
