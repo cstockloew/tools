@@ -37,6 +37,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -48,32 +49,50 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Layout;
 import org.universaal.uaalpax.model.BundleEntry;
+import org.universaal.uaalpax.model.BundlePresenter;
 import org.universaal.uaalpax.model.BundleSet;
 import org.universaal.uaalpax.model.LaunchURL;
 import org.universaal.uaalpax.model.UnknownBundleFormatException;
 
-public class WorkspaceProjectsBlock extends UIBlock {
+public class WorkspaceProjectsBlock extends Composite implements LaunchChangeListener, BundlePresenter {
+	private final UniversAALTab uAALTab;
+	
 	private Button toRight, toLeft, allToRight, allToLeft;
 	private ProjectTable leftTable, rightTable;
 	
 	public WorkspaceProjectsBlock(UniversAALTab uAALTab, Composite parent, int style) {
-		super(uAALTab, parent, style);
+		super(parent, style);
+		this.uAALTab = uAALTab;
+		
+		setLayout(new GridLayout());
+		setLayoutData(GridData.FILL_BOTH);
+		initBlock(this);
 	}
 	
-	@Override
-	public String getBlockName() {
-		return "Workspace projects";
+	public UniversAALTab getUAALTab() {
+		return uAALTab;
 	}
 	
-	@Override
+	// public abstract void initBlock(Composite parent);
+	
+	public void notifyChanged() {
+		uAALTab.updateLaunchConfigurationDialog();
+	}
+	
 	public void initBlock(Composite parent) {
 		// parent is the Group of UIBlock, so setting it's layout here is appropriate
 		// parent.setLayout(new GridLayout(3, false));
 		
+		final Group leftGroup = new Group(parent, SWT.NONE);
+		leftGroup.setLayout(new GridLayout());
+		leftGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
+		leftGroup.setText("Available workspace projects");
+		
 		// order left table, buttons, right table is intended, since buttons should be in the middle between both tables
-		leftTable = new ProjectTable(parent, SWT.NONE);
+		leftTable = new ProjectTable(leftGroup, SWT.NONE);
 		leftTable.setLayoutData(new GridData(GridData.FILL_BOTH));
 		leftTable.setChangeListener(this);
 		leftTable.setModel(getUAALTab().getModel());
@@ -94,7 +113,12 @@ public class WorkspaceProjectsBlock extends UIBlock {
 		allToRight.setText(">>");
 		allToRight.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		rightTable = new ProjectTable(parent, SWT.NONE);
+		final Group rightGroup = new Group(parent, SWT.NONE);
+		rightGroup.setLayout(new GridLayout());
+		rightGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
+		rightGroup.setText("Selected projects");
+		
+		rightTable = new ProjectTable(rightGroup, SWT.NONE);
 		rightTable.setLayoutData(new GridData(GridData.FILL_BOTH));
 		rightTable.setChangeListener(this);
 		rightTable.setModel(getUAALTab().getModel());
@@ -126,9 +150,9 @@ public class WorkspaceProjectsBlock extends UIBlock {
 				Point buttonsSize = buttonContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
 				int w1 = (rect.width - buttonsSize.x) / 2;
 				
-				leftTable.setBounds(rect.x, rect.y, w1, rect.height);
+				leftGroup.setBounds(rect.x, rect.y, w1, rect.height);
 				buttonContainer.setBounds(rect.x + w1, rect.y + (rect.height - buttonsSize.y) / 2, buttonsSize.x, rect.height);
-				rightTable.setBounds(rect.x + w1 + buttonsSize.x, rect.y, rect.width - buttonsSize.x - w1, rect.height);
+				rightGroup.setBounds(rect.x + w1 + buttonsSize.x, rect.y, rect.width - buttonsSize.x - w1, rect.height);
 			}
 			
 			@Override
@@ -173,6 +197,12 @@ public class WorkspaceProjectsBlock extends UIBlock {
 	}
 	
 	public void moveAllToRight() {
+		if (new MessageDialog(this.getShell(), "Really add all projects", null,
+				"Do you really want to add all projects in workspace to the run configuration?\n"
+						+ "To add selected projects only, press the > button", MessageDialog.QUESTION, new String[] { "Yes", "No" }, 0)
+				.open() != 0)
+			return;
+		
 		List<BundleEntry> pus = new ArrayList<BundleEntry>(leftTable.getElements());
 		getUAALTab().addAllBundles(pus);
 		
