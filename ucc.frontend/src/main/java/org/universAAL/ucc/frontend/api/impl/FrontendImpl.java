@@ -479,10 +479,13 @@ public class FrontendImpl implements IFrontend {
 		// update the service registration
 		IServiceManagement sm = Activator.getMgmt();
 		List<String> uappList = sm.getInstalledApps(serviceId);
+		if(uappList != null) {
+		System.err.println("Size of apps to uninstall: "+uappList.size());
 		for (String del : uappList) {
 			System.err.println("Apps to delete: "+del);
 			 InstallationResultsDetails result =
 			 Activator.getDeinstaller().requestToUninstall(serviceId, del);
+			 System.err.println("Uninstall Result: "+result);
 			 if(result.getGlobalResult().toString().equals(InstallationResults.SUCCESS)) {
 				 Activator.getReg().unregisterService(serviceId);
 			 } else if(result.getGlobalResult().toString().equals(InstallationResults.MISSING_PEER)){
@@ -493,7 +496,10 @@ public class FrontendImpl implements IFrontend {
 				 UccUI.getInstance().getMainWindow().addWindow(nw);
 			 }
 		}
-		
+	} else {
+		NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("no.service"));
+		UccUI.getInstance().getMainWindow().addWindow(nw);
+	}
 
 	}
 

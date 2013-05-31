@@ -201,8 +201,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 				 InstallationResultsDetails res = installer.requestToInstall(uapack);
 				 // add app and bundles to "services.xml" file.
 				 System.err.println("The GLOBAL RESULT: "+res.getGlobalResult().toString());
+				 System.err.println("Service ID: "+aal.getServiceId()+ " App ID: "+uapp.getAppId()+" Bundle ID: "+uapp.getBundleId()+ "Bundle Version: "+uapp.getBundleId());
 				if (res.getGlobalResult().toString().equals(InstallationResults.SUCCESS.name())) {
-					srvRegistration.registerApp(aal.getServiceId(),
+					srvRegistration.registerApp(aal.getServiceId(), 
 							uapp.getAppId());
 					// get bundles for each part in the appId;
 					// for each bundle:

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ServiceManagment implements IServiceManagement {
@@ -66,19 +67,23 @@ public class ServiceManagment implements IServiceManagement {
 	}
 
 	public static Element getService(String serviceId, Document doc) {
-		NodeList nodeList = doc.getDocumentElement().getChildNodes();
+		NodeList nodeList = doc.getChildNodes();
 		System.out.println("[nodeList] the number of child nodes: "
 				+ nodeList.getLength());
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element el = (Element) nodeList.item(i);
-			System.out
-					.println("[ServiceManagent.getService] has a node with serviceId: "
-							+ el.getAttribute("serviceId"));
-			if (el.getAttribute("serviceId").equals(serviceId)) {
-				System.out
-						.println("[ServiceManagement.getService] there is a service with id: "
-								+ serviceId);
-				return el;
+			System.err.println(i);
+			Node el = nodeList.item(i);
+			NodeList nl =  el.getChildNodes();
+			System.err.println("Services: "+nl.getLength());
+			for(int j = 0; j < nl.getLength(); j++) {
+				if(nl.item(j).getNodeName().equals("service")) {
+					Element elem = (Element)nl.item(j);
+					System.err.println("Service Id: "+elem.getAttribute("serviceId"));
+					if(elem.getAttribute("serviceId").equals(serviceId)) {
+					
+						return elem;
+					}
+				}
 			}
 		}
 		System.out
