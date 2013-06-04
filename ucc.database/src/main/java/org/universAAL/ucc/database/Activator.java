@@ -11,6 +11,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ontology.phThing.Device;
 import org.universAAL.ontology.profile.AALSpace;
+import org.universAAL.ontology.profile.SubProfile;
 import org.universAAL.ontology.profile.User;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.database.aalspace.DataAccessImpl;

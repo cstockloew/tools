@@ -37,23 +37,21 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 	}
 
 	public String getInstalledServices(String sessionKey) {
-		// TODO Auto-generated method stub
-		return null;
+		String installedServices = Activator.getFrontend().getInstalledServices(sessionKey);
+		return installedServices;
 	}
 
 	public String getInstalledUnitsForService(String sessionKey,
 			String serviceId) {
-		// TODO Auto-generated method stub
-		return null;
+		String units = Activator.getFrontend().getInstalledUnitsForService(sessionKey, serviceId);
+		return units;
 	}
 
 	public String getAALSpaceProfile() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String getUserProfile(String sessionKey) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -64,7 +62,6 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 	}
 
 	public void update(String sessionKey, String usrvfile) {
-		// TODO Auto-generated method stub
 
 	}
 
