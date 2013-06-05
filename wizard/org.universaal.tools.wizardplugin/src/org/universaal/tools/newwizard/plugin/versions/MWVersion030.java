@@ -390,6 +390,7 @@ public class MWVersion030 implements IMWVersion{
 			if(i==1 && checks[2]){
 			    output.append("		"+filenames[i].toLowerCase()+"=new DefaultServiceCaller(context);\n");
 			}else if(i==4 && checks[5]){
+			    output.append("		//TODO: You have to pass your own ContextProvider instead of null!\n");
 			    output.append("		"+filenames[i].toLowerCase()+"=new DefaultContextPublisher(context,null);\n");
 			}else{
 			    output.append("		"+filenames[i].toLowerCase()+"=new "+filenames[i]+"(context);\n");
