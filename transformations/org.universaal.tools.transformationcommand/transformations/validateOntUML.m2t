@@ -37,7 +37,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	   	
 	   	// Create the list of upper ontology entities
 	    self.createSuperentitiesList()
-	    self.initDatatypeImportMap()
+	    self.val_initDatatypeImportMap()
 	    
 	    if(listOfUpperOntology.size() == 0){
 	    	verbose("*No upper ontology defined!!\n",true,false)
@@ -47,7 +47,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 				if (!p.hasStereotype("owlOntology")) {
 					verbose("*The package " + p.name + " is not stereotyped with owlOntology!\nIt is required to set the owlOntology stereotype on ALL root packages.\n",true,true)
 				}
-				p.processOntologyPackage()
+				p.validateOntologyPackage()
 		 	}
 	 	}
 	    
@@ -60,7 +60,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 					verbose(e,false,true);
 				}
 			}
-			return false
+			return (tot_errors == 0)
 		} else {
 			verbose("EVERYTHING'S OK!\n----\n",false,false)
 			return true
@@ -68,7 +68,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		
 	}
 	
-	uml.Package::processOntologyPackage(){
+	uml.Package::validateOntologyPackage(){
 		
 	  	verbose("\n§§   PACKAGE "+self.name+"   §§\n\n",false,true)
 	  	self.createEntityListAndTree()
@@ -102,7 +102,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 					
 					PropertyList->forEach(p:uml.Property){
 						if(p.type == null) verbose("!"+entity.oclGetType()+" "+entity.getName()+": Property "+p.getName()+" has UNDEFINED type\n",true,false)
-						else if(!p.isDataType()) verbose("!"+entity.getName()+": Property "+p.getName()+" has UNKNOWN type\n",true,false)
+						else if(!p.val_isDataType()) verbose("!"+entity.getName()+": Property "+p.getName()+" has UNKNOWN type\n",true,false)
 						p.checkNamingConventions()
 					}
 				}
@@ -458,7 +458,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	/**
 	 * Crate a map containing the basic datatypes supported.
 	 */		
-	uml.Model::initDatatypeImportMap() {
+	uml.Model::val_initDatatypeImportMap() {
 		datatypeImportMap.put("Boolean", " ")
 	    datatypeImportMap.put("Integer", " ")
 	    datatypeImportMap.put("Float", " ")
@@ -476,7 +476,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 	/**
 	 * Check if a property is one of the defined types (basic and model)
 	 */		
-	uml.Property::isDataType() {
+	uml.Property::val_isDataType() {
 		var theTypeName:String = self.type.name
 		var isDatatype:boolean = (datatypeImportMap.get(theTypeName) != null)
 		return isDatatype

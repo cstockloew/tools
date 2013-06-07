@@ -5,6 +5,8 @@
  * description: 
  */
 
+import "validateOntUML.m2t"
+
 texttransformation OntologyUML2Java_1_1_0 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") {
 
 
@@ -43,6 +45,20 @@ texttransformation OntologyUML2Java_1_1_0 (in uml:"http://www.eclipse.org/uml2/3
    */
     
   uml.Model::main() {
+    StdOut.println("Validating model before transformation")
+    if (self.checkModel()) {
+      StdOut.println("=====================================================")
+      StdOut.println("Validation succeeded - proceeding with transformation")
+      StdOut.println("=====================================================")
+    }  
+    else {
+      StdOut.println("=======================================================================")
+      StdOut.println("Validaton errors found - please correct the model before transformation")
+      return
+    }
+    
+    
+    
     var defaultOntologyNamespace:String
   	var defaultOntologyName:String
   	
