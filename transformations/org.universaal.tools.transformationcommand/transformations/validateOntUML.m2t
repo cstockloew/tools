@@ -101,7 +101,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 					self.checkUnity(PropertyList)
 					
 					PropertyList->forEach(p:uml.Property){
-						if(p.type == null) verbose("!"+entity.getName()+": Property "+p.getName()+" has UNDEFINED type\n",true,false)
+						if(p.type == null) verbose("!"+entity.oclGetType()+" "+entity.getName()+": Property "+p.getName()+" has UNDEFINED type\n",true,false)
 						else if(!p.isDataType()) verbose("!"+entity.getName()+": Property "+p.getName()+" has UNKNOWN type\n",true,false)
 						p.checkNamingConventions()
 					}
@@ -265,7 +265,7 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 		
 	}
 	
-	uml.Package::checkEmpty (someList:list):boolean {
+	uml.Package::checkEmpty(someList:list):boolean {
 		var ret:boolean = true
 		var howmany:integer = 0
 		var parent:string
