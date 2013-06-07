@@ -37,29 +37,6 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            commandId="org.universaal.tools.transformationcommand.commands.listClasses"
-            class="org.universaal.tools.transformationcommand.handlers.TransformExampleHandler">
-         <activeWhen>
-            <with
-                  variable="selection">
-               <iterate
-                     ifEmpty="false"
-                     operator="or">
-                  <instanceof
-                        value="org.eclipse.core.resources.IFile">
-                  </instanceof>
-                  <test
-                        property="org.eclipse.core.resources.extension "
-                        value="uml">
-                  </test>
-               </iterate>
-               <count
-                     value="1">
-               </count>
-            </with>
-         </activeWhen>
-      </handler>
-      <handler
             commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java">
       </handler>
@@ -108,6 +85,10 @@
                id="org.universaal.tools.transformationcommand.menu.ontJava2UML"
                style="push">
          </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.universaal.tools.AALStudio.menu?after=test">
          <command
                commandId="org.universaal.tools.transformationcommand.validateOntUML"
                icon="icons/test.png"
