@@ -13,5 +13,6 @@
     <packagedElement xmi:type="uml:DataType" xmi:id="_0N0ScGkeEeGXyoAu4GMQ6g" name="Integer"/>
     <packagedElement xmi:type="uml:DataType" xmi:id="_1blGEGkeEeGXyoAu4GMQ6g" name="Boolean"/>
     <packagedElement xmi:type="uml:DataType" xmi:id="_2boN0GkeEeGXyoAu4GMQ6g" name="String"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_M0LU4NIKEeKw_dHjReEqbg" name="Resource"/>
   </packagedElement>
 </uml:Model>

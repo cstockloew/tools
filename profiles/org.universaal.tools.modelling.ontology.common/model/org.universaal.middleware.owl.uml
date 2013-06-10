@@ -5,23 +5,38 @@
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_J8JskPqREeCQQaPCMdH-vA" name="org.universAAL.middleware.owl">
-      <packagedElement xmi:type="uml:Class" xmi:id="_7clzYKFGEeCPiYRKlVcMuQ" name="ManagedIndividual">
-        <ownedAttribute xmi:id="_b7DQgKFMEeCPiYRKlVcMuQ" name="OWL_NAMESPACE">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          <defaultValue xmi:type="uml:LiteralString" xmi:id="_1ZwRwKYpEeCn49vC5eMr5A"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_enu5MKFMEeCPiYRKlVcMuQ" name="TYPE_OWL_INDIVIDUAL"/>
-        <ownedAttribute xmi:id="_ge85gKFMEeCPiYRKlVcMuQ" name="TYPE_OWL_THING"/>
-        <ownedAttribute xmi:id="_kcUuAKFMEeCPiYRKlVcMuQ" name="MY_URI"/>
-        <ownedAttribute xmi:id="_oYqAsKFMEeCPiYRKlVcMuQ" name="uriClassMap"/>
-        <ownedAttribute xmi:id="_pkfhsKFMEeCPiYRKlVcMuQ" name="classURIMap"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_dTqlwPqPEeCQQaPCMdH-vA" name="ComparableIndividual">
+      <packagedElement xmi:type="uml:Class" xmi:id="_7clzYKFGEeCPiYRKlVcMuQ" name="ManagedIndividual" isAbstract="true"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_dTqlwPqPEeCQQaPCMdH-vA" name="ComparableIndividual" isAbstract="true">
         <generalization xmi:id="_f3t24PqPEeCQQaPCMdH-vA" general="_7clzYKFGEeCPiYRKlVcMuQ"/>
-        <ownedAttribute xmi:id="_d_iNQPqPEeCQQaPCMdH-vA" name="non_comparable_individiual"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_31V5YNHbEeKzv4UPdJsk_g" name="AbsLocation">
-        <generalization xmi:id="_W-p98NHgEeKzv4UPdJsk_g" general="_dTqlwPqPEeCQQaPCMdH-vA"/>
+      <packagedElement xmi:type="uml:Package" xmi:id="_VQm9YNIEEeKw_dHjReEqbg" name="supply">
+        <packagedElement xmi:type="uml:Class" xmi:id="_31V5YNHbEeKzv4UPdJsk_g" name="AbsLocation" isAbstract="true">
+          <generalization xmi:id="_W-p98NHgEeKzv4UPdJsk_g" general="_dTqlwPqPEeCQQaPCMdH-vA"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Enumeration" xmi:id="_eszLANIEEeKw_dHjReEqbg" name="Rating">
+          <generalization xmi:id="__k0J4NIEEeKw_dHjReEqbg" general="_31V5YNHbEeKzv4UPdJsk_g"/>
+          <ownedLiteral xmi:id="_eI0ewNIFEeKw_dHjReEqbg" name="poor"/>
+          <ownedLiteral xmi:id="_fO2SsNIFEeKw_dHjReEqbg" name="almostPoor"/>
+          <ownedLiteral xmi:id="_gjP50NIFEeKw_dHjReEqbg" name="almostSuffucient"/>
+          <ownedLiteral xmi:id="_iu4D4NIFEeKw_dHjReEqbg" name="sufficient"/>
+          <ownedLiteral xmi:id="_kDlNANIFEeKw_dHjReEqbg" name="richSufficient"/>
+          <ownedLiteral xmi:id="_lQ57wNIFEeKw_dHjReEqbg" name="almostSatisfying"/>
+          <ownedLiteral xmi:id="_nJHakNIFEeKw_dHjReEqbg" name="satisfying"/>
+          <ownedLiteral xmi:id="_ooWYsNIFEeKw_dHjReEqbg" name="richSatisfying"/>
+          <ownedLiteral xmi:id="_qy5ksNIFEeKw_dHjReEqbg" name="almostGood"/>
+          <ownedLiteral xmi:id="_tbewgNIFEeKw_dHjReEqbg" name="good"/>
+          <ownedLiteral xmi:id="_vXz6UNIFEeKw_dHjReEqbg" name="richGood"/>
+          <ownedLiteral xmi:id="_xFXoUNIFEeKw_dHjReEqbg" name="almostExcellent"/>
+          <ownedLiteral xmi:id="_y-OnYNIFEeKw_dHjReEqbg" name="excellent"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Enumeration" xmi:id="_AGQqENIFEeKw_dHjReEqbg" name="LevelRating">
+          <generalization xmi:id="_BPTVwNIFEeKw_dHjReEqbg" general="_31V5YNHbEeKzv4UPdJsk_g"/>
+          <ownedLiteral xmi:id="_YGOqMNIFEeKw_dHjReEqbg" name="none"/>
+          <ownedLiteral xmi:id="_UwSpINIFEeKw_dHjReEqbg" name="low"/>
+          <ownedLiteral xmi:id="_W7swwNIFEeKw_dHjReEqbg" name="middle"/>
+          <ownedLiteral xmi:id="_chqTsNIFEeKw_dHjReEqbg" name="high"/>
+          <ownedLiteral xmi:id="_dWNWENIFEeKw_dHjReEqbg" name="full"/>
+        </packagedElement>
       </packagedElement>
     </packagedElement>
     <profileApplication xmi:id="_nQ9f4PqQEeCQQaPCMdH-vA">
@@ -37,5 +52,5 @@
       <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
     </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_oSLsUPqQEeCQQaPCMdH-vA" defaultNamespace="org.universaal.middleware.owl" base_Package="_0huTAKFGEeCPiYRKlVcMuQ" versionInfo="1.0"/>
+  <OWL:owlOntology xmi:id="_5ccvYNICEeKw_dHjReEqbg" defaultNamespace="http://ontology.universAAL.org/DataRepresentation.owl" base_Package="_J8JskPqREeCQQaPCMdH-vA" versionInfo="1.3"/>
 </xmi:XMI>
