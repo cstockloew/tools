@@ -6,7 +6,6 @@
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_J8JskPqREeCQQaPCMdH-vA" name="org.universAAL.middleware.owl">
       <packagedElement xmi:type="uml:Class" xmi:id="_7clzYKFGEeCPiYRKlVcMuQ" name="ManagedIndividual">
-        <generalization xmi:id="_YyMpMKFMEeCPiYRKlVcMuQ" general="_Xh6tEKFMEeCPiYRKlVcMuQ"/>
         <ownedAttribute xmi:id="_b7DQgKFMEeCPiYRKlVcMuQ" name="OWL_NAMESPACE">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           <defaultValue xmi:type="uml:LiteralString" xmi:id="_1ZwRwKYpEeCn49vC5eMr5A"/>
@@ -17,45 +16,13 @@
         <ownedAttribute xmi:id="_oYqAsKFMEeCPiYRKlVcMuQ" name="uriClassMap"/>
         <ownedAttribute xmi:id="_pkfhsKFMEeCPiYRKlVcMuQ" name="classURIMap"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_8nb14KFGEeCPiYRKlVcMuQ" name="OrderingRestriction">
-        <generalization xmi:id="_1y2U8KFMEeCPiYRKlVcMuQ" general="_z7RIQKFMEeCPiYRKlVcMuQ"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_Xh6tEKFMEeCPiYRKlVcMuQ" name="Resource"/>
-      <packagedElement xmi:type="uml:Class" xmi:id="_z7RIQKFMEeCPiYRKlVcMuQ" name="Restriction"/>
-      <packagedElement xmi:type="uml:Class" xmi:id="_aoCicPqOEeCQQaPCMdH-vA" name="AbstractRestriction">
-        <generalization xmi:id="_gJv3gPqOEeCQQaPCMdH-vA" general="_fBLF4PqOEeCQQaPCMdH-vA"/>
-        <ownedAttribute xmi:id="_iH_s4PqOEeCQQaPCMdH-vA" name="owl_on_property"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_fBLF4PqOEeCQQaPCMdH-vA" name="ClassExpression">
-        <generalization xmi:id="_2CPNwPqOEeCQQaPCMdH-vA" general="_Xh6tEKFMEeCPiYRKlVcMuQ"/>
-        <ownedAttribute xmi:id="_n8c-0PqOEeCQQaPCMdH-vA" name="owl_namespace"/>
-        <ownedAttribute xmi:id="_pF1owPqOEeCQQaPCMdH-vA" name="type_owl_thing"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_9gRFkPqOEeCQQaPCMdH-vA" name="AllValuesFromRestriction">
-        <generalization xmi:id="_-l3bsPqOEeCQQaPCMdH-vA" general="_aoCicPqOEeCQQaPCMdH-vA"/>
-        <ownedAttribute xmi:id="_Adj9IPqPEeCQQaPCMdH-vA" name="owl_all_values_from"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_Exa_APqPEeCQQaPCMdH-vA" name="BoundingValueRestriction">
-        <generalization xmi:id="_Zmko8PqPEeCQQaPCMdH-vA" general="_aoCicPqOEeCQQaPCMdH-vA"/>
-        <ownedAttribute xmi:id="_IonTAPqPEeCQQaPCMdH-vA" name="double_smallest_positive_value"/>
-        <ownedAttribute xmi:id="_LoaE8PqPEeCQQaPCMdH-vA" name="float_smallest_positive_value"/>
-        <ownedAttribute xmi:id="_MV9HcPqPEeCQQaPCMdH-vA" name="value_has_max_exclusive"/>
-        <ownedAttribute xmi:id="_UsdfYPqPEeCQQaPCMdH-vA" name="value_has_max_inclusive"/>
-        <ownedAttribute xmi:id="_WeW60PqPEeCQQaPCMdH-vA" name="values_has_min_exclusive"/>
-        <ownedAttribute xmi:id="_Xw1PUPqPEeCQQaPCMdH-vA" name="value_has_min_inclusive"/>
-      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_dTqlwPqPEeCQQaPCMdH-vA" name="ComparableIndividual">
         <generalization xmi:id="_f3t24PqPEeCQQaPCMdH-vA" general="_7clzYKFGEeCPiYRKlVcMuQ"/>
         <ownedAttribute xmi:id="_d_iNQPqPEeCQQaPCMdH-vA" name="non_comparable_individiual"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_jCeisPqPEeCQQaPCMdH-vA" name="Complement">
-        <generalization xmi:id="_nCFL0PqPEeCQQaPCMdH-vA" general="_fBLF4PqOEeCQQaPCMdH-vA"/>
-        <ownedAttribute xmi:id="_jwLWMPqPEeCQQaPCMdH-vA" name="owl_ complement_of"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_31V5YNHbEeKzv4UPdJsk_g" name="AbsLocation">
+        <generalization xmi:id="_W-p98NHgEeKzv4UPdJsk_g" general="_dTqlwPqPEeCQQaPCMdH-vA"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_w1aHEPqPEeCQQaPCMdH-vA" name="Enumeration">
-        <generalization xmi:id="_y4WPMPqPEeCQQaPCMdH-vA" general="_fBLF4PqOEeCQQaPCMdH-vA"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_CBZR8PqQEeCQQaPCMdH-vA" name="Ontotology"/>
     </packagedElement>
     <profileApplication xmi:id="_nQ9f4PqQEeCQQaPCMdH-vA">
       <eAnnotations xmi:id="_nR6iIPqQEeCQQaPCMdH-vA" source="http://www.eclipse.org/uml2/2.0.0/UML">
