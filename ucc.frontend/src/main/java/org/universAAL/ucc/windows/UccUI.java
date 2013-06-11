@@ -82,6 +82,8 @@ public class UccUI extends Application {
 			} else {
 				Locale.setDefault(Locale.ENGLISH);
 			}
+		} else {
+			Locale.setDefault(Locale.ENGLISH);
 		}
 		// Creating tempUsrvFiles directory
 		File file = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles");

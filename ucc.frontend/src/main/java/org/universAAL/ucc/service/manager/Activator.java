@@ -86,7 +86,9 @@ public class Activator implements BundleActivator {
 				prop.setProperty("lang", "de");
 			} else {
 				prop.setProperty("lang", "en");
+				Locale.setDefault(Locale.ENGLISH);
 			}
+			System.err.println(Locale.getDefault());
 			System.err.println(confHome.getAbsolutePath());
 			Writer in = new FileWriter(new File(confHome.getAbsolutePath(), "setup.properties"));
 			prop.store(in, "Setup properties for initial setup of uCC");

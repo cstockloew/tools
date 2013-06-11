@@ -48,15 +48,18 @@ public class ServiceManagment implements IServiceManagement {
 			String services = "<serviceUnits>";
 			Document doc = Model.getSrvDocument();
 			Element serviceEl = getService(serviceId, doc);
+			System.err.println(serviceEl.getNodeName());
 			NodeList nodeList = serviceEl.getElementsByTagName("bundle");
 			System.out
 					.println("[ServiceManagement.getInstalledUnitsForService] the number of nodes for bundle: "
 							+ nodeList.getLength());
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Element element = (Element) nodeList.item(i);
-				services = services + "<unit><id>" + element.getAttribute("id")
-						+ "</id><version>" + element.getAttribute("version")
-						+ "</version></unit>";
+				System.err.println(element.getNodeName() + " "+element.getNodeValue());
+					services = services + "<unit><id>" + element.getAttribute("id")
+							+ "</id><version>" + element.getAttribute("version")
+							+ "</version></unit>";
+				
 			}
 			services += "</serviceUnits>";
 			return services;
