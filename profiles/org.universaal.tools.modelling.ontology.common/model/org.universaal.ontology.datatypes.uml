@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_pJZm8GkXEeGIl7HiYaL9OA" name="Datatypes">
-  <packageImport xmi:id="_pJZm8WkXEeGIl7HiYaL9OA">
-    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
-  </packageImport>
   <packagedElement xmi:type="uml:Package" xmi:id="_U7uacGkcEeGIl7HiYaL9OA" name="org.universaal.ontology.datatypes">
     <packagedElement xmi:type="uml:DataType" xmi:id="_XWBvIGkbEeGIl7HiYaL9OA" name="Locale"/>
     <packagedElement xmi:type="uml:DataType" xmi:id="_bOsCwGkbEeGIl7HiYaL9OA" name="XMLGregorianCalendar"/>

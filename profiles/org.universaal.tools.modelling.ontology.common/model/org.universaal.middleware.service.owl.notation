@@ -84,7 +84,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zjzVJfqREeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.service.owl.uml#_zjw40PqREeCQQaPCMdH-vA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zjyuAfqREeCQQaPCMdH-vA" x="270" y="558"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zjyuAfqREeCQQaPCMdH-vA" x="234" y="558"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_1-5egPqREeCQQaPCMdH-vA" type="2008" fontName="Lucida Grande" fontHeight="11" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_1-6FkPqREeCQQaPCMdH-vA" source="ShadowFigure">
@@ -192,7 +192,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-nLjBfqREeCQQaPCMdH-vA"/>
     </children>
     <element xmi:type="uml:Class" href="org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-nK74fqREeCQQaPCMdH-vA" x="270" y="63"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-nK74fqREeCQQaPCMdH-vA" x="225" y="63"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_gxgTsfqREeCQQaPCMdH-vA"/>
   <element xmi:type="uml:Package" href="org.universaal.middleware.service.owl.uml#_Xx5jADuNEeGWHJDQ6prNGQ"/>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OWL="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8 pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww">
   <uml:Model xmi:id="_0huTAKFGEeCPiYRKlVcMuQ" name="org.universaal.middleware.owl">
-    <packageImport xmi:id="_fn0o4KIrEeCR0PqXfWn3bQ">
-      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
-    </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_J8JskPqREeCQQaPCMdH-vA" name="org.universAAL.middleware.owl">
       <packagedElement xmi:type="uml:Class" xmi:id="_7clzYKFGEeCPiYRKlVcMuQ" name="ManagedIndividual" isAbstract="true"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_dTqlwPqPEeCQQaPCMdH-vA" name="ComparableIndividual" isAbstract="true">
