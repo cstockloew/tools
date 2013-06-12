@@ -86,10 +86,10 @@ public class ToolController implements Button.ClickListener,
 			Embedded em = new Embedded("", new ExternalResource(createLink()));
 			em.setType(Embedded.TYPE_BROWSER);
 			em.setWidth("100%");
-			em.setHeight("750px");
+			em.setHeight("850px");
 			Window w = new Window("uStore");
-			w.setWidth("1024px");
-			w.setHeight("750px");
+			w.setWidth("1250px");
+			w.setHeight("800px");
 			VerticalLayout v = new VerticalLayout();
 			w.center();
 			v.addComponent(em);
@@ -102,10 +102,10 @@ public class ToolController implements Button.ClickListener,
 					"http://wiki.openaal.org"));
 			em.setType(Embedded.TYPE_BROWSER);
 			em.setWidth("100%");
-			em.setHeight("750px");
+			em.setHeight("800px");
 			Window w = new Window("openAAL");
-			w.setWidth("1024px");
-			w.setHeight("750px");
+			w.setWidth("1250px");
+			w.setHeight("800px");
 			VerticalLayout v = new VerticalLayout();
 			w.center();
 			v.addComponent(em);
@@ -130,13 +130,8 @@ public class ToolController implements Button.ClickListener,
 			 v.addComponent(up);
 			 installWindow.setContent(v);
 			
-			app.getMainWindow().removeWindow(toolWin);
+			 app.getMainWindow().removeWindow(toolWin);
 			 app.getMainWindow().addWindow(installWindow);
-
-			// Only for testing, later will be deleted. uStore has to call
-			// IFrontend.installService()
-//			frontend.installService(
-//					Activator.getSessionKey(), "HWO_Service_with_1_part","");
 		}
 		if (event.getButton() == toolWin.getLogoutButton()) {
 			DesktopController.setCurrentPassword("");
