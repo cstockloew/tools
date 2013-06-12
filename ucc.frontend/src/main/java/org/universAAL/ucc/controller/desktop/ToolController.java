@@ -11,12 +11,14 @@ import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.swing.JFileChooser;
 import javax.xml.bind.JAXBException;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.configuration.view.WhichBundleShouldBeConfiguredWindow;
+import org.universAAL.ucc.controller.install.AALServiceReceiver;
 import org.universAAL.ucc.controller.install.DeinstallController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
@@ -113,27 +115,28 @@ public class ToolController implements Button.ClickListener,
 		}
 		if (event.getButton() == toolWin.getInstallButton()) {
 			// Later uncomment again only for testing commented out!
-			// Upload up = new Upload("", new AALServiceReceiver());
-			// up.setButtonCaption(res.getString("install.button"));
-			// up.addListener((Upload.FinishedListener)this);
-			// up.addListener((Upload.FailedListener)this);
-			// installWindow = new Window(res.getString("install.win.caption"));
-			// installWindow.setResizable(false);
-			// installWindow.center();
-			// installWindow.setWidth("400px");
-			// VerticalLayout v = new VerticalLayout();
-			// v.setSizeFull();
-			// v.setSpacing(true);
-			// v.setMargin(true);
-			// v.addComponent(up);
-			// installWindow.setContent(v);
+			 Upload up = new Upload("", new AALServiceReceiver());
+			 up.setButtonCaption(res.getString("install.button"));
+			 up.addListener((Upload.FinishedListener)this);
+			 up.addListener((Upload.FailedListener)this);
+			 installWindow = new Window(res.getString("install.win.caption"));
+			 installWindow.setResizable(false);
+			 installWindow.center();
+			 installWindow.setWidth("400px");
+			 VerticalLayout v = new VerticalLayout();
+			 v.setSizeFull();
+			 v.setSpacing(true);
+			 v.setMargin(true);
+			 v.addComponent(up);
+			 installWindow.setContent(v);
+			
 			app.getMainWindow().removeWindow(toolWin);
-			// app.getMainWindow().addWindow(installWindow);
+			 app.getMainWindow().addWindow(installWindow);
 
 			// Only for testing, later will be deleted. uStore has to call
 			// IFrontend.installService()
-			frontend.installService(
-					Activator.getSessionKey(), "HWO_Service_with_1_part","");
+//			frontend.installService(
+//					Activator.getSessionKey(), "HWO_Service_with_1_part","");
 		}
 		if (event.getButton() == toolWin.getLogoutButton()) {
 			DesktopController.setCurrentPassword("");
@@ -289,6 +292,12 @@ public class ToolController implements Button.ClickListener,
 
 	public void uploadFinished(FinishedEvent event) {
 		app.getMainWindow().removeWindow(installWindow);
+		String f = event.getFilename();
+		String file = f.substring(0, f.lastIndexOf("."));
+		
+		System.err.println("The local file: "+file);
+		frontend.installService(
+				Activator.getSessionKey(), file,"");
 		// iw.installProcess(System.getenv("systemdrive")+"/tempUsrvFiles/");
 		// File licenceFile = new
 		// File(System.getenv("systemdrive")+"/"+dir+"/config/hwo.usrv.xml");
