@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -15,16 +17,22 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.configuration.view.WhichBundleShouldBeConfiguredWindow;
+import org.universAAL.ucc.controller.install.DeinstallController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
+import org.universAAL.ucc.windows.DeinstallWindow;
 import org.universAAL.ucc.windows.HumansWindow;
 import org.universAAL.ucc.windows.RoomsWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
@@ -142,8 +150,18 @@ public class ToolController implements Button.ClickListener,
 		
 		if(event.getButton() == toolWin.getUninstallButton()) {
 			app.getMainWindow().removeWindow(toolWin);
+			List<String> ids = new ArrayList<String>();
+			Document doc = Model.getSrvDocument();
+			NodeList nodeList = doc.getElementsByTagName("service");
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Element element = (Element) nodeList.item(i);
+				ids.add(element.getAttribute("serviceId"));
+			}
+			DeinstallWindow dw = new DeinstallWindow(ids);
+			app.getMainWindow().addWindow(dw);
+			DeinstallController dc = new DeinstallController(dw, app);
 //			frontend.uninstallService(Activator.getSessionKey(), "28002");
-			frontend.getInstalledUnitsForService(Activator.getSessionKey(), "28002");
+//			frontend.getInstalledUnitsForService(Activator.getSessionKey(), "28002");
 		}
 		
 		if(event.getButton() == toolWin.getPersonButton()) {

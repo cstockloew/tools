@@ -40,7 +40,7 @@ public class Model implements IServiceModel {
 		return srvMan;
 	}
 
-	static protected Document getSrvDocument() {
+	public static /*protected*/ Document getSrvDocument() {
 		if (doc == null) {
 			File file = new File(SERVICEFILENAME);
 			try {

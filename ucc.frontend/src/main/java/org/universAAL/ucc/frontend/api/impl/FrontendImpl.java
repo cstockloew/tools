@@ -43,6 +43,7 @@ import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.database.parser.ParserService;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.manager.Activator;
+import org.universAAL.ucc.windows.DeinstallWindow;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.NoConfigurationWindow;
 import org.universAAL.ucc.windows.NotificationWindow;
