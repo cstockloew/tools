@@ -1,4 +1,4 @@
-uCC profile agent module
+uCC configuration model
 
 Copyright 2008-2014 FZI, http://www.fzi.de/en/startseite/
 FORSCHUNGSZENTRUM INFORMATIK

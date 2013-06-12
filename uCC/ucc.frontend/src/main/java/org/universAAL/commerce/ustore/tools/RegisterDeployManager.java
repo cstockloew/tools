@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for registerDeployManager complex type.
+ * <p>Clase Java para registerDeployManager complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
  * &lt;complexType name="registerDeployManager">
@@ -46,7 +46,7 @@ public class RegisterDeployManager {
     protected String port;
 
     /**
-     * Gets the value of the sessionKey property.
+     * Obtiene el valor de la propiedad sessionKey.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the sessionKey property.
+     * Define el valor de la propiedad sessionKey.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Gets the value of the adminUserName property.
+     * Obtiene el valor de la propiedad adminUserName.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the adminUserName property.
+     * Define el valor de la propiedad adminUserName.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Gets the value of the adminPassword property.
+     * Obtiene el valor de la propiedad adminPassword.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the adminPassword property.
+     * Define el valor de la propiedad adminPassword.
      * 
      * @param value
      *     allowed object is
@@ -118,7 +118,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Gets the value of the ipAddress property.
+     * Obtiene el valor de la propiedad ipAddress.
      * 
      * @return
      *     possible object is
@@ -130,7 +130,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the ipAddress property.
+     * Define el valor de la propiedad ipAddress.
      * 
      * @param value
      *     allowed object is
@@ -142,7 +142,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Gets the value of the port property.
+     * Obtiene el valor de la propiedad port.
      * 
      * @return
      *     possible object is
@@ -154,7 +154,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the port property.
+     * Define el valor de la propiedad port.
      * 
      * @param value
      *     allowed object is

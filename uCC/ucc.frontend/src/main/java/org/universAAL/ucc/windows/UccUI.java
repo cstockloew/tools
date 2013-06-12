@@ -97,6 +97,7 @@ public class UccUI extends Application {
 			e.printStackTrace();
 		}
 		String lang = prop.getProperty("lang");
+		System.out.println("---------------------------------> LANGUAGE  " +lang);
 		if(lang != null && !lang.equals("")) {
 			if(lang.equals("de")) {
 				Locale.setDefault(Locale.GERMAN);

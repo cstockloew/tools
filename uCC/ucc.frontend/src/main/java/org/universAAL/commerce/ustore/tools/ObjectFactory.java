@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the org.universaal.commerce.ustore.tools package. 
+ * generated in the org.universAAL.commerce.ustore.tools package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -34,25 +34,17 @@ public class ObjectFactory {
     private final static QName _GetUserProfile_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getUserProfile");
     private final static QName _GetSessionKey_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getSessionKey");
     private final static QName _PurchaseFreeAALServiceResponse_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "purchaseFreeAALServiceResponse");
-    private final static QName _RegisterDeployManager_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "registerDeployManager");
     private final static QName _PurchaseFreeAALService_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "purchaseFreeAALService");
+    private final static QName _RegisterDeployManager_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "registerDeployManager");
     private final static QName _GetUpdatesForAALServicesResponse_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getUpdatesForAALServicesResponse");
     private final static QName _GetFreeAALServices_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getFreeAALServices");
     private final static QName _GetFreeAALServicesResponse_QNAME = new QName("http://tools.ustore.commerce.universaal.org/", "getFreeAALServicesResponse");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.universaal.commerce.ustore.tools
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.universAAL.commerce.ustore.tools
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link RegisterDeployManager }
-     * 
-     */
-    public RegisterDeployManager createRegisterDeployManager() {
-        return new RegisterDeployManager();
     }
 
     /**
@@ -61,6 +53,14 @@ public class ObjectFactory {
      */
     public PurchaseFreeAALService createPurchaseFreeAALService() {
         return new PurchaseFreeAALService();
+    }
+
+    /**
+     * Create an instance of {@link RegisterDeployManager }
+     * 
+     */
+    public RegisterDeployManager createRegisterDeployManager() {
+        return new RegisterDeployManager();
     }
 
     /**
@@ -258,21 +258,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterDeployManager }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "registerDeployManager")
-    public JAXBElement<RegisterDeployManager> createRegisterDeployManager(RegisterDeployManager value) {
-        return new JAXBElement<RegisterDeployManager>(_RegisterDeployManager_QNAME, RegisterDeployManager.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link PurchaseFreeAALService }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "purchaseFreeAALService")
     public JAXBElement<PurchaseFreeAALService> createPurchaseFreeAALService(PurchaseFreeAALService value) {
         return new JAXBElement<PurchaseFreeAALService>(_PurchaseFreeAALService_QNAME, PurchaseFreeAALService.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterDeployManager }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://tools.ustore.commerce.universaal.org/", name = "registerDeployManager")
+    public JAXBElement<RegisterDeployManager> createRegisterDeployManager(RegisterDeployManager value) {
+        return new JAXBElement<RegisterDeployManager>(_RegisterDeployManager_QNAME, RegisterDeployManager.class, null, value);
     }
 
     /**

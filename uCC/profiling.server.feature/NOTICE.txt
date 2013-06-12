@@ -1,4 +1,4 @@
-uCC profile agent module
+profiling server feature
 
 Copyright 2008-2014 FZI, http://www.fzi.de/en/startseite/
 FORSCHUNGSZENTRUM INFORMATIK

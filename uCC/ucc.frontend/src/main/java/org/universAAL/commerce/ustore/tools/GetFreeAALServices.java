@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for getFreeAALServices complex type.
+ * <p>Clase Java para getFreeAALServices complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
  * &lt;complexType name="getFreeAALServices">
@@ -37,7 +37,7 @@ public class GetFreeAALServices {
     protected boolean isFitToUser;
 
     /**
-     * Gets the value of the sessionKey property.
+     * Obtiene el valor de la propiedad sessionKey.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class GetFreeAALServices {
     }
 
     /**
-     * Sets the value of the sessionKey property.
+     * Define el valor de la propiedad sessionKey.
      * 
      * @param value
      *     allowed object is
@@ -61,7 +61,7 @@ public class GetFreeAALServices {
     }
 
     /**
-     * Gets the value of the isFitToUser property.
+     * Obtiene el valor de la propiedad isFitToUser.
      * 
      */
     public boolean isIsFitToUser() {
@@ -69,7 +69,7 @@ public class GetFreeAALServices {
     }
 
     /**
-     * Sets the value of the isFitToUser property.
+     * Define el valor de la propiedad isFitToUser.
      * 
      */
     public void setIsFitToUser(boolean value) {

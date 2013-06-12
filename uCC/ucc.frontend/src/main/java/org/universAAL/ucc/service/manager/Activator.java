@@ -72,7 +72,7 @@ public class Activator implements BundleActivator {
 		File temp = new File("file:///../etc/uCC/setup.properties");
 		if(!temp.exists()) {
 			//Setting default values for setup configuration
-			Properties prop = new Properties();	
+			Properties prop = new Properties();
 			prop.setProperty("admin", "admin");
 			prop.setProperty("pwd", "uAAL");
 			prop.setProperty("storePort", "9090");
@@ -81,8 +81,10 @@ public class Activator implements BundleActivator {
 			prop.setProperty("shopUrl", "srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
 			if(Locale.getDefault() == Locale.GERMAN) {
 				prop.setProperty("lang", "de");
+				Locale.setDefault(Locale.GERMAN);
 			} else {
 				prop.setProperty("lang", "en");
+				Locale.setDefault(Locale.ENGLISH);
 			}
 			Writer in = new FileWriter(new File(confHome, "setup.properties"));
 			prop.store(in, "Setup properties for initial setup of uCC");
@@ -122,7 +124,6 @@ public class Activator implements BundleActivator {
 		pass.setRequired(true);
 		pass.setValue("uAAL");
 		sub.getSimpleObjects().add(pass);
-		
 		EnumObject role = new EnumObject();
 		role.setLabel("Role:");
 		role.setRequired(true);
@@ -137,21 +138,24 @@ public class Activator implements BundleActivator {
 		if(!file.exists()) {
 			file.mkdir();
 		}
-		
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
+
 		// Later uncomment, when Deinstaller is implemented in the
 		// ucc.controller
 		dRef = context.getServiceReference(IDeinstaller.class.getName());
 		deinstaller = (IDeinstaller) context.getService(dRef);
-
-		regis = bc.registerService(IFrontend.class.getName(),
-				new FrontendImpl(), null);
-
+try{
+		regis = bc.registerService(IFrontend.class.getName(),	
+			new FrontendImpl(), null);
+}catch(Exception ex){
+	ex.printStackTrace();
+}
 		model = new Model();
 		context.registerService(new String[] { IServiceModel.class.getName() },
 				model, null);
 		mgmt = model.getServiceManagment();
+		
 		reg = model.getServiceRegistration();
 		
 		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
@@ -164,7 +168,6 @@ public class Activator implements BundleActivator {
 		sessionKey = client.getSessionKey();
 		if (sessionKey == null || sessionKey.equals("")) {
 			System.err.println("No Session key when trying to setup connection to uStore");
-
 		} else {
 			System.err.println("WS-ANSWER: " + sessionKey);
 			client.registerUser(sessionKey);
