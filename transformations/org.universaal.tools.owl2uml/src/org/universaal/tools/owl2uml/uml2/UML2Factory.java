@@ -20,9 +20,11 @@ package org.universaal.tools.owl2uml.uml2;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
@@ -91,12 +93,11 @@ public class UML2Factory {
 	public static String XMLPackageName;
 
 	public UML2Factory(String owlURI) {
-		if (!readXML()) {
-			System.out
-					.println("Additional properties from XML file were Ignored!");
-		}
-		;
-
+		/*
+		 * if (!readXML()) { System.out
+		 * .println("Additional properties from XML file were Ignored!"); } ;
+		 */
+		readXML();
 		modelName = XMLModelName;
 		packageName = XMLPackageName;
 
@@ -613,7 +614,7 @@ public class UML2Factory {
 					UMLUtil.setTaggedValue(attribute, s, "isFunctional", true);
 				}
 
-			} 
+			}
 		}
 
 		StringBuffer sb = new StringBuffer();
@@ -764,6 +765,40 @@ public class UML2Factory {
 		System.err.println(error);
 	}
 
+	public static void createXML() {
+
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+		URL url;
+		try {
+
+			url = new URL(
+					"platform:/plugin/org.universaal.tools.owl2uml/samples/empty.xml");
+			inputStream = url.openConnection().getInputStream();
+
+			File target = new File(XMLFilePath);
+
+			outputStream = new FileOutputStream(target);
+
+			byte[] buffer = new byte[1024];
+
+			int length;
+			while ((length = inputStream.read(buffer)) > 0) {
+				outputStream.write(buffer, 0, length);
+			}
+
+			if (inputStream != null)
+
+				inputStream.close();
+			if (outputStream != null)
+
+				outputStream.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Read and validate XML file before transformation
 	 * 
@@ -773,6 +808,8 @@ public class UML2Factory {
 		try {
 
 			File XMLFile = new File(XMLFilePath);
+
+			XMLFile = new File(XMLFilePath);
 
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
