@@ -221,6 +221,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 							+ reg.getAllConfigDefinitions().size());
 					for (Configuration configurator : reg
 							.getAllConfigDefinitions()) {
+						System.err.println(uapp.getBundleId()+" + "+configurator.getBundlename());
 						if (configurator.getBundlename() != null
 								&& configurator.getBundlename().equals(
 										uapp.getBundleId())) {
