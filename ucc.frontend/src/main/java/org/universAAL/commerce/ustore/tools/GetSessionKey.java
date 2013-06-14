@@ -1,5 +1,5 @@
 
-package org.universAAL.commerce.ustore.tools;
+package org.universaal.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for getSessionKey complex type.
+ * <p>Java-Klasse für getSessionKey complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="getSessionKey">
@@ -37,7 +37,7 @@ public class GetSessionKey {
     protected String password;
 
     /**
-     * Gets the value of the userName property.
+     * Ruft den Wert der userName-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class GetSessionKey {
     }
 
     /**
-     * Sets the value of the userName property.
+     * Legt den Wert der userName-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -61,7 +61,7 @@ public class GetSessionKey {
     }
 
     /**
-     * Gets the value of the password property.
+     * Ruft den Wert der password-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -73,7 +73,7 @@ public class GetSessionKey {
     }
 
     /**
-     * Sets the value of the password property.
+     * Legt den Wert der password-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is

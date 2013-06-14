@@ -1,5 +1,5 @@
 
-package org.universAAL.commerce.ustore.tools;
+package org.universaal.commerce.ustore.tools;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

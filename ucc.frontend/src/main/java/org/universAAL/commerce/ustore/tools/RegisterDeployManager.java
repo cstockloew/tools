@@ -1,5 +1,5 @@
 
-package org.universAAL.commerce.ustore.tools;
+package org.universaal.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for registerDeployManager complex type.
+ * <p>Java-Klasse für registerDeployManager complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="registerDeployManager">
@@ -46,7 +46,7 @@ public class RegisterDeployManager {
     protected String port;
 
     /**
-     * Gets the value of the sessionKey property.
+     * Ruft den Wert der sessionKey-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -58,7 +58,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the sessionKey property.
+     * Legt den Wert der sessionKey-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -70,7 +70,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Gets the value of the adminUserName property.
+     * Ruft den Wert der adminUserName-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -82,7 +82,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the adminUserName property.
+     * Legt den Wert der adminUserName-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -94,7 +94,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Gets the value of the adminPassword property.
+     * Ruft den Wert der adminPassword-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -106,7 +106,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the adminPassword property.
+     * Legt den Wert der adminPassword-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -118,7 +118,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Gets the value of the ipAddress property.
+     * Ruft den Wert der ipAddress-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -130,7 +130,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the ipAddress property.
+     * Legt den Wert der ipAddress-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -142,7 +142,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Gets the value of the port property.
+     * Ruft den Wert der port-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -154,7 +154,7 @@ public class RegisterDeployManager {
     }
 
     /**
-     * Sets the value of the port property.
+     * Legt den Wert der port-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is

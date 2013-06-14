@@ -1,5 +1,5 @@
 
-package org.universAAL.commerce.ustore.tools;
+package org.universaal.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for purchaseFreeAALService complex type.
+ * <p>Java-Klasse für purchaseFreeAALService complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="purchaseFreeAALService">
@@ -37,7 +37,7 @@ public class PurchaseFreeAALService {
     protected String serviceId;
 
     /**
-     * Gets the value of the sessionKey property.
+     * Ruft den Wert der sessionKey-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -49,7 +49,7 @@ public class PurchaseFreeAALService {
     }
 
     /**
-     * Sets the value of the sessionKey property.
+     * Legt den Wert der sessionKey-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
@@ -61,7 +61,7 @@ public class PurchaseFreeAALService {
     }
 
     /**
-     * Gets the value of the serviceId property.
+     * Ruft den Wert der serviceId-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -73,7 +73,7 @@ public class PurchaseFreeAALService {
     }
 
     /**
-     * Sets the value of the serviceId property.
+     * Legt den Wert der serviceId-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is

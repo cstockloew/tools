@@ -1,5 +1,5 @@
 
-package org.universAAL.commerce.ustore.tools;
+package org.universaal.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for getUserProfileResponse complex type.
+ * <p>Java-Klasse für getUserProfileResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
  * &lt;complexType name="getUserProfileResponse">
@@ -36,7 +36,7 @@ public class GetUserProfileResponse {
     protected String _return;
 
     /**
-     * Gets the value of the return property.
+     * Ruft den Wert der return-Eigenschaft ab.
      * 
      * @return
      *     possible object is
@@ -48,7 +48,7 @@ public class GetUserProfileResponse {
     }
 
     /**
-     * Sets the value of the return property.
+     * Legt den Wert der return-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
