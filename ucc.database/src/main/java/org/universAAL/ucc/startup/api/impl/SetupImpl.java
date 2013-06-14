@@ -1,6 +1,7 @@
 package org.universAAL.ucc.startup.api.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.universAAL.ucc.startup.api.Setup;
@@ -26,12 +27,43 @@ public class SetupImpl implements Setup {
 		return users.getUser();
 	}
 
-	public void  deleteUser(UserAccountInfo user, String file) {
-		// TODO Auto-generated method stub
+	public void  updateUser(UserAccountInfo user, String file) {
+		List<UserAccountInfo> all = getUsers(file);
+		List<UserAccountInfo>up = new ArrayList<UserAccountInfo>();
+		for(UserAccountInfo ua : all) {
+			if(ua.getName().equals(user.getName())) {
+				UserAccountInfo temp = new UserAccountInfo();
+				temp.setChecked(user.isChecked());
+				temp.setName(user.getName());
+				temp.setPassword(user.getPassword());
+				temp.setRole(user.getRole());
+				up.add(temp);
+			} else {
+				up.add(ua);
+			}
+		}
+		UccUsers in = new UccUsers();
+		in.setUser(up);
+		JAXB.marshal(in, new File(file));
 	}
 
-	public void updateUser(UserAccountInfo user, String file) {
-		// TODO Auto-generated method stub
+	public void deleteUser(UserAccountInfo user, String file) {
+		List<UserAccountInfo> users = getUsers(file);
+		List<UserAccountInfo>list = new ArrayList<UserAccountInfo>();
+		for(UserAccountInfo ui : users) {
+			if(!ui.getName().equals(user.getName()) || !ui.getPassword().equals(user.getPassword())) {
+//				UserAccountInfo u = new UserAccountInfo();
+//				u.setChecked(ui.isChecked());
+//				u.setName(ui.getName());
+//				u.setPassword(ui.getPassword());
+//				u.setRole(ui.getRole());
+				list.add(ui);
+			}
+		}
+		UccUsers del = new UccUsers();
+		del.setUser(list);
+		JAXB.marshal(del, new File(file));
+	
 	}
 
 	public void deleteAllUsers(String file) {

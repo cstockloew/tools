@@ -6,6 +6,7 @@ import org.osgi.framework.ServiceReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.RegexpValidator;
@@ -15,6 +16,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.startup.api.Setup;
+import org.universAAL.ucc.startup.model.Role;
+import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
 import org.universAAL.ucc.windows.HumansWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -479,35 +482,37 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 			if (tabSheet.getComponentCount() == 0) {
 				dataAccess.saveUserDataInCHE(instance);
 				//Save in Users.xml
-//				List<UserAccountInfo>ul = setup.getUsers("file:///../etc/uCC/users.xml");
-//				UserAccountInfo uinfo = new UserAccountInfo();
-//				uinfo.setChecked(true);
-//				ArrayList<Role> roles = new ArrayList<Role>();
-//				for(Subprofile s : instance.getSubprofiles()) {
-//					for(SimpleObject si : s.getSimpleObjects()) {
-//						StringValue sv = (StringValue)si;
-//						System.err.println(sv.getName());
-//						System.err.println(sv.getValue());
-//						if(sv.getName().equals("username")) {
-//							uinfo.setName(sv.getValue());
-//						}
-//						if(sv.getName().equals("password")) {
-//							uinfo.setPassword(sv.getValue());
-//						}
-//						
-//					}
-//					for(EnumObject eo : s.getEnums()) {
-//						System.err.println(eo.getType());
-//						if(eo.getType().equals("userRole")) {
-//							System.err.println(eo.getSelectedValue());
-//							roles.add(Role.valueOf(eo.getSelectedValue()));
-//							uinfo.setRole(roles);
-//						}
-//					}
-//				}
-//				
-//				ul.add(uinfo);
-//				setup.saveUsers(ul, "file:///../etc/uCC/users.xml");
+				ModuleConfigHome cm = new ModuleConfigHome("uCC", "user");
+				String path = cm.getAbsolutePath()+"/users.xml";
+				List<UserAccountInfo>ul = setup.getUsers(path);
+				UserAccountInfo uinfo = new UserAccountInfo();
+				uinfo.setChecked(true);
+				ArrayList<Role> roles = new ArrayList<Role>();
+				for(Subprofile s : instance.getSubprofiles()) {
+					for(SimpleObject si : s.getSimpleObjects()) {
+						StringValue sv = (StringValue)si;
+						System.err.println(sv.getName());
+						System.err.println(sv.getValue());
+						if(sv.getName().equals("username")) {
+							uinfo.setName(sv.getValue());
+						}
+						if(sv.getName().equals("password")) {
+							uinfo.setPassword(sv.getValue());
+						}
+						
+					}
+					for(EnumObject eo : s.getEnums()) {
+						System.err.println(eo.getType());
+						if(eo.getType().equals("userRole")) {
+							System.err.println(eo.getSelectedValue());
+							roles.add(Role.valueOf(eo.getSelectedValue()));
+							uinfo.setRole(roles);
+						}
+					}
+				}
+				
+				ul.add(uinfo);
+				setup.saveUsers(ul, path);
 				
 //				dataAccess.saveUserData(actualFlat, instance);
 				app.getMainWindow().removeWindow(win);

@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -61,6 +62,10 @@ import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.service.manager.Activator;
+import org.universAAL.ucc.startup.api.Setup;
+import org.universAAL.ucc.startup.api.impl.SetupImpl;
+import org.universAAL.ucc.startup.model.Role;
+import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
 import org.universAAL.ucc.windows.HumansWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -76,9 +81,12 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 	private HashMap<String, ArrayList<TabForm>>userForms;
 	private HashMap<String, ArrayList<Subprofile>>ontInstances;
 	private String selectedItem;
-	private String actualFlat;
 	private String device;
+	private String actualFlat;
 	private ModuleConfigHome mc;
+	private Setup setup;
+	private ModuleConfigHome cm;
+	private String path;
 
 	
 	public PersonWindowController(HumansWindow window, UccUI app) throws JAXBException, IOException, ParseException {
@@ -101,6 +109,10 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 		loadData();
 		win.addFirstComponent(win.getUserTree());
 		win.addSecondComponent(tabSheet);
+		setup = new SetupImpl();
+		cm = new ModuleConfigHome("uCC", "user");
+		path = cm.getAbsolutePath()+"/users.xml";
+
 		
 	}
 	
@@ -499,6 +511,32 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 			tab.getEditButton().setVisible(true);
 			tab.getDeleteButton().setVisible(true);
 			dataAccess.updateUserData(selectedItem, nOntInstances);
+			//Update user in xml
+			UserAccountInfo uinfo = new UserAccountInfo();
+			uinfo.setChecked(true);
+			ArrayList<Role> roles = new ArrayList<Role>();
+			
+				
+				ArrayList<Subprofile> list = nOntInstances.get(selectedItem);
+				for(Subprofile s : list) {
+					for(SimpleObject si : s.getSimpleObjects()) {
+						StringValue sv = (StringValue)si;
+						if(sv.getName().equals("username")) {
+							uinfo.setName(sv.getValue());
+						}
+						if(sv.getName().equals("password")) {
+							uinfo.setPassword(sv.getValue());
+						}
+					
+					}
+					for(EnumObject eo : s.getEnums()) {
+						if(eo.getType().equals("userRole")) {
+							roles.add(Role.valueOf(eo.getSelectedValue()));
+							uinfo.setRole(roles);
+						}
+					}
+				}
+			setup.updateUser(uinfo, path);
 			//Update admin user in setup.properties
 			if(selectedItem.equals("admin")) {
 				Properties prop = new Properties();
@@ -546,7 +584,10 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-			}
+			} 
+			
+				
+			
 //			dataAccess.updateUserData(actualFlat, selectedItem, nOntInstances);
 			app.getMainWindow().showNotification(tab.getHeader()+" was updated", Notification.POSITION_CENTERED);	
 		
@@ -568,6 +609,12 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 		} //Delete Button was pushed
 		else if(event.getButton() == ((TabForm)tabSheet.getSelectedTab()).getDeleteButton()) {
 			dataAccess.deleteUserDataInChe(selectedItem);
+			List<UserAccountInfo> uinfo = setup.getUsers(path);
+			for(UserAccountInfo ui : uinfo) {
+				if(ui.getName().equals(selectedItem)) {
+					setup.deleteUser(ui, path);
+				}
+			}
 //			dataAccess.deleteUserData(actualFlat, selectedItem);
 			win.getUserTree().removeListener(this);
 			win.getUserTree().removeItem(selectedItem);
