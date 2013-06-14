@@ -52,6 +52,7 @@ public class Activator implements BundleActivator {
 	System.err.println(" ");
 	System.err.println("This programm is dedicated to a mad and unique person, whose name starts with G.:P ");
 	System.err.println("If you get this message, you could successfully install and run uCC. :)");
+	System.err.println(" ");
 	System.err.println("Greetings from Germany to Spain :D @>->-");
 	System.err.println(" ");
 	System.err.println("---------------------------------------------------------------------");
