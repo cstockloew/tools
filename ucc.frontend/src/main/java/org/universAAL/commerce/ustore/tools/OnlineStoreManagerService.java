@@ -1,4 +1,4 @@
-package org.universaal.commerce.ustore.tools;
+package org.universAAL.commerce.ustore.tools;
 
 import java.net.MalformedURLException;
 import java.net.URL;

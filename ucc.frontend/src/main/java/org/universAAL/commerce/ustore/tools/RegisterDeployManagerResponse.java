@@ -1,5 +1,5 @@
 
-package org.universaal.commerce.ustore.tools;
+package org.universAAL.commerce.ustore.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

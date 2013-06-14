@@ -82,7 +82,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 			IOException, ParseException {
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		mc = new ModuleConfigHome("uccDB", "");
-		device = /*System.getenv("systemdrive")*/ mc.getAbsolutePath();
+		device = mc.getAbsolutePath();
 		ontoProfile = device+"/EmptyUser.xml";
 		this.app = app;
 		this.saved = false;

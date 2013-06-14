@@ -1,4 +1,4 @@
-package org.universaal.commerce.ustore.tools;
+package org.universAAL.commerce.ustore.tools;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

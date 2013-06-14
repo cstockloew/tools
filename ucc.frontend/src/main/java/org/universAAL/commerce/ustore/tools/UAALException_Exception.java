@@ -1,5 +1,5 @@
 
-package org.universaal.commerce.ustore.tools;
+package org.universAAL.commerce.ustore.tools;
 
 import javax.xml.ws.WebFault;
 
@@ -13,7 +13,7 @@ import javax.xml.ws.WebFault;
 @WebFault(name = "uAALException", targetNamespace = "http://tools.ustore.commerce.universaal.org/")
 public class UAALException_Exception extends Exception {
     
-    private org.universaal.commerce.ustore.tools.UAALException uAALException;
+    private org.universAAL.commerce.ustore.tools.UAALException uAALException;
 
     public UAALException_Exception() {
         super();
@@ -27,17 +27,17 @@ public class UAALException_Exception extends Exception {
         super(message, cause);
     }
 
-    public UAALException_Exception(String message, org.universaal.commerce.ustore.tools.UAALException uAALException) {
+    public UAALException_Exception(String message, org.universAAL.commerce.ustore.tools.UAALException uAALException) {
         super(message);
         this.uAALException = uAALException;
     }
 
-    public UAALException_Exception(String message, org.universaal.commerce.ustore.tools.UAALException uAALException, Throwable cause) {
+    public UAALException_Exception(String message, org.universAAL.commerce.ustore.tools.UAALException uAALException, Throwable cause) {
         super(message, cause);
         this.uAALException = uAALException;
     }
 
-    public org.universaal.commerce.ustore.tools.UAALException getFaultInfo() {
+    public org.universAAL.commerce.ustore.tools.UAALException getFaultInfo() {
         return this.uAALException;
     }
 }
