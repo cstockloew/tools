@@ -485,6 +485,8 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 				ModuleConfigHome cm = new ModuleConfigHome("uCC", "user");
 				String path = cm.getAbsolutePath()+"/users.xml";
 				List<UserAccountInfo>ul = setup.getUsers(path);
+				List<UserAccountInfo>temp = new ArrayList<UserAccountInfo>();
+				boolean flag = false;
 				UserAccountInfo uinfo = new UserAccountInfo();
 				uinfo.setChecked(true);
 				ArrayList<Role> roles = new ArrayList<Role>();
@@ -494,13 +496,22 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 						System.err.println(sv.getName());
 						System.err.println(sv.getValue());
 						if(sv.getName().equals("username")) {
-							uinfo.setName(sv.getValue());
+							for(UserAccountInfo us : ul) {
+								if(us.getName().equals(sv.getValue())) {
+									flag = true;
+								}
+							}
+							if(!flag) {
+								uinfo.setName(sv.getValue());
+							}
 						}
 						if(sv.getName().equals("password")) {
-							uinfo.setPassword(sv.getValue());
+							if(!flag)
+								uinfo.setPassword(sv.getValue());
 						}
 						
 					}
+					if(!flag) {
 					for(EnumObject eo : s.getEnums()) {
 						System.err.println(eo.getType());
 						if(eo.getType().equals("userRole")) {
@@ -510,9 +521,11 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 						}
 					}
 				}
-				
-				ul.add(uinfo);
-				setup.saveUsers(ul, path);
+				}
+				if(!flag) {
+					temp.add(uinfo);
+					setup.saveUsers(temp, path);
+				}
 				
 //				dataAccess.saveUserData(actualFlat, instance);
 				app.getMainWindow().removeWindow(win);

@@ -28,6 +28,7 @@ public class SetupImpl implements Setup {
 	}
 
 	public void  updateUser(UserAccountInfo user, String file) {
+		System.err.println("In update user");
 		List<UserAccountInfo> all = getUsers(file);
 		List<UserAccountInfo>up = new ArrayList<UserAccountInfo>();
 		for(UserAccountInfo ua : all) {
@@ -37,6 +38,7 @@ public class SetupImpl implements Setup {
 				temp.setName(user.getName());
 				temp.setPassword(user.getPassword());
 				temp.setRole(user.getRole());
+				System.err.println("Database: "+user.getRole().size()+" "+user.getRole());
 				up.add(temp);
 			} else {
 				up.add(ua);
@@ -72,10 +74,24 @@ public class SetupImpl implements Setup {
 
 	public void saveUser(UserAccountInfo user, String file) {
 		List<UserAccountInfo> temp = getUsers(file);
-		if(temp != null && !temp.contains(user)) {
-			temp.add(user);
+		List<UserAccountInfo>saving = new ArrayList<UserAccountInfo>();
+		boolean flag = false;
+		if(!temp.isEmpty()) {
+		for(UserAccountInfo uai : temp) {
+			saving.add(uai);
+			if(uai.getName().equals(user.getName())) {
+				flag = true;
+				saving.remove(uai);
+			} 
+				
 		}
-		saveUsers(temp, file);
+		if(flag == false) {
+			saving.add(user);
+		}
+		} else {
+			saving.add(user);
+		}
+		saveUsers(saving, file);
 
 	}
 

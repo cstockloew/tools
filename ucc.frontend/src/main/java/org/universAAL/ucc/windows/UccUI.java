@@ -16,6 +16,7 @@ import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
+import org.universAAL.ucc.startup.model.Role;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 
 import com.vaadin.Application;
@@ -178,7 +179,7 @@ public class UccUI extends Application {
 		List<UserAccountInfo> cu = su.getUsers(Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
 		if(!cu.isEmpty()) {
 		for(UserAccountInfo u : cu) {
-			if(u.isChecked()) {
+			if(u.isChecked() && (u.getRole().contains(Role.ENDUSER) || u.getRole().contains(Role.ASSISTEDPERSON))) {
 				user.setValue(u.getName());
 				pwd.setValue(u.getPassword());
 			}
