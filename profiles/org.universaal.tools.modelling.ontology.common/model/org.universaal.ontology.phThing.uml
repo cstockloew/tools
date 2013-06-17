@@ -438,7 +438,32 @@
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_UXjDcNJ9EeKjT_DVDChv2Q" name="org.universAAL.ontology.shape">
-      <packagedElement xmi:type="uml:Class" xmi:id="_l7pV4DhhEeGXFsuJsZAP1w" name="Shape"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_l7pV4DhhEeGXFsuJsZAP1w" name="Shape">
+        <generalization xmi:id="_poq74NdYEeKjT_DVDChv2Q">
+          <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
+        </generalization>
+        <ownedAttribute xmi:id="_0AcoANdYEeKjT_DVDChv2Q" name="pointRepresentation" type="_8BaYgNKcEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_IKyaYNdZEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_IKxzUNdZEeKjT_DVDChv2Q"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_KygDgNdZEeKjT_DVDChv2Q" name="localCoordinateSystem" type="_8d4ukNKbEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_YDSkINdZEeKjT_DVDChv2Q" name="boundingVolume" type="_l7pV4DhhEeGXFsuJsZAP1w" association="_YDTLMNdZEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDSkIddZEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDSkItdZEeKjT_DVDChv2Q" value="1"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_qIY9wNdYEeKjT_DVDChv2Q" name="Shape2D">
+        <generalization xmi:id="_tHhBUNdYEeKjT_DVDChv2Q" general="_l7pV4DhhEeGXFsuJsZAP1w"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_rlAFsNdYEeKjT_DVDChv2Q" name="Shape3D">
+        <generalization xmi:id="_to-voNdYEeKjT_DVDChv2Q" general="_l7pV4DhhEeGXFsuJsZAP1w"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_YDTLMNdZEeKjT_DVDChv2Q" name="shape_shape_1" memberEnd="_YDTLMddZEeKjT_DVDChv2Q _YDSkINdZEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_YDTLMddZEeKjT_DVDChv2Q" name="shape" type="_l7pV4DhhEeGXFsuJsZAP1w" association="_YDTLMNdZEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDTLMtdZEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDTLM9dZEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_WlHHMNJ9EeKjT_DVDChv2Q" name="org.universAAL.ontology.space">
       <packagedElement xmi:type="uml:Class" xmi:id="_oj5ykNJ-EeKjT_DVDChv2Q" name="SpaceConfigurationService">
@@ -520,4 +545,6 @@
   <OWL:datatypeProperty xmi:id="_5JaCsNdUEeKjT_DVDChv2Q" base_Property="_5JNOYNdUEeKjT_DVDChv2Q" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_JfH3cNdWEeKjT_DVDChv2Q" base_Association="_-lKrUNdVEeKjT_DVDChv2Q" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_4MCJkNdWEeKjT_DVDChv2Q" base_Association="_qGz7UNdWEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_0Akj0NdYEeKjT_DVDChv2Q" base_Property="_0AcoANdYEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_KyomYNdZEeKjT_DVDChv2Q" base_Property="_KygDgNdZEeKjT_DVDChv2Q" isFunctional="true"/>
 </xmi:XMI>
