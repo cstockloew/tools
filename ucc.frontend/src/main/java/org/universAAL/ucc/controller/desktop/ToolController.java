@@ -22,6 +22,7 @@ import org.universAAL.ucc.controller.install.AALServiceReceiver;
 import org.universAAL.ucc.controller.install.DeinstallController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
+import org.universAAL.ucc.model.RegisteredService;
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.service.manager.Activator;
@@ -34,6 +35,7 @@ import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.vaadin.terminal.ExternalResource;
@@ -148,12 +150,28 @@ public class ToolController implements Button.ClickListener,
 		
 		if(event.getButton() == toolWin.getUninstallButton()) {
 			app.getMainWindow().removeWindow(toolWin);
-			List<String> ids = new ArrayList<String>();
+			List<RegisteredService> ids = new ArrayList<RegisteredService>();
 			Document doc = Model.getSrvDocument();
 			NodeList nodeList = doc.getElementsByTagName("service");
 			for (int i = 0; i < nodeList.getLength(); i++) {
+				RegisteredService srv = new RegisteredService();
 				Element element = (Element) nodeList.item(i);
-				ids.add(element.getAttribute("serviceId"));
+				System.err.println(element.getAttribute("serviceId"));
+				srv.setServiceId(element.getAttribute("serviceId"));
+				NodeList srvChilds = element.getChildNodes();
+				for(int j = 0; j < srvChilds.getLength(); j++) {
+					Node n = srvChilds.item(j);
+					if(n.getNodeName().equals("application")) {
+						Element e = (Element)n;
+						srv.setAppId(e.getAttribute("appId"));
+					}
+					if(n.getNodeName().equals("bundle")) {
+						Element b = (Element)n;
+						srv.setBundleId(b.getAttribute("id"));
+						srv.setBundleVersion(b.getAttribute("version"));
+					}
+				}
+				ids.add(srv);
 			}
 			DeinstallWindow dw = new DeinstallWindow(ids);
 			app.getMainWindow().addWindow(dw);

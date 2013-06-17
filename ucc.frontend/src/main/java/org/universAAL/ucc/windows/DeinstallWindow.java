@@ -1,54 +1,79 @@
 package org.universAAL.ucc.windows;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
+import org.universAAL.ucc.model.RegisteredService;
+
+import com.vaadin.data.Container;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class DeinstallWindow extends Window {
-	private ListSelect list;
+	private Table list;
 	private Button del;
 	private Button cancel;
+	private String base;
+	private ResourceBundle bundle;
 	
-	public DeinstallWindow(List<String> serviceIds) {
-		super("Deinstallation");
+	public DeinstallWindow(List<RegisteredService> srv) {
+		base = "resources.ucc";
+		bundle = ResourceBundle.getBundle(base);
+		setCaption(bundle.getString("uninstallation.header"));
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSizeFull();
 		vl.setSpacing(true);
 		vl.setMargin(true);
-		list = new ListSelect("AAL services:");
+		list = new Table(bundle.getString("services.table"));
 		list.setImmediate(true);
-		list.setRows(10);
-		list.setColumns(10);
+		list.setSelectable(true);
+		list.setWidth("100%");
+		list.addContainerProperty("serviceId", String.class, null);
+		list.addContainerProperty("appId", String.class, null);
+		list.addContainerProperty("bundleId", String.class, null);
+		list.addContainerProperty("version", String.class, null);
+		list.setVisibleColumns(new String[] {"serviceId", "appId", "bundleId", "version"});
+		list.setColumnHeader("serviceId", "Service-ID");
+		list.setColumnHeader("appId", "App-ID");
+		list.setColumnHeader("bundleId", "Bundle-ID");
+		list.setColumnHeader("version", "Bundle-Version");
+		
 		list.setMultiSelect(false);
-		for(String item : serviceIds) {
-			list.addItem(item);
+	
+		Container beanContainer = new BeanItemContainer<RegisteredService>(RegisteredService.class);
+	
+		for(RegisteredService item : srv) {
+			beanContainer.addItem(item);
 		}
+		list.setContainerDataSource(beanContainer);
+		
 		vl.addComponent(list);
 		vl.setComponentAlignment(list, Alignment.MIDDLE_CENTER);
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
-		del = new Button("Delete");
-		cancel = new Button("Close");
+		del = new Button(bundle.getString("uninstall.usrv"));
+		cancel = new Button(bundle.getString("close.button"));
 		hl.addComponent(del);
 		hl.addComponent(cancel);
 		vl.addComponent(hl);
 		vl.setComponentAlignment(hl, Alignment.BOTTOM_CENTER);
-		setWidth("400px");
-		setHeight("350px");
+		setWidth("550px");
+		setHeight("500px");
 		center();
 		setContent(vl);
 	}
 
-	public ListSelect getList() {
+	public Table getList() {
 		return list;
 	}
 
-	public void setList(ListSelect list) {
+	public void setList(Table list) {
 		this.list = list;
 	}
 
