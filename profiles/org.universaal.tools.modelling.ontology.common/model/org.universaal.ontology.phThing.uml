@@ -90,18 +90,88 @@
         <ownedAttribute xmi:id="_IPpVIDhjEeGXFsuJsZAP1w" name="hasName">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_BYstcNdXEeKjT_DVDChv2Q" name="isAdjacentTo" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_BYtUgNdXEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BYstcddXEeKjT_DVDChv2Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BYstctdXEeKjT_DVDChv2Q"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_SKWFsNdXEeKjT_DVDChv2Q" name="isConnectedTo" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_SKWswNdXEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SKWFsddXEeKjT_DVDChv2Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SKWFstdXEeKjT_DVDChv2Q"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_qIKJsNdXEeKjT_DVDChv2Q" name="isContainedIn" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_qIKwwNdXEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qIKJsddXEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qIKJstdXEeKjT_DVDChv2Q"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_86iqoNdXEeKjT_DVDChv2Q" name="contains" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_86jRsNdXEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_86iqoddXEeKjT_DVDChv2Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_86iqotdXEeKjT_DVDChv2Q"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_jFW1gNKaEeKjT_DVDChv2Q" name="Place">
         <generalization xmi:id="_mwcnMNKaEeKjT_DVDChv2Q" general="_PwmsgDhgEeGXFsuJsZAP1w"/>
+        <ownedAttribute xmi:id="_-lKEQNdVEeKjT_DVDChv2Q" name="hasShape" type="_l7pV4DhhEeGXFsuJsZAP1w" association="_-lKrUNdVEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-lKEQddVEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-lKEQtdVEeKjT_DVDChv2Q" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_XfCH4NdWEeKjT_DVDChv2Q" name="locationOfPhysicalThing" type="_pwGuEKFHEeCPiYRKlVcMuQ" association="_XfCu8NdWEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XfCH4ddWEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XfCH4tdWEeKjT_DVDChv2Q"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_qGzUQNdWEeKjT_DVDChv2Q" name="hasAddress" type="_SOZqANKbEeKjT_DVDChv2Q" association="_qGz7UNdWEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qGzUQddWEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qGzUQtdWEeKjT_DVDChv2Q"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_j79tYNKaEeKjT_DVDChv2Q" name="Way">
         <generalization xmi:id="_oifzoNKaEeKjT_DVDChv2Q" general="_jFW1gNKaEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_zw6ekNdVEeKjT_DVDChv2Q" name="hasShape" type="_l7pV4DhhEeGXFsuJsZAP1w" association="_zw7FoNdVEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zw6ekddVEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zw6ektdVEeKjT_DVDChv2Q"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_4eCqUNKaEeKjT_DVDChv2Q" name="address">
         <packagedElement xmi:type="uml:Class" xmi:id="_SOZqANKbEeKjT_DVDChv2Q" name="Address">
           <generalization xmi:id="_Z3CPUNKbEeKjT_DVDChv2Q">
             <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
           </generalization>
+          <ownedAttribute xmi:id="_yRnqsNKiEeKjT_DVDChv2Q" name="hasRegion" type="_Nj4-gNKiEeKjT_DVDChv2Q">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_79lZsNKiEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_79kyoNKiEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_Fx7ooNKjEeKjT_DVDChv2Q" name="hasCountry" type="_PddIMNKiEeKjT_DVDChv2Q">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dk8K0NKjEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dk02ENKjEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_-B0iUNKiEeKjT_DVDChv2Q" name="hasState" type="_MBL1oNKiEeKjT_DVDChv2Q">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_B0kbMNKjEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_B0j0INKjEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_hBJzANKjEeKjT_DVDChv2Q" name="hasCity" type="_RFGbcNKiEeKjT_DVDChv2Q">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lE-NwNKjEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lE9msNKjEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_nWvcENKjEeKjT_DVDChv2Q" name="hasCityQuarter" type="_UzmGcNKiEeKjT_DVDChv2Q">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_rJO2QNKjEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rJOPMNKjEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_sXRWsNKjEeKjT_DVDChv2Q" name="hasCityRegion" type="_bw8TENKiEeKjT_DVDChv2Q">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wDeisNKjEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wDd7oNKjEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_x61F4NKjEeKjT_DVDChv2Q" name=" hasCityPlace" type="_TEVIQNKiEeKjT_DVDChv2Q">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_46YR8NKjEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_46Xq4NKjEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_Aadq8NdUEeKjT_DVDChv2Q" name="hasPostalCode">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VLOkINdUEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VLMH4NdUEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_JOXwkNdUEeKjT_DVDChv2Q" name="hasExtendedAddress">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Vwi3sNdUEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VwhCgNdUEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_UStEENKbEeKjT_DVDChv2Q" name="MailBox">
           <generalization xmi:id="_Xma3kNKbEeKjT_DVDChv2Q" general="_SOZqANKbEeKjT_DVDChv2Q"/>
@@ -111,6 +181,41 @@
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_dRVzANKbEeKjT_DVDChv2Q" name="PhysicalAddress">
           <generalization xmi:id="_hPNWwNKbEeKjT_DVDChv2Q" general="_SOZqANKbEeKjT_DVDChv2Q"/>
+          <ownedAttribute xmi:id="_g1MQ4NdUEeKjT_DVDChv2Q" name="hasBuildingId">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_A83_ANdVEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_A80UoNdVEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_lCSjcNdUEeKjT_DVDChv2Q" name="hasHallId">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AUGu0NdVEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AUCdYNdVEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_sG0WINdUEeKjT_DVDChv2Q" name="hasFloorId">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__vdJoNdUEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__vaGUNdUEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_ut_MsNdUEeKjT_DVDChv2Q" name="hasDoorId">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__AhAANdUEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__AejwNdUEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_0BBzoNdUEeKjT_DVDChv2Q" name="hasDeskId">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-T5KkNdUEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-T2uUNdUEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_2k8h4NdUEeKjT_DVDChv2Q" name="hasOfficeId">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8to-cNdUEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8tmiMNdUEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_5JNOYNdUEeKjT_DVDChv2Q" name="hasAdditionalId">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_70ODINdUEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_70M1ANdUEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
         </packagedElement>
       </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_8PcfYNKaEeKjT_DVDChv2Q" name="indoor">
@@ -192,7 +297,40 @@
           </ownedEnd>
         </packagedElement>
       </packagedElement>
-      <packagedElement xmi:type="uml:Package" xmi:id="_991T0NKaEeKjT_DVDChv2Q" name="outdoor"/>
+      <packagedElement xmi:type="uml:Package" xmi:id="_991T0NKaEeKjT_DVDChv2Q" name="outdoor">
+        <packagedElement xmi:type="uml:Class" xmi:id="_HlTgMNKiEeKjT_DVDChv2Q" name="OutdoorPlace">
+          <generalization xmi:id="_Jr9qsNKiEeKjT_DVDChv2Q" general="_jFW1gNKaEeKjT_DVDChv2Q"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_MBL1oNKiEeKjT_DVDChv2Q" name="State">
+          <generalization xmi:id="_NJEDsNKiEeKjT_DVDChv2Q" general="_HlTgMNKiEeKjT_DVDChv2Q"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_Nj4-gNKiEeKjT_DVDChv2Q" name="Region">
+          <generalization xmi:id="_PCcAINKiEeKjT_DVDChv2Q" general="_HlTgMNKiEeKjT_DVDChv2Q"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_PddIMNKiEeKjT_DVDChv2Q" name="Country">
+          <generalization xmi:id="_Qi_M4NKiEeKjT_DVDChv2Q" general="_HlTgMNKiEeKjT_DVDChv2Q"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_RFGbcNKiEeKjT_DVDChv2Q" name="City">
+          <generalization xmi:id="_SZVqgNKiEeKjT_DVDChv2Q" general="_HlTgMNKiEeKjT_DVDChv2Q"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TEVIQNKiEeKjT_DVDChv2Q" name="CityPlace">
+          <generalization xmi:id="_T4nE4NKiEeKjT_DVDChv2Q" general="_HlTgMNKiEeKjT_DVDChv2Q"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_UzmGcNKiEeKjT_DVDChv2Q" name="CityQuarter">
+          <generalization xmi:id="_YCrRkNKiEeKjT_DVDChv2Q" general="_HlTgMNKiEeKjT_DVDChv2Q"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_ZlxcANKiEeKjT_DVDChv2Q" name="Building">
+          <generalization xmi:id="_adEQYNKiEeKjT_DVDChv2Q" general="_TEVIQNKiEeKjT_DVDChv2Q"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_bw8TENKiEeKjT_DVDChv2Q" name="CityRegion">
+          <generalization xmi:id="_d60wsNKiEeKjT_DVDChv2Q" general="_HlTgMNKiEeKjT_DVDChv2Q"/>
+          <ownedAttribute xmi:id="_f2hBUNKiEeKjT_DVDChv2Q" name="hasZipCode">
+            <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_2boN0GkeEeGXyoAu4GMQ6g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lxNeINKiEeKjT_DVDChv2Q" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lxM3ENKiEeKjT_DVDChv2Q"/>
+          </ownedAttribute>
+        </packagedElement>
+      </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_BIt7cNKbEeKjT_DVDChv2Q" name="position">
         <packagedElement xmi:type="uml:Class" xmi:id="_8d4ukNKbEeKjT_DVDChv2Q" name="CoordinateSystem">
           <generalization xmi:id="_E7LD8NKcEeKjT_DVDChv2Q">
@@ -249,6 +387,54 @@
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KD0RYtKfEeKjT_DVDChv2Q" value="1"/>
           </ownedEnd>
         </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_zw7FoNdVEeKjT_DVDChv2Q" name="way_shape_1" memberEnd="_zw7FoddVEeKjT_DVDChv2Q _zw6ekNdVEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_zw7FoddVEeKjT_DVDChv2Q" name="way" type="_j79tYNKaEeKjT_DVDChv2Q" association="_zw7FoNdVEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zw7FotdVEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zw7Fo9dVEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_-lKrUNdVEeKjT_DVDChv2Q" name="place_shape_1" memberEnd="_-lKrUddVEeKjT_DVDChv2Q _-lKEQNdVEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_-lKrUddVEeKjT_DVDChv2Q" name="place" type="_jFW1gNKaEeKjT_DVDChv2Q" association="_-lKrUNdVEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-lKrUtdVEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-lKrU9dVEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_XfCu8NdWEeKjT_DVDChv2Q" name="place_physicalThing_1" memberEnd="_XfCu8ddWEeKjT_DVDChv2Q _XfCH4NdWEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_XfCu8ddWEeKjT_DVDChv2Q" name="place" type="_jFW1gNKaEeKjT_DVDChv2Q" association="_XfCu8NdWEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XfCu8tdWEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XfCu89dWEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_qGz7UNdWEeKjT_DVDChv2Q" name="place_address_1" memberEnd="_qGz7UddWEeKjT_DVDChv2Q _qGzUQNdWEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_qGz7UddWEeKjT_DVDChv2Q" name="place" type="_jFW1gNKaEeKjT_DVDChv2Q" association="_qGz7UNdWEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qGz7UtdWEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qGz7U9dWEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_BYtUgNdXEeKjT_DVDChv2Q" name="location_location_1" memberEnd="_BYtUgddXEeKjT_DVDChv2Q _BYstcNdXEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_BYtUgddXEeKjT_DVDChv2Q" name="location" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_BYtUgNdXEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BYtUgtdXEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BYtUg9dXEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_SKWswNdXEeKjT_DVDChv2Q" name="location_location_2" memberEnd="_SKWswddXEeKjT_DVDChv2Q _SKWFsNdXEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_SKWswddXEeKjT_DVDChv2Q" name="location" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_SKWswNdXEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SKWswtdXEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SKWsw9dXEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_qIKwwNdXEeKjT_DVDChv2Q" name="location_location_3" memberEnd="_qIKwwddXEeKjT_DVDChv2Q _qIKJsNdXEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_qIKwwddXEeKjT_DVDChv2Q" name="location" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_qIKwwNdXEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qIKwwtdXEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qIKww9dXEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_86jRsNdXEeKjT_DVDChv2Q" name="location_location_4" memberEnd="_86jRsddXEeKjT_DVDChv2Q _86iqoNdXEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_86jRsddXEeKjT_DVDChv2Q" name="location" type="_PwmsgDhgEeGXFsuJsZAP1w" association="_86jRsNdXEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_86jRstdXEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_86jRs9dXEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_UXjDcNJ9EeKjT_DVDChv2Q" name="org.universAAL.ontology.shape">
@@ -315,4 +501,23 @@
   <OWL:datatypeProperty xmi:id="_PanW8NKfEeKjT_DVDChv2Q" base_Property="_Pac-4NKfEeKjT_DVDChv2Q" isFunctional="true"/>
   <OWL:datatypeProperty xmi:id="_TXh4cNKfEeKjT_DVDChv2Q" base_Property="_TXVEINKfEeKjT_DVDChv2Q" isFunctional="true"/>
   <OWL:datatypeProperty xmi:id="_V-_p8NKfEeKjT_DVDChv2Q" base_Property="_V-zcsNKfEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_f2qyUNKiEeKjT_DVDChv2Q" base_Property="_f2hBUNKiEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_yRwNkNKiEeKjT_DVDChv2Q" base_Property="_yRnqsNKiEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_-B_hcNKiEeKjT_DVDChv2Q" base_Property="_-B0iUNKiEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_FyHO0NKjEeKjT_DVDChv2Q" base_Property="_Fx7ooNKjEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_hBWAQNKjEeKjT_DVDChv2Q" base_Property="_hBJzANKjEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_nW7pUNKjEeKjT_DVDChv2Q" base_Property="_nWvcENKjEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_sXc84NKjEeKjT_DVDChv2Q" base_Property="_sXRWsNKjEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_x7BTINKjEeKjT_DVDChv2Q" base_Property="_x61F4NKjEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_AauJoNdUEeKjT_DVDChv2Q" base_Property="_Aadq8NdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_JOlL8NdUEeKjT_DVDChv2Q" base_Property="_JOXwkNdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_g1Wo8NdUEeKjT_DVDChv2Q" base_Property="_g1MQ4NdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_lCfXwNdUEeKjT_DVDChv2Q" base_Property="_lCSjcNdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_sHE00NdUEeKjT_DVDChv2Q" base_Property="_sG0WINdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_uuPrYNdUEeKjT_DVDChv2Q" base_Property="_ut_MsNdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_0BOn8NdUEeKjT_DVDChv2Q" base_Property="_0BBzoNdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_2lJWMNdUEeKjT_DVDChv2Q" base_Property="_2k8h4NdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_5JaCsNdUEeKjT_DVDChv2Q" base_Property="_5JNOYNdUEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_JfH3cNdWEeKjT_DVDChv2Q" base_Association="_-lKrUNdVEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_4MCJkNdWEeKjT_DVDChv2Q" base_Association="_qGz7UNdWEeKjT_DVDChv2Q" isFunctional="true"/>
 </xmi:XMI>
