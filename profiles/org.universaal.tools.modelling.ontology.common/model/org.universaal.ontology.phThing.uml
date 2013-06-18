@@ -457,11 +457,127 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_rlAFsNdYEeKjT_DVDChv2Q" name="Shape3D">
         <generalization xmi:id="_to-voNdYEeKjT_DVDChv2Q" general="_l7pV4DhhEeGXFsuJsZAP1w"/>
+        <ownedAttribute xmi:id="_YhIZoNf8EeKjT_DVDChv2Q" name="2dRepresentation" type="_qIY9wNdYEeKjT_DVDChv2Q" association="_YhJAsNf8EeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YhIZodf8EeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YhIZotf8EeKjT_DVDChv2Q"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_YDTLMNdZEeKjT_DVDChv2Q" name="shape_shape_1" memberEnd="_YDTLMddZEeKjT_DVDChv2Q _YDSkINdZEeKjT_DVDChv2Q">
         <ownedEnd xmi:id="_YDTLMddZEeKjT_DVDChv2Q" name="shape" type="_l7pV4DhhEeGXFsuJsZAP1w" association="_YDTLMNdZEeKjT_DVDChv2Q">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDTLMtdZEeKjT_DVDChv2Q" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDTLM9dZEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_YhJAsNf8EeKjT_DVDChv2Q" name="shape3D_shape2D_1" memberEnd="_YhJAsdf8EeKjT_DVDChv2Q _YhIZoNf8EeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_YhJAsdf8EeKjT_DVDChv2Q" name="shape3D" type="_rlAFsNdYEeKjT_DVDChv2Q" association="_YhJAsNf8EeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YhJAstf8EeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YhJAs9f8EeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_oRgiINf8EeKjT_DVDChv2Q" name="BooleanShape">
+        <generalization xmi:id="_qk3E0Nf8EeKjT_DVDChv2Q" general="_l7pV4DhhEeGXFsuJsZAP1w"/>
+        <ownedAttribute xmi:id="_imWcgNgEEeKjT_DVDChv2Q" name="shapes" type="_8BaYgNKcEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_v00B4NgEEeKjT_DVDChv2Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_v0za0NgEEeKjT_DVDChv2Q" value="2"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_28hrcNgEEeKjT_DVDChv2Q" name="Box">
+        <generalization xmi:id="_4JmikNgEEeKjT_DVDChv2Q" general="_rlAFsNdYEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_hnKwENgHEeKjT_DVDChv2Q" name="width">
+          <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_gObTMGkbEeGIl7HiYaL9OA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_i_IBgNgHEeKjT_DVDChv2Q" name="height">
+          <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_gObTMGkbEeGIl7HiYaL9OA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_kDfBgNgHEeKjT_DVDChv2Q" name="depth">
+          <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_gObTMGkbEeGIl7HiYaL9OA"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_4tEcANgEEeKjT_DVDChv2Q" name="Ellipse">
+        <generalization xmi:id="__niTwNgEEeKjT_DVDChv2Q" general="_qIY9wNdYEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_AXIvQNgGEeKjT_DVDChv2Q" name="minorAxisLength">
+          <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_gObTMGkbEeGIl7HiYaL9OA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_HaYIgNgGEeKjT_DVDChv2Q" name="majorAxisLength">
+          <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_gObTMGkbEeGIl7HiYaL9OA"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_BJZIENgFEeKjT_DVDChv2Q" name="Circle">
+        <generalization xmi:id="_CCsHkNgFEeKjT_DVDChv2Q" general="_4tEcANgEEeKjT_DVDChv2Q"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Dm4eMNgFEeKjT_DVDChv2Q" name="Path">
+        <generalization xmi:id="_EdKl8NgFEeKjT_DVDChv2Q" general="_rlAFsNdYEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_jczmkNgIEeKjT_DVDChv2Q" name="points" type="_8BaYgNKcEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mZ6Q4NgIEeKjT_DVDChv2Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mZ5CwNgIEeKjT_DVDChv2Q" value="2"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_FZj8wNgFEeKjT_DVDChv2Q" name="Line">
+        <generalization xmi:id="_HQr2cNgFEeKjT_DVDChv2Q" general="_Dm4eMNgFEeKjT_DVDChv2Q"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_IxUiwNgFEeKjT_DVDChv2Q" name="LineSegment">
+        <generalization xmi:id="_KQGN4NgFEeKjT_DVDChv2Q" general="_FZj8wNgFEeKjT_DVDChv2Q"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_K8k5YNgFEeKjT_DVDChv2Q" name="ConeSegment">
+        <generalization xmi:id="_M254ENgFEeKjT_DVDChv2Q" general="_IxUiwNgFEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_sfhkQNgIEeKjT_DVDChv2Q" name="radiusEnd">
+          <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_ir6pUGkbEeGIl7HiYaL9OA"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_v3nhcNgIEeKjT_DVDChv2Q" name="radiusStart">
+          <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_ir6pUGkbEeGIl7HiYaL9OA"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Pi3vENgFEeKjT_DVDChv2Q" name="Polygon">
+        <generalization xmi:id="_Qrot8NgFEeKjT_DVDChv2Q" general="_rlAFsNdYEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_1YtLcNgIEeKjT_DVDChv2Q" name="vertices" type="_8BaYgNKcEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5Hl4ANgIEeKjT_DVDChv2Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5HlQ8NgIEeKjT_DVDChv2Q" value="3"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_R5m88NgFEeKjT_DVDChv2Q" name="Triangle">
+        <generalization xmi:id="_S8RT0NgFEeKjT_DVDChv2Q" general="_Pi3vENgFEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_A_BHQNgJEeKjT_DVDChv2Q" name="vertices" type="_8BaYgNKcEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EN-9oNgJEeKjT_DVDChv2Q" value="3"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EN-WkNgJEeKjT_DVDChv2Q" value="3"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_XwyywNgFEeKjT_DVDChv2Q" name="Sphere">
+        <generalization xmi:id="_ZSkukNgFEeKjT_DVDChv2Q" general="_rlAFsNdYEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_s_iWgNgHEeKjT_DVDChv2Q" name="radius">
+          <type xmi:type="uml:DataType" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_gObTMGkbEeGIl7HiYaL9OA"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_bGTWANgFEeKjT_DVDChv2Q" name="QuasiCylinder">
+        <generalization xmi:id="_r4KwsNgFEeKjT_DVDChv2Q" general="_rlAFsNdYEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_EOKZQNgIEeKjT_DVDChv2Q" name="head" type="_4tEcANgEEeKjT_DVDChv2Q" association="_EOLAUNgIEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EOKZQdgIEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EOKZQtgIEeKjT_DVDChv2Q" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_QS2TINgIEeKjT_DVDChv2Q" name="foot" type="_4tEcANgEEeKjT_DVDChv2Q" association="_QS26MNgIEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QS2TIdgIEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QS2TItgIEeKjT_DVDChv2Q" value="1"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_orIM8NgFEeKjT_DVDChv2Q" name="Polyhedron">
+        <generalization xmi:id="_rN7g4NgFEeKjT_DVDChv2Q" general="_rlAFsNdYEeKjT_DVDChv2Q"/>
+        <ownedAttribute xmi:id="_16HE0NgHEeKjT_DVDChv2Q" name="faces" type="_8BaYgNKcEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7l6xENgHEeKjT_DVDChv2Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7l5i8NgHEeKjT_DVDChv2Q" value="4"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_31_NkNgFEeKjT_DVDChv2Q" name="MergedShape">
+        <generalization xmi:id="_5JJekNgFEeKjT_DVDChv2Q" general="_oRgiINf8EeKjT_DVDChv2Q"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_EOLAUNgIEeKjT_DVDChv2Q" name="quasiCylinder_ellipse_1" memberEnd="_EOLAUdgIEeKjT_DVDChv2Q _EOKZQNgIEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_EOLAUdgIEeKjT_DVDChv2Q" name="quasiCylinder" type="_bGTWANgFEeKjT_DVDChv2Q" association="_EOLAUNgIEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EOLAUtgIEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EOLAU9gIEeKjT_DVDChv2Q" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_QS26MNgIEeKjT_DVDChv2Q" name="quasiCylinder_ellipse_2" memberEnd="_QS26MdgIEeKjT_DVDChv2Q _QS2TINgIEeKjT_DVDChv2Q">
+        <ownedEnd xmi:id="_QS26MdgIEeKjT_DVDChv2Q" name="quasiCylinder" type="_bGTWANgFEeKjT_DVDChv2Q" association="_QS26MNgIEeKjT_DVDChv2Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QS26MtgIEeKjT_DVDChv2Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QS26M9gIEeKjT_DVDChv2Q" value="1"/>
         </ownedEnd>
       </packagedElement>
     </packagedElement>
@@ -547,4 +663,19 @@
   <OWL:objectProperty xmi:id="_4MCJkNdWEeKjT_DVDChv2Q" base_Association="_qGz7UNdWEeKjT_DVDChv2Q" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_0Akj0NdYEeKjT_DVDChv2Q" base_Property="_0AcoANdYEeKjT_DVDChv2Q" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_KyomYNdZEeKjT_DVDChv2Q" base_Property="_KygDgNdZEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_jTE5QNf8EeKjT_DVDChv2Q" base_Association="_YhJAsNf8EeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_imdKMNgEEeKjT_DVDChv2Q" base_Property="_imWcgNgEEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_AXVjkNgGEeKjT_DVDChv2Q" base_Property="_AXIvQNgGEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_HajHoNgGEeKjT_DVDChv2Q" base_Property="_HaYIgNgGEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_hnVvMNgHEeKjT_DVDChv2Q" base_Property="_hnKwENgHEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_i_UOwNgHEeKjT_DVDChv2Q" base_Property="_i_IBgNgHEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_kDrOwNgHEeKjT_DVDChv2Q" base_Property="_kDfBgNgHEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_s_tVoNgHEeKjT_DVDChv2Q" base_Property="_s_iWgNgHEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_16SrANgHEeKjT_DVDChv2Q" base_Property="_16HE0NgHEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_JJ-L8NgIEeKjT_DVDChv2Q" base_Association="_EOLAUNgIEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_jc_MwNgIEeKjT_DVDChv2Q" base_Property="_jczmkNgIEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_sftKcNgIEeKjT_DVDChv2Q" base_Property="_sfhkQNgIEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:datatypeProperty xmi:id="_v31j4NgIEeKjT_DVDChv2Q" base_Property="_v3nhcNgIEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_1Y5_wNgIEeKjT_DVDChv2Q" base_Property="_1YtLcNgIEeKjT_DVDChv2Q" isFunctional="true"/>
+  <OWL:objectProperty xmi:id="_A_NUgNgJEeKjT_DVDChv2Q" base_Property="_A_BHQNgJEeKjT_DVDChv2Q" isFunctional="true"/>
 </xmi:XMI>
