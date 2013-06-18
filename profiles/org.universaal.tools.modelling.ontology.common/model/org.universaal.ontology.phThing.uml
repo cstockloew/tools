@@ -17,7 +17,6 @@
       </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_Kbe0kKFHEeCPiYRKlVcMuQ" name="Device">
         <generalization xmi:id="_CCaX4PqLEeCQQaPCMdH-vA" general="_pwGuEKFHEeCPiYRKlVcMuQ"/>
-        <ownedAttribute xmi:id="_42Z-0KFHEeCPiYRKlVcMuQ" name="MY_URI"/>
         <ownedAttribute xmi:id="_6p25cKFHEeCPiYRKlVcMuQ" name="battery_level">
           <type xmi:type="uml:Enumeration" href="org.universaal.middleware.owl.uml#_AGQqENIFEeKw_dHjReEqbg"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NvQqYNKJEeKjT_DVDChv2Q" value="1"/>
