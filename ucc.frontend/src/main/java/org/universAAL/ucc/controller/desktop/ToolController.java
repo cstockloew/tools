@@ -20,6 +20,7 @@ import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.configuration.view.WhichBundleShouldBeConfiguredWindow;
 import org.universAAL.ucc.controller.install.AALServiceReceiver;
 import org.universAAL.ucc.controller.install.DeinstallController;
+import org.universAAL.ucc.controller.ustore.services.PurchasedServicesController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.RegisteredService;
@@ -30,6 +31,7 @@ import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
 import org.universAAL.ucc.windows.DeinstallWindow;
 import org.universAAL.ucc.windows.HumansWindow;
+import org.universAAL.ucc.windows.BrowseServicesWindow;
 import org.universAAL.ucc.windows.RoomsWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -100,20 +102,22 @@ public class ToolController implements Button.ClickListener,
 			app.getMainWindow().addWindow(w);
 		}
 		if (event.getButton() == toolWin.getOpenAAL()) {
-			Embedded em = new Embedded("", new ExternalResource(
-					"http://wiki.openaal.org"));
-			em.setType(Embedded.TYPE_BROWSER);
-			em.setWidth("100%");
-			em.setHeight("800px");
-			Window w = new Window("openAAL");
-			w.setWidth("1250px");
-			w.setHeight("800px");
-			VerticalLayout v = new VerticalLayout();
-			w.center();
-			v.addComponent(em);
-			w.setContent(v);
+//			Embedded em = new Embedded("", new ExternalResource(
+//					"http://wiki.openaal.org"));
+//			em.setType(Embedded.TYPE_BROWSER);
+//			em.setWidth("100%");
+//			em.setHeight("800px");
+//			Window w = new Window("openAAL");
+//			w.setWidth("1250px");
+//			w.setHeight("800px");
+//			VerticalLayout v = new VerticalLayout();
+//			w.center();
+//			v.addComponent(em);
+//			w.setContent(v);
+			BrowseServicesWindow pw = new BrowseServicesWindow(app);
+			PurchasedServicesController pc = new PurchasedServicesController(pw, app);
 			app.getMainWindow().removeWindow(toolWin);
-			app.getMainWindow().addWindow(w);
+			app.getMainWindow().addWindow(pw);
 		}
 		if (event.getButton() == toolWin.getInstallButton()) {
 			// Later uncomment again only for testing commented out!

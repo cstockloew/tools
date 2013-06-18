@@ -115,7 +115,7 @@ public class ToolWindow extends Window {
 		uStoreButton.setIcon(new ThemeResource("img/Use Cases 1 ohne-01.png"));
 
 		store.addComponent(uStoreButton);
-		openAAL = new Button("openAAL");
+		openAAL = new Button(res.getString("free"));
 		openAAL.setDescription(res.getString("openaal.button.tooltip"));
 		openAAL.setIcon(new ThemeResource("img/Openaal_logo.png.jpg"));
 		openAAL.setEnabled(false);

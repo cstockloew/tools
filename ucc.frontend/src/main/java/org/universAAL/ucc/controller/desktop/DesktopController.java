@@ -132,7 +132,7 @@ public class DesktopController implements Button.ClickListener {
 					startWin.getInstallButton().setEnabled(true);
 				} else {
 					startWin.getuStoreButton().setEnabled(true);
-					startWin.getOpenAAL().setEnabled(false);
+					startWin.getOpenAAL().setEnabled(true);
 					startWin.getConfigButton().setEnabled(false);
 					startWin.getEditHW().setEnabled(false);
 					startWin.getEditPerson().setEnabled(false);
@@ -237,11 +237,11 @@ public class DesktopController implements Button.ClickListener {
 			
 		}
 		
-		if(event.getButton() == app.getLink()) {
-			AccountWindow aw = new AccountWindow();
-			new AccountWindowController(aw, app);
-			app.getMainWindow().addWindow(aw);
-		}
+//		if(event.getButton() == app.getLink()) {
+//			AccountWindow aw = new AccountWindow();
+//			new AccountWindowController(aw, app);
+//			app.getMainWindow().addWindow(aw);
+//		}
 
 	}
 	
