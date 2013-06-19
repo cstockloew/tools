@@ -16,11 +16,11 @@
     <packageImport xmi:id="_RdNGUGk2EeG7I7JPKubQ9g">
       <importedPackage href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_U7uacGkcEeGIl7HiYaL9OA"/>
     </packageImport>
-    <packageImport xmi:id="_6vVRANj8EeKr6bcazORF2w">
-      <importedPackage href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.unit.uml#_iTg3FkzlEeG4aIoxfVByDw"/>
+    <packageImport xmi:id="_eV-4ANkLEeK0CPiwgGX8Pg">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.unit.uml#_iTg3EEzlEeG4aIoxfVByDw"/>
     </packageImport>
-    <packageImport xmi:id="_wxIwQNkBEeKNldekm-85xA">
-      <importedPackage href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.measurement.uml#__ImLBon5EeGWy6MmckrVYA"/>
+    <packageImport xmi:id="_gpUMkNkLEeK0CPiwgGX8Pg">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.measurement.uml#__ImLAIn5EeGWy6MmckrVYA"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$">
       <ownedComment xmi:id="_U24QYNj3EeKr6bcazORF2w">
