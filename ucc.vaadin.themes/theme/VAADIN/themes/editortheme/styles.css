@@ -122,6 +122,16 @@
 .v-panel-caption-view {
       color: #004b98;
 }
+
+.uAAL {
+	margin-left: auto;
+    margin-right: auto;
+	background: #696969;
+	color: #fff;
+	text-align: center;
+	font-size: x-large;
+	font-weight: bolder;
+}
  
 
 

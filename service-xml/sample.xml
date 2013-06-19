@@ -4,163 +4,45 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:noNamespaceSchemaLocation="schema.xsd">
 	<service>
-		<title>Cut the Rope</title>
-		<subtitle>Time Travel</subtitle>
-		<category>Games</category>
-		<rating>5</rating>
-		<details>
-		Begleite Om Nom auf seiner Zeitreise und füttere seinen Ahnen mit Bonbons. Cut the Rope: Zeitreisen, ein komplett neues Abenteuer voller Zeitreisen, Bonbonmampfen und physikbasierter Action!
-		Mit zwei süßen Monstern zum Füttern in jedem Level bietet Cut the Rope: Zeitreisen nun den doppelten Spaß bei altbewährtem Spielprinzip. Wenn dir Cut the Rope gefällt, dann wirst du Cut the Rope: Zeitreisen lieben!
-		Keine Zeit zu verlieren! Besuche sechs aufregende Orte wie das Mittelalter, die Renaissance, ein Piratenschiff, das alte Ägypten, das antike Griechenland und die Steinzeit. Om Noms Ahnen warten – uns sie sind echt scharf auf Bonbons!
-		</details>
-		<image>cuttherope.png</image>
-	</service>
-	<service>
-		<title>Facebook</title>
+		<title>Nutritional Advisor</title>
 		<subtitle> </subtitle>
-		<category>Social Media</category>
-		<rating>3</rating>
+		<category>Nutrition</category>
+		<rating>n/a</rating>
 		<details>
-		Bleibe schneller als jemals zuvor mit Freunden auf dem Laufenden.
-		• Finde heraus, was deine Freunde machen
-		• Teile Neuigkeiten, Fotos und Videos
-		• Erhalte Benachrichtigungen, wenn Freunde deine Beiträge kommentieren oder mit „Gefällt mir“ markieren
-		• Sende SMS, Chat-Nachrichten und führe Unterhaltungen mit Gruppen
-		• Spiele Spiele und verwende deine Lieblingsanwendungen
+		The Nutritional Advisor helps you to follow a personalised nutrition plan. 
+		This plan is created with a supervising medic and can be monitored by him.
 		</details>
-		<image>facebook.png</image>
+		<image>promo_nutriadv.jpg</image>
 	</service>
 	<service>
-		<title>WhatsApp Messenger</title>
+		<title>Activity Monitoring</title>
 		<subtitle> </subtitle>
-		<category>Messenger</category>
-		<rating>4</rating>
+		<category>Safety</category>
+		<rating>n/a</rating>
 		<details>
-		Mit neuer und verbesserter Benutzeroberfläche
-		WhatsApp Messenger ist ein Smartphone-Messenger und für Android, BlackBerry, iPhone, Windows Phone und Nokia Telefone verfügbar. WhatsApp verwendet dein 3G oder WLAN (wenn verfügbar), damit du mit Freunden und Familie Nachrichten senden kannst. Steige von SMS auf WhatsApp um, um Nachrichten, Bilder, Sprach- und Video-Nachrichten mit anderen WhatsApp-Benutzern kostenfrei auszutauschen. Das erste Jahr ist KOSTENLOS! (0,99 US-Dollar pro Jahr danach)
+		The Nutritional Advisor helps you to follow a personalised nutrition plan. 
+		This plan is created with a supervising medic and can be monitored by him.
 		</details>
-		<image>whatsapp.png</image>
+		<image>promo_activitymon.jpg</image>
 	</service>
 	<service>
-		<title>Erste Hilfe DRK</title>
-		<subtitle>DRK Service GmbH</subtitle>
-		<category>Gesundheit</category>
-		<rating>4</rating>
-		<details>
-		Die App „Erste Hilfe“ ist die offiziell vom Deutschen Roten Kreuz entwickelte und authorisierte Applikation zu diesem Thema.
-Mit der App „Erste Hilfe“ des Deutschen Roten Kreuzes ist erstmalig die interaktive Begleitung in einer Notfallsituation per Android möglich. Die App kann ebenso dazu benutzt werden, auf spielerische Weise das Verhalten in einer solchen akuten Situation zu üben. Im Programmteil „Der kleine Lebensretter“ wird zusätzlich Hintergrundwissen zu den unterschiedlichsten Erste Hilfe-Themen vermittelt.
-		</details>
-		<image>erstehilfe.png</image>
-	</service>
-	<service>
-		<title>DHL</title>
-		<subtitle>-</subtitle>
-		<category>Produktivität</category>
-		<rating>4</rating>
-		<details>
-		Nutzen Sie einfach und bequem von unterwegs mit unserer Android App die DHL Paket Services von Deutsche Post DHL.
-Folgende Services stehen Ihnen mit der kostenlosen DHL Paket Android App immer und überall zur Verfügung:
-Pakete:
-• Paket-Sendungsverfolgung inkl. Barcode-Scanner
-• Sendungsübersicht: Bis zu 10 Sendungen speichern und verwalten
-• Sendungsübersicht: Aktualisieren Sie alle Sendungen mit einem Klick
-• Sendungsstatus per E-Mail weiterleiten
-• Zugriff auf zusätzliche Services nach Login für registrierte Paket.de Benutzer
-• Sendungsübersicht (eingeloggt): Bis zu 100 Sendungen speichern und verwalten inkl. Archiv
-• Sendungsübersicht (eingeloggt): Automatische Anzeige vieler Pakete mit PostNummer 
-• Wunschtag (eingeloggt): Bei geeigneten Sendungen aus angebotenen Zustelltagen einen Wunschtag auswählen
-		</details>
-		<image>dhl.png</image>
-	</service>
-	<service>
-		<title>Das Telefonbuch</title>
-		<subtitle>Telefonbuch</subtitle>
-		<category>Reisen und Lokales</category>
-		<rating>4</rating>
-		<details>
-		Das Telefonbuch – die Verzeichnis-App für Android - findet dank einer intelligenten Sucheingabe schnell und zuverlässig gewerbliche und private Telefon-, Fax-, Mobilfunk- und Servicenummern lokal, regional oder bundesweit. Jetzt auch via Sprachsuche! Die gefundenen Einträge werden auf einer übersichtlichen Trefferliste und der integrierten Karte mit detailreichen Stadtplänen und Luftbildfunktionen angezeigt.
-Das Telefonbuch-App stellt allen Nutzern eine kostenlose und zeitlich unbegrenzten Voll-Navigationslösung für Deutschland, Österreich und die Schweiz zur Verfügung. Die Navigation für Android-Smartphones kann direkt aus der Detailansicht des angezeigten Adresseintrages gestartet werden. Des Weiteren ist eine Navigation zu frei wählbaren Zielen ebenfalls möglich. Beim erstmaligen anklicken des Button „Navigieren mit V-Navi“ erfolgt der Download der Navigationslösung über den App-Store.
-		</details>
-		<image>telefonbuch.png</image>
-	</service>
-	<service>
-		<title>Cut the Rope 2</title>
-		<subtitle>Time Travel</subtitle>
-		<category>Games</category>
-		<rating>5</rating>
-		<details>
-		Begleite Om Nom auf seiner Zeitreise und füttere seinen Ahnen mit Bonbons. Cut the Rope: Zeitreisen, ein komplett neues Abenteuer voller Zeitreisen, Bonbonmampfen und physikbasierter Action!
-		Mit zwei süßen Monstern zum Füttern in jedem Level bietet Cut the Rope: Zeitreisen nun den doppelten Spaß bei altbewährtem Spielprinzip. Wenn dir Cut the Rope gefällt, dann wirst du Cut the Rope: Zeitreisen lieben!
-		Keine Zeit zu verlieren! Besuche sechs aufregende Orte wie das Mittelalter, die Renaissance, ein Piratenschiff, das alte Ägypten, das antike Griechenland und die Steinzeit. Om Noms Ahnen warten – uns sie sind echt scharf auf Bonbons!
-		</details>
-		<image>cuttherope.png</image>
-	</service>
-	<service>
-		<title>Facebook 2</title>
+		<title>Fall Detection</title>
 		<subtitle> </subtitle>
-		<category>Social Media</category>
-		<rating>3</rating>
+		<category>Safety</category>
+		<rating>n/a</rating>
 		<details>
-		Bleibe schneller als jemals zuvor mit Freunden auf dem Laufenden.
-		• Finde heraus, was deine Freunde machen
-		• Teile Neuigkeiten, Fotos und Videos
-		• Erhalte Benachrichtigungen, wenn Freunde deine Beiträge kommentieren oder mit „Gefällt mir“ markieren
-		• Sende SMS, Chat-Nachrichten und führe Unterhaltungen mit Gruppen
-		• Spiele Spiele und verwende deine Lieblingsanwendungen
+		Sensor mats automatically send an emergency call to the supervisor when they are loaded with weight. In this way they could help a caregiver to recognize the fall of a person faster.
 		</details>
-		<image>facebook.png</image>
+		<image>promo_falldetection.jpg</image>
 	</service>
 	<service>
-		<title>WhatsApp Messenger 2</title>
+		<title>Motion Detection</title>
 		<subtitle> </subtitle>
-		<category>Messenger</category>
-		<rating>4</rating>
+		<category>Safety</category>
+		<rating>n/a</rating>
 		<details>
-		Mit neuer und verbesserter Benutzeroberfläche
-		WhatsApp Messenger ist ein Smartphone-Messenger und für Android, BlackBerry, iPhone, Windows Phone und Nokia Telefone verfügbar. WhatsApp verwendet dein 3G oder WLAN (wenn verfügbar), damit du mit Freunden und Familie Nachrichten senden kannst. Steige von SMS auf WhatsApp um, um Nachrichten, Bilder, Sprach- und Video-Nachrichten mit anderen WhatsApp-Benutzern kostenfrei auszutauschen. Das erste Jahr ist KOSTENLOS! (0,99 US-Dollar pro Jahr danach)
+		Sensor mats automatically send an emergency call to the supervisor when they are loaded with weight. In this way they could help a caregiver to recognize the fall of a person faster.
 		</details>
-		<image>whatsapp.png</image>
-	</service>
-	<service>
-		<title>Erste Hilfe DRK 2</title>
-		<subtitle>DRK Service GmbH</subtitle>
-		<category>Gesundheit</category>
-		<rating>4</rating>
-		<details>
-		Die App „Erste Hilfe“ ist die offiziell vom Deutschen Roten Kreuz entwickelte und authorisierte Applikation zu diesem Thema.
-Mit der App „Erste Hilfe“ des Deutschen Roten Kreuzes ist erstmalig die interaktive Begleitung in einer Notfallsituation per Android möglich. Die App kann ebenso dazu benutzt werden, auf spielerische Weise das Verhalten in einer solchen akuten Situation zu üben. Im Programmteil „Der kleine Lebensretter“ wird zusätzlich Hintergrundwissen zu den unterschiedlichsten Erste Hilfe-Themen vermittelt.
-		</details>
-		<image>erstehilfe.png</image>
-	</service>
-	<service>
-		<title>DHL 2</title>
-		<subtitle>-</subtitle>
-		<category>Produktivität</category>
-		<rating>4</rating>
-		<details>
-		Nutzen Sie einfach und bequem von unterwegs mit unserer Android App die DHL Paket Services von Deutsche Post DHL.
-Folgende Services stehen Ihnen mit der kostenlosen DHL Paket Android App immer und überall zur Verfügung:
-Pakete:
-• Paket-Sendungsverfolgung inkl. Barcode-Scanner
-• Sendungsübersicht: Bis zu 10 Sendungen speichern und verwalten
-• Sendungsübersicht: Aktualisieren Sie alle Sendungen mit einem Klick
-• Sendungsstatus per E-Mail weiterleiten
-• Zugriff auf zusätzliche Services nach Login für registrierte Paket.de Benutzer
-• Sendungsübersicht (eingeloggt): Bis zu 100 Sendungen speichern und verwalten inkl. Archiv
-• Sendungsübersicht (eingeloggt): Automatische Anzeige vieler Pakete mit PostNummer 
-• Wunschtag (eingeloggt): Bei geeigneten Sendungen aus angebotenen Zustelltagen einen Wunschtag auswählen
-		</details>
-		<image>dhl.png</image>
-	</service>
-	<service>
-		<title>Das Telefonbuch 2</title>
-		<subtitle>Telefonbuch</subtitle>
-		<category>Reisen und Lokales</category>
-		<rating>4</rating>
-		<details>
-		Das Telefonbuch – die Verzeichnis-App für Android - findet dank einer intelligenten Sucheingabe schnell und zuverlässig gewerbliche und private Telefon-, Fax-, Mobilfunk- und Servicenummern lokal, regional oder bundesweit. Jetzt auch via Sprachsuche! Die gefundenen Einträge werden auf einer übersichtlichen Trefferliste und der integrierten Karte mit detailreichen Stadtplänen und Luftbildfunktionen angezeigt.
-Das Telefonbuch-App stellt allen Nutzern eine kostenlose und zeitlich unbegrenzten Voll-Navigationslösung für Deutschland, Österreich und die Schweiz zur Verfügung. Die Navigation für Android-Smartphones kann direkt aus der Detailansicht des angezeigten Adresseintrages gestartet werden. Des Weiteren ist eine Navigation zu frei wählbaren Zielen ebenfalls möglich. Beim erstmaligen anklicken des Button „Navigieren mit V-Navi“ erfolgt der Download der Navigationslösung über den App-Store.
-		</details>
-		<image>telefonbuch.png</image>
+		<image>promo_motiondetection.jpg</image>
 	</service>
 </services>

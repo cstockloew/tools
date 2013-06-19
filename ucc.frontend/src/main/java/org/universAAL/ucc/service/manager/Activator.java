@@ -78,8 +78,8 @@ public class Activator implements BundleActivator {
 			Properties prop = new Properties();	
 			prop.setProperty("admin", "admin");
 			prop.setProperty("pwd", "uAAL");
-			prop.setProperty("storePort", "9090");
-			prop.setProperty("uccPort", "8080");
+//			prop.setProperty("storePort", "9090");
+			prop.setProperty("uccPort", "9090");
 			prop.setProperty("uccUrl", "ucc-universaal.no-ip.org");
 			prop.setProperty("shopUrl", "srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
 			if(Locale.getDefault() == Locale.GERMAN) {

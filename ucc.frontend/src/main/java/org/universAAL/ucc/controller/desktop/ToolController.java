@@ -275,7 +275,7 @@ public class ToolController implements Button.ClickListener,
 		pref.setShopIp(prop.getProperty("shopUrl"));
 		pref.setUccIp(prop.getProperty("uccUrl"));
 		pref.setUccPort(prop.getProperty("uccPort"));
-		pref.setWsPort(prop.getProperty("storePort"));
+//		pref.setWsPort(prop.getProperty("storePort"));
 		shop = pref.getShopIp();
 		try {
 			reader.close();

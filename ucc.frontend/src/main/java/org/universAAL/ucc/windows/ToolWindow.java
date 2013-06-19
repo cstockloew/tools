@@ -38,10 +38,10 @@ public class ToolWindow extends Window {
 	private ResourceBundle res;
 
 	public ToolWindow(UccUI app) {
-		super("uCC Tools");
 		this.app = app;
 		base = "resources.ucc";
 		res = ResourceBundle.getBundle(base);
+		setCaption(res.getString("main.menu"));
 		setStyleName(Reindeer.WINDOW_LIGHT);
 		vl = new VerticalLayout();
 		vl.setMargin(true);
@@ -63,8 +63,13 @@ public class ToolWindow extends Window {
 		uninstallButton.setDescription(res.getString("uninstall.button"));
 		uninstallButton.setIcon(new ThemeResource("img/Schluessel50x52.png"));
 		hl.addComponent(uninstallButton);
+		editUC = new Button(res.getString("config.usrv"));
+		editUC.setDescription(res.getString("edit.uc.tooltip"));
+		editUC.setIcon(new ThemeResource("img/Zahnrad50x50.png"));
+		hl.addComponent(editUC);
 		vl.addComponent(hl);
 		vl.setComponentAlignment(hl, Alignment.TOP_LEFT);
+		
 		addLabel = new Label(res.getString("add.label"), Label.CONTENT_XHTML);
 		Label sep1 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep1);
@@ -76,34 +81,36 @@ public class ToolWindow extends Window {
 		config.setSpacing(true);
 		config.setStyleName("menubutton");
 		config.addComponent(configButton);
-		personButton = new Button("Person");
+		editHW = new Button(res.getString("edit.button"));
+		editHW.setDescription(res.getString("edit.hardware.tooltip"));
+		editHW.setIcon(new ThemeResource("img/Hardware-01.png"));
+		config.addComponent(editHW);
+		personButton = new Button(res.getString("add.person.button"));
 		personButton.setDescription(res.getString("add.person.tooltip"));
 		personButton.setIcon(new ThemeResource("img/Person-01.png"));
 		config.addComponent(personButton);
+		editPerson = new Button(res.getString("edit.button"));
+		editPerson.setDescription(res.getString("edit.person.tooltip"));
+		editPerson.setIcon(new ThemeResource("img/Person ohne-01.png"));
+		config.addComponent(editPerson);
 		vl.addComponent(config);
 		Label sep2 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep2);
-		configLabel = new Label(res.getString("control.label"),
-				Label.CONTENT_XHTML);
-		vl.addComponent(configLabel);
-		HorizontalLayout editHl = new HorizontalLayout();
-		editHl.setSpacing(true);
-		editHl.setStyleName("menubutton");
-		editHW = new Button(res.getString("add.hardware.button"));
-		editHW.setDescription(res.getString("edit.hardware.tooltip"));
-		editHW.setIcon(new ThemeResource("img/Hardware-01.png"));
-		editHl.addComponent(editHW);
-		editPerson = new Button(res.getString("add.person.button"));
-		editPerson.setDescription(res.getString("edit.person.tooltip"));
-		editPerson.setIcon(new ThemeResource("img/Person ohne-01.png"));
-		editHl.addComponent(editPerson);
-		editUC = new Button(res.getString("config.usrv"));
-		editUC.setDescription(res.getString("edit.uc.tooltip"));
-		editUC.setIcon(new ThemeResource("img/Zahnrad50x50.png"));
-		editHl.addComponent(editUC);
-		vl.addComponent(editHl);
-		Label sep3 = new Label("<hr/>", Label.CONTENT_XHTML);
-		vl.addComponent(sep3);
+//		configLabel = new Label(res.getString("control.label"),
+//				Label.CONTENT_XHTML);
+//		vl.addComponent(configLabel);
+//		HorizontalLayout editHl = new HorizontalLayout();
+//		editHl.setSpacing(true);
+//		editHl.setStyleName("menubutton");
+		
+//		editHl.addComponent(editHW);
+		
+//		editHl.addComponent(editPerson);
+		
+//		editHl.addComponent(editUC);
+//		vl.addComponent(editHl);
+//		Label sep3 = new Label("<hr/>", Label.CONTENT_XHTML);
+//		vl.addComponent(sep3);
 		storeLabel = new Label(res.getString("stores.label"),
 				Label.CONTENT_XHTML);
 		vl.addComponent(storeLabel);
@@ -137,8 +144,8 @@ public class ToolWindow extends Window {
 		vl.addComponent(logoutButton);
 		vl.setComponentAlignment(logoutButton, Alignment.BOTTOM_RIGHT);
 		setClosable(false);
-		setWidth("350px");
-		// setHeight(app.getMainWindow().getBrowserWindowHeight()+"px");
+		setWidth("400px");
+		
 		setResizable(false);
 		setPositionX(0);
 		setPositionY(45);

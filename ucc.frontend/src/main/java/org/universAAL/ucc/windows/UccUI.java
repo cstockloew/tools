@@ -117,6 +117,15 @@ public class UccUI extends Application {
 		startButton.setIcon(new ThemeResource("img/Zahnraeder-01-01.png"));
 		startLayout.addComponent(startButton);
 		startLayout.setComponentAlignment(startButton, Alignment.TOP_LEFT);
+		
+		HorizontalLayout uhl = new HorizontalLayout();
+		uhl.setWidth("100%");
+		uhl.setStyleName("uAAL");
+		uhl.setSpacing(true);
+		uhl.setMargin(true);
+		Label uAAL = new Label("universAAL Control Center", Label.CONTENT_XHTML);
+		uhl.addComponent(uAAL);
+		uhl.setComponentAlignment(uAAL, Alignment.MIDDLE_RIGHT);
 		mainLayout.setSpacing(true);
 		vs.setFirstComponent(mainLayout);
 
@@ -136,6 +145,8 @@ public class UccUI extends Application {
 		hl.addComponent(searchButton);
 		mainLayout.addComponent(startLayout);
 		mainLayout.setComponentAlignment(startLayout, Alignment.TOP_LEFT);
+		mainLayout.addComponent(uhl);
+		mainLayout.setComponentAlignment(uhl, Alignment.MIDDLE_CENTER);
 		mainLayout.addComponent(hl);
 		mainLayout.setComponentAlignment(hl, Alignment.TOP_RIGHT);
 		startButton.addListener(desk);

@@ -22,7 +22,7 @@ public class PreferencesWindow extends Window {
 	private Button reset;
 	private TextField userTxt;
 	private PasswordField pwdTxt;
-	private TextField portTxt;
+//	private TextField portTxt;
 	private TextField urlTxt;
 	private TextField userTxt2;
 	private TextField uccPortTxt;
@@ -45,7 +45,8 @@ public class PreferencesWindow extends Window {
 		vl.setSizeFull();
 		vl.setSpacing(true);
 		vl.setMargin(true);
-
+		Label sep0 = new Label("<hr/>", Label.CONTENT_XHTML);
+		vl.addComponent(sep0);
 		// ustore interface access
 		Label header = new Label("<b>"+bundle.getString("login.info.label")+"</b>",
 				Label.CONTENT_XHTML);
@@ -53,11 +54,13 @@ public class PreferencesWindow extends Window {
 
 		userTxt = new TextField(bundle.getString("admin.label"));
 		userTxt.setImmediate(true);
+		userTxt.setWidth("14em");
 		userTxt.setValue(pref.getAdmin());
 		vl.addComponent(userTxt);
 
 		pwdTxt = new PasswordField(bundle.getString("pwd.label"));
 		pwdTxt.setImmediate(true);
+		pwdTxt.setWidth("14em");
 		pwdTxt.setValue(pref.getPwd());
 		vl.addComponent(pwdTxt);
 
@@ -69,13 +72,14 @@ public class PreferencesWindow extends Window {
 		
 		urlTxt = new TextField(bundle.getString("url.label"));
 		urlTxt.setImmediate(true);
+		urlTxt.setWidth("14em");
 		urlTxt.setValue(pref.getShopIp());
 		vl.addComponent(urlTxt);
 
-		portTxt = new TextField(bundle.getString("port.label"));
-		portTxt.setImmediate(true);
-		portTxt.setValue(pref.getWsPort());
-		vl.addComponent(portTxt);
+//		portTxt = new TextField(bundle.getString("port.label"));
+//		portTxt.setImmediate(true);
+//		portTxt.setValue(pref.getWsPort());
+//		vl.addComponent(portTxt);
 
 		Label sep2 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep2);
@@ -87,11 +91,13 @@ public class PreferencesWindow extends Window {
 
 		userTxt2 = new TextField(bundle.getString("ucc.ip.label"));
 		userTxt2.setImmediate(true);
+		userTxt2.setWidth("14em");
 		userTxt2.setValue(pref.getUccIp());
 		vl.addComponent(userTxt2);
 
 		uccPortTxt = new TextField(bundle.getString("ucc.port.label"));
 		uccPortTxt.setImmediate(true);
+		uccPortTxt.setWidth("14em");
 		uccPortTxt.setValue(pref.getUccPort());
 		vl.addComponent(uccPortTxt);
 
@@ -102,6 +108,7 @@ public class PreferencesWindow extends Window {
 		vl.addComponent(genLabel);
 
 		langSelect = new NativeSelect(bundle.getString("lang.label"));
+		langSelect.setWidth("14em");
 		langSelect.addItem(bundle.getString("english"));
 		langSelect.addItem(bundle.getString("german"));
 		if (pref.getLanguage() == null || pref.getLanguage().equals("")) {
@@ -118,6 +125,8 @@ public class PreferencesWindow extends Window {
 		}
 
 		vl.addComponent(langSelect);
+		Label sep4 = new Label("<hr/>", Label.CONTENT_XHTML);
+		vl.addComponent(sep4);
 
 		hl = new HorizontalLayout();
 		save = new Button(bundle.getString("save.button"));
@@ -165,13 +174,13 @@ public class PreferencesWindow extends Window {
 		this.pwdTxt = pwdTxt;
 	}
 
-	public TextField getPortTxt() {
-		return portTxt;
-	}
-
-	public void setPortTxt(TextField portTxt) {
-		this.portTxt = portTxt;
-	}
+//	public TextField getPortTxt() {
+//		return portTxt;
+//	}
+//
+//	public void setPortTxt(TextField portTxt) {
+//		this.portTxt = portTxt;
+//	}
 
 	public TextField getUrlTxt() {
 		return urlTxt;

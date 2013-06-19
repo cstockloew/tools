@@ -35,7 +35,7 @@ public class Activator implements BundleActivator {
 	Properties prop = new Properties();
 	Reader reader = new FileReader(new File(/*"file:///../etc/uCC/setup.properties"*/ moduleConfigHome.getAbsolutePath()+"/setup.properties"));
 	prop.load(reader);
-	String url = "http://" + thisIp.getHostAddress() + ":" + prop.getProperty("storePort") + "/deploymanager";
+	String url = "http://" + thisIp.getHostAddress() + ":" + prop.getProperty("uccPort") + "/deploymanager";
 	System.out.println("url:" + url);
 	// props.put("org.apache.cxf.ws.address",
 	// "http://localhost:9090/deploymanager");
@@ -50,7 +50,7 @@ public class Activator implements BundleActivator {
 	System.err.println(" ");
 	System.err.println("-------------------------------------------------------------------");
 	System.err.println(" ");
-	System.err.println("This programm is dedicated to a mad and unique person, whose name starts with G.:P ");
+	System.err.println("This programm is dedicated to a mad and unique person, whose name starts with G.:P");
 	System.err.println("If you get this message, you could successfully install and run uCC. :)");
 	System.err.println(" ");
 	System.err.println("Greetings from Germany to Spain :D @>->-");

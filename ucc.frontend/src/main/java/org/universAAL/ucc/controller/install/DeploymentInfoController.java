@@ -33,6 +33,7 @@ import org.universAAL.ucc.windows.DeployConfigView;
 import org.universAAL.ucc.windows.DeployStrategyView;
 import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.NoConfigurationWindow;
+import org.universAAL.ucc.windows.SuccessWindow;
 import org.universAAL.ucc.windows.UccUI;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -235,8 +236,9 @@ public class DeploymentInfoController implements Button.ClickListener,
 						cow.center();
 						app.getMainWindow().addWindow(cow);
 					} else {
-						NoConfigurationWindow ncw = new NoConfigurationWindow(
-								bundle.getString("installed.note"));
+						
+						SuccessWindow ncw = new SuccessWindow(
+								bundle.getString("success.install.msg"), app);
 						app.getMainWindow().addWindow(ncw);
 					}
 					bc.ungetService(configRef);

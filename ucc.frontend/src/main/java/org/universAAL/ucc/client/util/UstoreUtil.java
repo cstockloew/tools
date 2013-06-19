@@ -70,7 +70,7 @@ public class UstoreUtil {
 		String adminUserName = prop.getProperty("admin");
 		String adminPassword = prop.getProperty("pwd");
 		
-		String portNum = prop.getProperty("storePort");
+		String portNum = prop.getProperty("uccPort");
 		String idAddr = prop.getProperty("uccUrl");
 		
 		System.err.println(adminUserName+" "+adminPassword+" "+sessionKey+" "+portNum+ " "+" "+idAddr);
