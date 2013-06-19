@@ -739,6 +739,8 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 		} else {
 			try {
 				AddNewHardwareWindow personWindow = new AddNewHardwareWindow(win, null, app);
+				personWindow.setPositionX(this.win.getPositionX()+100);
+				personWindow.setPositionY(this.win.getPositionY()+100);
 				app.getMainWindow().addWindow(personWindow);
 			} catch (JAXBException e) {
 				e.printStackTrace();

@@ -752,6 +752,8 @@ public class RoomsWindowController implements Property.ValueChangeListener,
 		} else {
 			try {
 				AddNewHardwareWindow roomWindow = new AddNewHardwareWindow(null, win, app);
+				roomWindow.setPositionX(this.win.getPositionX()+100);
+				roomWindow.setPositionY(this.win.getPositionY()+100);
 				app.getMainWindow().addWindow(roomWindow);
 			} catch (JAXBException e) {
 				e.printStackTrace();

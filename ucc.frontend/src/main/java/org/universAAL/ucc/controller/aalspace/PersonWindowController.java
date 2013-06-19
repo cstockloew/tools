@@ -653,6 +653,8 @@ public class PersonWindowController  implements Property.ValueChangeListener, Bu
 		} else {
 			try {
 				AddNewPersonWindow personWindow = new AddNewPersonWindow(win, app);
+				personWindow.setPositionX(this.win.getPositionX()+100);
+				personWindow.setPositionY(this.win.getPositionY()+100);
 				app.getMainWindow().addWindow(personWindow);
 			} catch (JAXBException e) {
 				e.printStackTrace();
