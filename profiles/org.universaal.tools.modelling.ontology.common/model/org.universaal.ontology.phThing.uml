@@ -620,10 +620,10 @@
       <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
     </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_dG0LkNJ7EeKjT_DVDChv2Q" defaultNamespace="http://ontology.universAAL.org/uAAL.owl" base_Package="_CGOSIPqREeCQQaPCMdH-vA" versionInfo="1.1"/>
+  <OWL:owlOntology xmi:id="_dG0LkNJ7EeKjT_DVDChv2Q" defaultNamespace="http://ontology.universAAL.org/PhThing.owl" base_Package="_CGOSIPqREeCQQaPCMdH-vA" versionInfo="1.1"/>
   <OWL:owlOntology xmi:id="_en88QNJ9EeKjT_DVDChv2Q" defaultNamespace="http://ontology.universaal.org/Shape.owl" base_Package="_UXjDcNJ9EeKjT_DVDChv2Q" versionInfo="1.1"/>
   <OWL:owlOntology xmi:id="_fgkmUNJ9EeKjT_DVDChv2Q" defaultNamespace="http://ontology.universAAL.org/SpaceConfiguration.owl" base_Package="_WlHHMNJ9EeKjT_DVDChv2Q" versionInfo="1.1"/>
-  <OWL:owlOntology xmi:id="_gYDn8NJ9EeKjT_DVDChv2Q" defaultNamespace="http://ontology.universAAL.org/PhysicalWorld.owl" base_Package="_PCOkkNJ9EeKjT_DVDChv2Q" versionInfo="1.1"/>
+  <OWL:owlOntology xmi:id="_gYDn8NJ9EeKjT_DVDChv2Q" defaultNamespace="http://ontology.universAAL.org/Location.owl" base_Package="_PCOkkNJ9EeKjT_DVDChv2Q" versionInfo="1.1"/>
   <OWL:objectProperty xmi:id="_TQwkENKJEeKjT_DVDChv2Q" base_Property="_6p25cKFHEeCPiYRKlVcMuQ" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_aJtY4NKJEeKjT_DVDChv2Q" base_Property="_MBQUsPqNEeCQQaPCMdH-vA"/>
   <OWL:objectProperty xmi:id="_6KlUYNKJEeKjT_DVDChv2Q" base_Association="_gjbwgDhgEeGXFsuJsZAP1w" isFunctional="true"/>

@@ -16,7 +16,7 @@
     <packageImport xmi:id="_iTg3FUzlEeG4aIoxfVByDw">
       <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_ar8DoPqREeCQQaPCMdH-vA"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Package" xmi:id="_iTg3FkzlEeG4aIoxfVByDw" name="org.universaal.ontology.unit">
+    <packagedElement xmi:type="uml:Package" xmi:id="_iTg3FkzlEeG4aIoxfVByDw" name="org.universAAL.ontology.unit">
       <packagedElement xmi:type="uml:Class" xmi:id="_iTg3HUzlEeG4aIoxfVByDw" name="UnitSystem">
         <generalization xmi:id="_iTg3HkzlEeG4aIoxfVByDw">
           <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_7clzYKFGEeCPiYRKlVcMuQ"/>
@@ -216,5 +216,5 @@
   <OWL:datatypeProperty xmi:id="__1zqgE2ZEeGcRe-XRoPstQ" base_Property="_UBE2wEzmEeGZvOsaZD0CBw"/>
   <OWL:datatypeProperty xmi:id="__V4owE2jEeGcRe-XRoPstQ" base_Property="__VXEUE2jEeGcRe-XRoPstQ"/>
   <OWL:datatypeProperty xmi:id="_wLrewGL0EeGtnf_fXKYgTw" base_Property="_wLbnIGL0EeGtnf_fXKYgTw"/>
-  <OWL:owlOntology xmi:id="_4fRPgNjTEeKt5YgrD0Xc7Q" defaultNamespace="http://ontology.universaal.org/Unit" base_Package="_iTg3FkzlEeG4aIoxfVByDw" versionInfo="1.3"/>
+  <OWL:owlOntology xmi:id="_4fRPgNjTEeKt5YgrD0Xc7Q" defaultNamespace="http://ontology.universaal.org/Unit.owl" base_Package="_iTg3FkzlEeG4aIoxfVByDw" versionInfo="1.3"/>
 </xmi:XMI>

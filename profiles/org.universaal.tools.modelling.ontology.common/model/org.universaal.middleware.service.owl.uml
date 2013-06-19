@@ -47,7 +47,6 @@
       <appliedProfile href="pathmap://TwoUse_Profiles/RDF.profile.uml#_TEtTYHGwEdyoJ7Xxsdx7ug"/>
     </profileApplication>
   </uml:Model>
-  <OWL:owlOntology xmi:id="_L60GwPqTEeCQQaPCMdH-vA" defaultNamespace="org.universaal.middleware.service.owl" base_Package="_ar8DoPqREeCQQaPCMdH-vA" versionInfo="1.0"/>
   <OWL:objectProperty xmi:id="_Vfi_ANIJEeKw_dHjReEqbg" base_Property="_GxvwoPqSEeCQQaPCMdH-vA"/>
   <OWL:datatypeProperty xmi:id="_YPNqQNIJEeKw_dHjReEqbg" base_Property="_Lh67EPqSEeCQQaPCMdH-vA" isFunctional="true"/>
   <OWL:objectProperty xmi:id="_0InaENIJEeKw_dHjReEqbg" base_Property="_pj9LUPqSEeCQQaPCMdH-vA"/>
