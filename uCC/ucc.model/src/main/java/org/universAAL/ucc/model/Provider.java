@@ -4,7 +4,7 @@ package org.universAAL.ucc.model;
  * The provider of a usrv file. Has a name, a telephone-number, email and
  * optionally website.
  * 
- * @author merkle
+ * @author Nicole Merkle
  * 
  */
 

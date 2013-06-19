@@ -79,7 +79,7 @@
 .menubutton .v-button {
 	display:block;
 	height: 75px;
-	width: 75px;
+	width: 85px;
 	background: transparent;
 	/**background-image: url("img/wavy_blue_background.jpg");*/
 	border: none;
@@ -121,6 +121,16 @@
 
 .v-panel-caption-view {
       color: #004b98;
+}
+
+.uAAL {
+	margin-left: 50px;
+    margin-right: 100px;
+	background: #696969;
+	color: #fff;
+	text-align: center;
+	font-size: x-large;
+	font-weight: bolder;
 }
  
 

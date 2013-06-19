@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
@@ -23,17 +24,14 @@ import org.universAAL.ucc.model.jaxb.Subprofile;
 
 public class SensorEventSubscriber extends ContextSubscriber {
 	private static String room1;
-	private static String room2;
-	private static String room3;
 	private static String flat1DB;
-	private static String flat2DB;
-	private static String flat3DB;
 	private static SensorEventSubscriber sub;
 	private ArrayList<SensorActivityTimeChangedListener>listener;
 	private DataAccess db;
 	private static BundleContext bContext;
 	private HashMap<String, ArrayList<Subprofile>>ontInstances;
 	private String device;
+	private ModuleConfigHome mc;
 	
 	private static ContextEventPattern[] getSubscriptions() {
 		ContextEventPattern ev = new ContextEventPattern();
@@ -43,13 +41,10 @@ public class SensorEventSubscriber extends ContextSubscriber {
 	
 	private SensorEventSubscriber(ModuleContext context) {
 		super(context, getSubscriptions());
-		device = System.getenv("systemdrive");
-//		room1 = device+"/jcc_datastore/flat1/Rooms.xml";
-//		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
-//		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
-//		flat1DB = device+"/jcc_datastore/flat1/Hardware.xml";
-//		flat2DB = device+"/jcc_datastore/flat2/Hardware.xml";
-//		flat3DB = device+"/jcc_datastore/flat3/Hardware.xml";
+		mc = new ModuleConfigHome("uccDB", "");
+		device = mc.getAbsolutePath();
+		room1 = device+"/Rooms.xml";
+		flat1DB = device+"/Hardware.xml";
 		listener = new ArrayList<SensorActivityTimeChangedListener>();
 		ontInstances = new HashMap<String, ArrayList<Subprofile>>();
 		ServiceReference ref = bContext.getServiceReference(DataAccess.class.getName());
@@ -75,8 +70,6 @@ public class SensorEventSubscriber extends ContextSubscriber {
 		String uri = event.getRDFSubject().toString();
 		String adress = uri.substring(uri.lastIndexOf(":")+1).trim();
 		updateDB(adress, room1, flat1DB, new Date(event.getTimestamp()));
-		updateDB(adress, room2, flat2DB, new Date(event.getTimestamp()));
-		updateDB(adress, room3, flat3DB, new Date(event.getTimestamp()));
 		
 	}
 	
@@ -127,11 +120,6 @@ public class SensorEventSubscriber extends ContextSubscriber {
 				db.updateUserData(device, oi.getId(), ontInstances);
 			}
 		} 
-//		for(SensorActivityTimeChangedListener l : listener) {
-//			System.err.println(listener.size());
-//			l.sensorActivityTimeChanged(adress, time);
-//			
-//		} 
 	}
 	
 

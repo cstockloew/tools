@@ -17,9 +17,10 @@ import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 
 /**
- * Connects and registers the ucc to the uStore.
+ * Connects and registers the ucc to the uStore and listens for installation request.
+ * Downloads the aal usrv file.
  * 
- * @author merkle
+ * @author Nicole Merkle
  * 
  */
 
@@ -36,7 +37,6 @@ public class WebConnector {
 			socket = new ServerSocket(SINGLE_INSTANCE_NETWORK_SOCKET, 10,
 					InetAddress.getByAddress(new byte[] { 127, 0, 0, 1 }));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -56,7 +56,6 @@ public class WebConnector {
 		try {
 			socket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -68,23 +67,6 @@ public class WebConnector {
 
 		if (url != null) {
 			front.installService("", "", url);
-			// PackageDownloader downloader=new PackageDownloader();
-			// String fileOnHardDrive=downloader.download(url);
-			// if(new File(fileOnHardDrive).exists()){
-			// String appDir;
-			// try {
-			// // appDir = installer.installApplication(fileOnHardDrive);
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// return;
-			// }
-			//
-			// Activator.getMainWindow().installApp(appDir); */
-			//
-			// }
-			//
-			// }
-
 		}
 	}
 
@@ -110,7 +92,6 @@ public class WebConnector {
 						in.read(cbuf);
 						message = String.valueOf(cbuf);
 						out.write(("HTTP/1.1 204 No Content").getBytes());
-						// out.writeUTF("200");
 						onEventCatched(message);
 
 						in.close();

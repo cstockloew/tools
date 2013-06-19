@@ -8,7 +8,5 @@ public interface IServiceRegistration {
 
 	public boolean registerBundle(String serviceId, String bundleId,
 			String bundleVersion);
-	// public boolean registerAppAndBundles(String sericeId, String appId, Map
-	// bundles);
 
 }

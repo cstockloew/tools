@@ -17,6 +17,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -42,6 +43,7 @@ import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.database.parser.ParserService;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.manager.Activator;
+import org.universAAL.ucc.windows.DeinstallWindow;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.NoConfigurationWindow;
 import org.universAAL.ucc.windows.NotificationWindow;
@@ -53,7 +55,7 @@ import org.xml.sax.SAXException;
  * DeployManagerService to trigger the different processes like installation and
  * de-installation.
  * 
- * @author merkle
+ * @author Nicole Merkle
  * 
  *         modified by Shanshan, 13-03-2013
  * 
@@ -61,8 +63,7 @@ import org.xml.sax.SAXException;
 
 public class FrontendImpl implements IFrontend {
 
-	private static final String usrvLocalStore = System.getenv("systemdrive")
-			+ "/tempUsrvFiles/";
+	private static String usrvLocalStore;
 
 	private static String uappURI;
 	private static String userSession;
@@ -72,6 +73,7 @@ public class FrontendImpl implements IFrontend {
 	public FrontendImpl() {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
+		usrvLocalStore = Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/";
 	}
 
 	public boolean installService(String sessionkey, String serviceId,
@@ -102,9 +104,9 @@ public class FrontendImpl implements IFrontend {
 			}
 		}
 		System.out.println("Using the usrfile:"+System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
-				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv"));
+				+  serviceId+".usrv"));
 		File temp = new File(System.getProperty("uAAL.uCC.usrvfile",usrvLocalStore
-				+  /*"corrected_hwo_usrv.usrv"*/ /*"HWO_Service.usrv"*/ serviceId+".usrv"));
+				+ serviceId+".usrv"));
 		 if (temp.exists()) {
 		 try {
 		 extractFolder(temp.getAbsolutePath(),usrvLocalStore);
@@ -167,7 +169,7 @@ public class FrontendImpl implements IFrontend {
 		URLConnection con = url.openConnection();
 		InputStream in = new BufferedInputStream(con.getInputStream());
 		FileOutputStream out = new FileOutputStream(
-				System.getenv("systemdrive") + "/tempUsrvFiles/" + filename);
+				Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/" + filename);
 		byte[] chunk = new byte[153600];
 		int chunkSize;
 		while ((chunkSize = in.read(chunk)) > 0) {
@@ -224,8 +226,6 @@ public class FrontendImpl implements IFrontend {
 				if(du.isSetContainerUnit()) {
 					//Karaf features
 					if(du.getContainerUnit().isSetKaraf()) {
-//						System.err.println(du.getId());
-//						System.err.println(du.getContainerUnit().getKaraf().getFeatures().getName());
 						for(Serializable so : du.getContainerUnit().getKaraf().getFeatures().getRepositoryOrFeature()) {
 							if(so instanceof Feature) {
 								Feature feat = (Feature)so;
@@ -336,7 +336,7 @@ public class FrontendImpl implements IFrontend {
 					if(ls.getSla().isSetLink()) {
 						String link = ls.getSla().getLink();
 						System.err.println(link);
-						link = link.substring(link.indexOf("/"));
+						link = link.substring(link.indexOf("./"));
 						System.err.println(link);
 						File file = new File(usrvLocalStore + serviceId+"_temp" + link);
 						license.getSlaList().add(file);
@@ -350,7 +350,7 @@ public class FrontendImpl implements IFrontend {
 							if(lt.isSetLink()) {
 								txt = lt.getLink();
 								System.err.println(txt);
-								txt = txt.substring(txt.indexOf("/"));
+								txt = txt.substring(txt.indexOf("./"));
 								System.err.println(txt);
 								l = new File(usrvLocalStore + serviceId+"_temp" + txt);
 								list.add(l);
@@ -462,19 +462,9 @@ public class FrontendImpl implements IFrontend {
 			System.err.println("Dir-Name: " + dirs[i].getName());
 			if (dirs[i].isDirectory()) {
 				f.mkdir();
-				// File[] child = dirs[i].listFiles();
-				// for(int j = 0; j < child.length; j++) {
-				// System.err.println("Directory Path + Child Path: "+usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
-				// File cf = new
-				// File(usrvLocalStore+"hwo_uapp/"+dirs[i].getName()+"/"+child[j].getName());
-				// child[j].renameTo(cf);
-				// }
 			}
-			// if(!f.getName().substring(f.getName().indexOf(".")+1).equals("uapp"))
-			// {
 			dirs[i].renameTo(f);
 			System.err.println(f.getAbsolutePath());
-			// }
 		}
 		System.err.println("UAPP Path: "+usrvLocalStore + newPath);
 		return usrvLocalStore + newPath;
@@ -491,10 +481,13 @@ public class FrontendImpl implements IFrontend {
 		// update the service registration
 		IServiceManagement sm = Activator.getMgmt();
 		List<String> uappList = sm.getInstalledApps(serviceId);
+		if(uappList != null) {
+		System.err.println("Size of apps to uninstall: "+uappList.size());
 		for (String del : uappList) {
-			// Later uncomment this
+			System.err.println("Apps to delete: "+del);
 			 InstallationResultsDetails result =
 			 Activator.getDeinstaller().requestToUninstall(serviceId, del);
+			 System.err.println("Uninstall Result: "+result);
 			 if(result.getGlobalResult().toString().equals(InstallationResults.SUCCESS)) {
 				 Activator.getReg().unregisterService(serviceId);
 			 } else if(result.getGlobalResult().toString().equals(InstallationResults.MISSING_PEER)){
@@ -505,6 +498,10 @@ public class FrontendImpl implements IFrontend {
 				 UccUI.getInstance().getMainWindow().addWindow(nw);
 			 }
 		}
+	} else {
+		NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("no.service"));
+		UccUI.getInstance().getMainWindow().addWindow(nw);
+	}
 
 	}
 

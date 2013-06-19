@@ -1,6 +1,5 @@
 package org.universAAL.ucc.windows;
 
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ResourceBundle;
@@ -23,14 +22,11 @@ public class HardwareWindow extends Window implements Window.CloseListener{
 	private Tree userTree;
 	private HorizontalSplitPanel split;
 	private UccUI app;
-	private String flatId;
 	private HardwareWindowController hwc;
 	private String base;
 	private ResourceBundle bundle;
 	
 	public HardwareWindow(UccUI app) throws JAXBException, IOException, ParseException {
-		//super("Hardware of "+flat);
-//		this.flatId = flat;
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
 		this.app = app;
@@ -51,7 +47,6 @@ public class HardwareWindow extends Window implements Window.CloseListener{
 		userTree.setSelectable(true);
 		userTree.setNullSelectionAllowed(false);
 		split = new HorizontalSplitPanel();
-		//split.setSizeFull();
 		split.setMargin(true);
 		split.setStyleName(Reindeer.SPLITPANEL_SMALL);
 		split.setSplitPosition(200, Sizeable.UNITS_PIXELS);
@@ -82,14 +77,6 @@ public class HardwareWindow extends Window implements Window.CloseListener{
 
 	public void setUserTree(Tree userTree) {
 		this.userTree = userTree;
-	}
-
-	public String getFlatId() {
-		return flatId;
-	}
-
-	public void setFlatId(String flatId) {
-		this.flatId = flatId;
 	}
 
 	public void windowClose(CloseEvent e) {

@@ -1,39 +1,36 @@
 package org.universAAL.ucc.controller.desktop;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.Role;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.windows.UccUI;
 
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.Notification;
-
 import org.universAAL.ucc.windows.AccountWindow;
+
+/**
+ * Controller for AccountWindow. 
+ * 
+ * @author Nicole Merkle
+ *
+ */
 
 public class AccountWindowController implements Button.ClickListener {
 	private UccUI app;
 	private AccountWindow win;
 	private ResourceBundle bundle;
 	private String base;
-	private int uCount;
-	private Properties props;
 	private BundleContext context;
 	private Setup setup;
 	private File f;
@@ -45,15 +42,7 @@ public class AccountWindowController implements Button.ClickListener {
 		this.win = win;
 		win.getSave().addListener(this);
 		win.getReset().addListener(this);
-		f = new File("file:///../etc/uCC/users.xml");
-		if(!f.exists()) {
-			try {
-				f.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} 
+		f = new File(Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		ServiceReference ref = context.getServiceReference(Setup.class.getName());
 		setup = (Setup) context.getService(ref);
@@ -66,7 +55,7 @@ public class AccountWindowController implements Button.ClickListener {
 				app.getMainWindow().showNotification(bundle.getString("input.empty"), Notification.TYPE_HUMANIZED_MESSAGE);
 			} else {
 				boolean inDB = false;
-				for(UserAccountInfo us : setup.getUsers("file:///../etc/uCC/users.xml")) {
+				for(UserAccountInfo us : setup.getUsers(f.getAbsolutePath())) {
 					if(us.getName().equals(win.getUser().getValue())) {
 						inDB = true;
 					}

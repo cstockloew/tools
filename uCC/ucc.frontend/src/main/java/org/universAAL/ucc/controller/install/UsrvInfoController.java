@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ResourceBundle;
 
 import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.UccUI;
 import org.universAAL.ucc.windows.UsrvInformationWindow;
@@ -12,7 +13,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window;
 
 public class UsrvInfoController implements Button.ClickListener {
-	private AALService usrv;
+//	private AALService usrv;
 	private UsrvInformationWindow win;
 	private LicenceWindow lWin;
 	private UccUI app;
@@ -23,7 +24,7 @@ public class UsrvInfoController implements Button.ClickListener {
 		System.err.println("in UsrvInfoController");
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
-		this.usrv = usrv;
+//		this.usrv = usrv;
 		this.app = app;
 		win = new UsrvInformationWindow();
 		win.getOk().addListener(this);
@@ -77,7 +78,7 @@ public class UsrvInfoController implements Button.ClickListener {
 			app.getMainWindow().removeWindow(win);
 			app.getMainWindow()
 					.showNotification(bundle.getString("break.note"));
-			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+			File f = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/");
 			deleteFiles(f);
 		}
 
@@ -86,10 +87,12 @@ public class UsrvInfoController implements Button.ClickListener {
 	private void deleteFiles(File path) {
 		File[] files = path.listFiles();
 		for (File del : files) {
-			if (del.isDirectory()) {
+			if (del.isDirectory()
+					&& !del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
+							.equals("usrv")) {
 				deleteFiles(del);
 			}
-			if (!del.getPath().substring(del.getPath().indexOf(".") + 1)
+			if (!del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
 					.equals("usrv"))
 				del.delete();
 		}

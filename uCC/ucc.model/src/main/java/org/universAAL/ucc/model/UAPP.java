@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Represents an UAPP file which consists a arbitrary UAPPParts. Every UAPPPart
  * can retrieved about the partId of a part.
  * 
- * @author merkle
+ * @author Nicole Merkle
  * 
  */
 public class UAPP {

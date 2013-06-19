@@ -7,15 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
-import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
-import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
-import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -38,7 +32,6 @@ public class LicenseController implements Property.ValueChangeListener,
 	private ArrayList<License> lix;
 	private UccUI app;
 	private AALService aal;
-	// private IWindow iw;
 	private static int appCounter;
 
 	public LicenseController(UccUI app, LicenceWindow win,
@@ -49,7 +42,6 @@ public class LicenseController implements Property.ValueChangeListener,
 		this.app = app;
 		this.aal = aal;
 		appCounter = aal.getUaapList().size();
-		// iw = new InstallProcessImpl();
 		win.getGo().addListener((Button.ClickListener) this);
 		win.getCancel().addListener((Button.ClickListener) this);
 	}
@@ -123,7 +115,7 @@ public class LicenseController implements Property.ValueChangeListener,
 			app.getMainWindow().showNotification(res.getString("break.note"),
 					Notification.TYPE_ERROR_MESSAGE);
 			app.getMainWindow().removeWindow(win);
-			File f = new File(System.getenv("systemdrive") + "/tempUsrvFiles/");
+			File f = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/");
 			deleteFiles(f);
 		}
 		if (event.getButton() == win.getGo()) {
@@ -135,14 +127,9 @@ public class LicenseController implements Property.ValueChangeListener,
 				// Load Infoview for Deployment of uapps
 				DeploymentInformationView div = new DeploymentInformationView(
 						app);
-				DeploymentInfoController dic = new DeploymentInfoController(
+				new DeploymentInfoController(
 						app, aal, div);
 				app.getMainWindow().addWindow(div);
-				
-				
-				// iw.getDeployStratgyView(aal.getName(), aal.getServiceId(),
-				// aal.getUaapList().get(0).getUappLocation(), appCounter, aal);
-				// appCounter--;
 			}
 		}
 
@@ -151,10 +138,12 @@ public class LicenseController implements Property.ValueChangeListener,
 	private void deleteFiles(File path) {
 		File[] files = path.listFiles();
 		for (File del : files) {
-			if (del.isDirectory()) {
+			if (del.isDirectory()
+					&& !del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
+							.equals("usrv")) {
 				deleteFiles(del);
 			}
-			if (!del.getPath().substring(del.getPath().indexOf(".") + 1)
+			if (!del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
 					.equals("usrv"))
 				del.delete();
 		}

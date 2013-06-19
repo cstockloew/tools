@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.*;
 
 /**
  * A Collection with simple datatypes.
- * @author merkle
+ * @author Nicole Merkle
  *
  */
 

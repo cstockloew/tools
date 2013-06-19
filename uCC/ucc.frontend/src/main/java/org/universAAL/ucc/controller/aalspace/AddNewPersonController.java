@@ -13,32 +13,14 @@ import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
-import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
-import org.universAAL.ucc.configuration.model.ConfigOptionRegistry;
-import org.universAAL.ucc.configuration.model.ConfigurationOption;
-import org.universAAL.ucc.configuration.model.Configurator;
-import org.universAAL.ucc.configuration.model.MapConfigurationOption;
-import org.universAAL.ucc.configuration.model.SimpleConfigurationOption;
-import org.universAAL.ucc.configuration.model.configurationdefinition.Category;
-import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
-import org.universAAL.ucc.configuration.model.configurationdefinition.MapConfigItem;
-import org.universAAL.ucc.configuration.model.configurationdefinition.SimpleConfigItem;
-import org.universAAL.ucc.configuration.model.configurationinstances.ConfigOption;
-import org.universAAL.ucc.configuration.model.configurationinstances.ConfigurationInstance;
-import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFactory;
-import org.universAAL.ucc.configuration.model.configurationinstances.Value;
-import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
-import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.Role;
-import org.universAAL.ucc.startup.model.UccUsers;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
-import org.universAAL.ucc.windows.HardwareWindow;
 import org.universAAL.ucc.windows.HumansWindow;
 import org.universAAL.ucc.windows.UccUI;
-import org.universAAL.ucc.windows.RoomsWindow;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -74,6 +56,12 @@ import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.windows.TabForm;
 
+/**
+ * User profile controller for adding new person to AAL space.
+ * 
+ * @author Nicole Merkle
+ *
+ */
 public class AddNewPersonController implements Button.ClickListener, Window.CloseListener {
 	private AddNewPersonWindow win;
 	private UccUI app;
@@ -85,38 +73,25 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 	private ArrayList<OntologyInstance> objects;
 	private ArrayList<OntologyInstance>savedObjects;
 	private OntologyInstance instance;
-	private String flatId;
 	private static String ontoProfile;
-	private static String flat1DB;
-	private static String flat2DB;
-	private static String flat3DB;
 	private String actualFlat;
 	private boolean saved;
 	private String device;
 	private Setup setup;
+	private ModuleConfigHome mc;
 
 	public AddNewPersonController(AddNewPersonWindow window, HumansWindow hWin,
 			UccUI app) throws JAXBException,
 			IOException, ParseException {
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
-		device = System.getenv("systemdrive");
-		ontoProfile = device+"/uccDB/EmptyUser.xml";
-//		flat1DB = device+"/jcc_datastore/flat1/Users.xml";
-//		flat2DB = device+"/jcc_datastore/flat2/Users.xml";
-//		flat3DB = device+"/jcc_datastore/flat3/Users.xml";
+		mc = new ModuleConfigHome("uccDB", "");
+		device = mc.getAbsolutePath();
+		ontoProfile = device+"/EmptyUser.xml";
 		this.app = app;
 		this.saved = false;
 		this.win = window;
 		this.win.addListener(this);
-//		this.flatId = window.getFlatId();
-//		if (flatId.equals("Flat1")) {
-//			actualFlat = flat1DB;
-//		} else if (flatId.equals("Flat2")) {
-//			actualFlat = flat2DB;
-//		} else if (flatId.equals("Flat3")) {
-//			actualFlat = flat3DB;
-//		}
-		actualFlat = device + "/uccDB/Users.xml";
+		actualFlat = device + "/Users.xml";
 		ServiceReference ref = context.getServiceReference(DataAccess.class
 				.getName());
 		dataAccess = (DataAccess) context.getService(ref);
@@ -507,35 +482,50 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 			if (tabSheet.getComponentCount() == 0) {
 				dataAccess.saveUserDataInCHE(instance);
 				//Save in Users.xml
-//				List<UserAccountInfo>ul = setup.getUsers("file:///../etc/uCC/users.xml");
-//				UserAccountInfo uinfo = new UserAccountInfo();
-//				uinfo.setChecked(true);
-//				ArrayList<Role> roles = new ArrayList<Role>();
-//				for(Subprofile s : instance.getSubprofiles()) {
-//					for(SimpleObject si : s.getSimpleObjects()) {
-//						StringValue sv = (StringValue)si;
-//						System.err.println(sv.getName());
-//						System.err.println(sv.getValue());
-//						if(sv.getName().equals("username")) {
-//							uinfo.setName(sv.getValue());
-//						}
-//						if(sv.getName().equals("password")) {
-//							uinfo.setPassword(sv.getValue());
-//						}
-//						
-//					}
-//					for(EnumObject eo : s.getEnums()) {
-//						System.err.println(eo.getType());
-//						if(eo.getType().equals("userRole")) {
-//							System.err.println(eo.getSelectedValue());
-//							roles.add(Role.valueOf(eo.getSelectedValue()));
-//							uinfo.setRole(roles);
-//						}
-//					}
-//				}
-//				
-//				ul.add(uinfo);
-//				setup.saveUsers(ul, "file:///../etc/uCC/users.xml");
+				ModuleConfigHome cm = new ModuleConfigHome("uCC", "user");
+				String path = cm.getAbsolutePath()+"/users.xml";
+				List<UserAccountInfo>ul = setup.getUsers(path);
+				List<UserAccountInfo>temp = new ArrayList<UserAccountInfo>();
+				boolean flag = false;
+				UserAccountInfo uinfo = new UserAccountInfo();
+				uinfo.setChecked(true);
+				ArrayList<Role> roles = new ArrayList<Role>();
+				for(Subprofile s : instance.getSubprofiles()) {
+					for(SimpleObject si : s.getSimpleObjects()) {
+						StringValue sv = (StringValue)si;
+						System.err.println(sv.getName());
+						System.err.println(sv.getValue());
+						if(sv.getName().equals("username")) {
+							for(UserAccountInfo us : ul) {
+								if(us.getName().equals(sv.getValue())) {
+									flag = true;
+								}
+							}
+							if(!flag) {
+								uinfo.setName(sv.getValue());
+							}
+						}
+						if(sv.getName().equals("password")) {
+							if(!flag)
+								uinfo.setPassword(sv.getValue());
+						}
+						
+					}
+					if(!flag) {
+					for(EnumObject eo : s.getEnums()) {
+						System.err.println(eo.getType());
+						if(eo.getType().equals("userRole")) {
+							System.err.println(eo.getSelectedValue());
+							roles.add(Role.valueOf(eo.getSelectedValue()));
+							uinfo.setRole(roles);
+						}
+					}
+				}
+				}
+				if(!flag) {
+					temp.add(uinfo);
+					setup.saveUsers(temp, path);
+				}
 				
 //				dataAccess.saveUserData(actualFlat, instance);
 				app.getMainWindow().removeWindow(win);

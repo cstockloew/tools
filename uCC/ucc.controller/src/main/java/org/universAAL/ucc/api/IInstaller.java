@@ -9,6 +9,12 @@ import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 import org.universAAL.middleware.managers.api.MatchingResult;
 import org.universAAL.middleware.managers.api.UAPPPackage;
 
+/**
+ * Installer Interface for installing AAL services.
+ * 
+ * @author Shanshan Jiang
+ *
+ */
 public interface IInstaller {
 
     // interface with MW: call AALSpaceManager

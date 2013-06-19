@@ -4,48 +4,44 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Properties;
-
 import javax.xml.namespace.QName;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-
-import org.universAAL.ucc.controller.desktop.DesktopController;
-import org.universAAL.ucc.database.preferences.UserAccountDB;
-import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
 import org.universAAL.commerce.ustore.tools.OnlineStoreManagerService;
 import org.universAAL.commerce.ustore.tools.UAALException_Exception;
 
+/**
+ * Client for the Webservice communication with uStore
+ * 
+ * @author Nicole Merkle
+ *
+ */
 public class UstoreUtil {
 	private BundleContext bc;
 	private ServiceReference ref;
-//	private UserAccountDB db;
-//	private Preferences pref;
 	private Setup setup;
 	private OnlineStoreManager client;
 	private static final QName SERVICE_NAME = new QName(
 			"http://tools.ustore.commerce.universaal.org/",
 			"OnlineStoreManagerService");
 
+	/**
+	 * Creates an new UstoreUtil instance and connects to
+	 * the uStore webservice.
+	 */
 	public UstoreUtil() {
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
-//		ref = bc.getServiceReference(UserAccountDB.class.getName());
-//		db = (UserAccountDB) bc.getService(ref);
-//		pref = db.getPreferencesData(System.getenv("systemdrive")
-//				+ "/uccDB/preferences.xml");
-//		bc.ungetService(ref);
 		ref = bc.getServiceReference(Setup.class.getName());
 		setup = (Setup)bc.getService(ref);
 		bc.ungetService(ref);
-		// Getting ustore webservice
 		URL wsdlURL = OnlineStoreManagerService.WSDL_LOCATION;
 		OnlineStoreManagerService ss = new OnlineStoreManagerService(wsdlURL,
 				SERVICE_NAME);
@@ -56,28 +52,25 @@ public class UstoreUtil {
 	 * Registers user to uStore
 	 * 
 	 * @return answer of the uStore registration
-	 * @throws
 	 * @throws UAALException
 	 */
 	public void registerUser(String sessionKey) {
 		Reader reader = null;
 		try {
-			reader = new FileReader("file:///../etc/uCC/setup.properties");
+			reader = new FileReader(Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties");
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		Properties prop = new Properties();
 		try {
 			prop.load(reader);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		String adminUserName = prop.getProperty("admin");
 		String adminPassword = prop.getProperty("pwd");
 		
-		String portNum = prop.getProperty("storePort");
+		String portNum = prop.getProperty("uccPort");
 		String idAddr = prop.getProperty("uccUrl");
 		
 		System.err.println(adminUserName+" "+adminPassword+" "+sessionKey+" "+portNum+ " "+" "+idAddr);
@@ -89,9 +82,13 @@ public class UstoreUtil {
 		
 	}
 	
+	/**
+	 * Gets a session key from uStore.
+	 * @return session key from uStore
+	 */
 	public String getSessionKey() {
 		//Calling registered Users from Database
-		List<UserAccountInfo>list = setup.getUsers("file:///../etc/uCC/users.xml");
+		List<UserAccountInfo>list = setup.getUsers(Activator.getModuleConfigHome().getAbsolutePath()+"/user/users.xml");
 		String sessionKey = "";
 		//Connection to uStore to get a session key for one user
 		for(UserAccountInfo info : list) {
@@ -99,7 +96,6 @@ public class UstoreUtil {
 				try {
 					sessionKey = client.getSessionKey(info.getName(), info.getPassword());
 				} catch (UAALException_Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

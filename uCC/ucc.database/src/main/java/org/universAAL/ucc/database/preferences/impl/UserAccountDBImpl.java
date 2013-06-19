@@ -7,6 +7,11 @@ import javax.xml.bind.JAXB;
 import org.universAAL.ucc.database.preferences.UserAccountDB;
 import org.universAAL.ucc.model.preferences.Preferences;
 
+/**
+ * 
+ * @author Nicole Merkle
+ *
+ */
 public class UserAccountDBImpl implements UserAccountDB {
 
     public void saveStoreAccessData(Preferences pref, String filepath) {

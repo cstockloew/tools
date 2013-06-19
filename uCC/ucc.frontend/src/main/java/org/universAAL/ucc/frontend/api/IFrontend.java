@@ -1,6 +1,5 @@
 package org.universAAL.ucc.frontend.api;
 
-
 public interface IFrontend {
 	public boolean installService(String sessionkey, String serviceId, String serviceLink);
 

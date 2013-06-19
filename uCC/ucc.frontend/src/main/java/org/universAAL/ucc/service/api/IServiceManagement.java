@@ -1,7 +1,6 @@
 package org.universAAL.ucc.service.api;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IServiceManagement {
 

@@ -123,7 +123,8 @@
 							org.universAAL.ucc.ustore.ws.client,
 							org.universAAL.ucc.webconnection,
 							org.universAAL.ucc.windows,
-							org.universAAL.commerce.ustore.tools</Export-Package>
+							org.universAAL.commerce.ustore.tools,
+							org.universAAL.ucc.controller.ustore.services</Export-Package>
 						<Require-Bundle>com.vaadin;bundle-version="6.8.3"</Require-Bundle>
 						<Service-Component>OSGI-INF/ucc.xml</Service-Component>
 					</instructions>

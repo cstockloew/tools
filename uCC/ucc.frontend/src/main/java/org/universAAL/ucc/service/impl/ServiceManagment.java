@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ServiceManagment implements IServiceManagement {
@@ -18,12 +19,10 @@ public class ServiceManagment implements IServiceManagement {
 	public String getInstalledServices() {
 		if (new File(Model.SERVICEFILENAME).exists()) {
 			String services = "<services>";
-			// List<String> list = new ArrayList<String>();
 			Document doc = Model.getSrvDocument();
 			NodeList nodeList = doc.getElementsByTagName("service");
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Element element = (Element) nodeList.item(i);
-				// list.add(element.getAttribute("serviceId"));
 				services = services + "<serviceId>"
 						+ element.getAttribute("serviceId") + "</serviceId>";
 			}
@@ -49,15 +48,18 @@ public class ServiceManagment implements IServiceManagement {
 			String services = "<serviceUnits>";
 			Document doc = Model.getSrvDocument();
 			Element serviceEl = getService(serviceId, doc);
+			System.err.println(serviceEl.getNodeName());
 			NodeList nodeList = serviceEl.getElementsByTagName("bundle");
 			System.out
 					.println("[ServiceManagement.getInstalledUnitsForService] the number of nodes for bundle: "
 							+ nodeList.getLength());
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Element element = (Element) nodeList.item(i);
-				services = services + "<unit><id>" + element.getAttribute("id")
-						+ "</id><version>" + element.getAttribute("version")
-						+ "</version></unit>";
+				System.err.println(element.getNodeName() + " "+element.getNodeValue());
+					services = services + "<unit><id>" + element.getAttribute("id")
+							+ "</id><version>" + element.getAttribute("version")
+							+ "</version></unit>";
+				
 			}
 			services += "</serviceUnits>";
 			return services;
@@ -68,19 +70,23 @@ public class ServiceManagment implements IServiceManagement {
 	}
 
 	public static Element getService(String serviceId, Document doc) {
-		NodeList nodeList = doc.getDocumentElement().getChildNodes();
+		NodeList nodeList = doc.getChildNodes();
 		System.out.println("[nodeList] the number of child nodes: "
 				+ nodeList.getLength());
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element el = (Element) nodeList.item(i);
-			System.out
-					.println("[ServiceManagent.getService] has a node with serviceId: "
-							+ el.getAttribute("serviceId"));
-			if (el.getAttribute("serviceId").equals(serviceId)) {
-				System.out
-						.println("[ServiceManagement.getService] there is a service with id: "
-								+ serviceId);
-				return el;
+			System.err.println(i);
+			Node el = nodeList.item(i);
+			NodeList nl =  el.getChildNodes();
+			System.err.println("Services: "+nl.getLength());
+			for(int j = 0; j < nl.getLength(); j++) {
+				if(nl.item(j).getNodeName().equals("service")) {
+					Element elem = (Element)nl.item(j);
+					System.err.println("Service Id: "+elem.getAttribute("serviceId"));
+					if(elem.getAttribute("serviceId").equals(serviceId)) {
+					
+						return elem;
+					}
+				}
 			}
 		}
 		System.out

@@ -33,16 +33,15 @@ public class ToolWindow extends Window {
 	private TextField searchText;
 	private VerticalLayout vl;
 	private Window installWindow;
-	// public static ToolWindow toolWin;
 	private UccUI app;
 	private String base;
 	private ResourceBundle res;
 
 	public ToolWindow(UccUI app) {
-		super("uCC Tools");
 		this.app = app;
 		base = "resources.ucc";
 		res = ResourceBundle.getBundle(base);
+		setCaption(res.getString("main.menu"));
 		setStyleName(Reindeer.WINDOW_LIGHT);
 		vl = new VerticalLayout();
 		vl.setMargin(true);
@@ -55,7 +54,6 @@ public class ToolWindow extends Window {
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
 		hl.setStyleName("menubutton");
-//		hl.setWidth("100%");
 		installButton = new Button(res.getString("install.label"));
 		installButton.setDescription(res.getString("install.button.tooltip"));
 		installButton.setIcon(new ThemeResource(
@@ -64,10 +62,14 @@ public class ToolWindow extends Window {
 		uninstallButton = new Button(res.getString("uninstall.usrv"));
 		uninstallButton.setDescription(res.getString("uninstall.button"));
 		uninstallButton.setIcon(new ThemeResource("img/Schluessel50x52.png"));
-//		uninstallButton.setEnabled(false);
 		hl.addComponent(uninstallButton);
+		editUC = new Button(res.getString("config.usrv"));
+		editUC.setDescription(res.getString("edit.uc.tooltip"));
+		editUC.setIcon(new ThemeResource("img/Zahnrad50x50.png"));
+		hl.addComponent(editUC);
 		vl.addComponent(hl);
 		vl.setComponentAlignment(hl, Alignment.TOP_LEFT);
+		
 		addLabel = new Label(res.getString("add.label"), Label.CONTENT_XHTML);
 		Label sep1 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep1);
@@ -75,43 +77,40 @@ public class ToolWindow extends Window {
 		configButton = new Button(res.getString("add.hardware.button"));
 		configButton.setDescription(res.getString("add.hardware.tooltip"));
 		configButton.setIcon(new ThemeResource("img/Hardware50x50.png"));
-//		configButton.setEnabled(false);
 		HorizontalLayout config = new HorizontalLayout();
 		config.setSpacing(true);
 		config.setStyleName("menubutton");
 		config.addComponent(configButton);
-		personButton = new Button("Person");
+		editHW = new Button(res.getString("edit.button"));
+		editHW.setDescription(res.getString("edit.hardware.tooltip"));
+		editHW.setIcon(new ThemeResource("img/Hardware-01.png"));
+		config.addComponent(editHW);
+		personButton = new Button(res.getString("add.person.button"));
 		personButton.setDescription(res.getString("add.person.tooltip"));
-//		personButton.setEnabled(false);
 		personButton.setIcon(new ThemeResource("img/Person-01.png"));
 		config.addComponent(personButton);
+		editPerson = new Button(res.getString("edit.button"));
+		editPerson.setDescription(res.getString("edit.person.tooltip"));
+		editPerson.setIcon(new ThemeResource("img/Person ohne-01.png"));
+		config.addComponent(editPerson);
 		vl.addComponent(config);
 		Label sep2 = new Label("<hr/>", Label.CONTENT_XHTML);
 		vl.addComponent(sep2);
-		configLabel = new Label(res.getString("control.label"),
-				Label.CONTENT_XHTML);
-		vl.addComponent(configLabel);
-		HorizontalLayout editHl = new HorizontalLayout();
-		editHl.setSpacing(true);
-		editHl.setStyleName("menubutton");
-		editHW = new Button(res.getString("add.hardware.button"));
-		editHW.setDescription(res.getString("edit.hardware.tooltip"));
-//		editHW.setEnabled(false);
-		editHW.setIcon(new ThemeResource("img/Hardware-01.png"));
-		editHl.addComponent(editHW);
-		editPerson = new Button(res.getString("add.person.button"));
-		editPerson.setDescription(res.getString("edit.person.tooltip"));
-//		editPerson.setEnabled(false);
-		editPerson.setIcon(new ThemeResource("img/Person ohne-01.png"));
-		editHl.addComponent(editPerson);
-		editUC = new Button(res.getString("config.usrv"));
-		editUC.setDescription(res.getString("edit.uc.tooltip"));
-//		editUC.setEnabled(false);
-		editUC.setIcon(new ThemeResource("img/Zahnrad50x50.png"));
-		editHl.addComponent(editUC);
-		vl.addComponent(editHl);
-		Label sep3 = new Label("<hr/>", Label.CONTENT_XHTML);
-		vl.addComponent(sep3);
+//		configLabel = new Label(res.getString("control.label"),
+//				Label.CONTENT_XHTML);
+//		vl.addComponent(configLabel);
+//		HorizontalLayout editHl = new HorizontalLayout();
+//		editHl.setSpacing(true);
+//		editHl.setStyleName("menubutton");
+		
+//		editHl.addComponent(editHW);
+		
+//		editHl.addComponent(editPerson);
+		
+//		editHl.addComponent(editUC);
+//		vl.addComponent(editHl);
+//		Label sep3 = new Label("<hr/>", Label.CONTENT_XHTML);
+//		vl.addComponent(sep3);
 		storeLabel = new Label(res.getString("stores.label"),
 				Label.CONTENT_XHTML);
 		vl.addComponent(storeLabel);
@@ -123,7 +122,7 @@ public class ToolWindow extends Window {
 		uStoreButton.setIcon(new ThemeResource("img/Use Cases 1 ohne-01.png"));
 
 		store.addComponent(uStoreButton);
-		openAAL = new Button("openAAL");
+		openAAL = new Button(res.getString("free"));
 		openAAL.setDescription(res.getString("openaal.button.tooltip"));
 		openAAL.setIcon(new ThemeResource("img/Openaal_logo.png.jpg"));
 		openAAL.setEnabled(false);
@@ -137,8 +136,6 @@ public class ToolWindow extends Window {
 		searchButton = new Button(res.getString("search.button"));
 		searchButton.setEnabled(false);
 		logoutButton = new Button(res.getString("logout.button"));
-
-		// logoutButton.setEnabled(false);
 		hh.addComponent(searchText);
 		hh.addComponent(searchButton);
 		vl.addComponent(hh);
@@ -147,8 +144,8 @@ public class ToolWindow extends Window {
 		vl.addComponent(logoutButton);
 		vl.setComponentAlignment(logoutButton, Alignment.BOTTOM_RIGHT);
 		setClosable(false);
-		setWidth("350px");
-		// setHeight(app.getMainWindow().getBrowserWindowHeight()+"px");
+		setWidth("400px");
+		
 		setResizable(false);
 		setPositionX(0);
 		setPositionY(45);
@@ -310,14 +307,6 @@ public class ToolWindow extends Window {
 	public void setInstallWindow(Window installWindow) {
 		this.installWindow = installWindow;
 	}
-
-	// public static ToolWindow getToolWin() {
-	// return toolWin;
-	// }
-	//
-	// public static void setToolWin(ToolWindow toolWin) {
-	// ToolWindow.toolWin = toolWin;
-	// }
 
 	public UccUI getApp() {
 		return app;

@@ -8,6 +8,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.service.api.IServiceModel;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.api.IServiceRegistration;
@@ -18,12 +19,17 @@ public class Model implements IServiceModel {
 
 	private IServiceRegistration srvReg;
 	private IServiceManagement srvMan;
-	public final static String SERVICEFILENAME = "file:///../services.xml";
+	public static String SERVICEFILENAME;
 	private static Document doc;
+	private ModuleConfigHome mc;
 
 	public Model() {
 		srvReg = (IServiceRegistration) (new ServiceRegistration());
 		srvMan = (IServiceManagement) (new ServiceManagment());
+		mc = new ModuleConfigHome(" ", "");
+		System.err.println("Services.xml: "+mc.getAbsolutePath());
+		String temp = mc.getAbsolutePath().trim();
+		SERVICEFILENAME = temp +"/services.xml";
 	}
 
 	public IServiceRegistration getServiceRegistration() {
@@ -34,7 +40,7 @@ public class Model implements IServiceModel {
 		return srvMan;
 	}
 
-	static protected Document getSrvDocument() {
+	public static /*protected*/ Document getSrvDocument() {
 		if (doc == null) {
 			File file = new File(SERVICEFILENAME);
 			try {

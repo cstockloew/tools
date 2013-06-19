@@ -1,14 +1,10 @@
 package org.universAAL.ucc.windows;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
-
-import org.universAAL.ucc.controller.aalspace.PersonWindowController;
 
 public class TabForm extends Form{
 	private Button saveButton;
@@ -41,7 +37,6 @@ public class TabForm extends Form{
 		deleteButton = new Button(bundle.getString("delete.button"));
 		hl.addComponent(editButton);
 		hl.addComponent(saveButton);
-		//hl.addComponent(resetButton);
 		hl.addComponent(deleteButton);
 		setFooter(hl);
 	}

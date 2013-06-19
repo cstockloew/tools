@@ -17,7 +17,6 @@ public class AddNewHardwareWindow extends Window {
 	private UccUI app;
 	private VerticalLayout layout;
 	private HardwareWindow hWindow;
-	private String flatId;
 	private String base;
 	private ResourceBundle bundle;
 	
@@ -28,7 +27,6 @@ public class AddNewHardwareWindow extends Window {
 		this.app = app;
 		this.hWindow = win;
 		center();
-//		this.flatId = flat;
 		setWidth(500, Sizeable.UNITS_PIXELS);
 		setHeight(400, Sizeable.UNITS_PIXELS);
 		layout = new VerticalLayout();
@@ -41,14 +39,6 @@ public class AddNewHardwareWindow extends Window {
 public void addWindowContent(Component c) {
 		layout.addComponent(c);
 	}
-
-public String getFlatId() {
-	return flatId;
-}
-
-public void setFlatId(String flatId) {
-	this.flatId = flatId;
-}
 
 
 }

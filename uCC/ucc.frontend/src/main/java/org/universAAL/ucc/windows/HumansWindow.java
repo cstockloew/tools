@@ -18,7 +18,6 @@ public class HumansWindow extends Window {
 	private Tree userTree;
 	private HorizontalSplitPanel split;
 	private UccUI app;
-	private String flatId;
 	private ResourceBundle bundle;
 	private String base;
 	
@@ -34,7 +33,6 @@ public class HumansWindow extends Window {
 		}		
 		breadcrump.append(bundle.getString("persons.title"));
 		setCaption(breadcrump.toString());
-//		this.flatId = flat;
 		this.app = app;
 		setWidth(500, Sizeable.UNITS_PIXELS);
 		setHeight(365, Sizeable.UNITS_PIXELS);
@@ -44,7 +42,6 @@ public class HumansWindow extends Window {
 		userTree.setSelectable(true);
 		userTree.setNullSelectionAllowed(false);
 		split = new HorizontalSplitPanel();
-		//split.setSizeFull();
 		split.setMargin(true);
 		split.setStyleName(Reindeer.SPLITPANEL_SMALL);
 		split.setSplitPosition(200, Sizeable.UNITS_PIXELS);
@@ -68,15 +65,5 @@ public class HumansWindow extends Window {
 	public void setUserTree(Tree userTree) {
 		this.userTree = userTree;
 	}
-
-	public String getFlatId() {
-		return flatId;
-	}
-
-	public void setFlatId(String flatId) {
-		this.flatId = flatId;
-	}	
-	
-	
 
 }

@@ -2,16 +2,12 @@ package org.universAAL.ucc.windows;
 
 import java.util.ResourceBundle;
 
-import org.universAAL.ucc.model.AALService;
-import org.universAAL.ucc.model.UAPP;
-
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
-import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;

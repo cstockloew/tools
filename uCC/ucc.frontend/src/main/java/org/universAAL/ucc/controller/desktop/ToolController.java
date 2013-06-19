@@ -7,45 +7,38 @@ import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 
+import javax.swing.JFileChooser;
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.configuration.view.WhichBundleShouldBeConfiguredWindow;
 import org.universAAL.ucc.controller.install.AALServiceReceiver;
-import org.universAAL.ucc.controller.install.UsrvInfoController;
-import org.universAAL.ucc.database.preferences.UserAccountDB;
+import org.universAAL.ucc.controller.install.DeinstallController;
+import org.universAAL.ucc.controller.ustore.services.PurchasedServicesController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
-import org.universAAL.ucc.model.AALService;
-import org.universAAL.ucc.model.UAPP;
-import org.universAAL.ucc.model.install.License;
+import org.universAAL.ucc.model.RegisteredService;
 import org.universAAL.ucc.model.preferences.Preferences;
+import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.service.manager.Activator;
-import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
-import org.universAAL.ucc.windows.HardwareWindow;
+import org.universAAL.ucc.windows.DeinstallWindow;
 import org.universAAL.ucc.windows.HumansWindow;
-import org.universAAL.ucc.windows.LicenceWindow;
+import org.universAAL.ucc.windows.BrowseServicesWindow;
 import org.universAAL.ucc.windows.RoomsWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
-import org.universAAL.ucc.windows.UsrvInformationWindow;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
@@ -58,6 +51,13 @@ import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.FinishedEvent;
 import com.vaadin.ui.Window.Notification;
 
+/**
+ * Controlls the ToolWindow.
+ * 
+ * @author Nicole Merkle
+ *
+ */
+
 public class ToolController implements Button.ClickListener,
 		Upload.FinishedListener, Upload.FailedListener {
 	private UccUI app;
@@ -68,24 +68,21 @@ public class ToolController implements Button.ClickListener,
 	private final static String dir = "tempUsrvFiles";
 	private ServiceReference ref;
 	private BundleContext bc;
-//	private UserAccountDB db;
 	private IFrontend frontend;
-	private final static String file = "file:///../etc/uCC/setup.properties";
+	private static String file;
 
 	public ToolController(UccUI app, ToolWindow toolWin) {
 		this.app = app;
 		this.toolWin = toolWin;
 		base = "resources.ucc";
 		res = ResourceBundle.getBundle(base);
-		File f = new File(System.getenv("systemdrive") + "/" + dir + "/");
+		file = Activator.getModuleConfigHome().getAbsolutePath()+"/setup/setup.properties";
+		File f = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/" + dir + "/");
 		if (!f.exists()) {
 			f.mkdir();
 		}
 		frontend = new FrontendImpl();
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
-//		ref = bc.getServiceReference(UserAccountDB.class.getName());
-//		db = (UserAccountDB) bc.getService(ref);
-//		bc.ungetService(ref);
 	}
 
 	public void buttonClick(ClickEvent event) {
@@ -93,10 +90,10 @@ public class ToolController implements Button.ClickListener,
 			Embedded em = new Embedded("", new ExternalResource(createLink()));
 			em.setType(Embedded.TYPE_BROWSER);
 			em.setWidth("100%");
-			em.setHeight("750px");
+			em.setHeight("850px");
 			Window w = new Window("uStore");
-			w.setWidth("1024px");
-			w.setHeight("750px");
+			w.setWidth("1250px");
+			w.setHeight("800px");
 			VerticalLayout v = new VerticalLayout();
 			w.center();
 			v.addComponent(em);
@@ -105,49 +102,44 @@ public class ToolController implements Button.ClickListener,
 			app.getMainWindow().addWindow(w);
 		}
 		if (event.getButton() == toolWin.getOpenAAL()) {
-			Embedded em = new Embedded("", new ExternalResource(
-					"http://wiki.openaal.org"));
-			em.setType(Embedded.TYPE_BROWSER);
-			em.setWidth("100%");
-			em.setHeight("750px");
-			Window w = new Window("openAAL");
-			w.setWidth("1024px");
-			w.setHeight("750px");
-			VerticalLayout v = new VerticalLayout();
-			w.center();
-			v.addComponent(em);
-			w.setContent(v);
+//			Embedded em = new Embedded("", new ExternalResource(
+//					"http://wiki.openaal.org"));
+//			em.setType(Embedded.TYPE_BROWSER);
+//			em.setWidth("100%");
+//			em.setHeight("800px");
+//			Window w = new Window("openAAL");
+//			w.setWidth("1250px");
+//			w.setHeight("800px");
+//			VerticalLayout v = new VerticalLayout();
+//			w.center();
+//			v.addComponent(em);
+//			w.setContent(v);
+			BrowseServicesWindow pw = new BrowseServicesWindow(app);
+			PurchasedServicesController pc = new PurchasedServicesController(pw, app);
 			app.getMainWindow().removeWindow(toolWin);
-			app.getMainWindow().addWindow(w);
+			app.getMainWindow().addWindow(pw);
 		}
 		if (event.getButton() == toolWin.getInstallButton()) {
 			// Later uncomment again only for testing commented out!
-			// Upload up = new Upload("", new AALServiceReceiver());
-			// up.setButtonCaption(res.getString("install.button"));
-			// up.addListener((Upload.FinishedListener)this);
-			// up.addListener((Upload.FailedListener)this);
-			// installWindow = new Window(res.getString("install.win.caption"));
-			// installWindow.setResizable(false);
-			// installWindow.center();
-			// installWindow.setWidth("400px");
-			// VerticalLayout v = new VerticalLayout();
-			// v.setSizeFull();
-			// v.setSpacing(true);
-			// v.setMargin(true);
-			// v.addComponent(up);
-			// installWindow.setContent(v);
-			app.getMainWindow().removeWindow(toolWin);
-			// app.getMainWindow().addWindow(installWindow);
-
-			// Only for testing, later will be deleted. uStore has to call
-			// IFrontend.installService()
-			frontend.installService(
-					Activator.getSessionKey(), "HWO_Service_withKarf","");
+			 Upload up = new Upload("", new AALServiceReceiver());
+			 up.setButtonCaption(res.getString("install.button"));
+			 up.addListener((Upload.FinishedListener)this);
+			 up.addListener((Upload.FailedListener)this);
+			 installWindow = new Window(res.getString("install.win.caption"));
+			 installWindow.setResizable(false);
+			 installWindow.center();
+			 installWindow.setWidth("400px");
+			 VerticalLayout v = new VerticalLayout();
+			 v.setSizeFull();
+			 v.setSpacing(true);
+			 v.setMargin(true);
+			 v.addComponent(up);
+			 installWindow.setContent(v);
+			
+			 app.getMainWindow().removeWindow(toolWin);
+			 app.getMainWindow().addWindow(installWindow);
 		}
 		if (event.getButton() == toolWin.getLogoutButton()) {
-			// app.getMainWindow().removeComponent((app.getVs()));
-			// app.getMainWindow().removeWindow(ToolWindow.getTooWindowInstance(app));
-			// app.getMainWindow().setContent(app.getVLog());
 			DesktopController.setCurrentPassword("");
 			DesktopController.setCurrentUser("");
 			if(!DesktopController.web.getSocket().isClosed()) {
@@ -161,7 +153,35 @@ public class ToolController implements Button.ClickListener,
 		}
 		
 		if(event.getButton() == toolWin.getUninstallButton()) {
-			frontend.uninstallService(Activator.getSessionKey(), "24501");
+			app.getMainWindow().removeWindow(toolWin);
+			List<RegisteredService> ids = new ArrayList<RegisteredService>();
+			Document doc = Model.getSrvDocument();
+			NodeList nodeList = doc.getElementsByTagName("service");
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				RegisteredService srv = new RegisteredService();
+				Element element = (Element) nodeList.item(i);
+				System.err.println(element.getAttribute("serviceId"));
+				srv.setServiceId(element.getAttribute("serviceId"));
+				NodeList srvChilds = element.getChildNodes();
+				for(int j = 0; j < srvChilds.getLength(); j++) {
+					Node n = srvChilds.item(j);
+					if(n.getNodeName().equals("application")) {
+						Element e = (Element)n;
+						srv.setAppId(e.getAttribute("appId"));
+					}
+					if(n.getNodeName().equals("bundle")) {
+						Element b = (Element)n;
+						srv.setBundleId(b.getAttribute("id"));
+						srv.setBundleVersion(b.getAttribute("version"));
+					}
+				}
+				ids.add(srv);
+			}
+			DeinstallWindow dw = new DeinstallWindow(ids);
+			app.getMainWindow().addWindow(dw);
+			DeinstallController dc = new DeinstallController(dw, app);
+//			frontend.uninstallService(Activator.getSessionKey(), "28002");
+//			frontend.getInstalledUnitsForService(Activator.getSessionKey(), "28002");
 		}
 		
 		if(event.getButton() == toolWin.getPersonButton()) {
@@ -169,13 +189,10 @@ public class ToolController implements Button.ClickListener,
 			try {
 				apw = new AddNewPersonWindow(null, app);
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			app.getMainWindow().removeWindow(toolWin);
@@ -186,13 +203,10 @@ public class ToolController implements Button.ClickListener,
 			try {
 				anhw = new AddNewHardwareWindow(null, null, app);
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			app.getMainWindow().removeWindow(toolWin);
@@ -203,13 +217,10 @@ public class ToolController implements Button.ClickListener,
 			try {
 				hardWare = new RoomsWindow(app);
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			app.getMainWindow().removeWindow(toolWin);
@@ -224,13 +235,10 @@ public class ToolController implements Button.ClickListener,
 			try {
 				hw = new HumansWindow(app);
 			} catch (JAXBException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			app.getMainWindow().removeWindow(toolWin);
@@ -254,13 +262,11 @@ public class ToolController implements Button.ClickListener,
 		try {
 			reader = new FileReader(file);
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
 			prop.load(reader);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		pref.setAdmin(prop.getProperty("admin"));
@@ -269,12 +275,11 @@ public class ToolController implements Button.ClickListener,
 		pref.setShopIp(prop.getProperty("shopUrl"));
 		pref.setUccIp(prop.getProperty("uccUrl"));
 		pref.setUccPort(prop.getProperty("uccPort"));
-		pref.setWsPort(prop.getProperty("storePort"));
+//		pref.setWsPort(prop.getProperty("storePort"));
 		shop = pref.getShopIp();
 		try {
 			reader.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (pref.getShopIp().contains("https")) {
@@ -304,6 +309,12 @@ public class ToolController implements Button.ClickListener,
 
 	public void uploadFinished(FinishedEvent event) {
 		app.getMainWindow().removeWindow(installWindow);
+		String f = event.getFilename();
+		String file = f.substring(0, f.lastIndexOf("."));
+		
+		System.err.println("The local file: "+file);
+		frontend.installService(
+				Activator.getSessionKey(), file,"");
 		// iw.installProcess(System.getenv("systemdrive")+"/tempUsrvFiles/");
 		// File licenceFile = new
 		// File(System.getenv("systemdrive")+"/"+dir+"/config/hwo.usrv.xml");

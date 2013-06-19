@@ -2,16 +2,11 @@ package org.universAAL.ucc.windows;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
-
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 public class DeployStrategyView extends VerticalLayout {
 	private Form form;
@@ -26,7 +21,6 @@ public class DeployStrategyView extends VerticalLayout {
 		addComponent(new Label("<b>"
 				+ bundle.getString("header.deploy.strategy") + "</b>",
 				Label.CONTENT_XHTML));
-		// setSizeFull();
 		setMargin(true);
 		setSpacing(true);
 		form = new Form();

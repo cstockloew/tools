@@ -15,6 +15,7 @@ import javax.xml.bind.JAXBException;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.windows.HardwareWindow;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -64,44 +65,21 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 	private HashMap<String, ArrayList<Subprofile>>roomInstances;
 	private HashMap<String, Subprofile>roomprofiles;
 	private String selectedItem;
-//	private String flatId;
-//	private static String room1;
-//	private static String room2;
-//	private static String room3;
-//	private static String flat1DB;
-//	private static String flat2DB;
-//	private static String flat3DB;
 	private String actualFlat;
 	private String actualRoom;
 	private SensorEventSubscriber sensorEventSubscriber;
 	private String device;
-	
+	private ModuleConfigHome mc;
 
 
 	
 	public HardwareWindowController(HardwareWindow window, UccUI app) throws JAXBException, IOException, ParseException {
-		device = System.getenv("systemdrive");
-//		room1 = device+"/jcc_datastore/flat1/Rooms.xml";
-//		room2 = device+"/jcc_datastore/flat2/Rooms.xml";
-//		room3 = device+"/jcc_datastore/flat3/Rooms.xml";
-//		flat1DB = device+"/jcc_datastore/flat1/Hardware.xml";
-//		flat2DB = device+"/jcc_datastore/flat2/Hardware.xml";
-//		flat3DB = device+"/jcc_datastore/flat3/Hardware.xml";
+		mc = new ModuleConfigHome("uccDB", "");
+		device = mc.getAbsolutePath();
 		this.app = app;
 		this.win = window;
-//		this.flatId = window.getFlatId();
-//		if(flatId.equals("Flat1")) {
-//			actualFlat = flat1DB;
-//			actualRoom = room1;
-//		} else if(flatId.equals("Flat2")) {
-//			actualFlat = flat2DB;
-//			actualRoom = room2;
-//		} else if(flatId.equals("Flat3")) {
-//			actualFlat = flat3DB;
-//			actualRoom = room3;
-//		}
-		actualFlat = device + "/uccDB/Hardware.xml";
-		actualRoom = device + "/uccDB/Rooms.xml";
+		actualFlat = device + "/Hardware.xml";
+		actualRoom = device + "/Rooms.xml";
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 //		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
 //		sensorEventSubscriber = SensorEventSubscriber.getInstance(mContext, context);
@@ -657,14 +635,6 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 					nOntInstances.put(tOnt.getKey(), tOnt.getValue());
 				}
 			}
-//			for(Map.Entry<String, ArrayList<Subprofile>>tOnt : ontInstances.entrySet()) {
-//				if(tOnt.getKey().equals(id)) {
-//					nOntInstances.put(tOnt.getKey(), new ArrayList<Subprofile>());
-//					nOntInstances.get(tOnt.getKey()).add(sub);
-//				} else  {
-//					nOntInstances.put(tOnt.getKey(), tOnt.getValue());
-//				}
-//			}
 			//For room
 			HashMap<String, ArrayList<Subprofile>> ri = new HashMap<String, ArrayList<Subprofile>>();
 			for(Map.Entry<String, ArrayList<Subprofile>>tOnt : roomInstances.entrySet()) {
@@ -682,14 +652,6 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 					ri.put(tOnt.getKey(), tOnt.getValue());
 				}
 			}
-//			for(Map.Entry<String, ArrayList<Subprofile>>rOnt : roomInstances.entrySet()) {
-//				if(rOnt.getKey().equals(id)) {
-//					ri.put(rOnt.getKey(), new ArrayList<Subprofile>());
-//					ri.get(rOnt.getKey()).add(subRoom);
-//				} else  {
-//					ri.put(rOnt.getKey(), rOnt.getValue());
-//				}
-//			}
 			dataAccess.updateUserData(actualFlat, id, nOntInstances);
 	        dataAccess.updateUserData(actualRoom, id, ri);
 			tab.setReadOnly(true);
@@ -777,6 +739,8 @@ public class HardwareWindowController implements Property.ValueChangeListener, B
 		} else {
 			try {
 				AddNewHardwareWindow personWindow = new AddNewHardwareWindow(win, null, app);
+				personWindow.setPositionX(this.win.getPositionX()+100);
+				personWindow.setPositionY(this.win.getPositionY()+100);
 				app.getMainWindow().addWindow(personWindow);
 			} catch (JAXBException e) {
 				e.printStackTrace();
