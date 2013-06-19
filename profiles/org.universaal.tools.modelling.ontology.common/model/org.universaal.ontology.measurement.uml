@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OWL="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OWL/_8v6kUJ2UEeCA1PJ4jAflww/8 pathmap://TwoUse_Profiles/OWL.profile.uml#_8wB5EJ2UEeCA1PJ4jAflww">
-  <uml:Model xmi:id="__ImLAIn5EeGWy6MmckrVYA" name="Measurement">
+  <uml:Model xmi:id="__ImLAIn5EeGWy6MmckrVYA" name="org.universaal.ontology.measurement">
     <packageImport xmi:id="__ImLAon5EeGWy6MmckrVYA">
       <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.owl.uml#_0huTAKFGEeCPiYRKlVcMuQ"/>
     </packageImport>
