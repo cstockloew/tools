@@ -17,9 +17,10 @@ public class OntologyImportPage extends WizardPage {
 	 */
 	public OntologyImportPage() {
 		super("wizardPage");
+		setMessage("The upper ontologies (listed below) will be imported into the model.\nTo import other ontologies, use \"Import Package from Workspace\" in the Model Explorer context menu.");
 		setImageDescriptor(ResourceManager.getPluginImageDescriptor("org.universaal.tools.modelling.ontology.wizard", "icons/ic-uAAL-hdpi.png"));
 		setTitle("Ontology import");
-		setDescription("Select existing ontologies to import");
+		setDescription("The universAAL upper ontologies (listed below) will be imported into the generated model.\nTo import other ontologies, select \"Import Package from Workspace\" in the context menu of the Model Explorer view.");
 	}
 
 	/**
@@ -32,9 +33,9 @@ public class OntologyImportPage extends WizardPage {
 		setControl(container);
 		container.setLayout(new GridLayout(1, false));
 		
-		ListViewer listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
+		ListViewer listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
 		List list = listViewer.getList();
-		list.setItems(new String[] {"org.universaal.middleware.owl", "org.universaal.middleware.service.owl", "org.universaal.ontology.phThing"});
+		list.setItems(new String[] {"Middleware Ontology (org.universaal.middleware.owl)", "Service Ontology (org.universaal.middleware.service.owl)", "Physical World Ontology (org.universaal.ontology.phThing)", "Unit Ontology (org.universaal.ontology.unit)", "Measurement Ontology (org.universaal.ontology.measurement)", "Primitive Types (org.universaal.ontology.datatypes)"});
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 	}
 	
