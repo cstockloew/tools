@@ -31,6 +31,7 @@ public class BrowseServicesWindow extends Window {
 	private List<PopupService>popups;
 	private String base;
 	private ResourceBundle bundle;
+	private Button back;
 	
 	public BrowseServicesWindow(UccUI app) {
 		base = "resources.ucc";
@@ -38,6 +39,7 @@ public class BrowseServicesWindow extends Window {
 		this.app = app;
 		final VerticalLayout vl1 = new VerticalLayout();
 		vl1.setMargin(true);
+		vl1.setSpacing(true);
 		vl1.setSizeFull();
 		setContent(vl1);
 
@@ -70,7 +72,10 @@ public class BrowseServicesWindow extends Window {
 		grid.setColumns(5);
 		grid.setWidth("100%");
 		
-		
+		back = new Button(bundle.getString("back.button"));
+		back.setEnabled(false);
+		vl1.addComponent(back);
+		vl1.setComponentAlignment(back, Alignment.BOTTOM_RIGHT);
 		
 
 		fillGrid(grid, "");		
@@ -193,6 +198,14 @@ public class BrowseServicesWindow extends Window {
 
 	public void setSearchbutton(Button searchbutton) {
 		this.searchbutton = searchbutton;
+	}
+
+	public Button getBack() {
+		return back;
+	}
+
+	public void setBack(Button back) {
+		this.back = back;
 	}
 	
 	

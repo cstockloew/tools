@@ -17,6 +17,7 @@ public class PurchasedServicesController implements Button.ClickListener{
 		this.win = win;
 		this.app = app;
 		win.getSearchbutton().addListener(this);
+		win.getBack().addListener(this);
 		for(Map.Entry<String, Button> b : win.getButtons().entrySet()) {
 			Button temp = (Button) b.getValue();
 			temp.addListener(this);
@@ -28,10 +29,16 @@ public class PurchasedServicesController implements Button.ClickListener{
 		if(win.getSearchbutton() == event.getButton()) {
 			win.getGrid().removeAllComponents();
 			win.fillGrid(win.getGrid(), win.getSearchfield().getValue().toString());
+			win.getBack().setEnabled(true);
 			for(Map.Entry<String, Button> t : win.getButtons().entrySet()) {
 				Button temp = (Button) t.getValue();
 				temp.addListener(this);
 			}
+		} else if(win.getBack() == event.getButton()) {
+			win.getGrid().removeAllComponents();
+			win.fillGrid(win.getGrid(), "");
+			win.getBack().setEnabled(false);
+			
 		} else {
 		
 			for(Map.Entry<String, Button> bt : win.getButtons().entrySet()) {
