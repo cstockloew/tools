@@ -276,29 +276,39 @@
       <element xmi:type="uml:Class" href="model.uml#_l6V2ADvdEeG588nPCnr8CA"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_l6aHcTvdEeG588nPCnr8CA" x="72" y="252"/>
     </children>
-    <children xmi:type="notation:Shape" xmi:id="_-0dF0EzWEeG-B--gQQeYyw" type="Note" fontName="Lucida Grande" fontHeight="14" description="The classes at the top of this diagram are base classes taken from the imported packages shown in the Model Explorer view (select Papyrus from the Window/Open Perspective menu). Typically, you will subclass these classes by adding a generalization relation to your own ontology classes. &#xA;To apply other imported classes, just drag them into the diagram from the Model Explorer." fillColor="8905185" transparency="0" lineColor="0" lineWidth="1">
-      <children xmi:type="notation:BasicDecorationNode" xmi:id="_-0eT8EzWEeG-B--gQQeYyw" type="DiagramName">
-        <element xsi:nil="true"/>
+    <children xmi:type="notation:Shape" xmi:id="_U9_lANj3EeKr6bcazORF2w" type="2012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_U-CBQNj3EeKr6bcazORF2w" source="ShadowFigure">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_U-CBQdj3EeKr6bcazORF2w" key="ShadowFigure_Value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_U-CoUNj3EeKr6bcazORF2w" source="displayNameLabelIcon">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_U-CoUdj3EeKr6bcazORF2w" key="displayNameLabelIcon_value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_U-CoUtj3EeKr6bcazORF2w" source="QualifiedName">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_U-CoU9j3EeKr6bcazORF2w" key="QualifiedNameDepth" value="1000"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_U-CoVNj3EeKr6bcazORF2w" type="5038">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Tj0bINj5EeKr6bcazORF2w" source="PapyrusHyperLink_web">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Tj0bIdj5EeKr6bcazORF2w" key="tooltip_text" value="http://forge.universaal.org/wiki/uaaltools:Ontology_modelling"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Tj0bItj5EeKr6bcazORF2w" key="link" value="http://forge.universaal.org/wiki/uaaltools:Ontology_modelling"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Tj0bI9j5EeKr6bcazORF2w" key="is_default_navigation" value="true"/>
+        </eAnnotations>
       </children>
-      <children xmi:type="notation:BasicDecorationNode" xmi:id="_-0eT8UzWEeG-B--gQQeYyw" type="Description">
-        <element xsi:nil="true"/>
-      </children>
-      <styles xmi:type="notation:TextStyle" xmi:id="_-0dF0UzWEeG-B--gQQeYyw"/>
-      <styles xmi:type="notation:LineTypeStyle" xmi:id="_-0dF0kzWEeG-B--gQQeYyw"/>
-      <element xsi:nil="true"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-0dF00zWEeG-B--gQQeYyw" x="18" y="18" width="730" height="82"/>
+      <element xmi:type="uml:Comment" href="model.uml#_U24QYNj3EeKr6bcazORF2w"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_U9_lAdj3EeKr6bcazORF2w" x="63" y="414" width="586" height="82"/>
     </children>
-    <children xmi:type="notation:Shape" xmi:id="_Vbwp4EzXEeG-B--gQQeYyw" type="Note" fontName="Lucida Grande" fontHeight="14" description="The classes in the lower part of the diagram are just example classes that can be renamed or deleted. To create your own classes, select Class from the Ontology palette (to the right). You can also add associations and generalizations from this palette.&#xA;To add properties to the classes, select datatypeProperty (for primitive types) or objectProperty from the Ontology palette and click on the class to add it to. For further instructions, visit the wiki at:&#xA;http://forge.universaal.org/wiki/uaaltools:Ontology_modelling&#xA;You can delete these instruction notes from the model when you do not need them any more." fillColor="8905185" transparency="0" lineColor="0" lineWidth="1">
-      <children xmi:type="notation:BasicDecorationNode" xmi:id="_VbxQ8EzXEeG-B--gQQeYyw" type="DiagramName">
-        <element xsi:nil="true"/>
-      </children>
-      <children xmi:type="notation:BasicDecorationNode" xmi:id="_VbxQ8UzXEeG-B--gQQeYyw" type="Description">
-        <element xsi:nil="true"/>
-      </children>
-      <styles xmi:type="notation:TextStyle" xmi:id="_Vbwp4UzXEeG-B--gQQeYyw"/>
-      <styles xmi:type="notation:LineTypeStyle" xmi:id="_Vbwp4kzXEeG-B--gQQeYyw"/>
-      <element xsi:nil="true"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbwp40zXEeG-B--gQQeYyw" x="18" y="378" width="730" height="136"/>
+    <children xmi:type="notation:Shape" xmi:id="_vn74ENj3EeKr6bcazORF2w" type="2012" fontName="Lucida Grande" fontHeight="11" lineColor="0">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_vn9tQNj3EeKr6bcazORF2w" source="ShadowFigure">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_vn9tQdj3EeKr6bcazORF2w" key="ShadowFigure_Value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_vn9tQtj3EeKr6bcazORF2w" source="displayNameLabelIcon">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_vn9tQ9j3EeKr6bcazORF2w" key="displayNameLabelIcon_value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_vn-UUNj3EeKr6bcazORF2w" source="QualifiedName">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_vn-UUdj3EeKr6bcazORF2w" key="QualifiedNameDepth" value="1000"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_vn-UUtj3EeKr6bcazORF2w" type="5038"/>
+      <element xmi:type="uml:Comment" href="model.uml#_vn5b0Nj3EeKr6bcazORF2w"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vn74Edj3EeKr6bcazORF2w" x="63" y="27" width="595"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_1_7sETuGEeGemd2yvbYdUw"/>
     <element xmi:type="uml:Package" href="model.uml#_thSEwDuGEeGemd2yvbYdUw"/>

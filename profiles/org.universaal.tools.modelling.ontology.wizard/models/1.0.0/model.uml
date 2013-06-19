@@ -16,7 +16,23 @@
     <packageImport xmi:id="_RdNGUGk2EeG7I7JPKubQ9g">
       <importedPackage href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.datatypes.uml#_U7uacGkcEeGIl7HiYaL9OA"/>
     </packageImport>
+    <packageImport xmi:id="_6vVRANj8EeKr6bcazORF2w">
+      <importedPackage href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.unit.uml#_iTg3FkzlEeG4aIoxfVByDw"/>
+    </packageImport>
+    <packageImport xmi:id="_wxIwQNkBEeKNldekm-85xA">
+      <importedPackage href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.measurement.uml#__ImLBon5EeGWy6MmckrVYA"/>
+    </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$">
+      <ownedComment xmi:id="_U24QYNj3EeKr6bcazORF2w">
+        <body>The classes in the lower part of the diagram are just example classes that can be renamed or deleted. To create your own classes, select Class from the Ontology palette (to the right). You can also add associations and generalizations from this palette.
+To add properties to the classes, select datatypeProperty (for primitive types) or objectProperty from the Ontology palette and click on the class to add it to. For further instructions, visit the wiki at:
+http://forge.universaal.org/wiki/uaaltools:Ontology_modelling
+You can delete these instruction notes from the model when you do not need them any more.</body>
+      </ownedComment>
+      <ownedComment xmi:id="_vn5b0Nj3EeKr6bcazORF2w">
+        <body>The classes at the top of this diagram are base classes taken from the imported packages shown in the Model Explorer view (select Papyrus from the Window/Open Perspective menu). Typically, you will subclass these classes by adding a generalization relation to your own ontology classes. 
+To apply other imported classes, just drag them into the diagram from the Model Explorer.</body>
+      </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_4fXi8DuGEeGemd2yvbYdUw" name="MyService">
         <generalization xmi:id="_SBLJQDuHEeGemd2yvbYdUw">
           <general xmi:type="uml:Class" href="pathmap://AAL_ONTOLOGIES/org.universaal.middleware.service.owl.uml#_utGr4PqREeCQQaPCMdH-vA"/>
