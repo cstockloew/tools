@@ -35,6 +35,9 @@ public class OntologyProjectGeneratorMW200 extends OntologyProjectGeneratorMW130
 		//dep("org.universAAL.middleware", "mw.bus.context", "1.1.0"),
 		//dep("org.universAAL.middleware", "mw.bus.ui", "1.1.0"),
 		dep("org.universAAL.ontology", "ont.phWorld"),
+		dep("org.universAAL.ontology", "ont.device"),
+		dep("org.universAAL.ontology", "ont.unit"),
+		dep("org.universAAL.ontology", "ont.measurement"),
 		//dep("org.universAAL.ontology", "ont.profile", "1.1.0"),
 		dep("org.coode.owlapi", "owlapi", "3.3")		
 	};	

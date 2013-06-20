@@ -35,7 +35,7 @@ public class OntologyImportPage extends WizardPage {
 		
 		ListViewer listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
 		List list = listViewer.getList();
-		list.setItems(new String[] {"Middleware Ontology (org.universaal.middleware.owl)", "Service Ontology (org.universaal.middleware.service.owl)", "Physical World Ontology (org.universaal.ontology.phThing)", "Unit Ontology (org.universaal.ontology.unit)", "Measurement Ontology (org.universaal.ontology.measurement)", "Primitive Types (org.universaal.ontology.datatypes)"});
+		list.setItems(new String[] {"Middleware Ontology (org.universaal.middleware.owl)", "Service Ontology (org.universaal.middleware.service.owl)", "Physical World Ontology (org.universaal.ontology.phThing)", "Device Ontology (org.universaal.ontology.device)", "Unit Ontology (org.universaal.ontology.unit)", "Measurement Ontology (org.universaal.ontology.measurement)", "Primitive Types (org.universaal.ontology.datatypes)"});
 		list.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 	}
 	
