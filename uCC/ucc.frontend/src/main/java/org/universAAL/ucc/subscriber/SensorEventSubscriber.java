@@ -14,6 +14,7 @@ import org.universAAL.middleware.context.ContextEvent;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.owl.MergedRestriction;
+import org.universAAL.ontology.phThing.Device;
 import org.universAAL.ontology.phThing.Sensor;
 
 import org.universAAL.ucc.database.aalspace.DataAccess;
@@ -35,7 +36,7 @@ public class SensorEventSubscriber extends ContextSubscriber {
 	
 	private static ContextEventPattern[] getSubscriptions() {
 		ContextEventPattern ev = new ContextEventPattern();
-		ev.addRestriction(MergedRestriction.getAllValuesRestriction(ContextEvent.PROP_RDF_TYPE, Sensor.MY_URI));
+		ev.addRestriction(MergedRestriction.getAllValuesRestriction(ContextEvent.PROP_RDF_TYPE, Device.MY_URI));
 		return new ContextEventPattern[] {ev};
 	}
 	

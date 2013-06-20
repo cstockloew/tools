@@ -2,7 +2,9 @@
 
 .v-app {
       background: #fff;
-      background-image: url("img/bleu.jpg");
+      background-image: url("img/Hintergrund1.png");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
       font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
       color: #222;
 }

@@ -61,7 +61,7 @@ public class ToolWindow extends Window {
 		hl.addComponent(installButton);
 		uninstallButton = new Button(res.getString("uninstall.usrv"));
 		uninstallButton.setDescription(res.getString("uninstall.button"));
-		uninstallButton.setIcon(new ThemeResource("img/Schluessel50x52.png"));
+		uninstallButton.setIcon(new ThemeResource("img/Uninstall_neu-02.png"));
 		hl.addComponent(uninstallButton);
 		editUC = new Button(res.getString("config.usrv"));
 		editUC.setDescription(res.getString("edit.uc.tooltip"));
@@ -124,7 +124,7 @@ public class ToolWindow extends Window {
 		store.addComponent(uStoreButton);
 		openAAL = new Button(res.getString("free"));
 		openAAL.setDescription(res.getString("openaal.button.tooltip"));
-		openAAL.setIcon(new ThemeResource("img/Openaal_logo.png.jpg"));
+		openAAL.setIcon(new ThemeResource("img/Free Services-01.png"));
 		openAAL.setEnabled(false);
 		store.addComponent(openAAL);
 		vl.addComponent(store);
