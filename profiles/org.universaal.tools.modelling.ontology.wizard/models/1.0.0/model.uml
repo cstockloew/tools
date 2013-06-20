@@ -22,6 +22,9 @@
     <packageImport xmi:id="_gpUMkNkLEeK0CPiwgGX8Pg">
       <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.measurement.uml#__ImLAIn5EeGWy6MmckrVYA"/>
     </packageImport>
+    <packageImport xmi:id="_7d0dsNm3EeKJ87AjNanpsA">
+      <importedPackage xmi:type="uml:Model" href="pathmap://AAL_ONTOLOGIES/org.universaal.ontology.device.uml#_UkOj0NJAEeGCrI2l36sLrg"/>
+    </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_thSEwDuGEeGemd2yvbYdUw" name="$$PACKAGE_NAME$$">
       <ownedComment xmi:id="_U24QYNj3EeKr6bcazORF2w">
         <body>The classes in the lower part of the diagram are just example classes that can be renamed or deleted. To create your own classes, select Class from the Ontology palette (to the right). You can also add associations and generalizations from this palette.
