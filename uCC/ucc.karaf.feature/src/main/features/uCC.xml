@@ -5,7 +5,10 @@
 		version="2.0.1" resolver='(obr)'>		
 
  
-  		<feature>profileagent</feature>
+  		<bundle start-level="90">mvn:org.universAAL.ontology/ont.profile/1.3.3-SNAPSHOT</bundle>
+		<bundle start-level="91">mvn:org.universAAL.ontology/ont.profile.userid/1.3.2-SNAPSHOT</bundle>
+		<bundle start-level="91">wrap:mvn:org.universAAL.support/uAAL.utils/1.3.2-SNAPSHOT</bundle>
+		<bundle start-level="92">mvn:org.universAAL.tools.ucc/ucc.profile.agent/2.0.1-SNAPSHOT</bundle>
   		
   		<!-- bundle start-level="91">wrap:mvn:java3d/j3d-core/1.3.1</bundle-->
   		<!-- bundle start-level="91">wrap:mvn:java3d/j3d-core-utils/1.3.1</bundle-->  
