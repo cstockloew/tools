@@ -31,6 +31,8 @@ import org.universAAL.ri.wsdlToolkit.ioApi.ComplexObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.NativeObject;
 import org.universAAL.ri.wsdlToolkit.ioApi.ParsedWSDLDefinition;
 import org.universAAL.ri.wsdlToolkit.ioApi.WSOperation;
+import org.universaal.tools.externalserviceintegrator.ontology.OntologyMatcher;
+import org.universaal.tools.externalserviceintegrator.ontology.repository.client.RepositoryClient;
 
 public class WSOperationDialog extends Dialog {
 private ParsedWSDLDefinition theParsedDefinition;
@@ -162,7 +164,12 @@ private WSOperation selectedOperation=null;
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				CreateServiceModel.createServiceModel(selectedOperation);
+				//CreateServiceModel.createServiceModel(selectedOperation);
+				//sync ontologies
+				RepositoryClient.downloadAllOntologies();
+				OntologyMatcher ont=new OntologyMatcher();
+				ont.computeMappings(selectedOperation);
+				
 			}
 		});
 		createButton(parent, IDialogConstants.CANCEL_ID,

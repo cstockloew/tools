@@ -13,11 +13,11 @@ public class StartupClass implements IStartup {
 	@Override
 	public void earlyStartup() {		
 		//redirect output to default console		
-		MessageConsole console = new MessageConsole("My Console", null);
-		console.activate();
-		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{ console });
-		MessageConsoleStream stream = console.newMessageStream();
-		System.setOut(new PrintStream(stream));
-		System.setErr(new PrintStream(stream)); 		
+//		MessageConsole console = new MessageConsole("My Console", null);
+//		console.activate();
+//		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{ console });
+//		MessageConsoleStream stream = console.newMessageStream();
+//		System.setOut(new PrintStream(stream));
+//		System.setErr(new PrintStream(stream)); 		
 	}
 }
