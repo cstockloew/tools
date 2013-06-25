@@ -57,11 +57,11 @@ public class ToolWindow extends Window {
 		installButton = new Button(res.getString("install.label"));
 		installButton.setDescription(res.getString("install.button.tooltip"));
 		installButton.setIcon(new ThemeResource(
-				"img/Harddisk50x52.png"));
+				"img/Install-web.png"));
 		hl.addComponent(installButton);
 		uninstallButton = new Button(res.getString("uninstall.usrv"));
 		uninstallButton.setDescription(res.getString("uninstall.button"));
-		uninstallButton.setIcon(new ThemeResource("img/Uninstall_neu-02.png"));
+		uninstallButton.setIcon(new ThemeResource("img/Uninstall-web.png"));
 		hl.addComponent(uninstallButton);
 		editUC = new Button(res.getString("config.usrv"));
 		editUC.setDescription(res.getString("edit.uc.tooltip"));

@@ -40,7 +40,8 @@
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.container.osgi</artifactId>
-			<type>jar</type>
+			<type>bundle</type>
+			<version>2.0.0</version>
 		</dependency>
 	</dependencies>
 

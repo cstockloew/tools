@@ -15,7 +15,6 @@ import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.ContextSubscriber;
 import org.universAAL.middleware.owl.MergedRestriction;
 import org.universAAL.ontology.phThing.Device;
-import org.universAAL.ontology.phThing.Sensor;
 
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.model.jaxb.CalendarValue;

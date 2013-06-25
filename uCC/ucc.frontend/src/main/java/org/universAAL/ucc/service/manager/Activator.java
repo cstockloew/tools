@@ -18,6 +18,8 @@ import org.osgi.framework.ServiceRegistration;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.container.utils.ModuleConfigHome;
+import org.universAAL.middleware.service.ServiceCaller;
+import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.ucc.api.IDeinstaller;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.client.util.UstoreUtil;
@@ -53,13 +55,14 @@ public class Activator implements BundleActivator {
 	private static IServiceManagement mgmt;
 	private static IServiceModel model;
 	private static IServiceRegistration reg;
-	private ModuleContext mContext;
+	private static ModuleContext mContext;
 	private static String sessionKey;
 	private UstoreUtil client;
 	private static DataAccess dataAccess;
 	private static ParserService parserService;
 //	private IEvaluationEventReceiver eventReceiver;
 	private static ModuleConfigHome moduleConfigHome;
+	private static ServiceCaller sc;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
@@ -78,7 +81,6 @@ public class Activator implements BundleActivator {
 			Properties prop = new Properties();
 			prop.setProperty("admin", "admin");
 			prop.setProperty("pwd", "uAAL");
-//			prop.setProperty("storePort", "9090");
 			prop.setProperty("uccPort", "9090");
 			prop.setProperty("uccUrl", "ucc-universaal.no-ip.org");
 			prop.setProperty("shopUrl", "srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
@@ -179,6 +181,34 @@ try{
 		}
 		ServiceReference sr = context.getServiceReference(ParserService.class.getName());
 		parserService = (ParserService) context.getService(sr);
+		
+		//ServiceCaller init
+		sc = new ServiceCaller(mContext) {
+			
+			@Override
+			public void handleResponse(String arg0, ServiceResponse arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void communicationChannelBroken() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		//EasterEgg :D
+		System.err.println(" ");
+		System.err.println("-------------------------------------------------------------------");
+		System.err.println(" ");
+		System.err.println("This programm is dedicated to a mad and unique person, whose name starts with G.:P");
+		System.err.println("If you get this message, you could successfully install and run uCC. :)");
+		System.err.println(" ");
+		System.err.println("Greetings from Germany to Spain :D @>->-");
+		System.err.println(" ");
+		System.err.println("---------------------------------------------------------------------");
+		System.err.println(" ");
 	}
 	
 	
@@ -275,6 +305,30 @@ try{
 
 	public static void setModuleConfigHome(ModuleConfigHome moduleConfigHome) {
 		Activator.moduleConfigHome = moduleConfigHome;
+	}
+
+
+
+	public static ServiceCaller getSc() {
+		return sc;
+	}
+
+
+
+	public static void setSc(ServiceCaller sc) {
+		Activator.sc = sc;
+	}
+
+
+
+	public static ModuleContext getmContext() {
+		return mContext;
+	}
+
+
+
+	public static void setmContext(ModuleContext mContext) {
+		Activator.mContext = mContext;
 	}
 	
 	

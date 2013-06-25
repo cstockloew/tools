@@ -61,8 +61,4 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 		return sessionKey;
 	}
 
-	public void update(String sessionKey, String usrvfile) {
-
-	}
-
 }

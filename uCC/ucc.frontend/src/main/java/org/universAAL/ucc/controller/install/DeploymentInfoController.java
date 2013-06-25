@@ -14,15 +14,22 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.deploymanager.uapp.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 import org.universAAL.middleware.managers.api.MatchingResult;
 import org.universAAL.middleware.managers.api.UAPPPackage;
+import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.service.CallStatus;
+import org.universAAL.middleware.service.ServiceRequest;
+import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.middleware.util.Constants;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
 import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
+import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPPPart;
@@ -42,6 +49,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.Notification;
 
+import org.universAAL.ontology.profile.User;
+import org.universAAL.ontology.profile.service.ProfilingService;
+//import org.universAAL.ontology.profile.ui.mainmenu.MenuEntry;
+
 public class DeploymentInfoController implements Button.ClickListener,
 		ValueChangeListener {
 	private DeploymentInformationView win;
@@ -57,7 +68,6 @@ public class DeploymentInfoController implements Button.ClickListener,
 	private static IInstaller installer;
 	private IServiceRegistration srvRegistration;
 	private BundleContext bc;
-//	private List<Part>parts;
 	private Map<Part, List<PeerCard>> mapLayout;
 
 	public DeploymentInfoController(UccUI app, AALService aal,
@@ -70,7 +80,6 @@ public class DeploymentInfoController implements Button.ClickListener,
 		this.aal = aal;
 		this.win = win;
 		this.app = app;
-//		parts = new ArrayList<Part>();
 		dsvMap = new HashMap<String, DeployStrategyView>();
 		dcvMap = new HashMap<String, DeployConfigView>();
 		mapLayout = new HashMap<Part, List<PeerCard>>();
@@ -240,6 +249,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 						SuccessWindow ncw = new SuccessWindow(
 								bundle.getString("success.install.msg"), app);
 						app.getMainWindow().addWindow(ncw);
+						
+//						addEntry((new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(/*"saied"*/DesktopController.getCurrentUser()).toString(), 
+//								/*"Nutritional Advisor"*/aal.getServiceId(), /*"http://www.tsb.upv.es/"*/aal.getProvider(), 
+//								"http://ontology.universAAL.org/Nutrition.owl#NutritionService", /*"app/Nutritional_Advisor.png"*/ "");
 					}
 					bc.ungetService(configRef);
 
@@ -489,5 +502,36 @@ public class DeploymentInfoController implements Button.ClickListener,
 		System.err.println("Out of getValidPeers()");
 		return validPeers;
 	}
+	
+	//Adds a MenuEntry for new installed AAL service to Endusers view
+//	private void addEntry(String userID, String entryName, String vendor, String serviceClass, String iconURL)
+//    {
+//        MenuEntry me = new MenuEntry((new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(/*"nutritonalEntry"*/ entryName).toString());
+//        me.setVendor(new Resource(vendor));
+//        me.setServiceClass(new Resource(serviceClass));
+//        Resource pathElem = new Resource(iconURL);
+//        pathElem.setResourceLabel(entryName);
+//        me.setPath(new Resource[] {
+//            pathElem
+//        });
+//        ServiceRequest sr = new ServiceRequest(new ProfilingService(), null);
+//        sr.addValueFilter(new String[] {
+//            "http://ontology.universAAL.org/Profile.owl#controls"
+//        }, new User(userID));
+//        sr.addAddEffect(new String[] {
+//            "http://ontology.universAAL.org/Profile.owl#controls", "http://ontology.universAAL.org/Profile.owl#hasProfile", "http://ontology.universAAL.org/Profile.owl#hasSubProfile", "http://ontology.universaal.org/UIMainMenuProfile.owl#hasEntry"
+//        }, me);
+//        ServiceResponse res = Activator.getSc().call(sr);
+//        if(res.getCallStatus() == CallStatus.succeeded)
+//            LogUtils.logDebug(Activator.getmContext(), Activator.class, "addEntry", new Object[] {
+//                "new user ", userID, " added."
+//            }, null);
+//        else
+//            LogUtils.logDebug(Activator.getmContext(), Activator.class, "addEntry", new Object[] {
+//                "callstatus is not succeeded"
+//            }, null);
+//    }
+
+	
 
 }
