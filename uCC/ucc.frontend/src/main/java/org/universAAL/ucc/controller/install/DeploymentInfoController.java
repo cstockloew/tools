@@ -238,7 +238,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 							conf = configurator;
 						}
 					}
-
+					NoConfigurationWindow ncw = null;
 					if (conf != null) {
 						ConfigurationOverviewWindow cow = new ConfigurationOverviewWindow(
 								conf);
@@ -246,16 +246,17 @@ public class DeploymentInfoController implements Button.ClickListener,
 						app.getMainWindow().addWindow(cow);
 					} else {
 						
-						SuccessWindow ncw = new SuccessWindow(
-								bundle.getString("success.install.msg"), app);
-						app.getMainWindow().addWindow(ncw);
+						ncw = new NoConfigurationWindow(
+								bundle.getString("installed.note"));
+
 						
 //						addEntry((new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(/*"saied"*/DesktopController.getCurrentUser()).toString(), 
 //								/*"Nutritional Advisor"*/aal.getServiceId(), /*"http://www.tsb.upv.es/"*/aal.getProvider(), 
 //								"http://ontology.universAAL.org/Nutrition.owl#NutritionService", /*"app/Nutritional_Advisor.png"*/ "");
 					}
 					bc.ungetService(configRef);
-
+					SuccessWindow sw = new SuccessWindow(bundle.getString("success.install.msg"), app, ncw);
+					app.getMainWindow().addWindow(sw);
 				} else if(res.getGlobalResult().toString().equals(InstallationResults.APPLICATION_ALREADY_INSTALLED.name())){
 					// get parts mapping from config
 					System.out.println("[DeploymentInfoController] global result: " + res.getGlobalResult().toString());

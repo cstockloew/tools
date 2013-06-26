@@ -17,12 +17,14 @@ public class SuccessWindow extends Window implements Button.ClickListener {
 	private String base;
 	private ResourceBundle bundle;
 	private UccUI app;
+	private NoConfigurationWindow nw;
 
-	public SuccessWindow(String msg, UccUI app) {
+	public SuccessWindow(String msg, UccUI app, NoConfigurationWindow nw) {
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
 		setCaption(bundle.getString("result.installation"));
 		this.app = app;
+		this.nw = nw;
 		setWidth("425px");
 		setHeight("300px");
 		Label label = new Label("<b>" + msg + "</b>", Label.CONTENT_XHTML);
@@ -52,9 +54,10 @@ public class SuccessWindow extends Window implements Button.ClickListener {
 }
 
 	public void buttonClick(ClickEvent event) {
-		NoConfigurationWindow ncw = new NoConfigurationWindow(
-				bundle.getString("installed.note"));
-		app.getMainWindow().addWindow(ncw);
+		if(nw != null) {
+			app.getMainWindow().addWindow(nw);
+		}
+		close();
 	}
 		
 	}
