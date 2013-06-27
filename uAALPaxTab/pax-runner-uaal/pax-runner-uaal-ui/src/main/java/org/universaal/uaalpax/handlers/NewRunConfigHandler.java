@@ -45,11 +45,13 @@ import org.universaal.uaalpax.ui.dialogs.NewRunconfigDialog;
 
 public class NewRunConfigHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		createNewLaunchConfiguration(HandlerUtil.getActiveWorkbenchWindow(event).getShell());
+		String mode = event.getParameter("org.universaal.uaalpax.commandparameters.runDebugMode");
+		boolean debug = (mode != null && mode.toLowerCase().equals("debug"));
+		createNewLaunchConfiguration(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), debug);		
 		return null;
 	}
 	
-	private void createNewLaunchConfiguration(Shell shell) {
+	private void createNewLaunchConfiguration(Shell shell, boolean debug) {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.pde.ui.EquinoxLauncher");
 		
@@ -124,7 +126,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 			// IStructuredSelection selection = new StructuredSelection(configuration);
 			
 			DebugUITools.openLaunchConfigurationDialog(shell, configuration, DebugUIPlugin.getDefault()
-					.getLaunchConfigurationManager().getLaunchGroup(type, ILaunchManager.RUN_MODE).getIdentifier(),
+					.getLaunchConfigurationManager().getLaunchGroup(type, debug? ILaunchManager.DEBUG_MODE : ILaunchManager.RUN_MODE).getIdentifier(),
 					null);
 			
 			// TODO

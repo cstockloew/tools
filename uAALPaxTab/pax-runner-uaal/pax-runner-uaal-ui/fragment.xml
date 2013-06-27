@@ -31,6 +31,10 @@
                icon="icons/newuaal_clss.png"
                id="org.universaal.uaalpax.menu.newRunConfig"
                style="push">
+            <commandParameter 
+         		id="org.universaal.uaalpax.commandparameters.runDebugMode" 
+         		name="Run/Debung mode"> 
+  			</commandParameter> 
          </command>
       </menuContribution>
    </extension>
