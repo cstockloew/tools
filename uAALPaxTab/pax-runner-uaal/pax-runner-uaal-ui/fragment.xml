@@ -20,6 +20,10 @@
             categoryId="org.universaal.uaalpax.command.runnerCategory"
             id="org.universaal.uaalpax.command.newRunConfig"
             name="Create a new uAAL Run Config">
+            <commandParameter 
+         		id="org.universaal.uaalpax.commandparameters.runDebugMode" 
+         		name="Run/Debung mode"> 
+  			</commandParameter> 
       </command>
    </extension>
    <extension
@@ -31,7 +35,7 @@
                icon="icons/newuaal_clss.png"
                id="org.universaal.uaalpax.menu.newRunConfig"
                style="push">
-            <commandParameter 
+			   <commandParameter 
          		id="org.universaal.uaalpax.commandparameters.runDebugMode" 
          		name="Run/Debung mode"> 
   			</commandParameter> 
