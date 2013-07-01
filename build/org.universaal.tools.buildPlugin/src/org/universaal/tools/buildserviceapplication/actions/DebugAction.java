@@ -3,8 +3,13 @@ package org.universaal.tools.buildserviceapplication.actions;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.maven.cli.MavenCli;
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -24,8 +29,12 @@ import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 /**
@@ -53,31 +62,59 @@ public class DebugAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		CreateLaunchConfigurationFile launchFile=new CreateLaunchConfigurationFile();
-		if (BuildAction.buildedProjects.contains(launchFile.getSelectedMavenProject())) {
-			launchFile.getProjectDependencies();
-			ILaunchConfiguration launch = launchFile.createLaunchConfiguration();
-			if (launch == null) {
-				MessageDialog.openInformation(
-						Display.getCurrent().getActiveShell(),
-						"BuildServiceApplication",
-						"An error occured while creating launch file.");
-			} else {
-				ILaunchGroup[] group = DebugUIPlugin.getDefault()
-					.getLaunchConfigurationManager().getLaunchGroups();				
-				DebugUITools.openLaunchConfigurationDialog(Display.getDefault()
-						.getActiveShell(), launch,
-						"org.eclipse.debug.ui.launchGroup.debug", null);	
-			}
-		} else {
-			MessageDialog.openInformation(
-					Display.getCurrent().getActiveShell(),
-					"BuildServiceApplication",
-					"Please build the selected project first.");
-		}
-	}
 
-	
+		try {
+
+			IHandlerService handlerService = (IHandlerService) (IHandlerService) PlatformUI
+					.getWorkbench().getService(IHandlerService.class);
+
+			ICommandService commandService = (ICommandService) (ICommandService) PlatformUI
+					.getWorkbench().getService(ICommandService.class);
+			Command showElement = commandService
+					.getCommand("org.universaal.uaalpax.command.newRunConfig");
+
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("org.universaal.uaalpax.commandparameters.runDebugMode",
+					"debug");
+			ParameterizedCommand paramShowElement = ParameterizedCommand
+					.generateCommand(showElement, params);
+
+			ExecutionEvent execEvent = handlerService.createExecutionEvent(
+					paramShowElement, new Event());
+			try {
+				showElement.executeWithChecks(execEvent);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		} catch (Exception ex1) {
+			ex1.printStackTrace();
+		}
+		// CreateLaunchConfigurationFile launchFile=new
+		// CreateLaunchConfigurationFile();
+		// if
+		// (BuildAction.buildedProjects.contains(launchFile.getSelectedMavenProject()))
+		// {
+		// launchFile.getProjectDependencies();
+		// ILaunchConfiguration launch = launchFile.createLaunchConfiguration();
+		// if (launch == null) {
+		// MessageDialog.openInformation(
+		// Display.getCurrent().getActiveShell(),
+		// "BuildServiceApplication",
+		// "An error occured while creating launch file.");
+		// } else {
+		// ILaunchGroup[] group = DebugUIPlugin.getDefault()
+		// .getLaunchConfigurationManager().getLaunchGroups();
+		// DebugUITools.openLaunchConfigurationDialog(Display.getDefault()
+		// .getActiveShell(), launch,
+		// "org.eclipse.debug.ui.launchGroup.debug", null);
+		// }
+		// } else {
+		// MessageDialog.openInformation(
+		// Display.getCurrent().getActiveShell(),
+		// "BuildServiceApplication",
+		// "Please build the selected project first.");
+		// }
+	}
 
 	/**
 	 * Selection in the workbench has been changed. We can change the state of
