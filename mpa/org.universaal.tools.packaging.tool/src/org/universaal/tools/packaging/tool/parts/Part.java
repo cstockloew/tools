@@ -36,6 +36,8 @@ import java.util.Properties;
 public class Part implements Serializable {
 
 	private String id; // unique
+	private String bundleId;
+	private String bundleVersion;
 	private Properties partCapabilities;
 	private List<Requirement> partRequirements;
 	private List<DeploymentUnit> deploymentUnits;
@@ -80,6 +82,12 @@ public class Part implements Serializable {
 	public void setPartCapabilities(Properties partCapabilities) {
 		this.partCapabilities = partCapabilities;
 	}
+	
+	public void setPartBundle(String id, String version) {
+		this.bundleId = id;
+		this.bundleVersion = version;
+	}
+	
 	public void setCapability(String name, String value){
 		partCapabilities.put(name, value);
 	}
@@ -103,7 +111,10 @@ public class Part implements Serializable {
 
 		String r = "";
 		r = r.concat("<part partId='"+id+"'>");
-
+		
+		r = r.concat("<bundleId>"+this.bundleId+"</bundleId>");
+		r = r.concat("<bundleVersion>"+this.bundleVersion+"</bundleVersion>");
+		
 		r = r.concat("<partCapabilities>");
 		try{
 			Enumeration<Object> cs = partCapabilities.keys();

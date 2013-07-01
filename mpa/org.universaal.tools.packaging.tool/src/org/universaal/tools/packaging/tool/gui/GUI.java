@@ -63,7 +63,7 @@ import org.universaal.tools.packaging.tool.zip.UAPP;
 public class GUI extends WizardMod {
 
 	public MPA mpa;
-	private PageImpl p0, p1, p2, pl, p3, p4, p5, ppDU, ppEU, ppPC, ppPR, p, p_end;
+	private PageImpl p0, p1, p2, pl, p3, p4, p5, ppB, ppDU, ppEU, ppPC, ppPR, p, p_end;
 	private List<IProject> parts;
 
 	private static GUI instance;
@@ -90,6 +90,7 @@ public class GUI extends WizardMod {
 	public void addPages() {
 
 		if(this.parts != null){
+
 			p0 = new StartPage(Page.PAGE_START);
 			addPage(p0);
 			p0.setMPA(mpa);
@@ -117,7 +118,7 @@ public class GUI extends WizardMod {
 			p5 = new Page5(Page.PAGE5);
 			addPage(p5);
 			p5.setMPA(mpa);
-
+			 
 			if(parts.size() > 1)
 				mpa.getAAL_UAPP().getApplication().setMultipart(true);
 			else
@@ -128,6 +129,11 @@ public class GUI extends WizardMod {
 				String partName = parts.get(i).getName();
 
 				mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1)));
+
+				ppB = new PagePartBundle(Page.PAGE_PART_BUNDLE+partName, i); //deployment units
+				addPage(ppB);
+				ppB.setMPA(mpa);
+				ppB.setArtifact(parts.get(i));
 
 				ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
 				addPage(ppDU);

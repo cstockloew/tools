@@ -11,10 +11,11 @@ public interface Page {
 	public final String PAGE4 = "Application requirements";
 	public final String PAGE5 = "Application management";
 	public final String PAGE_LICENSE = "SLA and licenses";
-	public final String PAGE_PART_DU = "Application Part (Deployment Unit - 1/4): ";
-	public final String PAGE_PART_EU = "Application Part (Execution Unit - 2/4): ";
-	public final String PAGE_PART_PC = "Application Part (Part Capabilities - 3/4): ";
-	public final String PAGE_PART_PR = "Application Part (Part Requirements - 4/4): ";
+	public final String PAGE_PART_BUNDLE = "Application Part (Bundle Id and version - 1/5): ";
+	public final String PAGE_PART_DU = "Application Part (Deployment Unit - 2/5): ";
+	public final String PAGE_PART_EU = "Application Part (Execution Unit - 3/5): ";
+	public final String PAGE_PART_PC = "Application Part (Part Capabilities - 4/5): ";
+	public final String PAGE_PART_PR = "Application Part (Part Requirements - 5/5): ";
 	public final String PAGE_END = "universAAL Application Packager";
 	
 	public final String KARAF_NAMESPACE = "krf";
