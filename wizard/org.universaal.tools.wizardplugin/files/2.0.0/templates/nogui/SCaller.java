@@ -8,7 +8,7 @@ import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.ontology.phThing.DeviceService;
-import org.universAAL.ontology.phThing.OnOffActuator;
+import org.universAAL.ontology.device.SwitchController;
 
 public class SCaller extends ServiceCaller {
 
@@ -19,7 +19,7 @@ public class SCaller extends ServiceCaller {
 	private static final String EXPECT_OUTPUT = CLIENT_OWN_NAMESPACE + "output";
 
 	protected SCaller(ModuleContext context) {
-		super(context);
+	super(context);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -64,9 +64,9 @@ public class SCaller extends ServiceCaller {
 		// This ServiceRequest matches the first profile provided by the callee
 		ServiceRequest setStatus = new ServiceRequest(new DeviceService(), null);
 		setStatus.addValueFilter(new String[] { DeviceService.PROP_CONTROLS },
-			new OnOffActuator(CPublisher.DEVICE_OWN_URI));
+			new SwitchController(CPublisher.DEVICE_OWN_URI));
 		setStatus.addChangeEffect(new String[] { DeviceService.PROP_CONTROLS,
-			OnOffActuator.PROP_STATUS }, new Boolean(status));
+				SwitchController.PROP_HAS_VALUE }, new Boolean(status));
 		return setStatus;
 	}
 
@@ -74,9 +74,9 @@ public class SCaller extends ServiceCaller {
 		// This ServiceRequest matches the second profile provided by the callee
 		ServiceRequest setStatus = new ServiceRequest(new DeviceService(), null);
 		setStatus.addValueFilter(new String[] { DeviceService.PROP_CONTROLS },
-			new OnOffActuator(CPublisher.DEVICE_OWN_URI));
+			new SwitchController(CPublisher.DEVICE_OWN_URI));
 		setStatus.addRequiredOutput(EXPECT_OUTPUT, new String[] {
-			DeviceService.PROP_CONTROLS, OnOffActuator.PROP_STATUS });
+			DeviceService.PROP_CONTROLS, SwitchController.PROP_HAS_VALUE });
 		return setStatus;
 	}
 

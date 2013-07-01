@@ -6,7 +6,8 @@ import org.universAAL.middleware.context.ContextPublisher;
 import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.context.owl.ContextProvider;
 import org.universAAL.middleware.context.owl.ContextProviderType;
-import org.universAAL.ontology.phThing.OnOffActuator;
+import org.universAAL.ontology.device.StatusValue;
+import org.universAAL.ontology.device.SwitchController;
 
 public class CPublisher extends ContextPublisher {
 	/*
@@ -20,7 +21,7 @@ public class CPublisher extends ContextPublisher {
 	 * services
 	 */
 	protected static final String DEVICE_OWN_URI = CONTEXT_OWN_NAMESPACE
-		+ "yourOwnOnOffActuator";
+			+ "yourOwnActuator";
 
 	protected CPublisher(ModuleContext context, ContextProvider providerInfo) {
 		super(context, providerInfo);
@@ -35,10 +36,10 @@ public class CPublisher extends ContextPublisher {
 	private static ContextProvider getProviderInfo() {
 		/*
 		 * -Example- This is a Controller ContextProvider, because it provides
-		 * context about a source you can control: an OnOffActuator
+		 * context about a source you can control: an SwitchController.
 		 */
 		ContextProvider cp = new ContextProvider(CONTEXT_OWN_NAMESPACE
-			+ "ContextProvider");
+				+ "ContextProvider");
 		// TODO: Change Namespace and define published events
 		cp.setType(ContextProviderType.reasoner);
 		cp.setProvidedEvents(new ContextEventPattern[] { new ContextEventPattern() });
@@ -52,16 +53,17 @@ public class CPublisher extends ContextPublisher {
 
 	/**
 	 * -Example- Shortcut method to publish a Context Event with: \n Subject: A
-	 * simulated OnOffActuator \n Predicate: has Status \n Object: The passed
+	 * simulated SwitchController \n Predicate: has Status \n Object: The passed
 	 * argument (on/off)
 	 * 
 	 * @param status
-	 *			Status of the Subject
+	 *            Status of the Subject
 	 */
-	protected void publishStatusEvent(boolean status) {
-		OnOffActuator theDevice = new OnOffActuator(DEVICE_OWN_URI);
-		theDevice.setStatus(status);
-		ContextEvent ev = new ContextEvent(theDevice, OnOffActuator.PROP_STATUS);
+	protected void publishStatusEvent(StatusValue status) {
+		SwitchController theDevice = new SwitchController(DEVICE_OWN_URI);
+		theDevice.setValue(status);
+		ContextEvent ev = new ContextEvent(theDevice,
+				SwitchController.PROP_HAS_VALUE);
 		publish(ev);
 	}
 

@@ -31,52 +31,57 @@ public class MWVersion200 extends MWVersion130{
 	    + "		<dependency>\n"
 	    + "			<groupId>org.universAAL.middleware</groupId>\n"
 	    + "			<artifactId>mw.data.representation.osgi</artifactId>\n"
-	    + "			<version>1.3.2-SNAPSHOT</version>\n"
+	    + "			<version>2.0.0</version>\n"
 	    + "		</dependency>\n"
 	    + "		<dependency>\n"
 	    + "			<groupId>org.universAAL.middleware</groupId>\n"
 	    + "			<artifactId>mw.bus.model.osgi</artifactId>\n"
-	    + "			<version>1.3.2-SNAPSHOT</version>\n"
+	    + "			<version>2.0.0</version>\n"
 	    + "		</dependency>\n"
 	    + "		<dependency>\n"
 	    + "			<groupId>org.universAAL.middleware</groupId>\n"
 	    + "			<artifactId>mw.container.xfaces.osgi</artifactId>\n"
-	    + "			<version>1.3.2-SNAPSHOT</version>\n"
+	    + "			<version>2.0.0</version>\n"
 	    + "		</dependency>\n"
 	    + "		<dependency>\n"
 	    + "			<groupId>org.universAAL.middleware</groupId>\n"
 	    + "			<artifactId>mw.container.osgi</artifactId>\n"
-	    + "			<version>1.3.2-SNAPSHOT</version>\n"
+	    + "			<version>2.0.0</version>\n"
 	    + "		</dependency>\n";	
     protected static final String SERVICE_DEPS =
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.middleware</groupId>\n" 
 	    + "			<artifactId>mw.bus.service.osgi</artifactId>\n" 
-	    + "			<version>1.3.2-SNAPSHOT</version>\n" 
+	    + "			<version>2.0.0</version>\n" 
 	    + "		</dependency>\n";
     protected static final String CONTEXT_DEPS = 
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.middleware</groupId>\n" 
 	    + "			<artifactId>mw.bus.context.osgi</artifactId>\n" 
-	    + "			<version>1.3.2-SNAPSHOT</version>\n" 
+	    + "			<version>2.0.0</version>\n" 
 	    + "		</dependency>\n";
     protected static final String UI_DEPS = 
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.middleware</groupId>\n" 
 	    + "			<artifactId>mw.bus.ui.osgi</artifactId>\n" 
-	    + "			<version>1.3.2-SNAPSHOT</version>\n" 
+	    + "			<version>2.0.0</version>\n" 
 	    + "		</dependency>\n";
     protected static final String PHWORLD_DEPS = 
-	    "		<dependency>\n" 
-	    + "			<groupId>org.universAAL.ontology</groupId>\n" 
-	    + "			<artifactId>ont.phWorld</artifactId>\n" 
-	    + "			<version>1.3.2-SNAPSHOT</version>\n" 
+	    "		<dependency>\n"
+	    + "			<groupId>org.universAAL.ontology</groupId>\n"
+	    + "			<artifactId>ont.phWorld</artifactId>\n"
+	    + "			<version>2.0.0</version>\n" 
+	    + "		</dependency>\n"
+	    + "		<dependency>\n"
+	    + "			<groupId>org.universAAL.ontology</groupId>\n"
+	    + "			<artifactId>ont.device</artifactId>\n"
+	    + "			<version>2.0.0</version>\n" 
 	    + "		</dependency>\n";
     protected static final String PROFILE_DEPS = 
 	    "		<dependency>\n" 
 	    + "			<groupId>org.universAAL.ontology</groupId>\n" 
 	    + "			<artifactId>ont.profile</artifactId>\n" 
-	    + "			<version>1.3.3-SNAPSHOT</version>\n" 
+	    + "			<version>2.0.0</version>\n" 
 	    + "		</dependency>\n";
     
     /**

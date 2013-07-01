@@ -15,20 +15,20 @@ public class Activator implements BundleActivator {
 	public static CPublisher cpublisher = null;
 
 	public void start(BundleContext bcontext) throws Exception {
-	Activator.osgiContext = bcontext;
-	Activator.context = uAALBundleContainer.THE_CONTAINER
-		.registerModule(new Object[] { bcontext });
-	scallee = new SCallee(context);
-	scaller = new SCaller(context);
-	csubscriber = new CSubscriber(context);
-	cpublisher = new CPublisher(context);
+        	Activator.osgiContext = bcontext;
+        	Activator.context = uAALBundleContainer.THE_CONTAINER
+        		.registerModule(new Object[] { bcontext });
+        	scallee = new SCallee(context);
+        	scaller = new SCaller(context);
+        	csubscriber = new CSubscriber(context);
+        	cpublisher = new CPublisher(context);
 	}
 
 	public void stop(BundleContext arg0) throws Exception {
-	scallee.close();
-	scaller.close();
-	csubscriber.close();
-	cpublisher.close();
+        	scallee.close();
+        	scaller.close();
+        	csubscriber.close();
+        	cpublisher.close();
 	}
 
 }

@@ -16,7 +16,6 @@ import org.universAAL.middleware.ui.rdf.Group;
 import org.universAAL.middleware.ui.rdf.InputField;
 import org.universAAL.middleware.ui.rdf.Label;
 import org.universAAL.middleware.ui.rdf.MediaObject;
-import org.universAAL.middleware.ui.rdf.Range;
 import org.universAAL.middleware.ui.rdf.Select;
 import org.universAAL.middleware.ui.rdf.Select1;
 import org.universAAL.middleware.ui.rdf.SimpleOutput;
