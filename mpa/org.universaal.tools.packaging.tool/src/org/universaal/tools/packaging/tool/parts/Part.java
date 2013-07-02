@@ -88,6 +88,14 @@ public class Part implements Serializable {
 		this.bundleVersion = version;
 	}
 	
+	public String getPartBundleId(){
+		return this.bundleId;
+	}
+	
+	public String getPartBundleVersion(){
+		return this.bundleVersion;
+	}
+	
 	public void setCapability(String name, String value){
 		partCapabilities.put(name, value);
 	}

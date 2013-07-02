@@ -38,7 +38,8 @@ public class App implements Serializable {
 	private String tags;
 	private Contact applicationProvider;
 	private List<LicenseSet> licenses;
-
+	private MenuEntry menuEntry;
+	
 	public App(){
 		name  = Application.defaultString;
 		appID = Application.defaultString;
@@ -47,6 +48,7 @@ public class App implements Serializable {
 
 		version = new Version();
 		applicationProvider = new Contact();
+		menuEntry = new MenuEntry();
 	}
 
 	public String getName() {
@@ -104,7 +106,11 @@ public class App implements Serializable {
 	public Contact getApplicationProvider() {
 		return applicationProvider;
 	}
-
+	
+	public MenuEntry getMenuEntry(){
+		return menuEntry;
+	}
+	
 	public List<LicenseSet> getLicenses() {
 		if(licenses == null)
 			licenses = new ArrayList<LicenseSet>();
@@ -125,6 +131,7 @@ public class App implements Serializable {
 		for(int i = 0; i < getLicenses().size(); i++)
 			r = r.concat(licenses.get(i).getXML());
 		r = r.concat("<applicationProfile>"+applicationProfile+"</applicationProfile>");
+		if(menuEntry.getMenuName().trim().length() > 0) r = r.concat("<menuEntry>"+menuEntry.getXML()+"</menuEntry>");
 		//r = r.concat("</app>");
 
 		return r;

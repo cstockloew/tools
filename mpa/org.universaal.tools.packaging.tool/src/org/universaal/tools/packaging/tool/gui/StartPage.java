@@ -140,7 +140,7 @@ public class StartPage extends PageImpl {
 		Label label70 = new Label(container, SWT.NULL);
 		label70.setText("");
 
-		name = new Text(container, SWT.BORDER | SWT.SINGLE);
+		name = new Text(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		name.setText(app.getApplication().getName());			
 		name.setLayoutData(gd);		
 		name.addVerifyListener(new FileV());

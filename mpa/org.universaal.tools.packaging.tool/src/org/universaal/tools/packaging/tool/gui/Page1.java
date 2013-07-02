@@ -20,15 +20,28 @@
  */
 package org.universaal.tools.packaging.tool.gui;
 
+import java.io.File;
+import java.net.URI;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
+import org.universaal.tools.packaging.tool.impl.PageImpl.QL;
+import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
+import org.universaal.tools.packaging.tool.validators.FileV;
 import org.universaal.tools.packaging.tool.validators.IntegerV;
+import org.universaal.tools.packaging.tool.validators.UriV;
 
 /**
  * Second page of the wizard
@@ -39,13 +52,15 @@ import org.universaal.tools.packaging.tool.validators.IntegerV;
  */
 public class Page1 extends PageImpl {
 
-	private Text name, id, description, tags, version_major, version_minor, version_micro, version_build, app_profile;
-
+	private Text name, id, description, tags, version_major, version_minor, version_micro, version_build, app_profile, menuName, serviceUri, iconFile;
+	private File sourcePNG;
+	private Button b1;
+	
 	protected Page1(String pageName) {
 		super(pageName, "Specify details of the Application you are creating");
 	}
 
-	public void createControl(Composite parent) { 
+	public void createControl(final Composite parent) { 
 
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);
@@ -126,6 +141,62 @@ public class Page1 extends PageImpl {
 		app_profile.addVerifyListener(new AlphabeticV());
 		app_profile.setLayoutData(gd);
 
+		Label label10 = new Label(container, SWT.NULL);
+		label10.setText("\nMenu Entry\n");
+		
+		Label label100 = new Label(container, SWT.NULL);
+		label100.setText("");
+		
+		FontData[] fD = label10.getFont().getFontData();
+		fD[0].setStyle(SWT.BOLD);
+		label10.setFont(new Font(container.getDisplay(), fD[0]));	
+		
+		Label label11 = new Label(container, SWT.NULL);
+		label11.setText("Menu name");
+				
+		menuName = new Text(container, SWT.BORDER | SWT.SINGLE);
+		menuName.setText(app.getApplication().getMenuEntry().getMenuName());
+		menuName.addVerifyListener(new AlphabeticV());
+		menuName.setLayoutData(gd);
+		
+		Label label12 = new Label(container, SWT.NULL);
+		label12.setText("* Service URI");
+		
+		serviceUri = new Text(container, SWT.BORDER | SWT.SINGLE );
+		serviceUri.setText(app.getApplication().getMenuEntry().getServiceUri().toASCIIString());
+		serviceUri.setLayoutData(gd);
+		serviceUri.addVerifyListener(new UriV());
+		
+		Label label13 = new Label(container, SWT.NULL);
+		label13.setText("Menu Entry Icon (PNG)");
+		
+		iconFile = new Text(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
+		iconFile.setLayoutData(gd);
+		iconFile.addVerifyListener(new FileV());
+		
+		Label label133 = new Label(container, SWT.NULL);
+		label133.setText("");
+		
+		b1 = new Button(container, SWT.PUSH);
+		b1.setText("Browse");
+		b1.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent e) {
+				Dialog d = new Dialog();
+				sourcePNG = d.open(parent.getShell(), new String[]{"*.png"}, false, "PNG Icon");			
+
+				if(!sourcePNG.getAbsolutePath().endsWith(".png"))
+					sourcePNG = new File(sourcePNG+".png");
+
+				iconFile.setText(sourcePNG.getAbsolutePath());
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});	
+		
+		checkMenuEntry();
+		
 		name.addKeyListener(new FullListener());
 		id.addKeyListener(new FullListener());
 		description.addKeyListener(new FullListener());
@@ -135,10 +206,40 @@ public class Page1 extends PageImpl {
 		version_build.addKeyListener(new FullListener());
 		app_profile.addKeyListener(new FullListener());
 		
+		menuName.addKeyListener(new QL() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				checkMenuEntry();
+				setPageComplete(validate());
+			}
+		});	
+		serviceUri.addKeyListener(new FullListener());
+				
 		loadDefaultValues();
 		
 	}
 
+	private void checkMenuEntry(){
+		if(menuName.getText().trim().length() == 0){
+			serviceUri.setText("");
+			serviceUri.setEnabled(false);
+			mandatory.remove(serviceUri);
+			
+			iconFile.setText("");
+			iconFile.setEnabled(false);
+			
+			b1.setEnabled(false);
+		} else {
+			serviceUri.setEnabled(true);
+			mandatory.add(serviceUri);
+			
+			iconFile.setEnabled(true);
+
+			b1.setEnabled(true);
+		}
+	}
+	
 	private void loadDefaultValues() {
 		if ( app.getApplication() != null ) {
 		    name.setText( app.getApplication().getName() );
@@ -162,7 +263,13 @@ public class Page1 extends PageImpl {
 			app.getApplication().getVersion().setMinor(version_minor.getText());	
 			app.getApplication().getVersion().setMicro(version_micro.getText());		
 			app.getApplication().getVersion().setBuild(version_build.getText());	
-			app.getApplication().setApplicationProfile(app_profile.getText());		
+			app.getApplication().setApplicationProfile(app_profile.getText());
+			if(menuName.getText().trim().length() > 0){
+				app.getApplication().getMenuEntry().setMenuName(menuName.getText().trim());
+				app.getApplication().getMenuEntry().setServiceUri(URI.create(serviceUri.getText()));
+				if(iconFile.getText().trim().length()>0)
+					app.getApplication().getMenuEntry().setIconFile(sourcePNG);
+			}	
 		}
 		catch(Exception ex){
 			ex.printStackTrace();

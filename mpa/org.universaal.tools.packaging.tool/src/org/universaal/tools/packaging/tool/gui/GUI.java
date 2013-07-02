@@ -226,10 +226,15 @@ public class GUI extends WizardMod {
 				}
 			}
 
+			// copy icon file if set
+			File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
+			if(iconFile != null && iconFile.exists()) copyFile(iconFile, new File(tempDir+"/bin/icon/"+iconFile.getName()));
+	
 			UAPP descriptor = new UAPP();
 			descriptor.createUAPPfile(tempDir, destination);
 
 			callUSTORE(destination);
+
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -291,10 +296,12 @@ public class GUI extends WizardMod {
 			File f = new File(tempDir);
 			f.mkdir();
 
-			File bin, config, doc, license, part, emptyFile;
+			File bin, icon, config, doc, license, part, emptyFile;
 
 			bin = new File(f+"/bin");
 			bin.mkdir();
+			icon = new File(f+"/bin/icon");
+			icon.mkdir();
 			config = new File(f+"/config");
 			config.mkdir();
 			doc = new File(f+"/doc");
@@ -311,6 +318,9 @@ public class GUI extends WizardMod {
 			emptyFile = new File(f+"/license/.empty");
 			emptyFile.createNewFile();
 
+			emptyFile = new File(f+"/bin/icon/.empty"); 
+			emptyFile.createNewFile();
+			
 			for(int i = 0; i < parts.size(); i++){
 				part = new File(f+"/bin/part"+(i+1));
 				part.mkdir();
