@@ -21,17 +21,22 @@
  */
 package org.universaal.tools.packaging.tool.gui;
 
+import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -226,9 +231,22 @@ public class GUI extends WizardMod {
 				}
 			}
 
-			// copy icon file if set
+			// copy icon file if set and eventually resize it
 			File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
-			if(iconFile != null && iconFile.exists()) copyFile(iconFile, new File(tempDir+"/bin/icon/"+iconFile.getName()));
+			if(iconFile != null && iconFile.exists()){
+				if (mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconScale()){
+					try {
+						BufferedImage img = ImageIO.read(iconFile);
+						Image scaled = img.getScaledInstance(512, 512, Image.SCALE_AREA_AVERAGING);
+						BufferedImage buffered = new BufferedImage(512, 512, img.getType());
+						buffered.getGraphics().drawImage(scaled, 0, 0 , null);
+						File outputFile = new File(tempDir+"/bin/icon/"+iconFile.getName());
+						ImageIO.write(buffered, "png", outputFile);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else copyFile(iconFile, new File(tempDir+"/bin/icon/"+iconFile.getName()));
+			}
 	
 			UAPP descriptor = new UAPP();
 			descriptor.createUAPPfile(tempDir, destination);

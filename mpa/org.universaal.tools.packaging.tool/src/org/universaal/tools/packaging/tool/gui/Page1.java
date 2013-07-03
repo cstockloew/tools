@@ -20,9 +20,20 @@
  */
 package org.universaal.tools.packaging.tool.gui;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
+import java.util.Iterator;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
@@ -35,6 +46,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.impl.PageImpl.QL;
 import org.universaal.tools.packaging.tool.util.Dialog;
@@ -55,6 +68,7 @@ public class Page1 extends PageImpl {
 	private Text name, id, description, tags, version_major, version_minor, version_micro, version_build, app_profile, menuName, serviceUri, iconFile;
 	private File sourcePNG;
 	private Button b1;
+	private String iconFormat = "png", formatName;
 	
 	protected Page1(String pageName) {
 		super(pageName, "Specify details of the Application you are creating");
@@ -70,6 +84,8 @@ public class Page1 extends PageImpl {
 
 		layout.numColumns = 2;
 		gd = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gd2 = new GridData(GridData.FILL, GridData.CENTER, true, false);		
+		gd2.horizontalSpan = 2;
 
 		Label label1 = new Label(container, SWT.NULL);
 		name = new Text(container, SWT.BORDER | SWT.SINGLE);
@@ -143,9 +159,7 @@ public class Page1 extends PageImpl {
 
 		Label label10 = new Label(container, SWT.NULL);
 		label10.setText("\nMenu Entry\n");
-		
-		Label label100 = new Label(container, SWT.NULL);
-		label100.setText("");
+		label10.setLayoutData(gd2);
 		
 		FontData[] fD = label10.getFont().getFontData();
 		fD[0].setStyle(SWT.BOLD);
@@ -168,7 +182,7 @@ public class Page1 extends PageImpl {
 		serviceUri.addVerifyListener(new UriV());
 		
 		Label label13 = new Label(container, SWT.NULL);
-		label13.setText("Menu Entry Icon (PNG)");
+		label13.setText("Menu Entry Icon (PNG 512x512 px A/R 1:1)");
 		
 		iconFile = new Text(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		iconFile.setLayoutData(gd);
@@ -182,20 +196,63 @@ public class Page1 extends PageImpl {
 		b1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
+				
 				Dialog d = new Dialog();
-				sourcePNG = d.open(parent.getShell(), new String[]{"*.png"}, false, "PNG Icon");			
+				sourcePNG = d.open(parent.getShell(), new String[]{"*."+iconFormat}, false, "Select a PNG Icon");
+				
+				ImageInputStream iis = null;
+				
+				try {
+					iis = ImageIO.createImageInputStream(sourcePNG);
+					Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+				
+					while(readers.hasNext()){
+						ImageReader reader = readers.next();
+						try {
+							formatName = reader.getFormatName();
+							System.out.printf("formatName: %s%n", formatName);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+				
+					BufferedImage image = null;
+				
+					image = ImageIO.read(sourcePNG);
+					if(image != null && formatName.equalsIgnoreCase(iconFormat)){
+						iconFile.setText(sourcePNG.getAbsolutePath());
+	
+						double width = image.getWidth();
+						double height = image.getHeight();
+						double aspect_ratio = width/height;
+						
+						
+						System.out.println("Height : "+ height);
+						System.out.println("Width : "+ width);
+						System.out.println("A/R : "+ aspect_ratio);
+						
+						
+						if (width != 512 || height != 512){
+							app.getApplication().getMenuEntry().setIconScale(true);
+							if (aspect_ratio == 1.0)
+								MessageDialog.open(ERROR, null, "Invalid size", "The image you selected will be scaled due to invalid pixel size.\n\nThe optimal size is 512x512px (A/R 1:1)", SWT.NONE);
+							else
+								MessageDialog.open(ERROR, null, "Invalid size and aspect ratio", "The image you selected will be scaled and streched due to invalid pixel size and aspect ratio.\n\nThe optimal size is 512x512px (A/R 1:1)", SWT.NONE);
+						}
+	
+						
+					} else MessageDialog.open(ERROR, null, "Invalid format", "The file you selected is not a valid PNG file", SWT.NONE);
+				
+					image = null;
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
 
-				if(!sourcePNG.getAbsolutePath().endsWith(".png"))
-					sourcePNG = new File(sourcePNG+".png");
-
-				iconFile.setText(sourcePNG.getAbsolutePath());
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});	
-		
-		checkMenuEntry();
 		
 		name.addKeyListener(new FullListener());
 		id.addKeyListener(new FullListener());
@@ -215,11 +272,12 @@ public class Page1 extends PageImpl {
 			}
 		});	
 		serviceUri.addKeyListener(new FullListener());
-				
+			
+		checkMenuEntry();
 		loadDefaultValues();
 		
 	}
-
+	
 	private void checkMenuEntry(){
 		if(menuName.getText().trim().length() == 0){
 			serviceUri.setText("");

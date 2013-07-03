@@ -40,6 +40,7 @@ public class MenuEntry implements Serializable {
 	private String menuName;
 	private URI serviceUri, iconPath;
 	private File iconFile;
+	private boolean iconScale = false;
 	
 	public MenuEntry(){
 
@@ -108,6 +109,15 @@ public class MenuEntry implements Serializable {
 		String iconPath = Application.defaultURL+"bin/icon/"+iconFile.getName();
 		setIconPath(URI.create(iconPath));
 	}
+	
+	public boolean getIconScale(){
+		return iconScale;
+	}
+	
+	public void setIconScale(boolean iconScale){
+		this.iconScale = iconScale;
+	}
+	
 	
 	public String getXML(){
 
