@@ -18,11 +18,13 @@ public class UAPP {
 			File directoryToZip = new File(sourcePath);
 
 			List<File> fileList = new ArrayList<File>();
+			
 			System.out.println("[Application Packager] - Getting references to all files in: " + directoryToZip.getCanonicalPath());
 			getAllFiles(directoryToZip, fileList);
 			System.out.println("[Application Packager] - Creating zip file");
 			writeZipFile(destinationPath, directoryToZip, fileList);
 			System.out.println("[Application Packager] - Done");
+			rmDir(directoryToZip);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -39,7 +41,7 @@ public class UAPP {
 					System.out.println("[Application Packager] - directory:" + file.getCanonicalPath());
 					getAllFiles(file, fileList);
 				} else {
-					System.out.println("     [Application Packager] - file:" + file.getCanonicalPath());
+					System.out.println("[Application Packager] -      file:" + file.getCanonicalPath());
 				}
 			}
 		} catch (IOException e) {
@@ -93,4 +95,19 @@ public class UAPP {
 			ex.printStackTrace();
 		}
 	}
+	
+	static private boolean rmDir(File path) {
+	    if( path.exists() ) {
+	      File[] files = path.listFiles();
+	      for(int i=0; i<files.length; i++) {
+	         if(files[i].isDirectory()) {
+	        	 rmDir(files[i]);
+	         }
+	         else {
+	           files[i].delete();
+	         }
+	      }
+	    }
+	    return( path.delete() );
+	  }
 }
