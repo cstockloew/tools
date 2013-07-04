@@ -46,6 +46,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.jdt.internal.junit.runner.FirstRunExecutionListener;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.sonatype.aether.artifact.Artifact;
@@ -81,6 +82,8 @@ public class BundleModel {
 	private ExecutorService graphExecutor;
 	private Future<?> graphRebuildFuture;
 	
+	private boolean firestPresentersUpdate;
+	
 	public BundleModel(UAALVersionProvider versionProvider, ModelDialogProvider dialogProvider) {
 		this.currentBundles = new BundleSet();
 		this.versionProvider = versionProvider;
@@ -110,28 +113,13 @@ public class BundleModel {
 	public void updateModel(ILaunchConfiguration configuration) {
 		cancelRebuildGraph();
 		
-		currentBundles.updateBundles(configuration);
-		BundleSet composites = new BundleSet();
-		for (BundleEntry be : currentBundles)
-			if (be.isComposite())
-				composites.add(be);
+		firestPresentersUpdate = true;
 		
-		if (composites.isEmpty()
-				|| dialogProvider
-						.openDialog(
-								"Resolve composites",
-								"The current run configuration contains composites, but composites aren't directly supported now.\n"
-										+ "Do you want to resolve them to individual bundles instead?\n\n"
-										+ "Note that if you don't resolve them, this tool could add bundle dependencies to the run config although they are already contained in a composite",
-								"Yes", "No") == 1)
-			composites = null;
+		currentBundles.updateBundles(configuration);
 		
 		currentVersion = UNKNOWN_VERSION;
 		
-		if (composites == null)
-			rebuildGraphInBackground();
-		else
-			rebuildGraphInforeground(composites);
+		rebuildGraphInBackground();
 		
 		for (String version : versionProvider.getAvailableVersions()) {
 			if (containsAllBundlesOfVersion(currentBundles, version)) {
@@ -241,6 +229,26 @@ public class BundleModel {
 	
 	public BundleSet getBundles() {
 		return currentBundles;
+	}
+	
+	public void checkForComposites() {
+		BundleSet composites = new BundleSet();
+		for (BundleEntry be : currentBundles)
+			if (be.isComposite())
+				composites.add(be);
+		
+		if (composites.isEmpty()
+				|| dialogProvider
+						.openDialog(
+								"Resolve composites",
+								"The current run configuration contains composites, but composites aren't directly supported now.\n"
+										+ "Do you want to resolve them to individual bundles instead?\n\n"
+										+ "Note that if you don't resolve them, this tool could add bundle dependencies to the run config although they are already contained in a composite",
+								"Yes", "No") == 1)
+			composites = null;
+		
+		if (composites != null)
+			rebuildGraphInforeground(composites);
 	}
 	
 	private void insertBundleAndDepsNoWait(BundleEntry be) {
@@ -470,12 +478,17 @@ public class BundleModel {
 					if (rawEntries.contains(be) || removed.contains(be.getArtifactUrl()) || entries.contains(be))
 						iter.remove();
 				} catch (UnknownBundleFormatException e) {
-				}	
+				}
 			}
 		}
 	}
 	
 	public void updatePresenters() {
+		if (firestPresentersUpdate) {
+			firestPresentersUpdate = false;
+			checkForComposites();
+		}
+		
 		BundleSet projects = currentBundles;
 		for (BundlePresenter presenter : allPresenters)
 			projects = presenter.updateProjectList(projects);
@@ -495,7 +508,7 @@ public class BundleModel {
 	}
 	
 	public void changeToVersion(String newVersion) {
-		//waitGraph();
+		// waitGraph();
 		cancelRebuildGraph();
 		
 		BundleSet oldBS = versionProvider.getBundlesOfVersion(currentVersion);
@@ -617,10 +630,10 @@ public class BundleModel {
 		List<Object> arguments = new LinkedList<Object>();
 		
 		try {
-			List<Object> prev = configuration.getAttribute(Attribute.RUN_ARGUMENTS,(List) null);
-			if(prev != null) {
-				for(Object o:prev) {
-					if((o instanceof String && ((String)o).startsWith("-")))
+			List<Object> prev = configuration.getAttribute(Attribute.RUN_ARGUMENTS, (List) null);
+			if (prev != null) {
+				for (Object o : prev) {
+					if ((o instanceof String && ((String) o).startsWith("-")))
 						arguments.add(o);
 				}
 			} else {
@@ -631,7 +644,7 @@ public class BundleModel {
 				arguments.add("--profiles=obr");
 			}
 		} catch (CoreException e1) {
-		} 
+		}
 		
 		Map<Object, Object> toSave = new HashMap<Object, Object>();
 		for (BundleEntry be : currentBundles) {
