@@ -25,4 +25,3 @@ Licensed under Eclipse Public License v1.0
 III. License Summary
 - Apache License 2.0
 - Eclipse Public License v1.0
-- MIT License

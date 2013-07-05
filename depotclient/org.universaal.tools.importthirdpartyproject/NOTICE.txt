@@ -34,5 +34,4 @@ http://www.fatcow.com/free-icons
 
 III. License Summary
 - Apache License 2.0
-- MIT License
 - Eclipse Public License v1.0
