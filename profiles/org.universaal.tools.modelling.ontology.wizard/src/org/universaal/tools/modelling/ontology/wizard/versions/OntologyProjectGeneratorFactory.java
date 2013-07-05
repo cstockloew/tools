@@ -41,9 +41,9 @@ public class OntologyProjectGeneratorFactory {
 	case IOntologyProjectGenerator.VER_130:
 	    return "1.3.0";
 	case IOntologyProjectGenerator.VER_200:
-	    return "1.3.2-SNAPSHOT";
+	    return "2.0.0";
 	default:
-	    return "1.3.2-SNAPSHOT";
+	    return "2.0.0";
 	}
     }
 
