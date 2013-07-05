@@ -263,10 +263,12 @@ import org.universAAL.middleware.owl.ManagedIndividual;
 import org.universAAL.middleware.owl.MergedRestriction;
 import org.universAAL.middleware.owl.OntClassInfoSetup;
 import org.universAAL.middleware.owl.Ontology;
-import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.rdf.TypeMapper;
 import org.universAAL.middleware.service.owl.ServiceBusOntology;
 import org.universAAL.ontology.location.LocationOntology;
+import org.universAAL.ontology.phThing.PhThingOntology;
+import org.universAAL.ontology.shape.ShapeOntology;
+import org.universAAL.ontology.space.SpaceOntology;
 '    
   }
 
@@ -291,6 +293,8 @@ package ' importName ';
 //use the same hashtable for all classes, meaning that duplicate entries will be overwritten. 
 
 var factoryImportList: Hashtable
+
+	factoryImportList.put("org.universAAL.middleware.rdf.Resource", " ")
 
 	ontologyClassList->forEach(c : uml.Class) {
 		var importList:Hashtable = c.getImportsForClass()
@@ -339,7 +343,12 @@ public final class ' ontologyName.firstToUpper() 'Ontology extends Ontology {
     r.setResourceLabel("'ontologyName'");
     addImport(DataRepOntology.NAMESPACE);
     addImport(ServiceBusOntology.NAMESPACE);
-    addImport(LocationOntology.NAMESPACE);\n'
+    addImport(LocationOntology.NAMESPACE);
+    addImport(PhThingOntology.NAMESPACE);
+    addImport(ShapeOntology.NAMESPACE);
+    addImport(SpaceOntology.NAMESPACE);
+    // TODO: Add any additionally imported ontologies here
+    \n'
 		
 		if (!ontologyEnumerationList.isEmpty()) {
             '\n    // ******* Declaration of enumeration classes of the ontology ******* //\n'        		  
@@ -489,6 +498,7 @@ public final class ' ontologyName.firstToUpper() 'Ontology extends Ontology {
     datatypeImportMap.put("XMLGregorianCalendar", "javax.xml.datatype.XMLGregorianCalendar")
     datatypeImportMap.put("Duration", "javax.xml.datatype.Duration")
     datatypeImportMap.put("Locale", "java.util.Locale")
+    datatypeImportMap.put("Resource","org.universAAL.middleware.rdf.Resource")
   }		
 		
 		
@@ -679,17 +689,19 @@ public class ' ontologyName.firstToUpper() 'Factory extends ResourceFactoryImpl 
   uml.Classifier::toUpperFormat():String {
     var txt:String
     var res:String
+    var isFirst:Boolean
   
     txt = self.name.trim()
     res = ""
 
+	isFirst = true
     txt->forEach(aChar:String) {
-      if (aChar.isUpperCase(0)) {
+      if ((!isFirst) && aChar.isUpperCase(0)) {
         res = res + "_";
       }
       res = res + aChar;
+	  isFirst = false
     }  
-
   	return res.toUpper()
   }   
 

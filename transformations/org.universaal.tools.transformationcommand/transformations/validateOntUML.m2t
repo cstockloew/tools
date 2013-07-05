@@ -449,6 +449,12 @@ texttransformation validateOntologyUml (in uml:"http://www.eclipse.org/uml2/3.0.
 						listOfUpperOntologyEntities.put(class.name,class)
 						datatypeImportMap.put(class.name,m.name)
 					}
+					package.ownedMember->forEach(subPackage:uml.Package) {
+						subPackage.ownedMember->forEach(class:uml.Class){
+							listOfUpperOntologyEntities.put(class.name,class)
+							datatypeImportMap.put(class.name,m.name)
+						}
+					}
 				}
 				listOfUpperOntology.put(m.name,listOfUpperOntologyEntities)
 			}
