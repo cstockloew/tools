@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.plexus.util.FileUtils;
@@ -44,6 +45,7 @@ import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.FileV;
 
 /**
@@ -187,7 +189,7 @@ public class StartPage extends PageImpl {
 
 	@Override
 	public boolean nextPressed() {
-
+		
 		g.setDestination(destination.getAbsolutePath());
 		if ( ! Configurator.local.isPersistanceEnabled() ) {
 		    return true;
@@ -209,6 +211,8 @@ public class StartPage extends PageImpl {
 			System.out.println("[WARNING] No recovery data found even if package exists");
 		    }
 		}
+		
+		
 		return true;
 	}
 }

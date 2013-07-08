@@ -21,8 +21,11 @@ public class Dialog {
 		//String[] filterExt = {"*.uapp"};
 		fd.setFilterExtensions(filterExt);
 		String selected = fd.open();
-
-		return new File(selected);
+		if ( selected == null ) {
+			return null;
+		} else {
+			return new File(selected);
+		}
 	}
 
 	public File open(Shell shell, String filename, String[] filterExt, boolean open, String topText){
@@ -38,7 +41,10 @@ public class Dialog {
 		//String[] filterExt = {"*.uapp"};
 		fd.setFilterExtensions(filterExt);
 		String selected = fd.open();
-
-		return new File(selected);
+		if ( selected == null ) {
+			return null;
+		} else {
+			return new File(selected);
+		}
 	}
 }

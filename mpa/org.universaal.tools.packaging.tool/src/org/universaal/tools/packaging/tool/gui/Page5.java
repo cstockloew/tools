@@ -11,28 +11,31 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
+
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteManagement;
 import org.universaal.tools.packaging.tool.util.POMParser;
+import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 
 public class Page5 extends PageImpl {
 
-	private Text contact;
-	private List<Text> artifacts;
-	private List<Text> protocols;
-	private List<Text> versions;
+	private TextExt contact;
+	private List<TextExt> artifacts;
+	private List<TextExt> protocols;
+	private List<TextExt> versions;
 
 	protected Page5(String pageName) {
 		super(pageName, "Specify details for assistance");
 
-		artifacts = new ArrayList<Text>();
-		protocols = new ArrayList<Text>();
-		versions = new ArrayList<Text>();
-			}
+		artifacts = new ArrayList<TextExt>();
+		protocols = new ArrayList<TextExt>();
+		versions = new ArrayList<TextExt>();
+	}
 
 	public void createControl(Composite parent) {
+		
+		XSDParser XSDtooltip = XSDParser.get(XSD);
 		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);	
@@ -51,12 +54,13 @@ public class Page5 extends PageImpl {
 		}
 
 		Label l1 = new Label(container, SWT.NULL);
-		contact = new Text(container, SWT.BORDER | SWT.SINGLE);
+		contact = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(contact);
 		l1.setText("Contact Person");
 		contact.setText(app.getAppManagement().getContact());		
 		contact.addVerifyListener(new AlphabeticV());
-		contact.setLayoutData(gd);	
+		contact.setLayoutData(gd);
+		contact.addTooltip(XSDtooltip.find("applicationManagement.contactPoint"));
 		contact.addKeyListener(new QL() {
 
 			@Override
@@ -76,26 +80,27 @@ public class Page5 extends PageImpl {
 
 			Label l2 = new Label(container, SWT.NULL);
 			l2.setText("Artifact #"+(k+1)+" ID");
-			Text artifact = new Text(container, SWT.BORDER | SWT.SINGLE);
+			TextExt artifact = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 			//mandatory.add(artifact);
 			artifact.setText(p.getArtifactID());			
 			artifacts.add(artifact);
-			contact.addVerifyListener(new AlphabeticV());
+			artifact.addVerifyListener(new AlphabeticV());
 			artifact.addKeyListener(new FullListener());
 			artifact.setLayoutData(gd);
 
 			Label l3 = new Label(container, SWT.NULL);
 			l3.setText("Protocols for assistance, comma separated");
-			Text protocol = new Text(container, SWT.BORDER | SWT.SINGLE);
+			TextExt protocol = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 			protocol.setText("");
 			//mandatory.add(protocol);			
 			protocols.add(protocol);
 			protocol.addKeyListener(new FullListener());
 			protocol.setLayoutData(gd);
-
+			protocol.addTooltip(XSDtooltip.find("applicationManagement.remoteManagement"));
+			
 			Label l4 = new Label(container, SWT.NULL);
 			l4.setText("Version");
-			Text version = new Text(container, SWT.BORDER | SWT.SINGLE);
+			TextExt version = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 			//mandatory.add(version);
 			version.setText(p.getVersion());
 			versions.add(version);

@@ -11,6 +11,8 @@ import java.util.Set;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -28,13 +30,14 @@ import org.universaal.tools.packaging.tool.parts.LogicalRelation;
 import org.universaal.tools.packaging.tool.parts.Requirement;
 import org.universaal.tools.packaging.tool.parts.RequirementsGroup;
 import org.universaal.tools.packaging.tool.parts.SingleRequirement;
+import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 
 public class Page4 extends PageImpl {
 
 	private List<String> reqs, vals, logicalCriteria, logicalRelations;
-	private Text req1, req2, req3, req4, req5;
-	private Text val1, val2, val3, val4, val5;
+	private TextExt req1, req2, req3, req4, req5;
+	private TextExt val1, val2, val3, val4, val5;
 	private Combo c1, c2, c3, c4, c5, c01, c12, c23, c34, c45, c56;
 
 	private int offset;
@@ -56,6 +59,8 @@ public class Page4 extends PageImpl {
 
 	public void createControl(Composite parent) {
 
+		XSDParser XSDtooltip = XSDParser.get(XSD);
+		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);		
 
@@ -128,8 +133,12 @@ public class Page4 extends PageImpl {
 			empty0.setText("");
 		}
 
-		req1 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req1 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req1.setText("");		
+		req1.addVerifyListener(new AlphabeticV());
+		req1.setLayoutData(gd);	
+		
+		/*
 		final ToolTip t = Tooltips.getRequirementTooltip();
 		req1.addFocusListener(new FocusListener() {
 
@@ -141,9 +150,8 @@ public class Page4 extends PageImpl {
 				t.setVisible(true);				
 			}
 		});
-		req1.addVerifyListener(new AlphabeticV());
-		req1.setLayoutData(gd);	
-
+		*/
+		
 		//LogicalCriteria
 		c1 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
@@ -151,7 +159,7 @@ public class Page4 extends PageImpl {
 		c1.setText(LogicalCriteria.equal.toString());
 		c1.setLayoutData(gd);
 
-		val1 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		val1 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		val1.setText("");
 		val1.addVerifyListener(new AlphabeticV());
 		val1.setLayoutData(gd);
@@ -170,18 +178,18 @@ public class Page4 extends PageImpl {
 		empty1.setText("");
 
 
-		req2 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req2 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req2.setText("");
 		req2.addVerifyListener(new AlphabeticV());
 		req2.setLayoutData(gd);
-
+		
 		c2 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c2.add(LogicalCriteria.values()[i].toString());
 		c2.setText(LogicalCriteria.equal.toString());
 		c2.setLayoutData(gd);
 
-		val2 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		val2 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		val2.setText("");
 		val2.addVerifyListener(new AlphabeticV());
 		val2.setLayoutData(gd);
@@ -200,18 +208,18 @@ public class Page4 extends PageImpl {
 		empty2.setText("");
 
 
-		req3 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req3 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req3.setText("");
 		req3.addVerifyListener(new AlphabeticV());
 		req3.setLayoutData(gd);	
-
+		
 		c3 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c3.add(LogicalCriteria.values()[i].toString());
 		c3.setText(LogicalCriteria.equal.toString());
 		c3.setLayoutData(gd);
 
-		val3 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		val3 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		val3.setText("");	
 		val3.addVerifyListener(new AlphabeticV());
 		val3.setLayoutData(gd);
@@ -230,11 +238,11 @@ public class Page4 extends PageImpl {
 		empty3.setText("");
 
 
-		req4 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req4 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req4.setText("");
 		req4.addVerifyListener(new AlphabeticV());
 		req4.setLayoutData(gd);	
-
+		
 		//LogicalCriteria
 		c4 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
@@ -242,7 +250,7 @@ public class Page4 extends PageImpl {
 		c4.setText(LogicalCriteria.equal.toString());
 		c4.setLayoutData(gd);
 
-		val4 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		val4 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		val4.setText("");
 		val4.addVerifyListener(new AlphabeticV());
 		val4.setLayoutData(gd);
@@ -260,11 +268,11 @@ public class Page4 extends PageImpl {
 		Label empty4 = new Label(container, SWT.NULL);
 		empty4.setText("");
 
-		req5 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req5 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req5.setText("");
 		req5.addVerifyListener(new AlphabeticV());
 		req5.setLayoutData(gd);	
-
+		
 		//LogicalCriteria
 		c5 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
@@ -272,7 +280,7 @@ public class Page4 extends PageImpl {
 		c5.setText(LogicalCriteria.equal.toString());
 		c5.setLayoutData(gd);
 
-		val5 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		val5 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		val5.setText("");
 		val5.addVerifyListener(new AlphabeticV());
 		val5.setLayoutData(gd);

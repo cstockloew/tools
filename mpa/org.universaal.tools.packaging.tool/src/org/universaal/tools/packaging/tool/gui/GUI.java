@@ -93,7 +93,6 @@ public class GUI extends WizardMod {
 
 	@Override
 	public void addPages() {
-
 		if(this.parts != null){
 
 			p0 = new StartPage(Page.PAGE_START);

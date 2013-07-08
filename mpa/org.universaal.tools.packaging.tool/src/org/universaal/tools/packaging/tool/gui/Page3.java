@@ -7,6 +7,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -21,13 +23,14 @@ import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.MiddlewareVersion;
 import org.universaal.tools.packaging.tool.parts.Space;
+import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.IntegerV;
 
 public class Page3 extends PageImpl {
 
 	private Combo targetSpace, mw_version, targetContainerName;
-	private Text targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
+	private TextExt targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
 
 	protected Page3(String pageName) {
 		super(pageName, "Specify capabilities of the Application");
@@ -35,6 +38,8 @@ public class Page3 extends PageImpl {
 
 	public void createControl(Composite parent) {
 
+		XSDParser XSDtooltip = XSDParser.get(XSD);
+		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);		
 
@@ -58,13 +63,13 @@ public class Page3 extends PageImpl {
 		targetSpace.setLayoutData(gd);	
 
 		Label l2 = new Label(container, SWT.NULL);
-		targetSpaceVersion = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetSpaceVersion = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetSpaceVersion);
 		l2.setText("* Target Space Version");
 		targetSpaceVersion.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_SPACE_VERSION));			
 		targetSpaceVersion.addVerifyListener(new IntegerV());
 		targetSpaceVersion.setLayoutData(gd);	
-
+		
 		Label l3 = new Label(container, SWT.NULL);
 		mw_version = new Combo(container, SWT.READ_ONLY);
 		mandatory.add(mw_version);
@@ -75,13 +80,14 @@ public class Page3 extends PageImpl {
 		mw_version.setLayoutData(gd);	
 
 		Label l4 = new Label(container, SWT.NULL);
-		targetOntologies = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetOntologies = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(targetOntologies);
 		l4.setText("Ontologies web address(es), comma separated (if any)");
 		targetOntologies.setText(capabilities.getProperty(Capability.MANDATORY_ONTOLOGIES));			
 		targetOntologies.addVerifyListener(new AlphabeticV());
 		targetOntologies.setLayoutData(gd);	
-
+		targetOntologies.addTooltip(XSDtooltip.find("app.applicationOntology"));
+		
 		Label l5 = new Label(container, SWT.NULL);
 		targetContainerName = new Combo(container, SWT.READ_ONLY);
 		//mandatory.add(targetContainerName);
@@ -92,7 +98,7 @@ public class Page3 extends PageImpl {
 		targetContainerName.setLayoutData(gd);	
 
 		Label l6 = new Label(container, SWT.NULL);
-		targetContainerVersion = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetContainerVersion = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(targetContainerVersion);
 		l6.setText("Target Container Version");
 		targetContainerVersion.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_CONTAINER_VERSION));			
@@ -100,24 +106,12 @@ public class Page3 extends PageImpl {
 		targetContainerVersion.setLayoutData(gd);	
 
 		Label l7 = new Label(container, SWT.NULL);
-		targetDeploymentTool = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetDeploymentTool = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(targetDeploymentTool);
 		l7.setText("Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL));			
-		final ToolTip t = Tooltips.getDeploymentToolTooltip();
-		targetDeploymentTool.addVerifyListener(new AlphabeticV());
-		targetDeploymentTool.addFocusListener(new FocusListener() {
-
-			public void focusLost(FocusEvent e) {
-				t.setVisible(false);				
-			}
-
-			public void focusGained(FocusEvent e) {
-				t.setVisible(true);							
-			}
-		});
 		targetDeploymentTool.setLayoutData(gd);	
-
+		/*
 		targetSpace.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -127,7 +121,15 @@ public class Page3 extends PageImpl {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
-		});		
+		});	
+		*/
+		targetSpace.addModifyListener(new ModifyListener(){
+
+			public void modifyText(ModifyEvent e) {
+				app.getAppCapabilities().setCapability(Capability.MANDATORY_TARGET_SPACE, targetSpace.getText());
+				setPageComplete(validate());
+			}});
+		
 		targetSpaceVersion.addKeyListener(new QL() {
 
 			@Override
@@ -136,6 +138,7 @@ public class Page3 extends PageImpl {
 				setPageComplete(validate());
 			}
 		});
+		/*
 		mw_version.addKeyListener(new QL() {
 
 			@Override
@@ -144,6 +147,14 @@ public class Page3 extends PageImpl {
 				setPageComplete(validate());
 			}
 		});
+		*/
+		mw_version.addModifyListener(new ModifyListener(){
+
+			public void modifyText(ModifyEvent e) {
+				app.getAppCapabilities().setCapability(Capability.MANDATORY_MW_VERSION, mw_version.getText());				
+				setPageComplete(validate());
+			}});
+		
 		targetOntologies.addKeyListener(new QL() {
 
 			@Override
@@ -151,6 +162,7 @@ public class Page3 extends PageImpl {
 				app.getAppCapabilities().setCapability(Capability.MANDATORY_ONTOLOGIES, targetOntologies.getText());				
 			}
 		});
+		/*
 		targetContainerName.addKeyListener(new QL() {
 
 			@Override
@@ -158,6 +170,13 @@ public class Page3 extends PageImpl {
 				app.getAppCapabilities().setCapability(Capability.MANDATORY_TARGET_CONTAINER_NAME, targetContainerName.getText());				
 			}
 		});
+		*/
+		targetContainerName.addModifyListener(new ModifyListener(){
+
+			public void modifyText(ModifyEvent e) {
+				app.getAppCapabilities().setCapability(Capability.MANDATORY_TARGET_CONTAINER_NAME, targetContainerName.getText());				
+			}});
+		
 		targetContainerVersion.addKeyListener(new QL() {
 
 			@Override

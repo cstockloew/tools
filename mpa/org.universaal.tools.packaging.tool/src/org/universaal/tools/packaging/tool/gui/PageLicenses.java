@@ -23,12 +23,13 @@ import org.universaal.tools.packaging.tool.parts.LicenseCategory;
 import org.universaal.tools.packaging.tool.parts.LicenseSet;
 import org.universaal.tools.packaging.tool.parts.SLA;
 import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.UriV;
 
 public class PageLicenses extends PageImpl {
 
-	private Text slaLink, slaName, licLink, licName;
+	private TextExt slaLink, slaName, licLink, licName;
 	private Combo licCategory;
 
 	private SLA sla;
@@ -51,6 +52,8 @@ public class PageLicenses extends PageImpl {
 
 	public void createControl(final Composite parent) {
 
+		// XSDParser XSDtooltip = XSDParser.get(XSD);
+		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);
 
@@ -72,7 +75,7 @@ public class PageLicenses extends PageImpl {
 			sla = new SLA();
 
 			Label l1 = new Label(container, SWT.NULL);
-			slaLink = new Text(container, SWT.BORDER | SWT.SINGLE);
+			slaLink = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 			//mandatory.add(slaLink);
 			//l1.setText("* SLA link");
 			l1.setText("SLA link");
@@ -99,7 +102,7 @@ public class PageLicenses extends PageImpl {
 			});	
 
 			Label l2 = new Label(container, SWT.NULL);
-			slaName = new Text(container, SWT.BORDER | SWT.SINGLE);
+			slaName = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 			//mandatory.add(slaName);
 			//l2.setText("* SLA name");
 			l2.setText("SLA name");
@@ -137,7 +140,7 @@ public class PageLicenses extends PageImpl {
 		empty2.setText("");
 
 		Label l4 = new Label(container, SWT.NULL);
-		licLink = new Text(container, SWT.BORDER | SWT.SINGLE);
+		licLink = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(licLink);
 		//l4.setText("* License link");
 		l4.setText("License link");
@@ -164,7 +167,7 @@ public class PageLicenses extends PageImpl {
 		});	
 
 		Label l5 = new Label(container, SWT.NULL);
-		licName = new Text(container, SWT.BORDER | SWT.SINGLE);
+		licName = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(licName);
 		//l5.setText("* License Name");
 		l5.setText("License Name");

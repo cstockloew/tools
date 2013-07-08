@@ -5,7 +5,7 @@ import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.PlatformUI;
 
 public class Tooltips {
-
+/*
 	public static ToolTip getRequirementTooltip(){
 		ToolTip t = new ToolTip(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.BALLOON);
 		t.setText("example: aal.device.features.audio EQUAL speaker");
@@ -21,5 +21,5 @@ public class Tooltips {
 
 		return t;
 	}
-
+*/
 }

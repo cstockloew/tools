@@ -109,6 +109,9 @@ public class PagePartPC extends PageImpl {
 		l7.setText("* Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL));			
 		targetDeploymentTool.addVerifyListener(new AlphabeticV());
+		targetDeploymentTool.setLayoutData(gd);	
+
+		/*
 		final ToolTip t = Tooltips.getDeploymentToolTooltip();
 		targetDeploymentTool.addFocusListener(new FocusListener() {
 
@@ -120,8 +123,8 @@ public class PagePartPC extends PageImpl {
 				t.setVisible(true);	
 			}
 		});
-		targetDeploymentTool.setLayoutData(gd);	
-
+		 */
+		
 		targetSpace.addKeyListener(new QL() {
 
 			@Override

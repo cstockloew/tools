@@ -137,17 +137,6 @@ public class PagePartPR extends PageImpl {
 		req1 = new Text(container, SWT.BORDER | SWT.SINGLE);
 		req1.setText("");	
 		req1.addVerifyListener(new AlphabeticV());
-		final ToolTip t = Tooltips.getRequirementTooltip();
-		req1.addFocusListener(new FocusListener() {
-
-			public void focusLost(FocusEvent e) {
-				t.setVisible(false);			
-			}
-
-			public void focusGained(FocusEvent e) {
-				t.setVisible(true);			
-			}
-		});
 		req1.setLayoutData(gd);	
 
 		//LogicalCriteria
