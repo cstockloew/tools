@@ -15,6 +15,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.universAAL.ucc.client.util.UstoreUtil;
 import org.universAAL.ucc.database.aalspace.DataAccess;
+import org.universAAL.ucc.model.jaxb.EnumObject;
 import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.StringValue;
@@ -183,7 +184,6 @@ public class DesktopController implements Button.ClickListener {
 									}
 								}
 							}
-						
 						}
 					}
 				} //Later comment out, only CHE is to be used

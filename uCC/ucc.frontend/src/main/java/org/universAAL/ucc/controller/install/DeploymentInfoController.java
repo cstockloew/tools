@@ -30,16 +30,24 @@ import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.Conf
 import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
 import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 import org.universAAL.ucc.controller.desktop.DesktopController;
+import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.UAPPPart;
 import org.universAAL.ucc.model.UAPPReqAtom;
+import org.universAAL.ucc.model.jaxb.EnumObject;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.SimpleObject;
+import org.universAAL.ucc.model.jaxb.StringValue;
+import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.service.api.IServiceRegistration;
 import org.universAAL.ucc.service.manager.Activator;
+import org.universAAL.ucc.startup.model.Role;
 import org.universAAL.ucc.windows.DeployConfigView;
 import org.universAAL.ucc.windows.DeployStrategyView;
 import org.universAAL.ucc.windows.DeploymentInformationView;
 import org.universAAL.ucc.windows.NoConfigurationWindow;
+import org.universAAL.ucc.windows.SelectUserWindow;
 import org.universAAL.ucc.windows.SuccessWindow;
 import org.universAAL.ucc.windows.UccUI;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -205,9 +213,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 						System.out.println("[deploymentInfoController.peerMap] has part: " + parts.get(i).getPartId());
 				}
 				
+				//MW installation
 				uapack = new UAPPPackage(aal.getServiceId(),
 						uapp.getAppId(), uf.toURI(), peerMap);
-				// Not work with uri, MW not implemented yet
+				
 				 InstallationResultsDetails res = installer.requestToInstall(uapack);
 				 // add app and bundles to "services.xml" file.
 				 System.err.println("The GLOBAL RESULT: "+res.getGlobalResult().toString());
@@ -219,6 +228,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 					// for each bundle:
 					srvRegistration.registerBundle(aal.getServiceId(),
 							uapp.getBundleId(), uapp.getBundleVersion());
+					
 					// TODO: Call configurator to configure the uapps, after
 					// uapp is running (for every uapp)
 					ServiceReference configRef = bc
@@ -245,18 +255,49 @@ public class DeploymentInfoController implements Button.ClickListener,
 						cow.center();
 						app.getMainWindow().addWindow(cow);
 					} else {
-						
 						ncw = new NoConfigurationWindow(
 								bundle.getString("installed.note"));
-
 						
-//						addEntry((new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(/*"saied"*/DesktopController.getCurrentUser()).toString(), 
-//								/*"Nutritional Advisor"*/aal.getServiceId(), /*"http://www.tsb.upv.es/"*/aal.getProvider(), 
-//								"http://ontology.universAAL.org/Nutrition.owl#NutritionService", /*"app/Nutritional_Advisor.png"*/ "");
+						
 					}
+					
 					bc.ungetService(configRef);
 					SuccessWindow sw = new SuccessWindow(bundle.getString("success.install.msg"), app, ncw);
 					app.getMainWindow().addWindow(sw);
+					//Selecting user for which service will be installed
+					List<String> users = new ArrayList<String>();
+					DataAccess da = Activator.getDataAccess();
+					ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
+					String uname = "";
+					String role = "";
+					for(OntologyInstance o : ontList) {
+					System.err.println("Getting all users!");
+						for(Subprofile s : o.getSubprofiles()) {
+							for(SimpleObject sim : s.getSimpleObjects()) {
+								StringValue st = (StringValue)sim;
+								if(st.getName().equals("username")) {
+									uname = st.getValue();
+								}
+							}
+							System.err.println(s.getEnums().size());
+							for(EnumObject en : s.getEnums()) {
+								System.err.println(en.getType());
+								if(en.equals("userRole")) {
+									role = en.getSelectedValue();
+									System.err.println(role);
+								}
+							}
+							if(role.equals(Role.ASSISTEDPERSON.name()) || role.equals(Role.ENDUSER.name())) {
+								System.err.println(role);
+								users.add(uname);
+							}
+							
+						}
+						users.add(uname);
+					}
+					SelectUserWindow suw = new SelectUserWindow(users, aal);
+					app.getMainWindow().addWindow(suw);
+					
 				} else if(res.getGlobalResult().toString().equals(InstallationResults.APPLICATION_ALREADY_INSTALLED.name())){
 					// get parts mapping from config
 					System.out.println("[DeploymentInfoController] global result: " + res.getGlobalResult().toString());
@@ -270,6 +311,37 @@ public class DeploymentInfoController implements Button.ClickListener,
 					NoConfigurationWindow ncw = new NoConfigurationWindow(
 							bundle.getString("srv.already.exists"));
 					app.getMainWindow().addWindow(ncw);
+					//Delete after testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					//Selecting user for which service will be installed
+//					List<String> users = new ArrayList<String>();
+//					DataAccess da = Activator.getDataAccess();
+//					ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
+//					String uname = "";
+//					String role = "";
+//					for(OntologyInstance o : ontList) {
+//					System.err.println("Getting all users!");
+//						for(Subprofile s : o.getSubprofiles()) {
+//							for(SimpleObject sim : s.getSimpleObjects()) {
+//								StringValue st = (StringValue)sim;
+//								if(st.getName().equals("username")) {
+//									uname = st.getValue();
+//								}
+//							}
+//							for(EnumObject en : s.getEnums()) {
+//								if(en.getType().equals("userRole")) {
+//									role = en.getSelectedValue();
+//								}
+//							}
+//							System.err.println(uname + " " +role);
+//							if(role.equals(Role.ASSISTEDPERSON.name()) || role.equals(Role.ENDUSER.name())) {
+//								System.err.println(role);
+//								users.add(uname);
+//							}
+//						}
+//						
+//					}
+//					SelectUserWindow suw = new SelectUserWindow(users, aal);
+//					app.getMainWindow().addWindow(suw);
 					
 					
 				} else {
@@ -307,6 +379,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 			File f = new File(Activator.getModuleConfigHome().getAbsolutePath() + "/tempUsrvFiles/");
 			deleteFiles(f);
 		}
+		
 	}
 
 	private void deleteFiles(File path) {
@@ -504,34 +577,6 @@ public class DeploymentInfoController implements Button.ClickListener,
 		return validPeers;
 	}
 	
-	//Adds a MenuEntry for new installed AAL service to Endusers view
-//	private void addEntry(String userID, String entryName, String vendor, String serviceClass, String iconURL)
-//    {
-//        MenuEntry me = new MenuEntry((new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(/*"nutritonalEntry"*/ entryName).toString());
-//        me.setVendor(new Resource(vendor));
-//        me.setServiceClass(new Resource(serviceClass));
-//        Resource pathElem = new Resource(iconURL);
-//        pathElem.setResourceLabel(entryName);
-//        me.setPath(new Resource[] {
-//            pathElem
-//        });
-//        ServiceRequest sr = new ServiceRequest(new ProfilingService(), null);
-//        sr.addValueFilter(new String[] {
-//            "http://ontology.universAAL.org/Profile.owl#controls"
-//        }, new User(userID));
-//        sr.addAddEffect(new String[] {
-//            "http://ontology.universAAL.org/Profile.owl#controls", "http://ontology.universAAL.org/Profile.owl#hasProfile", "http://ontology.universAAL.org/Profile.owl#hasSubProfile", "http://ontology.universaal.org/UIMainMenuProfile.owl#hasEntry"
-//        }, me);
-//        ServiceResponse res = Activator.getSc().call(sr);
-//        if(res.getCallStatus() == CallStatus.succeeded)
-//            LogUtils.logDebug(Activator.getmContext(), Activator.class, "addEntry", new Object[] {
-//                "new user ", userID, " added."
-//            }, null);
-//        else
-//            LogUtils.logDebug(Activator.getmContext(), Activator.class, "addEntry", new Object[] {
-//                "callstatus is not succeeded"
-//            }, null);
-//    }
 
 	
 
