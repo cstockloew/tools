@@ -196,9 +196,10 @@ public class UccUI extends Application {
 				pwd.setValue(u.getPassword());
 			}
 		}
-		} else {
-			getMainWindow().showNotification(res.getString("create.account"), Notification.TYPE_HUMANIZED_MESSAGE);
-		}
+		} 
+//		else {
+//			getMainWindow().showNotification(res.getString("create.account"), Notification.TYPE_HUMANIZED_MESSAGE);
+//		}
 		login = new Button(res.getString("login.label"));
 		hl.addComponent(login);
 		hl.setComponentAlignment(login, Alignment.BOTTOM_RIGHT);

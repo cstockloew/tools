@@ -133,7 +133,8 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 				box.setDescription(enumObj.getDescription());
 				// Create ComboBox with enum objects and add to form
 				for (String item : enumObj.getValues()) {
-					box.addItem(item);
+//					if(item != null)
+						box.addItem(item);
 				}
 				box.setImmediate(true);
 				if (enumObj.isRequired()) {

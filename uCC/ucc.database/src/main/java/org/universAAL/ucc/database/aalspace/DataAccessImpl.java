@@ -131,7 +131,8 @@ public class DataAccessImpl implements DataAccess{
 		if(instance.equals("User")) {
 			List<User> users = pAgent.getAllUsers();
 			for(User ur : users) {
-				roles.add((String)ur.getProperty(Activator.USER_SPACE+"userRole"));
+				if(ur != null && (String)ur.getProperty(Activator.USER_SPACE+"userRole") != null)
+					roles.add((String)ur.getProperty(Activator.USER_SPACE+"userRole"));
 			}
 			for(User u : users) {
 				String filter = ((String)u.getProperty(Activator.USER_SPACE+"username")).replace("_", " ");
