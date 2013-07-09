@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+	<!--
+		Authors: Tom Zentek, zentek@fzi.de
+		Revised: 09.07.2013
+	-->
 <schema targetNamespace="http://universaal.cas.de" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:universaal="http://universaal.cas.de">
 
 
