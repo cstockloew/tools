@@ -188,6 +188,11 @@ public class GUI extends WizardMod {
 	}
 
 	@Override
+	public boolean performCancel(){
+		return MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm Exit", "Are you sure you want to Exit?");
+	}
+	
+	@Override
 	public boolean performFinish() {
 
 		try {

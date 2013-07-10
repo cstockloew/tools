@@ -42,6 +42,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.PlatformUI;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.util.XSDParser;
@@ -245,9 +246,9 @@ public class Page1 extends PageImpl {
 						if (width != 512 || height != 512){
 							app.getApplication().getMenuEntry().setIconScale(true);
 							if (aspect_ratio == 1.0)
-								MessageDialog.openError(null, "Invalid size", "The selected image will be scaled due to invalid pixel size.\n\nThe optimal size is 512x512 pixels (A/R 1:1)");
+								MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Invalid size", "The selected image will be scaled due to invalid pixel size.\n\nThe optimal size is 512x512 pixels (A/R 1:1)");
 							else
-								MessageDialog.openError(null, "Invalid size and aspect ratio", "The selected image will be scaled and stretched due to invalid pixel size and aspect ratio.\n\nThe optimal size is 512x512 pixels (A/R 1:1)");
+								MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Invalid size and aspect ratio", "The selected image will be scaled and stretched due to invalid pixel size and aspect ratio.\n\nThe optimal size is 512x512 pixels (A/R 1:1)");
 						}
 	
 						

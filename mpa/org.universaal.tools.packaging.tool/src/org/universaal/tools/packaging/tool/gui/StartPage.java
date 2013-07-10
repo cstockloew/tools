@@ -154,14 +154,15 @@ public class StartPage extends PageImpl {
 			public void widgetSelected(SelectionEvent e) {
 				Dialog d = new Dialog();
 				destination = d.open(parent.getShell(), new String[]{"*.uapp"}, false, "UAPP file path...");			
+				if(destination != null){
+					if(!destination.getAbsolutePath().endsWith(".uapp"))
+						destination = new File(destination+".uapp");
 
-				if(!destination.getAbsolutePath().endsWith(".uapp"))
-					destination = new File(destination+".uapp");
+					name.setText(destination.getAbsolutePath());
 
-				name.setText(destination.getAbsolutePath());
-
-				if(destination != null && destination.isAbsolute() && parts.size() > 0)
-					setPageComplete(true);
+					if(destination.isAbsolute() && parts.size() > 0)
+						setPageComplete(true);
+				}
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
