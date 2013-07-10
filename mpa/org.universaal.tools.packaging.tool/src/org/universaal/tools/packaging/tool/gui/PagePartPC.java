@@ -7,6 +7,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -29,7 +31,7 @@ public class PagePartPC extends PageImpl {
 	private int partNumber;
 
 	private Combo targetSpace, mw_version, targetContainerName;
-	private Text targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
+	private TextExt targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
 
 	protected PagePartPC(String pageName, int pn) {
 		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
@@ -62,7 +64,7 @@ public class PagePartPC extends PageImpl {
 		targetSpace.setLayoutData(gd);	
 
 		Label l2 = new Label(container, SWT.NULL);
-		targetSpaceVersion = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetSpaceVersion = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetSpaceVersion);
 		l2.setText("* Target Space Version");
 		targetSpaceVersion.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_SPACE_VERSION));			
@@ -79,7 +81,7 @@ public class PagePartPC extends PageImpl {
 		mw_version.setLayoutData(gd);	
 
 		Label l4 = new Label(container, SWT.NULL);
-		targetOntologies = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetOntologies = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(targetOntologies);
 		l4.setText("Ontologies, comma separated");
 		targetOntologies.setText(capabilities.getProperty(Capability.MANDATORY_ONTOLOGIES));			
@@ -96,7 +98,7 @@ public class PagePartPC extends PageImpl {
 		targetContainerName.setLayoutData(gd);	
 
 		Label l6 = new Label(container, SWT.NULL);
-		targetContainerVersion = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetContainerVersion = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetContainerVersion);
 		l6.setText("* Target Container Version");
 		targetContainerVersion.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_CONTAINER_VERSION));			
@@ -104,13 +106,15 @@ public class PagePartPC extends PageImpl {
 		targetContainerVersion.setLayoutData(gd);	
 
 		Label l7 = new Label(container, SWT.NULL);
-		targetDeploymentTool = new Text(container, SWT.BORDER | SWT.SINGLE);
+		targetDeploymentTool = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetDeploymentTool);
 		l7.setText("* Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL));			
 		targetDeploymentTool.addVerifyListener(new AlphabeticV());
 		targetDeploymentTool.setLayoutData(gd);	
-
+		targetDeploymentTool.addTooltip(Tooltips.DEPLOYMENT_TOOLTIP);
+		
+		
 		/*
 		final ToolTip t = Tooltips.getDeploymentToolTooltip();
 		targetDeploymentTool.addFocusListener(new FocusListener() {
@@ -125,6 +129,7 @@ public class PagePartPC extends PageImpl {
 		});
 		 */
 		
+		/*
 		targetSpace.addKeyListener(new QL() {
 
 			@Override
@@ -132,20 +137,39 @@ public class PagePartPC extends PageImpl {
 				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_SPACE, targetSpace.getText());				
 			}
 		});
+		*/
+		targetSpace.addModifyListener(new ModifyListener(){
+
+			public void modifyText(ModifyEvent e) {
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_SPACE, targetSpace.getText());				
+				setPageComplete(validate());
+			}
+		});
+		
 		targetSpaceVersion.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_SPACE_VERSION, targetSpaceVersion.getText());				
+				setPageComplete(validate());
 			}
 		});
+		/*
 		mw_version.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_MW_VERSION, mw_version.getText());				
 			}
+		});*/
+		mw_version.addModifyListener(new ModifyListener(){
+
+			public void modifyText(ModifyEvent e) {
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_MW_VERSION, mw_version.getText());				
+				setPageComplete(validate());
+			}
 		});
+		
 		targetOntologies.addKeyListener(new QL() {
 
 			@Override
@@ -153,6 +177,7 @@ public class PagePartPC extends PageImpl {
 				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_ONTOLOGIES, targetOntologies.getText());				
 			}
 		});
+		/*
 		targetContainerName.addKeyListener(new QL() {
 
 			@Override
@@ -160,11 +185,21 @@ public class PagePartPC extends PageImpl {
 				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_CONTAINER_NAME, targetContainerName.getText());				
 			}
 		});
+		*/
+		targetContainerName.addModifyListener(new ModifyListener(){
+
+			public void modifyText(ModifyEvent e) {
+				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_CONTAINER_NAME, targetContainerName.getText());				
+				setPageComplete(validate());
+			}
+		});
+		
 		targetContainerVersion.addKeyListener(new QL() {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_CONTAINER_VERSION, targetContainerVersion.getText());				
+				setPageComplete(validate());
 			}
 		});
 		targetDeploymentTool.addKeyListener(new QL() {
@@ -172,6 +207,7 @@ public class PagePartPC extends PageImpl {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL, targetDeploymentTool.getText());				
+				setPageComplete(validate());
 			}
 		});
 	}

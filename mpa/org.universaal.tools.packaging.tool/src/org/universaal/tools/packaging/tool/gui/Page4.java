@@ -137,6 +137,7 @@ public class Page4 extends PageImpl {
 		req1.setText("");		
 		req1.addVerifyListener(new AlphabeticV());
 		req1.setLayoutData(gd);	
+		req1.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
 		
 		/*
 		final ToolTip t = Tooltips.getRequirementTooltip();
@@ -182,6 +183,7 @@ public class Page4 extends PageImpl {
 		req2.setText("");
 		req2.addVerifyListener(new AlphabeticV());
 		req2.setLayoutData(gd);
+		req2.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
 		
 		c2 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
@@ -212,7 +214,8 @@ public class Page4 extends PageImpl {
 		req3.setText("");
 		req3.addVerifyListener(new AlphabeticV());
 		req3.setLayoutData(gd);	
-		
+		req3.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
+				
 		c3 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c3.add(LogicalCriteria.values()[i].toString());
@@ -242,6 +245,7 @@ public class Page4 extends PageImpl {
 		req4.setText("");
 		req4.addVerifyListener(new AlphabeticV());
 		req4.setLayoutData(gd);	
+		req4.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
 		
 		//LogicalCriteria
 		c4 = new Combo(container, SWT.READ_ONLY);
@@ -272,6 +276,7 @@ public class Page4 extends PageImpl {
 		req5.setText("");
 		req5.addVerifyListener(new AlphabeticV());
 		req5.setLayoutData(gd);	
+		req5.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
 		
 		//LogicalCriteria
 		c5 = new Combo(container, SWT.READ_ONLY);

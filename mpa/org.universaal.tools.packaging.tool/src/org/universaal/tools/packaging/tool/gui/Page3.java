@@ -128,7 +128,8 @@ public class Page3 extends PageImpl {
 			public void modifyText(ModifyEvent e) {
 				app.getAppCapabilities().setCapability(Capability.MANDATORY_TARGET_SPACE, targetSpace.getText());
 				setPageComplete(validate());
-			}});
+			}
+		});
 		
 		targetSpaceVersion.addKeyListener(new QL() {
 
@@ -153,7 +154,8 @@ public class Page3 extends PageImpl {
 			public void modifyText(ModifyEvent e) {
 				app.getAppCapabilities().setCapability(Capability.MANDATORY_MW_VERSION, mw_version.getText());				
 				setPageComplete(validate());
-			}});
+			}
+		});
 		
 		targetOntologies.addKeyListener(new QL() {
 
@@ -175,7 +177,8 @@ public class Page3 extends PageImpl {
 
 			public void modifyText(ModifyEvent e) {
 				app.getAppCapabilities().setCapability(Capability.MANDATORY_TARGET_CONTAINER_NAME, targetContainerName.getText());				
-			}});
+			}
+		});
 		
 		targetContainerVersion.addKeyListener(new QL() {
 

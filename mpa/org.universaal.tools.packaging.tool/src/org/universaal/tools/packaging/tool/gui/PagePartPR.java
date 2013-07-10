@@ -33,7 +33,7 @@ import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 public class PagePartPR extends PageImpl {
 
 	private List<String> reqs, vals, logicalCriteria, logicalRelations;
-	private Text req1, req2, req3, req4, req5;
+	private TextExt req1, req2, req3, req4, req5;
 	private Text val1, val2, val3, val4, val5;
 	private Combo c1, c2, c3, c4, c5, c01, c12, c23, c34, c45, c56;
 
@@ -134,11 +134,12 @@ public class PagePartPR extends PageImpl {
 			empty0.setText("");
 		}
 
-		req1 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req1 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req1.setText("");	
 		req1.addVerifyListener(new AlphabeticV());
 		req1.setLayoutData(gd);	
-
+		req1.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
+		
 		//LogicalCriteria
 		c1 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
@@ -165,11 +166,12 @@ public class PagePartPR extends PageImpl {
 		empty1.setText("");
 
 
-		req2 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req2 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req2.setText("");
 		req2.addVerifyListener(new AlphabeticV());
 		req2.setLayoutData(gd);
-
+		req2.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
+		
 		c2 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c2.add(LogicalCriteria.values()[i].toString());
@@ -195,11 +197,12 @@ public class PagePartPR extends PageImpl {
 		empty2.setText("");
 
 
-		req3 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req3 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req3.setText("");
 		req3.addVerifyListener(new AlphabeticV());
 		req3.setLayoutData(gd);	
-
+		req3.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
+				
 		c3 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
 			c3.add(LogicalCriteria.values()[i].toString());
@@ -225,11 +228,12 @@ public class PagePartPR extends PageImpl {
 		empty3.setText("");
 
 
-		req4 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req4 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req4.setText("");
 		req4.addVerifyListener(new AlphabeticV());
 		req4.setLayoutData(gd);	
-
+		req4.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
+		
 		//LogicalCriteria
 		c4 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
@@ -255,11 +259,12 @@ public class PagePartPR extends PageImpl {
 		Label empty4 = new Label(container, SWT.NULL);
 		empty4.setText("");
 
-		req5 = new Text(container, SWT.BORDER | SWT.SINGLE);
+		req5 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		req5.setText("");
 		req5.addVerifyListener(new AlphabeticV());
 		req5.setLayoutData(gd);	
-
+		req5.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
+		
 		//LogicalCriteria
 		c5 = new Combo(container, SWT.READ_ONLY);
 		for(int i = 0; i < LogicalCriteria.values().length; i++)
