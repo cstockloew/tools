@@ -204,7 +204,7 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 			
 			public void buttonClick(ClickEvent event) {
 				controller.setConfigInstance((ConfigurationInstance)configInstances.getValue());
-//				controller.deleteConfigurationInstance(flatId);
+				controller.deleteConfigurationInstance();
 			}
 		});
 		
