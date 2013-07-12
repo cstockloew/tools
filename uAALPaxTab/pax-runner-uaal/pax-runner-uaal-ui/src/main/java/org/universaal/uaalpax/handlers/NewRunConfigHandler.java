@@ -67,7 +67,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 			configuration.setAttribute("automaticValidate", false);
 			configuration.setAttribute("bootstrap", "");
 			configuration.setAttribute("checked", "");
-			configuration.setAttribute("default_start_level", 40);
+			configuration.setAttribute("default_start_level", 60);
 			configuration.setAttribute("clearConfig", false);
 			configuration.setAttribute("configLocation", "${workspace_loc}/rundir/smp.lighting");
 			configuration.setAttribute("default", true);
