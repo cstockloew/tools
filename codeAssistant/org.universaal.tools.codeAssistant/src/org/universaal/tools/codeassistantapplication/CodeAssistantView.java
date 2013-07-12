@@ -1,7 +1,30 @@
+/*****************************************************************************************
+	Copyright 2012-2014 CERTH-HIT, http://www.hit.certh.gr/
+	Hellenic Institute of Transport (HIT)
+	Centre For Research and Technology Hellas (CERTH)
+	
+	
+	See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	  http://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+ *****************************************************************************************/
+
 package org.universaal.tools.codeassistantapplication;
 
 import java.net.URL;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -53,9 +76,12 @@ import org.universaal.tools.codeassistantapplication.ontologyrepository.client.R
 public class CodeAssistantView extends ViewPart{
 	public static final String ID = "org.universAAL.codeassistant.CodeAssistantView";
 	//public static final String ID = "org.universaal.tools.codeassistantapplication.CodeAssistantView";
-	private StructuredViewer viewer;
-	private Vector selectedTypes=new Vector();
 
+	private StructuredViewer viewer;
+	private Composite parent; 
+	private Vector selectedTypes=new Vector();
+	private Shell shell;
+	
 	public void init(final Composite parent, IProgressMonitor monitor) {
 
 /*
@@ -67,8 +93,9 @@ public class CodeAssistantView extends ViewPart{
 		else
 			RepositoryClient.setAPIKey("");
 */					
-		monitor.worked(30);
+
 		Startup s = new Startup();
+		monitor.worked(30);
 		boolean b = s.earlyStartup();
 		monitor.worked(50);
 /*		
@@ -96,72 +123,97 @@ public class CodeAssistantView extends ViewPart{
 */
 	}
 	
-	@Override
-	public void createPartControl(Composite p) {
-		final String projectName = "CodeAssistant";
-		final Composite parent = p; 
-		final StructuredViewer viewer = new TreeViewer(parent);
-		this.viewer = viewer;
+	private void getOntologies(IProgressMonitor monitor){
+		try {
+			monitor.worked(20);
+			//TimeUnit.SECONDS.sleep(2);
+			init(parent, monitor);
+			monitor.worked(70);
+		} 
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+    private void createView(IProgressMonitor monitor){
+    	Display.getDefault().asyncExec(new Runnable() {
+    		@Override
+		    public void run() {
+    			try{
+    			viewer.setContentProvider(new ITreeContentProvider() {
+    				public Object[] getChildren(Object parentElement) {
+    					return ((TreeNode) parentElement).getChildren().toArray();
+    				}
+    				public Object getParent(Object element) {
+    					return ((TreeNode) element).getParent();
+    				}
+    				public boolean hasChildren(Object element) {
+    					return ((TreeNode) element).getChildren().size() > 0;
+    				}
+    				public Object[] getElements(Object inputElement) {
+    					return ((TreeNode) inputElement).getChildren().toArray();
+    				}
+    				public void dispose() { }
+    				public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
+    			});
+    			
+    			viewer.setLabelProvider(new LabelProvider(){
+    				@Override
+    				public Image getImage(Object element) {
+    					return ((TreeNode) element).getImage();
+    				}
+    			});
+
+
+    			viewer.setInput(TreeNode.getInstance());
+    			initDragAndDrop(viewer);
+    			//MessageDialog.openInformation(shell, "Coding Assistant ", "The view has finished.");
+    			
+    			}
+				catch (Exception ex) {
+					ex.printStackTrace();
+				}    			
+    		}
+    	});
+    }
+	
+	private void createCodeAssistanView(Composite p){
 		Job job = new Job("Create Code Asistant View") {
 			protected IStatus run(final IProgressMonitor monitor) {
 				monitor.beginTask("Building Code Assistant View ...", 100);
 				setProperty(IProgressConstants.KEEP_PROPERTY,Boolean.FALSE);
-				try {
-					URL url = Platform.getBundle("org.universaal.tools.codeAssistant").getEntry("CodeAssistantFiles/icons/repo.gif");
-					setProperty(IProgressConstants.ICON_PROPERTY,ImageDescriptor.createFromURL(url));
-					Thread.sleep(1000);
-
-					Display.getDefault().syncExec(new Runnable() {
-					      @Override
-					      public void run() {
-					    	    monitor.worked(20);
-					    	    init(parent, monitor);
-								monitor.worked(60);
-					    	  
-								viewer.setContentProvider(new ITreeContentProvider() {
-							    	public Object[] getChildren(Object parentElement) {
-							    		return ((TreeNode) parentElement).getChildren().toArray();
-							    	}
-
-							    	public Object getParent(Object element) {
-							    		return ((TreeNode) element).getParent();
-							    	}
-
-							    	public boolean hasChildren(Object element) {
-								        return ((TreeNode) element).getChildren().size() > 0;
-							    	}
-
-							    	public Object[] getElements(Object inputElement) {
-								        return ((TreeNode) inputElement).getChildren().toArray();
-							    	}
-
-							    	public void dispose() { }
-
-							    	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
-							    });
-							    viewer.setLabelProvider(new LabelProvider(){
-							    	@Override
-							    	public Image getImage(Object element) {
-							    		return ((TreeNode) element).getImage();
-							    	}
-							    });
-							    monitor.worked(70);
-							    viewer.setInput(TreeNode.getInstance());
-							    monitor.worked(80);
-							    initDragAndDrop(viewer);
-					      }
-					    });
-					monitor.worked(100);
+				try{
+					getOntologies(monitor);
+					monitor.setTaskName("Begin createView now...");
+					monitor.worked(80);
+				    createView(monitor);
+				    monitor.worked(100);
+				    monitor.setTaskName("Done...");
+			        monitor.done();
 					return Status.OK_STATUS;
 				} 
 				catch (Exception ex) {
+					ex.printStackTrace();
 					return Status.CANCEL_STATUS;
 				}
 			}
 		};
-		job.setUser(true);
+//?		job.schedule(1000);
+//?		job.cancel(); //Did not work!
+		job.setUser(false);
 		job.schedule();
+//?		job.schedule(3000); /It did not work
 		job.setPriority(Job.DECORATE);
+	}
+	
+	@Override
+	public void createPartControl(Composite p) {
+		String projectName = "CodeAssistant";
+		parent = p; 
+		viewer = new TreeViewer(parent);
+		//shell = getSite().getShell();
+
+		createCodeAssistanView(p);
 	}
 	
 	protected void initDragAndDrop(final StructuredViewer viewer) {
