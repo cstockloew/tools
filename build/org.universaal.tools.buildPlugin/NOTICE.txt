@@ -1,9 +1,8 @@
-universAAL New Project Wizard tool
+universAAL Build service/application tool
 
-Copyright 2008-2014 ITACA-TSB, http://www.tsb.upv.es
-Instituto Tecnologico de Aplicaciones de Comunicacion 
-Avanzadas - Grupo Tecnologias para la Salud y el 
-Bienestar (TSB)
+Copyright 2008-2014 CERTH-ITI, http://www.iti.gr
+Information Technologies Institue (ITI)
+Centre for Research & Technology Hellas (CERTH)
 
 I. Included Software
 
