@@ -273,6 +273,12 @@
    <feature url="features/org.universaal.tools.configurationExtractor.feature_1.1.0.jar" id="org.universaal.tools.configurationExtractor.feature" version="1.1.0">
       <category name="universaal_tools"/>
    </feature>
+   <feature url="features/org.universaal.tools.codeAssistantFeature_1.0.1.jar" id="org.universaal.tools.codeAssistantFeature" version="1.0.1">
+      <category name="universaal_tools"/>
+   </feature>
+   <feature url="features/org.universaal.igd.uaal.runner.ui.feature_1.1.1.jar" id="org.universaal.igd.uaal.runner.ui.feature" version="1.1.1">
+      <category name="universaal_tools"/>
+   </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
          Tools for development of AAL applications using the universAAL platform
