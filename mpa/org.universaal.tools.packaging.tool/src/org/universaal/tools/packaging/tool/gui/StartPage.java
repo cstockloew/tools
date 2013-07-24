@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
+import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.Dialog;
@@ -143,7 +144,6 @@ public class StartPage extends PageImpl {
 		label70.setText("");
 
 		name = new Text(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
-		name.setText(app.getApplication().getName());			
 		name.setLayoutData(gd);		
 		name.addVerifyListener(new FileV());
 
@@ -159,9 +159,10 @@ public class StartPage extends PageImpl {
 						destination = new File(destination+".uapp");
 
 					name.setText(destination.getAbsolutePath());
-
-					if(destination.isAbsolute() && parts.size() > 0)
+					
+					if(destination.isAbsolute() && parts.size() > 0){
 						setPageComplete(true);
+					} 
 				}
 			}
 
@@ -192,27 +193,32 @@ public class StartPage extends PageImpl {
 	public boolean nextPressed() {
 		
 		g.setDestination(destination.getAbsolutePath());
-		if ( ! Configurator.local.isPersistanceEnabled() ) {
-		    return true;
-		}
 		
+		/*
 		if ( destination.exists() ) {
+			System.out.println("Recovery enabled");
 		    File parent = destination.getParentFile();
 		    File recovery = new File( parent, ".org.uAAL.tool.packager.recovery");
 		    GUI.getInstance().recoveryStorage = recovery;
 		    if ( recovery.exists() ) {
-			try {
-			    ObjectInputStream ois = new ObjectInputStream( new FileInputStream( recovery ) );
-			    MPA recoveredStatus = (MPA) ois.readObject();
-			    multipartApplication.setApplication(recoveredStatus.getAAL_UAPP());
-			} catch (Exception e) {		
-			    e.printStackTrace();
-			}
+				try {
+				    ObjectInputStream ois = new ObjectInputStream( new FileInputStream( recovery ) );
+				    MPA recoveredStatus = (MPA) ois.readObject();
+				    multipartApplication.setApplication(recoveredStatus.getAAL_UAPP());
+				} catch (Exception e) {		
+				    e.printStackTrace();
+				}
 		    } else {
-			System.out.println("[WARNING] No recovery data found even if package exists");
+		    	System.out.println("[WARNING] No recovery data found even if package exists");
 		    }
+		} else try {
+			System.out.println(destination.getCanonicalPath()+" non esiste!!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
+		*/
 		
 		return true;
 	}

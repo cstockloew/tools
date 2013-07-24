@@ -65,8 +65,7 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 
 		tempDir = Configurator.local.getTempFolder();
-		
-		
+				
 		File outputDir = Configurator.local.getLogFolder();
 		if ( outputDir != null ) {
 			System.out.println("*** [Application Packager] - The log file is available at "+outputDir+" ***");

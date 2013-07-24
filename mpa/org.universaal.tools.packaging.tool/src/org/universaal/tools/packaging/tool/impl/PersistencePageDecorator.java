@@ -49,26 +49,30 @@ public class PersistencePageDecorator extends PageImpl {
     
     public PersistencePageDecorator(PageImpl page) {	
 	super(page.getName(), null);
-	this.localPage = page;
+	localPage = page;
 	setDescription(page.getDescription());
 	setTitle(page.getTitle());
 	setPageComplete(false);
     }
 
     public boolean nextPressed() {
-	final boolean flag;
-	try{
-	    flag = localPage.nextPressed();
-	    if ( flag ) serializeMPA();
-	}catch(Exception ex) {
-	    ex.printStackTrace();
-	    return false;
-	}
-	return flag;
+    	System.out.println(localPage.getName()+" NextPressed");
+		final boolean flag;
+		try{
+		    flag = localPage.nextPressed();
+		    if ( flag ) serializeMPA();
+		}catch(Exception ex) {
+		    ex.printStackTrace();
+		    return false;
+		}
+		return flag;
     }
 
     public void setPageComplete(boolean complete) {
+    	
 	if ( localPage == null ) return;
+	
+	System.out.println(localPage.getName()+" SetComplete ");
 	localPage.setPageComplete(complete);
     }
 
@@ -82,17 +86,23 @@ public class PersistencePageDecorator extends PageImpl {
 	localPage.setTitle(title);
     }
     
+    /*
+    
     private void serializeMPA() throws Exception {
 	if ( ! Configurator.local.isPersistanceEnabled() ) {
 	    return;
 	}
+	System.out.println("writing recovery file");
 	FileOutputStream fos = new FileOutputStream( GUI.getInstance().recoveryStorage, false );
 	ObjectOutputStream oos = new ObjectOutputStream( fos );
 	oos.writeObject(this.multipartApplication);
 	oos.flush();
 	oos.close();	
     }
-
+    
+    */
+    
+    
     /*
      * START OF DELEGATOR METHODS
      */

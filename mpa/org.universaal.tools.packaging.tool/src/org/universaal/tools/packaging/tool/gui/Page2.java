@@ -3,6 +3,8 @@ package org.universaal.tools.packaging.tool.gui;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -17,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.OtherChannel;
+import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.PhoneV;
@@ -94,7 +97,7 @@ public class Page2 extends PageImpl {
 		email = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(email);
 		l3.setText("* Contact e-mail");
-		email.setText(app.getApplication().getApplicationProvider().getContactPerson());	
+		email.setText(app.getApplication().getApplicationProvider().getEmail());	
 		//email.addVerifyListener(new MailV()); //TODO not working
 		email.setLayoutData(gd);	
 		email.addTooltip(XSDtooltip.find("contactType.email"));
@@ -139,8 +142,8 @@ public class Page2 extends PageImpl {
 		othChNm1 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(web);
 		l8.setText("Other contact #1 - Identifier (tel., e-mail, ...)");
-		othChNm1.setText("");			
-		othChNm1.addVerifyListener(new AlphabeticV());
+		//othChNm1.setText("");			
+		//othChNm1.addVerifyListener(new AlphabeticV());
 		othChNm1.setLayoutData(gd);
 		othChNm1.addTooltip(XSDtooltip.find("otherChannel.channelName"));
 		
@@ -148,8 +151,8 @@ public class Page2 extends PageImpl {
 		othChnDtl1 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(web);
 		l9.setText("Other contact #1 - Details (tel. number, e-mail address, ...)");
-		othChnDtl1.setText("");			
-		othChnDtl1.addVerifyListener(new AlphabeticV());
+		//othChnDtl1.setText("");			
+		//othChnDtl1.addVerifyListener(new AlphabeticV());
 		othChnDtl1.setLayoutData(gd);
 		othChnDtl1.addTooltip(XSDtooltip.find("otherChannel.channelDetails"));
 
@@ -157,8 +160,8 @@ public class Page2 extends PageImpl {
 		othChNm2 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(web);
 		l10.setText("Other contact #2 - Identifier (fax, other...)");
-		othChNm2.setText("");			
-		othChNm2.addVerifyListener(new AlphabeticV());
+		//othChNm2.setText("");			
+		//othChNm2.addVerifyListener(new AlphabeticV());
 		othChNm2.setLayoutData(gd);
 		othChNm2.addTooltip(XSDtooltip.find("otherChannel.channelName"));
 		
@@ -166,8 +169,8 @@ public class Page2 extends PageImpl {
 		othChnDtl2 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(web);
 		l11.setText("Other contact #2 - Details (fax number, other...)");
-		othChnDtl2.setText("");			
-		othChnDtl2.addVerifyListener(new AlphabeticV());
+		//othChnDtl2.setText("");			
+		//othChnDtl2.addVerifyListener(new AlphabeticV());
 		othChnDtl2.setLayoutData(gd);
 		othChnDtl2.addTooltip(XSDtooltip.find("otherChannel.channelDetails"));
 
@@ -194,7 +197,7 @@ public class Page2 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				app.getApplication().getApplicationProvider().setEmail(email.getText());				
+				app.getApplication().getApplicationProvider().setEmail(email.getText());		
 			}
 		});	
 		organization.addKeyListener(new QL() {
@@ -258,6 +261,10 @@ public class Page2 extends PageImpl {
 				otherContacts(4);				
 			}
 		});	
+		
+		if ( Configurator.local.isPersistanceEnabled() ) setPageComplete(validate());
+		loadDefaultValues();
+		
 	}
 
 	private void otherContacts(int choose){
@@ -322,7 +329,7 @@ public class Page2 extends PageImpl {
 		default:
 			break;
 		}
-
+		
 		setPageComplete(validate());
 	}
 
@@ -334,6 +341,30 @@ public class Page2 extends PageImpl {
 		return true;
 	}
 
+	private void loadDefaultValues() {
+		if ( app.getApplication() != null ) {
+			//System.out.println("Othere channels size:"+app.getApplication().getApplicationProvider().getOtherChannels().size());
+			
+			if(app.getApplication().getApplicationProvider().getOtherChannels().size() > 0){
+					OtherChannel och = app.getApplication().getApplicationProvider().getOtherChannels().get(0);
+					othChNm1.setText(och.getChannelName());
+					othChnDtl1.setText(och.getChannelDetails());
+			/*		System.out.println(och.toString());
+					System.out.println(och.getChannelName());
+					System.out.println(och.getChannelDetails());*/
+			}
+			
+			if(app.getApplication().getApplicationProvider().getOtherChannels().size() > 1){
+				OtherChannel och = app.getApplication().getApplicationProvider().getOtherChannels().get(1);
+				othChNm2.setText(och.getChannelName());
+				othChnDtl2.setText(och.getChannelDetails());
+			/*	System.out.println(och.toString());
+				System.out.println(och.getChannelName());
+				System.out.println(och.getChannelDetails());*/
+			}
+		} 
+	} 
+	
 	@Override
 	public boolean nextPressed(){
 
@@ -348,11 +379,28 @@ public class Page2 extends PageImpl {
 				return false;
 			}			
 
-			if(!othChNm1.getText().isEmpty() && !othChnDtl1.getText().isEmpty())
-				app.getApplication().getApplicationProvider().getOtherChannels().add(new OtherChannel(othChNm1.getText(), othChnDtl1.getText()));
+			OtherChannel oc = null;
+			if(!othChNm1.getText().isEmpty() && !othChnDtl1.getText().isEmpty()) {
+				if ( app.getApplication().getApplicationProvider().getOtherChannels().size() > 0 ) {
+					oc = app.getApplication().getApplicationProvider().getOtherChannels().get(0);
+				} else {
+					oc = new OtherChannel();
+					app.getApplication().getApplicationProvider().getOtherChannels().add(oc);
+				}
+				oc.setChannelName(othChNm1.getText());
+				oc.setChannelDetails(othChnDtl1.getText());
+			}
 
-			if(!othChNm2.getText().isEmpty() && !othChnDtl2.getText().isEmpty())
-				app.getApplication().getApplicationProvider().getOtherChannels().add(new OtherChannel(othChNm2.getText(), othChnDtl2.getText()));
+			if(!othChNm2.getText().isEmpty() && !othChnDtl2.getText().isEmpty()) {
+				if ( app.getApplication().getApplicationProvider().getOtherChannels().size() > 1 ) {
+					oc = app.getApplication().getApplicationProvider().getOtherChannels().get(1);
+				} else {
+					oc = new OtherChannel();
+					app.getApplication().getApplicationProvider().getOtherChannels().add(oc);
+				}
+				oc.setChannelName(othChNm2.getText());
+				oc.setChannelDetails(othChnDtl2.getText());
+			}
 
 			if(!certificate.getText().isEmpty()){
 				app.getApplication().getApplicationProvider().setCertificate(URI.create(removeBlanks(certificate.getText())));
@@ -360,6 +408,8 @@ public class Page2 extends PageImpl {
 
 			if(web.getText() != null && !web.getText().isEmpty())
 				app.getApplication().getApplicationProvider().setWebAddress(URI.create(removeBlanks(web.getText())));
+			
+			serializeMPA();
 		}
 		catch(Exception ex){
 			ex.printStackTrace();

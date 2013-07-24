@@ -204,5 +204,11 @@ public class Page3 extends PageImpl {
 
 		return super.getPreviousPage().getPreviousPage();
 	}
+	
+	@Override
+	public boolean nextPressed(){
+		serializeMPA();
+		return true;
+	}
 
 }

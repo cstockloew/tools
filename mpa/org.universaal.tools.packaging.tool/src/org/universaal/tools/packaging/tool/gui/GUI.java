@@ -30,8 +30,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +43,6 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
@@ -51,7 +50,6 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.api.WizardMod;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
-import org.universaal.tools.packaging.tool.impl.PersistencePageDecorator;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.util.ConfigProperties;
@@ -71,20 +69,55 @@ public class GUI extends WizardMod {
 	private PageImpl p0, p1, p2, pl, p3, p4, p5, ppB, ppDU, ppEU, ppPC, ppPR, p, p_end;
 	private List<IProject> parts;
 
+	
 	private static GUI instance;
 
 	private String destination;
 	private String tempDir = org.universaal.tools.packaging.tool.Activator.tempDir;
 	public File recoveryStorage = null;
 
-	public GUI(List<IProject> parts) {
+	public GUI(List<IProject> parts, Boolean recovered) {
 
 		super();
 		setNeedsProgressMonitor(true);
-
-		mpa = new MPA();
+	
+		checkPersistence(recovered);
+				
+		if(mpa == null){
+			mpa = new MPA();
+		}
+		
 		instance = this;
 		this.parts = parts;
+		
+	}
+
+	private void checkPersistence(Boolean recovered) {
+		if ( Configurator.local.isPersistanceEnabled() ) {
+			//File tmpDir = new File(tempDir);
+			File recovery = new File(tempDir + ConfigProperties.RECOVERY_FILE_NAME_DEFAULT);
+			recoveryStorage = recovery;
+				   
+			//if ( tmpDir.exists() ) {
+				if ( recovery.exists() && recovered) {
+					
+					try {
+						ObjectInputStream ois = new ObjectInputStream( new FileInputStream( recovery ) );
+					    MPA recoveredStatus = (MPA) ois.readObject();
+					    //multipartApplication.setApplication(recoveredStatus.getAAL_UAPP());
+					    if (recoveredStatus != null){
+					    	System.out.println("Loading recovered data from "+recovery.getAbsolutePath());
+						    mpa = recoveredStatus;
+						} else {
+					    	System.out.println("[WARNING] Unable to load data from recovery file");
+					    }
+					} catch (Exception e) {		
+					    e.printStackTrace();
+					}
+			    }
+
+			//} 
+		} // else System.out.println("Recovering not enabled");
 	}
 
 	public static synchronized GUI getInstance(){
@@ -94,11 +127,11 @@ public class GUI extends WizardMod {
 	@Override
 	public void addPages() {
 		if(this.parts != null){
-
+			
 			p0 = new StartPage(Page.PAGE_START);
 			addPage(p0);
 			p0.setMPA(mpa);
-
+			
 			p1 = new Page1(Page.PAGE1);
 			addPage(p1);
 			p1.setMPA(mpa);
@@ -110,7 +143,7 @@ public class GUI extends WizardMod {
 			pl = new PageLicenses(Page.PAGE_LICENSE);
 			addPage(pl);
 			pl.setMPA(mpa);
-
+		
 			p3 = new Page3(Page.PAGE3);
 			addPage(p3);
 			p3.setMPA(mpa);
@@ -173,7 +206,7 @@ public class GUI extends WizardMod {
 		createTempContainer();
 	}
 	
-	private void addingPermanentStorageDecorator() {
+	private void addingPermanentStorageDecorator() {/*
 	    if ( ! Configurator.local.isPersistanceEnabled() ) return;
 	    IWizardPage[] phases = getPages();
 	    ArrayList<IWizardPage> decoratedPhases = new ArrayList<IWizardPage>();
@@ -184,7 +217,7 @@ public class GUI extends WizardMod {
 		    decoratedPhases.add( phases[i] );
 		}
 	    }
-	    setPages(decoratedPhases);
+	    setPages(decoratedPhases);*/
 	}
 
 	@Override

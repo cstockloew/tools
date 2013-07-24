@@ -22,9 +22,11 @@
 package org.universaal.tools.packaging.tool.parts;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.universaal.tools.packaging.tool.api.Page;
-
 
 /**
  * 
@@ -35,7 +37,7 @@ import org.universaal.tools.packaging.tool.api.Page;
 public class MPA implements Serializable {
 
 	private Application aal_uapp;
-
+	
 	public MPA(){
 		aal_uapp = new Application();
 	}
@@ -63,4 +65,5 @@ public class MPA implements Serializable {
 	public void setAAL_UAPP(Application application) {
 		this.aal_uapp = application;
 	}
+	
 }

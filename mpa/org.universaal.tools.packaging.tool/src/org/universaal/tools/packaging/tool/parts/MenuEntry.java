@@ -40,7 +40,7 @@ public class MenuEntry implements Serializable {
 	private String menuName;
 	private URI serviceUri, iconPath;
 	private File iconFile;
-	private boolean iconScale = false;
+	private boolean iconScale = false, isCustomIcon = false;
 	
 	public MenuEntry(){
 
@@ -96,8 +96,10 @@ public class MenuEntry implements Serializable {
 	}
 
 	public void setIconPath(URI iconPath) {
-		if(iconPath.toASCIIString().trim().length() > 0)
+		if(iconPath.toASCIIString().trim().length() > 0){
 			this.iconPath = iconPath;
+			//System.out.println(iconPath);
+		}
 	}
 	
 	public File getIconFile() {
@@ -118,14 +120,26 @@ public class MenuEntry implements Serializable {
 		this.iconScale = iconScale;
 	}
 	
+	public boolean isCustomIcon(){
+		return isCustomIcon;
+	}
+	
+	public void setIsCustomIcon(boolean isCustom){
+		this.isCustomIcon = isCustom;
+	}
 	
 	public String getXML(){
 
 		String r = "";
 		r = r.concat("<menuName>"+menuName+"</menuName>");
 		r = r.concat("<serviceUri>"+serviceUri.toASCIIString()+"</serviceUri>");
-		if(iconPath.toASCIIString().trim().length() > 0) r = r.concat("<iconPath>"+iconPath.toASCIIString().trim()+"</iconPath>");
-		
+		if(iconPath.toASCIIString().trim().length() > 0){
+			if(!isCustomIcon){ 
+				r = r.concat("<icon><path>"+iconPath.toASCIIString().trim()+"</path></icon>");
+			} else {
+				r = r.concat("<icon><name>"+iconPath.toASCIIString().trim()+"</name></icon>");
+			}
+		}
 		return r;
 	}
 

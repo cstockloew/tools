@@ -82,7 +82,8 @@ public class PageLicenses extends PageImpl {
 			slaLink.setText(sla.getLink().toString());			
 			slaLink.addVerifyListener(new UriV());
 			slaLink.setLayoutData(gd);		
-
+			System.out.println(sla.getLink().toString());
+			
 			Button b1 = new Button(container, SWT.PUSH);
 			b1.setText("Browse");
 			b1.addSelectionListener(new SelectionListener() {
@@ -268,6 +269,7 @@ public class PageLicenses extends PageImpl {
 			addPageCustom(this, pl);
 		}
 
+		serializeMPA();
 		return true;
 	}
 }

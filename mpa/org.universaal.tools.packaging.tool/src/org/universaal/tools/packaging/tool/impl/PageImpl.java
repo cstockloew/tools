@@ -20,6 +20,9 @@
  */
 package org.universaal.tools.packaging.tool.impl;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,7 @@ import org.universaal.tools.packaging.tool.api.WizardPageMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
+import org.universaal.tools.packaging.tool.util.Configurator;
 
 /**
  * 
@@ -75,13 +79,13 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 	}
 
 	public boolean validate(){
-
+		
 		for(int i = 0; i < mandatory.size(); i++){
 			if(mandatory.get(i) instanceof Text)
-				if(((Text)mandatory.get(i)).getText().isEmpty())
+				if(((Text)mandatory.get(i)).getText().trim().isEmpty())
 					return false;
 			if(mandatory.get(i) instanceof Combo)
-				if(((Combo)mandatory.get(i)).getText().isEmpty())
+				if(((Combo)mandatory.get(i)).getText().trim().isEmpty())
 					return false;
 		}
 		return true;
@@ -167,4 +171,25 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 		public void keyReleased(KeyEvent e) {
 			setPageComplete(validate());
 		}}
+	
+	// Added By Federico VOlpini from PersistencePageDecorator
+    protected void serializeMPA(){
+		if ( ! Configurator.local.isPersistanceEnabled() ) {
+		    return;
+		}
+		if(GUI.getInstance().recoveryStorage != null){
+			
+			try {
+				System.out.println("writing recovery file");
+				FileOutputStream fos = new FileOutputStream( GUI.getInstance().recoveryStorage, false );
+				ObjectOutputStream oos = new ObjectOutputStream( fos );
+				oos.writeObject(this.multipartApplication);
+				oos.flush();
+				oos.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+    }
 }

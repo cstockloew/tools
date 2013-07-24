@@ -38,6 +38,10 @@ public interface ConfigProperties {
     
     public static final String RECOVERY_MODE_KEY = "org.uAAL.packager.recovery";    
     public static final String RECOVERY_MODE_KEY_DEFAULT = "false";
+    public static final String RECOVERY_FILE_NAME_KEY = "org.uAAL.packager.recovery.filename";    
+    public static final String RECOVERY_FILE_NAME_DEFAULT = "/.recovery";    
+    public static final String RECOVERY_PARTS_NAME_KEY = "org.uAAL.packager.recovery.partsname"; 
+    public static final String RECOVERY_PARTS_NAME_DEFAULT = "/.parts"; 
     
     public static final String ENABLE_CONSOLE_LOG_KEY = "org.uAAL.packager.log.console";
     public static final String ENABLE_CONSOLE_LOG_DEFAULT = "true";
@@ -59,7 +63,5 @@ public interface ConfigProperties {
     
     public static final String OFFLINE_MODE_KEY = "org.uAAL.packager.offline";
     public static final String OFFLINE_MODE_DEFAULT = "false";
-    
-
-
+   
 }

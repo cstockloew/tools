@@ -41,41 +41,49 @@ public class Configurator {
     }
 
     public boolean isPersistanceEnabled() {
-	return Boolean.valueOf(System.getProperty(
-		ConfigProperties.RECOVERY_MODE_KEY,
-		ConfigProperties.RECOVERY_MODE_KEY_DEFAULT));
+		return Boolean.valueOf(System.getProperty(
+			ConfigProperties.RECOVERY_MODE_KEY,
+			ConfigProperties.RECOVERY_MODE_KEY_DEFAULT));
     }
 
-    public String getTempFolder() {
-	String paths[] = new String[] {
-		System.getProperty(ConfigProperties.TMP_DIR_KEY, ConfigProperties.TMP_DIR_DEFAULT),
-		System.getenv("tmp") + File.separatorChar + UUID.randomUUID(),
-		System.getenv("temp") + File.separatorChar + UUID.randomUUID(),
-		System.getenv("TMP") + File.separatorChar + UUID.randomUUID(),
-		System.getenv("TEMP") + File.separatorChar + UUID.randomUUID(),
-		"." + File.separatorChar + UUID.randomUUID(), 
-	};
-	for (int i = 0; i < paths.length; i++) {
-	    final String path = paths[i];
-	    File folder = getFolder(path);
-	    if (folder != null && folder.canWrite()) {
-		return path;
-	    }
+	public String getRecoveryFileName(){
+		return System.getProperty(ConfigProperties.RECOVERY_FILE_NAME_KEY, ConfigProperties.RECOVERY_FILE_NAME_DEFAULT);
 	}
+	    
+	public String getRecoveryPartsName(){
+		return System.getProperty(ConfigProperties.RECOVERY_PARTS_NAME_KEY, ConfigProperties.RECOVERY_PARTS_NAME_DEFAULT);
+	}
+
+	public String getTempFolder() {
+		String paths[] = new String[] {
+			System.getProperty(ConfigProperties.TMP_DIR_KEY, ConfigProperties.TMP_DIR_DEFAULT),
+			System.getenv("tmp") + File.separatorChar + UUID.randomUUID(),
+			System.getenv("temp") + File.separatorChar + UUID.randomUUID(),
+			System.getenv("TMP") + File.separatorChar + UUID.randomUUID(),
+			System.getenv("TEMP") + File.separatorChar + UUID.randomUUID(),
+			"." + File.separatorChar + UUID.randomUUID(), 
+		};
+		for (int i = 0; i < paths.length; i++) {
+		    final String path = paths[i];
+		    File folder = getFolder(path);
+		    if (folder != null && folder.canWrite()) {
+			return path;
+		    }
+		}
 	return null;
     }
 
     private File getFolder(String path) {
-	if ( path == null )
-	    return null;
-	File dir = new File(path);
-	if ( dir == null || ( dir.exists() && !dir.isDirectory() ))
-	    return null;
-	if ( ! dir.exists() ) {
-	    if (dir.mkdirs() == false)
-		return null;
-	}
-	return dir;
+		if ( path == null )
+		    return null;
+		File dir = new File(path);
+		if ( dir == null || ( dir.exists() && !dir.isDirectory() ))
+		    return null;
+		if ( ! dir.exists() ) {
+		    if (dir.mkdirs() == false)
+			return null;
+		}
+		return dir;
     }
 
     public File getLogFolder() {

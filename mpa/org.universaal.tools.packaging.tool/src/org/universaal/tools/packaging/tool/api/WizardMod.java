@@ -29,6 +29,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
+import org.universaal.tools.packaging.tool.parts.MPA;
 
 /**
  * An abstract base implementation of a wizard. A typical client subclasses
@@ -169,6 +170,10 @@ public abstract class WizardMod implements IWizard {
 		return -1;
 	}
 
+	public void resetPages(){
+		pages.clear();
+	}
+	
 	/**
 	 * The <code>Wizard</code> implementation of this <code>IWizard</code>
 	 * method does nothing. Subclasses should extend if extra pages need to be
@@ -302,10 +307,16 @@ public abstract class WizardMod implements IWizard {
 	}
 
 	public void setPages(List<IWizardPage> pp){
-		pages = pp;
-		for(int i = 0; i < pages.size(); i++)
-			if(pages.get(i) == null)
-				pages.remove(i);
+		System.out.println("Old Pages count:"+pages.size());
+		pages.clear();
+		for(int i = 0; i < pp.size(); i++){
+			if(pp.get(i) != null){
+				System.out.println(pp.get(i).getName());
+				addPage(pp.get(i));
+			}
+		}
+		System.out.println("New Pages count:"+pages.size());
+		
 	}
 
 	/*

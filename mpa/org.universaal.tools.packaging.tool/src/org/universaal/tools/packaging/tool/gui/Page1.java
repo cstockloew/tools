@@ -20,30 +20,59 @@
  */
 package org.universaal.tools.packaging.tool.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
+
+import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
@@ -61,8 +90,9 @@ import org.universaal.tools.packaging.tool.validators.UriV;
 public class Page1 extends PageImpl {
 
 	private TextExt name, id, description, tags, version_major, version_minor, version_micro, version_build, app_profile, menuName, serviceUri, iconFile;
+	private Combo customIcon;
 	private File sourcePNG;
-	private Button b1;
+	private Button b1, b2;
 	private String iconFormat = "png", formatName;
 	
 	protected Page1(String pageName) {
@@ -175,7 +205,7 @@ public class Page1 extends PageImpl {
 		menuName.setText(app.getApplication().getMenuEntry().getMenuName());
 		menuName.addVerifyListener(new AlphabeticV());
 		menuName.setLayoutData(gd);
-		menuName.addTooltip(XSDtooltip.find("app.menuEntry.menuName"));
+		menuName.addTooltip(XSDtooltip.find("menuEntry.menuName"));
 		
 		Label label12 = new Label(container, SWT.NULL);
 		label12.setText("* Service URI");
@@ -184,7 +214,7 @@ public class Page1 extends PageImpl {
 		serviceUri.setText(app.getApplication().getMenuEntry().getServiceUri().toASCIIString());
 		serviceUri.setLayoutData(gd);
 		serviceUri.addVerifyListener(new UriV());
-		serviceUri.addTooltip(XSDtooltip.find("app.menuEntry.serviceUri"));
+		serviceUri.addTooltip(XSDtooltip.find("menuEntry.serviceUri"));
 		
 		Label label13 = new Label(container, SWT.NULL);
 		label13.setText("Menu Entry Icon (PNG 512x512 px A/R 1:1)");
@@ -192,13 +222,13 @@ public class Page1 extends PageImpl {
 		iconFile = new TextExt(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		iconFile.setLayoutData(gd);
 		iconFile.addVerifyListener(new FileV());
-		iconFile.addTooltip(XSDtooltip.find("app.menuEntry.iconPath"));
+		iconFile.addTooltip(XSDtooltip.find("icon.path"));
 		
 		Label label133 = new Label(container, SWT.NULL);
 		label133.setText("");
 		
 		b1 = new Button(container, SWT.PUSH);
-		b1.setText("Browse");
+		b1.setText("Browse from files");
 		b1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -231,8 +261,7 @@ public class Page1 extends PageImpl {
 				
 					image = ImageIO.read(sourcePNG);
 					if(image != null && formatName.equalsIgnoreCase(iconFormat)){
-						iconFile.setText(sourcePNG.getAbsolutePath());
-	
+						
 						double width = image.getWidth();
 						double height = image.getHeight();
 						double aspect_ratio = width/height;
@@ -250,7 +279,10 @@ public class Page1 extends PageImpl {
 							else
 								MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Invalid size and aspect ratio", "The selected image will be scaled and stretched due to invalid pixel size and aspect ratio.\n\nThe optimal size is 512x512 pixels (A/R 1:1)");
 						}
-	
+						
+						app.getApplication().getMenuEntry().setIsCustomIcon(false);
+						customIcon.deselectAll();
+						iconFile.setText(sourcePNG.getAbsolutePath());
 						
 					} else MessageDialog.openError(null, "Invalid format", "The selected file is not a valid PNG file");
 				
@@ -265,7 +297,114 @@ public class Page1 extends PageImpl {
 			}
 		});	
 		
-		name.addKeyListener(new FullListener());
+	
+		Label void1 = new Label(container, SWT.NULL);
+		void1.setText("");
+		
+		Label b2l = new Label(container, SWT.NULL);
+		b2l.setText("or select from custom icons:");
+
+		Label void2 = new Label(container, SWT.NULL);
+		void2.setText("");
+		
+		customIcon = new Combo(container, SWT.READ_ONLY);
+		
+		InputStream is = getClass().getResourceAsStream("/lib/ui.handler.gui.swing-2.0.0-sources.jar");
+        
+        try {
+            ZipInputStream zis = new ZipInputStream(is);
+            ZipEntry ze;
+            
+            while ((ze = zis.getNextEntry()) != null) {
+            	if (ze.getName().contains("icons") && ze.getName().contains(".png")) {
+	                customIcon.add(ze.getName());
+            	}
+            }
+            is.close();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        
+        customIcon.addModifyListener(new ModifyListener(){
+
+			public void modifyText(ModifyEvent e) {
+				
+				app.getApplication().getMenuEntry().setIsCustomIcon(true);
+				if(customIcon.getText().trim().length() > 0) iconFile.setText("");
+				setPageComplete(validate());
+			}
+		});
+        		
+		/*
+		InputStream imgs = getClass().getResourceAsStream("/icons/app/Health.png");
+        System.out.println("-- img stream:"+imgs.toString());
+        BufferedImage image = null;
+		try {
+			image = ImageIO.read(imgs);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        if(image!=null){
+        	
+        	double width = image.getWidth();
+			double height = image.getHeight();
+			double aspect_ratio = width/height;
+			System.out.println("Height : "+ height);
+			System.out.println("Width : "+ width);
+			System.out.println("A/R : "+ aspect_ratio);
+        }
+        
+        Image simpleImg = new Image(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), imgs); 
+        
+        /*
+        
+        b2 = new Button(container, SWT.PUSH);
+		b2.setText("Browse from custom icons");
+		b2.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent e) {
+		
+				InputStream is = getClass().getResourceAsStream("/lib/ui.handler.gui.swing-2.0.0-sources.jar");
+		        
+		        try {
+		            ZipInputStream zis = new ZipInputStream(is);
+		            ZipEntry ze;
+
+		            boolean imgLoaded = false;
+		            while ((ze = zis.getNextEntry()) != null) {
+		            	if (ze.getName().contains("icons") && ze.getName().contains(".png")) {
+			                System.out.print("File : " + ze.getName());
+			                
+			                String path = "/"+ze.getName();
+			                URL url = getClass().getResource(path);
+			                System.out.println(" - url: "+url);
+			                InputStream imgs = getClass().getResourceAsStream(path);
+			                System.out.println("-- img stream:"+imgs.toString());
+			                BufferedImage image = ImageIO.read(imgs);
+			                Image simpleImg = new Image(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), imgs); 
+			                if(image!=null){
+			                	double width = image.getWidth();
+								double height = image.getHeight();
+								double aspect_ratio = width/height;
+								System.out.println("Height : "+ height);
+								System.out.println("Width : "+ width);
+								System.out.println("A/R : "+ aspect_ratio);
+			                }
+			            }
+		            }
+		            is.close();
+		        } catch (Exception e1) {
+		            e1.printStackTrace();
+		        }
+		    }
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});	
+		*/
+		    
+		
+        name.addKeyListener(new FullListener());
 		id.addKeyListener(new FullListener());
 		description.addKeyListener(new FullListener());
 		version_major.addKeyListener(new FullListener());
@@ -286,6 +425,8 @@ public class Page1 extends PageImpl {
 			
 		checkMenuEntry();
 		loadDefaultValues();
+		setPageComplete(validate());
+		
 		
 	}
 	
@@ -299,6 +440,8 @@ public class Page1 extends PageImpl {
 			iconFile.setEnabled(false);
 			
 			b1.setEnabled(false);
+			customIcon.setEnabled(false);
+			
 		} else {
 			serviceUri.setEnabled(true);
 			mandatory.add(serviceUri);
@@ -306,12 +449,14 @@ public class Page1 extends PageImpl {
 			iconFile.setEnabled(true);
 
 			b1.setEnabled(true);
+			customIcon.setEnabled(true);
+			
 		}
 	}
 	
 	private void loadDefaultValues() {
 		if ( app.getApplication() != null ) {
-		    name.setText( app.getApplication().getName() );
+			name.setText( app.getApplication().getName() );
 		    id.setText( app.getApplication().getAppID() );
 		    description.setText( app.getApplication().getDescription() );
 		    version_minor.setText( app.getApplication().getVersion().getMajor() );
@@ -338,11 +483,20 @@ public class Page1 extends PageImpl {
 				app.getApplication().getMenuEntry().setServiceUri(URI.create(serviceUri.getText()));
 				if(iconFile.getText().trim().length()>0)
 					app.getApplication().getMenuEntry().setIconFile(sourcePNG);
+				else if(customIcon.getText().trim().length()>0){
+					app.getApplication().getMenuEntry().setIconPath(new URI(customIcon.getText().trim().toString().replaceAll("/", ".")));
+				}
+					
+					
 			}	
+			
+			serializeMPA();
+			
 		} catch(Exception ex){
 			ex.printStackTrace();
 		}
 
 		return true;
 	}
+
 }
