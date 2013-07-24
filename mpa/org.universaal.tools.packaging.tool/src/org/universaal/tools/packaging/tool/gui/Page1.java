@@ -418,40 +418,44 @@ public class Page1 extends PageImpl {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				checkMenuEntry();
-				setPageComplete(validate());
 			}
 		});	
 		serviceUri.addKeyListener(new FullListener());
 			
-		checkMenuEntry();
 		loadDefaultValues();
-		setPageComplete(validate());
-		
+		checkMenuEntry();
 		
 	}
 	
 	private void checkMenuEntry(){
 		if(menuName.getText().trim().length() == 0){
-			serviceUri.setText("");
-			serviceUri.setEnabled(false);
-			mandatory.remove(serviceUri);
 			
 			iconFile.setText("");
 			iconFile.setEnabled(false);
 			
 			b1.setEnabled(false);
+			customIcon.deselectAll();
 			customIcon.setEnabled(false);
 			
+			if(mandatory.contains(serviceUri)) mandatory.remove(serviceUri);
+			serviceUri.setText("");
+			serviceUri.setEnabled(false);
+					
 		} else {
-			serviceUri.setEnabled(true);
-			mandatory.add(serviceUri);
 			
 			iconFile.setEnabled(true);
 
 			b1.setEnabled(true);
 			customIcon.setEnabled(true);
 			
+			serviceUri.setEnabled(true);
+			if(!mandatory.contains(serviceUri)) mandatory.add(serviceUri);
+			
+			
 		}
+		
+		setPageComplete(validate());		
+		
 	}
 	
 	private void loadDefaultValues() {
