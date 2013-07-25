@@ -135,7 +135,7 @@ public class GUI extends WizardMod {
 			p1 = new Page1(Page.PAGE1);
 			addPage(p1);
 			p1.setMPA(mpa);
-
+/*
 			p2 = new Page2(Page.PAGE2);
 			addPage(p2);
 			p2.setMPA(mpa);
@@ -192,7 +192,7 @@ public class GUI extends WizardMod {
 				ppPR.setMPA(mpa);
 				ppPR.setArtifact(parts.get(i));
 			}
-
+*/
 			p_end = new EndPage(Page.PAGE_END);
 			addPage(p_end);
 			p_end.setMPA(mpa);
@@ -270,6 +270,10 @@ public class GUI extends WizardMod {
 
 			// copy icon file if set and eventually resize it
 			File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
+			
+			File tmpFile = new File(tempDir+"/img.png");
+			if(tmpFile.exists()) tmpFile.delete();
+			
 			if(iconFile != null && iconFile.exists()){
 				if (mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconScale()){
 					try {
@@ -279,8 +283,6 @@ public class GUI extends WizardMod {
 						buffered.getGraphics().drawImage(scaled, 0, 0 , null);
 						File outputFile = new File(tempDir+"/bin/icon/"+iconFile.getName());
 						ImageIO.write(buffered, "png", outputFile);
-						File tmpFile = new File(tempDir+"/img.png");
-						if(tmpFile.exists()) tmpFile.delete();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
