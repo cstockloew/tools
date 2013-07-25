@@ -169,13 +169,13 @@ public class StartPage extends PageImpl {
 							this.widgetSelected(e);
 						}
 					} 
-						
-					name.setText(destination.getAbsolutePath());
-						
-					if(destination.isAbsolute() && parts.size() > 0){
-						setPageComplete(true);
+					if(destination != null){
+						name.setText(destination.getAbsolutePath());
+							
+						if(destination.isAbsolute() && parts.size() > 0){
+							setPageComplete(true);
+						}
 					}
-				
 					
 				}
 			}
