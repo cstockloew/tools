@@ -135,7 +135,7 @@ public class GUI extends WizardMod {
 			p1 = new Page1(Page.PAGE1);
 			addPage(p1);
 			p1.setMPA(mpa);
-/*
+
 			p2 = new Page2(Page.PAGE2);
 			addPage(p2);
 			p2.setMPA(mpa);
@@ -192,7 +192,7 @@ public class GUI extends WizardMod {
 				ppPR.setMPA(mpa);
 				ppPR.setArtifact(parts.get(i));
 			}
-*/
+
 			p_end = new EndPage(Page.PAGE_END);
 			addPage(p_end);
 			p_end.setMPA(mpa);

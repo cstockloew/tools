@@ -251,7 +251,7 @@ public class Page1 extends PageImpl {
 			public void widgetSelected(SelectionEvent e) {
 				
 				Dialog d = new Dialog();
-				sourcePNG = d.open(parent.getShell(), new String[]{"*."+iconFormat}, false, "Select a PNG Icon");
+				sourcePNG = d.open(parent.getShell(), new String[]{"*."+iconFormat}, true, "Select a PNG Icon");
 				if ( sourcePNG ==  null ) {
 					return;
 				}
