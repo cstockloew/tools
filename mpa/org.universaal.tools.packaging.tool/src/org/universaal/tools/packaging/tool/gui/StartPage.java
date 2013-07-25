@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.codehaus.plexus.util.FileUtils;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -155,14 +156,26 @@ public class StartPage extends PageImpl {
 				Dialog d = new Dialog();
 				destination = d.open(parent.getShell(), new String[]{"*.uapp"}, false, "UAPP file path...");			
 				if(destination != null){
+					Boolean overwrite = false;
 					if(!destination.getAbsolutePath().endsWith(".uapp"))
 						destination = new File(destination+".uapp");
-
-					name.setText(destination.getAbsolutePath());
 					
-					if(destination.isAbsolute() && parts.size() > 0){
-						setPageComplete(true);
-					} 
+					File tmp = new File(destination.getAbsolutePath());
+					if(tmp.exists()) {
+						overwrite = MessageDialog.openConfirm(parent.getShell(),
+							"File exists!", "The file "+destination.getAbsolutePath()+" already exists.\n\n" +
+							"Would you like to overwrite it ?");
+					}
+					if(overwrite){
+						name.setText(destination.getAbsolutePath());
+						
+						if(destination.isAbsolute() && parts.size() > 0){
+							setPageComplete(true);
+						}
+					} else {
+						this.widgetSelected(e);
+					}
+					
 				}
 			}
 
