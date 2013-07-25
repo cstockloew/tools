@@ -405,7 +405,7 @@ public class Page1 extends PageImpl {
 		}
         thumb = new Image(null, org.universaal.tools.packaging.tool.Activator.tempDir+"/img.png");
         labelImg.setImage(thumb);
-        
+ 
 	}
 	
 	private void createDefaultThumb() {

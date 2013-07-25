@@ -10,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
@@ -197,6 +198,18 @@ public class Page2 extends PageImpl {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
+				FontData[] fD = email.getFont().getFontData();
+				
+				if(email.getText().trim().length()>0 &&!email.getText().matches(EMAIL_PATTERN)){
+					fD[0].setStyle(SWT.BOLD);
+					email.setFont(new Font(container.getDisplay(), fD[0]));		
+					email.setBackground(new Color(null, 255, 128, 128));
+				} else {
+					fD[0].setStyle(SWT.NORMAL);
+					email.setFont(new Font(container.getDisplay(), fD[0]));		
+					email.setBackground(new Color(null, 255, 255, 255));
+				}
+
 				app.getApplication().getApplicationProvider().setEmail(email.getText());		
 			}
 		});	
@@ -370,12 +383,6 @@ public class Page2 extends PageImpl {
 
 		try{
 			if(!email.getText().matches(EMAIL_PATTERN)){
-
-				FontData[] fD = email.getFont().getFontData();
-				fD[0].setStyle(SWT.COLOR_DARK_RED);
-				fD[0].setStyle(SWT.BOLD);
-				email.setFont(new Font(container.getDisplay(), fD[0]));		
-
 				return false;
 			}			
 
