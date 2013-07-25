@@ -165,16 +165,17 @@ public class StartPage extends PageImpl {
 						overwrite = MessageDialog.openConfirm(parent.getShell(),
 							"File exists!", "The file "+destination.getAbsolutePath()+" already exists.\n\n" +
 							"Would you like to overwrite it ?");
-					}
-					if(overwrite){
-						name.setText(destination.getAbsolutePath());
-						
-						if(destination.isAbsolute() && parts.size() > 0){
-							setPageComplete(true);
+						if(!overwrite){
+							this.widgetSelected(e);
 						}
-					} else {
-						this.widgetSelected(e);
+					} 
+						
+					name.setText(destination.getAbsolutePath());
+						
+					if(destination.isAbsolute() && parts.size() > 0){
+						setPageComplete(true);
 					}
+				
 					
 				}
 			}
