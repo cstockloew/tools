@@ -14,7 +14,8 @@ public class AlphabeticV implements VerifyListener {
 						e.character == '\b' || 
 						e.character == '.' || 
 						e.character == ' ' || 
-						e.character == ',') && 
+						e.character == ',' ||
+						e.character == ':') && 
 						(e.character != '<' && 
 						e.character != '>');
 	}
