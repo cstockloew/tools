@@ -103,6 +103,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 				configuration.setAttribute("org.ops4j.pax.cursor.profiles", classpath);
 			}
 			
+			configuration.setAttribute("osgi_framework_id", "--platform=felix --version=2.0.1");
 			configuration.setAttribute("pde.version", "3.3");
 			configuration.setAttribute("show_selected_only", false);
 			configuration.setAttribute("tracing", false);

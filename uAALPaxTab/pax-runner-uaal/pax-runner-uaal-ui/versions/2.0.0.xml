@@ -56,6 +56,8 @@
 			<bundle>mvn:org.universAAL.ontology/ont.profile.userid/2.0.0</bundle>
 			<bundle>mvn:org.universAAL.ontology/ont.impairment/2.0.0</bundle>
 			<bundle>mvn:org.universAAL.ui/ui.handler.gui.swing/2.0.0</bundle>
+			<bundle>mvn:org.universAAL.ui/ui.handler.gui.swing.classicLAF/2.0.0</bundle>
+			<bundle>mvn:org.universAAL.ui/ui.handler.gui.swing.bluesteelLAF/2.0.0</bundle>
 		</bundleset>
 		<bundleset name="CHE">
 			<bundle>mvn:org.openrdf.sesame/sesame-runtime-osgi/2.6.0</bundle>
