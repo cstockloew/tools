@@ -279,8 +279,8 @@ public class GUI extends WizardMod {
 						buffered.getGraphics().drawImage(scaled, 0, 0 , null);
 						File outputFile = new File(tempDir+"/bin/icon/"+iconFile.getName());
 						ImageIO.write(buffered, "png", outputFile);
-						File tmpFile = new File(tempDir+"img.png");
-						tmpFile.delete();
+						File tmpFile = new File(tempDir+"/img.png");
+						if(tmpFile.exists()) tmpFile.delete();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
