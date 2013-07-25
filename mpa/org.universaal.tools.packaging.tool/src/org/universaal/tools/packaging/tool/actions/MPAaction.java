@@ -1,15 +1,13 @@
 package org.universaal.tools.packaging.tool.actions;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +25,6 @@ import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.tool.api.WizardDialogMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
-import org.universaal.tools.packaging.tool.util.ConfigProperties;
 import org.universaal.tools.packaging.tool.util.Configurator;
 
 /**
@@ -64,15 +61,18 @@ public class MPAaction extends AbstractHandler {
 					if(tryRecover){
 					
 						try{
-							String content = readFile(recParts, StandardCharsets.UTF_8);
-							String[] segments = content.split(System.getProperty("line.separator"));
-							//System.out.println(segments[segments.length-1]);
-							for(int i = 0; i < segments.length; i++){
-								if(!segments[i].trim().isEmpty()){
-									System.out.println("Importing part "+segments[i]);
-									IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(segments[i]);
+							FileInputStream fis = new FileInputStream(recParts);
+				            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+				         
+				            String line = reader.readLine();
+				            
+				            while(line != null){
+				                if(!line.trim().isEmpty()){
+									System.out.println("Importing part "+line);
+									IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(line);
 									parts.add(container.getProject());
 								}
+				                line = reader.readLine();
 							}
 							this.recovered = true;
 						} catch (IOException e){
@@ -129,11 +129,6 @@ public class MPAaction extends AbstractHandler {
 		}
 		
 		return null;
-	}
-	
-	private static String readFile(String path, Charset encoding) throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get(path));
-		return encoding.decode(ByteBuffer.wrap(encoded)).toString();
 	}
 	
 }
