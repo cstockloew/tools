@@ -197,6 +197,11 @@ public class Page2 extends PageImpl {
 		email.addKeyListener(new QL() {
 
 			@Override
+			public void keyPressed(KeyEvent e) {
+				//setPageComplete(validate());
+			}
+			
+			@Override
 			public void keyReleased(KeyEvent e) {
 				FontData[] fD = email.getFont().getFontData();
 				
@@ -204,10 +209,12 @@ public class Page2 extends PageImpl {
 					fD[0].setStyle(SWT.BOLD);
 					email.setFont(new Font(container.getDisplay(), fD[0]));		
 					email.setBackground(new Color(null, 255, 128, 128));
+					setPageComplete(false);
 				} else {
 					fD[0].setStyle(SWT.NORMAL);
 					email.setFont(new Font(container.getDisplay(), fD[0]));		
 					email.setBackground(new Color(null, 255, 255, 255));
+					setPageComplete(validate());
 				}
 
 				app.getApplication().getApplicationProvider().setEmail(email.getText());		
