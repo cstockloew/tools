@@ -1,0 +1,10 @@
+CODE ASSISTANT TOOL
+
+
+INTSTALLATION
+=============
+
+- Copy the CodeAssistantFiles folder
+  and paste it inside eclipse directory.
+
+
