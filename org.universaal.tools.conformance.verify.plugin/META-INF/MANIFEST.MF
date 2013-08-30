@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.universaal.tools.conformance.verify.plugin
+Bundle-SymbolicName: org.universaal.tools.conformance.verify.plugin; singleton:=true
+Bundle-Version: 0.3.1
+Bundle-Activator: org.universaal.tools.conformance.verify.plugin.Activator
+Bundle-Vendor: universAAL
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.m2e.core.ui,
+ org.eclipse.m2e.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.maven.execution,
+ org.apache.maven.project,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.internal.core,
+ org.eclipse.m2e.core.ui.internal,
+ org.eclipse.ui.console
+Export-Package: org.universaal.tools.conformance.verify.plugin.handlers
