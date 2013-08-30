@@ -1,4 +1,7 @@
 * text=auto !eol
+org.eclipse.mofscript/.project -text svneol=unset#text/plain
+org.eclipse.mofscript/build.properties -text svneol=unset#text/plain
+org.eclipse.mofscript/feature.xml -text svneol=unset#text/plain
 org.universAAL.tools.logmonitor/ASL2.0.txt -text
 org.universAAL.tools.logmonitor/NOTICE.txt -text
 org.universAAL.tools.logmonitor/pom.xml -text
