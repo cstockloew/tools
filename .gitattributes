@@ -337,6 +337,39 @@ org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling
 org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModelEditor.java -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModelModelWizard.java -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModel_EMFEditorEditorPlugin.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/.classpath -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/.project -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/build.properties -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/model/ServiceModel.ecore -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/model/ServiceModel.ecorediag -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/model/ServiceModel_EMFEditor.genmodel -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/plugin.properties -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/EffectType.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/NamedElement.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/Parameter.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/PropertyPath.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/ServiceEffect.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/ServiceInterface.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/ServiceModelFactory.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/ServiceModelPackage.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/ServiceOperation.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/impl/NamedElementImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/impl/ParameterImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/impl/PropertyPathImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/impl/ServiceEffectImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/impl/ServiceInterfaceImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/impl/ServiceModelFactoryImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/impl/ServiceModelPackageImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/impl/ServiceOperationImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/util/ServiceModelAdapterFactory.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/util/ServiceModelResourceFactoryImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/util/ServiceModelResourceImpl.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/util/ServiceModelSwitch.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service/src/org/universaal/tools/modelling/servicemodel/util/ServiceModelXMLProcessor.java -text svneol=unset#text/plain
 org.universaal.tools.owl2uml.feature/.project -text
 org.universaal.tools.owl2uml.feature/build.properties -text
 org.universaal.tools.owl2uml.feature/feature.xml -text
