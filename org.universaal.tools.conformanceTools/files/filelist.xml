@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verifications xmlns="http://maven.apache.org/verifications/1.0.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://maven.apache.org/verifications/1.0.0 http://maven.apache.org/xsd/verifications-1.0.0.xsd">
+  <files>
+    <file>
+      <location>pom.xml</location>
+      <exists>true</exists>
+    </file>
+    <file>
+      <location>src/main/java</location>
+      <exists>true</exists>
+    </file>
+    <file>
+      <location>NOTICE.txt</location>
+      <exists>true</exists>
+    </file>
+    <file>
+      <location>ASL2.0.txt</location>
+      <exists>true</exists>
+    </file>
+    <file>
+      <location>MITX.txt</location>
+      <exists>true</exists>
+    </file>
+  </files>
+</verifications>
