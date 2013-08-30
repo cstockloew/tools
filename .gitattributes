@@ -525,6 +525,18 @@ org.universaal.tools.packaging.tool/src/org/universaal/tools/packaging/tool/zip/
 org.universaal.tools.perspective.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.perspective.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.perspective.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.perspective/.classpath -text svneol=unset#text/plain
+org.universaal.tools.perspective/.project -text svneol=unset#text/plain
+org.universaal.tools.perspective/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.perspective/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.perspective/LICENSE.txt -text svneol=unset#text/plain
+org.universaal.tools.perspective/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.perspective/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.perspective/build.properties -text svneol=unset#text/plain
+org.universaal.tools.perspective/icons/logo_16x16.png -text
+org.universaal.tools.perspective/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.perspective/src/org/universaal/tools/perspective/AALStudioPerspective.java -text svneol=unset#text/plain
+org.universaal.tools.perspective/src/org/universaal/tools/perspective/Activator.java -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
