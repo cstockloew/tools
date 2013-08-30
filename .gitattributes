@@ -327,6 +327,40 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexte
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceConstants.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/.classpath -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/.project -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/build.properties -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/icons/uaal-16.png -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.owl.di -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.owl.notation -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.owl.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.service.owl.di -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.service.owl.notation -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.service.owl.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.ui.owl.di -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.ui.owl.notation -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.middleware.ui.owl.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.datatypes.di -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.datatypes.notation -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.datatypes.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.device.di -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.device.notation -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.device.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.measurement.di -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.measurement.notation -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.measurement.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.phThing.di -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.phThing.notation -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.phThing.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.unit.di -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.unit.notation -text
+org.universaal.tools.modelling.ontology.common/model/org.universaal.ontology.unit.uml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.modelling.ontology.common/src/org/universaal/tools/modelling/ontology/common/Activator.java -text svneol=unset#text/plain
 org.universaal.tools.modelling.ontology.wizard/.classpath -text svneol=unset#text/plain
 org.universaal.tools.modelling.ontology.wizard/.project -text svneol=unset#text/plain
 org.universaal.tools.modelling.ontology.wizard/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
