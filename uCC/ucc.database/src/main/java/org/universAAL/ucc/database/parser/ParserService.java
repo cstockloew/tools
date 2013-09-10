@@ -1,7 +1,7 @@
 package org.universAAL.ucc.database.parser;
 
 import org.universAAL.middleware.deploymanager.uapp.model.AalUapp;
-import org.universAAL.ucc.model.usrv.AalUsrv;
+import org.universAAL.ucc.model.usrv_old.AalUsrv;
 
 /**
  * ParserService for getting a UAPP or USRV Java Instance.
