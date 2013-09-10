@@ -18,8 +18,6 @@
  */
 package org.universaal.tools.configurationEditor.editors;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 import java.io.StringReader;
@@ -279,7 +277,7 @@ public class ConfigurationEditor extends MultiPageEditorPart implements IResourc
 						if(selectedElement.getName().equals("category")){
 							
 							//create new configItem
-							Element configItem = new Element("SipmleConfigItem", doc.getRootElement().getNamespacePrefix(), doc.getRootElement().getNamespaceURI());
+							Element configItem = new Element("SimpleConfigItem", doc.getRootElement().getNamespacePrefix(), doc.getRootElement().getNamespaceURI());
 							configItem.setAttribute("cardinality", cd.getCardinality());
 							configItem.setAttribute("id", cd.getId());
 							configItem.setAttribute("type", cd.getType());
@@ -695,18 +693,13 @@ public class ConfigurationEditor extends MultiPageEditorPart implements IResourc
 		catListItem.setControl(catListComp);
 
 
-		
-		
-//		Point size = tree.computeSize(300, SWT.DEFAULT);
-//		int width = Math.max(300, size.x);
-//		int height = Math.max(300, size.y);
-//		catListItem.setHeight(catListComp.computeSize(width, height).y);
-		
 		catListItem.setHeight(treeHeight);
 		
 	}
 	
 	public void showSelectedElement(Element el) {
+		
+//		System.out.println(el.getName());
 		
 		if(el.getName().equals("category")) {
 			showCategory(el);
@@ -732,14 +725,7 @@ public class ConfigurationEditor extends MultiPageEditorPart implements IResourc
 		selectedItemGroup.layout(true);
 		selectedItemGroup.setVisible(true);
 		
-		
-		//height & control
-//		Point size = selectedItemGroup.computeSize(300, SWT.DEFAULT);
-//		int width = Math.max(300, size.x);
-//		int height = Math.max(300, size.y);
-//		
-//		
-//		catListItem.setHeight(catListComp.computeSize(width, height).y);
+	
 	}
 	
 	
