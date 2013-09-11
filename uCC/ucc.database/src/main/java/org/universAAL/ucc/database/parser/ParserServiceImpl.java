@@ -8,7 +8,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.universAAL.middleware.deploymanager.uapp.model.AalUapp;
-import org.universAAL.ucc.model.usrv_old.AalUsrv;
+//import org.universAAL.ucc.model.usrv_old.AalUsrv;
+import org.universAAL.ucc.model.usrv.AalUsrv;
 
 public class ParserServiceImpl implements ParserService {
 
