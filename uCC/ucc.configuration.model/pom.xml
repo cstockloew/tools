@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.universAAL.tools.ucc</groupId>
 		<artifactId>ucc.pom</artifactId>
-		<version>1.2.2-SNAPSHOT</version>
+		<version>2.0.1-SNAPSHOT</version>
 		<relativePath>../ucc.pom/pom.xml</relativePath>
 	</parent>
 	<artifactId>ucc.configuration.model</artifactId>
@@ -22,12 +22,8 @@
 			<artifactId>jaxb-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.container.osgi</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -36,22 +32,22 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.7</version>
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Require-Bundle>com.vaadin;bundle-version="6.8.3"</Require-Bundle>
-						<Import-Package>*</Import-Package>
-						<Export-Package>org.universAAL.ucc.configuration.model.*,
-							org.universAAL.ucc.configuration.model.configurationinstances.*,
-							org.universAAL.ucc.configuration.model.configurationdefinition.*,
-							org.universAAL.ucc.configuration.model.servicetracker.*,
-							org.universAAL.ucc.configuration.model.validators.*,
-							org.universAAL.ucc.configuration.model.exceptions.*,
-							org.universAAL.ucc.configuration.model.interfaces.*</Export-Package>
+						<Import-Package>org.universAAL.middleware.container, org.universAAL.middleware.container.osgi, org.universAAL.middleware.container.utils, javax.xml.bind, javax.xml.bind.annotation,
+							javax.xml.bind.annotation.adapters, javax.xml.namespace,
+							org.osgi.framework;version="[1,2)",org.osgi.util.tracker;version="[1,2)",org.slf4j;version="[1,2)"</Import-Package>
+						<Export-Package>org.universAAL.ucc.configuration.model,
+							org.universAAL.ucc.configuration.model.configurationinstances,
+							org.universAAL.ucc.configuration.model.configurationdefinition,
+							org.universAAL.ucc.configuration.model.servicetracker,
+							org.universAAL.ucc.configuration.model.validators,
+							org.universAAL.ucc.configuration.model.exceptions,
+							org.universAAL.ucc.configuration.model.interfaces</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>

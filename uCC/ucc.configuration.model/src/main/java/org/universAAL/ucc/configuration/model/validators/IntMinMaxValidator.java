@@ -1,16 +1,15 @@
 package org.universAAL.ucc.configuration.model.validators;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.ConfigOptionRegistry;
+import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
 import org.universAAL.ucc.configuration.model.interfaces.ConfigurationValidator;
 
 public class IntMinMaxValidator implements ConfigurationValidator {
 	
-	static Logger logger = LoggerFactory.getLogger(IntMinMaxValidator.class);
 	int min, max;
 	
 	
@@ -22,7 +21,9 @@ public class IntMinMaxValidator implements ConfigurationValidator {
 			int intValue = Integer.parseInt(value.getValue());
 			return intValue <= max && intValue >= min;
 		}catch (NumberFormatException e){
-			logger.error(e.toString());
+			LogUtils.logError(Activator.getContext(), this.getClass(), "isValid",
+					new Object[] { e.toString() }, null);
+
 		}
 		return false;
 	}
@@ -39,7 +40,9 @@ public class IntMinMaxValidator implements ConfigurationValidator {
 					throw new ValidationException("Value is too small! It needs to be greater than or equal to " + min);
 				}
 			}catch (NumberFormatException e){
-				logger.error(e.toString());
+				LogUtils.logError(Activator.getContext(), this.getClass(), "validate",
+						new Object[] { e.toString() }, null);
+
 			}
 		}
 	}
@@ -51,7 +54,9 @@ public class IntMinMaxValidator implements ConfigurationValidator {
 				min = Integer.parseInt(attributes[0]);
 				max = Integer.parseInt(attributes[1]);
 			} catch (NumberFormatException e) {
-				logger.error(e.toString());
+				LogUtils.logError(Activator.getContext(), this.getClass(), "setAttributes",
+						new Object[] { e.toString() }, null);
+
 			}
 		}
 	}

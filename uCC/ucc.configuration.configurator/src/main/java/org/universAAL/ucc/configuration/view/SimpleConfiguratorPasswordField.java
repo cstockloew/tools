@@ -1,9 +1,5 @@
 package org.universAAL.ucc.configuration.view;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.PasswordField;
 
@@ -20,7 +16,6 @@ import org.universAAL.ucc.configuration.model.validators.DoubleValidator;
 import org.universAAL.ucc.configuration.model.validators.IntegerValidator;
 
 public class SimpleConfiguratorPasswordField extends PasswordField implements OnConfigurationChangedListener{
-	Logger logger;
 	
 	public VaadinConfigurationController controller;
 	
@@ -29,8 +24,6 @@ public class SimpleConfiguratorPasswordField extends PasswordField implements On
 	
 	public SimpleConfiguratorPasswordField(SimpleConfigurationOption option, VaadinConfigurationController controller){
 		super(option.getLabel());
-		
-		logger = LoggerFactory.getLogger(SimpleConfiguratorTextField.class);
 		
 		this.controller = controller;
 		

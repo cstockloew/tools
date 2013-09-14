@@ -61,4 +61,9 @@ public class DeployManagerServiceImpl implements DeployManagerService {
 		return sessionKey;
 	}
 
+	public void update(String arg0, String arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

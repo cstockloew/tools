@@ -1,8 +1,5 @@
 package org.universAAL.ucc.configuration.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * 
  * A class to handle cardinalities like 0..1,  0..*, 1..1
@@ -13,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 public class Cardinality {
 	
-	Logger logger;
 	
 	String bottom;
 	String top;
@@ -25,7 +21,6 @@ public class Cardinality {
 	 * @param cardinality
 	 */
 	public Cardinality(String cardinality) {
-		logger = LoggerFactory.getLogger(Cardinality.class);
 		this.cardinality = cardinality;
 		if(cardinality != null && cardinality.contains("..")){
 			String[] result = cardinality.split("\\.\\.");

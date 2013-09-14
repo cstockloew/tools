@@ -1,6 +1,5 @@
 package org.universAAL.ucc.configuration.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,11 +8,7 @@ import java.util.List;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutAction.ModifierKey;
 import com.vaadin.ui.Button;
@@ -26,19 +21,16 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.controller.VaadinConfigurationController;
+import org.universAAL.ucc.configuration.internal.Activator;
 import org.universAAL.ucc.configuration.model.ConfigurationOption;
 import org.universAAL.ucc.configuration.model.MapConfigurationOption;
 import org.universAAL.ucc.configuration.model.SimpleConfigurationOption;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Category;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
-import org.universAAL.ucc.configuration.model.configurationdefinition.MapConfigItem;
-import org.universAAL.ucc.configuration.model.configurationdefinition.Option;
-import org.universAAL.ucc.configuration.model.configurationdefinition.Options;
 import org.universAAL.ucc.configuration.model.configurationinstances.ConfigurationInstance;
 import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFactory;
-import org.universAAL.ucc.configuration.model.configurationinstances.Value;
-import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
 import org.universAAL.ucc.configuration.model.interfaces.ModelRegistryChangedListener;
 import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
 import org.universAAL.ucc.configuration.storage.interfaces.StorageChangedListener;
@@ -69,7 +61,7 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 //	private String device;
 //	private String actualUsers;
 //	private String actualHW;
-	Logger logger;
+
 	
 	public static String NAME = "ConfigurationOverview";
 	
@@ -102,8 +94,7 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 	
 	public ConfigurationOverviewWindow(/*String flatId,*/ Configuration config) {
 		super("Configuration of "+config.getBundlename());
-	
-		logger = LoggerFactory.getLogger(this.getClass());
+
 		setName(NAME);
 //		device = System.getenv("systemdrive");
 //		usersFlat1 = device+"/jcc_datastore/flat1/Users.xml";
@@ -132,7 +123,7 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 		ServiceReference reference = context.getServiceReference(ConfigurationInstancesStorage.class.getName());
 		storage = (ConfigurationInstancesStorage) context.getService(reference);
 		storage.addListener(this);
-		//Änderung
+		//ï¿½nderung
 //		ServiceReference<DataAccess>ref = context.getServiceReference(DataAccess.class);
 //		dataAccess = context.getService(ref);
 //		context.ungetService(ref);
@@ -305,7 +296,10 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 				while(i.hasNext()){
 					Component component = i.next();
 					if(component instanceof ConfigurationPanel){
-						logger.debug("panel found: " + component.getCaption());
+						
+						LogUtils.logInfo(Activator.getContext(), this.getClass(), "addSaveButton",
+								new Object[] { "panel found: " + component.getCaption() }, null);
+								
 						configOptions.addAll(((ConfigurationPanel)component).getConfigOptions());
 					}
 				}
@@ -334,7 +328,10 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 	
 	public void createView() {
 		if(configurationWindow == null){
-			logger.debug("create new configuration window.");
+			
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "createView",
+					new Object[] { "create new configuration window." }, null);
+					
 			openConfigurationWindow();
 		}
 		clearConfigurationWindow();
@@ -343,15 +340,24 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 	}
 
 	private void clearConfigurationWindow() {
-		logger.debug("remove all components from configuration window.");
+		
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "clearConfigurationWindow",
+				new Object[] { "remove all components from configuration window." }, null);
+				
 		configurationWindow.removeAllComponents();
-		logger.debug("clear the panel cache.");
+		
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "clearConfigurationWindow",
+				new Object[] { "clear the panel cache." }, null);
+				
 		panels.clear();
 	}
 
 	private void createViewFromModel() {
-		logger.debug("fill the configuration window.");
-		//Nicoles Änderungen für Infoframe
+		
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "createViewFromModel",
+				new Object[] { "fill the configuration window." }, null);
+				
+		//Nicoles ï¿½nderungen fï¿½r Infoframe
 //		if(controller.getConfigurator().getConfigDefinition().getBundlename().toLowerCase().contains("infoframe")) {
 //				ontInstances = dataAccess.getFormFields(actualUsers);
 //				Category cat = new Category();
@@ -398,7 +404,7 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 //					}
 //				}
 //		}
-		//Nicoles Änderungen für Housestatus
+		//Nicoles ï¿½nderungen fï¿½r Housestatus
 //		if(controller.getConfigurator().getConfigDefinition().getBundlename().toLowerCase().contains("housestatus")
 //				||controller.getConfigurator().getConfigDefinition().getBundlename().toLowerCase().contains("plantcare")) {
 //			ontInstances = dataAccess.getFormFields(actualHW);
@@ -473,7 +479,10 @@ public class ConfigurationOverviewWindow extends Window implements ModelRegistry
 
 	public void modelRegistryChanged() {
 		if(!controller.getModelRegistry().isEmpty()){
-			logger.debug("model registry changed, recreate view!");
+			
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "modelRegistryChanged",
+					new Object[] { "model registry changed, recreate view!" }, null);
+					
 			createView();
 		}
 	}

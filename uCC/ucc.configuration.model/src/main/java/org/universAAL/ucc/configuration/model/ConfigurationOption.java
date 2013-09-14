@@ -5,9 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.osgi.framework.FrameworkUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Category;
 import org.universAAL.ucc.configuration.model.configurationdefinition.ConfigItem;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Dependency;
@@ -15,6 +14,7 @@ import org.universAAL.ucc.configuration.model.configurationdefinition.Item;
 import org.universAAL.ucc.configuration.model.configurationdefinition.OnConfigurationModelChangedListener;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Validator;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Validators;
+import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.configurationinstances.ConfigOption;
 import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFactory;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;
@@ -34,9 +34,6 @@ import org.universAAL.ucc.configuration.model.servicetracker.ValidationServiceTr
  */
 
 public abstract class ConfigurationOption implements Comparable<ConfigurationOption> {
-
-	
-	Logger logger;
 	
 	protected ConfigItem configItem;
 	ConfigOption configOption;
@@ -60,9 +57,9 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 	 */
 	
 	public ConfigurationOption(ConfigItem configItem, Category category, ConfigOptionRegistry configOptionRegistry) {
-		logger = LoggerFactory.getLogger(this.getClass());
-		logger.debug("create configuration option: " + configItem.getId());
-		
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "ConfigurationOption",
+				new Object[] { "create configuration option: " + configItem.getId() }, null);
+
 		this.category = category;
 		this.configItem = configItem;
 		configOption = new ObjectFactory().createConfigOption();
@@ -150,7 +147,8 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 					if(e instanceof ValidationException){
 						throw (ValidationException)e;
 					}
-					logger.debug("Validation failed: " + e.getMessage());
+					LogUtils.logInfo(Activator.getContext(), this.getClass(), "doDeepValidation",
+							new Object[] { "Validation failed: " + e.getMessage() }, null);
 				}
 			}
 		}
@@ -159,14 +157,16 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 	public void addListener(OnConfigurationChangedListener listener){
 		if(listener != null){
 			listeners.add(listener);
-			logger.debug("Listener added: " + listener.getClass().getName());
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "addListener",
+					new Object[] { "Listener added: " + listener.getClass().getName() }, null);
 		}
 	}
 	
 	public void addExternalListener(OnConfigurationChangedListener listener){
 		if(listener != null){
 			externalListeners.add(listener);
-			logger.debug("Listener added: " + listener.getClass().getName());
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "addExternalListener",
+					new Object[] { "Listener added: " + listener.getClass().getName() }, null);
 		}
 	}
 
@@ -199,15 +199,21 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 									valInstance.setAttributes(validator.getAttribute().toArray(new String[validator.getAttribute().size()]));
 									addValidator(className, valInstance);
 								} catch (InstantiationException e) {
-									logger.error(e.toString());
+									LogUtils.logError(Activator.getContext(), this.getClass(), "setValidators",
+											new Object[] { e.toString() }, null);
+
 								} catch (IllegalAccessException e) {
-									logger.error(e.toString());
+									LogUtils.logError(Activator.getContext(), this.getClass(), "setValidators",
+											new Object[] { e.toString() }, null);
+
 								}
 							}
 						}
 					} catch (ClassNotFoundException e) {
 						if(!"".equals(className)){
-							logger.debug("Class not found. Register service tacker for ValidatorCclass: " + className);
+							LogUtils.logInfo(Activator.getContext(), this.getClass(), "setValidators",
+									new Object[] { "Class not found. Register service tacker for ValidatorCclass: " + className }, null);
+
 							ValidationServiceTracker serviceTracker = new ValidationServiceTracker(FrameworkUtil.getBundle(getClass()).getBundleContext(), className, this, validator.getAttribute().toArray(new String[validator.getAttribute().size()]));
 							serviceTracker.open();
 						}
@@ -235,15 +241,21 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 								OnConfigurationChangedListener modListener = (OnConfigurationChangedListener)c.newInstance();
 								addListener(modListener);
 							} catch (InstantiationException e) {
-								logger.error(e.toString());
+								LogUtils.logError(Activator.getContext(), this.getClass(), "setOnChonfigurationModelChangedListener",
+										new Object[] { e.toString() }, null);
+
 							} catch (IllegalAccessException e) {
-								logger.error(e.toString());
+								LogUtils.logError(Activator.getContext(), this.getClass(), "setOnChonfigurationModelChangedListener",
+										new Object[] { e.toString() }, null);
+
 							}
 						}
 					}
 				} catch (ClassNotFoundException e) {
 					if(!"".equals(className)){
-						logger.error("Class not found. Register service tracker for class:" + className);
+						LogUtils.logError(Activator.getContext(), this.getClass(), "setOnChonfigurationModelChangedListener",
+								new Object[] { "Class not found. Register service tracker for class:" + className }, null);
+
 						ListenerServiceTracker serviceTracker = new ListenerServiceTracker(FrameworkUtil.getBundle(getClass()).getBundleContext(), className, this);
 						serviceTracker.open();
 					}
@@ -294,7 +306,9 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 		for(ConfigurationValidator validator: validators.values()){
 			for(Value value : values){
 				if(!validator.isValid(configRegestry, value)){
-					logger.debug("Validator failed: " + validator.getClass().getName() + " with input: " + value.getValue());
+					LogUtils.logInfo(Activator.getContext(), this.getClass(), "allValidatorValid",
+							new Object[] { "Validator failed: " + validator.getClass().getName() + " with input: " + value.getValue() }, null);
+
 					return false;
 				}
 			}
@@ -321,7 +335,9 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 		if(validator != null){
 			resetIsValidFlag();
 			validators.put(key, validator);
-			logger.debug("Validator added: " + validator.getClass().getName());
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "addValidator",
+					new Object[] { "Validator added: " + validator.getClass().getName() }, null);
+
 		}
 	}
 	
@@ -336,7 +352,9 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 			try{
 				listener.configurationChanged(configRegestry, this);
 			}catch(Exception e){
-				logger.debug("OnConfigurationModelChangedListener error: " + e.getMessage());
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "updateExternalListeners",
+						new Object[] { "OnConfigurationModelChangedListener error: " + e.getMessage() }, null);
+
 			}
 		}
 	}
@@ -347,7 +365,9 @@ public abstract class ConfigurationOption implements Comparable<ConfigurationOpt
 	 * If not it will be disabled.	
 	 */
 	public void checkDependencies() {
-		logger.debug("check dependencies for model: " + getId());
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "checkDependencies",
+				new Object[] { "check dependencies for model: " + getId() }, null);
+
 		Dependency dep = configItem.getDependencies();
 		if(dep == null){
 			return;

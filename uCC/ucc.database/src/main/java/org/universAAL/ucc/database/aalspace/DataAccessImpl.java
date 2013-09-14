@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.xml.bind.JAXB;
+
 import org.universAAL.ontology.phThing.Device;
 import org.universAAL.ontology.profile.AALSpace;
 import org.universAAL.ontology.profile.User;

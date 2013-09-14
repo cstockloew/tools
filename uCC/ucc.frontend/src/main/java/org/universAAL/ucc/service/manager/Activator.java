@@ -1,14 +1,9 @@
 package org.universAAL.ucc.service.manager;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.Reader;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.osgi.framework.BundleActivator;
@@ -23,7 +18,6 @@ import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.ucc.api.IDeinstaller;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.client.util.UstoreUtil;
-import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
@@ -32,13 +26,11 @@ import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.database.parser.ParserService;
-import org.universAAL.ucc.profile.agent.ProfileAgent;
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.api.IServiceModel;
 import org.universAAL.ucc.service.api.IServiceRegistration;
 import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.webconnection.WebConnector;
-import org.universAAL.ucc.startup.model.UccUsers;
 import org.universAAL.ucc.subscriber.SensorEventSubscriber;
 
 

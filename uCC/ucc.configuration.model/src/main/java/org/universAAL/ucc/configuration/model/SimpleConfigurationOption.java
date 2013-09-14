@@ -1,10 +1,10 @@
 package org.universAAL.ucc.configuration.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Category;
 import org.universAAL.ucc.configuration.model.configurationdefinition.SimpleConfigItem;
+import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFactory;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
@@ -19,11 +19,9 @@ import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
 
 public class SimpleConfigurationOption extends ConfigurationOption {
 	
-	Logger logger;
 	
 	public SimpleConfigurationOption(SimpleConfigItem configItem, Category category, ConfigOptionRegistry configOptionRegestry){
 		super(configItem, category, configOptionRegestry);
-		logger = LoggerFactory.getLogger(this.getClass().getName());
 	}
 
 	public String getType() {
@@ -40,7 +38,9 @@ public class SimpleConfigurationOption extends ConfigurationOption {
 			try {
 				setValue(v);
 			} catch (ValidationException e) {
-				logger.debug("Value isn't valid!");
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "setDefaultValue",
+						new Object[] { "Value isn't valid!" }, null);
+
 			}
 		}	
 	}

@@ -6,10 +6,10 @@ import java.util.List;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.vaadin.ui.Window;
+
+import org.universAAL.middleware.container.utils.LogUtils;
 
 import org.universAAL.ucc.configuration.beans.ConfigurationSaveOptions;
 import org.universAAL.ucc.configuration.exception.ConfigurationInstanceAlreadyExistsException;
@@ -40,7 +40,6 @@ import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 
 public class VaadinConfigurationController {
 	
-	private Logger logger;
 	private ConfigurationOverviewWindow view;
 	private Configurator configurator;
 	private ConfigOptionRegistry modelRegistry;
@@ -54,7 +53,6 @@ public class VaadinConfigurationController {
 	 * @param config
 	 */
 	public VaadinConfigurationController(ConfigurationOverviewWindow view, Configuration config) {
-		logger = LoggerFactory.getLogger(VaadinConfigurationController.class);
 		this.view = view;
 //		this.flatId = view.getFlatId();
 		modelRegistry = new ConfigOptionRegistry();
@@ -65,7 +63,8 @@ public class VaadinConfigurationController {
 			try{
 				file.mkdir();
 			}catch(Exception e){
-				logger.error("Could not create directory: " + configFileFolder);
+				LogUtils.logError(Activator.getContext(), this.getClass(), "VaadinConfigurationController",
+						new Object[] { "Could not create directory: " + configFileFolder }, null);
 			}
 		}
 		
@@ -88,9 +87,12 @@ public class VaadinConfigurationController {
 	public void loadConfigurationItems(){
 		Configuration config = configurator.getConfigDefinition();
 		List<Category> categories = config.getCategory();
-		logger.debug("Starting loop over all categories: " + categories.size());
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "loadConfigurationItems",
+				new Object[] { "Starting loop over all categories: " + categories.size() }, null);
+		
 		for(Category cat: categories){
-			logger.debug("Category: " + cat.getLabel());
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "loadConfigurationItems",
+					new Object[] { "Category: " + cat.getLabel() }, null);
 			List<Object> configItems = cat.getSPARQLConfigItemAndMapConfigItemAndSimpleConfigItem();
 			for(Object item: configItems){
 				if(item instanceof SimpleConfigItem){
@@ -107,7 +109,8 @@ public class VaadinConfigurationController {
 	 * Set the default values for all configuration options which are in the registry.
 	 */
 	private void setDefaultValues(){
-		logger.debug("set default values.");
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "setDefaultValues",
+				new Object[] { "set default values." }, null);
 		for(ConfigurationOption option: modelRegistry.getAll()){
 			if(option instanceof SimpleConfigurationOption){
 				SimpleConfigurationOption sOption = (SimpleConfigurationOption) option;
@@ -172,18 +175,22 @@ public class VaadinConfigurationController {
 	 * Set the values of the configuration instance to the configuration options.
 	 */
 	public void initializeValues() {
-		logger.debug("initialize values.");
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "initializeValues",
+				new Object[] { "initialize values." }, null);
 		for(ConfigOption option: configurator.getConfigInstance().getConfigOption()){
 			ConfigurationOption model = modelRegistry.getConfigOptionForId(option.getId());
 			if(model != null){
-				logger.debug("set value for: " + model.getId());
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "initializeValues",
+						new Object[] { "set value for: " + model.getId() }, null);
 				try {
 					model.setValue(option.getValue());
 				} catch (ValidationException e) {
-					logger.debug("Value isn't valid!");
+					LogUtils.logError(Activator.getContext(), this.getClass(), "initializeValues",
+							new Object[] { "Value isn't valid!" }, null);
 				}
 			}else{
-				logger.debug("model for id: " + option.getId() + " not found!");
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "initializeValues",
+						new Object[] { "model for id: " + option.getId() + " not found!" }, null);
 			}
 		}
 	}

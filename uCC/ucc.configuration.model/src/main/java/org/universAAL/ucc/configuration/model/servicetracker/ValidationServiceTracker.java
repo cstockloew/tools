@@ -3,17 +3,16 @@ package org.universAAL.ucc.configuration.model.servicetracker;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.ConfigurationOption;
+import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.interfaces.ConfigurationValidator;
 import org.universAAL.ucc.configuration.model.interfaces.ConfigurationValidatorFactory;
 
 
 public class ValidationServiceTracker extends ServiceTracker {
 	
-	Logger logger;
 	BundleContext context;
 	ConfigurationOption option;
 	ConfigurationValidator validator;
@@ -26,29 +25,38 @@ public class ValidationServiceTracker extends ServiceTracker {
 		this.option = option;
 		this.context = context;
 		this.attributes = attributes;
-		logger = LoggerFactory.getLogger(getClass());
-		logger.debug("new validation service tracker created!");
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "ValidationServiceTracker",
+				new Object[] { "new validation service tracker created!" }, null);
+
 	}
 
 	@Override
 	public Object addingService(ServiceReference reference) {
-		logger.debug("Service added: " + reference.getClass().toString());
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "addingService",
+				new Object[] { "Service added: " + reference.getClass().toString() }, null);
+
 		try{
 			Object o = context.getService(reference);
 			if(o instanceof ConfigurationValidator){
 				validator = (ConfigurationValidator)o;
 				validator.setAttributes(attributes);
-				logger.debug("loaded: " + validator.getClass());
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "addingService",
+						new Object[] { "loaded: " + validator.getClass() }, null);
+
 				option.addValidator(validator.getClass().getName(), validator);
 			}else if(o instanceof ConfigurationValidatorFactory){
 				ConfigurationValidatorFactory factory = (ConfigurationValidatorFactory)o; 
 				validator = factory.create();
 				validator.setAttributes(attributes);
-				logger.debug("loaded: " + validator.getClass());
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "addingService",
+						new Object[] { "loaded: " + validator.getClass() }, null);
+
 				option.addValidator(validator.getClass().getName(), validator);
 			}
 		}catch(ClassCastException e){
-			logger.debug("Listener cannot casted to ConfigurationValidator!");
+			LogUtils.logError(Activator.getContext(), this.getClass(), "addingService",
+					new Object[] { "Listener cannot casted to ConfigurationValidator!" }, null);
+
 		}
 		return super.addingService(reference);
 	}

@@ -283,6 +283,8 @@ public class FrontendImpl implements IFrontend {
 					System.err.println("ReqAtom Name: "+rt.getReqAtom().getReqAtomName());
 					atom.setName(rt.getReqAtom().getReqAtomName());
 					System.err.println("ReqAtom Value: "+rt.getReqAtom().getReqAtomValue());
+//					List<String> ll = new ArrayList<String>();
+//					ll.add(rt.getReqAtom().getReqAtomValue());
 					atom.setValue(rt.getReqAtom().getReqAtomValue());
 					if(rt.getReqAtom().getReqCriteria() != null) {
 						System.err.println("ReqAtom Criteria: "+rt.getReqAtom().getReqCriteria().value());

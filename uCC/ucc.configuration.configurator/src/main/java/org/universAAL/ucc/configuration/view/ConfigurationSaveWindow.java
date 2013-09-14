@@ -3,8 +3,6 @@ package org.universAAL.ucc.configuration.view;
 import java.util.List;
 import java.util.Vector;
 
-import org.slf4j.LoggerFactory;
-
 import com.vaadin.data.Validator.EmptyValueException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -15,6 +13,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 
+import org.universAAL.ucc.configuration.internal.Activator;
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.beans.ConfigurationSaveOptions;
 import org.universAAL.ucc.configuration.controller.VaadinConfigurationController;
 import org.universAAL.ucc.configuration.exception.ConfigurationInstanceAlreadyExistsException;
@@ -98,7 +98,9 @@ public class ConfigurationSaveWindow extends Window {
 											ConfigurationSaveWindow.this.getParent().showNotification("Configuration saved!", Window.Notification.TYPE_HUMANIZED_MESSAGE);
 											ConfigurationSaveWindow.this.close();
 										} catch (ConfigurationInstanceAlreadyExistsException e) {
-											LoggerFactory.getLogger(ConfigurationSaveWindow.class).error("Save the configuration failed.");
+											LogUtils.logError(Activator.getContext(), this.getClass(), "onDialogResult",
+													new Object[] { "Save the configuration failed." }, null);
+											
 										}
 									}else {
 										// Nothing
@@ -108,7 +110,9 @@ public class ConfigurationSaveWindow extends Window {
 						} 
 					}
 				} catch (EmptyValueException e){
-					LoggerFactory.getLogger(ConfigurationSaveWindow.class).debug("Missing value in save form.");
+					
+					LogUtils.logError(Activator.getContext(), this.getClass(), "buttonClick",
+							new Object[] { "Missing value in save form." }, null);
 				}
 			}
 		});

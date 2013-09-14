@@ -4,11 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 
@@ -26,13 +21,11 @@ import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFacto
 
 @SuppressWarnings("serial")
 public class ConfigurationPanel extends Panel{
-	Logger logger;
 	ObjectFactory factory;
 	
 	
 	public ConfigurationPanel(Category category) {
 		super(category.getLabel());
-		logger = LoggerFactory.getLogger(ConfigurationPanel.class);
 		factory = new ObjectFactory();
 	}
 	

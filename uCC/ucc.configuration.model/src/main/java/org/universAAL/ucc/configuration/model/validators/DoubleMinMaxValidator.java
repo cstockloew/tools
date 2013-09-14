@@ -1,16 +1,14 @@
 package org.universAAL.ucc.configuration.model.validators;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.ConfigOptionRegistry;
+import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
 import org.universAAL.ucc.configuration.model.interfaces.ConfigurationValidator;
 
 public class DoubleMinMaxValidator implements ConfigurationValidator {
 	
-	static Logger logger = LoggerFactory.getLogger(DoubleMinMaxValidator.class);
 	double min, max;
 	
 	public boolean isValid(ConfigOptionRegistry registry, Value value) {
@@ -18,7 +16,9 @@ public class DoubleMinMaxValidator implements ConfigurationValidator {
 			double doubleValue = Double.parseDouble(value.getValue());
 			return doubleValue <= max && doubleValue >= min;
 		}catch (NumberFormatException e){
-			logger.error(e.toString());
+			LogUtils.logError(Activator.getContext(), this.getClass(), "isValid",
+					new Object[] {e.toString() }, null);
+
 		}
 		return false;
 	}
@@ -35,7 +35,9 @@ public class DoubleMinMaxValidator implements ConfigurationValidator {
 					throw new ValidationException("Value is too small! It needs to be greater than or equal to " + min);
 				}
 			}catch (NumberFormatException e){
-				logger.error(e.toString());
+				LogUtils.logError(Activator.getContext(), this.getClass(), "validate",
+						new Object[] { e.toString() }, null);
+
 			}
 		}
 	}
@@ -47,7 +49,9 @@ public class DoubleMinMaxValidator implements ConfigurationValidator {
 				min = Double.parseDouble(attributes[0]);
 				max = Double.parseDouble(attributes[1]);
 			} catch (NumberFormatException e) {
-				logger.error(e.toString());
+				LogUtils.logError(Activator.getContext(), this.getClass(), "setAttributes",
+						new Object[] { e.toString() }, null);
+
 			}
 		}
 	}

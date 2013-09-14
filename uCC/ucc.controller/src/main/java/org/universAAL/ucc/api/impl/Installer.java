@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.universAAL.ucc.api.IInstaller;
-import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 import org.universAAL.middleware.managers.api.MatchingResult;
 import org.universAAL.middleware.managers.api.UAPPPackage;

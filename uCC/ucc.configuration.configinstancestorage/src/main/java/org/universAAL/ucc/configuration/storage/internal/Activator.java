@@ -2,6 +2,8 @@ package org.universAAL.ucc.configuration.storage.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 
 import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.configuration.storage.ConfigurationInstancesStorageImpl;
@@ -18,10 +20,11 @@ import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstance
 public class Activator implements BundleActivator {
 
     private static BundleContext context;
+    private static ModuleContext moduleContext;
     private static ModuleConfigHome moduleConfigHome;
 
-    static BundleContext getContext() {
-	return context;
+    public static ModuleContext getContext() {
+    	return moduleContext;
     }
 
     /*
@@ -32,6 +35,10 @@ public class Activator implements BundleActivator {
      * )
      */
     public void start(BundleContext bundleContext) throws Exception {
+
+    Activator.moduleContext = uAALBundleContainer.THE_CONTAINER
+        .registerModule(new Object[] { context });
+    
 	Activator.context = bundleContext;
 	moduleConfigHome = new ModuleConfigHome("uCC", "tmpConfigFiles");
 	context.registerService(ConfigurationInstancesStorage.class.getName(),

@@ -5,20 +5,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.ConfigOptionRegistry;
+import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
 import org.universAAL.ucc.configuration.model.interfaces.ConfigurationValidator;
 
 public class URLValidator implements ConfigurationValidator {
 	
-	Logger logger;
 	
 	public URLValidator() {
-		logger = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	
@@ -29,14 +26,20 @@ public class URLValidator implements ConfigurationValidator {
 		}
 		try {
 			int responseCode = getResponseCode(value.getValue());
-			logger.debug("response code: " + responseCode);
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "isValid",
+					new Object[] { "response code: " + responseCode }, null);
+
 			if(responseCode == 200){
 				return true;
 			}
 		} catch (MalformedURLException e) {
-			logger.error(e.toString());
+			LogUtils.logError(Activator.getContext(), this.getClass(), "isValid",
+					new Object[] { e.toString() }, null);
+
 		} catch (IOException e) {
-			logger.error(e.toString());
+			LogUtils.logError(Activator.getContext(), this.getClass(), "isValid",
+					new Object[] { e.toString() }, null);
+
 		}
 		return false;
 	}

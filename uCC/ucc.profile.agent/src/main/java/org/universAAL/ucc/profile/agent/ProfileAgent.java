@@ -2,9 +2,6 @@ package org.universAAL.ucc.profile.agent;
 
 import java.util.List;
 
-import javax.jws.WebParam;
-
-import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.ontology.phThing.Device;
 import org.universAAL.ontology.profile.AALService;
 import org.universAAL.ontology.profile.AALServiceProfile;
@@ -13,7 +10,6 @@ import org.universAAL.ontology.profile.AALSpaceProfile;
 import org.universAAL.ontology.profile.SubProfile;
 import org.universAAL.ontology.profile.User;
 import org.universAAL.ontology.profile.UserProfile;
-import org.universAAL.support.utils.service.low.Request;
 
 /**
  * Interface for the actual profile storage and retrieval.

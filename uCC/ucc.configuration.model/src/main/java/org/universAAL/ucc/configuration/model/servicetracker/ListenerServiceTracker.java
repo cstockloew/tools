@@ -3,16 +3,15 @@ package org.universAAL.ucc.configuration.model.servicetracker;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.ConfigurationOption;
+import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.interfaces.OnConfigurationChangedListener;
 import org.universAAL.ucc.configuration.model.interfaces.OnConfigurationChangedListenerFactory;
 
 public class ListenerServiceTracker extends ServiceTracker {
 	
-	Logger logger;
 	BundleContext context;
 	ConfigurationOption option;
 	OnConfigurationChangedListener listener;
@@ -21,27 +20,35 @@ public class ListenerServiceTracker extends ServiceTracker {
 		super(context, name, null);
 		this.option = option;
 		this.context = context;
-		logger = LoggerFactory.getLogger(getClass());
-		logger.debug("new ServiceTracker for name:" + name);
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "ListenerServiceTracker",
+				new Object[] { "new ServiceTracker for name:" + name }, null);
+
 	}
 	
 	@Override
 	public Object addingService(ServiceReference reference) {
-		logger.debug("Service added: " + reference.getClass().toString());
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "addingService",
+				new Object[] { "Service added: " + reference.getClass().toString() }, null);
+
 		try{
 			Object o = context.getService(reference);
 			if(o instanceof OnConfigurationChangedListener){
 				listener = (OnConfigurationChangedListener)o;
-				logger.debug("loaded: " + listener.getClass());
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "addingService",
+						new Object[] { "loaded: " + listener.getClass() }, null);
+
 				option.addListener(listener);
 			}else if(o instanceof OnConfigurationChangedListenerFactory){
 				OnConfigurationChangedListenerFactory factory = (OnConfigurationChangedListenerFactory)o;
 				listener = factory.create();
-				logger.debug("loaded: " + listener.getClass());
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "addingService",
+						new Object[] { "loaded: " + listener.getClass() }, null);
+
 				option.addExternalListener(listener);
 			}
 		}catch(ClassCastException e){
-			logger.debug("Listener cannot casted to OnConfigurationModelChangedListener!");
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "addingService",
+					new Object[] { "Listener cannot casted to OnConfigurationModelChangedListener!" }, null);
 		}
 		return super.addingService(reference);
 	}

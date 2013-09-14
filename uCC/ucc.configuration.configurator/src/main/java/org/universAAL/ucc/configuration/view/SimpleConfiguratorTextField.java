@@ -1,8 +1,5 @@
 package org.universAAL.ucc.configuration.view;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.TextField;
 
@@ -28,7 +25,6 @@ import org.universAAL.ucc.configuration.model.validators.IntegerValidator;
 @SuppressWarnings("serial")
 public class SimpleConfiguratorTextField extends TextField implements OnConfigurationChangedListener {
 	
-	Logger logger;
 	
 	public VaadinConfigurationController controller;
 	
@@ -37,8 +33,6 @@ public class SimpleConfiguratorTextField extends TextField implements OnConfigur
 	
 	public SimpleConfiguratorTextField(SimpleConfigurationOption option, VaadinConfigurationController controller){
 		super(option.getLabel());
-		
-		logger = LoggerFactory.getLogger(SimpleConfiguratorTextField.class);
 		
 		this.controller = controller;
 		

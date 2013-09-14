@@ -3,6 +3,8 @@ package org.universAAL.ucc.configuration.configdefinitionregistry.internal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import org.universAAL.middleware.container.ModuleContext;
+import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.ucc.configuration.configdefinitionregistry.ConfigurationDefinitionRegistryImpl;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
 
@@ -19,34 +21,39 @@ import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.Conf
 
 public class Activator implements BundleActivator {
 
-    private static BundleContext context;
+	private static BundleContext context;
+	private static ModuleContext moduleContext;
 
-    static BundleContext getContext() {
-	return context;
-    }
+	public static ModuleContext getContext() {
+		return moduleContext;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
-     * )
-     */
-    public void start(BundleContext bundleContext) throws Exception {
-	Activator.context = bundleContext;
-	context.registerService(
-		ConfigurationDefinitionRegistry.class.getName(),
-		new ConfigurationDefinitionRegistryImpl(), null);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
+	 * )
+	 */
+	public void start(BundleContext bundleContext) throws Exception {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-     */
-    public void stop(BundleContext bundleContext) throws Exception {
-	Activator.context = null;
-    }
+		Activator.moduleContext = uAALBundleContainer.THE_CONTAINER
+				.registerModule(new Object[] { context });
+		
+		Activator.context = bundleContext;
+		context.registerService(
+				ConfigurationDefinitionRegistry.class.getName(),
+				new ConfigurationDefinitionRegistryImpl(), null);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 */
+	public void stop(BundleContext bundleContext) throws Exception {
+		Activator.context = null;
+	}
 
 }

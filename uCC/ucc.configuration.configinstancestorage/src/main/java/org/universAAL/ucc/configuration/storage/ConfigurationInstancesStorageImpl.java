@@ -9,10 +9,11 @@ import java.util.List;
 import javax.xml.bind.JAXB;
 
 import org.osgi.framework.Bundle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.configurationinstances.ConfigurationInstance;
 import org.universAAL.ucc.configuration.storage.exceptions.NoConfigurationFoundException;
 import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
@@ -30,10 +31,7 @@ import org.universAAL.ucc.configuration.storage.internal.Activator;
  *
  */
 
-public class ConfigurationInstancesStorageImpl implements ConfigurationInstancesStorage {
-	
-	Logger logger;
-	
+public class ConfigurationInstancesStorageImpl implements ConfigurationInstancesStorage {	
 	String basedir;
 
 	HashMap<String, ConfigurationInstance> instances;
@@ -44,8 +42,6 @@ public class ConfigurationInstancesStorageImpl implements ConfigurationInstances
 	 * load all instances.
 	 */
 	public ConfigurationInstancesStorageImpl() {
-		logger = LoggerFactory.getLogger(this.getClass());
-		
 		basedir = Activator.getModuleConfigHome().getAbsolutePath() +"/";
 		checkFolderOrCreate(basedir);
 		instances = new HashMap<String, ConfigurationInstance>();
@@ -81,8 +77,8 @@ public class ConfigurationInstancesStorageImpl implements ConfigurationInstances
 			checkFolderOrCreate(basedir+instance.getUsecaseid()+"/");
 			File file = new File(basedir+instance.getUsecaseid()+"/"+instance.getId()+instance.getVersion()+".xml");
 			JAXB.marshal(instance, file);
-			logger.info("Configuration saved in file: "+file.getPath());
-			updateListeners();
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "addConfigurationInstance",
+					new Object[] { "Configuration saved in file: "+file.getPath() }, null);
 		}
 	}
 	
@@ -98,7 +94,10 @@ public class ConfigurationInstancesStorageImpl implements ConfigurationInstances
 	public synchronized boolean removeConfigurationInstance(ConfigurationInstance instance) {
 		instances.remove(getKey(instance));
 		File file = new File(basedir+instance.getUsecaseid()+"/"+instance.getId()+instance.getVersion()+".xml");
-		logger.debug("delete file: " + file.getPath());
+		
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "removeconfigurationInstance",
+				new Object[] { "delete file: " + file.getPath() }, null);
+
 		updateListeners();
 		return file.delete();
 	}
@@ -152,21 +151,28 @@ public class ConfigurationInstancesStorageImpl implements ConfigurationInstances
 	
 	public synchronized ConfigurationInstance getConfigurationForBundle(Bundle bundle)
 			throws NoConfigurationFoundException {
-		logger.debug("search configuration instance for bundle: " + bundle.getSymbolicName());
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "getConfigurationForBundle",
+				new Object[] { "search configuration instance for bundle: " + bundle.getSymbolicName() }, null);
+
 		ConfigurationInstance retInstance = null;
 		if(bundle != null && !"".equals(bundle.getSymbolicName())){
 			for(ConfigurationInstance instance : instances.values()){
 				if(bundle.getSymbolicName().equals(instance.getUsecaseid())){
 					retInstance = instance;
 					if(retInstance.isIsPrimary() != null && retInstance.isIsPrimary()){
-						logger.debug("return first primary configuration instance with id: " + instance.getId());
+						
+						LogUtils.logInfo(Activator.getContext(), this.getClass(), "getConfigurationForBundle",
+								new Object[] { "return first primary configuration instance with id: " + instance.getId() }, null);
+
 						return instance;
 					}
 				}
 			}
 		}
 		if(retInstance != null){
-			logger.debug("return configuration instance with id: " + retInstance.getId());
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "getConfigurationForBundle",
+					new Object[] { "return configuration instance with id: " + retInstance.getId() }, null);
+
 			return retInstance;
 		}
 		throw new NoConfigurationFoundException();

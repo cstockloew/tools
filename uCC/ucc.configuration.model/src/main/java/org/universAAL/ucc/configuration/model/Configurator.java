@@ -1,7 +1,5 @@
 package org.universAAL.ucc.configuration.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
 import org.universAAL.ucc.configuration.model.configurationinstances.ConfigurationInstance;
@@ -16,7 +14,6 @@ import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFacto
  */
 
 public class Configurator {
-	private Logger logger;
 	private Configuration configDefinition;
 	private ConfigurationInstance configInstance;
 	
@@ -29,7 +26,6 @@ public class Configurator {
 	}
 
 	public Configurator(Configuration config) {
-		logger = LoggerFactory.getLogger(Configurator.class);
 		configDefinition = config;
 		configInstance = new ObjectFactory().createConfigurationInstance();
 	}

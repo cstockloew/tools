@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.interfaces.ModelRegistryChangedListener;
 
 /**
@@ -23,12 +23,10 @@ import org.universAAL.ucc.configuration.model.interfaces.ModelRegistryChangedLis
 
 public class ConfigOptionRegistry {
 	
-	Logger logger;
 	HashMap<String, ConfigurationOption> mRegistry;
 	LinkedList<ModelRegistryChangedListener> listeners;
 	
 	public ConfigOptionRegistry() {
-		logger = LoggerFactory.getLogger(this.getClass());
 		
 		mRegistry = new HashMap<String, ConfigurationOption>();
 		listeners = new LinkedList<ModelRegistryChangedListener>();
@@ -38,7 +36,10 @@ public class ConfigOptionRegistry {
 		if(configOption != null){
 			if(!mRegistry.containsKey(configOption.getId())){
 				mRegistry.put(configOption.getId(),configOption);
-				logger.debug("model registered: " + configOption.getId());
+				
+				LogUtils.logInfo(Activator.getContext(), this.getClass(), "register",
+						new Object[] { "model registered: " + configOption.getId() }, null);
+
 				updateListeners();
 			}
 		}
@@ -53,7 +54,9 @@ public class ConfigOptionRegistry {
 
 	public void removeConfigOption(String id) {
 		mRegistry.remove(id);
-		logger.debug("model removed: " + id);
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "removeConfigOption",
+				new Object[] { "model removed: " + id }, null);
+
 		updateListeners();
 	}
 
@@ -65,7 +68,9 @@ public class ConfigOptionRegistry {
 
 	public void removeAll() {
 		mRegistry.clear();
-		logger.debug("registry cleared");
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "removeAll",
+				new Object[] { "registry cleared" }, null);
+
 		updateListeners();
 	}
 	

@@ -9,9 +9,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.configurationinstances.ConfigOption;
 import org.universAAL.ucc.configuration.model.configurationinstances.ConfigurationInstance;
 import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFactory;
@@ -19,6 +17,7 @@ import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.storage.exceptions.NoConfigurationFoundException;
 import org.universAAL.ucc.configuration.storage.interfaces.ConfigurationInstancesStorage;
 import org.universAAL.ucc.configuration.storage.interfaces.StorageChangedListener;
+import org.universAAL.ucc.configuration.storage.internal.Activator;
 import org.universAAL.ucc.configuration.storage.servicetracker.StorageServiceTracker;
 
 /**
@@ -31,7 +30,7 @@ import org.universAAL.ucc.configuration.storage.servicetracker.StorageServiceTra
  */
 public class ConfigPreferences implements StorageChangedListener{
 	
-	private static Logger logger = LoggerFactory.getLogger(ConfigPreferences.class);
+//	private static Logger logger = LoggerFactory.getLogger(ConfigPreferences.class);
 	
 	private ConfigurationInstance config;
 //	private String basedir = "C:\\tmpConfigFiles/";
@@ -66,7 +65,8 @@ public class ConfigPreferences implements StorageChangedListener{
 		try {
 			config = storage.getConfigurationForBundle(bundle);
 		} catch (NoConfigurationFoundException e) {
-			logger.debug("no configuration fount, create an empty one.");
+			LogUtils.logInfo(Activator.getContext(), this.getClass(), "loadConfig",
+					new Object[] { "no configuration fount, create an empty one." }, null);
 			config = new ObjectFactory().createConfigurationInstance();
 		}
 	}
@@ -82,12 +82,16 @@ public class ConfigPreferences implements StorageChangedListener{
 		for(ConfigOption option : config.getConfigOption()){
 			if(option.getId().equals(id)){
 				if(option.getValue().size() > 0){
-					logger.debug("return value: " + option.getValue().get(0).getValue() + " for id: " + id);
+					
+					LogUtils.logInfo(Activator.getContext(), this.getClass(), "getValue",
+							new Object[] { "return value: " + option.getValue().get(0).getValue() + " for id: " + id }, null);
 					return option.getValue().get(0);
 				}
 			}
 		}
-		logger.debug("return default value: " + defaultValue.getValue() + " for id: " + id);
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "getValue",
+				new Object[] { "return default value: " + defaultValue.getValue() + " for id: " + id }, null);
+		
 		return defaultValue;		
 	}
 
@@ -97,7 +101,10 @@ public class ConfigPreferences implements StorageChangedListener{
 				return option.getValue();
 			}
 		}
-		logger.debug("return default value for id: " + id);
+		
+		LogUtils.logInfo(Activator.getContext(), this.getClass(), "getValue",
+				new Object[] { "return default value for id: " + id }, null);
+
 		return new LinkedList<Value>();		
 	}
 	
@@ -115,7 +122,8 @@ public class ConfigPreferences implements StorageChangedListener{
 		try{
 			return Integer.parseInt(result.getValue());
 		} catch(NumberFormatException e){
-			logger.debug("return default value for id: " + id);
+			LogUtils.logError(Activator.getContext(), this.getClass(), "getInt",
+					new Object[] { "return default value for id: " + id }, null);
 			return defaultValue;
 		}
 	}
@@ -127,7 +135,10 @@ public class ConfigPreferences implements StorageChangedListener{
 		try{
 			return Double.parseDouble(result.getValue());
 		} catch(NumberFormatException e){
-			logger.debug("return default value for id: " + id);
+			
+			LogUtils.logError(Activator.getContext(), this.getClass(), "getInt",
+					new Object[] {"return default value for id: " + id }, null);
+			
 			return defaultValue;
 		}
 	}
