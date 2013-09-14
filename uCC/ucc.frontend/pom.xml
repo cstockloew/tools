@@ -21,13 +21,13 @@
 	<properties>
 		<cxf.version>2.3.1</cxf.version>
 	</properties>
-	
+
 	<dependencies>
-<!--  		<dependency> -->
-<!-- 			<groupId>org.apache.geronimo.specs</groupId> -->
-<!-- 			<artifactId>geronimo-ws-metadata_2.0_spec</artifactId> -->
-<!-- 		</dependency> -->
- 		<dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.geronimo.specs</groupId> -->
+		<!-- <artifactId>geronimo-ws-metadata_2.0_spec</artifactId> -->
+		<!-- </dependency> -->
+		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.framework</artifactId>
 		</dependency>
@@ -58,16 +58,16 @@
 			<artifactId>ucc.configuration.configurator</artifactId>
 		</dependency>
 		<!-- Jetty is needed if you're are not using the CXFServlet -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.cxf</groupId> -->
-		<!-- <artifactId>cxf-rt-frontend-jaxws</artifactId> -->
-		<!-- <version>${cxf.version}</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.cxf</groupId> -->
-		<!-- <artifactId>cxf-rt-transports-http</artifactId> -->
-		<!-- <version>${cxf.version}</version> -->
-		<!-- </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.cxf</groupId> -->
+<!-- 			<artifactId>cxf-rt-frontend-jaxws</artifactId> -->
+<!-- 			<version>${cxf.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.cxf</groupId> -->
+<!-- 			<artifactId>cxf-rt-transports-http</artifactId> -->
+<!-- 			<version>${cxf.version}</version> -->
+<!-- 		</dependency> -->
 		<!-- Jetty is needed if you're are not using the CXFServlet -->
 		<!-- <dependency> -->
 		<!-- <groupId>org.apache.cxf</groupId> -->
@@ -105,15 +105,16 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-Activator>org.universAAL.ucc.service.manager.Activator</Bundle-Activator>
 						<Bundle-Vendor>FZI Karlsruhe</Bundle-Vendor>
+						<Private-Package>javax.xml.bind.annotation</Private-Package>
 						<Import-Package>
-							javax.xml.bind, javax.xml.bind.annotation,
-							org.xml.sax.helpers,com.vaadin, 
-<!-- 							com.vaadin.data, -->
-<!-- 							com.vaadin.data.util,  -->
-<!-- 							com.vaadin.data.validator, -->
-<!-- 							com.vaadin.terminal, com.vaadin.ui, -->
+							javax.xml.bind,
+							org.xml.sax.helpers,com.vaadin,
+							<!-- com.vaadin.data, -->
+							<!-- com.vaadin.data.util, -->
+							<!-- com.vaadin.data.validator, -->
+							<!-- com.vaadin.terminal, com.vaadin.ui, -->
 							com.vaadin.*,
-							javax.activation, 
+							javax.activation,
 							javax.xml.datatype,
 							javax.xml.namespace, javax.xml.parsers,
 							javax.xml.stream,
@@ -128,7 +129,7 @@
 							org.universAAL.middleware.interfaces,
 							org.universAAL.middleware.managers.api,
 							org.universAAL.middleware.owl, org.universAAL.middleware.rdf,
-							org.universAAL.middleware.service, 
+							org.universAAL.middleware.service,
 							org.universAAL.ucc.configuration.configdefinitionregistry.interfaces,
 							org.universAAL.ucc.configuration.model.configurationdefinition,
 							org.universAAL.ucc.configuration.view,
@@ -140,7 +141,8 @@
 							org.universAAL.ucc.startup.api.impl, org.universAAL.ucc.api,
 							org.universAAL.ucc.startup.model, org.w3c.dom, org.xml.sax,
 							org.xml.sax.ext,javax.jws,
-							org.osgi.framework;version="[1,2)"</Import-Package>
+							org.osgi.framework;version="[1,2)"
+						</Import-Package>
 						<Export-Package>org.universAAL.ucc.client.util,
 							org.universAAL.ucc.controller.desktop,
 							org.universAAL.ucc.controller.install,
