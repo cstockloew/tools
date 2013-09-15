@@ -7,16 +7,19 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;
+
 import javax.xml.namespace.QName;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
+import org.universAAL.commerce.ustore.tools.OnlineStoreManagerService;
+import org.universAAL.commerce.ustore.tools.UAALException;
+import org.universAAL.commerce.ustore.tools.UAALException_Exception;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
-import org.universAAL.commerce.ustore.tools.OnlineStoreManager;
-import org.universAAL.commerce.ustore.tools.OnlineStoreManagerService;
-import org.universAAL.commerce.ustore.tools.UAALException_Exception;
 
 /**
  * Client for the Webservice communication with uStore

@@ -25,7 +25,6 @@ import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.webconnection.WebConnector;
-import org.universAAL.ucc.windows.AccountWindow;
 import org.universAAL.ucc.windows.PreferencesWindow;
 import org.universAAL.ucc.windows.SearchWindow;
 import org.universAAL.ucc.windows.ToolWindow;

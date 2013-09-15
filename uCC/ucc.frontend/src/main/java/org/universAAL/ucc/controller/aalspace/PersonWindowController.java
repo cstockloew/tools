@@ -11,12 +11,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -27,28 +24,6 @@ import javax.xml.bind.JAXBException;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-
-
-
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.Window.Notification;
-
 import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.model.jaxb.BooleanValue;
@@ -68,8 +43,26 @@ import org.universAAL.ucc.startup.model.Role;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
 import org.universAAL.ucc.windows.HumansWindow;
-import org.universAAL.ucc.windows.UccUI;
 import org.universAAL.ucc.windows.TabForm;
+import org.universAAL.ucc.windows.UccUI;
+
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.NativeSelect;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.Tree;
+import com.vaadin.ui.Window.Notification;
 
 public class PersonWindowController  implements Property.ValueChangeListener, Button.ClickListener {
 	private HumansWindow win;

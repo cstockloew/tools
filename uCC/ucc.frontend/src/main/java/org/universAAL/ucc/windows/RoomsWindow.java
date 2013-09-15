@@ -6,13 +6,14 @@ import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBException;
 
+import org.universAAL.ucc.controller.aalspace.RoomsWindowController;
+
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
-import org.universAAL.ucc.controller.aalspace.RoomsWindowController;
 
 public class RoomsWindow extends Window {
 	private Tree userTree;

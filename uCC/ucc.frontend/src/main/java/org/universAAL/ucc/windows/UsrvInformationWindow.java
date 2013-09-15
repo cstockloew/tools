@@ -1,6 +1,7 @@
 package org.universAAL.ucc.windows;
 
 import java.util.ResourceBundle;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;

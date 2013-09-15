@@ -12,12 +12,12 @@ import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.startup.api.Setup;
 import org.universAAL.ucc.startup.model.Role;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
+import org.universAAL.ucc.windows.AccountWindow;
 import org.universAAL.ucc.windows.UccUI;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.Notification;
-import org.universAAL.ucc.windows.AccountWindow;
 
 /**
  * Controller for AccountWindow. 

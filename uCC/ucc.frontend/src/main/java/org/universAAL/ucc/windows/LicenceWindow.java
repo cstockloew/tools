@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import org.universAAL.ucc.controller.install.LicenseController;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.install.License;
+
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;

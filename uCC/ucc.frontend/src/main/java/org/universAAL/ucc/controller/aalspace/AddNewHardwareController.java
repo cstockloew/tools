@@ -1,42 +1,20 @@
 package org.universAAL.ucc.controller.aalspace;
 
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-
-import org.universAAL.middleware.container.utils.ModuleConfigHome;
-import org.universAAL.ucc.windows.AddNewHardwareWindow;
-import org.universAAL.ucc.windows.HardwareWindow;
-import org.universAAL.ucc.windows.UccUI;
-import org.universAAL.ucc.windows.RoomsWindow;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.xml.bind.JAXBException;
 
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Window;
-import com.vaadin.ui.Window.CloseEvent;
-import com.vaadin.ui.Window.Notification;
-
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
+import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.model.jaxb.BooleanValue;
 import org.universAAL.ucc.model.jaxb.CalendarValue;
@@ -48,7 +26,26 @@ import org.universAAL.ucc.model.jaxb.OntologyInstance;
 import org.universAAL.ucc.model.jaxb.SimpleObject;
 import org.universAAL.ucc.model.jaxb.StringValue;
 import org.universAAL.ucc.model.jaxb.Subprofile;
+import org.universAAL.ucc.windows.AddNewHardwareWindow;
+import org.universAAL.ucc.windows.HardwareWindow;
+import org.universAAL.ucc.windows.RoomsWindow;
 import org.universAAL.ucc.windows.TabForm;
+import org.universAAL.ucc.windows.UccUI;
+
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.NativeSelect;
+import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.Window;
+import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.Window.Notification;
 
 /**
  * Controller for adding a new Person to AAL space.

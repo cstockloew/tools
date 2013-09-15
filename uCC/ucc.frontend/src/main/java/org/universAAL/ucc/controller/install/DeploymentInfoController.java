@@ -12,24 +12,17 @@ import java.util.ResourceBundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.universAAL.middleware.deploymanager.uapp.model.Part;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.PeerRole;
-import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.middleware.deploymanager.uapp.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 import org.universAAL.middleware.managers.api.MatchingResult;
 import org.universAAL.middleware.managers.api.UAPPPackage;
-import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.service.CallStatus;
-import org.universAAL.middleware.service.ServiceRequest;
-import org.universAAL.middleware.service.ServiceResponse;
-import org.universAAL.middleware.util.Constants;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.configuration.configdefinitionregistry.interfaces.ConfigurationDefinitionRegistry;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Configuration;
 import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
-import org.universAAL.ucc.controller.desktop.DesktopController;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.AALService;
@@ -50,16 +43,13 @@ import org.universAAL.ucc.windows.NoConfigurationWindow;
 import org.universAAL.ucc.windows.SelectUserWindow;
 import org.universAAL.ucc.windows.SuccessWindow;
 import org.universAAL.ucc.windows.UccUI;
+
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window.Notification;
-
-import org.universAAL.ontology.profile.User;
-import org.universAAL.ontology.profile.service.ProfilingService;
-//import org.universAAL.ontology.profile.ui.mainmenu.MenuEntry;
 
 public class DeploymentInfoController implements Button.ClickListener,
 		ValueChangeListener {

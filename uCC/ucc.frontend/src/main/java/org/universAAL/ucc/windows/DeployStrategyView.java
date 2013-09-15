@@ -2,6 +2,7 @@ package org.universAAL.ucc.windows;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
+
 import com.vaadin.ui.Form;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;

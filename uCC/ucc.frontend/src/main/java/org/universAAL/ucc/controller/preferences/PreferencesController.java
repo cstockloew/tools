@@ -9,6 +9,7 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
 import org.universAAL.ucc.model.preferences.Preferences;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.PreferencesWindow;

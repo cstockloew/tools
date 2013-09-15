@@ -6,12 +6,12 @@ import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBException;
 
+import org.universAAL.ucc.controller.aalspace.AddNewHardwareController;
+
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
-import org.universAAL.ucc.controller.aalspace.AddNewHardwareController;
 
 public class AddNewHardwareWindow extends Window {
 	private UccUI app;

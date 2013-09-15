@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.ucc.controller.ustore.services.Parser;
 import org.universAAL.ucc.controller.ustore.services.PopupService;
-import org.universAAL.ucc.controller.ustore.services.PurchasedServicesController;
 import org.universAAL.ucc.controller.ustore.services.Service;
 
 import com.vaadin.terminal.ThemeResource;

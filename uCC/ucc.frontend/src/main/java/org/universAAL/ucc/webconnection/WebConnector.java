@@ -2,7 +2,6 @@ package org.universAAL.ucc.webconnection;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -12,7 +11,6 @@ import java.net.Socket;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 
-import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 

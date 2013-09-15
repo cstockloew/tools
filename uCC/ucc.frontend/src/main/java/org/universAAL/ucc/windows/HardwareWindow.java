@@ -6,17 +6,14 @@ import java.util.ResourceBundle;
 
 import javax.xml.bind.JAXBException;
 
+import org.universAAL.ucc.controller.aalspace.HardwareWindowController;
+
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
-
-import org.universAAL.ucc.controller.aalspace.HardwareWindowController;
-import org.universAAL.ucc.controller.aalspace.PersonWindowController;
-import org.universAAL.ucc.subscriber.SensorActivityTimeChangedListener;
-import org.universAAL.ucc.subscriber.SensorEventSubscriber;
 
 public class HardwareWindow extends Window implements Window.CloseListener{
 	private Tree userTree;

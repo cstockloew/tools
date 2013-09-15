@@ -13,8 +13,6 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import org.universAAL.ucc.controller.ustore.services.Service;
-
 public class Parser {
 	
 	static final String SERVICE ="service";

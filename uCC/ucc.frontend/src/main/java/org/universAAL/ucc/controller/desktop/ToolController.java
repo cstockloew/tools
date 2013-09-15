@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import javax.swing.JFileChooser;
 import javax.xml.bind.JAXBException;
 
 import org.osgi.framework.BundleContext;
@@ -29,9 +28,9 @@ import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.AddNewHardwareWindow;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
+import org.universAAL.ucc.windows.BrowseServicesWindow;
 import org.universAAL.ucc.windows.DeinstallWindow;
 import org.universAAL.ucc.windows.HumansWindow;
-import org.universAAL.ucc.windows.BrowseServicesWindow;
 import org.universAAL.ucc.windows.RoomsWindow;
 import org.universAAL.ucc.windows.ToolWindow;
 import org.universAAL.ucc.windows.UccUI;
@@ -42,13 +41,13 @@ import org.w3c.dom.NodeList;
 
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Upload;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.FinishedEvent;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.Notification;
 
 /**
