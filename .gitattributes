@@ -285,6 +285,9 @@ org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling
 org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModelEditor.java -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModelModelWizard.java -text svneol=unset#text/plain
 org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModel_EMFEditorEditorPlugin.java -text svneol=unset#text/plain
+org.universaal.tools.owl2uml.feature/.project -text
+org.universaal.tools.owl2uml.feature/build.properties -text
+org.universaal.tools.owl2uml.feature/feature.xml -text
 org.universaal.tools.packaging.tool.feature/.project -text
 org.universaal.tools.packaging.tool.feature/build.properties -text
 org.universaal.tools.packaging.tool.feature/feature.xml -text
