@@ -1207,6 +1207,14 @@ pax-runner-eclipse-ui-feature/.settings/org.eclipse.m2e.core.prefs -text
 pax-runner-eclipse-ui-feature/build.properties -text
 pax-runner-eclipse-ui-feature/feature.xml -text
 pax-runner-eclipse-ui-feature/pom.xml -text
+pax-runner-uaal-ui-feature/.classpath -text
+pax-runner-uaal-ui-feature/.project -text
+pax-runner-uaal-ui-feature/.settings/org.eclipse.core.resources.prefs -text
+pax-runner-uaal-ui-feature/.settings/org.eclipse.jdt.core.prefs -text
+pax-runner-uaal-ui-feature/.settings/org.eclipse.m2e.core.prefs -text
+pax-runner-uaal-ui-feature/build.properties -text
+pax-runner-uaal-ui-feature/feature.xml -text
+pax-runner-uaal-ui-feature/pom.xml -text
 pax-runner-uaal-ui/.classpath -text
 pax-runner-uaal-ui/.project -text
 pax-runner-uaal-ui/.settings/org.eclipse.core.resources.prefs -text
