@@ -8,3 +8,4 @@ org.universaal.tools.wizardplugin/bin
 pax-runner-eclipse-core-feature/target
 pax-runner-eclipse-core/target
 pax-runner-eclipse-ui-feature/target
+pax-runner-eclipse-ui/target
