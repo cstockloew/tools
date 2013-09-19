@@ -3,6 +3,12 @@ org.universAAL.tools.logmonitor/.project
 org.universAAL.tools.logmonitor/.settings
 org.universAAL.tools.logmonitor/target
 org.universaal.tools.conformanceTools/target
+org.universaal.tools.developerdepot/www/Documents
+org.universaal.tools.developerdepot/www/Resources
+org.universaal.tools.developerdepot/www/css
+org.universaal.tools.developerdepot/www/images
+org.universaal.tools.developerdepot/www/index
+org.universaal.tools.developerdepot/www/index_files
 org.universaal.tools.packaging.tool/bin
 org.universaal.tools.wizardplugin/bin
 pax-runner-eclipse-core-feature/target
