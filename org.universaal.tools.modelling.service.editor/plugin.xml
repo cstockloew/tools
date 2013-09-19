@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.universaal.tools.AALStudio.wizards"
+            name="AAL Studio"/>
+      <wizard
+            id="org.universaal.tools.modelling.servicemodel.presentation.ServiceModelModelWizardID"
+            name="%_UI_ServiceModelModelWizard_label"
+            class="org.universaal.tools.modelling.servicemodel.presentation.ServiceModelModelWizard"
+            category="org.universaal.tools.AALStudio.wizards"
+            icon="icons/full/obj16/ServiceModelModelFile.gif">
+         <description>%_UI_ServiceModelModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.universaal.tools.modelling.servicemodel.presentation.ServiceModelEditorID"
+            name="%_UI_ServiceModelEditor_label"
+            icon="icons/full/obj16/ServiceModelModelFile.gif"
+            extensions="servicemodel"
+            class="org.universaal.tools.modelling.servicemodel.presentation.ServiceModelEditor"
+            contributorClass="org.universaal.tools.modelling.servicemodel.presentation.ServiceModelActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
