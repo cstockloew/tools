@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="org.universaal.tools.uStoreClientApplication.actionSet">   
+            <action
+               label="&amp;Update/Delete universAAL application in uStore"
+               icon="icons/publish-to-store-16.png"
+               class="org.universaal.tools.uStoreClientapplication.actions.ViewApplicationsAction"
+               tooltip="Update/Delete universAAL application in uStore"
+               menubarPath="org.universaal.tools.AALStudio.menu/publish"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.uStoreClientapplication.actions.ViewApplicationsAction">			
+         </action>  
+         <action
+               label="&amp;Publish universAAL application"
+               icon="icons/publish-to-store-16.png"
+               class="org.universaal.tools.uStoreClientapplication.actions.PublishAction"
+               tooltip="Publish application to uStore"
+               menubarPath="org.universaal.tools.AALStudio.menu/publish"
+               toolbarPath="uAALGroup"
+               id="org.universaal.tools.uStoreClientapplication.actions.PublishAction">			
+         </action>  
+           
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="universAAL"
+            id="org.universaal.tools.uStoreClientapplication.commands">
+      </category>
+      
+      <command
+            name="Publish application"
+            categoryId="org.universaal.tools.uStoreClientapplication.commands"
+            id="org.universaal.tools.uStoreClienteapplication.actions.PublishAction">
+            <commandParameter 
+         		id="org.universaal.tools.uStoreClienteapplication.filePathParameter" 
+         		name="File Path"> 
+   </commandParameter> 
+      </command>            
+   </extension> 
+   <extension
+         point="org.eclipse.ui.handlers">
+     
+      <handler
+            commandId="org.universaal.tools.uStoreClienteapplication.actions.PublishAction"
+            class="org.universaal.tools.uStoreClientapplication.handlers.PublishApplicationHandler">
+      </handler>
+   </extension> 
+   <extension point="org.eclipse.ui.startup">
+     <startup class="org.universaal.tools.uStoreClientapplication.StartupClass"/>
+   </extension>
+      <extension point="org.eclipse.help.contexts">
+      <contexts file="helpdoc.xml"  />
+   </extension>
+</plugin>
+    
