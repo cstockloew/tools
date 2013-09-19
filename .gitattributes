@@ -299,6 +299,9 @@ org.universaal.tools.packaging.tool/src/org/universaal/tools/packaging/tool/vali
 org.universaal.tools.packaging.tool/src/org/universaal/tools/packaging/tool/validators/UriV.java -text
 org.universaal.tools.packaging.tool/src/org/universaal/tools/packaging/tool/zip/CreateJar.java -text
 org.universaal.tools.packaging.tool/src/org/universaal/tools/packaging/tool/zip/UAPP.java -text
+org.universaal.tools.perspective.feature/.project -text svneol=unset#text/plain
+org.universaal.tools.perspective.feature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.perspective.feature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
