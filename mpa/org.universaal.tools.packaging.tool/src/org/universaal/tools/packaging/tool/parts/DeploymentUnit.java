@@ -31,33 +31,45 @@ import java.io.Serializable;
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
 public class DeploymentUnit implements Serializable {
-
+	
+	public final static String OS = "OS";
+	public final static String PLATFORM = "Platform";
+	public final static String CONTAINER = "Container";
+	
 	private String id;
-	private OS osType;
-	private Platform platformType;	
+	private String unit;
+	private String type;
 	private ContainerUnit cu;
 
-	public DeploymentUnit(String id, OS osType){		
+	public DeploymentUnit(String id, String unit, String type){		
 
 		this.id = id;
-		this.osType = osType;
-		this.platformType = null;
+		this.type = type;
+		this.unit = unit;
 		this.cu = null;
 	}
 
-	public DeploymentUnit(String id, Platform platformType){		
+	public void setDeploymentUnit(String id, String unit, String type){		
 
 		this.id = id;
-		this.osType = null;
-		this.platformType = platformType;
+		this.type = type;
+		this.unit = unit;
 		this.cu = null;
 	}
 
 	public DeploymentUnit(String id, ContainerUnit cu){		
 
 		this.id = id;
-		this.osType = null;
-		this.platformType = null;
+		this.type = CONTAINER;
+		this.unit = null;
+		this.cu = cu;
+	}
+
+	public void setDeploymentUnit(String id, ContainerUnit cu){		
+
+		this.id = id;
+		this.type = CONTAINER;
+		this.unit = null;
 		this.cu = cu;
 	}
 
@@ -65,20 +77,16 @@ public class DeploymentUnit implements Serializable {
 		return id;
 	}
 
-	public OS getOsType() {
-		return osType;
+	public String getUnit() {
+		return unit;
 	}
 
-	public Platform getPlatformType() {
-		return platformType;
+	public String getType() {
+		return type;
 	}
 
 	public ContainerUnit getCu() {
 		return cu;
-	}
-
-	public void setCu(ContainerUnit cu) {
-		this.cu = cu;
 	}
 
 	public String getXML(){
@@ -89,10 +97,10 @@ public class DeploymentUnit implements Serializable {
 		r = r.concat("<deploymentUnit id='"+id+"'>");
 		if(cu != null)
 			r = r.concat("<containerUnit>"+cu.getXML()+"</containerUnit>");
-		else if(osType != null)
-			r = r.concat("<osUnit>"+osType.toString()+"</osUnit>");
-		else if(platformType != null)
-			r = r.concat("<platformUnit>"+platformType.toString()+"</platformUnit>");
+		else if(type == OS)
+			r = r.concat("<osUnit>"+unit+"</osUnit>");
+		else if(type == PLATFORM)
+			r = r.concat("<platformUnit>"+unit+"</platformUnit>");
 
 		r = r.concat("</deploymentUnit>");
 		return r;

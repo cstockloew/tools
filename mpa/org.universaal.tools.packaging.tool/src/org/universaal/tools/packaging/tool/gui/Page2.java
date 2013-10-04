@@ -40,7 +40,7 @@ public class Page2 extends PageImpl {
 
 	public void createControl(final Composite parent) {
 		
-		XSDParser XSDtooltip = XSDParser.get(XSD);
+		XSDParser XSDtooltip = XSDParser.get(XSD_VERSION);
 		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);

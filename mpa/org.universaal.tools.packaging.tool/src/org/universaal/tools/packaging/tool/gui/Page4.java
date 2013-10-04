@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -48,18 +49,19 @@ public class Page4 extends PageImpl {
 
 	protected Page4(String pageName, int offset, LogicalRelation lrFromPreviousPage, SingleRequirement srFromPreviousPage) {
 
-		super(pageName, "Specify requirements for the Application you are creating.");
+		super(pageName, "Specify custom requirements for the Application you are creating.");
 		this.offset = offset;
 		this.moreRequirementsInNextPage = false;
 		this.lrFromPreviousPage = lrFromPreviousPage;
 		this.srFromPreviousPage = srFromPreviousPage;
 
 		this.thisReqsPage = new HashMap<Requirement, REQ_STATE>();
+
 	}
 
 	public void createControl(Composite parent) {
 
-		XSDParser XSDtooltip = XSDParser.get(XSD);
+		XSDParser XSDtooltip = XSDParser.get(XSD_VERSION);
 		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);		
@@ -315,8 +317,21 @@ public class Page4 extends PageImpl {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-		b.setLayoutData(gd);	
+		b.setLayoutData(gd);
+		
+		final Button b1 = new Button(container, SWT.PUSH);
+		b1.setText("Clear form");
+		b1.addSelectionListener(new SelectionListener() {
 
+			public void widgetSelected(SelectionEvent e) {
+				clearForm();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		b1.setLayoutData(gd);
+		
 		req1.addKeyListener(new FullListener());
 		req2.addKeyListener(new FullListener());
 		req3.addKeyListener(new FullListener());
@@ -337,16 +352,51 @@ public class Page4 extends PageImpl {
 		c34.addKeyListener(new FullListener());
 		c45.addKeyListener(new FullListener());
 		c56.addKeyListener(new FullListener());
-
-		setPageComplete(true); // requirements are optional
+		
+		setPageComplete(true);
 	}
 
+	private void clearForm(){
+		req1.setText("");
+		req2.setText("");
+		req3.setText("");
+		req4.setText("");
+		req5.setText("");
+		val1.setText("");
+		val2.setText("");
+		val3.setText("");
+		val4.setText("");
+		val5.setText("");
+		c1.setText(LogicalCriteria.equal.toString());
+		c2.setText(LogicalCriteria.equal.toString());
+		c3.setText(LogicalCriteria.equal.toString());
+		c4.setText(LogicalCriteria.equal.toString());
+		c5.setText(LogicalCriteria.equal.toString());
+		c12.setText(LogicalRelation.none.toString());
+		c23.setText(LogicalRelation.none.toString());
+		c34.setText(LogicalRelation.none.toString());
+		c45.setText(LogicalRelation.none.toString());
+		c56.setText(LogicalRelation.none.toString());
+}
+	
+	@Override
+	public void setVisible(boolean visible){
+		super.setVisible(visible);
+		//System.out.println("Page 4 - reqs size: "+app.getAppRequirements().getRequirementsList().size());
+		if(visible && app.getAppRequirements().getRequirementsList().size() == 0){
+			clearForm();
+		} 
+	}
+	
 	@Override
 	public boolean nextPressed() {
 
 		//debugPrint("b handleOldReqs");
 		handleOldReqs();
-
+		//System.out.println(req1.getText());
+		//System.out.println(val1.getText());
+		//System.out.println(c12.getText());
+		
 		if(offset == 0){
 			// first page of requirements
 			if(c12.getText().equals(LogicalRelation.none.toString())){
@@ -476,6 +526,7 @@ public class Page4 extends PageImpl {
 
 		if(!alreadyIn(rr))
 			app.getAppRequirements().getRequirementsList().add(rr);
+		
 	}
 
 	private void single(Text req1, Text val1, LogicalCriteria lc1){
@@ -497,6 +548,9 @@ public class Page4 extends PageImpl {
 
 		if(!alreadyIn(rr))
 			app.getAppRequirements().getRequirementsList().add(rr);
+		else  {
+			//System.out.println("Req already found!");
+		}
 	}
 
 	private boolean alreadyIn(Requirement r){

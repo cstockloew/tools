@@ -3,14 +3,18 @@ package org.universaal.tools.packaging.tool.gui;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -21,18 +25,18 @@ import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.MiddlewareVersion;
 import org.universaal.tools.packaging.tool.parts.Space;
+import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.IntegerV;
 
 public class PagePartPC extends PageImpl {
 
-	//private IProject artifact;
-	//private POMParser p;
 	private int partNumber;
 
-	private Combo targetSpace, mw_version, targetContainerName;
-	private TextExt targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
-
+	private Combo /*targetSpace,*/ mw_version, targetContainerName, targetContainerVersion;
+	private TextExt /*targetSpaceVersion,*/ targetOntologies/*, targetContainerVersion/*, targetDeploymentTool*/;
+	private Button ckbMoreReqs;
+	
 	protected PagePartPC(String pageName, int pn) {
 		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
 				" - Specify capabilities per part");
@@ -41,6 +45,8 @@ public class PagePartPC extends PageImpl {
 
 	public void createControl(Composite parent) {
 
+		XSDParser XSDtooltip = XSDParser.get(XSD_VERSION);
+		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);	
 
@@ -52,6 +58,8 @@ public class PagePartPC extends PageImpl {
 
 		Properties capabilities = app.getAppParts().get(partNumber).getPartCapabilities();
 
+		/*
+		
 		Label l1 = new Label(container, SWT.NULL);
 		targetSpace = new Combo (container, SWT.READ_ONLY);
 		Space[] spaceV = Space.values();
@@ -71,12 +79,14 @@ public class PagePartPC extends PageImpl {
 		targetSpaceVersion.addVerifyListener(new IntegerV());
 		targetSpaceVersion.setLayoutData(gd);	
 
+		*/
+
 		Label l3 = new Label(container, SWT.NULL);
 		mw_version = new Combo(container, SWT.READ_ONLY);
 		mandatory.add(mw_version);
 		l3.setText("* Middleware Version");
-		for(int i = 0; i < MiddlewareVersion.getMWversion().length; i++)
-			mw_version.add(MiddlewareVersion.getMWversion()[i]);
+		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("MW_Version").size(); i++)
+			mw_version.add(RequirementsDefinitions.get().listRequirements("MW_Version").get(i));
 		mw_version.setText(capabilities.getProperty(Capability.MANDATORY_MW_VERSION));			
 		mw_version.setLayoutData(gd);	
 
@@ -87,24 +97,52 @@ public class PagePartPC extends PageImpl {
 		targetOntologies.setText(capabilities.getProperty(Capability.MANDATORY_ONTOLOGIES));			
 		targetOntologies.addVerifyListener(new AlphabeticV());
 		targetOntologies.setLayoutData(gd);	
-
+		targetOntologies.addTooltip(XSDtooltip.find("app.applicationOntology"));
+		
 		Label l5 = new Label(container, SWT.NULL);
 		targetContainerName = new Combo(container, SWT.READ_ONLY);
-		mandatory.add(targetContainerName);
-		l5.setText("* Target Container Name");
-		for(int i = 0; i < Container.values().length; i++)
-			targetContainerName.add(Container.values()[i].toString());
+		//mandatory.add(targetContainerName);
+		l5.setText("Target Container Name");
+		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("Container_Name").size(); i++)
+			targetContainerName.add(RequirementsDefinitions.get().listRequirements("Container_Name").get(i));
 		targetContainerName.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_CONTAINER_NAME));			
 		targetContainerName.setLayoutData(gd);	
 
 		Label l6 = new Label(container, SWT.NULL);
-		targetContainerVersion = new TextExt(container, SWT.BORDER | SWT.SINGLE);
-		mandatory.add(targetContainerVersion);
-		l6.setText("* Target Container Version");
+		targetContainerVersion = new Combo(container, SWT.READ_ONLY);
+		//mandatory.add(targetContainerVersion);
+		l6.setText("Target Container Version");
+		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("Container_Version").size(); i++)
+			targetContainerVersion.add(RequirementsDefinitions.get().listRequirements("Container_Version").get(i));
 		targetContainerVersion.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_CONTAINER_VERSION));			
-		targetContainerVersion.addVerifyListener(new IntegerV());
 		targetContainerVersion.setLayoutData(gd);	
+		
+		Label l7 = new Label(container, SWT.NULL);
+		l7.setText("Add custom requirements");
+		ckbMoreReqs = new Button(container, SWT.CHECK);
+		ckbMoreReqs.addSelectionListener(new SelectionListener() {
 
+			public void widgetSelected(SelectionEvent e) {
+
+				/*
+				if(ckbMoreReqs.getSelection()){
+					ckbPL1.setSelection(false);
+					ckbCU1.setSelection(false); 
+
+					disableControls(new ArrayList<Control>(Arrays.asList(platform1, cu1, emb1, andN, ckbKar, andD, andURI)));
+				}
+
+				if(!ckbMoreReqs.getSelection() && !ckbPL1.getSelection() && !ckbCU1.getSelection())
+					setPageComplete(false);
+				else
+					setPageComplete(true);
+				*/
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		/*
 		Label l7 = new Label(container, SWT.NULL);
 		targetDeploymentTool = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(targetDeploymentTool);
@@ -113,7 +151,7 @@ public class PagePartPC extends PageImpl {
 		targetDeploymentTool.addVerifyListener(new AlphabeticV());
 		targetDeploymentTool.setLayoutData(gd);	
 		targetDeploymentTool.addTooltip(Tooltips.DEPLOYMENT_TOOLTIP);
-		
+		*/
 		
 		/*
 		final ToolTip t = Tooltips.getDeploymentToolTooltip();
@@ -138,6 +176,8 @@ public class PagePartPC extends PageImpl {
 			}
 		});
 		*/
+		
+		/*
 		targetSpace.addModifyListener(new ModifyListener(){
 
 			public void modifyText(ModifyEvent e) {
@@ -154,6 +194,9 @@ public class PagePartPC extends PageImpl {
 				setPageComplete(validate());
 			}
 		});
+		
+		*/
+		
 		/*
 		mw_version.addKeyListener(new QL() {
 
@@ -194,14 +237,14 @@ public class PagePartPC extends PageImpl {
 			}
 		});
 		
-		targetContainerVersion.addKeyListener(new QL() {
+		targetContainerVersion.addModifyListener(new ModifyListener() {
 
-			@Override
-			public void keyReleased(KeyEvent e) {
+			public void modifyText(ModifyEvent e) {
 				app.getAppParts().get(partNumber).setCapability(Capability.MANDATORY_TARGET_CONTAINER_VERSION, targetContainerVersion.getText());				
 				setPageComplete(validate());
 			}
 		});
+		/*
 		targetDeploymentTool.addKeyListener(new QL() {
 
 			@Override
@@ -210,8 +253,22 @@ public class PagePartPC extends PageImpl {
 				setPageComplete(validate());
 			}
 		});
+		*/
 	}
 
+	@Override
+	public IWizardPage getNextPage(){
+		if (ckbMoreReqs.getSelection()){
+			//System.out.println(app.getAppRequirements().getRequirementsList().size());
+			return super.getNextPage();
+		}
+		else{
+			app.getAppRequirements().clear();
+			//System.out.println(app.getAppRequirements().getRequirementsList().size());
+			return super.getNextPage().getNextPage();
+		}
+	}
+	
 	public void setArtifact(IProject artifact){
 		//this.artifact = artifact;
 		//p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));

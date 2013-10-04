@@ -1,6 +1,8 @@
 package org.universaal.tools.packaging.tool.parts;
 
-public enum Container {
+public class Container {
 
-	TOMCAT, EQUINOX, FELIX, OSGI_ANDROID, KARAF, ANDROID
+	public static final String KARAF = "karaf";
+	public static final String ANDROID = "android";
+	
 }

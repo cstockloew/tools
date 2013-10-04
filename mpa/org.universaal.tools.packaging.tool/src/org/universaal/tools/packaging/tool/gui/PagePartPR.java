@@ -303,6 +303,20 @@ public class PagePartPR extends PageImpl {
 			}
 		});
 		b.setLayoutData(gd);	
+		
+
+		final Button b1 = new Button(container, SWT.PUSH);
+		b1.setText("Clear form");
+		b1.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent e) {
+				clearForm();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		b1.setLayoutData(gd);
 
 		req1.addKeyListener(new FullListener());
 		req2.addKeyListener(new FullListener());
@@ -328,6 +342,37 @@ public class PagePartPR extends PageImpl {
 		setPageComplete(true); // requirements are optional
 	}
 
+	private void clearForm(){
+		req1.setText("");
+		req2.setText("");
+		req3.setText("");
+		req4.setText("");
+		req5.setText("");
+		val1.setText("");
+		val2.setText("");
+		val3.setText("");
+		val4.setText("");
+		val5.setText("");
+		c1.setText(LogicalCriteria.equal.toString());
+		c2.setText(LogicalCriteria.equal.toString());
+		c3.setText(LogicalCriteria.equal.toString());
+		c4.setText(LogicalCriteria.equal.toString());
+		c5.setText(LogicalCriteria.equal.toString());
+		c12.setText(LogicalRelation.none.toString());
+		c23.setText(LogicalRelation.none.toString());
+		c34.setText(LogicalRelation.none.toString());
+		c45.setText(LogicalRelation.none.toString());
+		c56.setText(LogicalRelation.none.toString());
+}
+	
+	@Override
+	public void setVisible(boolean visible){
+		super.setVisible(visible);
+		//System.out.println("Page 4 - reqs size: "+app.getAppRequirements().getRequirementsList().size());
+		if(visible && app.getAppRequirements().getRequirementsList().size() == 0){
+			clearForm();
+		} 
+	}
 	@Override
 	public boolean nextPressed() {
 

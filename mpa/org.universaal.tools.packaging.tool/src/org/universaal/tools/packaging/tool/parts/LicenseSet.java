@@ -52,6 +52,10 @@ public class LicenseSet implements Serializable{
 		return licenseList;
 	}
 
+	public void setLicenseList(List<License> licenseList) {
+		this.licenseList = licenseList;
+	}
+
 	public String getXML(){
 
 		String r = "";

@@ -28,14 +28,14 @@ public class Capability {
 
 	public final static String MANDATORY_TARGET_SPACE = "aal.target-space.category";
 	public final static String MANDATORY_TARGET_SPACE_VERSION = "aal.target-space.version";
-	public final static String MANDATORY_MW_VERSION = "aal.mw.version";
+	public final static String MANDATORY_MW_VERSION = "org.universAAL.platform.version";
 	public final static String MANDATORY_ONTOLOGIES = "aal.required-ontology"; 
-	public final static String MANDATORY_TARGET_CONTAINER_NAME = "aal.target.container.name";
-	public final static String MANDATORY_TARGET_CONTAINER_VERSION = "aal.target.container.version";
+	public final static String MANDATORY_TARGET_CONTAINER_NAME = "org.universAAL.container.name";
+	public final static String MANDATORY_TARGET_CONTAINER_VERSION = "org.universAAL.container.version";
 	public final static String MANDATORY_TARGET_DEPLOYMENT_TOOL = "aal.target.deployment-tool";
 
-	public final static String OPTIONAL_OS = "aal.os.name"; 
-	public final static String OPTIONAL_PLATFORM = "aal.platform.name";
+	public final static String OPTIONAL_OS = "org.universAAL.container.os"; 
+	public final static String OPTIONAL_PLATFORM = "org.universAAL.container.platform";
 	public final static String OPTIONAL_DEVICE_FEATURES_AUDIO = "aal.device.features.audio";
 	public final static String OPTIONAL_DEVICE_FEATURES_VISUAL = "aal.device.features.visual";
 

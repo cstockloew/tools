@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
@@ -35,25 +34,14 @@ import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.UriV;
 
-public class PagePartDU extends PageImpl {
-
-	private IProject part;
-	//private POMParser p;
-	private int partNumber;
-	private String value;
+public class PageDU extends PageImpl {
 
 	private Combo os1, platform1, cu1, emb1;
 	private Text andN, andD, andURI;
 	private Button ckbOS1, ckbPL1, ckbCU1, ckbKar;
 
-	protected PagePartDU(String pageName, int pn) {
-		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
-				" - Specify deployment requirements per part");
-		this.partNumber = pn;
-
-		value = "A";
-		int charValue = value.charAt(0);
-		value = String.valueOf( (char) (charValue - 1));
+	protected PageDU(String pageName) {
+		super(pageName, " - Specify deployment requirements for the Application (the parts will inherit them)");
 	}
 
 	public void createControl(Composite parent) {
@@ -285,143 +273,41 @@ public class PagePartDU extends PageImpl {
 		Label waiting = new Label(container, SWT.NULL);
 		waiting.setText("The generation of required stuff could take some time, please be patient...");
 
-
 		//default configuration
 		os1.select(0);
 		platform1.select(0);
 		cu1.select(0);
-
+		emb1.setText(Embedding.anyContainer.toString());
+		ckbCU1.setSelection(true);
+		ckbPL1.setSelection(false);
+		ckbOS1.setSelection(false);
+		
 		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, /*cu1, emb1,*/ ckbKar, andN, andD, andURI)));
 		setPageComplete(true);
 	}
 
 	public void setArtifact(IProject part){
-		this.part = part;
-		//p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
 	}
 
 	@Override
 	public boolean nextPressed() {
 
-		int charValue = value.charAt(0);
-		String alph = String.valueOf( (char) (charValue + 1));
-		value = alph;
-		int numb = partNumber + 1;
+		if(ckbOS1.getSelection())
+			app.getAppRequirements().deploymentUnitType = DeploymentUnit.OS;
+		else if(ckbPL1.getSelection())
+			app.getAppRequirements().deploymentUnitType = DeploymentUnit.PLATFORM;
+		else if(ckbCU1.getSelection())
+			app.getAppRequirements().deploymentUnitType = DeploymentUnit.CONTAINER;
 
-		String id = "_"+numb+alph;
-
-		if(ckbOS1.getSelection()){
-			try{
-				app.getAppParts().get(partNumber).getDeploymentUnits().get(partNumber).setDeploymentUnit(id, os1.getText(),DeploymentUnit.OS);
-			} catch (IndexOutOfBoundsException e) {
-				app.getAppParts().get(partNumber).getDeploymentUnits().add(partNumber, new DeploymentUnit(id, os1.getText(),DeploymentUnit.OS));
-			}
-		}
-		else if(ckbPL1.getSelection()){
-			try{
-				app.getAppParts().get(partNumber).getDeploymentUnits().get(partNumber).setDeploymentUnit(id, platform1.getText(),DeploymentUnit.PLATFORM);
-			} catch (IndexOutOfBoundsException e) {
-				app.getAppParts().get(partNumber).getDeploymentUnits().add(partNumber, new DeploymentUnit(id, platform1.getText(),DeploymentUnit.PLATFORM));
-			}
-		}
-		else if(ckbCU1.getSelection()){
-			ContainerUnit cu = null;
-			if(cu1.getText().equals(Container.KARAF)){
-
-				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
-				String karaf = krf.generate(this.part, true, partNumber);
-				if(karaf != null && !karaf.isEmpty())
-					cu = new ContainerUnit(emb1.getText(), karaf);
-				else
-					cu = new ContainerUnit(emb1.getText(), "");				
-			}
-			else if(cu1.getText().equals(Container.ANDROID)){
-				if(andURI.getText() == null || andURI.getText().isEmpty()){
-					EffectivePOMContainer.setDocument(part.getName());
-					String fileName = EffectivePOMContainer.getArtifactId()+"-"+EffectivePOMContainer.getVersion()+".jar";
-					//andURI.setText("file://../bin/part"+numb+"/"+fileName);	
-					andURI.setText("bin/part"+numb+"/"+fileName);	
-				}
-				cu = new ContainerUnit(new Android(andN.getText(), andD.getText(), URI.create(removeBlanks(andURI.getText()))));
-			}
-			else if(!cu1.getText().equals(Container.KARAF.toString()) && !cu1.getText().equals(Container.ANDROID)){
-				cu = new ContainerUnit(cu1.getText());
-			}
-			try{
-				app.getAppParts().get(partNumber).getDeploymentUnits().get(partNumber).setDeploymentUnit(id, cu);
-			} catch (IndexOutOfBoundsException e){
-				app.getAppParts().get(partNumber).getDeploymentUnits().add(partNumber, new DeploymentUnit(id, cu));
-			}
-				
-		}
-
+		app.getAppRequirements().OS_Requirements = os1.getText();
+		app.getAppRequirements().Platform_Requirement = platform1.getText();
+		app.getAppRequirements().Container_Name = cu1.getText();
+		app.getAppRequirements().embedding = emb1.getText();
+		app.getAppRequirements().android.setName(andN.getText());
+		app.getAppRequirements().android.setDescription(andD.getText());
+		app.getAppRequirements().android.setLocation(URI.create(andURI.getText()));
+		
 		return true;
-	}
-
-	@Override
-	public void setVisible(boolean visible){
-		super.setVisible(visible);
-		loadData();
-	}
-	
-	private void loadData(){
-		
-		List<DeploymentUnit> DUs = app.getAppParts().get(partNumber).getDeploymentUnits();
-
-		try{
-			if(DUs.get(partNumber).getType() == DeploymentUnit.OS) ckbOS1.notifyListeners(SWT.Selection, new Event());
-			else if(DUs.get(partNumber).getType() == DeploymentUnit.PLATFORM) ckbPL1.notifyListeners(SWT.Selection, new Event());
-			else if(DUs.get(partNumber).getType() == DeploymentUnit.CONTAINER) ckbCU1.notifyListeners(SWT.Selection, new Event());
-			
-		} catch (Exception e){
-			if(app.getAppRequirements().deploymentUnitType == DeploymentUnit.OS) ckbOS1.notifyListeners(SWT.Selection, new Event());
-			else if(app.getAppRequirements().deploymentUnitType == DeploymentUnit.PLATFORM) ckbPL1.notifyListeners(SWT.Selection, new Event());
-			else if(app.getAppRequirements().deploymentUnitType == DeploymentUnit.CONTAINER) ckbCU1.notifyListeners(SWT.Selection, new Event());
-		}
-				
-		try{
-			os1.setText(DUs.get(partNumber).getUnit());			
-		} catch (Exception e) {
-			if(!app.getAppRequirements().OS_Requirements.isEmpty()) os1.setText(app.getAppRequirements().OS_Requirements);
-				
-		}
-		
-		try{
-			platform1.setText(DUs.get(partNumber).getUnit());			
-		} catch (Exception e) {
-			if(!app.getAppRequirements().Platform_Requirement.isEmpty()) platform1.setText(app.getAppRequirements().Platform_Requirement);
-		}
-		
-		try{
-			cu1.setText(DUs.get(partNumber).getCu().getContainer().toString());		
-		} catch (Exception e) {
-			cu1.setText(app.getAppRequirements().Container_Name);
-			if(!app.getAppRequirements().Container_Name.isEmpty()) enableControl(ckbKar);
-		}
-		
-		try{
-			emb1.setText(DUs.get(partNumber).getCu().getEmbedding().toString());			
-		} catch (Exception e) {
-			emb1.setText(app.getAppRequirements().embedding);
-		}
-		
-		try{
-			andN.setText(DUs.get(partNumber).getCu().getAndroidPart().getName());		
-		} catch (Exception e) {
-			andN.setText(app.getAppRequirements().android.getName());
-		}
-		
-		try{
-			andD.setText(DUs.get(partNumber).getCu().getAndroidPart().getDescription());		
-		} catch (Exception e) {
-			andD.setText(app.getAppRequirements().android.getDescription());
-		}
-		
-		try{
-			andURI.setText(DUs.get(partNumber).getCu().getAndroidPart().getLocation().toASCIIString());		
-		} catch (Exception e) {
-			andURI.setText(app.getAppRequirements().android.getLocation().toASCIIString());
-		}
 	}
 	
 	private void disableControl(Control c){

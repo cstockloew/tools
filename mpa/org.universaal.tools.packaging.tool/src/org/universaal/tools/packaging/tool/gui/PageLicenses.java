@@ -78,11 +78,11 @@ public class PageLicenses extends PageImpl {
 			slaLink = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 			//mandatory.add(slaLink);
 			//l1.setText("* SLA link");
-			l1.setText("SLA link");
+			l1.setText("SLA file");
 			slaLink.setText(sla.getLink().toString());			
 			slaLink.addVerifyListener(new UriV());
 			slaLink.setLayoutData(gd);		
-			System.out.println(sla.getLink().toString());
+			//System.out.println(sla.getLink().toString());
 			
 			Button b1 = new Button(container, SWT.PUSH);
 			b1.setText("Browse");
@@ -144,7 +144,7 @@ public class PageLicenses extends PageImpl {
 		licLink = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(licLink);
 		//l4.setText("* License link");
-		l4.setText("License link");
+		l4.setText("License file");
 		licLink.setText(ls.get(ls.size() - 1).getLicenseList().get(l.getLicenseList().size() - 1).getLink().toString());			
 		licLink.addVerifyListener(new UriV());
 		licLink.setLayoutData(gd);	

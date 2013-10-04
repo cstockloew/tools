@@ -22,7 +22,16 @@
 package org.universaal.tools.packaging.tool.parts;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
+
+import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
+import org.w3c.dom.Document;
 
 /**
  * 
@@ -32,32 +41,39 @@ import java.io.Serializable;
  */
 public class ExecutionUnit implements Serializable {
 
-	private String id;
-	private File configFile;
-	private int spaceStartLevel = -1000;
+	private Document document;
+	private XPathFactory xpf;
+    private XPath xp;
+    private String tempDir = org.universaal.tools.packaging.tool.Activator.tempDir;
+	private Part part;
+	private String id, configPath;
+	private File[] configFilesAndFolders;
+	private String groupId, artifactId, packaging, classifier, version;
+	//private int spaceStartLevel = -1000;
 
-	public ExecutionUnit(){
-		configFile = new File(Application.defaultFile);
+	public ExecutionUnit(/*String id,*/ File[] configFilesAndFolders, Part part/*, int spaceStartLevel*/){
+		//this.id = id;
+		this.configFilesAndFolders = configFilesAndFolders;
+		this.part = part;
+		//this.spaceStartLevel = spaceStartLevel;
 	}
 
-	public ExecutionUnit(String id, File configFile, int spaceStartLevel){
-		this.id = id;
-		this.configFile = configFile;
-		this.spaceStartLevel = spaceStartLevel;
+	public File[] getConfigFilesAndFolders() {
+		return configFilesAndFolders;
 	}
-
-	public File getConfigFile() {
-		return configFile;
+	
+	public void setConfigFileAndFolders(File[] configFilesAndFolders) {
+		this.configFilesAndFolders = configFilesAndFolders;
 	}
-	public void setConfigFile(File configFile) {
-		this.configFile = configFile;
-	}
+	
+	/*
 	public int getSpaceStartLevel() {
 		return spaceStartLevel;
 	}
 	public void setSpaceStartLevel(int spaceStartLevel) {
 		this.spaceStartLevel = spaceStartLevel;
 	}
+	
 	public String getId() {
 		return id;
 	}
@@ -65,14 +81,22 @@ public class ExecutionUnit implements Serializable {
 		this.id = id;
 	}
 
+	*/
+	
+	public String getArtifactId(){
+		return this.artifactId;
+	}
+	
 	public String getXML(){
 
-		if(configFile != null){
+		this.setIdAndConfigPath();
+		
+		if(configFilesAndFolders != null){
 			String r = "<executionUnit>";		
 			r = r.concat("<deploymentUnit>"+id+"</deploymentUnit>");
-			r = r.concat("<configFiles>"+configFile.getName()+"</configFiles>");
-			if(spaceStartLevel != -1000)
-				r = r.concat("<spaceStartLevel>"+spaceStartLevel+"</spaceStartLevel>");		
+			r = r.concat("<configFiles>"+configPath+"</configFiles>");
+			//if(spaceStartLevel != -1000)
+			//	r = r.concat("<spaceStartLevel>"+spaceStartLevel+"</spaceStartLevel>");		
 			r = r.concat("</executionUnit>");
 
 			return r;
@@ -80,6 +104,45 @@ public class ExecutionUnit implements Serializable {
 		else
 			return "";
 	}
+
+	private void setIdAndConfigPath() {
+		try{
+			/*System.out.println("Readine Epom:"+tempDir+"/"+part.getName()+".epom.xml");
+	    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	    	DocumentBuilder db = dbf.newDocumentBuilder();
+	    	
+	        document = db.parse(tempDir+"/"+part.getName()+".epom.xml");
+	        xpf = XPathFactory.newInstance();
+            xp = xpf.newXPath();
+            */
+			
+			EffectivePOMContainer.setDocument(part.getName());
+
+            groupId = EffectivePOMContainer.getGroupId();
+            artifactId = EffectivePOMContainer.getArtifactId();
+            packaging = EffectivePOMContainer.getPackaging();
+            classifier = EffectivePOMContainer.getClassifier();
+            version = EffectivePOMContainer.getVersion();
+
+            /*
+            
+            groupId = xp.evaluate("//project/groupId/text()", document.getDocumentElement());
+            artifactId = xp.evaluate("//project/artifactId/text()", document.getDocumentElement());
+            packaging = xp.evaluate("//project/pakaging/text()", document.getDocumentElement());
+            classifier = xp.evaluate("//project/classifier/text()", document.getDocumentElement());
+            version = xp.evaluate("//project/version/text()", document.getDocumentElement());
+			
+			*/
+            
+            id = groupId+":"+artifactId+":"+(packaging != "" ? packaging+":": "")+(classifier != "" ? classifier+":": "")+version;
+			configPath = "config/"+artifactId;
+			
+		} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+	}
+	
+	
 }
 
 /*

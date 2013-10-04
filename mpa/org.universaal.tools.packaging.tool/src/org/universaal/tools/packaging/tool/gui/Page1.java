@@ -79,6 +79,7 @@ import org.universaal.tools.packaging.tool.impl.PageImpl;
 
 import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.FileV;
@@ -109,7 +110,7 @@ public class Page1 extends PageImpl {
 
 	public void createControl(final Composite parent) { 
 	  	
-		XSDParser XSDtooltip = XSDParser.get(XSD);
+		XSDParser XSDtooltip = XSDParser.get(XSD_VERSION);
 		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);
@@ -126,7 +127,7 @@ public class Page1 extends PageImpl {
 		name = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(name);
 		label1.setText("* Application name");
-		name.setText(app.getApplication().getName());			
+		//name.setText(app.getApplication().getName());			
 		name.addVerifyListener(new AlphabeticV());
 		name.setLayoutData(gd);	
 		name.addTooltip(XSDtooltip.find("app.name"));
@@ -135,7 +136,7 @@ public class Page1 extends PageImpl {
 		id = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(id);
 		label2.setText("* Application ID");
-		id.setText(app.getApplication().getAppID());
+		//id.setText(app.getApplication().getAppID());
 		id.addVerifyListener(new AlphabeticV());
 		id.setLayoutData(gd);
 		id.addTooltip(XSDtooltip.find("app.appId"));
@@ -144,7 +145,7 @@ public class Page1 extends PageImpl {
 		description = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(description);
 		label3.setText("* Description");
-		description.setText(app.getApplication().getDescription());
+		//description.setText(app.getApplication().getDescription());
 		description.addVerifyListener(new AlphabeticV());
 		description.setLayoutData(gd);		
 		description.addTooltip(XSDtooltip.find("app.description"));
@@ -152,7 +153,7 @@ public class Page1 extends PageImpl {
 		Label label4 = new Label(container, SWT.NULL);
 		tags = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		label4.setText("Insert tags (if any) separated by comma");
-		tags.setText(app.getApplication().getTags());
+		//tags.setText(app.getApplication().getTags());
 		tags.addVerifyListener(new AlphabeticV());
 		tags.setLayoutData(gd);
 		tags.addTooltip(XSDtooltip.find("app.tags"));
@@ -161,39 +162,39 @@ public class Page1 extends PageImpl {
 		version_major = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(version_major);
 		label5.setText("* Major version");
-		version_major.setText(app.getApplication().getVersion().getMajor());
-		version_major.addVerifyListener(new IntegerV());
+		//version_major.setText(app.getApplication().getVersion().getMajor());
+		//version_major.addVerifyListener(new IntegerV());
 		version_major.setLayoutData(gd);
 
 		Label label6 = new Label(container, SWT.NULL);
 		version_minor = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(version_minor);
 		label6.setText("* Minor version");
-		version_minor.setText(app.getApplication().getVersion().getMinor());
-		version_minor.addVerifyListener(new IntegerV());
+		//version_minor.setText(app.getApplication().getVersion().getMinor());
+		//version_minor.addVerifyListener(new IntegerV());
 		version_minor.setLayoutData(gd);
 
 		Label label7 = new Label(container, SWT.NULL);
 		version_micro = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		mandatory.add(version_micro);
 		label7.setText("* Micro version");
-		version_micro.setText(app.getApplication().getVersion().getMicro());
-		version_micro.addVerifyListener(new IntegerV());
+		//version_micro.setText(app.getApplication().getVersion().getMicro());
+		//version_micro.addVerifyListener(new IntegerV());
 		version_micro.setLayoutData(gd);
 
 		Label label8 = new Label(container, SWT.NULL);
 		version_build = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(version_build);
 		label8.setText("Build");
-		version_build.setText(app.getApplication().getVersion().getBuild());
-		version_build.addVerifyListener(new AlphabeticV());
+		//version_build.setText(app.getApplication().getVersion().getBuild());
+		//version_build.addVerifyListener(new AlphabeticV());
 		version_build.setLayoutData(gd);
 		version_build.addTooltip(XSDtooltip.find("versionType.build"));
 		
 		Label label9 = new Label(container, SWT.NULL);
 		app_profile = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		label9.setText("Application profile (if you are unsure do not modify!)");
-		app_profile.setText(app.getApplication().getApplicationProfile());
+		//app_profile.setText(app.getApplication().getApplicationProfile());
 		app_profile.addVerifyListener(new AlphabeticV());
 		app_profile.setLayoutData(gd);
 		app_profile.addTooltip(XSDtooltip.find("app.applicationProfile"));
@@ -210,7 +211,7 @@ public class Page1 extends PageImpl {
 		label11.setText("Menu name");
 				
 		menuName = new TextExt(container, SWT.BORDER | SWT.SINGLE);
-		menuName.setText(app.getApplication().getMenuEntry().getMenuName());
+		//menuName.setText(app.getApplication().getMenuEntry().getMenuName());
 		menuName.addVerifyListener(new AlphabeticV());
 		menuName.setLayoutData(gd);
 		menuName.addTooltip(XSDtooltip.find("menuEntry.menuName"));
@@ -219,7 +220,7 @@ public class Page1 extends PageImpl {
 		label12.setText("* Service URI");
 		
 		serviceUri = new TextExt(container, SWT.BORDER | SWT.SINGLE );
-		serviceUri.setText(app.getApplication().getMenuEntry().getServiceUri().toASCIIString());
+		//serviceUri.setText(app.getApplication().getMenuEntry().getServiceUri().toASCIIString());
 		serviceUri.setLayoutData(gd);
 		serviceUri.addVerifyListener(new UriV());
 		serviceUri.addTooltip(XSDtooltip.find("menuEntry.serviceUri"));
@@ -456,13 +457,24 @@ public class Page1 extends PageImpl {
 	}
 	
 	private void loadDefaultValues() {
+		
 		if ( app.getApplication() != null ) {
+			/*
+			System.out.println("App not null: name = "+app.getApplication().getName() );
+			System.out.println("App version:"+EffectivePOMContainer.getVersion());
+			System.out.println("App reg version:"+app.getApplication().getVersion().getVersion());
+			System.out.println("App Major version:"+app.getApplication().getVersion().getMajor());
+			System.out.println("App Minor version:"+app.getApplication().getVersion().getMinor());
+			System.out.println("App Micro version:"+app.getApplication().getVersion().getMicro());
+			System.out.println("App Build version:"+app.getApplication().getVersion().getBuild());
+			*/
 			name.setText( app.getApplication().getName() );
 		    id.setText( app.getApplication().getAppID() );
 		    description.setText( app.getApplication().getDescription() );
-		    version_minor.setText( app.getApplication().getVersion().getMajor() );
+		    version_major.setText( app.getApplication().getVersion().getMajor() );
 		    version_minor.setText( app.getApplication().getVersion().getMinor() );
 		    version_micro.setText( app.getApplication().getVersion().getMicro() );
+		    version_build.setText( app.getApplication().getVersion().getBuild() );
 		    app_profile.setText( app.getApplication().getApplicationProfile() );
 		}	    
 	}
@@ -500,5 +512,4 @@ public class Page1 extends PageImpl {
 
 		return true;
 	}
-
 }

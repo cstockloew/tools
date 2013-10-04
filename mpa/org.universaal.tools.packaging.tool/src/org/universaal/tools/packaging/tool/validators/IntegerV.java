@@ -7,6 +7,6 @@ public class IntegerV implements VerifyListener {
 
 	public void verifyText(VerifyEvent e) {
 
-		e.doit = Character.isDigit(e.character) || e.character == '\b' || e.character == '.';
+		e.doit = e.text=="" || e.text.matches("[0-9.\b]{1,}") || e.character == '\b';
 	}
 }

@@ -36,17 +36,20 @@ import java.util.Properties;
 public class Part implements Serializable {
 
 	private String id; // unique
-	private String bundleId;
-	private String bundleVersion;
+	private String name;
+	private String bundleId = "";
+	private String bundleVersion = "";
 	private Properties partCapabilities;
 	private List<Requirement> partRequirements;
 	private List<DeploymentUnit> deploymentUnits;
-	private List<ExecutionUnit> executionUnits;
-
-	public Part(String id){
+	//private List<ExecutionUnit> executionUnits;
+	private ExecutionUnit executionUnit;
+	
+	public Part(String id, String name){
 
 		this.id = id;
-
+		this.name = name;
+		
 		partCapabilities = new Properties();
 		//		Mandatory[] mandatory = Capability.Mandatory.values();
 		//		for(int i = 0; i < mandatory.length; i++){
@@ -75,6 +78,9 @@ public class Part implements Serializable {
 
 	public String getId() {
 		return id;
+	}
+	public String getName() {
+		return name;
 	}
 	public Properties getPartCapabilities() {
 		return partCapabilities;
@@ -109,12 +115,23 @@ public class Part implements Serializable {
 			deploymentUnits = new ArrayList<DeploymentUnit>();
 		return deploymentUnits;
 	}
+	
+	/*
 	public List<ExecutionUnit> getExecutionUnits() {
 		if(executionUnits == null)
 			executionUnits = new ArrayList<ExecutionUnit>();
 		return executionUnits;
 	}
-
+	 */
+	
+	public void setExecutionUnit(ExecutionUnit executionUnit){
+		this.executionUnit = executionUnit;
+	}
+	
+	public ExecutionUnit getExecutionUnit(){
+		return executionUnit;
+	}
+	
 	public String getXML(){
 
 		String r = "";
@@ -145,10 +162,14 @@ public class Part implements Serializable {
 
 		for(int i = 0; i < getDeploymentUnits().size(); i++)
 			r = r.concat(deploymentUnits.get(i).getXML());
-
+/*
 		for(int i = 0; i < getExecutionUnits().size(); i++)
 			r = r.concat(executionUnits.get(i).getXML());
-
+*/
+		if(executionUnit != null){
+			r = r.concat(executionUnit.getXML());
+		}
+		
 		r = r.concat("</part>");
 
 		return r;

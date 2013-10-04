@@ -55,8 +55,16 @@ public class PagePartBundle extends PageImpl {
 		
 		bundleId.addKeyListener(new FullListener());
 		bundleVersion.addKeyListener(new FullListener());
+		
+		loadDefaultValues();
+		setPageComplete(validate());
 	}
 
+	public void loadDefaultValues(){
+		bundleId.setText(app.getAppParts().get(partNumber).getPartBundleId());
+		bundleVersion.setText(app.getAppParts().get(partNumber).getPartBundleVersion());
+	}
+	
 	@Override
 	public boolean nextPressed() {
 

@@ -32,14 +32,14 @@ import java.io.Serializable;
  */
 public class ContainerUnit implements Serializable {
 
-	private Container container;
+	private String container;
 
-	private Embedding embedding;
+	private String embedding;
 	private String karafFeatures; //XML
 
 	private Android androidPart;
 
-	public ContainerUnit(Embedding embedding, String karafFeatures){
+	public ContainerUnit(String embedding, String karafFeatures){
 		this.container = Container.KARAF;
 		this.embedding = embedding;
 		this.karafFeatures = karafFeatures;
@@ -55,9 +55,9 @@ public class ContainerUnit implements Serializable {
 		this.karafFeatures = null;
 	}
 
-	public ContainerUnit(Container container){
+	public ContainerUnit(String container){
 		if(container != Container.KARAF && container != Container.ANDROID)
-			this.container = container;
+				this.container = container;
 		else
 			throw new IllegalArgumentException("Please consider using proper constructor if container is Karaf or Android!");
 
@@ -66,15 +66,15 @@ public class ContainerUnit implements Serializable {
 		this.karafFeatures = null;
 	}
 
-	public Container getContainer() {
+	public String getContainer() {
 		return container;
 	}
 
-	public void setContainer(Container container) {
+	public void setContainer(String container) {
 		this.container = container;
 	}
 
-	public Embedding getEmbedding() {
+	public String getEmbedding() {
 		return embedding;
 	}
 

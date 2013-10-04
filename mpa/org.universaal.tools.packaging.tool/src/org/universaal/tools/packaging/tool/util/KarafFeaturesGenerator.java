@@ -394,7 +394,7 @@ public class KarafFeaturesGenerator {
 							</feature>
 			 */
 			POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
-			String fileName = p.getArtifactID()+"-"+p.getVersion()+".jar";
+			String fileName = p.getArtifactId()+"-"+p.getVersion()+".jar";
 			partNumber++;
 			String thisPart = "<feature name='"+p.getName()+"' description='"+p.getDescription()+"' version='"+p.getVersion()+"' resolver=''>";
 

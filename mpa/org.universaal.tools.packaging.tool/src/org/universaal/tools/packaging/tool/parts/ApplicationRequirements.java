@@ -22,6 +22,7 @@
 package org.universaal.tools.packaging.tool.parts;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,13 @@ import java.util.List;
 public class ApplicationRequirements implements Serializable {
 
 	private List<Requirement> requirementsList;
-
+	public String deploymentUnitType = DeploymentUnit.CONTAINER;
+	public String OS_Requirements = "";
+	public String Platform_Requirement = "";
+	public String Container_Name = "";
+	public String embedding = Embedding.anyContainer.toString();
+	public Android android = new Android("", "", URI.create(""));
+	
 	public List<Requirement> getRequirementsList() {
 
 		if(requirementsList == null)
@@ -43,8 +50,11 @@ public class ApplicationRequirements implements Serializable {
 		/* CAUTION - REQUIRED BECAUSE OF METHODS THAT OVERRIDE VALUES WITH NULL */
 		List<Requirement> ret = new ArrayList<Requirement>();
 		for(int i = 0; i < requirementsList.size(); i++)
-			if(requirementsList.get(i) != null)
+			if(requirementsList.get(i) != null){
 				ret.add(requirementsList.get(i));
+			} else {
+				//System.out.println("null value found for index "+i);
+			}
 
 		requirementsList.clear();
 		for(int i = 0; i < ret.size(); i++)
@@ -53,7 +63,11 @@ public class ApplicationRequirements implements Serializable {
 
 		return requirementsList;
 	}
-
+	
+	public void clear(){
+		requirementsList = null;
+	}
+	
 	public String getXML(){
 
 		String r = "";

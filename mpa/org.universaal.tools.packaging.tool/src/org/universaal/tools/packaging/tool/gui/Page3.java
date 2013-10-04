@@ -1,5 +1,8 @@
 package org.universaal.tools.packaging.tool.gui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.jface.wizard.IWizardPage;
@@ -13,8 +16,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
@@ -22,6 +27,7 @@ import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.MiddlewareVersion;
+import org.universaal.tools.packaging.tool.parts.Requirement;
 import org.universaal.tools.packaging.tool.parts.Space;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
@@ -29,16 +35,17 @@ import org.universaal.tools.packaging.tool.validators.IntegerV;
 
 public class Page3 extends PageImpl {
 
-	private Combo targetSpace, mw_version, targetContainerName;
-	private TextExt targetSpaceVersion, targetOntologies, targetContainerVersion, targetDeploymentTool;
-
+	private Combo /*targetSpace,*/ mw_version, targetContainerName, targetContainerVersion;
+	private TextExt /*targetSpaceVersion,*/ targetOntologies /*,targetContainerVersion, targetDeploymentTool*/;
+	private Button ckbMoreReqs;
+	
 	protected Page3(String pageName) {
 		super(pageName, "Specify capabilities of the Application");
 	}
 
 	public void createControl(Composite parent) {
 
-		XSDParser XSDtooltip = XSDParser.get(XSD);
+		XSDParser XSDtooltip = XSDParser.get(XSD_VERSION);
 		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);		
@@ -50,7 +57,9 @@ public class Page3 extends PageImpl {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		Properties capabilities = app.getAppCapabilities().getCapabilities();
-
+		
+		/*
+		
 		Label l1 = new Label(container, SWT.NULL);
 		targetSpace = new Combo(container, SWT.READ_ONLY);
 		Space[] spaceV = Space.values();
@@ -70,12 +79,14 @@ public class Page3 extends PageImpl {
 		targetSpaceVersion.addVerifyListener(new IntegerV());
 		targetSpaceVersion.setLayoutData(gd);	
 		
+		*/
+		
 		Label l3 = new Label(container, SWT.NULL);
 		mw_version = new Combo(container, SWT.READ_ONLY);
 		mandatory.add(mw_version);
 		l3.setText("* Middleware Version");
-		for(int i = 0; i < MiddlewareVersion.getMWversion().length; i++)
-			mw_version.add(MiddlewareVersion.getMWversion()[i]);
+		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("MW_Version").size(); i++)
+			mw_version.add(RequirementsDefinitions.get().listRequirements("MW_Version").get(i));
 		mw_version.setText(capabilities.getProperty(Capability.MANDATORY_MW_VERSION));			
 		mw_version.setLayoutData(gd);	
 
@@ -92,25 +103,56 @@ public class Page3 extends PageImpl {
 		targetContainerName = new Combo(container, SWT.READ_ONLY);
 		//mandatory.add(targetContainerName);
 		l5.setText("Target Container Name");
-		for(int i = 0; i < Container.values().length; i++)
-			targetContainerName.add(Container.values()[i].toString());
+		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("Container_Name").size(); i++)
+			targetContainerName.add(RequirementsDefinitions.get().listRequirements("Container_Name").get(i));
 		targetContainerName.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_CONTAINER_NAME));			
 		targetContainerName.setLayoutData(gd);	
 
 		Label l6 = new Label(container, SWT.NULL);
-		targetContainerVersion = new TextExt(container, SWT.BORDER | SWT.SINGLE);
+		targetContainerVersion = new Combo(container, SWT.READ_ONLY);
 		//mandatory.add(targetContainerVersion);
 		l6.setText("Target Container Version");
+		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("Container_Version").size(); i++)
+			targetContainerVersion.add(RequirementsDefinitions.get().listRequirements("Container_Version").get(i));
 		targetContainerVersion.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_CONTAINER_VERSION));			
-		targetContainerVersion.addVerifyListener(new IntegerV());
 		targetContainerVersion.setLayoutData(gd);	
+		
+		Label l7 = new Label(container, SWT.NULL);
+		l7.setText("Add custom requirements");
+		ckbMoreReqs = new Button(container, SWT.CHECK);
+		ckbMoreReqs.addSelectionListener(new SelectionListener() {
 
+			public void widgetSelected(SelectionEvent e) {
+
+				/*
+				if(ckbMoreReqs.getSelection()){
+					ckbPL1.setSelection(false);
+					ckbCU1.setSelection(false); 
+
+					disableControls(new ArrayList<Control>(Arrays.asList(platform1, cu1, emb1, andN, ckbKar, andD, andURI)));
+				}
+
+				if(!ckbMoreReqs.getSelection() && !ckbPL1.getSelection() && !ckbCU1.getSelection())
+					setPageComplete(false);
+				else
+					setPageComplete(true);
+				*/
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		/*
+		
 		Label l7 = new Label(container, SWT.NULL);
 		targetDeploymentTool = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(targetDeploymentTool);
 		l7.setText("Target Deployment Tool");
 		targetDeploymentTool.setText(capabilities.getProperty(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL));			
 		targetDeploymentTool.setLayoutData(gd);	
+		
+		*/
+		
 		/*
 		targetSpace.addSelectionListener(new SelectionListener() {
 
@@ -123,6 +165,9 @@ public class Page3 extends PageImpl {
 			}
 		});	
 		*/
+
+		/*
+		
 		targetSpace.addModifyListener(new ModifyListener(){
 
 			public void modifyText(ModifyEvent e) {
@@ -139,6 +184,9 @@ public class Page3 extends PageImpl {
 				setPageComplete(validate());
 			}
 		});
+		
+		*/
+		
 		/*
 		mw_version.addKeyListener(new QL() {
 
@@ -180,13 +228,14 @@ public class Page3 extends PageImpl {
 			}
 		});
 		
-		targetContainerVersion.addKeyListener(new QL() {
+		targetContainerVersion.addModifyListener(new ModifyListener(){
 
-			@Override
-			public void keyReleased(KeyEvent e) {
+			public void modifyText(ModifyEvent e) {
 				app.getAppCapabilities().setCapability(Capability.MANDATORY_TARGET_CONTAINER_VERSION, targetContainerVersion.getText());				
 			}
 		});
+		
+		/*
 		targetDeploymentTool.addKeyListener(new QL() {
 
 			@Override
@@ -194,6 +243,8 @@ public class Page3 extends PageImpl {
 				app.getAppCapabilities().setCapability(Capability.MANDATORY_TARGET_DEPLOYMENT_TOOL, targetDeploymentTool.getText());				
 			}
 		});
+		*/
+		
 	}
 
 	@Override
@@ -203,6 +254,19 @@ public class Page3 extends PageImpl {
 			return super.getPreviousPage();
 
 		return super.getPreviousPage().getPreviousPage();
+	}
+	
+	@Override
+	public IWizardPage getNextPage(){
+		if (ckbMoreReqs.getSelection()){
+			//System.out.println(app.getAppRequirements().getRequirementsList().size());
+			return super.getNextPage();
+		}
+		else{
+			app.getAppRequirements().clear();
+			//System.out.println(app.getAppRequirements().getRequirementsList().size());
+			return super.getNextPage().getNextPage();
+		}
 	}
 	
 	@Override

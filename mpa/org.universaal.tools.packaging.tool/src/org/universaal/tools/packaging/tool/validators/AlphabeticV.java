@@ -7,7 +7,9 @@ public class AlphabeticV implements VerifyListener {
 
 	public void verifyText(VerifyEvent e) {
 
-		e.doit = 
+		e.doit = e.character == '\b' || e.text == "" || e.text.matches("[A-Za-z0-9.,:\b -]{1,}");
+		/*
+		 e.doit = true;
 				(Character.isLetter(e.character) || 
 						Character.isDigit(e.character) || 
 						e.character == '-' || 
@@ -17,6 +19,6 @@ public class AlphabeticV implements VerifyListener {
 						e.character == ',' ||
 						e.character == ':') && 
 						(e.character != '<' && 
-						e.character != '>');
+						e.character != '>');*/
 	}
 }

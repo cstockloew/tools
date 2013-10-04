@@ -307,15 +307,15 @@ public abstract class WizardMod implements IWizard {
 	}
 
 	public void setPages(List<IWizardPage> pp){
-		System.out.println("Old Pages count:"+pages.size());
+		//System.out.println("Old Pages count:"+pages.size());
 		pages.clear();
 		for(int i = 0; i < pp.size(); i++){
 			if(pp.get(i) != null){
-				System.out.println(pp.get(i).getName());
+				//System.out.println(pp.get(i).getName());
 				addPage(pp.get(i));
 			}
 		}
-		System.out.println("New Pages count:"+pages.size());
+		//System.out.println("New Pages count:"+pages.size());
 		
 	}
 

@@ -32,17 +32,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
+import org.apache.maven.execution.MavenExecutionRequest;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ParameterizedCommand;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.m2e.core.MavenPlugin;
+import org.eclipse.m2e.core.embedder.IMaven;
+import org.eclipse.m2e.core.internal.IMavenConstants;
+import org.eclipse.m2e.core.project.IMavenProjectFacade;
+import org.eclipse.m2e.core.project.IMavenProjectRegistry;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
@@ -50,10 +65,17 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.api.WizardMod;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
+import org.universaal.tools.packaging.tool.parts.Application;
+import org.universaal.tools.packaging.tool.parts.ApplicationManagement;
+import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteManagement;
+import org.universaal.tools.packaging.tool.parts.License;
+import org.universaal.tools.packaging.tool.parts.LicenseSet;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.util.ConfigProperties;
 import org.universaal.tools.packaging.tool.util.Configurator;
+import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
+import org.universaal.tools.packaging.tool.util.POM_License;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
 import org.universaal.tools.packaging.tool.zip.UAPP;
 
@@ -66,34 +88,41 @@ import org.universaal.tools.packaging.tool.zip.UAPP;
 public class GUI extends WizardMod {
 
 	public MPA mpa;
-	private PageImpl p0, p1, p2, pl, p3, p4, p5, ppB, ppDU, ppEU, ppPC, ppPR, p, p_end;
+	private PageImpl p0, p1, p2, pl, pdu, par, p3, p4, p5, ppB, ppDU, ppEU, ppPC, ppPR, p, p_end;
 	private List<IProject> parts;
-
 	
 	private static GUI instance;
 
 	private String destination;
 	private String tempDir = org.universaal.tools.packaging.tool.Activator.tempDir;
+	private String mavenTempDir;
+	private String mainPartName;
+	
 	public File recoveryStorage = null;
+	public boolean recovered = false;
 
-	public GUI(List<IProject> parts, Boolean recovered) {
+	public GUI(List<IProject> parts, Boolean recovered, String mainPartName) {
 
 		super();
 		setNeedsProgressMonitor(true);
-	
+		
+		this.mainPartName = mainPartName;
+		
 		checkPersistence(recovered);
-				
+
 		if(mpa == null){
 			mpa = new MPA();
 		}
 		
 		instance = this;
 		this.parts = parts;
-		
+
 	}
 
 	private void checkPersistence(Boolean recovered) {
 		if ( Configurator.local.isPersistanceEnabled() ) {
+			this.recovered = recovered;
+			
 			//File tmpDir = new File(tempDir);
 			File recovery = new File(tempDir + ConfigProperties.RECOVERY_FILE_NAME_DEFAULT);
 			recoveryStorage = recovery;
@@ -114,10 +143,78 @@ public class GUI extends WizardMod {
 					} catch (Exception e) {		
 					    e.printStackTrace();
 					}
-			    }
+			    } 
 
 			//} 
 		} // else System.out.println("Recovering not enabled");
+	}
+
+	private void loadDataFromManPOM() {
+		
+		EffectivePOMContainer.setDocument(mainPartName);
+		
+		Application app = mpa.getAAL_UAPP();
+		
+		app.getApplication().setName(EffectivePOMContainer.getName());
+		app.getApplication().setAppID(EffectivePOMContainer.getArtifactId());
+		app.getApplication().setDescription(EffectivePOMContainer.getDescription());
+		app.getApplication().getApplicationProvider().setOrganizationName(EffectivePOMContainer.getOrganization().name);
+		try {
+			app.getApplication().getApplicationProvider().setWebAddress(new URI(EffectivePOMContainer.getOrganization().url));
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		app.getApplication().getVersion().setVersion(EffectivePOMContainer.getVersion());
+		
+		EffectivePOMContainer.getDependencies();
+		try {
+			app.getApplication().getApplicationProvider().setWebAddress(new URI(EffectivePOMContainer.getOrganization().url));
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Licenses
+		List<POM_License> Licenses = EffectivePOMContainer.getLicenses();
+		if(Licenses != null){
+			List<License> licenseList = new ArrayList<License>();
+			for(int i = 0; i < Licenses.size(); i++){
+				//System.out.println("Getting linense "+i+" of "+Licenses.size());
+				
+				License aLicense = new License();
+				aLicense.setName(Licenses.get(i).name);
+				try {
+					aLicense.setLink(new URI(Licenses.get(i).url));
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				licenseList.add(aLicense);
+			}
+			LicenseSet aLicenseSet = new LicenseSet();
+			aLicenseSet.setLicenseList(licenseList);
+			
+			List<LicenseSet> ls = app.getApplication().getLicenses();
+			ls.add(aLicenseSet);
+			app.getApplication().setLicenses(ls);
+		}
+
+		// Bundle, Artifact Id and Version per part
+		for(int i = 0; i < parts.size(); i++){
+
+			EffectivePOMContainer.setDocument(parts.get(i).getName());
+			
+			String bundleVersion = EffectivePOMContainer.getBundleVersion() != "" ? EffectivePOMContainer.getBundleVersion() : EffectivePOMContainer.getVersion();
+			app.getAppParts().get(i).setPartBundle(EffectivePOMContainer.getBundleId(), bundleVersion);
+			
+			RemoteManagement rm = app.getAppManagement().new RemoteManagement();
+			rm.getSoftware().setArtifactID(EffectivePOMContainer.getArtifactId());
+			rm.getSoftware().getVersion().setVersion(EffectivePOMContainer.getVersion());
+			app.getAppManagement().getRemoteManagement().add(rm);
+
+		}
+
 	}
 
 	public static synchronized GUI getInstance(){
@@ -127,6 +224,15 @@ public class GUI extends WizardMod {
 	@Override
 	public void addPages() {
 		if(this.parts != null){
+			
+			if(parts.size() > 1)
+				mpa.getAAL_UAPP().getApplication().setMultipart(true);
+			else
+				mpa.getAAL_UAPP().getApplication().setMultipart(false);
+
+			createTempContainer();
+			genEffectivePom(this.parts);
+			if(!recovered) loadDataFromManPOM();
 			
 			p0 = new StartPage(Page.PAGE_START);
 			addPage(p0);
@@ -140,6 +246,14 @@ public class GUI extends WizardMod {
 			addPage(p2);
 			p2.setMPA(mpa);
 
+			pdu = new PageDU(Page.PAGE_DU);
+			addPage(pdu);
+			pdu.setMPA(mpa);
+		
+			par = new PageAppResources(Page.PAGE_APP_RESOURCES);
+			addPage(par);
+			par.setMPA(mpa);
+		
 			pl = new PageLicenses(Page.PAGE_LICENSE);
 			addPage(pl);
 			pl.setMPA(mpa);
@@ -155,18 +269,11 @@ public class GUI extends WizardMod {
 			p5 = new Page5(Page.PAGE5);
 			addPage(p5);
 			p5.setMPA(mpa);
-			 
-			if(parts.size() > 1)
-				mpa.getAAL_UAPP().getApplication().setMultipart(true);
-			else
-				mpa.getAAL_UAPP().getApplication().setMultipart(false);
-
+		
 			for(int i = 0; i < parts.size(); i++){
 
 				String partName = parts.get(i).getName();
-
-				mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1)));
-
+				
 				ppB = new PagePartBundle(Page.PAGE_PART_BUNDLE+partName, i); //deployment units
 				addPage(ppB);
 				ppB.setMPA(mpa);
@@ -176,7 +283,7 @@ public class GUI extends WizardMod {
 				addPage(ppDU);
 				ppDU.setMPA(mpa);
 				ppDU.setArtifact(parts.get(i));
-
+				
 				ppEU = new PagePartEU(Page.PAGE_PART_EU+partName, i); // execution units
 				addPage(ppEU);
 				ppEU.setMPA(mpa);
@@ -202,8 +309,6 @@ public class GUI extends WizardMod {
 			p = new ErrorPage(Page.PAGE_ERROR);
 			addPage(p);
 		}	
-
-		createTempContainer();
 	}
 	
 	private void addingPermanentStorageDecorator() {/*
@@ -228,7 +333,10 @@ public class GUI extends WizardMod {
 	@Override
 	public boolean performFinish() {
 
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setCursor(new Cursor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), SWT.CURSOR_WAIT));
+		
 		try {
+			
 			// create descriptor
 			File file = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getApplication().getName()+"."+Page.DESCRIPTOR_FILENAME_SUFFIX);
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -259,15 +367,34 @@ public class GUI extends WizardMod {
 				}
 			}
 
-			// copy properties files
+			// copy config files files and folders
 			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
-				for(int j = 0; j < mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().size(); j++){
+				//for(int j = 0; j < mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().size(); j++){
 
-					File configFile = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).getConfigFile();
-					copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
-				}
+				if(mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit() != null){
+				
+					//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
+					File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getConfigFilesAndFolders();
+					File tmp = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId());
+					tmp.mkdir();
+					copyFilesAndFolders(configFilesAndFolders, tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId()+"/");
+					//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
+				//}
+				
+				} else System.out.println("ExecUnit Null");
 			}
-
+			
+			// copy additional resources
+			if(mpa.getAAL_UAPP().getAppResouces() != null){
+				
+				//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
+				File[] appResources = mpa.getAAL_UAPP().getAppResouces();
+				copyFilesAndFolders(appResources, tempDir+"/resources/");
+				//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
+			//}
+			
+			} else System.out.println("No additional resources");
+			
 			// copy icon file if set and eventually resize it
 			File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
 			
@@ -289,6 +416,13 @@ public class GUI extends WizardMod {
 				} else copyFile(iconFile, new File(tempDir+"/bin/icon/"+iconFile.getName()));
 			}
 	
+			// remove epom files if exists
+			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
+				Part part = mpa.getAAL_UAPP().getAppParts().get(i);
+				File toBeRemoved = new File(tempDir+"/"+part.getName()+".epom.xml");
+				if (toBeRemoved.exists()) toBeRemoved.delete();
+			}
+			
 			UAPP descriptor = new UAPP();
 			descriptor.createUAPPfile(tempDir, destination);
 
@@ -299,6 +433,8 @@ public class GUI extends WizardMod {
 			e.printStackTrace();
 		}
 
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setCursor(new Cursor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), SWT.CURSOR_ARROW));
+		
 		return true;
 	}
 
@@ -354,8 +490,9 @@ public class GUI extends WizardMod {
 		try{
 			File f = new File(tempDir);
 			f.mkdir();
-
-			File bin, icon, config, doc, license, part, emptyFile;
+			mavenTempDir = f.getAbsolutePath();
+			
+			File bin, icon, config, doc, license, resources, part, emptyFile;
 
 			bin = new File(f+"/bin");
 			bin.mkdir();
@@ -367,7 +504,15 @@ public class GUI extends WizardMod {
 			doc.mkdir();
 			license = new File(f+"/license");
 			license.mkdir();
+			resources = new File(f+"/resources");
+			resources.mkdir();
 
+			emptyFile = new File(f+"/bin/.empty"); 
+			emptyFile.createNewFile();
+			
+			emptyFile = new File(f+"/bin/icon/.empty"); 
+			emptyFile.createNewFile();
+			
 			emptyFile = new File(f+"/config/.empty"); 
 			emptyFile.createNewFile();
 
@@ -377,13 +522,14 @@ public class GUI extends WizardMod {
 			emptyFile = new File(f+"/license/.empty");
 			emptyFile.createNewFile();
 
-			emptyFile = new File(f+"/bin/icon/.empty"); 
+			emptyFile = new File(f+"/resources/.empty");
 			emptyFile.createNewFile();
-			
+
 			for(int i = 0; i < parts.size(); i++){
 				part = new File(f+"/bin/part"+(i+1));
 				part.mkdir();
 			}
+			
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -419,5 +565,95 @@ public class GUI extends WizardMod {
 
 	public void setDestination(String destination) {
 		this.destination = destination;
+	}
+	
+	private void copyFilesAndFolders(File[] list, String before){
+		list = sortList(list);
+		for(int i=0; i<list.length; i++){
+			//System.out.println(list[i].getAbsolutePath()+" -> "+ before+list[i].getName());
+			
+			if(list[i].isDirectory()){ 
+				File[] tmp = list[i].listFiles();
+				File f = new File(before+list[i].getName());
+				f.mkdir();
+				copyFilesAndFolders(tmp, (before+list[i].getName()+"/"));
+			} else {
+				copyFile(new File(list[i].getAbsolutePath()), new File(before+list[i].getName()));
+			}
+		}
+	}
+	
+	private File[] sortList(File[] list){
+		List<File> dirs = new ArrayList<File>();
+		List<File> files = new ArrayList<File>();
+		List<File> merged = new ArrayList<File>();
+		
+		for(int i=0; i<list.length; i++){
+			
+			if(list[i].isDirectory()){
+				dirs.add(list[i]);
+			} else {
+				files.add(list[i]);
+			}
+		}
+
+		if(files != null) merged.addAll(files);
+		if(dirs != null) merged.addAll(dirs);
+		
+		File[] sorted = new File[merged.size()];
+		
+		for(int i=0; i<merged.size(); i++)
+			sorted[i] = merged.get(i);
+		
+		return sorted;
+		
+	}
+	
+	private static <T> T[] concat(T[] first, T[] second) {
+		  T[] result = Arrays.copyOf(first, first.length + second.length);
+		  System.arraycopy(second, 0, result, first.length, second.length);
+		  return result;
+	}
+	
+	private void genEffectivePom(List<IProject> parts){
+	
+		for(int i=0; i<parts.size();i++){
+		
+			
+			IProject part = parts.get(i);
+			
+			String partName = part.getName();
+			mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1),partName));
+			
+			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
+			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);
+			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
+	
+			IMaven maven = MavenPlugin.getMaven();
+	
+			if(pomResource != null && projectFacade != null){
+				MavenExecutionRequest request;
+				try {
+					request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
+				
+					List<String> goals = new ArrayList<String>();
+					Properties props = new Properties();
+					props.setProperty("output", mavenTempDir+"/"+partName+".epom.xml");
+					
+					goals.add("help:effective-pom");
+		
+					request.setGoals(goals);
+					request.setUserProperties(props);
+					maven.execute(request, null);
+					EffectivePOMContainer.addDocument(partName, mavenTempDir+"/"+partName+".epom.xml");
+					EffectivePOMContainer.getDependencies();
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+		
 	}
 }

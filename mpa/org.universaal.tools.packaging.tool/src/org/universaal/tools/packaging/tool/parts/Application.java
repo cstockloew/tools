@@ -20,6 +20,7 @@
  */
 package org.universaal.tools.packaging.tool.parts;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,9 @@ public class Application implements Serializable{
 	private ApplicationRequirements appRequirements;
 	private ApplicationManagement appManagement;
 	private List<Part> appParts;
-
+	private String mainPart = "";
+	private File[] appResources = null;
+	
 	public Application(){
 		this.application = new App();
 		this.appCapabilities = new ApplicationCapabilities();
@@ -81,6 +84,24 @@ public class Application implements Serializable{
 		return appParts;
 	}
 
+	/*
+	public void setMainPart(String mainPart){
+		this.mainPart = mainPart;
+	}
+	
+	public String getMainPart(){
+		return mainPart;
+	}
+	*/
+	
+	public void setAppResouces(File[] appResources){
+		this.appResources = appResources;
+	}
+	
+	public File[] getAppResouces(){
+		return this.appResources;
+	}
+	
 	public String getXML(){
 
 		String r = "";

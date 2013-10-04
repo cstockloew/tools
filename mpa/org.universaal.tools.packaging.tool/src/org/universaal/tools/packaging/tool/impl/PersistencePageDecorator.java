@@ -56,7 +56,7 @@ public class PersistencePageDecorator extends PageImpl {
     }
 
     public boolean nextPressed() {
-    	System.out.println(localPage.getName()+" NextPressed");
+    	//System.out.println(localPage.getName()+" NextPressed");
 		final boolean flag;
 		try{
 		    flag = localPage.nextPressed();
@@ -72,7 +72,7 @@ public class PersistencePageDecorator extends PageImpl {
     	
 	if ( localPage == null ) return;
 	
-	System.out.println(localPage.getName()+" SetComplete ");
+	//System.out.println(localPage.getName()+" SetComplete ");
 	localPage.setPageComplete(complete);
     }
 

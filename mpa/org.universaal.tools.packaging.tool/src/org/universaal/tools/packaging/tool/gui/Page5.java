@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Label;
 
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteManagement;
+import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
@@ -35,7 +36,7 @@ public class Page5 extends PageImpl {
 
 	public void createControl(Composite parent) {
 		
-		XSDParser XSDtooltip = XSDParser.get(XSD);
+		XSDParser XSDtooltip = XSDParser.get(XSD_VERSION);
 		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);	
@@ -76,13 +77,14 @@ public class Page5 extends PageImpl {
 
 		for(int k = 0; k < parts.size(); k++){
 
-			POMParser p = new POMParser(new File(parts.get(k).getFile("pom.xml").getLocation()+""));
-
+			//POMParser p = new POMParser(new File(parts.get(k).getFile("pom.xml").getLocation()+""));
+			//EffectivePOMContainer.setDocument(parts.get(k).getName());
+			
 			Label l2 = new Label(container, SWT.NULL);
 			l2.setText("Artifact #"+(k+1)+" ID");
 			TextExt artifact = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 			//mandatory.add(artifact);
-			artifact.setText(p.getArtifactID());			
+			artifact.setText(app.getAppManagement().getRemoteManagement().get(k).getSoftware().getArtifactID());			
 			artifacts.add(artifact);
 			artifact.addVerifyListener(new AlphabeticV());
 			artifact.addKeyListener(new FullListener());
@@ -102,7 +104,7 @@ public class Page5 extends PageImpl {
 			l4.setText("Version");
 			TextExt version = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 			//mandatory.add(version);
-			version.setText(p.getVersion());
+			version.setText(app.getAppManagement().getRemoteManagement().get(k).getSoftware().getVersion().getVersion());
 			versions.add(version);
 			version.addKeyListener(new FullListener());
 			version.setLayoutData(gd);			
@@ -118,9 +120,12 @@ public class Page5 extends PageImpl {
 		setPageComplete(validate());
 	}
 
+	
 	@Override
 	public boolean nextPressed() {
 
+		//System.out.println(app.getAppRequirements().getRequirementsList().size());
+		
 		for(int j = 0; j < artifacts.size(); j++){
 
 			app.getAppManagement().getRemoteManagement().get(j).getSoftware().setArtifactID(artifacts.get(j).getText());
@@ -134,4 +139,5 @@ public class Page5 extends PageImpl {
 
 		return true;
 	}
+
 }

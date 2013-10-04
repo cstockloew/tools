@@ -9,6 +9,9 @@ public class MailV implements VerifyListener {
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
+	private static final String EMAIL_ALLOWED_CHARS = 
+			"[_A-Za-z0-9-\\.@]{1,}";
+
 	public void verifyText(VerifyEvent e) {
 
 		//		if(e.widget instanceof Text){
@@ -17,6 +20,8 @@ public class MailV implements VerifyListener {
 		//			else
 		//				e.doit = false;
 		//		}
-		e.doit = true;
+		e.doit = e.character == '\b' || e.text == "" || e.text.matches(EMAIL_PATTERN) || e.text.matches(EMAIL_ALLOWED_CHARS);
+		
+		//e.doit = true;
 	}
 }

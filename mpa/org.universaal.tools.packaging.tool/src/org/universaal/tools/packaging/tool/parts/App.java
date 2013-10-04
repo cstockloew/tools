@@ -116,6 +116,10 @@ public class App implements Serializable {
 			licenses = new ArrayList<LicenseSet>();
 		return licenses;
 	}
+	
+	public void setLicenses(List<LicenseSet> licenses) {
+		this.licenses = licenses;
+	}
 
 	public String getXML(){
 

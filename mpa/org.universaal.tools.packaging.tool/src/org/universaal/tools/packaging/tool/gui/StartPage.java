@@ -39,6 +39,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -60,7 +61,8 @@ public class StartPage extends PageImpl {
 
 	private File destination;
 	private Text name;
-
+	//private Combo mainPart;
+	
 	private GUI g = GUI.getInstance();
 	private List<IProject> parts;
 
@@ -78,46 +80,39 @@ public class StartPage extends PageImpl {
 
 		layout.numColumns = 2;
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-
+		
+		GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);		
+		gd2.horizontalSpan = 2;
+		
 		parts = g.getParts();
 
 		Label label1 = new Label(container, SWT.NULL);
 		label1.setText("This wizard will guide you in creating a .UAPP file to upload your Application to the uStore.");
-
-		Label label10 = new Label(container, SWT.NULL);
-		label10.setText("");
-
+		label1.setLayoutData(gd2);
+		
 		Label label2 = new Label(container, SWT.NULL);
 		label2.setText("Before starting it you should select all the parts you would like to include (CTRL-click on projects).");
-
-		Label label20 = new Label(container, SWT.NULL);
-		label20.setText("");
-
-		Label label3 = new Label(container, SWT.NULL);
-		label3.setText("");
-
-		Label label30 = new Label(container, SWT.NULL);
-		label30.setText("");
-
+		label2.setLayoutData(gd2);
+		
+		Label shadow_sep_h = new Label(container, SWT.SEPARATOR | SWT.SHADOW_OUT | SWT.HORIZONTAL);
+		shadow_sep_h.setLayoutData(gd2);
+		
 		Label label4 = new Label(container, SWT.NULL);
 		label4.setText("At now you have selected "+parts.size()+" projects to be included in this Application:");
-
-		Label label40 = new Label(container, SWT.NULL);
-		label40.setText("");
-
+		label4.setLayoutData(gd2);
+		
+		
 		for(int i = 0; i < parts.size(); i++){				
-
 			Label part = new Label(container, SWT.NULL);
 			part.setText("\tPart "+(i+1)+": "+parts.get(i).getName()); 
-
+			part.setLayoutData(gd2);
+			
 			FontData[] fD = part.getFont().getFontData();
 			fD[0].setStyle(SWT.BOLD);
 			part.setFont(new Font(container.getDisplay(), fD[0]));		
-
-			Label part0 = new Label(container, SWT.NULL);
-			part0.setText("");
 		}
 
+		/*
 		if(parts.size() == 0){
 			Label label5 = new Label(container, SWT.NULL);
 			label5.setText("No parts have been selected, please select desidered parts and restart the procedure.");
@@ -131,18 +126,36 @@ public class StartPage extends PageImpl {
 
 			setPageComplete(false);
 		}
-
-		Label label6 = new Label(container, SWT.NULL);
-		label6.setText("");
-
+		*/
+		
+		/*
+		Label label20 = new Label(container, SWT.NULL);
+		label20.setText("");
+		label20.setLayoutData(gd2);
+		
+		Label lm = new Label(container, SWT.NULL);
+		lm.setText("Select the Main part from witch generic data will be loaded");
+		lm.setLayoutData(gd2);
+		
+		mainPart = new Combo(container, SWT.READ_ONLY);
+		for(int i = 0; i < parts.size(); i++){				
+			mainPart.add(parts.get(i).getName());
+		}
+		mainPart.select(0);
+		mainPart.setLayoutData(gd2);
+		*/
 		Label label60 = new Label(container, SWT.NULL);
 		label60.setText("");
-
+		label60.setLayoutData(gd2);
+		
+		Label shadow_sep_h2 = new Label(container, SWT.SEPARATOR | SWT.SHADOW_OUT | SWT.HORIZONTAL);
+		shadow_sep_h2.setLayoutData(gd2);
+		
+		
+		
 		Label label7 = new Label(container, SWT.NULL);
 		label7.setText("Please specify where the .UAPP file will be created...");
-
-		Label label70 = new Label(container, SWT.NULL);
-		label70.setText("");
+		label7.setLayoutData(gd2);
 
 		name = new Text(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		name.setLayoutData(gd);		
@@ -177,6 +190,10 @@ public class StartPage extends PageImpl {
 						}
 					}
 					
+				} else {
+					if(name.getText() != ""){
+						destination = new File(name.getText());
+					}
 				}
 			}
 
@@ -184,31 +201,22 @@ public class StartPage extends PageImpl {
 			}
 		});	
 
-		Label label9 = new Label(container, SWT.NULL);
-		label9.setText("");
-
-		Label label90 = new Label(container, SWT.NULL);
-		label90.setText("");
-
-		Label label100 = new Label(container, SWT.NULL);
-		label100.setText("");
-
-		Label label1000 = new Label(container, SWT.NULL);
-		label1000.setText("");
-
+		Label label10 = new Label(container, SWT.NULL);
+		label10.setText("");
+		label10.setLayoutData(gd2);
+		
 		Label label8 = new Label(container, SWT.NULL);
 		label8.setText("If your part selection is correct, please press the Next button to start the creation of the Application.");
-
-		Label label80 = new Label(container, SWT.NULL);
-		label80.setText("");
+		label8.setLayoutData(gd2);
 	}
 
 	@Override
 	public boolean nextPressed() {
-		
-		g.setDestination(destination.getAbsolutePath());
-		
+		//app.setMainPart(mainPart.getText());
+		if(destination != null){
+			g.setDestination(destination.getAbsolutePath());
 		/*
+		
 		if ( destination.exists() ) {
 			System.out.println("Recovery enabled");
 		    File parent = destination.getParentFile();
@@ -233,7 +241,8 @@ public class StartPage extends PageImpl {
 		}
 		
 		*/
-		
-		return true;
+			
+			return true;
+		} else return false;
 	}
 }

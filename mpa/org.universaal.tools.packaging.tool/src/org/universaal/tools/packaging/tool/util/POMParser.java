@@ -35,7 +35,6 @@ public class POMParser {
 			MavenXpp3Reader xpp3Reader = new MavenXpp3Reader();
 			model = xpp3Reader.read(reader);
 			reader.close();
-
 			if(model.getGroupId() != null)
 				groupID = model.getGroupId();
 			if(model.getArtifactId() != null)
@@ -54,6 +53,7 @@ public class POMParser {
 				deps = model.getDependencies();
 			if(model.getLicenses() != null)
 				licenses = model.getLicenses();
+			
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -64,10 +64,10 @@ public class POMParser {
 		return licenses;
 	}
 
-	public String getGroupID() {
+	public String getGroupId() {
 		return groupID;
 	}
-	public String getArtifactID() {
+	public String getArtifactId() {
 		return artifactID;
 	}
 	public String getPackaging() {
@@ -76,6 +76,7 @@ public class POMParser {
 	public String getVersion() {
 		return version;
 	}
+	
 	public String getName() {
 		return name;
 	}

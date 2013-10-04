@@ -24,19 +24,13 @@ import org.universaal.tools.packaging.tool.util.Dialog;
 import org.universaal.tools.packaging.tool.validators.FileV;
 import org.universaal.tools.packaging.tool.validators.IntegerV;
 
-public class PagePartEU extends PageImpl {
-
-	//private IProject artifact;
-	//private POMParser p;
-	private int partNumber;
+public class PageAppResources extends PageImpl {
 
 	private File[] listFilesandDirs;
 	private Text result;
 	
-	protected PagePartEU(String pageName, int pn) {
-		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
-				" - Specify configuration files and folders per part");
-		this.partNumber = pn;
+	protected PageAppResources(String pageName) {
+		super(pageName, "Specify additional resource files and folders");
 	}
 
 	public void createControl(final Composite parent) {
@@ -80,16 +74,10 @@ public class PagePartEU extends PageImpl {
 		result = new Text(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		result.setLayoutData(new GridData(GridData.FILL_HORIZONTAL, 300));
 		
-		
-		
-		setPageComplete(true); // optional
+		setPageComplete(true);
 	}
 
-	public void setArtifact(IProject artifact){
-		//this.artifact = artifact;
-		//p = new POMParser(new File(artifact.getFile("pom.xml").getLocation()+""));
-	}
-
+	
 	@Override
 	public boolean nextPressed() {
 
@@ -97,13 +85,7 @@ public class PagePartEU extends PageImpl {
 
 		try{
 			if(listFilesandDirs != null){
-				/*
-				if(app.getAppParts().get(partNumber).getExecutionUnits().size() == 0)
-					app.getAppParts().get(partNumber).getExecutionUnits().add(new ExecutionUnit(id, listFilesandDirs, (partNumber+1)));
-				else
-					app.getAppParts().get(partNumber).getExecutionUnits().set(0, new ExecutionUnit(id, listFilesandDirs, (partNumber+1)));
-					*/
-				app.getAppParts().get(partNumber).setExecutionUnit(new ExecutionUnit(/*id, */ listFilesandDirs, app.getAppParts().get(partNumber)));
+				app.setAppResouces(listFilesandDirs);
 			}
 			
 		}
