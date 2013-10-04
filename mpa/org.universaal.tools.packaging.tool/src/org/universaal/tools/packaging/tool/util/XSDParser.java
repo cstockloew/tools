@@ -31,11 +31,11 @@ public class XSDParser{
             DocumentBuilder db = dbf.newDocumentBuilder();
             if(Page.XSD_REPOSITORY.contains("http")){
             	if(checkOnline(XSD)){
-            		System.out.println("WEB");
+            		//System.out.println("WEB");
             		document = db.parse(Page.XSD_REPOSITORY+"v"+XSD+"/AAL-UAPP.xsd");
             	}
             	else {
-            		System.out.println("RESOURCE");
+            		//System.out.println("RESOURCE");
             		InputStream is = getClass().getResourceAsStream("/org/universaal/tools/packaging/tool/schemas/"+XSD+"/AAL-UAPP.xsd");
 		            document = db.parse(is);
             	}
