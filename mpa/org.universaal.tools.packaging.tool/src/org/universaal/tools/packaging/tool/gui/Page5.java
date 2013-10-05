@@ -93,7 +93,11 @@ public class Page5 extends PageImpl {
 			Label l3 = new Label(container, SWT.NULL);
 			l3.setText("Protocols for assistance, comma separated");
 			TextExt protocol = new TextExt(container, SWT.BORDER | SWT.SINGLE);
-			protocol.setText("");
+			try{
+				protocol.setText(protocols.get(k).getText());
+			} catch(IndexOutOfBoundsException e){
+				protocol.setText("");
+			}
 			//mandatory.add(protocol);			
 			protocols.add(protocol);
 			protocol.addKeyListener(new FullListener());
@@ -128,6 +132,7 @@ public class Page5 extends PageImpl {
 		
 		for(int j = 0; j < artifacts.size(); j++){
 
+			app.getAppManagement().getRemoteManagement().get(j).getProtocols().clear();
 			app.getAppManagement().getRemoteManagement().get(j).getSoftware().setArtifactID(artifacts.get(j).getText());
 			app.getAppManagement().getRemoteManagement().get(j).getSoftware().getVersion().setVersion(versions.get(j).getText());
 
@@ -136,7 +141,7 @@ public class Page5 extends PageImpl {
 				if(ps[i] != null)
 					app.getAppManagement().getRemoteManagement().get(j).getProtocols().add(ps[i]);
 		}
-
+		serializeMPA();
 		return true;
 	}
 

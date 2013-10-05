@@ -34,7 +34,7 @@ public class CreateJar {
 
 		String sourcePath = part.getLocation().toString();
 		try{							
-			String fileName = p.getArtifactID()+"-"+p.getVersion()+".jar";
+			String fileName = p.getArtifactId()+"-"+p.getVersion()+".jar";
 
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = g.getPart(part.getName()).getFile(IMavenConstants.POM_FILE_NAME);
@@ -77,7 +77,7 @@ public class CreateJar {
 		try{
 			//if file KAR is present, add it to partX folder
 
-			String fileName = p.getArtifactID()+"-"+p.getVersion()+".kar";
+			String fileName = p.getArtifactId()+"-"+p.getVersion()+".kar";
 			File kar = new File(sourcePath+"/target/"+fileName);
 			if(kar.exists())
 				copyFile(kar, new File(destination_path+fileName));

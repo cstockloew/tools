@@ -80,9 +80,15 @@ public class PagePartEU extends PageImpl {
 		result = new Text(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		result.setLayoutData(new GridData(GridData.FILL_HORIZONTAL, 300));
 		
-		
+		loadDefaultValues();
 		
 		setPageComplete(true); // optional
+	}
+
+	private void loadDefaultValues() {
+		if(app.getAppParts().get(partNumber).getExecutionUnit() != null){
+			result.setText(generateTree(app.getAppParts().get(partNumber).getExecutionUnit().getConfigFilesAndFolders(), 0));
+		}
 	}
 
 	public void setArtifact(IProject artifact){
@@ -110,7 +116,7 @@ public class PagePartEU extends PageImpl {
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
-
+		serializeMPA();
 		return true;
 	}
 

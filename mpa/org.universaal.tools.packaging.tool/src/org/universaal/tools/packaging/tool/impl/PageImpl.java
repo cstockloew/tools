@@ -192,4 +192,13 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 			}
 		}
     }
+    
+    @Override
+    public void setVisible(boolean visible){
+    	super.setVisible(visible);
+    	if(visible){ 
+    		app.setCurrentPageTitle(getTitle());
+    	}
+    	serializeMPA();
+    }
 }

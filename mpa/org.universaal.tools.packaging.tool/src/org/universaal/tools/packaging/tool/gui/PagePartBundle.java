@@ -74,6 +74,8 @@ public class PagePartBundle extends PageImpl {
 			ex.printStackTrace();
 		}
 
+		serializeMPA();
+		
 		return true;
 	}
 

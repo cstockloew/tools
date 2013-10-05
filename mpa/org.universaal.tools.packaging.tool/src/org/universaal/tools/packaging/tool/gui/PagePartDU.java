@@ -290,7 +290,8 @@ public class PagePartDU extends PageImpl {
 		os1.select(0);
 		platform1.select(0);
 		cu1.select(0);
-
+		emb1.setText(Embedding.anyContainer.toString());
+		
 		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, /*cu1, emb1,*/ ckbKar, andN, andD, andURI)));
 		setPageComplete(true);
 	}
@@ -355,13 +356,14 @@ public class PagePartDU extends PageImpl {
 				
 		}
 
+		serializeMPA();
 		return true;
 	}
 
 	@Override
 	public void setVisible(boolean visible){
 		super.setVisible(visible);
-		loadData();
+		if(visible) loadData();
 	}
 	
 	private void loadData(){
@@ -369,14 +371,14 @@ public class PagePartDU extends PageImpl {
 		List<DeploymentUnit> DUs = app.getAppParts().get(partNumber).getDeploymentUnits();
 
 		try{
-			if(DUs.get(partNumber).getType() == DeploymentUnit.OS) ckbOS1.notifyListeners(SWT.Selection, new Event());
-			else if(DUs.get(partNumber).getType() == DeploymentUnit.PLATFORM) ckbPL1.notifyListeners(SWT.Selection, new Event());
-			else if(DUs.get(partNumber).getType() == DeploymentUnit.CONTAINER) ckbCU1.notifyListeners(SWT.Selection, new Event());
+			if(DUs.get(partNumber).getType().equals(DeploymentUnit.OS)) ckbOS1.notifyListeners(SWT.Selection, new Event());
+			else if(DUs.get(partNumber).getType().equals(DeploymentUnit.PLATFORM)) ckbPL1.notifyListeners(SWT.Selection, new Event());
+			else if(DUs.get(partNumber).getType().equals(DeploymentUnit.CONTAINER)) ckbCU1.notifyListeners(SWT.Selection, new Event());
 			
 		} catch (Exception e){
-			if(app.getAppRequirements().deploymentUnitType == DeploymentUnit.OS) ckbOS1.notifyListeners(SWT.Selection, new Event());
-			else if(app.getAppRequirements().deploymentUnitType == DeploymentUnit.PLATFORM) ckbPL1.notifyListeners(SWT.Selection, new Event());
-			else if(app.getAppRequirements().deploymentUnitType == DeploymentUnit.CONTAINER) ckbCU1.notifyListeners(SWT.Selection, new Event());
+			if(app.getAppRequirements().deploymentUnitType.equals(DeploymentUnit.OS)) ckbOS1.notifyListeners(SWT.Selection, new Event());
+			else if(app.getAppRequirements().deploymentUnitType.equals(DeploymentUnit.PLATFORM)) ckbPL1.notifyListeners(SWT.Selection, new Event());
+			else if(app.getAppRequirements().deploymentUnitType.equals(DeploymentUnit.CONTAINER)) ckbCU1.notifyListeners(SWT.Selection, new Event());
 		}
 				
 		try{

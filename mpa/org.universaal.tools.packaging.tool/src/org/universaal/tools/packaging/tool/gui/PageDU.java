@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
@@ -41,7 +42,7 @@ public class PageDU extends PageImpl {
 	private Button ckbOS1, ckbPL1, ckbCU1, ckbKar;
 
 	protected PageDU(String pageName) {
-		super(pageName, " - Specify deployment requirements for the Application (the parts will inherit them)");
+		super(pageName, "Specify deployment requirements for the Application (the parts will inherit them)");
 	}
 
 	public void createControl(Composite parent) {
@@ -70,6 +71,7 @@ public class PageDU extends PageImpl {
 		ckbOS1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("OS Selected");
 				ckbPL1.setSelection(false);
 				ckbOS1.setSelection(true);
 				ckbCU1.setSelection(false);
@@ -88,6 +90,7 @@ public class PageDU extends PageImpl {
 		ckbPL1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Platform Selected");
 				ckbPL1.setSelection(true);
 				ckbOS1.setSelection(false);
 				ckbCU1.setSelection(false);
@@ -106,6 +109,7 @@ public class PageDU extends PageImpl {
 		ckbCU1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Container Selected");
 				ckbPL1.setSelection(false);
 				ckbOS1.setSelection(false);
 				ckbCU1.setSelection(true);
@@ -278,14 +282,28 @@ public class PageDU extends PageImpl {
 		platform1.select(0);
 		cu1.select(0);
 		emb1.setText(Embedding.anyContainer.toString());
-		ckbCU1.setSelection(true);
-		ckbPL1.setSelection(false);
-		ckbOS1.setSelection(false);
 		
 		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, /*cu1, emb1,*/ ckbKar, andN, andD, andURI)));
 		setPageComplete(true);
 	}
 
+	@Override
+	public void setVisible(boolean visible){
+		super.setVisible(visible);
+		if(visible) loadData();
+	}
+	
+	private void loadData(){
+		if(app.getAppRequirements().deploymentUnitType.equals(DeploymentUnit.OS)) ckbOS1.notifyListeners(SWT.Selection, new Event());
+		else if(app.getAppRequirements().deploymentUnitType.equals(DeploymentUnit.PLATFORM)) ckbPL1.notifyListeners(SWT.Selection, new Event());
+		else if(app.getAppRequirements().deploymentUnitType.equals(DeploymentUnit.CONTAINER)) ckbCU1.notifyListeners(SWT.Selection, new Event());
+		
+		if(!app.getAppRequirements().OS_Requirements.isEmpty())  os1.setText(app.getAppRequirements().OS_Requirements);
+		if(!app.getAppRequirements().Platform_Requirement.isEmpty())  platform1.setText(app.getAppRequirements().Platform_Requirement);
+		if(!app.getAppRequirements().Container_Name.isEmpty())  cu1.setText(app.getAppRequirements().Container_Name);
+		if(!app.getAppRequirements().embedding.isEmpty())  emb1.setText(app.getAppRequirements().embedding);
+	}
+	
 	public void setArtifact(IProject part){
 	}
 
@@ -307,6 +325,7 @@ public class PageDU extends PageImpl {
 		app.getAppRequirements().android.setDescription(andD.getText());
 		app.getAppRequirements().android.setLocation(URI.create(andURI.getText()));
 		
+		serializeMPA();
 		return true;
 	}
 	

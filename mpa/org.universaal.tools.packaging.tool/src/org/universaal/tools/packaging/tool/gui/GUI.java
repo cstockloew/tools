@@ -51,6 +51,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
@@ -119,6 +120,11 @@ public class GUI extends WizardMod {
 
 	}
 
+	public IWizardPage getStartingPage() {
+		String startPage = (mpa.getAAL_UAPP().getCurrentPageTitle() != "") ? mpa.getAAL_UAPP().getCurrentPageTitle() : Page.PAGE_START;
+		return getPage(startPage);
+	}
+	
 	private void checkPersistence(Boolean recovered) {
 		if ( Configurator.local.isPersistanceEnabled() ) {
 			this.recovered = recovered;
@@ -137,6 +143,7 @@ public class GUI extends WizardMod {
 					    if (recoveredStatus != null){
 					    	System.out.println("Loading recovered data from "+recovery.getAbsolutePath());
 						    mpa = recoveredStatus;
+						    destination = mpa.getAAL_UAPP().getDestination();
 						} else {
 					    	System.out.println("[WARNING] Unable to load data from recovery file");
 					    }

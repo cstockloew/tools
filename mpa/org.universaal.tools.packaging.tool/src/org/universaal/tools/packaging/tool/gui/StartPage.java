@@ -215,6 +215,7 @@ public class StartPage extends PageImpl {
 		//app.setMainPart(mainPart.getText());
 		if(destination != null){
 			g.setDestination(destination.getAbsolutePath());
+			app.setDestination(destination.getAbsolutePath());
 		/*
 		
 		if ( destination.exists() ) {
@@ -241,7 +242,6 @@ public class StartPage extends PageImpl {
 		}
 		
 		*/
-			
 			return true;
 		} else return false;
 	}

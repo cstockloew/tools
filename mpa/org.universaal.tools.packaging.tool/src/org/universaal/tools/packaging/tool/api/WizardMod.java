@@ -83,7 +83,7 @@ public abstract class WizardMod implements IWizard {
 	/**
 	 * Indicates whether this wizard needs a progress monitor.
 	 */
-	private boolean needsProgressMonitor = false;
+	private boolean needsProgressMonitor = true;
 
 	/**
 	 * Indicates whether this wizard needs previous and next buttons even if the

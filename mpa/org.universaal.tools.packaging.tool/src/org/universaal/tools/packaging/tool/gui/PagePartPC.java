@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.ToolTip;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
+import org.universaal.tools.packaging.tool.parts.ExecutionUnit;
 import org.universaal.tools.packaging.tool.parts.MiddlewareVersion;
 import org.universaal.tools.packaging.tool.parts.Space;
 import org.universaal.tools.packaging.tool.util.XSDParser;
@@ -267,6 +268,12 @@ public class PagePartPC extends PageImpl {
 			//System.out.println(app.getAppRequirements().getRequirementsList().size());
 			return super.getNextPage().getNextPage();
 		}
+	}
+	
+	@Override
+	public boolean nextPressed() {
+		serializeMPA();
+		return true;
 	}
 	
 	public void setArtifact(IProject artifact){

@@ -513,6 +513,7 @@ public class Page4 extends PageImpl {
 		updateMap();
 
 		//debugPrint("b end");
+		serializeMPA();
 		return true;
 	}
 

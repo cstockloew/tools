@@ -46,6 +46,8 @@ public class Application implements Serializable{
 	private List<Part> appParts;
 	private String mainPart = "";
 	private File[] appResources = null;
+	private String destination = "";
+	private String currentPageTitle = "";
 	
 	public Application(){
 		this.application = new App();
@@ -78,21 +80,20 @@ public class Application implements Serializable{
 	public void setAppManagement(ApplicationManagement appManagement) {
 		this.appManagement = appManagement;
 	}
+	
 	public List<Part> getAppParts() {
 		if(this.appParts == null)
 			this.appParts = new ArrayList<Part>();
 		return appParts;
 	}
 
-	/*
-	public void setMainPart(String mainPart){
-		this.mainPart = mainPart;
+	public void setDestination(String destination){
+		this.destination = destination;
 	}
-	
-	public String getMainPart(){
-		return mainPart;
+
+	public String getDestination(){
+		return destination;
 	}
-	*/
 	
 	public void setAppResouces(File[] appResources){
 		this.appResources = appResources;
@@ -100,6 +101,14 @@ public class Application implements Serializable{
 	
 	public File[] getAppResouces(){
 		return this.appResources;
+	}
+	
+	public void setCurrentPageTitle(String title){
+		this.currentPageTitle = title;
+	}
+	
+	public String getCurrentPageTitle(){
+		return this.currentPageTitle;
 	}
 	
 	public String getXML(){

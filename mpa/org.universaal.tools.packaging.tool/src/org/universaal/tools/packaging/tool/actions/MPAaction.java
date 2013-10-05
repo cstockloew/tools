@@ -42,6 +42,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.api.WizardDialogMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.util.Configurator;
@@ -168,9 +169,10 @@ public class MPAaction extends AbstractHandler {
 			
 			w.getShell().setCursor(new Cursor(w.getShell().getDisplay(),SWT.CURSOR_ARROW));
 			
-			gui = new GUI(parts, this.recovered, mainPartName);		
+			gui = new GUI(parts, this.recovered, mainPartName);	
 			WizardDialogMod wizardDialog = new WizardDialogMod(w.getShell(), gui);
 			wizardDialog.open();
+
 		}
 		
 		return null;

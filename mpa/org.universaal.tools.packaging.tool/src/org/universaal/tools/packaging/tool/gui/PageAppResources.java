@@ -73,11 +73,17 @@ public class PageAppResources extends PageImpl {
 		l1.setText("Selected Files and folders:");
 		result = new Text(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		result.setLayoutData(new GridData(GridData.FILL_HORIZONTAL, 300));
-		
+		loadDefaultValues();
 		setPageComplete(true);
 	}
 
 	
+	private void loadDefaultValues() {
+		if(app.getAppResouces() != null){
+			result.setText(generateTree(app.getAppResouces(), 0));
+		}
+	}
+
 	@Override
 	public boolean nextPressed() {
 
@@ -93,6 +99,7 @@ public class PageAppResources extends PageImpl {
 			ex.printStackTrace();
 		}
 
+		serializeMPA();
 		return true;
 	}
 

@@ -43,7 +43,7 @@ public class Part implements Serializable {
 	private List<Requirement> partRequirements;
 	private List<DeploymentUnit> deploymentUnits;
 	//private List<ExecutionUnit> executionUnits;
-	private ExecutionUnit executionUnit;
+	private ExecutionUnit executionUnit = null;
 	
 	public Part(String id, String name){
 
