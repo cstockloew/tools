@@ -37,7 +37,7 @@ public interface ConfigProperties {
     public static final String LOG_DIR_DEFAULT = TMP_DIR_DEFAULT;
     
     public static final String RECOVERY_MODE_KEY = "org.uAAL.packager.recovery";    
-    public static final String RECOVERY_MODE_KEY_DEFAULT = "false";
+    public static final String RECOVERY_MODE_KEY_DEFAULT = "true";
     public static final String RECOVERY_FILE_NAME_KEY = "org.uAAL.packager.recovery.filename";    
     public static final String RECOVERY_FILE_NAME_DEFAULT = "/.recovery";    
     public static final String RECOVERY_PARTS_NAME_KEY = "org.uAAL.packager.recovery.partsname"; 

@@ -244,7 +244,7 @@ public class Page3 extends PageImpl {
 			}
 		});
 		*/
-		
+		setPageComplete(validate());
 	}
 
 	@Override
@@ -271,7 +271,7 @@ public class Page3 extends PageImpl {
 	
 	@Override
 	public boolean nextPressed(){
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 

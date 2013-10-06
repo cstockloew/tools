@@ -339,7 +339,7 @@ public class PagePartPR extends PageImpl {
 		c45.addKeyListener(new FullListener());
 		c56.addKeyListener(new FullListener());
 
-		setPageComplete(true); // requirements are optional
+		setPageComplete(validate());
 	}
 
 	private void clearForm(){
@@ -502,7 +502,7 @@ public class PagePartPR extends PageImpl {
 
 		//debugPrint("b end");
 
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 

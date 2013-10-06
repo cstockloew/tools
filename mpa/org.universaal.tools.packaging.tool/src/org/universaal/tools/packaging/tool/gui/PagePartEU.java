@@ -82,7 +82,7 @@ public class PagePartEU extends PageImpl {
 		
 		loadDefaultValues();
 		
-		setPageComplete(true); // optional
+		setPageComplete(validate());
 	}
 
 	private void loadDefaultValues() {
@@ -116,7 +116,7 @@ public class PagePartEU extends PageImpl {
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 

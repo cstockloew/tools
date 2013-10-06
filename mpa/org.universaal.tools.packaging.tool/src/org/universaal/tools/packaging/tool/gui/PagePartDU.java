@@ -293,7 +293,7 @@ public class PagePartDU extends PageImpl {
 		emb1.setText(Embedding.anyContainer.toString());
 		
 		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, /*cu1, emb1,*/ ckbKar, andN, andD, andURI)));
-		setPageComplete(true);
+		setPageComplete(validate());
 	}
 
 	public void setArtifact(IProject part){
@@ -356,7 +356,7 @@ public class PagePartDU extends PageImpl {
 				
 		}
 
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 

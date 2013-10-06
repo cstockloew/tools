@@ -159,7 +159,6 @@ public class StartPage extends PageImpl {
 
 		name = new Text(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		name.setLayoutData(gd);		
-		name.setText(app.getDestination());
 		name.addVerifyListener(new FileV());
 
 		Button b1 = new Button(container, SWT.PUSH);
@@ -209,6 +208,16 @@ public class StartPage extends PageImpl {
 		Label label8 = new Label(container, SWT.NULL);
 		label8.setText("If your part selection is correct, please press the Next button to start the creation of the Application.");
 		label8.setLayoutData(gd2);
+		
+		loadDefaultValues();
+		setPageComplete(validate());
+	}
+
+	private void loadDefaultValues() {
+		name.setText(app.getDestination());
+		if(!name.getText().isEmpty()){
+			destination = new File(name.getText());
+		}
 	}
 
 	@Override

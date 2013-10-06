@@ -269,7 +269,7 @@ public class PageLicenses extends PageImpl {
 			addPageCustom(this, pl);
 		}
 
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 }

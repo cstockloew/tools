@@ -353,7 +353,8 @@ public class Page4 extends PageImpl {
 		c45.addKeyListener(new FullListener());
 		c56.addKeyListener(new FullListener());
 		
-		setPageComplete(true);
+		setPageComplete(validate());
+		
 	}
 
 	private void clearForm(){
@@ -513,7 +514,7 @@ public class Page4 extends PageImpl {
 		updateMap();
 
 		//debugPrint("b end");
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 

@@ -389,6 +389,7 @@ public class Page1 extends PageImpl {
 		loadDefaultValues();
 		
 		checkMenuEntry();
+		setPageComplete(validate());
 		
 	}
 	
@@ -504,7 +505,7 @@ public class Page1 extends PageImpl {
 			}	
 			
 
-	        serializeMPA();
+	        //serializeMPA();
 			
 		} catch(Exception ex){
 			ex.printStackTrace();

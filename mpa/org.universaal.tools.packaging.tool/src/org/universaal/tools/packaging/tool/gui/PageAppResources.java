@@ -74,7 +74,7 @@ public class PageAppResources extends PageImpl {
 		result = new Text(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		result.setLayoutData(new GridData(GridData.FILL_HORIZONTAL, 300));
 		loadDefaultValues();
-		setPageComplete(true);
+		setPageComplete(validate());
 	}
 
 	
@@ -99,7 +99,7 @@ public class PageAppResources extends PageImpl {
 			ex.printStackTrace();
 		}
 
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 

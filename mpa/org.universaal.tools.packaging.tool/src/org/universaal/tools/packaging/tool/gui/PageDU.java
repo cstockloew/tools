@@ -281,7 +281,7 @@ public class PageDU extends PageImpl {
 		emb1.setText(Embedding.anyContainer.toString());
 		
 		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, /*cu1, emb1,*/ ckbKar, andN, andD, andURI)));
-		setPageComplete(true);
+		setPageComplete(validate());
 	}
 
 	@Override
@@ -322,7 +322,7 @@ public class PageDU extends PageImpl {
 		app.getAppRequirements().android.setDescription(andD.getText());
 		app.getAppRequirements().android.setLocation(URI.create(andURI.getText()));
 		
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 	

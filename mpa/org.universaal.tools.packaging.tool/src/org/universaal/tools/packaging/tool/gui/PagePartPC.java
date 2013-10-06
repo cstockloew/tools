@@ -255,6 +255,8 @@ public class PagePartPC extends PageImpl {
 			}
 		});
 		*/
+		setPageComplete(validate());
+		
 	}
 
 	@Override
@@ -272,7 +274,7 @@ public class PagePartPC extends PageImpl {
 	
 	@Override
 	public boolean nextPressed() {
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 	

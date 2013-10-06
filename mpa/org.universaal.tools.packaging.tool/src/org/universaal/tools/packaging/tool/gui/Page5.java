@@ -141,7 +141,7 @@ public class Page5 extends PageImpl {
 				if(ps[i] != null)
 					app.getAppManagement().getRemoteManagement().get(j).getProtocols().add(ps[i]);
 		}
-		serializeMPA();
+		//serializeMPA();
 		return true;
 	}
 

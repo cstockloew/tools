@@ -282,8 +282,8 @@ public class Page2 extends PageImpl {
 			}
 		});	
 		
-		if ( Configurator.local.isPersistanceEnabled() ) setPageComplete(validate());
 		loadDefaultValues();
+		setPageComplete(validate());
 		
 	}
 
@@ -423,7 +423,7 @@ public class Page2 extends PageImpl {
 			if(web.getText() != null && !web.getText().isEmpty())
 				app.getApplication().getApplicationProvider().setWebAddress(URI.create(removeBlanks(web.getText())));
 			
-			serializeMPA();
+			//serializeMPA();
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
