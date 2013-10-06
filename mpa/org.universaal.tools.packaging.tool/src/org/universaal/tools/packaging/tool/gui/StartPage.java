@@ -159,6 +159,7 @@ public class StartPage extends PageImpl {
 
 		name = new Text(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		name.setLayoutData(gd);		
+		name.setText(app.getDestination());
 		name.addVerifyListener(new FileV());
 
 		Button b1 = new Button(container, SWT.PUSH);

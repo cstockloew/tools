@@ -71,7 +71,6 @@ public class PageDU extends PageImpl {
 		ckbOS1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("OS Selected");
 				ckbPL1.setSelection(false);
 				ckbOS1.setSelection(true);
 				ckbCU1.setSelection(false);
@@ -90,7 +89,6 @@ public class PageDU extends PageImpl {
 		ckbPL1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Platform Selected");
 				ckbPL1.setSelection(true);
 				ckbOS1.setSelection(false);
 				ckbCU1.setSelection(false);
@@ -109,7 +107,6 @@ public class PageDU extends PageImpl {
 		ckbCU1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Container Selected");
 				ckbPL1.setSelection(false);
 				ckbOS1.setSelection(false);
 				ckbCU1.setSelection(true);

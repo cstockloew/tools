@@ -624,13 +624,16 @@ public class GUI extends WizardMod {
 	
 	private void genEffectivePom(List<IProject> parts){
 	
+		//System.out.println("Generating Effective POM");
+		
 		for(int i=0; i<parts.size();i++){
 		
-			
 			IProject part = parts.get(i);
 			
 			String partName = part.getName();
 			mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1),partName));
+			
+			//System.out.println("Part name:"+partName);
 			
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);
@@ -639,10 +642,13 @@ public class GUI extends WizardMod {
 			IMaven maven = MavenPlugin.getMaven();
 	
 			if(pomResource != null && projectFacade != null){
+				
+				//System.out.println("Resource not null, trying to hrlp:effective-pom");
+				
 				MavenExecutionRequest request;
 				try {
 					request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
-				
+					
 					List<String> goals = new ArrayList<String>();
 					Properties props = new Properties();
 					props.setProperty("output", mavenTempDir+"/"+partName+".epom.xml");
@@ -652,6 +658,7 @@ public class GUI extends WizardMod {
 					request.setGoals(goals);
 					request.setUserProperties(props);
 					maven.execute(request, null);
+					//System.out.println("Done.");
 					EffectivePOMContainer.addDocument(partName, mavenTempDir+"/"+partName+".epom.xml");
 					EffectivePOMContainer.getDependencies();
 				} catch (CoreException e) {
