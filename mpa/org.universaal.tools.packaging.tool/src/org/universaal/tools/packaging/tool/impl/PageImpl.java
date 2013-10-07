@@ -209,7 +209,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
     
     public void setPercentage(double percentage){
     	percentage = percentage * 100.0;
-    	setDescription(description + " - Complete: "+(int)percentage+"%");
+    	setDescription(description + " - "+(int)percentage+"% completed");
     }
     
     public double getPercentage(){
