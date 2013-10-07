@@ -270,10 +270,10 @@ public class PageDU extends PageImpl {
 
 		Label empty2 = new Label(container, SWT.NULL);
 		empty2.setText("");
-
+		/*
 		Label waiting = new Label(container, SWT.NULL);
 		waiting.setText("The generation of required stuff could take some time, please be patient...");
-
+		 */
 		//default configuration
 		os1.select(0);
 		platform1.select(0);

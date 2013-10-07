@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
@@ -21,6 +22,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Android;
 import org.universaal.tools.packaging.tool.parts.Container;
@@ -304,6 +306,8 @@ public class PagePartDU extends PageImpl {
 	@Override
 	public boolean nextPressed() {
 
+		getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_WAIT));
+
 		int charValue = value.charAt(0);
 		String alph = String.valueOf( (char) (charValue + 1));
 		value = alph;
@@ -328,13 +332,14 @@ public class PagePartDU extends PageImpl {
 		else if(ckbCU1.getSelection()){
 			ContainerUnit cu = null;
 			if(cu1.getText().equals(Container.KARAF)){
-
+				
 				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
 				String karaf = krf.generate(this.part, true, partNumber);
 				if(karaf != null && !karaf.isEmpty())
 					cu = new ContainerUnit(emb1.getText(), karaf);
 				else
-					cu = new ContainerUnit(emb1.getText(), "");				
+					cu = new ContainerUnit(emb1.getText(), "");
+				
 			}
 			else if(cu1.getText().equals(Container.ANDROID)){
 				if(andURI.getText() == null || andURI.getText().isEmpty()){
@@ -356,6 +361,7 @@ public class PagePartDU extends PageImpl {
 				
 		}
 
+		getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_ARROW));
 		//serializeMPA();
 		return true;
 	}
