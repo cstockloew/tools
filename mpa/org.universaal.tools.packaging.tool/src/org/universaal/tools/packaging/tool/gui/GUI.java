@@ -230,88 +230,120 @@ public class GUI extends WizardMod {
 	}
 
 	@Override
-	public void addPages() {
+	public void addPages(){
+		addPages(false);
+		addPages(true);
+	}
+
+	public void addPages(boolean percentage) {
 		if(this.parts != null){
 			
-			if(parts.size() > 1)
-				mpa.getAAL_UAPP().getApplication().setMultipart(true);
-			else
-				mpa.getAAL_UAPP().getApplication().setMultipart(false);
-
-			createTempContainer();
-			genEffectivePom(this.parts);
-			if(!recovered) loadDataFromManPOM();
+			if(!percentage){
+				if(parts.size() > 1)
+					mpa.getAAL_UAPP().getApplication().setMultipart(true);
+				else
+					mpa.getAAL_UAPP().getApplication().setMultipart(false);
+	
+				createTempContainer();
+				genEffectivePom(this.parts);
+				if(!recovered) loadDataFromManPOM();
 			
-			p0 = new StartPage(Page.PAGE_START);
-			addPage(p0);
-			p0.setMPA(mpa);
+				p0 = new StartPage(Page.PAGE_START);
+				addPage(p0);
+				p0.setMPA(mpa);
+				
+				p1 = new Page1(Page.PAGE1);
+				addPage(p1);
+				p1.setMPA(mpa);
+	
+				p2 = new Page2(Page.PAGE2);
+				addPage(p2);
+				p2.setMPA(mpa);
+	
+				pdu = new PageDU(Page.PAGE_DU);
+				addPage(pdu);
+				pdu.setMPA(mpa);
 			
-			p1 = new Page1(Page.PAGE1);
-			addPage(p1);
-			p1.setMPA(mpa);
-
-			p2 = new Page2(Page.PAGE2);
-			addPage(p2);
-			p2.setMPA(mpa);
-
-			pdu = new PageDU(Page.PAGE_DU);
-			addPage(pdu);
-			pdu.setMPA(mpa);
-		
-			par = new PageAppResources(Page.PAGE_APP_RESOURCES);
-			addPage(par);
-			par.setMPA(mpa);
-		
-			pl = new PageLicenses(Page.PAGE_LICENSE);
-			addPage(pl);
-			pl.setMPA(mpa);
-		
-			p3 = new Page3(Page.PAGE3);
-			addPage(p3);
-			p3.setMPA(mpa);
-
-			p4 = new Page4(Page.PAGE4, 0, null, null);
-			addPage(p4);
-			p4.setMPA(mpa);
-
-			p5 = new Page5(Page.PAGE5);
-			addPage(p5);
-			p5.setMPA(mpa);
-		
-			for(int i = 0; i < parts.size(); i++){
-
-				String partName = parts.get(i).getName();
+				par = new PageAppResources(Page.PAGE_APP_RESOURCES);
+				addPage(par);
+				par.setMPA(mpa);
+			
+				pl = new PageLicenses(Page.PAGE_LICENSE);
+				addPage(pl);
+				pl.setMPA(mpa);
+			
+				p3 = new Page3(Page.PAGE3);
+				addPage(p3);
+				p3.setMPA(mpa);
+	
+				p4 = new Page4(Page.PAGE4, 0, null, null);
+				addPage(p4);
+				p4.setMPA(mpa);
+	
+				p5 = new Page5(Page.PAGE5);
+				addPage(p5);
+				p5.setMPA(mpa);
+			
+				for(int i = 0; i < parts.size(); i++){
+	
+					String partName = parts.get(i).getName();
+					
+					ppB = new PagePartBundle(Page.PAGE_PART_BUNDLE+partName, i); //deployment units
+					addPage(ppB);
+					ppB.setMPA(mpa);
+					ppB.setArtifact(parts.get(i));
+	
+					ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
+					addPage(ppDU);
+					ppDU.setMPA(mpa);
+					ppDU.setArtifact(parts.get(i));
+					
+					ppEU = new PagePartEU(Page.PAGE_PART_EU+partName, i); // execution units
+					addPage(ppEU);
+					ppEU.setMPA(mpa);
+					ppEU.setArtifact(parts.get(i));
+	
+					ppPC = new PagePartPC(Page.PAGE_PART_PC+partName, i); // part capabilities
+					addPage(ppPC);
+					ppPC.setMPA(mpa);
+					ppPC.setArtifact(parts.get(i));
+	
+					ppPR = new PagePartPR(Page.PAGE_PART_PR+partName, i, 0, null, null); // part requirements
+					addPage(ppPR);
+					ppPR.setMPA(mpa);
+					ppPR.setArtifact(parts.get(i));
+				}
+	
+				p_end = new EndPage(Page.PAGE_END);
+				addPage(p_end);
+				p_end.setMPA(mpa);
+				addingPermanentStorageDecorator();
+			} else {
+				p0.setPercentage((double)getPageNumber(getPage(Page.PAGE_START))/(double)getPageCount());
+				p1.setPercentage((double)getPageNumber(getPage(Page.PAGE1))/(double)getPageCount());
+				p2.setPercentage((double)getPageNumber(getPage(Page.PAGE2))/(double)getPageCount());
+				pdu.setPercentage((double)getPageNumber(getPage(Page.PAGE_DU))/(double)getPageCount());
+				par.setPercentage((double)getPageNumber(getPage(Page.PAGE_APP_RESOURCES))/(double)getPageCount());
+				pl.setPercentage((double)getPageNumber(getPage(Page.PAGE_LICENSE))/(double)getPageCount());
+				p3.setPercentage((double)getPageNumber(getPage(Page.PAGE3))/(double)getPageCount());
+				p4.setPercentage((double)getPageNumber(getPage(Page.PAGE4))/(double)getPageCount());
+				p5.setPercentage((double)getPageNumber(getPage(Page.PAGE5))/(double)getPageCount());
 				
-				ppB = new PagePartBundle(Page.PAGE_PART_BUNDLE+partName, i); //deployment units
-				addPage(ppB);
-				ppB.setMPA(mpa);
-				ppB.setArtifact(parts.get(i));
-
-				ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
-				addPage(ppDU);
-				ppDU.setMPA(mpa);
-				ppDU.setArtifact(parts.get(i));
+				for(int i = 0; i < parts.size(); i++){
+	
+					String partName = parts.get(i).getName();
+					
+					ppB.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_BUNDLE+partName))/(double)getPageCount());
+					ppDU.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_DU+partName))/(double)getPageCount());
+					ppEU.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_EU+partName))/(double)getPageCount());
+					ppPC.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_PC+partName))/(double)getPageCount());
+					ppPR.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_PR+partName))/(double)getPageCount());
+				}
+	
+				p_end.setPercentage(100);
 				
-				ppEU = new PagePartEU(Page.PAGE_PART_EU+partName, i); // execution units
-				addPage(ppEU);
-				ppEU.setMPA(mpa);
-				ppEU.setArtifact(parts.get(i));
-
-				ppPC = new PagePartPC(Page.PAGE_PART_PC+partName, i); // part capabilities
-				addPage(ppPC);
-				ppPC.setMPA(mpa);
-				ppPC.setArtifact(parts.get(i));
-
-				ppPR = new PagePartPR(Page.PAGE_PART_PR+partName, i, 0, null, null); // part requirements
-				addPage(ppPR);
-				ppPR.setMPA(mpa);
-				ppPR.setArtifact(parts.get(i));
 			}
-
-			p_end = new EndPage(Page.PAGE_END);
-			addPage(p_end);
-			p_end.setMPA(mpa);
-			addingPermanentStorageDecorator();
+			
 		}
 		else{
 			p = new ErrorPage(Page.PAGE_ERROR);

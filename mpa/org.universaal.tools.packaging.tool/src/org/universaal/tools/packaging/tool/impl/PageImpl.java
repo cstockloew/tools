@@ -62,12 +62,15 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 	protected static int otherGeneralReqs = 1;
 //	protected static List<Integer> otherPartReqs;
 	protected static int otherPartReqs = 1;
-	
+	private String description = "";
+	private double percentage;
+
 	protected PageImpl(String pageName, String description){
 
 		super(pageName);
-		setDescription(description);
 		setTitle(pageName);		
+		setDescription(description);
+    	this.description = description;
 
 //		otherPartReqs = new ArrayList<Integer>();
 
@@ -202,5 +205,14 @@ public abstract class PageImpl extends WizardPageMod implements Page {
     		app.setCurrentPageTitle(getTitle());
     	}
     	serializeMPA();
+    }
+    
+    public void setPercentage(double percentage){
+    	percentage = percentage * 100.0;
+    	setDescription(description + " - Complete: "+(int)percentage+"%");
+    }
+    
+    public double getPercentage(){
+    	return percentage;
     }
 }

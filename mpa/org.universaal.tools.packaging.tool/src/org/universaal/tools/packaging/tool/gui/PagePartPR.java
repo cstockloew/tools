@@ -488,6 +488,8 @@ public class PagePartPR extends PageImpl {
 					new SingleRequirement(req5.getText(), val5.getText(), LogicalCriteria.valueOf(c5.getText())));
 
 			p_req.setMPA(multipartApplication);
+			p_req.setPercentage(this.getPercentage());
+			
 			addPageCustom(this, p_req);
 
 			//otherPartReqs.set(partNumber, index+1);
