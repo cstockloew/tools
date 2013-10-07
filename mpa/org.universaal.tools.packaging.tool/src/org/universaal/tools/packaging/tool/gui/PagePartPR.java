@@ -56,8 +56,6 @@ public class PagePartPR extends PageImpl {
 		this.srFromPreviousPage = srFromPreviousPage;
 
 		this.thisReqsPage = new HashMap<Requirement, REQ_STATE>();
-
-		otherPartReqs.add(new Integer(1));
 	}
 
 	public void createControl(Composite parent) {
@@ -478,7 +476,10 @@ public class PagePartPR extends PageImpl {
 
 		if(moreRequirementsInNextPage && !(getNextPage() instanceof PagePartPR)){
 
-			Integer index = otherPartReqs.get(partNumber);
+			System.out.println("OtherPartReqs:"+otherPartReqs);
+			
+			//Integer index = otherPartReqs.get(partNumber);
+			int index = otherPartReqs;
 
 			PagePartPR p_req = new PagePartPR(Page.PAGE_PART_PR+" #"+index, 
 					partNumber,
@@ -489,7 +490,8 @@ public class PagePartPR extends PageImpl {
 			p_req.setMPA(multipartApplication);
 			addPageCustom(this, p_req);
 
-			otherPartReqs.set(partNumber, index+1);
+			//otherPartReqs.set(partNumber, index+1);
+			otherPartReqs++;
 		}
 
 		//debugPrint("b handlePreviousToBeDeleted");

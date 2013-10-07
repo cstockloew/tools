@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
@@ -12,6 +13,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteManagement;
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
@@ -124,6 +126,16 @@ public class Page5 extends PageImpl {
 		setPageComplete(validate());
 	}
 
+	@Override
+	public IWizardPage getPreviousPage() {
+
+		
+		if(app.getAppRequirements().getRequirementsList().size() > 0){
+			return super.getWizard().getPage(Page.PAGE4);
+		}
+		return super.getWizard().getPage(Page.PAGE3);
+	}
+	
 	
 	@Override
 	public boolean nextPressed() {

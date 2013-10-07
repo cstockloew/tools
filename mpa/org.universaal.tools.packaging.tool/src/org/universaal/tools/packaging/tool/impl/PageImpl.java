@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
@@ -59,15 +60,16 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 
 	protected static int otherLicenses = 1;
 	protected static int otherGeneralReqs = 1;
-	protected static List<Integer> otherPartReqs;
-
+//	protected static List<Integer> otherPartReqs;
+	protected static int otherPartReqs = 1;
+	
 	protected PageImpl(String pageName, String description){
 
 		super(pageName);
 		setDescription(description);
 		setTitle(pageName);		
 
-		otherPartReqs = new ArrayList<Integer>();
+//		otherPartReqs = new ArrayList<Integer>();
 
 		mandatory = new ArrayList<Control>();
 		setPageComplete(false);
@@ -180,7 +182,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 		if(GUI.getInstance().recoveryStorage != null){
 			
 			try {
-				System.out.println("writing recovery file");
+				// System.out.println("writing recovery file");
 				FileOutputStream fos = new FileOutputStream( GUI.getInstance().recoveryStorage, false );
 				ObjectOutputStream oos = new ObjectOutputStream( fos );
 				oos.writeObject(this.multipartApplication);

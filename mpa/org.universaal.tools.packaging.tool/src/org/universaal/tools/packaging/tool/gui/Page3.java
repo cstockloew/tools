@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
+import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Capability;
 import org.universaal.tools.packaging.tool.parts.Container;
@@ -260,12 +261,12 @@ public class Page3 extends PageImpl {
 	public IWizardPage getNextPage(){
 		if (ckbMoreReqs.getSelection()){
 			//System.out.println(app.getAppRequirements().getRequirementsList().size());
-			return super.getNextPage();
+			return super.getWizard().getPage(Page.PAGE4);
 		}
 		else{
 			app.getAppRequirements().clear();
 			//System.out.println(app.getAppRequirements().getRequirementsList().size());
-			return super.getNextPage().getNextPage();
+			return super.getWizard().getPage(Page.PAGE5);
 		}
 	}
 	

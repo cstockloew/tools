@@ -167,13 +167,13 @@ public class MPAaction extends AbstractHandler {
 				}
 			} else mainPartName = parts.get(0).getName();
 			
-			w.getShell().setCursor(new Cursor(w.getShell().getDisplay(),SWT.CURSOR_ARROW));
-			
 			gui = new GUI(parts, this.recovered, mainPartName);	
 			WizardDialogMod wizardDialog = new WizardDialogMod(w.getShell(), gui);
 			wizardDialog.open();
 
 		}
+		
+		w.getShell().setCursor(new Cursor(w.getShell().getDisplay(),SWT.CURSOR_ARROW));
 		
 		return null;
 	}
