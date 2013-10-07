@@ -8,7 +8,6 @@ import java.util.LinkedList;
 
 
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.interfaces.ModelRegistryChangedListener;
 
 /**

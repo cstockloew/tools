@@ -14,7 +14,6 @@ import org.universAAL.ucc.configuration.model.configurationdefinition.Item;
 import org.universAAL.ucc.configuration.model.configurationdefinition.OnConfigurationModelChangedListener;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Validator;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Validators;
-import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.configurationinstances.ConfigOption;
 import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFactory;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;

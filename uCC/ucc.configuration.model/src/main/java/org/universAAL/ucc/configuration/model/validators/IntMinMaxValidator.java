@@ -2,8 +2,8 @@ package org.universAAL.ucc.configuration.model.validators;
 
 
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ucc.configuration.model.Activator;
 import org.universAAL.ucc.configuration.model.ConfigOptionRegistry;
-import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
 import org.universAAL.ucc.configuration.model.interfaces.ConfigurationValidator;

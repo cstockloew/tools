@@ -5,8 +5,8 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.ucc.configuration.model.Activator;
 import org.universAAL.ucc.configuration.model.ConfigurationOption;
-import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.interfaces.ConfigurationValidator;
 import org.universAAL.ucc.configuration.model.interfaces.ConfigurationValidatorFactory;
 

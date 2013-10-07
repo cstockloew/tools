@@ -4,7 +4,6 @@ package org.universAAL.ucc.configuration.model;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.ucc.configuration.model.configurationdefinition.Category;
 import org.universAAL.ucc.configuration.model.configurationdefinition.SimpleConfigItem;
-import org.universAAL.ucc.configuration.model.configurationinstances.Activator;
 import org.universAAL.ucc.configuration.model.configurationinstances.ObjectFactory;
 import org.universAAL.ucc.configuration.model.configurationinstances.Value;
 import org.universAAL.ucc.configuration.model.exceptions.ValidationException;
