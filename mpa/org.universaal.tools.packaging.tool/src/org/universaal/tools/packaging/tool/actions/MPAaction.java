@@ -70,14 +70,14 @@ public class MPAaction extends AbstractHandler {
 		w.getShell().setCursor(new Cursor(w.getShell().getDisplay(),SWT.CURSOR_WAIT));
 		
 		if ( Configurator.local.isPersistanceEnabled()) {
-			System.out.println("Searching for recovery file "+ recFile);
+			//System.out.println("Searching for recovery file "+ recFile);
 			File recovery = new File(recFile);
 			if(recovery.exists()){
-				System.out.println("Found It");
-				System.out.println("Searching for recovery parts file "+ recParts);
+				//System.out.println("Found It");
+				//System.out.println("Searching for recovery parts file "+ recParts);
 				File recoveryParts = new File(recParts);
 				if(recoveryParts.exists()){
-					System.out.println("Found It");
+					//System.out.println("Found It");
 					Boolean tryRecover = MessageDialog.openConfirm(w.getShell(),
 							"Recovery", "A previous operation has been cancelled.\n\nWould you like to recover it ?");
 					if(tryRecover){
@@ -90,7 +90,7 @@ public class MPAaction extends AbstractHandler {
 				            
 				            while(line != null){
 				                if(!line.trim().isEmpty()){
-									System.out.println("Importing part "+line);
+									//System.out.println("Importing part "+line);
 									IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(line);
 									parts.add(container.getProject());
 								}
