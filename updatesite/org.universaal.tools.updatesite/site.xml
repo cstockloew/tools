@@ -294,6 +294,9 @@
    <feature url="features/org.universaal.tools.aalstudio.feature_2.0.0.jar" id="org.universaal.tools.aalstudio.feature" version="2.0.0">
       <category name="universaal_tools"/>
    </feature>
+   <feature url="features/org.universaal.tools.packaging.tool.feature_1.1.8.jar" id="org.universaal.tools.packaging.tool.feature" version="1.1.8">
+      <category name="universaal_tools"/>
+   </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
          Tools for development of AAL applications using the universAAL platform
