@@ -228,6 +228,7 @@ public class KarafFeaturesGenerator {
 			IMaven maven = MavenPlugin.getMaven();
 			if(pomResource != null && projectFacade != null){
 				MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
+
 				System.out.println(
 					"Preparing to run maven, the log level was:" + request.getLoggingLevel() + 
 					" but we increased to "+MavenExecutionRequest.LOGGING_LEVEL_DEBUG 
@@ -256,6 +257,7 @@ public class KarafFeaturesGenerator {
 				ExecutionEventLogger execLogger = new ExecutionEventLogger(logger);
 				request.setExecutionListener(execLogger);
 				
+
 				List<String> goals = new ArrayList<String>();
 				Properties props = new Properties();
 
@@ -273,7 +275,9 @@ public class KarafFeaturesGenerator {
 
 				System.out.println("[Application Packager] - Generating Karaf features file...");
 				goals.clear();
-				props = new Properties();
+				/*goals.add("eclipse:eclipse");
+				props.setProperty("eclipse.useProjectReferences","false");
+				*/
 				goals.add(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_FEATURE);
 				request.setGoals(goals);
 				request.setUserProperties(props);

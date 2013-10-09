@@ -60,8 +60,10 @@ public class LicenseSet implements Serializable{
 
 		String r = "";
 		r = r.concat("<licenses>");
-		for(int i = 0; i< licenseList.size(); i++)
-			r = r.concat("<license>"+licenseList.get(i).getXML()+"</license>");
+		for(int i = 0; i< licenseList.size(); i++){
+			if(!licenseList.get(i).getLink().toASCIIString().trim().isEmpty())
+				r = r.concat("<license>"+licenseList.get(i).getXML()+"</license>");
+		}
 		r = r.concat(sla.getXML());
 		r = r.concat("</licenses>");
 

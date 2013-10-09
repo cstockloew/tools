@@ -37,7 +37,8 @@ public class App implements Serializable {
 	private boolean multipart;
 	private String tags;
 	private Contact applicationProvider;
-	private List<LicenseSet> licenses;
+	//private List<LicenseSet> licenses;
+	private LicenseSet licenses;
 	private MenuEntry menuEntry;
 	
 	public App(){
@@ -111,6 +112,7 @@ public class App implements Serializable {
 		return menuEntry;
 	}
 	
+	/*
 	public List<LicenseSet> getLicenses() {
 		if(licenses == null)
 			licenses = new ArrayList<LicenseSet>();
@@ -120,7 +122,18 @@ public class App implements Serializable {
 	public void setLicenses(List<LicenseSet> licenses) {
 		this.licenses = licenses;
 	}
-
+	*/
+	
+	public LicenseSet getLicenses() {
+		if(licenses == null)
+			licenses = new LicenseSet();
+		return licenses;
+	}
+	
+	public void setLicenses(LicenseSet licenses) {
+		this.licenses = licenses;
+	}
+	
 	public String getXML(){
 
 		String r = "";
@@ -132,8 +145,10 @@ public class App implements Serializable {
 		r = r.concat("<multipart>"+multipart+"</multipart>");
 		r = r.concat("<tags>"+tags+"</tags>");
 		r = r.concat("<applicationProvider>"+applicationProvider.getXML()+"</applicationProvider>");
-		for(int i = 0; i < getLicenses().size(); i++)
+		/*for(int i = 0; i < getLicenses().size(); i++)
 			r = r.concat(licenses.get(i).getXML());
+			*/
+		r = r.concat(licenses.getXML());
 		r = r.concat("<applicationProfile>"+applicationProfile+"</applicationProfile>");
 		if(menuEntry.getMenuName().trim().length() > 0) r = r.concat("<menuEntry>"+menuEntry.getXML()+"</menuEntry>");
 		//r = r.concat("</app>");

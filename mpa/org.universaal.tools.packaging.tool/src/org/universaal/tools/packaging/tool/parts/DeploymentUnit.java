@@ -41,6 +41,13 @@ public class DeploymentUnit implements Serializable {
 	private String type;
 	private ContainerUnit cu;
 
+	public DeploymentUnit(){		
+		this.id = null;
+		this.type = null;
+		this.unit = null;
+		this.cu = null;
+	}
+	
 	public DeploymentUnit(String id, String unit, String type){		
 
 		this.id = id;

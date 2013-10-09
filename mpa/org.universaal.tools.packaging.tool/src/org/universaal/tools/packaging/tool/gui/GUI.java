@@ -203,9 +203,8 @@ public class GUI extends WizardMod {
 			LicenseSet aLicenseSet = new LicenseSet();
 			aLicenseSet.setLicenseList(licenseList);
 			
-			List<LicenseSet> ls = app.getApplication().getLicenses();
-			ls.add(aLicenseSet);
-			app.getApplication().setLicenses(ls);
+			app.getApplication().setLicenses(aLicenseSet);
+			
 		}
 
 		// Bundle, Artifact Id and Version per part
@@ -340,7 +339,7 @@ public class GUI extends WizardMod {
 					ppPR.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_PR+partName))/(double)getPageCount());
 				}
 	
-				p_end.setPercentage(100);
+				p_end.setPercentage(1);
 				
 			}
 			
@@ -388,24 +387,26 @@ public class GUI extends WizardMod {
 			for(int i = 0; i < parts.size(); i++)		
 				jar.create(parts.get(i), i+1);
 
-			// copy SLA and licenses (if possible)
-			for(int i = 0; i < mpa.getAAL_UAPP().getApplication().getLicenses().size(); i++){
 
-				if(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink().getScheme() != null && 
-						mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
-					File sla = new File(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getSla().getLink());
+			// copy SLA and licenses (if possible)
+			//for(int i = 0; i < mpa.getAAL_UAPP().getApplication().getLicenses().size(); i++){
+
+				if(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme() != null && 
+						mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+					File sla = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink());
 					copyFile(sla, new File(tempDir+"/license/"+sla.getName()));
 				}
 
-				for(int j = 0; j < mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().size(); j++){
+				for(int j = 0; j < mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().size(); j++){
 
-					if(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink().getScheme() != null && 
-							mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
-						File license = new File(mpa.getAAL_UAPP().getApplication().getLicenses().get(i).getLicenseList().get(j).getLink());
+					if(!mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().toASCIIString().trim().isEmpty() &&
+							mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme() != null && 
+							mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+						File license = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink());
 						copyFile(license, new File(tempDir+"/license/"+license.getName()));
 					}
 				}
-			}
+			//}
 
 			// copy config files files and folders
 			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
@@ -441,8 +442,14 @@ public class GUI extends WizardMod {
 			File tmpFile = new File(tempDir+"/img.png");
 			if(tmpFile.exists()) tmpFile.delete();
 			
+			tmpFile = new File(tempDir+"/.recovery");
+			if(tmpFile.exists()) tmpFile.delete();
+			
+			tmpFile = new File(tempDir+"/.parts");
+			if(tmpFile.exists()) tmpFile.delete();
+				
 			if(iconFile != null && iconFile.exists()){
-				if (mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconScale()){
+					if (mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconScale()){
 					try {
 						BufferedImage img = ImageIO.read(iconFile);
 						Image scaled = img.getScaledInstance(512, 512, Image.SCALE_AREA_AVERAGING);
@@ -693,7 +700,8 @@ public class GUI extends WizardMod {
 					maven.execute(request, null);
 					//System.out.println("Done.");
 					EffectivePOMContainer.addDocument(partName, mavenTempDir+"/"+partName+".epom.xml");
-					EffectivePOMContainer.getDependencies();
+					//EffectivePOMContainer.addDocument(partName, "/home/federico/nutritional.pom.epom.xml");
+					EffectivePOMContainer.setDocument(partName);
 				} catch (CoreException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

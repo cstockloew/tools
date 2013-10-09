@@ -247,7 +247,8 @@ public class Page3 extends PageImpl {
 		*/
 		setPageComplete(validate());
 	}
-
+	
+	/*
 	@Override
 	public IWizardPage getPreviousPage() {
 
@@ -256,7 +257,7 @@ public class Page3 extends PageImpl {
 
 		return super.getPreviousPage().getPreviousPage();
 	}
-	
+	*/
 	@Override
 	public IWizardPage getNextPage(){
 		if (ckbMoreReqs.getSelection()){

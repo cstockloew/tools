@@ -41,7 +41,8 @@ public class Part implements Serializable {
 	private String bundleVersion = "";
 	private Properties partCapabilities;
 	private List<Requirement> partRequirements;
-	private List<DeploymentUnit> deploymentUnits;
+	//private List<DeploymentUnit> deploymentUnits;
+	private DeploymentUnit deploymentUnit;
 	//private List<ExecutionUnit> executionUnits;
 	private ExecutionUnit executionUnit = null;
 	
@@ -110,10 +111,10 @@ public class Part implements Serializable {
 			partRequirements = new ArrayList<Requirement>();
 		return partRequirements;
 	}
-	public List<DeploymentUnit> getDeploymentUnits() {
-		if(deploymentUnits == null)
-			deploymentUnits = new ArrayList<DeploymentUnit>();
-		return deploymentUnits;
+	public DeploymentUnit getDeploymentUnit() {
+		if(deploymentUnit == null)
+			deploymentUnit = new DeploymentUnit();
+		return deploymentUnit;
 	}
 	
 	/*
@@ -160,8 +161,11 @@ public class Part implements Serializable {
 			r = r.concat("<requirement>"+partRequirements.get(i).getXML()+"</requirement>");
 		r = r.concat("</partRequirements>");
 
-		for(int i = 0; i < getDeploymentUnits().size(); i++)
-			r = r.concat(deploymentUnits.get(i).getXML());
+		try{
+			r = r.concat(deploymentUnit.getXML());
+		} catch (Exception e){
+			
+		}
 /*
 		for(int i = 0; i < getExecutionUnits().size(); i++)
 			r = r.concat(executionUnits.get(i).getXML());

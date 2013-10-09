@@ -74,10 +74,12 @@ public class Page2 extends PageImpl {
 			    .p12 � PKCS#12, may contain certificate(s) (public) and private keys (password protected)
 			    .pfx � PFX, predecessor of PKCS#12 (usually contains data in PKCS#12 format, e.g., with PFX files generated in IIS)
 				 */
-				try {
-					certificate.setText(sc.toURI().toURL()+"");
-				} catch (MalformedURLException e1) {
-					e1.printStackTrace();
+				if(sc != null) {
+					try {
+						certificate.setText(sc.toURI().toURL()+"");
+					} catch (MalformedURLException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 

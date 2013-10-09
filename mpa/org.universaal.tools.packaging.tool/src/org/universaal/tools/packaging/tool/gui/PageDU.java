@@ -71,12 +71,7 @@ public class PageDU extends PageImpl {
 		ckbOS1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
-				ckbPL1.setSelection(false);
-				ckbOS1.setSelection(true);
-				ckbCU1.setSelection(false);
-
-				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
-				disableControls(new ArrayList<Control>(Arrays.asList(platform1, cu1, emb1, andN, ckbKar, andD, andURI)));
+				enableOS();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -89,12 +84,7 @@ public class PageDU extends PageImpl {
 		ckbPL1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
-				ckbPL1.setSelection(true);
-				ckbOS1.setSelection(false);
-				ckbCU1.setSelection(false);
-
-				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
-				disableControls(new ArrayList<Control>(Arrays.asList(os1, cu1, emb1, ckbKar, andN, andD, andURI)));
+				enablePlatform();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -107,18 +97,13 @@ public class PageDU extends PageImpl {
 		ckbCU1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
-				ckbPL1.setSelection(false);
-				ckbOS1.setSelection(false);
-				ckbCU1.setSelection(true);
-
-				enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
-				disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, andN, /*ckbKar,*/ andD, andURI)));
+				enableCU();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});		
-
+		
 		Label label1 = new Label(container, SWT.NULL);
 		os1 = new Combo(container, SWT.READ_ONLY);
 		//mandatory.add(os1);
@@ -301,6 +286,32 @@ public class PageDU extends PageImpl {
 		if(!app.getAppRequirements().embedding.isEmpty())  emb1.setText(app.getAppRequirements().embedding);
 	}
 	
+	protected void enableCU() {
+		ckbPL1.setSelection(false);
+		ckbOS1.setSelection(false);
+		ckbCU1.setSelection(true);
+
+		enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
+		disableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, andN, /*ckbKar,*/ andD, andURI)));
+	}
+
+	protected void enablePlatform() {
+		ckbPL1.setSelection(true);
+		ckbOS1.setSelection(false);
+		ckbCU1.setSelection(false);
+
+		enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
+		disableControls(new ArrayList<Control>(Arrays.asList(os1, cu1, emb1, ckbKar, andN, andD, andURI)));
+	}
+
+	private void enableOS() {
+		ckbPL1.setSelection(false);
+		ckbOS1.setSelection(true);
+		ckbCU1.setSelection(false);
+
+		enableControls(new ArrayList<Control>(Arrays.asList(os1, platform1, cu1, emb1, ckbKar, andN, andD, andURI)));
+		disableControls(new ArrayList<Control>(Arrays.asList(platform1, cu1, emb1, andN, ckbKar, andD, andURI)));
+	}
 	public void setArtifact(IProject part){
 	}
 

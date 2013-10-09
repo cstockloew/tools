@@ -59,23 +59,29 @@ public class Activator extends AbstractUIPlugin {
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
-	public void start(BundleContext context) throws Exception {
+	public void start(BundleContext context){
 
-		super.start(context);
-		plugin = this;
-
-		tempDir = Configurator.local.getTempFolder();
-				
-		File outputDir = Configurator.local.getLogFolder();
-		if ( outputDir != null ) {
-			System.out.println("*** [Application Packager] - The log file is available at "+outputDir+" ***");
-			System.setOut(new PrintStream(new File(outputDir+"/log.txt")));
-			System.setErr(new PrintStream(new File(outputDir+"/errlog.txt")));
-		} else if ( Configurator.local.isConsoleLog() == false ) {
-			System.out.println("*** [Application Packager] - The log file is available at "+tempDir+" ***");
-			System.setOut(new PrintStream(new File(tempDir+"/log.txt")));
-			System.setErr(new PrintStream(new File(tempDir+"/errlog.txt")));
+		try {
+			super.start(context);
+			plugin = this;
+	
+			tempDir = Configurator.local.getTempFolder();
+					
+			File outputDir = Configurator.local.getLogFolder();
+			if ( outputDir != null ) {
+				System.out.println("*** [Application Packager] - The log file is available at "+outputDir+" ***");
+				System.setOut(new PrintStream(new File(outputDir+"/log.txt")));
+				System.setErr(new PrintStream(new File(outputDir+"/errlog.txt")));
+			} else if ( Configurator.local.isConsoleLog() == false ) {
+				System.out.println("*** [Application Packager] - The log file is available at "+tempDir+" ***");
+				System.setOut(new PrintStream(new File(tempDir+"/log.txt")));
+				System.setErr(new PrintStream(new File(tempDir+"/errlog.txt")));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 	}
 
 	/*

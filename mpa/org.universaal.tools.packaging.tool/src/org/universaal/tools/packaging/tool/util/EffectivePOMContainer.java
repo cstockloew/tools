@@ -116,10 +116,10 @@ public class EffectivePOMContainer{
 	}
 	public static List<POM_License> getLicenses(){
 		List<POM_License> returnList = new ArrayList<POM_License>(); 
-		NodeList nodes = getValues("//project/licenses/license");
+		NodeList nodes = getValues("/projects/project[1]/licenses/license|/project/licenses/license");
 		
 		if (nodes != null){
-			//System.out.println("Num Licenses: "+nodes.getLength());
+			//System.out.println("Num Nodes Licenses: "+nodes.getLength());
 			
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Element el =  (Element) nodes.item(i);
