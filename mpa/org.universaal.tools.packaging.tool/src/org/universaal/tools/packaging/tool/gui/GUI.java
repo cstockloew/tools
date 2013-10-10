@@ -147,6 +147,7 @@ public class GUI extends WizardMod {
 						    destination = mpa.getAAL_UAPP().getDestination();
 						} else {
 					    	System.out.println("[WARNING] Unable to load data from recovery file");
+					    	this.recovered = false;
 					    }
 					} catch (Exception e) {		
 					    e.printStackTrace();
@@ -372,7 +373,7 @@ public class GUI extends WizardMod {
 	@Override
 	public boolean performFinish() {
 
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setCursor(new Cursor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), SWT.CURSOR_WAIT));
+		getShell().setCursor(new Cursor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), SWT.CURSOR_WAIT));
 		
 		try {
 			
@@ -480,7 +481,7 @@ public class GUI extends WizardMod {
 			e.printStackTrace();
 		}
 
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setCursor(new Cursor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), SWT.CURSOR_ARROW));
+		getShell().setCursor(new Cursor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), SWT.CURSOR_ARROW));
 		
 		return true;
 	}
@@ -671,9 +672,10 @@ public class GUI extends WizardMod {
 			IProject part = parts.get(i);
 			
 			String partName = part.getName();
-			mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1),partName));
+			if(!recovered)
+				mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1),partName));
 			
-			//System.out.println("Part name:"+partName);
+			System.out.println("Parts size:"+mpa.getAAL_UAPP().getAppParts().size());
 			
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);
