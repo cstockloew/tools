@@ -26,6 +26,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
@@ -146,6 +147,30 @@ public class MPAaction extends AbstractHandler {
 		}
 		
 		if(parts.size()>0){
+			
+			for(int i=0; i<parts.size(); i++)
+				try {
+					IProject[] ref = parts.get(i).getReferencedProjects();
+					if(ref.length>0){
+						for(int j=0; j< ref.length; j++){
+							if(ref[j].isOpen())
+							{	
+								//System.out.println("--> Closing referenced project "+ref[j].getName());
+								ref[j].close(null);
+							}
+						}
+					}
+					
+					if(parts.get(i).isOpen()){
+						//System.out.println("Closing project "+parts.get(i).getName());
+						parts.get(i).close(null);
+					}
+					
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 			String mainPartName = "";
 			
 			if(parts.size() > 1){
