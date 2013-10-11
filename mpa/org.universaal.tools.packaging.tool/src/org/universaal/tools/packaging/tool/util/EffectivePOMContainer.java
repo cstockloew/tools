@@ -49,7 +49,7 @@ public class EffectivePOMContainer{
     private static String getValue(String key){
     	
     	if(getDocument(currentDocument) == null){
-    		System.out.println("CurrentDocument is null");
+    		//System.out.println("CurrentDocument is null");
     		return "";
     	}
     	

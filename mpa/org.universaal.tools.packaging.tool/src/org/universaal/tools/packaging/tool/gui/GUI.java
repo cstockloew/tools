@@ -676,7 +676,7 @@ public class GUI extends WizardMod {
 			if(!recovered)
 				mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1),partName));
 			
-			System.out.println("Parts size:"+mpa.getAAL_UAPP().getAppParts().size());
+			//System.out.println("Parts size:"+mpa.getAAL_UAPP().getAppParts().size());
 			
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);

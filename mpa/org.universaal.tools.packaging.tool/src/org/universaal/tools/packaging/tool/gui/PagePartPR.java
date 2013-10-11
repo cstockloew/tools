@@ -476,7 +476,7 @@ public class PagePartPR extends PageImpl {
 
 		if(moreRequirementsInNextPage && !(getNextPage() instanceof PagePartPR)){
 
-			System.out.println("OtherPartReqs:"+otherPartReqs);
+			//System.out.println("OtherPartReqs:"+otherPartReqs);
 			
 			//Integer index = otherPartReqs.get(partNumber);
 			int index = otherPartReqs;

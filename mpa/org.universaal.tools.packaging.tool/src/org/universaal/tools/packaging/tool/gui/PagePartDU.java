@@ -339,13 +339,16 @@ public class PagePartDU extends PageImpl {
 			ContainerUnit cu = null;
 			if(cu1.getText().equals(Container.KARAF)){
 				
+	
+				
 				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
 				String karaf = krf.generate(this.part, true, partNumber);
+				
 				if(karaf != null && !karaf.isEmpty())
 					cu = new ContainerUnit(emb1.getText(), karaf);
 				else
 					cu = new ContainerUnit(emb1.getText(), "");
-				
+
 			}
 			else if(cu1.getText().equals(Container.ANDROID)){
 				if(andURI.getText() == null || andURI.getText().isEmpty()){

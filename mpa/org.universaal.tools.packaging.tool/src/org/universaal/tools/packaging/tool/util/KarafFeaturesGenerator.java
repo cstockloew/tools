@@ -329,6 +329,7 @@ public class KarafFeaturesGenerator {
 
 				request.setGoals(goals);
 				request.setUserProperties(props);
+				request.setOffline(true);
 				maven.execute(request, null);
 			}
 		}

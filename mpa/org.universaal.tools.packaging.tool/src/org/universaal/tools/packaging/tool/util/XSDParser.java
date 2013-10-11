@@ -40,7 +40,7 @@ public class XSDParser{
 		            document = db.parse(is);
             	}
             } else {
-            	System.out.println("Reading XSD from Resource");
+            	//System.out.println("Reading XSD from Resource");
                 InputStream is = getClass().getResourceAsStream(Page.XSD_REPOSITORY+XSD+"/AAL-UAPP.xsd");
 	            document = db.parse(is);
             }
