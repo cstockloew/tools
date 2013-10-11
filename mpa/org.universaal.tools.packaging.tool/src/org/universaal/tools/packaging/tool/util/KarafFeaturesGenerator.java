@@ -275,13 +275,13 @@ public class KarafFeaturesGenerator {
 
 				System.out.println("[Application Packager] - Generating Karaf features file...");
 				goals.clear();
-				/*goals.add("eclipse:eclipse");
-				props.setProperty("eclipse.useProjectReferences","false");
-				*/
+				props = new Properties();
+
 				goals.add(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_FEATURE);
 				request.setGoals(goals);
 				request.setUserProperties(props);
 				execution_result = maven.execute(request, null);
+
 				if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty()){
 					System.out.println("[Application Packager] - Karaf features file generated successfully.");
 					return true;

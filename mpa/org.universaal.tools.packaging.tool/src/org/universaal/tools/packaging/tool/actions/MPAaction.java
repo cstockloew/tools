@@ -150,21 +150,23 @@ public class MPAaction extends AbstractHandler {
 			
 			for(int i=0; i<parts.size(); i++)
 				try {
+					if(!parts.get(i).isOpen())
+						parts.get(i).open(null);
 					IProject[] ref = parts.get(i).getReferencedProjects();
-					if(ref.length>0){
-						for(int j=0; j< ref.length; j++){
-							if(ref[j].isOpen())
-							{	
-								//System.out.println("--> Closing referenced project "+ref[j].getName());
-								ref[j].close(null);
+						if(ref.length>0){
+							for(int j=0; j< ref.length; j++){
+								if(ref[j].isOpen())
+								{	
+									//System.out.println("--> Closing referenced project "+ref[j].getName());
+									ref[j].close(null);
+								}
 							}
 						}
-					}
-					
-					if(parts.get(i).isOpen()){
+						
 						//System.out.println("Closing project "+parts.get(i).getName());
-						parts.get(i).close(null);
-					}
+					parts.get(i).close(null);
+
+				
 					
 				} catch (CoreException e) {
 					// TODO Auto-generated catch block
