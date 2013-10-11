@@ -103,6 +103,14 @@ public class Application implements Serializable{
 		return this.appResources;
 	}
 	
+	public String getMainPart(){
+		return mainPart;
+	}
+	
+	public void setMainPart(String mainPart){
+		this.mainPart = mainPart;
+	}
+	
 	public void setCurrentPageTitle(String title){
 		this.currentPageTitle = title;
 	}

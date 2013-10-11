@@ -109,13 +109,16 @@ public class GUI extends WizardMod {
 		super();
 		setNeedsProgressMonitor(true);
 		
-		this.mainPartName = mainPartName;
-		
+		if(mainPartName!=""){
+			this.mainPartName = mainPartName;
+		}
 		checkPersistence(recovered);
 
 		if(mpa == null){
 			mpa = new MPA();
 		}
+		
+		mpa.getAAL_UAPP().setMainPart(this.mainPartName);
 		
 		instance = this;
 		this.parts = parts;
@@ -146,6 +149,7 @@ public class GUI extends WizardMod {
 					    	System.out.println("Loading recovered data from "+recovery.getAbsolutePath());
 						    mpa = recoveredStatus;
 						    destination = mpa.getAAL_UAPP().getDestination();
+						    this.mainPartName = mpa.getAAL_UAPP().getMainPart();
 						} else {
 					    	System.out.println("[WARNING] Unable to load data from recovery file");
 					    	this.recovered = false;
@@ -424,7 +428,7 @@ public class GUI extends WizardMod {
 					//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
 				//}
 				
-				} else System.out.println("ExecUnit Null");
+				} 
 			}
 			
 			// copy additional resources
@@ -436,8 +440,7 @@ public class GUI extends WizardMod {
 				//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
 			//}
 			
-			} else System.out.println("No additional resources");
-			
+			}
 			// copy icon file if set and eventually resize it
 			File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
 			

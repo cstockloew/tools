@@ -28,6 +28,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
@@ -41,7 +42,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
+import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.api.WizardDialogMod;
@@ -179,26 +182,39 @@ public class MPAaction extends AbstractHandler {
 				}
 			
 			String mainPartName = "";
-			
-			if(parts.size() > 1){
-				FilteredResourcesSelectionDialog dialog = new FilteredResourcesSelectionDialog(w.getShell(), false, ResourcesPlugin.getWorkspace().getRoot(), IResource.PROJECT);
-				dialog.setTitle("Main Part Selection");
-				dialog.setMessage("Please select the universAAL Resource you want to be the \"Main\" Part \nwhere the Wizard can load data from");
-				dialog.setInitialPattern("?");
-				dialog.open();
-				
-				if(dialog.getResult() != null){
-					String[] segments = dialog.getResult()[0].toString().split("/");
-					//System.out.println(segments[segments.length-1]);
-					IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(segments[segments.length-1]);
-					mainPartName = container.getProject().getName();
-				}
-				 else{
-					MessageDialog.openInformation(w.getShell(),
-							"Application Packager", "Please verify the selection of the main part.");
-					return null;
-				}
-			} else mainPartName = parts.get(0).getName();
+			if(!recovered){
+				if(parts.size() > 1){
+					/*
+					FilteredResourcesSelectionDialog dialog = new FilteredResourcesSelectionDialog(w.getShell(), false, ResourcesPlugin.getWorkspace().getRoot(), IResource.PROJECT);
+					dialog.setTitle("Main Part Selection");
+					dialog.setMessage("Please select the universAAL Resource you want to be the \"Main\" Part \nwhere the Wizard can load data from");
+					dialog.setInitialPattern("?");
+					dialog.open();
+					*/
+					ElementListSelectionDialog dialog = new ElementListSelectionDialog(w.getShell(), new LabelProvider());
+	
+					dialog.setTitle("Main Part Selection");
+	
+					dialog.setMessage("Please select the universAAL Resource you want to be the \"Main\" Part \nwhere the Wizard can load data from");
+	
+					Object[] elements = new Object[parts.size()];
+					for(int i=0; i<parts.size(); i++)
+						elements[i] = parts.get(i).getName();
+					dialog.setElements(elements);
+	
+					dialog.open();
+					
+					if(dialog.getResult() != null){
+						IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(dialog.getResult()[0].toString());
+						mainPartName = container.getProject().getName();
+					}
+					 else{
+						MessageDialog.openInformation(w.getShell(),
+								"Application Packager", "Please verify the selection of the main part.");
+						return null;
+					}
+				} else mainPartName = parts.get(0).getName();
+			}
 			
 			gui = new GUI(parts, this.recovered, mainPartName);	
 			WizardDialogMod wizardDialog = new WizardDialogMod(w.getShell(), gui);
