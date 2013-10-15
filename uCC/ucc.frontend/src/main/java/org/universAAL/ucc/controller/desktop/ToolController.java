@@ -307,6 +307,7 @@ public class ToolController implements Button.ClickListener,
 	}
 
 	public void uploadFinished(FinishedEvent event) {
+		try{
 		app.getMainWindow().removeWindow(installWindow);
 		String f = event.getFilename();
 		String file = f.substring(0, f.lastIndexOf("."));
@@ -426,6 +427,10 @@ public class ToolController implements Button.ClickListener,
 		// ToDo: install AAL services with DeployManager and delete temp usrv
 		// file with unziped folders
 
+		}catch(Throwable t){
+			t.printStackTrace();
+			throw new RuntimeException(t);
+		}
 	}
 
 }

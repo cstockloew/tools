@@ -191,7 +191,6 @@ public class DeploymentInfoController implements Button.ClickListener,
 				// Get uapp location uri
 				String appLocation = uapp.getUappLocation();
 				System.err.println("THE UAPP_LOCATION: "+uapp.getUappLocation());
-				String p = appLocation.substring(appLocation.indexOf("bin/"));
 				appLocation = FrontendImpl.getUappURI();
 				System.err.println("LOCATION URI: "+appLocation);
 				File uf  = new File(appLocation.trim());

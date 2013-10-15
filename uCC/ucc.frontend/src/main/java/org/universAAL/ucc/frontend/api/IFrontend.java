@@ -13,4 +13,6 @@ public interface IFrontend {
 			String serviceId);
 	
 	public String getSessionKey(String username, String password);
+	
+	public void startUCC();
 }

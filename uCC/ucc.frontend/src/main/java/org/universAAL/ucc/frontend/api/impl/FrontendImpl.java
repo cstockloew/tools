@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -78,16 +79,7 @@ public class FrontendImpl implements IFrontend {
 
 	public boolean installService(String sessionkey, String serviceId,
 			String serviceLink) {
-		if(UccUI.getInstance() == null) {
-			System.err.println("UCC is null so not running");
-		// Opens a browser window and loads the ucc site
-		 Desktop desk = Desktop.getDesktop();
-		 try {
-		 desk.browse(new URI("http://127.0.0.1:8080/ucc"));
-		 } catch (Exception e) {
-		 e.printStackTrace();
-		 }
-		}
+		startUCC();
 		// check for sessionkey
 		// if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
@@ -209,8 +201,12 @@ public class FrontendImpl implements IFrontend {
 		List<Part> parts = uapp
 				.getApplicationPart().getPart();
 		System.err.println(parts.size());
+		
+		System.err.println("Size of parts: "+parts.size() + " "+ parts.get(0).getBundleId());
+		System.err.println("Bundle-Version: "+parts.get(0).getBundleVersion());
 		for (Part p : parts) {
 			UAPPPart ua = new UAPPPart();
+			ua.setUappLocation(uappURI);
 			Part part = new Part();
 			System.err.println(p.getPartId());
 			part.setPartId(p.getPartId());
@@ -219,19 +215,25 @@ public class FrontendImpl implements IFrontend {
 			System.err.println(p.getBundleId());
 			ua.setBundleVersion(p.getBundleVersion());
 			System.err.println(p.getDeploymentUnit().size());
-			
+			//Here starts the error and breaks the parsing
 			//Getting DeploymentUnit
+			System.err.println("Deployment-UNIT-Size: "+p.getDeploymentUnit().size());
 			for(DeploymentUnit du : p.getDeploymentUnit()) {
 				//Getting ContainerUnits
 				if(du.isSetContainerUnit()) {
 					//Karaf features
 					if(du.getContainerUnit().isSetKaraf()) {
+						if ( du.getContainerUnit().getKaraf().getFeatures() == null ) {
+							System.err.println("No features for "+du.getId());
+							continue;
+						}
 						for(Serializable so : du.getContainerUnit().getKaraf().getFeatures().getRepositoryOrFeature()) {
 							if(so instanceof Feature) {
 								Feature feat = (Feature)so;
 								for(Serializable dco : feat.getDetailsOrConfigOrConfigfile()) {
 									if(dco instanceof Bundle) {
 										Bundle b = (Bundle)dco;
+										System.err.println("Bundle-Value: "+b.getValue());
 										ua.setUappLocation(b.getValue().trim());
 										System.err.println("Bundle-Value: "+b.getValue());
 									}
@@ -272,6 +274,7 @@ public class FrontendImpl implements IFrontend {
 				if(du.isSetPlatformUnit()) {
 					//TODO: Parse Values for PlatformUnit
 				}
+				
 			}
 			
 			//Getting UAPPReqAtom for validation
@@ -335,13 +338,23 @@ public class FrontendImpl implements IFrontend {
 					slaName = ls.getSla().getName();
 					System.err.println("SLA-Name: "+slaName);
 					license.setAppName(slaName);
-					if(ls.getSla().isSetLink()) {
+					if(ls.getSla().isSetLink() && !ls.getSla().getLink().trim().isEmpty() ) {
+//						try {							
+//							URL slaContent = new URL(ls.getSla().getLink());
+//							slaContent.get
+//						} catch (MalformedURLException e) {
+//							e.printStackTrace();
+//						}
+						try{
 						String link = ls.getSla().getLink();
 						System.err.println(link);
 						link = link.substring(link.indexOf("./"));
 						System.err.println(link);
 						File file = new File(usrvLocalStore + serviceId+"_temp" + link);
 						license.getSlaList().add(file);
+						}catch(Throwable t){
+							t.printStackTrace();
+						}
 					}
 					
 				}
@@ -349,13 +362,17 @@ public class FrontendImpl implements IFrontend {
 					for(org.universAAL.middleware.deploymanager.uapp.model.LicenseType lt : ls.getLicense()) {
 						
 							System.err.println("LicenseType is set!!! "+lt.getLink());
-							if(lt.isSetLink()) {
+							if(lt.isSetLink() && !lt.getLink().trim().isEmpty() ) {
+								try{
 								txt = lt.getLink();
 								System.err.println(txt);
 								txt = txt.substring(txt.indexOf("./"));
 								System.err.println(txt);
 								l = new File(usrvLocalStore + serviceId+"_temp" + txt);
 								list.add(l);
+								}catch(Throwable t){
+									t.printStackTrace();
+								}
 							}
 						
 					}
@@ -600,4 +617,16 @@ public class FrontendImpl implements IFrontend {
 		return userSession;
 	}
 
+	public void startUCC() {
+		if(UccUI.getInstance() == null) {
+		System.err.println("UCC is null so not running");
+		// Opens a browser window and loads the ucc site
+		 Desktop desk = Desktop.getDesktop();
+		 try {
+		 desk.browse(new URI("http://127.0.0.1:8080/ucc"));
+		 } catch (Exception e) {
+		 e.printStackTrace();
+		 }
+		}
+	}
 }
