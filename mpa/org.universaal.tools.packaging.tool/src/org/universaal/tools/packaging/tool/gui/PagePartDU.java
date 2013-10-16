@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -344,10 +345,14 @@ public class PagePartDU extends PageImpl {
 				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
 				String karaf = krf.generate(this.part, true, partNumber);
 				
-				if(karaf != null && !karaf.isEmpty())
+				if(karaf != null && !karaf.isEmpty()){
 					cu = new ContainerUnit(emb1.getText(), karaf);
-				else
-					cu = new ContainerUnit(emb1.getText(), "");
+				} else{
+					//cu = new ContainerUnit(emb1.getText(), "");
+					getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_ARROW));
+					MessageDialog.openError(getShell(), "Kar generation failure", "Unable to build kar file");
+					return false;
+				}
 
 			}
 			else if(cu1.getText().equals(Container.ANDROID)){
