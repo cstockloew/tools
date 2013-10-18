@@ -26,9 +26,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -224,72 +227,100 @@ public class KarafFeaturesGenerator {
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = g.getPart(projectName).getFile(IMavenConstants.POM_FILE_NAME);
 			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
-
+			String ProjectPath = g.getPart(projectName).getLocation().toString();
+			
 			IMaven maven = MavenPlugin.getMaven();
 			if(pomResource != null && projectFacade != null){
-				MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
-
-				System.out.println(
-					"Preparing to run maven, the log level was:" + request.getLoggingLevel() + 
-					" but we increased to "+MavenExecutionRequest.LOGGING_LEVEL_DEBUG 
-				);
 				
-				request.setLoggingLevel( LOG_LEVEL );
-				if ( request.isOffline() && OFFLINE_MODE ) {
-				    System.out.println("Maven was configured to work OFFLINE, that is fine");
-				} else if ( OFFLINE_MODE ){
-				    System.out.println("Maven was configured to work ONLINE, " +
-				    		"but we are using it OFFLINE for speed it up");
-				    request.setOffline(true);
-				}
-				
-				ExecutionListener listener = request.getExecutionListener();
-				if ( listener != null ) {
-				    System.out.println(
-					    "The following ExecutionListener was set " + listener 
-					    + " but is going to be replaced"
-					    );
-				} else {
-				    System.out.println("NO ExecutionListener was set, creating one");
-				}
-				
-				ConsoleLogger logger = new ConsoleLogger(Logger.LEVEL_DEBUG,"MavenLogger");
-				ExecutionEventLogger execLogger = new ExecutionEventLogger(logger);
-				request.setExecutionListener(execLogger);
-				
-
-				List<String> goals = new ArrayList<String>();
-				Properties props = new Properties();
-
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IWorkspaceDescription description = workspace.getDescription();
-				System.out.println("[Application Packager] - Preparing for Karaf features file generation...");
-				if (!description.isAutoBuilding()){
-					System.out.println("[Application Packager] - "+projectName+" will be compiled now because autobuilding is off.");
-					goals.add("compiler:compile"); // compile it if autobuilding is off
+				
+				if(Configurator.local.runMavenEmbedded()){
+					
+					MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
+					
+					System.out.println(
+						"Preparing to run maven, the log level was:" + request.getLoggingLevel() + 
+						" but we increased to "+MavenExecutionRequest.LOGGING_LEVEL_DEBUG 
+					);
+					
+					request.setLoggingLevel( LOG_LEVEL );
+					if ( request.isOffline() && OFFLINE_MODE ) {
+					    System.out.println("Maven was configured to work OFFLINE, that is fine");
+					} else if ( OFFLINE_MODE ){
+					    System.out.println("Maven was configured to work ONLINE, " +
+					    		"but we are using it OFFLINE for speed it up");
+					    request.setOffline(true);
+					}
+					
+					ExecutionListener listener = request.getExecutionListener();
+					if ( listener != null ) {
+					    System.out.println(
+						    "The following ExecutionListener was set " + listener 
+						    + " but is going to be replaced"
+						    );
+					} else {
+					    System.out.println("NO ExecutionListener was set, creating one");
+					}
+					
+					ConsoleLogger logger = new ConsoleLogger(Logger.LEVEL_DEBUG,"MavenLogger");
+					ExecutionEventLogger execLogger = new ExecutionEventLogger(logger);
+					request.setExecutionListener(execLogger);
+	
+					List<String> goals = new ArrayList<String>();
+					Properties props = new Properties();
+					
+					System.out.println("[Application Packager] - Preparing for Karaf features file generation...");
+					if (!description.isAutoBuilding()){
+						System.out.println("[Application Packager] - "+projectName+" will be compiled now because autobuilding is off.");
+						goals.add("compiler:compile"); // compile it if autobuilding is off
+						request.setGoals(goals);
+						request.setUserProperties(props);
+						execution_result = maven.execute(request, null);
+						System.out.println("[Application Packager] - Compiling operation ended.");
+					}
+	
+					System.out.println("[Application Packager] - Generating Karaf features file...");
+					goals.clear();
+					props = new Properties();
+	
+					goals.add(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_FEATURE);
 					request.setGoals(goals);
 					request.setUserProperties(props);
 					execution_result = maven.execute(request, null);
-					System.out.println("[Application Packager] - Compiling operation ended.");
-				}
-
-				System.out.println("[Application Packager] - Generating Karaf features file...");
-				goals.clear();
-				props = new Properties();
-
-				goals.add(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_FEATURE);
-				request.setGoals(goals);
-				request.setUserProperties(props);
-				execution_result = maven.execute(request, null);
-
-				if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty()){
-					System.out.println("[Application Packager] - Karaf features file generated successfully.");
-					return true;
-				}
-				else{
-					System.out.println("[Application Packager] - Karaf features file not generated because of errors:");
-					for(int i = 0; i < execution_result.getExceptions().size(); i++)
-						System.out.println("[Application Packager] - "+execution_result.getExceptions().get(i).getMessage());
+	
+					if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty()){
+						System.out.println("[Application Packager] - Karaf features file generated successfully.");
+						return true;
+					} else{
+						System.out.println("[Application Packager] - Karaf features file not generated because of errors:");
+						for(int i = 0; i < execution_result.getExceptions().size(); i++)
+							System.out.println("[Application Packager] - "+execution_result.getExceptions().get(i).getMessage());
+					}
+				
+				} else {
+				
+					int exitLevel = 0;
+					
+					System.out.println("[Application Packager] - Preparing for Karaf features file generation...");
+					if (!description.isAutoBuilding()){
+						System.out.println("[Application Packager] - "+projectName+" will be compiled now because autobuilding is off.");
+						exitLevel = ProcessExecutor.runMavenCommand("compiler:compile", ProjectPath);
+						System.out.println("[Application Packager] - Compiling operation ended.");
+						if(exitLevel != 0){
+							System.out.println("[WARNING] - Error occurred during compiling operation.");
+						}
+					}
+					
+					System.out.println("[Application Packager] - Generating Karaf features file...");
+					exitLevel = ProcessExecutor.runMavenCommand(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_FEATURE,ProjectPath);
+					if(exitLevel == 0){
+						System.out.println("[Application Packager] - Karaf features file generated successfully.");
+						return true;
+					} else {
+						System.out.println("[Application Packager] - WARNING!!! Karaf features file not generated because of errors");
+					}
+					
 				}
 			}
 		}
@@ -303,7 +334,9 @@ public class KarafFeaturesGenerator {
 	private void generateKarFile(IProject part){
 
 		try{
+			System.out.println("Generate kar for "+part.getName());
 			String path = part.getLocation().toString(); //ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
+			System.out.println("location:"+path);
 			File target, feature;
 			target = new File(path+"/target");
 			feature = new File(path+"/target/feature");
@@ -320,17 +353,32 @@ public class KarafFeaturesGenerator {
 
 			IMaven maven = MavenPlugin.getMaven();
 			if(pomResource != null && projectFacade != null){
-				MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
-
-				List<String> goals = new ArrayList<String>();
-				Properties props = new Properties();
 				
-				goals.add(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_KARFILE);
+				if(Configurator.local.runMavenEmbedded()){
 
-				request.setGoals(goals);
-				request.setUserProperties(props);
-				request.setOffline(true);
-				maven.execute(request, null);
+					MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
+	
+					List<String> goals = new ArrayList<String>();
+					Properties props = new Properties();
+					
+					goals.add(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_KARFILE);
+	
+					request.setGoals(goals);
+					request.setUserProperties(props);
+					request.setOffline(true);
+					maven.execute(request, null);
+
+				} else {
+					
+					int exitLevel = ProcessExecutor.runMavenCommand(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_KARFILE, path);
+					if(exitLevel == 0){
+						System.out.println("[Application Packager] - Kar file generated successfully.");
+					}
+					else{
+						System.out.println("[Application Packager] - WARNING!!! Kar file not generated because of errors.");
+					}
+					
+				}
 			}
 		}
 		catch(Exception ex){

@@ -1,13 +1,17 @@
 package org.universaal.tools.packaging.tool.gui;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -48,7 +52,8 @@ public class PagePartDU extends PageImpl {
 	private Combo os1, platform1, cu1, emb1;
 	private Text andN, andD, andURI;
 	private Button ckbOS1, ckbPL1, ckbCU1, ckbKar;
-
+	public static String karaf = "";
+	
 	protected PagePartDU(String pageName, int pn) {
 		super(pageName, "Part "+(pn+1)+"/"+GUI.getInstance().getPartsCount()+
 				" - Specify deployment requirements per part");
@@ -339,11 +344,20 @@ public class PagePartDU extends PageImpl {
 		else if(ckbCU1.getSelection()){
 			ContainerUnit cu = null;
 			if(cu1.getText().equals(Container.KARAF)){
-				
+
+				ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
+				try {
+					dialog.run(true, false, new ProgressKaraf(this.part, true, partNumber));
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 	
 				
-				KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
-				String karaf = krf.generate(this.part, true, partNumber);
 				
 				if(karaf != null && !karaf.isEmpty()){
 					cu = new ContainerUnit(emb1.getText(), karaf);
@@ -464,5 +478,25 @@ public class PagePartDU extends PageImpl {
 			for(int i = 0; i < list.size(); i++)
 				if(list.get(i) != null)
 					list.get(i).setEnabled(true);
+	}
+}
+
+class ProgressKaraf implements IRunnableWithProgress {
+
+	IProject part;
+	boolean b;
+	int partNumber;
+	
+	public ProgressKaraf(IProject part, boolean b, int partNumber) {
+		this.part = part;
+		this.b = b;
+		this.partNumber = partNumber;
+	}
+
+	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+		monitor.beginTask("Generating Karaf Fearures and kar file", IProgressMonitor.UNKNOWN);
+		KarafFeaturesGenerator krf = new KarafFeaturesGenerator();
+		PagePartDU.karaf = krf.generate(part, true, partNumber);
+		monitor.done();
 	}
 }

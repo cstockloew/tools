@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ import java.util.Properties;
 import javax.imageio.ImageIO;
 
 import org.apache.maven.execution.MavenExecutionRequest;
+import org.apache.maven.execution.MavenExecutionResult;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ParameterizedCommand;
@@ -52,6 +54,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.m2e.core.MavenPlugin;
@@ -78,7 +82,9 @@ import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.util.ConfigProperties;
 import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
+import org.universaal.tools.packaging.tool.util.KarafFeaturesGenerator;
 import org.universaal.tools.packaging.tool.util.POM_License;
+import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
 import org.universaal.tools.packaging.tool.zip.UAPP;
 
@@ -103,7 +109,8 @@ public class GUI extends WizardMod {
 	
 	public File recoveryStorage = null;
 	public boolean recovered = false;
-
+	public int exitLevel = 0;
+	
 	public GUI(List<IProject> parts, Boolean recovered, String mainPartName) {
 
 		super();
@@ -164,70 +171,70 @@ public class GUI extends WizardMod {
 	}
 
 	private void loadDataFromManPOM() {
-		
-		EffectivePOMContainer.setDocument(mainPartName);
-		
-		Application app = mpa.getAAL_UAPP();
-		
-		app.getApplication().setName(EffectivePOMContainer.getName());
-		app.getApplication().setAppID(EffectivePOMContainer.getArtifactId());
-		app.getApplication().setDescription(EffectivePOMContainer.getDescription());
-		app.getApplication().getApplicationProvider().setOrganizationName(EffectivePOMContainer.getOrganization().name);
-		try {
-			app.getApplication().getApplicationProvider().setWebAddress(new URI(EffectivePOMContainer.getOrganization().url));
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		app.getApplication().getVersion().setVersion(EffectivePOMContainer.getVersion());
-		
-		EffectivePOMContainer.getDependencies();
-		try {
-			app.getApplication().getApplicationProvider().setWebAddress(new URI(EffectivePOMContainer.getOrganization().url));
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// Licenses
-		List<POM_License> Licenses = EffectivePOMContainer.getLicenses();
-		if(Licenses != null){
-			List<License> licenseList = new ArrayList<License>();
-			for(int i = 0; i < Licenses.size(); i++){
-				//System.out.println("Getting linense "+i+" of "+Licenses.size());
-				
-				License aLicense = new License();
-				aLicense.setName(Licenses.get(i).name);
-				try {
-					aLicense.setLink(new URI(Licenses.get(i).url));
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				licenseList.add(aLicense);
+		if(mainPartName != null){
+			EffectivePOMContainer.setDocument(mainPartName);
+			
+			Application app = mpa.getAAL_UAPP();
+			
+			app.getApplication().setName(EffectivePOMContainer.getName());
+			app.getApplication().setAppID(EffectivePOMContainer.getArtifactId());
+			app.getApplication().setDescription(EffectivePOMContainer.getDescription());
+			app.getApplication().getApplicationProvider().setOrganizationName(EffectivePOMContainer.getOrganization().name);
+			try {
+				app.getApplication().getApplicationProvider().setWebAddress(new URI(EffectivePOMContainer.getOrganization().url));
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			LicenseSet aLicenseSet = new LicenseSet();
-			aLicenseSet.setLicenseList(licenseList);
+			app.getApplication().getVersion().setVersion(EffectivePOMContainer.getVersion());
 			
-			app.getApplication().setLicenses(aLicenseSet);
-			
+			EffectivePOMContainer.getDependencies();
+			try {
+				app.getApplication().getApplicationProvider().setWebAddress(new URI(EffectivePOMContainer.getOrganization().url));
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+			// Licenses
+			List<POM_License> Licenses = EffectivePOMContainer.getLicenses();
+			if(Licenses != null){
+				List<License> licenseList = new ArrayList<License>();
+				for(int i = 0; i < Licenses.size(); i++){
+					//System.out.println("Getting linense "+i+" of "+Licenses.size());
+					
+					License aLicense = new License();
+					aLicense.setName(Licenses.get(i).name);
+					try {
+						aLicense.setLink(new URI(Licenses.get(i).url));
+					} catch (URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					licenseList.add(aLicense);
+				}
+				LicenseSet aLicenseSet = new LicenseSet();
+				aLicenseSet.setLicenseList(licenseList);
+				
+				app.getApplication().setLicenses(aLicenseSet);
+				
+			}
+	
+			// Bundle, Artifact Id and Version per part
+			for(int i = 0; i < parts.size(); i++){
+	
+				EffectivePOMContainer.setDocument(parts.get(i).getName());
+				
+				String bundleVersion = EffectivePOMContainer.getBundleVersion() != "" ? EffectivePOMContainer.getBundleVersion() : EffectivePOMContainer.getVersion();
+				app.getAppParts().get(i).setPartBundle(EffectivePOMContainer.getBundleId(), bundleVersion);
+				
+				RemoteManagement rm = app.getAppManagement().new RemoteManagement();
+				rm.getSoftware().setArtifactID(EffectivePOMContainer.getArtifactId());
+				rm.getSoftware().getVersion().setVersion(EffectivePOMContainer.getVersion());
+				app.getAppManagement().getRemoteManagement().add(rm);
+	
+			}
 		}
-
-		// Bundle, Artifact Id and Version per part
-		for(int i = 0; i < parts.size(); i++){
-
-			EffectivePOMContainer.setDocument(parts.get(i).getName());
-			
-			String bundleVersion = EffectivePOMContainer.getBundleVersion() != "" ? EffectivePOMContainer.getBundleVersion() : EffectivePOMContainer.getVersion();
-			app.getAppParts().get(i).setPartBundle(EffectivePOMContainer.getBundleId(), bundleVersion);
-			
-			RemoteManagement rm = app.getAppManagement().new RemoteManagement();
-			rm.getSoftware().setArtifactID(EffectivePOMContainer.getArtifactId());
-			rm.getSoftware().getVersion().setVersion(EffectivePOMContainer.getVersion());
-			app.getAppManagement().getRemoteManagement().add(rm);
-
-		}
-
 	}
 
 	public static synchronized GUI getInstance(){
@@ -377,116 +384,24 @@ public class GUI extends WizardMod {
 	
 	@Override
 	public boolean performFinish() {
-
-		getShell().setCursor(new Cursor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), SWT.CURSOR_WAIT));
+		getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_WAIT));
 		
+		ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
 		try {
+			dialog.run(true, false, new ProgressFinish(mpa, parts, tempDir, destination));
 			
-			// create descriptor
-			File file = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getApplication().getName()+"."+Page.DESCRIPTOR_FILENAME_SUFFIX);
-			BufferedWriter out = new BufferedWriter(new FileWriter(file));
-			out.write(mpa.getXML());
-			out.close();
-
-			// create jars
-			CreateJar jar = new CreateJar();
-			for(int i = 0; i < parts.size(); i++)		
-				jar.create(parts.get(i), i+1);
-
-
-			// copy SLA and licenses (if possible)
-			//for(int i = 0; i < mpa.getAAL_UAPP().getApplication().getLicenses().size(); i++){
-
-				if(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme() != null && 
-						mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
-					File sla = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink());
-					copyFile(sla, new File(tempDir+"/license/"+sla.getName()));
-				}
-
-				for(int j = 0; j < mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().size(); j++){
-
-					if(!mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().toASCIIString().trim().isEmpty() &&
-							mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme() != null && 
-							mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
-						File license = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink());
-						copyFile(license, new File(tempDir+"/license/"+license.getName()));
-					}
-				}
-			//}
-
-			// copy config files files and folders
-			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
-				//for(int j = 0; j < mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().size(); j++){
-
-				if(mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit() != null){
-				
-					//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
-					File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getConfigFilesAndFolders();
-					File tmp = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId());
-					tmp.mkdir();
-					copyFilesAndFolders(configFilesAndFolders, tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId()+"/");
-					//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
-				//}
-				
-				} 
-			}
-			
-			// copy additional resources
-			if(mpa.getAAL_UAPP().getAppResouces() != null){
-				
-				//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
-				File[] appResources = mpa.getAAL_UAPP().getAppResouces();
-				copyFilesAndFolders(appResources, tempDir+"/resources/");
-				//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
-			//}
-			
-			}
-			// copy icon file if set and eventually resize it
-			File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
-			
-			File tmpFile = new File(tempDir+"/img.png");
-			if(tmpFile.exists()) tmpFile.delete();
-			
-			tmpFile = new File(tempDir+"/.recovery");
-			if(tmpFile.exists()) tmpFile.delete();
-			
-			tmpFile = new File(tempDir+"/.parts");
-			if(tmpFile.exists()) tmpFile.delete();
-				
-			if(iconFile != null && iconFile.exists()){
-					if (mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconScale()){
-					try {
-						BufferedImage img = ImageIO.read(iconFile);
-						Image scaled = img.getScaledInstance(512, 512, Image.SCALE_AREA_AVERAGING);
-						BufferedImage buffered = new BufferedImage(512, 512, img.getType());
-						buffered.getGraphics().drawImage(scaled, 0, 0 , null);
-						File outputFile = new File(tempDir+"/bin/icon/"+iconFile.getName());
-						ImageIO.write(buffered, "png", outputFile);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else copyFile(iconFile, new File(tempDir+"/bin/icon/"+iconFile.getName()));
-			}
-	
-			// remove epom files if exists
-			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
-				Part part = mpa.getAAL_UAPP().getAppParts().get(i);
-				File toBeRemoved = new File(tempDir+"/"+part.getName()+".epom.xml");
-				if (toBeRemoved.exists()) toBeRemoved.delete();
-			}
-			
-			UAPP descriptor = new UAPP();
-			descriptor.createUAPPfile(tempDir, destination);
-
 			callUSTORE(destination);
 
-		} 
-		catch (Exception e) {
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		getShell().setCursor(new Cursor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay(), SWT.CURSOR_ARROW));
-		
+		getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_ARROW));
+
 		return true;
 	}
 
@@ -592,31 +507,243 @@ public class GUI extends WizardMod {
 		return tempDir;
 	}
 
-	private void copyFile(File source, File destination){
-
-		try{
-			InputStream in = new FileInputStream(source);
-			OutputStream out = new FileOutputStream(destination);
-
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0){
-				out.write(buf, 0, len);
-			}
-			in.close();
-			out.close();
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
-
 	public String getDestination() {
 		return destination;
 	}
 
 	public void setDestination(String destination) {
 		this.destination = destination;
+	}
+	
+	private void genEffectivePom(List<IProject> parts){
+	
+		//System.out.println("Generating Effective POM");
+		
+		for(int i=0; i<parts.size();i++){
+		
+			IProject part = parts.get(i);
+			String partName = part.getName();
+			if(!recovered)
+				mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1),partName));
+			
+			try {
+	
+				ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
+				try {
+					dialog.run(true, false, new ProgressEffectivePom(mavenTempDir, part));
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if(exitLevel == 0){
+					System.out.println("[Application Packager] - Effective pom generated successfully.");
+					EffectivePOMContainer.addDocument(partName, mavenTempDir+"/"+partName+".epom.xml");
+					EffectivePOMContainer.setDocument(partName);
+				} else {
+					System.out.println("[Application Packager] - WARNING!!! Effective pom not generated because of errors.");
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+		}
+		
+	}
+}
+
+class ProgressEffectivePom implements IRunnableWithProgress {
+
+	private String mavenTempDir, partName, path;
+	private IProject part;
+	
+	public ProgressEffectivePom(String mavenTempDir, IProject part) {
+		this.part = part;
+		this.mavenTempDir = mavenTempDir;
+		this.partName = part.getName();
+		this.path = part.getFile("pom.xml").getLocation().toString();
+	}
+	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+		monitor.beginTask("Generating Effective POM", IProgressMonitor.UNKNOWN);
+		monitor.subTask("part: "+partName);
+		if(Configurator.local.runMavenEmbedded())
+			GUI.getInstance().exitLevel = ProcessExecutor.runMavenCommand("-Doutput="+mavenTempDir+"/"+partName+".epom.xml"+" help:effective-pom", path);
+		else{
+			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
+			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);
+			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
+		
+			IMaven maven = MavenPlugin.getMaven();
+
+			if(pomResource != null && projectFacade != null){
+				
+				MavenExecutionRequest request;
+				try {
+					request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
+					
+					List<String> goals = new ArrayList<String>();
+					Properties props = new Properties();
+					props.setProperty("output", mavenTempDir+"/"+partName+".epom.xml");
+					
+					goals.add("help:effective-pom");
+		
+					request.setGoals(goals);
+					request.setUserProperties(props);
+					MavenExecutionResult execution_result = maven.execute(request, null);
+					if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty()){
+						GUI.getInstance().exitLevel = 0;
+					}else {
+						GUI.getInstance().exitLevel = -1;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			monitor.done();
+		}
+	}
+}
+
+class ProgressFinish implements IRunnableWithProgress {
+
+	MPA mpa;
+	List<IProject> parts;
+	String tempDir, destination;
+	
+	public ProgressFinish(MPA mpa, List<IProject> parts, String tempDir, String destination) {
+		this.mpa = mpa;
+		this.parts = parts;
+		this.tempDir = tempDir;
+		this.destination = destination;
+		// TODO Auto-generated constructor stub
+	}
+
+	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+		monitor.beginTask("Please wait while finishing...", IProgressMonitor.UNKNOWN);
+		
+		try {
+			
+			// create descriptor
+			monitor.subTask("Creating descriptor...");
+			Thread.sleep(100);
+			File file = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getApplication().getName()+"."+Page.DESCRIPTOR_FILENAME_SUFFIX);
+			BufferedWriter out = new BufferedWriter(new FileWriter(file));
+			out.write(mpa.getXML());
+			out.close();
+
+			// create jars
+			monitor.subTask("Creating Jars...");
+			Thread.sleep(500);
+			CreateJar jar = new CreateJar();
+			for(int i = 0; i < parts.size(); i++)		
+				jar.create(parts.get(i), i+1);
+
+
+			// copy SLA and licenses (if possible)
+			//for(int i = 0; i < mpa.getAAL_UAPP().getApplication().getLicenses().size(); i++){
+
+				if(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme() != null && 
+						mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+					File sla = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink());
+					copyFile(sla, new File(tempDir+"/license/"+sla.getName()));
+				}
+
+				for(int j = 0; j < mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().size(); j++){
+
+					if(!mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().toASCIIString().trim().isEmpty() &&
+							mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme() != null && 
+							mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+						File license = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink());
+						copyFile(license, new File(tempDir+"/license/"+license.getName()));
+					}
+				}
+			//}
+
+			// copy config files files and folders
+			monitor.subTask("Copying config files files and folders...");
+			Thread.sleep(100);
+			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
+				//for(int j = 0; j < mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().size(); j++){
+
+				if(mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit() != null){
+				
+					//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
+					File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getConfigFilesAndFolders();
+					File tmp = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId());
+					tmp.mkdir();
+					copyFilesAndFolders(configFilesAndFolders, tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId()+"/");
+					//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
+				//}
+				
+				} 
+			}
+			
+			// copy additional resources
+			monitor.subTask("Copying additional resources...");
+			Thread.sleep(100);
+			if(mpa.getAAL_UAPP().getAppResouces() != null){
+				
+				//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
+				File[] appResources = mpa.getAAL_UAPP().getAppResouces();
+				copyFilesAndFolders(appResources, tempDir+"/resources/");
+				//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
+			//}
+			
+			}
+			
+			// copy icon file if set and eventually resize it
+			File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
+			
+			if(iconFile != null && iconFile.exists()){
+					if (mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconScale()){
+					try {
+						BufferedImage img = ImageIO.read(iconFile);
+						Image scaled = img.getScaledInstance(512, 512, Image.SCALE_AREA_AVERAGING);
+						BufferedImage buffered = new BufferedImage(512, 512, img.getType());
+						buffered.getGraphics().drawImage(scaled, 0, 0 , null);
+						File outputFile = new File(tempDir+"/bin/icon/"+iconFile.getName());
+						ImageIO.write(buffered, "png", outputFile);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else copyFile(iconFile, new File(tempDir+"/bin/icon/"+iconFile.getName()));
+			}
+	
+			monitor.subTask("Deleting temporary files...");
+			Thread.sleep(100);
+			File tmpFile = new File(tempDir+"/img.png");
+			if(tmpFile.exists()) tmpFile.delete();
+			
+			tmpFile = new File(tempDir+"/.recovery");
+			if(tmpFile.exists()) tmpFile.delete();
+			
+			tmpFile = new File(tempDir+"/.parts");
+			if(tmpFile.exists()) tmpFile.delete();
+			
+			// remove epom files if exists
+			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
+				Part part = mpa.getAAL_UAPP().getAppParts().get(i);
+				File toBeRemoved = new File(tempDir+"/"+part.getName()+".epom.xml");
+				if (toBeRemoved.exists()) toBeRemoved.delete();
+			}
+			
+			monitor.subTask("Creating UAAP file...");
+			Thread.sleep(100);
+			UAPP descriptor = new UAPP();
+			descriptor.createUAPPfile(tempDir, destination);
+	
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		monitor.done();
 	}
 	
 	private void copyFilesAndFolders(File[] list, String before){
@@ -667,54 +794,22 @@ public class GUI extends WizardMod {
 		  return result;
 	}
 	
-	private void genEffectivePom(List<IProject> parts){
-	
-		//System.out.println("Generating Effective POM");
-		
-		for(int i=0; i<parts.size();i++){
-		
-			IProject part = parts.get(i);
-			
-			String partName = part.getName();
-			if(!recovered)
-				mpa.getAAL_UAPP().getAppParts().add(new Part("part"+(i+1),partName));
-			
-			//System.out.println("Parts size:"+mpa.getAAL_UAPP().getAppParts().size());
-			
-			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
-			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);
-			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
-	
-			IMaven maven = MavenPlugin.getMaven();
-	
-			if(pomResource != null && projectFacade != null){
-				
-				//System.out.println("Resource not null, trying to hrlp:effective-pom");
-				
-				MavenExecutionRequest request;
-				try {
-					request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
-					
-					List<String> goals = new ArrayList<String>();
-					Properties props = new Properties();
-					props.setProperty("output", mavenTempDir+"/"+partName+".epom.xml");
-					
-					goals.add("help:effective-pom");
-		
-					request.setGoals(goals);
-					request.setUserProperties(props);
-					maven.execute(request, null);
-					//System.out.println("Done.");
-					EffectivePOMContainer.addDocument(partName, mavenTempDir+"/"+partName+".epom.xml");
-					//EffectivePOMContainer.addDocument(partName, "/home/federico/nutritional.pom.epom.xml");
-					EffectivePOMContainer.setDocument(partName);
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+	private void copyFile(File source, File destination){
 
+		try{
+			InputStream in = new FileInputStream(source);
+			OutputStream out = new FileOutputStream(destination);
+
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0){
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
 		}
-		
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 }

@@ -22,7 +22,9 @@ import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
 import org.universaal.tools.packaging.tool.gui.GUI;
+import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.POMParser;
+import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 
 public class CreateJar {
 
@@ -39,34 +41,57 @@ public class CreateJar {
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = g.getPart(part.getName()).getFile(IMavenConstants.POM_FILE_NAME);
 			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
-
+			String ProjectPath = g.getPart(part.getName()).getLocation().toString();
+			
 			IMaven maven = MavenPlugin.getMaven();
 			if(pomResource != null && projectFacade != null){
-				MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
-
-				List<String> goals = new ArrayList<String>();
-				Properties props = new Properties();
-
+				System.out.println("[Application Packager] - Preparing for packaging "+part.getName()+" project...");
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IWorkspaceDescription description = workspace.getDescription();
-				System.out.println("[Application Packager] - Preparing for packaging "+part.getName()+" project...");
-				if (!description.isAutoBuilding()){
-					goals.add("compiler:compile"); // compile it if autobuilding is off
-				}
-				System.out.println("[Application Packager] - Packaging "+part.getName()+" project...");
-				goals.add("package");
-
-				request.setGoals(goals);
-				request.setUserProperties(props);
-				MavenExecutionResult execution_result = maven.execute(request, null);
-				if(execution_result.getExceptions() != null && !execution_result.getExceptions().isEmpty())
-					for(int i = 0; i < execution_result.getExceptions().size(); i++){
-						System.out.println("[Application Packager] - Packaging ended with errors:.");
-						System.out.println("[Application Packager] - ERROR: "+execution_result.getExceptions().get(i).getMessage());
+				
+				if(Configurator.local.runMavenEmbedded()){
+					
+					MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
+	
+					List<String> goals = new ArrayList<String>();
+					Properties props = new Properties();
+	
+					if (!description.isAutoBuilding()){
+						goals.add("compiler:compile"); // compile it if autobuilding is off
 					}
-				else
-					System.out.println("[Application Packager] - Packaging ended successfully.");
-
+					System.out.println("[Application Packager] - Packaging "+part.getName()+" project...");
+					goals.add("package");
+	
+					request.setGoals(goals);
+					request.setUserProperties(props);
+					MavenExecutionResult execution_result = maven.execute(request, null);
+					if(execution_result.getExceptions() != null && !execution_result.getExceptions().isEmpty())
+						for(int i = 0; i < execution_result.getExceptions().size(); i++){
+							System.out.println("[Application Packager] - Packaging ended with errors:.");
+							System.out.println("[Application Packager] - ERROR: "+execution_result.getExceptions().get(i).getMessage());
+						}
+					else
+						System.out.println("[Application Packager] - Packaging ended successfully.");
+				} else {
+					int exitLevel = 0;
+					if (!description.isAutoBuilding()){
+						System.out.println("[Application Packager] - "+part.getName()+" will be compiled now because autobuilding is off.");
+						exitLevel = ProcessExecutor.runMavenCommand("compiler:compile", ProjectPath);
+						System.out.println("[Application Packager] - Compiling operation ended.");
+						if(exitLevel != 0){
+							System.out.println("[WARNING] - Error occurred during compiling operation.");
+						}
+					}
+					
+					System.out.println("[Application Packager] - Packaging "+part.getName()+" project...");
+					
+					exitLevel = ProcessExecutor.runMavenCommand("package",ProjectPath);
+					if(exitLevel == 0){
+						System.out.println("[Application Packager] - Packaging ended successfully.");
+					} else {
+						System.out.println("[Application Packager] - Packaging ended with errors.");
+					}
+				}
 				copyFile(new File(sourcePath+"/target/"+fileName), new File(destination_path+fileName));
 			}	
 		}

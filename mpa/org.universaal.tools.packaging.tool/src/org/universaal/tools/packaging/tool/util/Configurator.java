@@ -116,15 +116,22 @@ public class Configurator {
 	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_KEY,ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_DEFAULT);	
     }
 
-    public String getKarafPluginKarGoal() {
-	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_KAR_KEY,ConfigProperties.KARAF_PLUGIN_GOAL_KAR_DEFAULT);
+    public String getMavenCommand() {
+    	return System.getProperty(ConfigProperties.MAVEN_COMMAND_KEY,ConfigProperties.MAVEN_COMMAND_DEFAULT);
     }
 
     public Boolean isOfflineMode() {
 	return Boolean.valueOf(System.getProperty(ConfigProperties.OFFLINE_MODE_KEY, ConfigProperties.OFFLINE_MODE_KEY));
     }
 
+    public String getKarafPluginKarGoal() {
+    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_KAR_KEY,ConfigProperties.KARAF_PLUGIN_GOAL_KAR_DEFAULT);
+    }
     
+    public Boolean runMavenEmbedded() {
+    	return Boolean.valueOf(System.getProperty(ConfigProperties.MAVEN_EMBEDDED_KEY, ConfigProperties.MAVEN_EMBEDDED_DEFAULT));
+    }
+
     private int getLogLevel(final String levelName) {
 	if ("DEBUG".equalsIgnoreCase(levelName)) {
 	    return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;

@@ -25,12 +25,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.plexus.util.FileUtils;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -222,6 +226,9 @@ public class StartPage extends PageImpl {
 
 	@Override
 	public boolean nextPressed() {
+		
+
+		
 		//app.setMainPart(mainPart.getText());
 		if(destination != null){
 			g.setDestination(destination.getAbsolutePath());
