@@ -129,7 +129,16 @@ public class Configurator {
     }
     
     public Boolean runMavenEmbedded() {
-    	return Boolean.valueOf(System.getProperty(ConfigProperties.MAVEN_EMBEDDED_KEY, ConfigProperties.MAVEN_EMBEDDED_DEFAULT));
+    	Boolean mEmb = Boolean.valueOf(System.getProperty(ConfigProperties.MAVEN_EMBEDDED_KEY, ConfigProperties.MAVEN_EMBEDDED_DEFAULT));
+    	if(!mEmb){
+    		try{
+    			ProcessExecutor.runMavenCommand("", "");
+    		} catch (Exception e){
+    			System.out.println("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.");
+    			mEmb = !mEmb;
+    		}
+    	}
+    	return mEmb;
     }
 
     private int getLogLevel(final String levelName) {
