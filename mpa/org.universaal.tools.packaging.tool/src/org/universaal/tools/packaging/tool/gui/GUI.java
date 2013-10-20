@@ -572,9 +572,7 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		monitor.beginTask("Generating Effective POM", IProgressMonitor.UNKNOWN);
 		monitor.subTask("part: "+partName);
-		if(Configurator.local.runMavenEmbedded())
-			GUI.getInstance().exitLevel = ProcessExecutor.runMavenCommand("-Doutput="+mavenTempDir+"/"+partName+".epom.xml"+" help:effective-pom", path);
-		else{
+		if(Configurator.local.runMavenEmbedded()){
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);
 			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
@@ -605,8 +603,11 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 					e.printStackTrace();
 				}
 			}
-			monitor.done();
+
+		} else {
+			GUI.getInstance().exitLevel = ProcessExecutor.runMavenCommand("-Doutput="+mavenTempDir+"/"+partName+".epom.xml"+" help:effective-pom", path);
 		}
+		monitor.done();
 	}
 }
 
