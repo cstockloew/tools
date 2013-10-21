@@ -13,13 +13,13 @@ public class AALService {
     private String provider = "";
     private ArrayList<String> tags;
     private License licenses;
-    private ArrayList<UAPPPart> uaapList;
+    private ArrayList<UAPP> uaapList;
     private String ontologyUri;
     private String iconPath;
 
     public AALService() {
 	tags = new ArrayList<String>();
-	uaapList = new ArrayList<UAPPPart>();
+	uaapList = new ArrayList<UAPP>();
     }
 
     public AALService(String serviceId, int minor, int major, int micro,
@@ -37,7 +37,7 @@ public class AALService {
 	this.ontologyUri = ontologyUri;
 	this.iconPath = iconPath;
 	tags = new ArrayList<String>();
-	uaapList = new ArrayList<UAPPPart>();
+	uaapList = new ArrayList<UAPP>();
     }
 
     public int getMinor() {
@@ -104,11 +104,11 @@ public class AALService {
 	this.provider = provider;
     }
 
-    public ArrayList<UAPPPart> getUaapList() {
+    public ArrayList<UAPP> getUaapList() {
 	return uaapList;
     }
 
-    public void setUaapList(ArrayList<UAPPPart> uaapList) {
+    public void setUaapList(ArrayList<UAPP> uaapList) {
 	this.uaapList = uaapList;
     }
 

@@ -122,7 +122,7 @@ public class LicenseController implements Property.ValueChangeListener,
 		if (event.getButton() == win.getGo()) {
 			app.getMainWindow().removeWindow(win);
 			// Test, if uapps size greater than 0
-			if (appCounter > 0) {
+			if (aal.getUaapList().size() > 0) {
 				System.err.println("[LicenseController]: appCounter "
 						+ appCounter);
 				// Load Infoview for Deployment of uapps

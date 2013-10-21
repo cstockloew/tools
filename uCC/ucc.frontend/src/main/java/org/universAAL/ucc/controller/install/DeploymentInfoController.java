@@ -26,6 +26,7 @@ import org.universAAL.ucc.configuration.view.ConfigurationOverviewWindow;
 import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
 import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.UAPPPart;
 import org.universAAL.ucc.model.UAPPReqAtom;
 import org.universAAL.ucc.model.jaxb.EnumObject;
@@ -82,27 +83,27 @@ public class DeploymentInfoController implements Button.ClickListener,
 		dcvMap = new HashMap<String, DeployConfigView>();
 		mapLayout = new HashMap<Part, List<PeerCard>>();
 		int i = 0;
-
-		for (UAPPPart uapp : aal.getUaapList()) {
+		for(UAPP ua : aal.getUaapList()) {
+		for (Map.Entry<String, UAPPPart>uapp : ua.getParts().entrySet()) {
 			i++;
 			if (i == 1) {
-				selected = uapp.getPart().getPartId();
+				selected = uapp.getValue().getPart().getPartId();
 			}
-			System.err.println(uapp.getPart().getPartId() + " "+aal.getUaapList().size());
-			win.getTree().addItem(uapp.getPart().getPartId());
-			win.getTree().setChildrenAllowed(uapp.getPart().getPartId(), false);
+			System.err.println(uapp.getValue().getPart().getPartId() + " "+aal.getUaapList().size());
+			win.getTree().addItem(uapp.getValue().getPart().getPartId());
+			win.getTree().setChildrenAllowed(uapp.getValue().getPart().getPartId(), false);
 			DeployStrategyView dsv = new DeployStrategyView(aal.getName(),
-					aal.getServiceId(), uapp.getUappLocation());
+					aal.getServiceId(), uapp.getValue().getUappLocation());
 			dsv.getOptions().addListener(this);
-			dsvMap.put(uapp.getPart().getPartId(), dsv);
+			dsvMap.put(uapp.getValue().getPart().getPartId(), dsv);
 
 			DeployConfigView dcv = new DeployConfigView(app,
-					aal.getServiceId(), uapp.getUappLocation());
-			dcv.getTxt().setValue(uapp.getPart().getPartId());
+					aal.getServiceId(), uapp.getValue().getUappLocation());
+			dcv.getTxt().setValue(uapp.getValue().getPart().getPartId());
 			dcv.getTxt().setEnabled(false);
 			System.err.println("Befor getValidPeers()");
 			//Insert valid PeerNodes to dropbox of DeployConfigView
-			List<PeerCard> validpeers = getValidPeers(uapp.getReqAtoms(), uapp.getPart().getPartId());
+			List<PeerCard> validpeers = getValidPeers(uapp.getValue().getReqAtoms(), uapp.getValue().getPart().getPartId());
 			System.err.println("In validpeers size: "+validpeers.size());
 			for(PeerCard pc : validpeers) {
 				if (pc != null) {
@@ -116,16 +117,17 @@ public class DeploymentInfoController implements Button.ClickListener,
 			
 			dcv.getSelect().setEnabled(false);
 			dcv.setEnabled(false);
-			dcvMap.put(uapp.getPart().getPartId(), dcv);
+			dcvMap.put(uapp.getValue().getPart().getPartId(), dcv);
 		}
 		win.getTree().select(selected);
-		for (UAPPPart ua : aal.getUaapList()) {
-			if (ua.getPart().getPartId().equals(selected)) {
-				DeployStrategyView dsv = dsvMap.get(ua.getPart().getPartId());
-				DeployConfigView dcv = dcvMap.get(ua.getPart().getPartId());
+		for (Map.Entry<String, UAPPPart> u : ua.getParts().entrySet()) {
+			if (u.getValue().getPart().getPartId().equals(selected)) {
+				DeployStrategyView dsv = dsvMap.get(u.getValue().getPart().getPartId());
+				DeployConfigView dcv = dcvMap.get(u.getValue().getPart().getPartId());
 				actVL = win.createSecondComponent(dsv, dcv);
 			}
 		}
+	}
 		win.getTree().addListener(this);
 		win.getOk().addListener((Button.ClickListener) this);
 		win.getCancel().addListener((Button.ClickListener) this);
@@ -137,28 +139,30 @@ public class DeploymentInfoController implements Button.ClickListener,
 			Map<Part, List<PeerCard>> config = null;
 			// TODO: Deployment
 			peers = installer.getPeers();
-			for (UAPPPart uapp : aal.getUaapList()) {
+			for(UAPP up : aal.getUaapList()) {
+			for (Map.Entry<String, UAPPPart> uapp : up.getParts().entrySet()) {
 
 				// Selected part in tree
-				if (uapp.getPart().getPartId().equals(selected)) {
+				if (uapp.getValue().getPart().getPartId().equals(selected)) {
 					
 					// Default Deployment Strategy
 					if (dsvMap.get(selected).getOptions().getValue().toString()
 							.equals(bundle.getString("opt.available.nodes"))) {
-						config = buildDefaultInstallationLayout(uapp);
+						config = buildDefaultInstallationLayout(uapp.getValue());
 					}
 					// User selection strategy
 					else if (dsvMap.get(selected).getOptions().getValue()
 							.toString()
 							.equals(bundle.getString("opt.selected.nodes"))) {
-						System.err.println("User Installation for part: "+uapp.getPart().getPartId());
-						config = buildUserInstallationLayout(uapp);
+						System.err.println("User Installation for part: "+uapp.getValue().getPart().getPartId());
+						config = buildUserInstallationLayout(uapp.getValue());
 						if (config.isEmpty())
 							return;
 					}
 
 				}
 			}
+		}
 			// Remove installed part view and item from tree
 
 				win.getHp().removeComponent(actVL);
@@ -186,11 +190,12 @@ public class DeploymentInfoController implements Button.ClickListener,
 					
 				}
 				// Deploy to MW
-				for(UAPPPart uapp : aal.getUaapList()) {
+				for(UAPP up : aal.getUaapList()) {
+				for(Map.Entry<String, UAPPPart> uapp : up.getParts().entrySet()) {
 				UAPPPackage uapack = null;
 				// Get uapp location uri
-				String appLocation = uapp.getUappLocation();
-				System.err.println("THE UAPP_LOCATION: "+uapp.getUappLocation());
+				String appLocation = uapp.getValue().getUappLocation();
+				System.err.println("THE UAPP_LOCATION: "+uapp.getValue().getUappLocation());
 				appLocation = FrontendImpl.getUappURI();
 				System.err.println("LOCATION URI: "+appLocation);
 				File uf  = new File(appLocation.trim());
@@ -204,19 +209,19 @@ public class DeploymentInfoController implements Button.ClickListener,
 				
 				//MW installation
 				uapack = new UAPPPackage(aal.getServiceId(),
-						uapp.getAppId(), uf.toURI(), peerMap);
+						uapp.getValue().getAppId(), uf.toURI(), peerMap);
 				
 				 InstallationResultsDetails res = installer.requestToInstall(uapack);
 				 // add app and bundles to "services.xml" file.
 				 System.err.println("The GLOBAL RESULT: "+res.getGlobalResult().toString());
-				 System.err.println("Service ID: "+aal.getServiceId()+ " App ID: "+uapp.getAppId()+" Bundle ID: "+uapp.getBundleId()+ "Bundle Version: "+uapp.getBundleId());
+				 System.err.println("Service ID: "+aal.getServiceId()+ " App ID: "+uapp.getValue().getAppId()+" Bundle ID: "+uapp.getValue().getBundleId()+ "Bundle Version: "+uapp.getValue().getBundleId());
 				if (res.getGlobalResult().toString().equals(InstallationResults.SUCCESS.name())) {
 					srvRegistration.registerApp(aal.getServiceId(), 
-							uapp.getAppId());
+							uapp.getValue().getAppId());
 					// get bundles for each part in the appId;
 					// for each bundle:
 					srvRegistration.registerBundle(aal.getServiceId(),
-							uapp.getBundleId(), uapp.getBundleVersion());
+							uapp.getValue().getBundleId(), uapp.getValue().getBundleVersion());
 					
 					// TODO: Call configurator to configure the uapps, after
 					// uapp is running (for every uapp)
@@ -230,10 +235,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 							+ reg.getAllConfigDefinitions().size());
 					for (Configuration configurator : reg
 							.getAllConfigDefinitions()) {
-						System.err.println(uapp.getBundleId()+" + "+configurator.getBundlename());
+						System.err.println(uapp.getValue().getBundleId()+" + "+configurator.getBundlename());
 						if (configurator.getBundlename() != null
 								&& configurator.getBundlename().equals(
-										uapp.getBundleId())) {
+										uapp.getValue().getBundleId())) {
 							conf = configurator;
 						}
 					}
@@ -354,6 +359,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 
 			}
 			}
+			}
 
 			selected = (String) win.getTree().getItemIds().iterator().next();
 			win.getTree().select(selected);
@@ -387,16 +393,17 @@ public class DeploymentInfoController implements Button.ClickListener,
 	}
 
 	public void valueChange(ValueChangeEvent event) {
-		for (UAPPPart ua : aal.getUaapList()) {
+		for(UAPP up : aal.getUaapList()) {
+		for (Map.Entry<String, UAPPPart> ua : up.getParts().entrySet()) {
 			System.err.println(aal.getUaapList().size());
-			if (ua.getPart().getPartId().equals(event.getProperty().toString())) {
+			if (ua.getValue().getPart().getPartId().equals(event.getProperty().toString())) {
 				selected = event.getProperty().toString();
-				DeployStrategyView dsv = dsvMap.get(ua.getPart().getPartId());
-				DeployConfigView dcv = dcvMap.get(ua.getPart().getPartId());
+				DeployStrategyView dsv = dsvMap.get(ua.getValue().getPart().getPartId());
+				DeployConfigView dcv = dcvMap.get(ua.getValue().getPart().getPartId());
 				actVL = win.createSecondComponent(dsv, dcv);
 			}
 		}
-
+	}
 		if (event.getProperty().getValue().toString()
 				.equals(bundle.getString("opt.selected.nodes"))) {
 			dcvMap.get(selected).setEnabled(true);
