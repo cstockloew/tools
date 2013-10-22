@@ -319,6 +319,7 @@ public class FrontendImpl implements IFrontend {
 
 			// Getting UAPPReqAtom for validation
 			UAPPReqAtom atom = null;
+			List<String>atomValues = new ArrayList<String>();
 			PartRequirements pr = p.getPartRequirements();
 			for (ReqType rt : pr.getRequirement()) {
 				atom = new UAPPReqAtom();
@@ -330,7 +331,8 @@ public class FrontendImpl implements IFrontend {
 							+ rt.getReqAtom().getReqAtomValue());
 					// List<String> ll = new ArrayList<String>();
 					// ll.add(rt.getReqAtom().getReqAtomValue());
-					atom.setValue(rt.getReqAtom().getReqAtomValue());
+					atomValues.add(rt.getReqAtom().getReqAtomValue());
+//					atom.setValue(rt.getReqAtom().getReqAtomValue());
 					if (rt.getReqAtom().getReqCriteria() != null) {
 						System.err.println("ReqAtom Criteria: "
 								+ rt.getReqAtom().getReqCriteria().value());
@@ -352,6 +354,7 @@ public class FrontendImpl implements IFrontend {
 				}
 				ua.addReqAtoms(atom);
 			}
+			atom.setValue(atomValues);
 
 			ua.setAppId(uapp.getApp().getAppId());
 			ua.setDescription(uapp.getApp().getDescription());
