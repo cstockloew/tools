@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<features name="universAAL-uCC-karaf-2.0.1" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+<features name="universAAL-Control-Center" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+
+    <repository>mvn:org.universAAL.middleware/mw.karaf.feature/${uaal.parent.version}/xml/features</repository>
+	<repository>mvn:org.universAAL.ontology/ont.karaf.feature/${uaal.parent.version}/xml/features</repository>
 
 	<feature name="uAAL-uCC" description="The uCC for universAAL middleware 2.0"
-		version="2.0.1-SNAPSHOT" resolver='(obr)'>		
-
+		version="2.0.2-SNAPSHOT" resolver='(obr)'>		
+        <feature>uAAL-MW</feature>
+        <feature>uAAL-Ont</feature>
  
-  		<bundle start-level="90">mvn:org.universAAL.ontology/ont.profile/2.0.0</bundle>
-		<bundle start-level="91">mvn:org.universAAL.ontology/ont.profile.userid/2.0.0</bundle>
+<!--   		<bundle start-level="90">mvn:org.universAAL.ontology/ont.profile/2.0.0</bundle> -->
+<!-- 		<bundle start-level="91">mvn:org.universAAL.ontology/ont.profile.userid/2.0.0</bundle> -->
+        <feature>uAAL-Ont.Profile.userId</feature>
+
 		<!-- <bundle start-level="91">mvn:org.universAAL.ontology/ont.profile.ui.mainmenu/2.0.0</bundle>-->
 		<bundle start-level="91">wrap:mvn:org.universAAL.support/uAAL.utils/2.0.0</bundle>
 		<bundle start-level="92">mvn:org.universAAL.tools.ucc/ucc.profile.agent/2.0.1-SNAPSHOT</bundle>
