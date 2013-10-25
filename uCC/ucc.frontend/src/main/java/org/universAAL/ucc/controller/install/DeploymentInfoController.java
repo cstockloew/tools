@@ -189,10 +189,11 @@ public class DeploymentInfoController implements Button.ClickListener,
 					}
 					
 				}
-				// Deploy to MW
+				// Deploy to MW?????????????
 				for(UAPP up : aal.getUaapList()) {
+					UAPPPackage uapack = null;
 				for(Map.Entry<String, UAPPPart> uapp : up.getParts().entrySet()) {
-				UAPPPackage uapack = null;
+				
 				// Get uapp location uri
 				String appLocation = uapp.getValue().getUappLocation();
 				System.err.println("THE UAPP_LOCATION: "+uapp.getValue().getUappLocation());
@@ -221,7 +222,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 					// get bundles for each part in the appId;
 					// for each bundle:
 					srvRegistration.registerBundle(aal.getServiceId(),
-							uapp.getValue().getBundleId(), uapp.getValue().getBundleVersion());
+						uapp.getValue().getBundleId(), uapp.getValue().getBundleVersion());
 					
 					// TODO: Call configurator to configure the uapps, after
 					// uapp is running (for every uapp)

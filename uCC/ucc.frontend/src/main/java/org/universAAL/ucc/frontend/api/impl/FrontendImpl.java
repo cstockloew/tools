@@ -74,6 +74,7 @@ public class FrontendImpl implements IFrontend {
 	private static String userSession;
 	private String base;
 	private ResourceBundle bundle;
+	private AALService aal;
 
 	public FrontendImpl() {
 		base = "resources.ucc";
@@ -85,6 +86,7 @@ public class FrontendImpl implements IFrontend {
 	public boolean installService(String sessionkey, String serviceId,
 			String serviceLink) {
 		startUCC();
+		aal = new AALService();
 		// check for sessionkey
 		// if(sessionkey.equals(DesktopController.getSessionKey())) {
 		// downloads a usrv-file from the given download-uri
@@ -147,8 +149,10 @@ public class FrontendImpl implements IFrontend {
 					System.err.println(configFileName);
 				}
 			}
-			parseUappConfiguration(usrvLocalStore + serviceId + "_temp"
-					+ "/config/" + configFileName, serviceId);
+			
+				parseUappConfiguration(usrvLocalStore + serviceId + "_temp"
+						+ "/config/" + configFileName, serviceId);
+			
 			return true;
 			// } else {
 			// //TODO: SessionKey was not right, what todo?
@@ -202,7 +206,7 @@ public class FrontendImpl implements IFrontend {
 		License license = null;
 		ArrayList<License> licenseList = new ArrayList<License>();
 		ArrayList<File> list = new ArrayList<File>();
-		AALService aal = new AALService();
+		
 		// Read uapp config xml
 		AalUapp uapp = null;
 		System.err.println(f);
@@ -210,43 +214,40 @@ public class FrontendImpl implements IFrontend {
 		if (ps != null)
 			System.err.println("Got ParserService");
 		uapp = ps.getUapp(f);
-		System.err.println(f);
 		System.err.println(uapp.getApp().getAppId());
 		List<Part> parts = uapp.getApplicationPart().getPart();
-		System.err.println(parts.size());
-
-		System.err.println("Size of parts: " + parts.size() + " "
-				+ parts.get(0).getBundleId());
-		System.err
-				.println("Bundle-Version: " + parts.get(0).getBundleVersion());
+		
+		//Creating an new UAPP on uCC side
 		UAPP up = new UAPP();
 		up.setName(uapp.getApp().getName());
 		Provider provider = new Provider(uapp.getApp().getApplicationProvider()
 				.getContactPerson(), uapp.getApp().getApplicationProvider()
 				.getPhone(), uapp.getApp().getApplicationProvider().getEmail(),
 				uapp.getApp().getApplicationProvider().getWebAddress());
-
+		//Setting the provider
 		up.setProvider(provider);
 		String version = String.valueOf(uapp.getApp().getVersion().getMajor())
 				.concat(".")
-				.concat(String.valueOf(uapp.getApp().getVersion().getMicro()))
+				.concat(String.valueOf(uapp.getApp().getVersion().getMicro())).concat(".")
 				.concat(String.valueOf(uapp.getApp().getVersion().getMinor()));
+		System.err.println("Version of usrv: "+version);
+		//Setting the version
 		up.setVersion(version);
+		
+		//Setting the uapp parts
 		for (Part p : parts) {
 			UAPPPart ua = new UAPPPart();
 			ua.setUappLocation(uappURI);
-			Part part = new Part();
-			System.err.println(p.getPartId());
-			part.setPartId(p.getPartId());
-			ua.setPart(part);
+			System.err.println("The Parts-Location: "+ uappURI);
+			System.err.println("Part-ID: "+p.getPartId());
+			ua.setAppId(p.getPartId());
+			ua.setPart(p);
 			ua.setBundleId(p.getBundleId());
 			System.err.println(p.getBundleId());
 			ua.setBundleVersion(p.getBundleVersion());
-			System.err.println(p.getDeploymentUnit().size());
+			System.err.println("Deployment-UNIT_SIZE: "+p.getDeploymentUnit().size());
 			// Here starts the error and breaks the parsing
 			// Getting DeploymentUnit
-			System.err.println("Deployment-UNIT-Size: "
-					+ p.getDeploymentUnit().size());
 			for (DeploymentUnit du : p.getDeploymentUnit()) {
 				// Getting ContainerUnits
 				if (du.isSetContainerUnit()) {
@@ -354,7 +355,9 @@ public class FrontendImpl implements IFrontend {
 				}
 				ua.addReqAtoms(atom);
 			}
-			atom.setValue(atomValues);
+			if(atom != null) {
+				atom.setValue(atomValues);
+			}
 
 			ua.setAppId(uapp.getApp().getAppId());
 			ua.setDescription(uapp.getApp().getDescription());
@@ -380,8 +383,11 @@ public class FrontendImpl implements IFrontend {
 
 			}
 			up.addPart(ua.getPart().getPartId(), ua);
-			appsList.add(up);
-
+			
+		}
+		//Adding a uAAP 
+		appsList.add(up);
+		
 			// Creating license files
 			for (AalUapp.App.Licenses ls : uapp.getApp().getLicenses()) {
 				license = new License();
@@ -434,12 +440,13 @@ public class FrontendImpl implements IFrontend {
 					}
 				}
 
-			}
+//			}
 			license.setLicense(list);
 			licenseList.add(license);
 			aal.setLicenses(license);
 
 		}
+		System.err.println("Size of APP-List "+appsList.size());
 		aal.setUaapList(appsList);
 		parseConfiguration(serviceId + "_temp", appsList, licenseList, aal);
 		return appsList;
@@ -469,22 +476,20 @@ public class FrontendImpl implements IFrontend {
 			}
 		}
 		AalUsrv usrv = ps.getUsrv(usrvLocalStore + "config/" + configFileName);
-		System.err.println(aal.getMajor() + "." + aal.getMinor() + "."
-				+ aal.getMicro());
-		List<ApplicationType> xmlApps = usrv.getComponents().getApplication();
-		for (ApplicationType xmlApp : xmlApps) {
-			UAPP modelUAAP = new UAPP();
-			modelUAAP.setName(xmlApp.getName());
-			Provider provider = new Provider(usrv.getSrv().getServiceProvider().getOrganizationName(), usrv.getSrv().getServiceProvider().getPhone(), 
-					usrv.getSrv().getServiceProvider().getEmail(), usrv.getSrv().getServiceProvider().getWebAddress());
-			modelUAAP.setProvider(provider);
-			String version = usrv.getSrv().getVersion().getMajor()+ "."+ usrv.getSrv().getVersion().getMicro() + "." + usrv.getSrv().getVersion().getMinor();
-			modelUAAP.setVersion(version);
-			for(Map.Entry<String, UAPPPart> part : modelUAAP.getParts().entrySet()) {
-				modelUAAP.getParts().put(part.getKey(), part.getValue());
-				aal.getUaapList().add( modelUAAP );
-			}
-		}
+//		List<ApplicationType> xmlApps = usrv.getComponents().getApplication();
+//		for (ApplicationType xmlApp : xmlApps) {
+//			UAPP modelUAAP = new UAPP();
+//			modelUAAP.setName(xmlApp.getName());
+//			Provider provider = new Provider(usrv.getSrv().getServiceProvider().getOrganizationName(), usrv.getSrv().getServiceProvider().getPhone(), 
+//					usrv.getSrv().getServiceProvider().getEmail(), usrv.getSrv().getServiceProvider().getWebAddress());
+//			modelUAAP.setProvider(provider);
+//			String version = usrv.getSrv().getVersion().getMajor()+ "."+ usrv.getSrv().getVersion().getMicro() + "." + usrv.getSrv().getVersion().getMinor();
+//			modelUAAP.setVersion(version);
+//			for(Map.Entry<String, UAPPPart> part : modelUAAP.getParts().entrySet()) {
+//				modelUAAP.getParts().put(part.getKey(), part.getValue());
+//				aal.getUaapList().add( modelUAAP );
+//			}
+//		}
 		/*
 		for (UAPP up : aal.getUaapList()) {
 			for (Map.Entry<String, UAPPPart> ua : up.getParts().entrySet()) {
@@ -513,20 +518,20 @@ public class FrontendImpl implements IFrontend {
 				System.err.println("Description: " + aal.getDescription());
 			}
 
-			// if(usrv.getSrv().isSetVersion()) {
-			// if(usrv.getSrv().getVersion().isSetMajor()) {
-			// aal.setMajor(usrv.getSrv().getVersion().getMajor());
-			// System.err.println(aal.getMajor());
-			// }
-			// if(usrv.getSrv().getVersion().isSetMinor()) {
-			// aal.setMinor(usrv.getSrv().getVersion().getMinor());
-			// System.err.println(aal.getMinor());
-			// }
-			// if(usrv.getSrv().getVersion().isSetMicro()) {
-			// aal.setMicro(usrv.getSrv().getVersion().getMicro());
-			// System.err.println(aal.getMicro());
-			// }
-			// }
+//			 if(usrv.getSrv().isSetVersion()) {
+//			 if(usrv.getSrv().getVersion().isSetMajor()) {
+//			 aal.setMajor(usrv.getSrv().getVersion().getMajor());
+//			 System.err.println(aal.getMajor());
+//			 }
+//			 if(usrv.getSrv().getVersion().isSetMinor()) {
+//			 aal.setMinor(usrv.getSrv().getVersion().getMinor());
+//			 System.err.println(aal.getMinor());
+//			 }
+//			 if(usrv.getSrv().getVersion().isSetMicro()) {
+//			 aal.setMicro(usrv.getSrv().getVersion().getMicro());
+//			 System.err.println(aal.getMicro());
+//			 }
+//			 }
 			if (usrv.getSrv().isSetTags()) {
 				aal.getTags().add(usrv.getSrv().getTags());
 				System.err.println("Tags: " + aal.getTags());
@@ -537,7 +542,6 @@ public class FrontendImpl implements IFrontend {
 			try {
 				lw = new LicenceWindow(UccUI.getInstance(), licenseList, aal);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			new UsrvInfoController(aal, lw, UccUI.getInstance());
