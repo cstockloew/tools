@@ -144,8 +144,8 @@ public class DeploymentInfoController implements Button.ClickListener,
 			peers = installer.getPeers();
 			
 			//Going throug every UAPP to build the installation layout
-			for(UAPP up : aal.getUaapList()) {
-			for (Map.Entry<String, UAPPPart> uapp : up.getParts().entrySet()) {
+//			for(UAPP up : aal.getUaapList()) {
+			for (Map.Entry<String, UAPPPart> uapp : installingApp.getParts().entrySet()) {
 
 				// Selected part in tree
 				if (uapp.getValue().getPart().getPartId().equals(selected)) {
@@ -167,7 +167,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 
 				}
 			}
-		}
+//		}
 			// Remove installed part view and item from tree
 
 				win.getHp().removeComponent(actVL);
@@ -198,7 +198,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				// Output to console about the parts
 //				for(UAPP up : aal.getUaapList()) {
 					UAPPPackage uapack = null;
-				for(Map.Entry<String, UAPPPart> applicationPart : installingApp.getParts().entrySet()) {
+//				for(Map.Entry<String, UAPPPart> applicationPart : installingApp.getParts().entrySet()) {
 				
 				for (PeerCard pc: peerMap.keySet()) {
 					List<Part> parts = peerMap.get(pc);
@@ -212,10 +212,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 				
 				
 				 
-				}
+//				}
 				String appLocation = installingApp.getLocation();
 				System.err.println("THE UAPP_LOCATION: "+installingApp.getLocation());
-				appLocation = FrontendImpl.getUappURI();
+//				String appLocation = FrontendImpl.getUappURI();
 				System.err.println("LOCATION URI: "+appLocation);
 				File uf  = new File(appLocation.trim());
 				final String appId = installingApp.getAppID();
@@ -232,10 +232,11 @@ public class DeploymentInfoController implements Button.ClickListener,
 
 			}
 //			}
-			}
-
 			selected = (String) win.getTree().getItemIds().iterator().next();
 			win.getTree().select(selected);
+			}
+
+			
 //		}
 
 		// Installation was canceled by user
@@ -447,7 +448,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 	}
 	
 	private void showInstallationResultToUser(InstallationResultsDetails res) {
-		 System.err.println("The GLOBAL RESULT: "+res.getGlobalResult().toString());
+		 System.err.println("The GLOBAL RESULT: "+res.getGlobalResult());
 //		 System.err.println("Service ID: "+aal.getServiceId()+ " App ID: "+uapp.getValue().getAppId()+" Bundle ID: "+uapp.getValue().getBundleId()+ "Bundle Version: "+uapp.getValue().getBundleId());
 		if (res.getGlobalResult().toString().equals(InstallationResults.SUCCESS.name())) {
 			srvRegistration.registerApp(aal.getServiceId(), 
@@ -459,7 +460,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 //			srvRegistration.registerBundle(aal.getServiceId(),
 //				uapp.getValue().getBundleId(), uapp.getValue().getBundleVersion());
 			
-			// TODO: Call configurator to configure the uapps, after
+			// TODO: Configurator has to be tested
 			// uapp has to be installed and running to configure it (configuration has to be done for every configurable application of the usrv)
 			// but the application has to run at the local node where the ucc is also running
 			ServiceReference configRef = bc

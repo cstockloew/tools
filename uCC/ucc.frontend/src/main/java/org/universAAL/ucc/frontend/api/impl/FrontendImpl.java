@@ -640,9 +640,9 @@ public class FrontendImpl implements IFrontend {
 		return uappURI;
 	}
 
-	public static void setUappURI(String uappURI) {
-		FrontendImpl.uappURI = uappURI;
-	}
+//	public static void setUappURI(String uappURI) {
+//		FrontendImpl.uappURI = uappURI;
+//	}
 
 	static public void extractFolder(String zipFile, String destdir)
 			throws ZipException, IOException {
