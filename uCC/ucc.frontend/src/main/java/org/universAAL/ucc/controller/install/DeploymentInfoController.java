@@ -68,13 +68,16 @@ public class DeploymentInfoController implements Button.ClickListener,
 	private IServiceRegistration srvRegistration;
 	private BundleContext bc;
 	private Map<Part, List<PeerCard>> mapLayout;
+	private UAPP installingApp;
+	private Map<Part, List<PeerCard>> config;
 
 	public DeploymentInfoController(UccUI app, AALService aal,
-			DeploymentInformationView win) {
+			DeploymentInformationView win, UAPP uAPP) { 
 		base = "resources.ucc";
 		bundle = ResourceBundle.getBundle(base);
 		installer = Activator.getInstaller();
 		srvRegistration = Activator.getReg();
+		this.installingApp = uAPP;
 		bc = FrameworkUtil.getBundle(getClass()).getBundleContext();
 		this.aal = aal;
 		this.win = win;
@@ -84,26 +87,26 @@ public class DeploymentInfoController implements Button.ClickListener,
 		mapLayout = new HashMap<Part, List<PeerCard>>();
 		int i = 0;
 		for(UAPP ua : aal.getUaapList()) {
-		for (Map.Entry<String, UAPPPart>uapp : ua.getParts().entrySet()) {
+		for (Map.Entry<String, UAPPPart>applicationPart : ua.getParts().entrySet()) {
 			i++;
 			if (i == 1) {
-				selected = uapp.getValue().getPart().getPartId();
+				selected = applicationPart.getValue().getPart().getPartId();
 			}
-			System.err.println(uapp.getValue().getPart().getPartId() + " "+aal.getUaapList().size());
-			win.getTree().addItem(uapp.getValue().getPart().getPartId());
-			win.getTree().setChildrenAllowed(uapp.getValue().getPart().getPartId(), false);
+			System.err.println(applicationPart.getValue().getPart().getPartId() + " "+aal.getUaapList().size());
+			win.getTree().addItem(applicationPart.getValue().getPart().getPartId());
+			win.getTree().setChildrenAllowed(applicationPart.getValue().getPart().getPartId(), false);
 			DeployStrategyView dsv = new DeployStrategyView(aal.getName(),
-					aal.getServiceId(), uapp.getValue().getUappLocation());
+					aal.getServiceId(), applicationPart.getValue().getUappLocation());
 			dsv.getOptions().addListener(this);
-			dsvMap.put(uapp.getValue().getPart().getPartId(), dsv);
+			dsvMap.put(applicationPart.getValue().getPart().getPartId(), dsv);
 
 			DeployConfigView dcv = new DeployConfigView(app,
-					aal.getServiceId(), uapp.getValue().getUappLocation());
-			dcv.getTxt().setValue(uapp.getValue().getPart().getPartId());
+					aal.getServiceId(), applicationPart.getValue().getUappLocation());
+			dcv.getTxt().setValue(applicationPart.getValue().getPart().getPartId());
 			dcv.getTxt().setEnabled(false);
 			System.err.println("Befor getValidPeers()");
 			//Insert valid PeerNodes to dropbox of DeployConfigView
-			List<PeerCard> validpeers = getValidPeers(uapp.getValue().getReqAtoms(), uapp.getValue().getPart().getPartId());
+			List<PeerCard> validpeers = getValidPeers(applicationPart.getValue().getReqAtoms(), applicationPart.getValue().getPart().getPartId());
 			System.err.println("In validpeers size: "+validpeers.size());
 			for(PeerCard pc : validpeers) {
 				if (pc != null) {
@@ -117,7 +120,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 			
 			dcv.getSelect().setEnabled(false);
 			dcv.setEnabled(false);
-			dcvMap.put(uapp.getValue().getPart().getPartId(), dcv);
+			dcvMap.put(applicationPart.getValue().getPart().getPartId(), dcv);
 		}
 		win.getTree().select(selected);
 		for (Map.Entry<String, UAPPPart> u : ua.getParts().entrySet()) {
@@ -136,9 +139,11 @@ public class DeploymentInfoController implements Button.ClickListener,
 
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton() == win.getOk()) {
-			Map<Part, List<PeerCard>> config = null;
+			
 			// TODO: Deployment
 			peers = installer.getPeers();
+			
+			//Going throug every UAPP to build the installation layout
 			for(UAPP up : aal.getUaapList()) {
 			for (Map.Entry<String, UAPPPart> uapp : up.getParts().entrySet()) {
 
@@ -174,10 +179,10 @@ public class DeploymentInfoController implements Button.ClickListener,
 				dsvMap.remove(selected);
 				dcvMap.remove(selected);
 
-			//All parts are processed
+			//All parts are processed, now we can deploy
 			if (dsvMap.isEmpty() && dcvMap.isEmpty()) {
 			
-				//Change Map<Part, List<PeerCard>> to Map<PeerCard, List<Part>>
+				//Creating the peer Map for every part
 				Map<PeerCard, List<Part>> peerMap = new HashMap<PeerCard, List<Part>>();
 				for(Part key : config.keySet()) {
 					List<PeerCard> val = config.get(key);
@@ -189,17 +194,12 @@ public class DeploymentInfoController implements Button.ClickListener,
 					}
 					
 				}
-				// Deploy to MW?????????????
-				for(UAPP up : aal.getUaapList()) {
+			
+				// Output to console about the parts
+//				for(UAPP up : aal.getUaapList()) {
 					UAPPPackage uapack = null;
-				for(Map.Entry<String, UAPPPart> uapp : up.getParts().entrySet()) {
+				for(Map.Entry<String, UAPPPart> applicationPart : installingApp.getParts().entrySet()) {
 				
-				// Get uapp location uri
-				String appLocation = uapp.getValue().getUappLocation();
-				System.err.println("THE UAPP_LOCATION: "+uapp.getValue().getUappLocation());
-				appLocation = FrontendImpl.getUappURI();
-				System.err.println("LOCATION URI: "+appLocation);
-				File uf  = new File(appLocation.trim());
 				for (PeerCard pc: peerMap.keySet()) {
 					List<Part> parts = peerMap.get(pc);
 					
@@ -209,162 +209,34 @@ public class DeploymentInfoController implements Button.ClickListener,
 				}
 				
 				//MW installation
-				uapack = new UAPPPackage(aal.getServiceId(),
-						uapp.getValue().getAppId(), uf.toURI(), peerMap);
 				
-				 InstallationResultsDetails res = installer.requestToInstall(uapack);
-				 // add app and bundles to "services.xml" file.
-				 System.err.println("The GLOBAL RESULT: "+res.getGlobalResult().toString());
-				 System.err.println("Service ID: "+aal.getServiceId()+ " App ID: "+uapp.getValue().getAppId()+" Bundle ID: "+uapp.getValue().getBundleId()+ "Bundle Version: "+uapp.getValue().getBundleId());
-				if (res.getGlobalResult().toString().equals(InstallationResults.SUCCESS.name())) {
-					srvRegistration.registerApp(aal.getServiceId(), 
-							uapp.getValue().getAppId());
-					// get bundles for each part in the appId;
-					// for each bundle:
-					srvRegistration.registerBundle(aal.getServiceId(),
-						uapp.getValue().getBundleId(), uapp.getValue().getBundleVersion());
-					
-					// TODO: Call configurator to configure the uapps, after
-					// uapp is running (for every uapp)
-					ServiceReference configRef = bc
-							.getServiceReference(ConfigurationDefinitionRegistry.class
-									.getName());
-					ConfigurationDefinitionRegistry reg = (ConfigurationDefinitionRegistry) bc
-							.getService(configRef);
-					Configuration conf = null;
-					System.err.println("Size of all APP-Configurations: "
-							+ reg.getAllConfigDefinitions().size());
-					for (Configuration configurator : reg
-							.getAllConfigDefinitions()) {
-						System.err.println(uapp.getValue().getBundleId()+" + "+configurator.getBundlename());
-						if (configurator.getBundlename() != null
-								&& configurator.getBundlename().equals(
-										uapp.getValue().getBundleId())) {
-							conf = configurator;
-						}
-					}
-					NoConfigurationWindow ncw = null;
-					if (conf != null) {
-						ConfigurationOverviewWindow cow = new ConfigurationOverviewWindow(
-								conf);
-						cow.center();
-						app.getMainWindow().addWindow(cow);
-					} else {
-						ncw = new NoConfigurationWindow(
-								bundle.getString("installed.note"));
-						
-						
-					}
-					
-					bc.ungetService(configRef);
-					SuccessWindow sw = new SuccessWindow(bundle.getString("success.install.msg"), app, ncw);
-					app.getMainWindow().addWindow(sw);
-					//Selecting user for which service will be installed
-					List<String> users = new ArrayList<String>();
-					DataAccess da = Activator.getDataAccess();
-					ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
-					String uname = "";
-					String role = "";
-					for(OntologyInstance o : ontList) {
-					System.err.println("Getting all users!");
-						for(Subprofile s : o.getSubprofiles()) {
-							for(SimpleObject sim : s.getSimpleObjects()) {
-								StringValue st = (StringValue)sim;
-								if(st.getName().equals("username")) {
-									uname = st.getValue();
-								}
-							}
-							System.err.println(s.getEnums().size());
-							for(EnumObject en : s.getEnums()) {
-								System.err.println(en.getType());
-								if(en.equals("userRole")) {
-									role = en.getSelectedValue();
-									System.err.println(role);
-								}
-							}
-							if(role.equals(Role.ASSISTEDPERSON.name()) || role.equals(Role.ENDUSER.name())) {
-								System.err.println(role);
-								users.add(uname);
-							}
-							
-						}
-						users.add(uname);
-					}
-					SelectUserWindow suw = new SelectUserWindow(users, aal);
-					app.getMainWindow().addWindow(suw);
-					
-				} else if(res.getGlobalResult().toString().equals(InstallationResults.APPLICATION_ALREADY_INSTALLED.name())){
-					// get parts mapping from config
-					System.out.println("[DeploymentInfoController] global result: " + res.getGlobalResult().toString());
-					for(Part key : config.keySet()) {
-						List<PeerCard> pcards = config.get(key);
-						for(PeerCard card: pcards) {
-							System.out.println("[DeploymentInfoController] detailed results for part-" + key.getPartId()
-									+ "/peer-" + card.getPeerID() + " is: " + res.getDetailedResult(card, key));
-						}
-					}
-					NoConfigurationWindow ncw = new NoConfigurationWindow(
-							bundle.getString("srv.already.exists"));
-					app.getMainWindow().addWindow(ncw);
-					//Delete after testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-					//Selecting user for which service will be installed
-//					List<String> users = new ArrayList<String>();
-//					DataAccess da = Activator.getDataAccess();
-//					ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
-//					String uname = "";
-//					String role = "";
-//					for(OntologyInstance o : ontList) {
-//					System.err.println("Getting all users!");
-//						for(Subprofile s : o.getSubprofiles()) {
-//							for(SimpleObject sim : s.getSimpleObjects()) {
-//								StringValue st = (StringValue)sim;
-//								if(st.getName().equals("username")) {
-//									uname = st.getValue();
-//								}
-//							}
-//							for(EnumObject en : s.getEnums()) {
-//								if(en.getType().equals("userRole")) {
-//									role = en.getSelectedValue();
-//								}
-//							}
-//							System.err.println(uname + " " +role);
-//							if(role.equals(Role.ASSISTEDPERSON.name()) || role.equals(Role.ENDUSER.name())) {
-//								System.err.println(role);
-//								users.add(uname);
-//							}
-//						}
-//						
-//					}
-//					SelectUserWindow suw = new SelectUserWindow(users, aal);
-//					app.getMainWindow().addWindow(suw);
-					
-					
-				} else {
-					for(Part key : config.keySet()) {
-						List<PeerCard> pcards = config.get(key);
-						for(PeerCard card: pcards) {
-							System.out.println("[DeploymentInfoController] detailed results for part-" + key.getPartId()
-									+ "/peer-" + card.getPeerID() + " is: " + res.getDetailedResult(card, key));
-						}
-					}
-					NoConfigurationWindow ncw = new NoConfigurationWindow(
-							bundle.getString("install.error"));
-					app.getMainWindow().addWindow(ncw);
-					
-					
+				
+				 
 				}
+				String appLocation = installingApp.getLocation();
+				System.err.println("THE UAPP_LOCATION: "+installingApp.getLocation());
+				appLocation = FrontendImpl.getUappURI();
+				System.err.println("LOCATION URI: "+appLocation);
+				File uf  = new File(appLocation.trim());
+				final String appId = installingApp.getAppID();
+				uapack = new UAPPPackage(aal.getServiceId(),
+						appId, uf.toURI(), peerMap);
+				InstallationResultsDetails res = installer.requestToInstall(uapack);
+				showInstallationResultToUser(res);
+				 // add app and bundles to "services.xml" file.
+				
 				app.getMainWindow().removeWindow(win);
 				File f = new File(Activator.getModuleConfigHome().getAbsolutePath()
 						+ "/tempUsrvFiles/");
 				deleteFiles(f);
 
 			}
-			}
+//			}
 			}
 
 			selected = (String) win.getTree().getItemIds().iterator().next();
 			win.getTree().select(selected);
-		}
+//		}
 
 		// Installation was canceled by user
 		if (event.getButton() == win.getCancel()) {
@@ -574,7 +446,154 @@ public class DeploymentInfoController implements Button.ClickListener,
 		return validPeers;
 	}
 	
-
+	private void showInstallationResultToUser(InstallationResultsDetails res) {
+		 System.err.println("The GLOBAL RESULT: "+res.getGlobalResult().toString());
+//		 System.err.println("Service ID: "+aal.getServiceId()+ " App ID: "+uapp.getValue().getAppId()+" Bundle ID: "+uapp.getValue().getBundleId()+ "Bundle Version: "+uapp.getValue().getBundleId());
+		if (res.getGlobalResult().toString().equals(InstallationResults.SUCCESS.name())) {
+			srvRegistration.registerApp(aal.getServiceId(), 
+					//Maybe has to be changed to appID!
+					installingApp.getAppID());
+			// get bundles for each part in the appId;
+			// for each bundle:
+			//Has to be fixed
+//			srvRegistration.registerBundle(aal.getServiceId(),
+//				uapp.getValue().getBundleId(), uapp.getValue().getBundleVersion());
+			
+			// TODO: Call configurator to configure the uapps, after
+			// uapp has to be installed and running to configure it (configuration has to be done for every configurable application of the usrv)
+			// but the application has to run at the local node where the ucc is also running
+			ServiceReference configRef = bc
+					.getServiceReference(ConfigurationDefinitionRegistry.class
+							.getName());
+			ConfigurationDefinitionRegistry reg = (ConfigurationDefinitionRegistry) bc
+					.getService(configRef);
+			Configuration conf = null;
+			System.err.println("Size of all APP-Configurations: "
+					+ reg.getAllConfigDefinitions().size());
+			for (Configuration configurator : reg
+					.getAllConfigDefinitions()) {
+//				System.err.println(uapp.getValue().getBundleId()+" + "+configurator.getBundlename());
+				
+				//TODO:Has to be tested
+				for (Map.Entry<String, UAPPPart>applicationPart : installingApp.getParts().entrySet()) {
+				if (configurator.getBundlename() != null
+						&& configurator.getBundlename().equals(
+								applicationPart.getValue().getBundleId())) {
+					conf = configurator;
+				}
+			}
+			}
+			NoConfigurationWindow ncw = null;
+			if (conf != null) {
+				ConfigurationOverviewWindow cow = new ConfigurationOverviewWindow(
+						conf);
+				cow.center();
+				app.getMainWindow().addWindow(cow);
+			} else {
+				ncw = new NoConfigurationWindow(
+						bundle.getString("installed.note"));
+				
+				
+			}
+			
+			bc.ungetService(configRef);
+			SuccessWindow sw = new SuccessWindow(bundle.getString("success.install.msg"), app, ncw);
+			app.getMainWindow().addWindow(sw);
+			//Selecting user for which service will be installed
+			List<String> users = new ArrayList<String>();
+			DataAccess da = Activator.getDataAccess();
+			ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
+			String uname = "";
+			String role = "";
+			for(OntologyInstance o : ontList) {
+			System.err.println("Getting all users!");
+				for(Subprofile s : o.getSubprofiles()) {
+					for(SimpleObject sim : s.getSimpleObjects()) {
+						StringValue st = (StringValue)sim;
+						if(st.getName().equals("username")) {
+							uname = st.getValue();
+						}
+					}
+					System.err.println(s.getEnums().size());
+					for(EnumObject en : s.getEnums()) {
+						System.err.println(en.getType());
+						if(en.equals("userRole")) {
+							role = en.getSelectedValue();
+							System.err.println(role);
+						}
+					}
+					if(role.equals(Role.ASSISTEDPERSON.name()) || role.equals(Role.ENDUSER.name())) {
+						System.err.println(role);
+						users.add(uname);
+					}
+					
+				}
+				users.add(uname);
+			}
+			SelectUserWindow suw = new SelectUserWindow(users, aal);
+			app.getMainWindow().addWindow(suw);
+			
+		} else if(res.getGlobalResult().toString().equals(InstallationResults.APPLICATION_ALREADY_INSTALLED.name())){
+			// get parts mapping from config
+			System.out.println("[DeploymentInfoController] global result: " + res.getGlobalResult().toString());
+			for(Part key : config.keySet()) {
+				List<PeerCard> pcards = config.get(key);
+				for(PeerCard card: pcards) {
+					System.out.println("[DeploymentInfoController] detailed results for part-" + key.getPartId()
+							+ "/peer-" + card.getPeerID() + " is: " + res.getDetailedResult(card, key));
+				}
+			}
+			NoConfigurationWindow ncw = new NoConfigurationWindow(
+					bundle.getString("srv.already.exists"));
+			app.getMainWindow().addWindow(ncw);
+			//Delete after testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//Selecting user for which service will be installed
+//			List<String> users = new ArrayList<String>();
+//			DataAccess da = Activator.getDataAccess();
+//			ArrayList<OntologyInstance> ontList = da.getEmptyCHEFormFields("User");
+//			String uname = "";
+//			String role = "";
+//			for(OntologyInstance o : ontList) {
+//			System.err.println("Getting all users!");
+//				for(Subprofile s : o.getSubprofiles()) {
+//					for(SimpleObject sim : s.getSimpleObjects()) {
+//						StringValue st = (StringValue)sim;
+//						if(st.getName().equals("username")) {
+//							uname = st.getValue();
+//						}
+//					}
+//					for(EnumObject en : s.getEnums()) {
+//						if(en.getType().equals("userRole")) {
+//							role = en.getSelectedValue();
+//						}
+//					}
+//					System.err.println(uname + " " +role);
+//					if(role.equals(Role.ASSISTEDPERSON.name()) || role.equals(Role.ENDUSER.name())) {
+//						System.err.println(role);
+//						users.add(uname);
+//					}
+//				}
+//				
+//			}
+//			SelectUserWindow suw = new SelectUserWindow(users, aal);
+//			app.getMainWindow().addWindow(suw);
+			
+			
+		} else {
+			for(Part key : config.keySet()) {
+				List<PeerCard> pcards = config.get(key);
+				for(PeerCard card: pcards) {
+					System.out.println("[DeploymentInfoController] detailed results for part-" + key.getPartId()
+							+ "/peer-" + card.getPeerID() + " is: " + res.getDetailedResult(card, key));
+				}
+			}
+			NoConfigurationWindow ncw = new NoConfigurationWindow(
+					bundle.getString("install.error"));
+			app.getMainWindow().addWindow(ncw);
+			
+			
+		}
+	}
 	
 
 }

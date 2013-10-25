@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import org.universAAL.ucc.controller.install.LicenseController;
 import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.install.License;
 
 import com.vaadin.terminal.Sizeable;
@@ -38,12 +39,14 @@ public class LicenceWindow extends Window {
 	private HorizontalSplitPanel hp;
 	private UccUI app;
 	private Tree tree;
+	private UAPP installingApplication;
 
-	public LicenceWindow(UccUI app, ArrayList<License> licenses, AALService aal)
+	public LicenceWindow(UccUI app, ArrayList<License> licenses, AALService aal, UAPP installApp)
 			throws IOException {
 		res = ResourceBundle.getBundle(base);
 		setCaption(res.getString("license.capt"));
 		this.app = app;
+		this.installingApplication = installApp;
 		modus = Arrays.asList(new String[] { res.getString("agree.radio"),
 				res.getString("dontAgree.radio") });
 		vl = new VerticalLayout();
@@ -111,7 +114,7 @@ public class LicenceWindow extends Window {
 		center();
 		hp.setSecondComponent(vl);
 		setClosable(false);
-		lic = new LicenseController(app, this, licenses, aal);
+		lic = new LicenseController(app, this, licenses, aal, installingApplication);
 		tree.addListener(lic);
 		op.addListener(lic);
 	}

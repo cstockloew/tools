@@ -14,6 +14,8 @@ public class UAPP {
     private String name;
     private String version;
     private Provider provider;
+    private String location;
+    private String appID;
 
     public UAPP(String name, String version, Provider provider) {
 	parts = new HashMap<String, UAPPPart>();
@@ -65,5 +67,22 @@ public class UAPP {
     public void addPart(String partId, UAPPPart part) {
 	parts.put(partId, part);
     }
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getAppID() {
+		return appID;
+	}
+
+	public void setAppID(String appID) {
+		this.appID = appID;
+	}
+    
 
 }

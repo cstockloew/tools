@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.DeploymentInformationView;
@@ -34,14 +35,16 @@ public class LicenseController implements Property.ValueChangeListener,
 	private UccUI app;
 	private AALService aal;
 	private static int appCounter;
+	private UAPP installingApplication;
 
 	public LicenseController(UccUI app, LicenceWindow win,
-			ArrayList<License> lix, AALService aal) {
+			ArrayList<License> lix, AALService aal, UAPP installingApp) {
 		res = ResourceBundle.getBundle(base);
 		this.win = win;
 		this.lix = lix;
 		this.app = app;
 		this.aal = aal;
+		this.installingApplication = installingApp;
 		appCounter = aal.getUaapList().size();
 		win.getGo().addListener((Button.ClickListener) this);
 		win.getCancel().addListener((Button.ClickListener) this);
@@ -129,7 +132,7 @@ public class LicenseController implements Property.ValueChangeListener,
 				DeploymentInformationView div = new DeploymentInformationView(
 						app);
 				new DeploymentInfoController(
-						app, aal, div);
+						app, aal, div, installingApplication);
 				app.getMainWindow().addWindow(div);
 			}
 		}

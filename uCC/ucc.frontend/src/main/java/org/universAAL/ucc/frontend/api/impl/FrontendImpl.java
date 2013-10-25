@@ -219,6 +219,8 @@ public class FrontendImpl implements IFrontend {
 		
 		//Creating an new UAPP on uCC side
 		UAPP up = new UAPP();
+		up.setLocation(uappURI);
+		up.setAppID(uapp.getApp().getAppId());
 		up.setName(uapp.getApp().getName());
 		Provider provider = new Provider(uapp.getApp().getApplicationProvider()
 				.getContactPerson(), uapp.getApp().getApplicationProvider()
@@ -539,12 +541,14 @@ public class FrontendImpl implements IFrontend {
 
 			System.err.println("SET LicenseWindow");
 			LicenceWindow lw = null;
+			for(UAPP installingApp : aal.getUaapList()) {
 			try {
-				lw = new LicenceWindow(UccUI.getInstance(), licenseList, aal);
+				lw = new LicenceWindow(UccUI.getInstance(), licenseList, aal, installingApp);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			new UsrvInfoController(aal, lw, UccUI.getInstance());
+		}
 		}
 		return aal;
 	}
