@@ -97,6 +97,14 @@
        <version>4.2.0</version> 
        <scope>provided</scope> 
      </dependency--> 
+   		<dependency>
+			<groupId>org.universAAL.ontology</groupId>
+			<artifactId>ont.profile.ui.mainmenu</artifactId>
+   		</dependency>
+   		<dependency>
+			<groupId>org.universAAL.ontology</groupId>
+			<artifactId>ont.profile</artifactId>
+   		</dependency>
 	</dependencies>
 
 	<build>
@@ -121,23 +129,8 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-Activator>org.universAAL.ucc.service.manager.Activator</Bundle-Activator>
 						<Bundle-Vendor>FZI Karlsruhe</Bundle-Vendor>
-						<Import-Package>
-							com.vaadin.*,
-							javax.*,
-							org.osgi.*,
-<!-- 							org.slf4j.*, -->
-							org.w3c.dom,
-							org.universAAL.ucc.configuration.*,
-							org.universAAL.middleware.*,
-							org.universAAL.ucc.startup.model.*,
-							org.universAAL.ucc.model.*,
-							org.universAAL.ucc.api,
-							org.universAAL.ucc.startup.api.*,
-							org.universAAL.ucc.database.*
-						</Import-Package>
 <!-- 						<Private-Package>javax.xml.bind.*</Private-Package> -->
 						<Private-Package>
-							javax.xml.bind.annotation,
 							org.universAAL.ucc.client.util,
 							org.universAAL.ucc.subscriber,
 							org.universAAL.ucc.webconnection,
