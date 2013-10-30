@@ -59,6 +59,7 @@ public class WSOperationDialog extends Dialog {
 	private Shell shell;
 	private WSOperation selectedOperation = null;
 	private Button button = null;
+	private Button btnTestInvocation=null;
 
 	/**
 	 * Create the dialog.
@@ -106,6 +107,7 @@ public class WSOperationDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				button.setEnabled(true);
+				btnTestInvocation.setEnabled(true);
 				String oper = combo.getItem(combo.getSelectionIndex());
 				for (int i = 0; i < theParsedDefinition.getWsdlOperations()
 						.size(); i++) {
@@ -133,7 +135,8 @@ public class WSOperationDialog extends Dialog {
 		composite_2.setLayoutData(BorderLayout.SOUTH);
 		composite_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		Button btnTestInvocation = new Button(composite_2, SWT.NONE);
+		btnTestInvocation = new Button(composite_2, SWT.NONE);
+		btnTestInvocation.setEnabled(false);
 		btnTestInvocation.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
@@ -187,7 +190,7 @@ public class WSOperationDialog extends Dialog {
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		button = createButton(parent, IDialogConstants.OK_ID,
-				"Create Service Profile", true);
+				"Create Web Service Operation client", true);
 		button.setEnabled(false);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override

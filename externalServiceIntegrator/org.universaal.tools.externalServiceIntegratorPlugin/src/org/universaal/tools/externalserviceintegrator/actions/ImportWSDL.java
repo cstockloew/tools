@@ -73,7 +73,7 @@ public class ImportWSDL implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		InputDialog levelDialog = new InputDialog(PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getShell(),
-				"Enter a valid WSDL URL", "URL:", "http://160.40.63.90:8084/axis2/services/NutritionalAdvisorServices?wsdl", null);
+				"Enter a valid WSDL URL", "URL:", "http://", null);
 		if (levelDialog.open() != Window.OK) {
 			return;
 		}
