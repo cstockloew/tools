@@ -20,7 +20,7 @@
                icon="icons/sample.gif"
                class="org.universaal.tools.externalserviceintegrator.actions.ImportWSDL"
                tooltip="Import WSDL descriptions"
-                menubarPath="org.universaal.tools.AALStudio.menu/import"
+               menubarPath="org.universaal.tools.AALStudio.menu/import"
                toolbarPath="sampleGroup"
                id="org.universaal.tools.externalserviceintegrator.actions.ImportWSDL">
          </action>

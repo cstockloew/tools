@@ -105,23 +105,23 @@ Bundle-ClassPath: swing2swt.jar,
  lib/jena/slf4j-log4j12-1.6.4.jar,
  lib/jena/weka.jar,
  lib/jena/xercesImpl-2.10.0.jar,
- lib/jena/xml-apis-1.4.01.jar
+ lib/jena/xml-apis-1.4.01.jar,
+ wn_index/,
+ lib/
 Bundle-Activator: org.universaal.tools.externalserviceintegrator.Activator
 Bundle-Vendor: CERTH-ITI
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.jdt.core;bundle-version="3.7.3",
+ org.eclipse.jdt.launching;bundle-version="3.6.1",
+ org.eclipse.text;bundle-version="3.5.101"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.apache.maven.model,
- org.eclipse.core.resources,
- org.eclipse.emf.common.util,
- org.eclipse.emf.ecore.resource,
- org.eclipse.emf.ecore.resource.impl,
- org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.ecore.xmi.impl,
+Import-Package: org.eclipse.core.resources,
  org.eclipse.m2e.core,
  org.eclipse.m2e.core.project,
- org.eclipse.m2e.core.project.configurator,
- org.eclipse.m2e.core.ui.internal.actions,
- org.eclipse.ui.console,
- org.universaal.tools.modelling.servicemodel
+ org.eclipse.ui.console
 Bundle-ActivationPolicy: lazy
+Export-Package: org.universaal.tools.externalserviceintegrator,
+ org.universaal.tools.externalserviceintegrator.actions,
+ org.universaal.tools.externalserviceintegrator.ontology,
+ org.universaal.tools.externalserviceintegrator.ontology.tools
