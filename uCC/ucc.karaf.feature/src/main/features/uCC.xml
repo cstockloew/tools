@@ -13,8 +13,8 @@
         <feature>uAAL-Ont.Profile.userId</feature>
 
 		<!-- <bundle start-level="91">mvn:org.universAAL.ontology/ont.profile.ui.mainmenu/2.0.0</bundle>-->
-		<bundle start-level="91">wrap:mvn:org.universAAL.support/uAAL.utils/2.0.0</bundle>
-		<bundle start-level="92">mvn:org.universAAL.tools.ucc/ucc.profile.agent/${ucc.profile.agent.version}</bundle>
+		<bundle start-level="91">wrap:mvn:org.universAAL.support/uAAL.utils/2.0.1-SNAPSHOT</bundle>
+		<bundle start-level="92">mvn:org.universAAL.tools.ucc/ucc.profile.agent/2.0.2-SNAPSHOT</bundle>
   		
   		<!-- bundle start-level="91">wrap:mvn:java3d/j3d-core/1.3.1</bundle-->
   		<!-- bundle start-level="91">wrap:mvn:java3d/j3d-core-utils/1.3.1</bundle-->  
@@ -31,27 +31,27 @@
 		<bundle start-level="93">mvn:org.slf4j/slf4j-api/1.7.3</bundle>
 		<bundle start-level="93">mvn:org.slf4j/slf4j-simple/1.7.3</bundle>
 		
-		<bundle start-level="93">mvn:org.universAAL.tools.ucc/ucc.controller/${ucc.controller.version}</bundle> 
+		<bundle start-level="93">mvn:org.universAAL.tools.ucc/ucc.controller/2.0.2-SNAPSHOT</bundle> 
 		
-		<bundle start-level="93">mvn:org.universAAL.tools.ucc/ucc.model/${ucc.model.version}</bundle>  
+		<bundle start-level="93">mvn:org.universAAL.tools.ucc/ucc.model/2.0.2-SNAPSHOT</bundle>  
 		
-		<bundle start-level="94">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice/${ucc.deploymanagerservice.version}</bundle> 
-		<bundle start-level="94">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/${ucc.deploymanagerservice.impl.version}</bundle>
+		<bundle start-level="94">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice/2.0.2-SNAPSHOT</bundle> 
+		<bundle start-level="94">mvn:org.universAAL.tools.ucc/ucc.deploymanagerservice.impl/2.0.2-SNAPSHOT</bundle>
 		
 		<bundle start-level="94">mvn:org.apache.felix/org.apache.felix.http.jetty/2.2.0</bundle>		
 		<bundle start-level="94">mvn:org.apache.felix/org.apache.felix.http.api/2.2.0</bundle>
 		<bundle start-level="95">mvn:com.vaadin/vaadin/6.8.9</bundle>  
 		<bundle start-level="95">mvn:org.vaadin.osgi/org.vaadin.osgi.staticres/1.0.1</bundle>	 	  
 		<bundle start-level="95">mvn:org.vaadin.osgi/org.vaadin.osgi/1.0.1</bundle>
-		<bundle start-level="95">mvn:org.universAAL.tools.ucc/ucc.configuration.model/${ucc.configuration.model.version}</bundle>
-		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.database/${ucc.database.version}</bundle>
-		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configdefinitionregistry/${ucc.onfiguration.configdefinitionregistry.version}</bundle>
-  		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configinstancestorage/${ucc.configuration.configinstancestorage.version}</bundle>
-  		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configurator/${ucc.configuration.configurator.version}</bundle>
+		<bundle start-level="95">mvn:org.universAAL.tools.ucc/ucc.configuration.model/2.0.2-SNAPSHOT</bundle>
+		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.database/2.0.2-SNAPSHOT</bundle>
+		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configdefinitionregistry/2.0.2-SNAPSHOT</bundle>
+  		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configinstancestorage/2.0.2-SNAPSHOT</bundle>
+  		<bundle start-level="97">mvn:org.universAAL.tools.ucc/ucc.configuration.configurator/2.0.2-SNAPSHOT</bundle>
 		
- 		<bundle start-level="98">mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/${ucc.vaadin.themes.version}</bundle> 
+ 		<bundle start-level="98">mvn:org.universAAL.tools.ucc/ucc.vaadin.themes/2.0.2-SNAPSHOT</bundle> 
 			
- 		<bundle start-level="98">mvn:org.universAAL.tools.ucc/ucc.frontend/${ucc.frontend.version}</bundle>   
+ 		<bundle start-level="98">mvn:org.universAAL.tools.ucc/ucc.frontend/2.0.2-SNAPSHOT</bundle>   
  		
   		 
 		
