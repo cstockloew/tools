@@ -63,7 +63,7 @@ public class DesktopController implements Button.ClickListener {
 		this.main = app.getMainWindow();
 		currentUser = "";
 		currentPassword = "";
-		new UstoreUtil();
+//		new UstoreUtil();
 		Properties prop = new Properties();
 		Reader reader = null;
 		try {

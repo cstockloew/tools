@@ -75,9 +75,13 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 
 	public void buttonClick(ClickEvent event) {
 		if(event.getButton() == ok) {
-//			addEntry((new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(list.getValue().toString()), 
-//					aal.getName(), aal.getProvider(), 
-//					aal.getOntologyUri(), aal.getIconPath());
+			System.err.println("AAL-NAME: "+aal.getName());
+			System.err.println("AAL-PROVIDER: "+aal.getProvider());
+			System.err.println("ONTOLOGY-URI: "+aal.getOntologyUri());
+			System.err.println("ICON-PATH: "+aal.getIconPath());
+			addEntry((new StringBuilder().append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(list.getValue()).toString()), 
+					aal.getName(), aal.getProvider(), 
+					aal.getOntologyUri(), aal.getIconPath());
 			close();
 			
 		}

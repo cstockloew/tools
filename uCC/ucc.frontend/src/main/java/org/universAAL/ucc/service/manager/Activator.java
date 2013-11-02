@@ -13,6 +13,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.container.utils.ModuleConfigHome;
+import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.ucc.api.IDeinstaller;
@@ -33,10 +34,6 @@ import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.webconnection.WebConnector;
 import org.universAAL.ucc.subscriber.SensorEventSubscriber;
 
-
-//import de.fzi.ipe.evaluation.api.core.IEvaluationEventReceiver;
-
-
 public class Activator implements BundleActivator {
 	private static IInstaller installer;
 	private static IDeinstaller deinstaller;
@@ -52,31 +49,34 @@ public class Activator implements BundleActivator {
 	private UstoreUtil client;
 	private static DataAccess dataAccess;
 	private static ParserService parserService;
-//	private IEvaluationEventReceiver eventReceiver;
 	private static ModuleConfigHome moduleConfigHome;
 	private static ServiceCaller sc;
 
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
 		moduleConfigHome = new ModuleConfigHome("uCC", "");
-		client = new UstoreUtil();
-		ServiceReference ref = bc.getServiceReference(DataAccess.class.getName());
-		dataAccess = (DataAccess)bc.getService(ref);
-		//Setting setup properties in etc/ucc directory
-		File confHome = new File(moduleConfigHome.getAbsolutePath()+"/setup/");
-		if(!confHome.exists()) {
+		// client = new UstoreUtil();
+		ServiceReference ref = bc.getServiceReference(DataAccess.class
+				.getName());
+		dataAccess = (DataAccess) bc.getService(ref);
+		// Setting setup properties in etc/ucc directory
+		File confHome = new File(moduleConfigHome.getAbsolutePath() + "/setup/");
+		if (!confHome.exists()) {
 			confHome.mkdir();
 		}
-		File temp = new File(moduleConfigHome.getAbsolutePath()+"/setup/setup.properties");
-		if(!temp.exists()) {
-			//Setting default values for setup configuration
+		File temp = new File(moduleConfigHome.getAbsolutePath()
+				+ "/setup/setup.properties");
+		if (!temp.exists()) {
+			// Setting default values for setup configuration
 			Properties prop = new Properties();
 			prop.setProperty("admin", "admin");
 			prop.setProperty("pwd", "uAAL");
 			prop.setProperty("uccPort", "9090");
 			prop.setProperty("uccUrl", "ucc-universaal.no-ip.org");
-			prop.setProperty("shopUrl", "srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
-			if(Locale.getDefault() == Locale.GERMAN) {
+			prop.setProperty(
+					"shopUrl",
+					"srv-ustore.haifa.il.ibm.com/webapp/wcs/stores/servlet/TopCategories_10001_10001");
+			if (Locale.getDefault() == Locale.GERMAN) {
 				prop.setProperty("lang", "de");
 				Locale.setDefault(Locale.GERMAN);
 			} else {
@@ -85,25 +85,13 @@ public class Activator implements BundleActivator {
 			}
 			System.err.println(Locale.getDefault());
 			System.err.println(confHome.getAbsolutePath());
-			Writer in = new FileWriter(new File(confHome.getAbsolutePath(), "setup.properties"));
+			Writer in = new FileWriter(new File(confHome.getAbsolutePath(),
+					"setup.properties"));
 			prop.store(in, "Setup properties for initial setup of uCC");
 			in.close();
 		}
-		//Read CHE properties
-//		Properties che = new Properties();
-//		Properties prop2 = new Properties();
-//		Reader read = new FileReader(new File(/*"file:///../etc/system.properties"*/ moduleConfigHome.getAbsolutePath()+"/system.properties"));
-//		che.load(read);
-//		for(Map.Entry entry : che.entrySet()) {
-//			prop2.setProperty(entry.getKey().toString(), entry.getValue().toString());
-//		}
-//		 //Set CHE property
-//		prop2.setProperty("RECYCLE.DEBUG", "false");
-//		Writer wr = new FileWriter(new File("file:///../etc/system.properties"));
-//		prop2.store(wr, "");
-//		wr.close();
-		
-		//Write Techician/Deployer into AALSpace
+
+		// Write Techician/Deployer into AALSpace
 		OntologyInstance ont = new OntologyInstance();
 		ont.setId("admin");
 		ont.setType("User");
@@ -115,7 +103,7 @@ public class Activator implements BundleActivator {
 		name.setRequired(true);
 		name.setValue("admin");
 		sub.getSimpleObjects().add(name);
-		
+
 		StringValue pass = new StringValue();
 		pass.setId(false);
 		pass.setLabel("Password:");
@@ -132,84 +120,93 @@ public class Activator implements BundleActivator {
 		sub.getEnums().add(role);
 		ont.getSubprofiles().add(sub);
 		dataAccess.saveUserDataInCHE(ont);
-		
-		File file = new File(moduleConfigHome.getAbsolutePath() + "/tempUsrvFiles/");
-		if(!file.exists()) {
+
+		System.err.println("1 Level");
+
+		File file = new File(moduleConfigHome.getAbsolutePath()
+				+ "/tempUsrvFiles/");
+		if (!file.exists()) {
 			file.mkdir();
 		}
+
+		System.err.println("2 Level");
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
 
-		// Later uncomment, when Deinstaller is implemented in the
-		// ucc.controller
+		System.err.println("Level 3");
+		//
 		dRef = context.getServiceReference(IDeinstaller.class.getName());
 		deinstaller = (IDeinstaller) context.getService(dRef);
-try{
-		regis = bc.registerService(IFrontend.class.getName(),	
-			new FrontendImpl(), null);
-}catch(Exception ex){
-	ex.printStackTrace();
-}
+
+		System.err.println("Level 4");
+		try {
+			regis = bc.registerService(IFrontend.class.getName(),
+					new FrontendImpl(), null);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		System.err.println("Level 5");
 		model = new Model();
 		context.registerService(new String[] { IServiceModel.class.getName() },
 				model, null);
 		mgmt = model.getServiceManagment();
-		
+
 		reg = model.getServiceRegistration();
-		
-		mContext = uAALBundleContainer.THE_CONTAINER.registerModule(new Object[] { context });
-		SensorEventSubscriber ses = SensorEventSubscriber.getInstance(mContext, context);
-		
-//		ServiceReference ref = context.getServiceReference(IEvaluationEventReceiver.class.getName());
-//		eventReceiver = (IEvaluationEventReceiver)context.getService(ref);
-		
-		//Get SessionKey from uStore
-		sessionKey = client.getSessionKey();
-		if (sessionKey == null || sessionKey.equals("")) {
-			System.err.println("No Session key when trying to setup connection to uStore");
-		} else {
-			System.err.println("WS-ANSWER: " + sessionKey);
-			client.registerUser(sessionKey);
+
+		System.err.println("Level 6");
+
+		mContext = uAALBundleContainer.THE_CONTAINER
+				.registerModule(new Object[] { context });
+
+		System.err.println("Level 7");
+		// SensorEventSubscriber ses =
+		// SensorEventSubscriber.getInstance(mContext, context);
+
+		// Get SessionKey from uStore
+		if (client != null && client.getSessionKey() != null) {
+			sessionKey = client.getSessionKey();
+			if (sessionKey == null || sessionKey.equals("")) {
+				System.err
+						.println("No Session key when trying to setup connection to uStore");
+			} else {
+				System.err.println("WS-ANSWER: " + sessionKey);
+				client.registerUser(sessionKey);
+			}
 		}
-		ServiceReference sr = context.getServiceReference(ParserService.class.getName());
+
+		System.err.println("Level 8");
+		ServiceReference sr = context.getServiceReference(ParserService.class
+				.getName());
 		parserService = (ParserService) context.getService(sr);
-		
-		//ServiceCaller init
-		sc = new ServiceCaller(mContext) {
-			
-			@Override
-			public void handleResponse(String arg0, ServiceResponse arg1) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void communicationChannelBroken() {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		
-		//EasterEgg :D
+
+		System.err.println("Level 9");
+
+		// ServiceCaller init
+		sc = new DefaultServiceCaller(mContext);
+
+		System.err.println("Level 10");
+
+		// Dedication to Gema :D
 		System.err.println(" ");
-		System.err.println("-------------------------------------------------------------------");
+		System.err
+				.println("-------------------------------------------------------------------");
 		System.err.println(" ");
-		System.err.println("This programm is dedicated to a mad and unique person, whose name starts with G.:P");
-		System.err.println("If you get this message, you could successfully install and run uCC. :)");
+		System.err
+				.println("This programm is dedicated to a mad and unique person, whose name starts with G.:P");
+		System.err
+				.println("If you get this message, you could successfully install and run uCC. :)");
 		System.err.println(" ");
 		System.err.println("Greetings from Germany to Spain :D @>->-");
 		System.err.println(" ");
-		System.err.println("---------------------------------------------------------------------");
+		System.err
+				.println("---------------------------------------------------------------------");
 		System.err.println(" ");
 	}
-	
-	
 
 	public static String getSessionKey() {
 		return sessionKey;
 	}
-
-
 
 	public static IInstaller getInstaller() {
 		if (installer == null) {
@@ -217,8 +214,6 @@ try{
 		}
 		return installer;
 	}
-	
-	
 
 	public static IDeinstaller getDeinstaller() {
 		if (deinstaller == null) {
@@ -255,7 +250,8 @@ try{
 		context.ungetService(ref);
 		context.ungetService(dRef);
 		regis.unregister();
-		File file = new File(moduleConfigHome.getAbsolutePath() + "/tempUsrvFiles/");
+		File file = new File(moduleConfigHome.getAbsolutePath()
+				+ "/tempUsrvFiles/");
 		deleteFiles(file);
 		WebConnector.getInstance().stopListening();
 	}
@@ -264,65 +260,48 @@ try{
 		File[] files = path.listFiles();
 		for (File del : files) {
 			if (del.isDirectory()
-					&& !del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
+					&& !del.getPath()
+							.substring(del.getPath().lastIndexOf(".") + 1)
 							.equals("usrv")) {
 				deleteFiles(del);
 			}
 			if (!del.getPath().substring(del.getPath().lastIndexOf(".") + 1)
 					.equals("usrv"))
 				del.delete();
-			}
+		}
 
 	}
-
-
 
 	public static DataAccess getDataAccess() {
 		return dataAccess;
 	}
 
-
-
 	public static ParserService getParserService() {
 		return parserService;
 	}
-
-
 
 	public static ModuleConfigHome getModuleConfigHome() {
 		return moduleConfigHome;
 	}
 
-
-
 	public static void setModuleConfigHome(ModuleConfigHome moduleConfigHome) {
 		Activator.moduleConfigHome = moduleConfigHome;
 	}
-
-
 
 	public static ServiceCaller getSc() {
 		return sc;
 	}
 
-
-
 	public static void setSc(ServiceCaller sc) {
 		Activator.sc = sc;
 	}
-
-
 
 	public static ModuleContext getmContext() {
 		return mContext;
 	}
 
-
-
 	public static void setmContext(ModuleContext mContext) {
 		Activator.mContext = mContext;
 	}
-	
-	
 
 }

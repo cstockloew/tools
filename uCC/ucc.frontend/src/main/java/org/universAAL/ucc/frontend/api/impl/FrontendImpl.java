@@ -192,6 +192,28 @@ public class FrontendImpl implements IFrontend {
 
 		return filename;
 	}
+	
+	private String downloadFile(String uri, String filepath) throws IOException {
+		URL url = new URL(uri);
+		URLConnection con = url.openConnection();
+		InputStream in = new BufferedInputStream(con.getInputStream());
+		FileOutputStream out = new FileOutputStream(Activator
+				.getModuleConfigHome().getAbsolutePath()
+				+ "/tempUsrvFiles/"+filepath);
+		byte[] chunk = new byte[153600];
+		int chunkSize;
+		while ((chunkSize = in.read(chunk)) > 0) {
+			out.write(chunk, 0, chunkSize);
+			chunk = new byte[153600];
+		}
+		out.flush();
+		out.close();
+		in.close();
+
+		return Activator
+				.getModuleConfigHome().getAbsolutePath()
+				+ "/tempUsrvFiles/"+filepath;
+	}
 
 	/**
 	 * Parses the given configuration xml from an uapp file to get some
@@ -408,11 +430,19 @@ public class FrontendImpl implements IFrontend {
 						try {
 							String link = ls.getSla().getLink();
 							System.err.println(link);
+							if(link.contains("./")) {
 							link = link.substring(link.indexOf("./"));
 							System.err.println(link);
 							File file = new File(usrvLocalStore + serviceId
 									+ "_temp" + link);
 							license.getSlaList().add(file);
+							} else if(link.contains("http://")) {
+								link = "http"+link.substring(link.indexOf(":"));
+								String filePath = downloadFile(link,serviceId+"_temp/license"+link.substring(link.lastIndexOf("/")));
+								System.err.println("SLA-PATH: "+filePath);
+								File sl = new File(filePath);
+								license.getSlaList().add(sl);
+							}
 						} catch (Throwable t) {
 							t.printStackTrace();
 						}
@@ -429,11 +459,20 @@ public class FrontendImpl implements IFrontend {
 							try {
 								txt = lt.getLink();
 								System.err.println(txt);
-								txt = txt.substring(txt.indexOf("./"));
+								if(txt.contains("./")) {
+									txt = txt.substring(txt.indexOf("./"));
+								 
 								System.err.println(txt);
 								l = new File(usrvLocalStore + serviceId
 										+ "_temp" + txt);
 								list.add(l);
+							} else if(txt.contains("http://")) {
+								txt = "http"+txt.substring(txt.indexOf(":"));
+								String filePath = downloadFile(txt, serviceId+"_temp/license"+txt.substring(txt.lastIndexOf("/")));
+								System.err.println("FILE-PATH from license: "+filePath);
+								File lic = new File(filePath);
+								list.add(lic);
+							}
 							} catch (Throwable t) {
 								t.printStackTrace();
 							}
