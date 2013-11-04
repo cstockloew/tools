@@ -1,26 +1,12 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor.service_bus_matching.gui;
 
-//import java.awt.Toolkit;
-//import java.awt.datatransfer.Clipboard;
-//import java.awt.datatransfer.DataFlavor;
-//import java.awt.datatransfer.Transferable;
-//import java.awt.datatransfer.UnsupportedFlavorException;
-//import java.io.IOException;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -28,10 +14,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
-import javax.swing.TransferHandler;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.DefaultCaret;
@@ -49,7 +33,6 @@ import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking;
-import org.universAAL.tools.logmonitor.service_bus_matching.Sparul;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileInfo;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
@@ -86,99 +69,6 @@ public class MatchmakingPane extends JTextPane {
 	}
     }
 
-    // needed to overwrite ctrl-c
-    private class TransferableProxy implements Transferable {
-
-	String html = null;
-	String plain = null;
-
-	TransferableProxy(Clipboard c) {
-	    Transferable transferData = c.getContents(null);
-	    for (DataFlavor dataFlavor : transferData.getTransferDataFlavors()) {
-		Object content = null;
-		try {
-		    content = transferData.getTransferData(dataFlavor);
-		} catch (Exception e1) {
-		    e1.printStackTrace();
-		}
-
-		if (dataFlavor.getMimeType().startsWith(
-			"text/html; class=java.lang.String")) {
-		    html = (String) content;
-		    
-		    for (Iterator<String> it = urlReplacement.keySet().iterator(); it.hasNext();) {
-			String key = it.next();
-			String val = urlReplacement.get(key);
-			html = html.replaceAll(key, val);
-		    }
-		} else if (dataFlavor.getMimeType().startsWith(
-			"text/plain; class=java.lang.String")) {
-		    plain = (String) content;
-		}
-	    }
-	}
-
-	public Object getTransferData(DataFlavor flavor)
-		throws UnsupportedFlavorException, IOException {
-	    if (flavor.getMimeType().startsWith(
-		    "text/html; class=java.lang.String")) {
-		return html;
-	    } else if (flavor.getMimeType().startsWith(
-		    "text/plain; class=java.lang.String")) {
-		return plain;
-	    }
-	    return null;
-	}
-
-	public DataFlavor[] getTransferDataFlavors() {
-	    ArrayList<DataFlavor> a = new ArrayList<DataFlavor>();
-	    if (html != null) {
-		try {
-		    DataFlavor f = new DataFlavor(
-			    "text/html; class=java.lang.String");
-		    a.add(f);
-		} catch (ClassNotFoundException e) {
-		    e.printStackTrace();
-		}
-	    }
-	    if (plain != null) {
-		try {
-		    DataFlavor f = new DataFlavor(
-			    "text/plain; class=java.lang.String");
-		    a.add(f);
-		} catch (ClassNotFoundException e) {
-		    e.printStackTrace();
-		}
-	    }
-	    return (DataFlavor[]) a.toArray(new DataFlavor[0]);
-	}
-
-	public boolean isDataFlavorSupported(DataFlavor flavor) {
-	    if (flavor.getMimeType().startsWith(
-		    "text/html; class=java.lang.String")) {
-		return true;
-	    } else if (flavor.getMimeType().startsWith(
-		    "text/plain; class=java.lang.String")) {
-		return true;
-	    }
-	    return false;
-	}
-    };
-
-    private void printClipboardContent(Clipboard c) {
-	Transferable transferData = c.getContents(null);
-	for (DataFlavor dataFlavor : transferData.getTransferDataFlavors()) {
-	    Object content = null;
-	    try {
-		content = transferData.getTransferData(dataFlavor);
-	    } catch (Exception e1) {
-		e1.printStackTrace();
-	    }
-	    System.out.println("--Content: " + dataFlavor.getMimeType() + "\n"
-		    + content);
-	}
-    }
-
     public MatchmakingPane() {
 	setEditable(false);
 	setContentType("text/html");
@@ -189,39 +79,9 @@ public class MatchmakingPane extends JTextPane {
 	// overwrite ctrl-c
 	final MatchmakingPane pane = this;
 	getInputMap()
-		.put(
-			KeyStroke.getKeyStroke(KeyEvent.VK_C,
-				InputEvent.CTRL_DOWN_MASK), "uaal_copy");
-	getActionMap().put("uaal_copy", new AbstractAction() {
-	    private static final long serialVersionUID = 1L;
-
-	    public void actionPerformed(ActionEvent e) {
-		// System.out.println("--- clipboard");
-		// String selection = getSelectedText();
-		// StringSelection data = new StringSelection(selection);
-		// Clipboard clipboard = Toolkit.getDefaultToolkit()
-		// .getSystemClipboard();
-		// clipboard.setContents(data, data);
-		// System.out.println("-- selection: " + selection);
-
-		// copy the current selection to our own clipboard
-		TransferHandler th = getTransferHandler();
-		Clipboard clipboard = new Clipboard("");
-		th.exportToClipboard(pane, clipboard, TransferHandler.COPY);
-		// System.out.println("\n-------------------------------------------------\ninternal clipboard\n");
-		// printClipboardContent(clipboard);
-
-		// create a new Transferable
-		Transferable contents = new TransferableProxy(clipboard);
-
-		// copy content to system clipboard
-		Clipboard systemClipboard = Toolkit.getDefaultToolkit()
-			.getSystemClipboard();
-		systemClipboard.setContents(contents, null);
-		// System.out.println("\n-------------------------------------------------\nsystem clipboard\n");
-		// printClipboardContent(systemClipboard);
-	    }
-	});
+		.put(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+			InputEvent.CTRL_DOWN_MASK), "uaal_copy");
+	getActionMap().put("uaal_copy", new ClipboardHandling(urlReplacement, getTransferHandler(), pane));
     }
 
     public void show(Matchmaking m) {
@@ -300,8 +160,8 @@ public class MatchmakingPane extends JTextPane {
 	    s.append(getTableRowHTML("--",
 		    "- unknown value, perhaps a unit conversion? -"));
 	else
-	    s.append(getTableRowHTML("at the property path:", getPropPathHTML(
-		    (PropertyPath) form, false)));
+	    s.append(getTableRowHTML("at the property path:",
+		    getPropPathHTML((PropertyPath) form, false)));
 	s.append(getTableEndHTML());
 
 	return s.toString();
@@ -314,15 +174,17 @@ public class MatchmakingPane extends JTextPane {
 	if (ProcessEffect.TYPE_PROCESS_ADD_EFFECT.equals(type)) {
 	    s.append("Add effect:");
 	    s.append(getTableStartHTML());
-	    s.append(getTableRowHTML("add the value:", effect.getProperty(
-		    ProcessEffect.PROP_PROCESS_PROPERTY_VALUE).toString()));
-	    s
-		    .append(getTableRowHTML(
-			    "to the property path:",
-			    getPropPathHTML(
-				    (PropertyPath) effect
-					    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
-				    false)));
+	    s.append(getTableRowHTML(
+		    "add the value:",
+		    effect.getProperty(
+			    ProcessEffect.PROP_PROCESS_PROPERTY_VALUE)
+			    .toString()));
+	    s.append(getTableRowHTML(
+		    "to the property path:",
+		    getPropPathHTML(
+			    (PropertyPath) effect
+				    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
+			    false)));
 	    s.append(getTableEndHTML());
 	} else if (ProcessEffect.TYPE_PROCESS_CHANGE_EFFECT.equals(type)) {
 	    s.append("Change effect:");
@@ -330,24 +192,22 @@ public class MatchmakingPane extends JTextPane {
 	    s.append(getTableRowHTML("change the value to:", effect
 		    .getProperty(ProcessEffect.PROP_PROCESS_PROPERTY_VALUE)
 		    .toString()));
-	    s
-		    .append(getTableRowHTML(
-			    "at property path:",
-			    getPropPathHTML(
-				    (PropertyPath) effect
-					    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
-				    false)));
+	    s.append(getTableRowHTML(
+		    "at property path:",
+		    getPropPathHTML(
+			    (PropertyPath) effect
+				    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
+			    false)));
 	    s.append(getTableEndHTML());
 	} else if (ProcessEffect.TYPE_PROCESS_REMOVE_EFFECT.equals(type)) {
 	    s.append("Remove effect:");
 	    s.append(getTableStartHTML());
-	    s
-		    .append(getTableRowHTML(
-			    "at property path:",
-			    getPropPathHTML(
-				    (PropertyPath) effect
-					    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
-				    false)));
+	    s.append(getTableRowHTML(
+		    "at property path:",
+		    getPropPathHTML(
+			    (PropertyPath) effect
+				    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
+			    false)));
 	    s.append(getTableEndHTML());
 	}
 	return s.toString();
@@ -479,9 +339,7 @@ public class MatchmakingPane extends JTextPane {
 		int minCard = in.getMinCardinality();
 		int maxCard = in.getMaxCardinality();
 		if (minCard == maxCard)
-		    s
-			    .append(getTableRowHTML("exact cardinality:", ""
-				    + maxCard));
+		    s.append(getTableRowHTML("exact cardinality:", "" + maxCard));
 		else {
 		    s.append(getTableRowHTML("min cardinality:", "" + minCard));
 		    s.append(getTableRowHTML("max cardinality:", "" + maxCard));
@@ -548,9 +406,7 @@ public class MatchmakingPane extends JTextPane {
 	    }
 	    String val3 = getURIHTML(single.profileURI);
 	    if (single.success.booleanValue())
-		s
-			.append(getTableRowHTML(getImageHTML("OK_16.png"),
-				val2, val3));
+		s.append(getTableRowHTML(getImageHTML("OK_16.png"), val2, val3));
 	    else
 		s.append(getTableRowHTML(getImageHTML("ERROR_16.png"), val2,
 			val3));
@@ -559,9 +415,7 @@ public class MatchmakingPane extends JTextPane {
 
 	// details
 	s.append("<br>");
-	s
-		.append(getLinkHTML("all", isVisible("all") ? "hide all"
-			: "show all"));
+	s.append(getLinkHTML("all", isVisible("all") ? "hide all" : "show all"));
 	s.append("<br><br>");
 
 	// details for request
@@ -608,9 +462,8 @@ public class MatchmakingPane extends JTextPane {
 
 		switch (single.reason) {
 		case SingleMatching.REASON_INPUT:
-		    s
-			    .append("   input: input parameters do not match for property "
-				    + getURIHTML(single.restrictedProperty));
+		    s.append("   input: input parameters do not match for property "
+			    + getURIHTML(single.restrictedProperty));
 		    break;
 		case SingleMatching.REASON_OUTPUT:
 		    s.append("   output: ");

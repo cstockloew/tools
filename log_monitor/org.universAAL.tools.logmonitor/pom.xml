@@ -10,7 +10,7 @@
 	<groupId>org.universAAL.tools</groupId>
 	<packaging>bundle</packaging>
 	<artifactId>tools.log_mon</artifactId>  
-	<version>2.0.1-SNAPSHOT</version>
+	<version>2.0.3-SNAPSHOT</version>
 	<name>Log Monitor</name>
 	<description>Visualization of RDF graphs from log entries</description>
 	<url />
