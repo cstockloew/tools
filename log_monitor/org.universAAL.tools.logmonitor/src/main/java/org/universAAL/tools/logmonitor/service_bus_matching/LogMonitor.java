@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor.service_bus_matching;
 
@@ -48,9 +48,11 @@ public class LogMonitor implements LogListenerEx {
     public class ProfileInfo {
 	public ServiceProfile profile;
 	public String serialized;
+	public String profileProviderURI;
 
-	public ProfileInfo(ServiceProfile profile) {
+	public ProfileInfo(ServiceProfile profile, String profileProviderURI) {
 	    this.profile = profile;
+	    this.profileProviderURI = profileProviderURI;
 	}
     }
 
@@ -95,6 +97,7 @@ public class LogMonitor implements LogListenerEx {
      * 1020: ServiceRealization "no subset relationship for restricted property"
      * 1021: ServiceRealization "no subset relationship for restricted property"
      * 1022: ServiceRealization "no subset relationship for restricted property"
+     * 1023: ServiceRealization "input in request not defined in offer"
      */
     public void log(int logLevel, String module, String pkg, String cls,
 	    String method, Object[] msgPart, Throwable t) {
@@ -153,7 +156,6 @@ public class LogMonitor implements LogListenerEx {
 	    return;
 
 	if (ServiceBus.LOG_MATCHING_MISMATCH.equals(msgPart[0])) {
-	    String restrictedProperty = (String) msgPart[3];
 	    Matchmaking m = (Matchmaking) threads.get(id);
 	    if (m == null) {
 		System.out
@@ -163,7 +165,8 @@ public class LogMonitor implements LogListenerEx {
 	    SingleMatching single = (SingleMatching) m.matchings.getLast();
 	    single.processStandardMessage(msgPart);
 	    single.reason = SingleMatching.REASON_INPUT;
-	    single.restrictedProperty = restrictedProperty;
+	    if (single.code != 1023)
+		single.restrictedProperty = (String) msgPart[3];
 	}
     }
 
@@ -172,8 +175,8 @@ public class LogMonitor implements LogListenerEx {
 	if (id == null)
 	    return;
 
-//	System.out.println("--- ServiceBus.LOG_MATCHING_SUCCESS: "
-//		+ ServiceBus.LOG_MATCHING_SUCCESS);
+	// System.out.println("--- ServiceBus.LOG_MATCHING_SUCCESS: "
+	// + ServiceBus.LOG_MATCHING_SUCCESS);
 
 	if (ServiceBus.LOG_MATCHING_START.equals(msgPart[0])) {
 	    // start matching a request
@@ -183,7 +186,9 @@ public class LogMonitor implements LogListenerEx {
 	    // start matchmaking for one profile with the request
 	    String profileServiceClassURI = (String) msgPart[1];
 	    String profileServiceURI = (String) msgPart[2];
-	    startMatching(id, profileServiceClassURI, profileServiceURI);
+	    String profileProviderURI = (String) msgPart[3];
+	    startMatching(id, profileServiceClassURI, profileServiceURI,
+		    profileProviderURI);
 	} else if (ServiceBus.LOG_MATCHING_SUCCESS.equals(msgPart[0])) {
 	    // matching for one profile with the request was successful
 	    endMatching(id, true);
@@ -220,7 +225,7 @@ public class LogMonitor implements LogListenerEx {
     }
 
     private void startMatching(Long id, String profileServiceClassURI,
-	    String profileServiceURI) {
+	    String profileServiceURI, String profileProviderURI) {
 	// start matchmaking for one profile with the request
 	Matchmaking m = (Matchmaking) threads.get(id);
 	if (m == null) {
@@ -234,9 +239,16 @@ public class LogMonitor implements LogListenerEx {
 	    // this profile is new -> query all profiles
 	    ServiceProfile[] allProfiles = caller
 		    .getMatchingService(profileServiceClassURI);
-	    for (int i = 0; i < allProfiles.length; i++)
-		profiles.put(getProfileURI(allProfiles[i]), new ProfileInfo(
-			allProfiles[i]));
+	    for (int i = 0; i < allProfiles.length; i++) {
+		// we have to check for the service profile URI, we cannot just
+		// add all service profiles because otherwise we cannot get the
+		// provider URI
+		String queriedProfileServiceURI = getProfileURI(allProfiles[i]);
+		if (queriedProfileServiceURI != null
+			&& queriedProfileServiceURI.equals(profileServiceURI))
+		    profiles.put(queriedProfileServiceURI, new ProfileInfo(
+			    allProfiles[i], profileProviderURI));
+	    }
 	    if (!profiles.containsKey(profileServiceURI)) {
 		System.out
 			.println("ERROR in matching log tool: matching with a profile that does not exist.");

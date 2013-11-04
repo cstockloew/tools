@@ -7,6 +7,9 @@ package org.universAAL.tools.logmonitor.service_bus_matching.gui;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -42,6 +45,12 @@ public class MatchmakingPane extends JTextPane {
     private static final long serialVersionUID = 1L;
 
     private boolean all = false;
+
+    /**
+     * Defines how the overview will look like: 0 means that the results are
+     * grouped according to the service provider, 1 means no grouping
+     */
+    public int overviewMethod = 0;
 
     private HashMap<String, String> urlReplacement = new HashMap<String, String>();
 
@@ -81,7 +90,10 @@ public class MatchmakingPane extends JTextPane {
 	getInputMap()
 		.put(KeyStroke.getKeyStroke(KeyEvent.VK_C,
 			InputEvent.CTRL_DOWN_MASK), "uaal_copy");
-	getActionMap().put("uaal_copy", new ClipboardHandling(urlReplacement, getTransferHandler(), pane));
+	getActionMap().put(
+		"uaal_copy",
+		new ClipboardHandling(urlReplacement, getTransferHandler(),
+			pane));
     }
 
     public void show(Matchmaking m) {
@@ -226,6 +238,11 @@ public class MatchmakingPane extends JTextPane {
 	return "<tr><td>" + val1 + "</td></tr>\n";
     }
 
+    private String getTableRowHTML(String val1, int colspan) {
+	return "<tr><td colspan=\"" + colspan + "\" bgcolor=\"#EEEEEE\">"
+		+ val1 + "</td></tr>\n";
+    }
+
     private String getTableRowHTML(String val1, String val2) {
 	return "<tr><td>" + val1 + "</td><td>" + val2 + "</td></tr>\n";
     }
@@ -233,6 +250,12 @@ public class MatchmakingPane extends JTextPane {
     private String getTableRowHTML(String val1, String val2, String val3) {
 	return "<tr>\n  <td>" + val1 + "</td>\n  <td>" + val2 + "</td>\n  <td>"
 		+ val3 + "</td>\n</tr>\n";
+    }
+
+    private String getTableRowTitleHTML(String val1, String val2, String val3) {
+	return "<tr>\n  <td  bgcolor=\"#DDDDDD\">" + val1
+		+ "</td>\n  <td  bgcolor=\"#DDDDDD\">" + val2
+		+ "</td>\n  <td bgcolor=\"#DDDDDD\">" + val3 + "</td>\n</tr>\n";
     }
 
     private String getTableEndHTML() {
@@ -374,23 +397,8 @@ public class MatchmakingPane extends JTextPane {
 	getProfileRequestCommonHTML(s, effects, outputs);
     }
 
-    private String createHTML(Matchmaking m) {
-	StringBuilder s = new StringBuilder(
-		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"><html><body>\n");
-
-	s.append("<h1>Results of Matchmaking process</h1>\n");
-	if (m.success.booleanValue())
-	    s.append(getImageHTML("OK_32.png"));
-	else
-	    s.append(getImageHTML("ERROR_32.png"));
-	s.append("Service request: <b>" + m.serviceURI + "</b><br>");
-
-	// overview of matchings
-	s.append("<br><br>Matching with registered service profiles:<br>");
-	s.append(getTableStartHTML(1));
-	s.append(getTableRowHTML("Result", "Reason", "Service URI"));
-	LinkedList<SingleMatching> l = m.matchings;
-	for (Iterator<SingleMatching> it = l.iterator(); it.hasNext();) {
+    private void getOverviewHTML(StringBuilder s, List group) {
+	for (Iterator<SingleMatching> it = group.iterator(); it.hasNext();) {
 	    SingleMatching single = it.next();
 	    String val2 = "-";
 	    switch (single.reason) {
@@ -410,6 +418,66 @@ public class MatchmakingPane extends JTextPane {
 	    else
 		s.append(getTableRowHTML(getImageHTML("ERROR_16.png"), val2,
 			val3));
+	}
+    }
+
+    private String createHTML(Matchmaking m) {
+	ProfileInfo info;
+	LinkedList<SingleMatching> l;
+
+	StringBuilder s = new StringBuilder(
+		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"><html><body>\n");
+
+	s.append("<h1>Results of Matchmaking process</h1>\n");
+	if (m.success.booleanValue())
+	    s.append(getImageHTML("OK_32.png"));
+	else
+	    s.append(getImageHTML("ERROR_32.png"));
+	s.append("Service request: <b>" + m.serviceURI + "</b><br>");
+
+	// overview of matchings
+	s.append("<br><br>Matching with registered service profiles:<br>");
+	s.append(getTableStartHTML(1));
+	s.append(getTableRowTitleHTML("Result", "Reason", "Service URI"));
+	if (overviewMethod == 0) {
+	    l = m.matchings;
+	    HashMap<String, ArrayList<SingleMatching>> groups = new HashMap<String, ArrayList<SingleMatching>>();
+
+	    // create the grouping
+	    for (SingleMatching single : l) {
+		info = LogMonitor.instance.getProfile(single.profileURI);
+		String providerURI = "<unknown>";
+		if (!(info == null) && !(info.profileProviderURI == null))
+		    providerURI = info.profileProviderURI;
+
+		ArrayList<SingleMatching> group = groups.get(providerURI);
+		if (group == null) {
+		    group = new ArrayList<SingleMatching>();
+		    groups.put(providerURI, group);
+		}
+		group.add(single);
+	    }
+
+	    // get a sorted set of provider URIs
+	    ArrayList<String> sortedProviderURIs = new ArrayList<String>(
+		    groups.keySet());
+	    Collections.sort(sortedProviderURIs);
+
+	    // get the html output
+	    for (String providerURI : sortedProviderURIs) {
+		ArrayList<SingleMatching> group = groups.get(providerURI);
+		Collections.sort(group, new Comparator<SingleMatching>() {
+		    public int compare(SingleMatching o1, SingleMatching o2) {
+			return o1.profileURI.compareTo(o2.profileURI);
+		    }
+		});
+
+		s.append(getTableRowHTML("Provider: " + providerURI, 3));
+		getOverviewHTML(s, group);
+	    }
+	} else {
+	    l = m.matchings;
+	    getOverviewHTML(s, l);
 	}
 	s.append(getTableEndHTML());
 
@@ -462,8 +530,12 @@ public class MatchmakingPane extends JTextPane {
 
 		switch (single.reason) {
 		case SingleMatching.REASON_INPUT:
-		    s.append("   input: input parameters do not match for property "
-			    + getURIHTML(single.restrictedProperty));
+		    String prop = single.restrictedProperty;
+		    if (prop == null)
+			s.append("   input: number of input parameters do not match");
+		    else
+			s.append("   input: input parameters do not match for property "
+				+ getURIHTML(prop));
 		    break;
 		case SingleMatching.REASON_OUTPUT:
 		    s.append("   output: ");
@@ -498,8 +570,7 @@ public class MatchmakingPane extends JTextPane {
 	    s.append("<br>\n");
 
 	    s.append("ServiceProfile: ");
-	    ProfileInfo info = LogMonitor.instance
-		    .getProfile(single.profileURI);
+	    info = LogMonitor.instance.getProfile(single.profileURI);
 	    if (info == null || info.profile == null)
 		s.append("- unknown -<br>\n");
 	    else {
