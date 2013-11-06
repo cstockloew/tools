@@ -81,7 +81,13 @@ public class Matchmaking {
     // true, iff the request has some matches. In this case: numMatches > 0
     public Boolean success = null;
 
-    // the number of matches
+    // the number of matches after testing all profiles, before filtering
+    public int numMatchingProfiles = -1;
+
+    // the number of matches after filtering for providers
+    public int numMatchingAfterProviderFilter = -1;
+
+    // the number of matches at the end
     public int numMatches = -1;
 
     // the service request
@@ -93,11 +99,17 @@ public class Matchmaking {
     // URI of the requested service
     public String serviceURI;
 
-    // the set of single matchings
+    // the set of single matchings after profile matching and before filtering
     public LinkedList<SingleMatching> matchings = new LinkedList<SingleMatching>();
+
+    // the set of profile service URIs after filtering for the provider
+    public LinkedList<String> matchingsProvFilt = new LinkedList<String>();
 
     // the exact time when the matchmaking starts
     public Date date;
+
+    // error 1010
+    public boolean registeredServicesAvailable = true;
 
     /**
      * Get the date as a string.

@@ -397,7 +397,7 @@ public class MatchmakingPane extends JTextPane {
 	getProfileRequestCommonHTML(s, effects, outputs);
     }
 
-    private void getOverviewHTML(StringBuilder s, List group) {
+    private void getOverviewHTML(StringBuilder s, List<SingleMatching> group) {
 	for (Iterator<SingleMatching> it = group.iterator(); it.hasNext();) {
 	    SingleMatching single = it.next();
 	    String val2 = "-";
@@ -423,7 +423,7 @@ public class MatchmakingPane extends JTextPane {
 
     private String createHTML(Matchmaking m) {
 	ProfileInfo info;
-	LinkedList<SingleMatching> l;
+	LinkedList<SingleMatching> l = new LinkedList<SingleMatching>();
 
 	StringBuilder s = new StringBuilder(
 		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"><html><body>\n");
@@ -435,57 +435,70 @@ public class MatchmakingPane extends JTextPane {
 	    s.append(getImageHTML("ERROR_32.png"));
 	s.append("Service request: <b>" + m.serviceURI + "</b><br>");
 
+	// ///////////////////////////////////////
 	// overview of matchings
 	s.append("<br><br>Matching with registered service profiles:<br>");
-	s.append(getTableStartHTML(1));
-	s.append(getTableRowTitleHTML("Result", "Reason", "Service URI"));
-	if (overviewMethod == 0) {
-	    l = m.matchings;
-	    HashMap<String, ArrayList<SingleMatching>> groups = new HashMap<String, ArrayList<SingleMatching>>();
+	if (m.registeredServicesAvailable) {
+	    s.append(getTableStartHTML(1));
+	    s.append(getTableRowTitleHTML("Result", "Reason", "Service URI"));
+	    if (overviewMethod == 0) {
+		l = m.matchings;
+		HashMap<String, ArrayList<SingleMatching>> groups = new HashMap<String, ArrayList<SingleMatching>>();
 
-	    // create the grouping
-	    for (SingleMatching single : l) {
-		info = LogMonitor.instance.getProfile(single.profileURI);
-		String providerURI = "<unknown>";
-		if (!(info == null) && !(info.profileProviderURI == null))
-		    providerURI = info.profileProviderURI;
+		// create the grouping
+		for (SingleMatching single : l) {
+		    info = LogMonitor.instance.getProfile(single.profileURI);
+		    String providerURI = "<unknown>";
+		    if (!(info == null) && !(info.profileProviderURI == null))
+			providerURI = info.profileProviderURI;
 
-		ArrayList<SingleMatching> group = groups.get(providerURI);
-		if (group == null) {
-		    group = new ArrayList<SingleMatching>();
-		    groups.put(providerURI, group);
-		}
-		group.add(single);
-	    }
-
-	    // get a sorted set of provider URIs
-	    ArrayList<String> sortedProviderURIs = new ArrayList<String>(
-		    groups.keySet());
-	    Collections.sort(sortedProviderURIs);
-
-	    // get the html output
-	    for (String providerURI : sortedProviderURIs) {
-		ArrayList<SingleMatching> group = groups.get(providerURI);
-		Collections.sort(group, new Comparator<SingleMatching>() {
-		    public int compare(SingleMatching o1, SingleMatching o2) {
-			return o1.profileURI.compareTo(o2.profileURI);
+		    ArrayList<SingleMatching> group = groups.get(providerURI);
+		    if (group == null) {
+			group = new ArrayList<SingleMatching>();
+			groups.put(providerURI, group);
 		    }
-		});
+		    group.add(single);
+		}
 
-		s.append(getTableRowHTML("Provider: " + providerURI, 3));
-		getOverviewHTML(s, group);
+		// get a sorted set of provider URIs
+		ArrayList<String> sortedProviderURIs = new ArrayList<String>(
+			groups.keySet());
+		Collections.sort(sortedProviderURIs);
+
+		// we clear the list and add all elements again in a sorted
+		// order
+		l.clear();
+
+		// get the html output
+		for (String providerURI : sortedProviderURIs) {
+		    ArrayList<SingleMatching> group = groups.get(providerURI);
+		    Collections.sort(group, new Comparator<SingleMatching>() {
+			public int compare(SingleMatching o1, SingleMatching o2) {
+			    return o1.profileURI.compareTo(o2.profileURI);
+			}
+		    });
+
+		    s.append(getTableRowHTML("Provider: "
+			    + getURIHTML(providerURI), 3));
+		    getOverviewHTML(s, group);
+
+		    l.addAll(group);
+		}
+	    } else {
+		l = m.matchings;
+		getOverviewHTML(s, l);
 	    }
+	    s.append(getTableEndHTML());
 	} else {
-	    l = m.matchings;
-	    getOverviewHTML(s, l);
+	    s.append(" - no services are registered for the requested URI -<br>");
 	}
-	s.append(getTableEndHTML());
 
 	// details
 	s.append("<br>");
 	s.append(getLinkHTML("all", isVisible("all") ? "hide all" : "show all"));
 	s.append("<br><br>");
 
+	// ///////////////////////////////////////
 	// details for request
 	s.append("Request: ");
 
@@ -514,92 +527,137 @@ public class MatchmakingPane extends JTextPane {
 	// s.append(getLink("requestQuery", "show query (experimentel)"));
 	// }
 
-	// details for each matchmaking
-	l = m.matchings;
-	for (Iterator<SingleMatching> it = l.iterator(); it.hasNext();) {
-	    SingleMatching single = it.next();
-	    s.append("<hr><h2>Details for " + URI.get(single.profileURI, true)
-		    + "</h2>\n\n");
+	if (m.registeredServicesAvailable) {
+	    // ///////////////////////////////////////
+	    // details for each matchmaking
+	    for (Iterator<SingleMatching> it = l.iterator(); it.hasNext();) {
+		SingleMatching single = it.next();
+		s.append("<hr><h2>Details for "
+			+ URI.get(single.profileURI, true) + "</h2>\n\n");
 
-	    if (single.success.booleanValue()) {
-		s.append(getImageHTML("OK_16.png") + "&#160;&#160;");
-		s.append("successful");
+		if (single.success.booleanValue()) {
+		    s.append(getImageHTML("OK_16.png") + "&#160;&#160;");
+		    s.append("successful");
 
-	    } else {
-		s.append(getImageHTML("ERROR_16.png") + "&#160;&#160;");
+		} else {
+		    s.append(getImageHTML("ERROR_16.png") + "&#160;&#160;");
 
-		switch (single.reason) {
-		case SingleMatching.REASON_INPUT:
-		    String prop = single.restrictedProperty;
-		    if (prop == null)
-			s.append("   input: number of input parameters do not match");
-		    else
-			s.append("   input: input parameters do not match for property "
-				+ getURIHTML(prop));
-		    break;
-		case SingleMatching.REASON_OUTPUT:
-		    s.append("   output: ");
-		    s.append(single.code);
-		    s.append(" - ");
-		    s.append(single.shortReason);
-		    s.append("<br>\n<i>Details:</i> ");
-		    s.append(single.detailedReason);
-		    s.append("<br>\n");
-		    if (single.output != null)
-			s.append(getOutputHTML(single.output));
-		    else
-			System.out.println("ERROR: no output found");
-		    break;
-		case SingleMatching.REASON_EFFECT:
-		    s.append("   effect: ");
-		    s.append(single.code);
-		    s.append(" - ");
-		    s.append(single.shortReason);
-		    s.append("<br>\n<i>Details:</i> ");
-		    s.append(single.detailedReason);
-		    s.append("<br>\n");
-		    s.append("<br>\n");
-		    if (single.effect != null)
-			s.append(getEffectHTML(single.effect));
-		    break;
-		default:
-		    s.append("reason unknown");
+		    switch (single.reason) {
+		    case SingleMatching.REASON_INPUT:
+			String prop = single.restrictedProperty;
+			if (prop == null)
+			    s.append("   input: number of input parameters do not match");
+			else
+			    s.append("   input: input parameters do not match for property "
+				    + getURIHTML(prop));
+			break;
+		    case SingleMatching.REASON_OUTPUT:
+			s.append("   output: ");
+			s.append(single.code);
+			s.append(" - ");
+			s.append(single.shortReason);
+			s.append("<br>\n<i>Details:</i> ");
+			s.append(single.detailedReason);
+			s.append("<br>\n");
+			if (single.output != null)
+			    s.append(getOutputHTML(single.output));
+			else
+			    System.out.println("ERROR: no output found");
+			break;
+		    case SingleMatching.REASON_EFFECT:
+			s.append("   effect: ");
+			s.append(single.code);
+			s.append(" - ");
+			s.append(single.shortReason);
+			s.append("<br>\n<i>Details:</i> ");
+			s.append(single.detailedReason);
+			s.append("<br>\n");
+			s.append("<br>\n");
+			if (single.effect != null)
+			    s.append(getEffectHTML(single.effect));
+			break;
+		    default:
+			s.append("reason unknown");
+		    }
+		}
+
+		s.append("<br>\n");
+
+		s.append("ServiceProfile: ");
+		info = LogMonitor.instance.getProfile(single.profileURI);
+		if (info == null || info.profile == null)
+		    s.append("- unknown -<br>\n");
+		else {
+		    ServiceProfile profile = info.profile;
+		    String link = "ServiceProfile_" + single.profileURI;
+		    String link_abstract = link + "_abstract";
+		    String link_serialized = link + "_serialized";
+
+		    // ServiceProfile serialized
+		    if (isVisible(link_serialized)) {
+			s.append(getLinkHTML(link_serialized, "hide serialized"));
+
+			if (info.serialized == null) // create on first use
+			    info.serialized = Activator.serialize(profile);
+			s.append("<pre>\n" + turtle2HTML(info.serialized)
+				+ "\n</pre>\n");
+		    } else {
+			s.append(getLinkHTML(link_serialized, "show serialized"));
+		    }
+
+		    // ServiceProfile abstract
+		    if (isVisible(link_abstract)) {
+			s.append(getLinkHTML(link_abstract,
+				"hide abstract<br><br>\n"));
+			getServiceProfileHTML(s, profile);
+		    } else {
+			s.append(getLinkHTML(link_abstract, "show abstract"));
+		    }
 		}
 	    }
 
-	    s.append("<br>\n");
+	    // ///////////////////////////////////////
+	    // filtering : Provider
+	    s.append("<hr><h2>Provider filtering</h2><p>The list of services is filtered,"
+		    + " so that only <i>one</i> service for a service provider is taken."
+		    + " If more than one service matches for a provider then the"
+		    + " most specialized service is taken.</p>\n<p>The number of matching"
+		    + " services is:</p>\n");
 
-	    s.append("ServiceProfile: ");
-	    info = LogMonitor.instance.getProfile(single.profileURI);
-	    if (info == null || info.profile == null)
-		s.append("- unknown -<br>\n");
-	    else {
-		ServiceProfile profile = info.profile;
-		String link = "ServiceProfile_" + single.profileURI;
-		String link_abstract = link + "_abstract";
-		String link_serialized = link + "_serialized";
+	    s.append(getTableStartHTML(0));
+	    s.append(getTableRowHTML("before provider filtering:", ""
+		    + m.numMatchingProfiles));
+	    s.append(getTableRowHTML("after provider filtering:", ""
+		    + m.numMatchingAfterProviderFilter));
+	    s.append(getTableEndHTML());
 
-		// ServiceProfile serialized
-		if (isVisible(link_serialized)) {
-		    s.append(getLinkHTML(link_serialized, "hide serialized"));
+	    s.append("<br>The matched profiles and their provider filtering results are:<br>\n");
 
-		    if (info.serialized == null) // create on first use
-			info.serialized = Activator.serialize(profile);
-		    s.append("<pre>\n" + turtle2HTML(info.serialized)
-			    + "\n</pre>\n");
-		} else {
-		    s.append(getLinkHTML(link_serialized, "show serialized"));
-		}
-
-		// ServiceProfile abstract
-		if (isVisible(link_abstract)) {
-		    s.append(getLinkHTML(link_abstract,
-			    "hide abstract<br><br>\n"));
-		    getServiceProfileHTML(s, profile);
-		} else {
-		    s.append(getLinkHTML(link_abstract, "show abstract"));
+	    s.append(getTableStartHTML(0));
+	    for (SingleMatching single : l) {
+		if (single.success.booleanValue()) {
+		    String profileURI = single.profileURI;
+		    String res = m.matchingsProvFilt.contains(profileURI) ? "OK_16.png"
+			    : "ERROR_16.png";
+		    s.append(getTableRowHTML(getImageHTML(res),
+			    getURIHTML(profileURI)));
 		}
 	    }
+	    s.append(getTableEndHTML());
+
+	    /*
+	     * s.append(getTableStartHTML(0)); for (SingleMatching single : l) {
+	     * if (single.success.booleanValue()) {
+	     * s.append(getTableRowHTML(single.profileURI)); } }
+	     * s.append(getTableEndHTML());
+	     * 
+	     * s.append("\n<p>The following " + m.numMatchingAfterProviderFilter
+	     * + " services have are available after filtering:</p>\n");
+	     * 
+	     * s.append(getTableStartHTML(0)); for (String srvURI :
+	     * m.matchingsProvFilt) { s.append(getTableRowHTML(srvURI)); }
+	     * s.append(getTableEndHTML());
+	     */
 	}
 
 	s.append("\n</body></html>");

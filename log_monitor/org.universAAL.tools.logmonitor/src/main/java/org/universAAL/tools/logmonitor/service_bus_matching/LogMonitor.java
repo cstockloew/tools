@@ -94,6 +94,7 @@ public class LogMonitor implements LogListenerEx {
      * 1011: ProcessResult "requested effect not offered" (none available)
      * 1012: ProcessResult "number of effects do not match"
      * 1013: ProcessResult "requested effect not offered"
+     * 1010: ServiceStrategy "No service available."
      * 1020: ServiceRealization "no subset relationship for restricted property"
      * 1021: ServiceRealization "no subset relationship for restricted property"
      * 1022: ServiceRealization "no subset relationship for restricted property"
@@ -108,20 +109,25 @@ public class LogMonitor implements LogListenerEx {
 	    if (!"mw.bus.service.osgi".equals(module))
 		return;
 
+	    Long id = null;
+	    try {
+		id = (Long) msgPart[msgPart.length - 1];
+	    } catch (Exception e) {
+	    }
+	    if (id == null)
+		return;
+
 	    if ("ServiceStrategy".equals(cls))
-		handleServiceStrategyMessage(msgPart);
+		handleServiceStrategyMessage(id, msgPart);
 	    else if ("ServiceRealization".equals(cls))
-		handleServiceRealizationMessage(msgPart);
+		handleServiceRealizationMessage(id, msgPart);
 	    else if ("ProcessResult".equals(cls))
-		handleProcessResultMessage(msgPart, method);
+		handleProcessResultMessage(id, msgPart, method);
 	}
     }
 
-    private void handleProcessResultMessage(Object[] msgPart, String method) {
-	Long id = (Long) msgPart[msgPart.length - 1];
-	if (id == null)
-	    return;
-
+    private void handleProcessResultMessage(Long id, Object[] msgPart,
+	    String method) {
 	if (ServiceBus.LOG_MATCHING_MISMATCH.equals(msgPart[0])) {
 	    Matchmaking m = (Matchmaking) threads.get(id);
 	    if (m == null) {
@@ -150,11 +156,7 @@ public class LogMonitor implements LogListenerEx {
 	}
     }
 
-    private void handleServiceRealizationMessage(Object[] msgPart) {
-	Long id = (Long) msgPart[msgPart.length - 1];
-	if (id == null)
-	    return;
-
+    private void handleServiceRealizationMessage(Long id, Object[] msgPart) {
 	if (ServiceBus.LOG_MATCHING_MISMATCH.equals(msgPart[0])) {
 	    Matchmaking m = (Matchmaking) threads.get(id);
 	    if (m == null) {
@@ -170,11 +172,7 @@ public class LogMonitor implements LogListenerEx {
 	}
     }
 
-    private void handleServiceStrategyMessage(Object[] msgPart) {
-	Long id = (Long) msgPart[msgPart.length - 1];
-	if (id == null)
-	    return;
-
+    private void handleServiceStrategyMessage(Long id, Object[] msgPart) {
 	// System.out.println("--- ServiceBus.LOG_MATCHING_SUCCESS: "
 	// + ServiceBus.LOG_MATCHING_SUCCESS);
 
@@ -195,10 +193,27 @@ public class LogMonitor implements LogListenerEx {
 	} else if (ServiceBus.LOG_MATCHING_NOSUCCESS.equals(msgPart[0])) {
 	    // matching for one profile with the request was not successful
 	    endMatching(id, false);
+	} else if (ServiceBus.LOG_MATCHING_PROFILES_END.equals(msgPart[0])) {
+	    // the matching with each single profile is done, next step is the
+	    // filtering
+	    endProfileMatching(id, (Integer) msgPart[2]);
+	} else if (ServiceBus.LOG_MATCHING_PROVIDER_END.equals(msgPart[0])) {
+	    endProviderMatching(id, msgPart);
 	} else if (ServiceBus.LOG_MATCHING_END.equals(msgPart[0])) {
 	    // matching done
-	    endMatching(id, (Integer) msgPart[2]);
+	    if (msgPart.length == 7)
+		endMatching(id, msgPart);
+	    else
+		endMatching(id, (Integer) msgPart[2]);
 	}
+    }
+
+    private Matchmaking getMatchmaking(Long id, String methodName) {
+	Matchmaking m = (Matchmaking) threads.get(id);
+	if (m == null)
+	    throw new IllegalArgumentException("ERROR in matching log tool: "
+		    + methodName + ", id not available.");
+	return m;
     }
 
     private String getProfileURI(ServiceProfile profile) {
@@ -227,12 +242,7 @@ public class LogMonitor implements LogListenerEx {
     private void startMatching(Long id, String profileServiceClassURI,
 	    String profileServiceURI, String profileProviderURI) {
 	// start matchmaking for one profile with the request
-	Matchmaking m = (Matchmaking) threads.get(id);
-	if (m == null) {
-	    System.out
-		    .println("ERROR in matching log tool: start matching, but id not available.");
-	    return;
-	}
+	Matchmaking m = getMatchmaking(id, "startMatching");
 
 	// find the profile; if not available, query it
 	if (!profiles.containsKey(profileServiceURI)) {
@@ -263,18 +273,35 @@ public class LogMonitor implements LogListenerEx {
     }
 
     private void endMatching(Long id, boolean success) {
-	Matchmaking m = (Matchmaking) threads.get(id);
+	Matchmaking m = getMatchmaking(id, "endMatching, success: " + success);
 	SingleMatching single = (SingleMatching) m.matchings.getLast();
 	single.success = Boolean.valueOf(success);
     }
 
-    private void endMatching(Long id, Integer numMatches) {
-	Matchmaking m = (Matchmaking) threads.get(id);
-	if (m == null) {
-	    System.out
-		    .println("ERROR in matching log tool: endMatching, id not available.");
-	    return;
+    private void endMatching(Long id, Object[] msgPart) {
+	// no service has been found
+	Matchmaking m = getMatchmaking(id, "endMatching (no-service)");
+	m.registeredServicesAvailable = false;
+	m.numMatches = 0;
+	m.success = Boolean.FALSE;
+	finish(id, m);
+    }
+
+    private void endProfileMatching(Long id, Integer numMatches) {
+	Matchmaking m = getMatchmaking(id, "endProfileMatching");
+	m.numMatchingProfiles = numMatches.intValue();
+    }
+
+    private void endProviderMatching(Long id, Object[] msgPart) {
+	Matchmaking m = getMatchmaking(id, "endProviderMatching");
+	m.numMatchingAfterProviderFilter = (Integer) msgPart[2];
+	for (int i = 4; i < msgPart.length - 1; i++) {
+	    m.matchingsProvFilt.add((String) msgPart[i]);
 	}
+    }
+
+    private void endMatching(Long id, Integer numMatches) {
+	Matchmaking m = getMatchmaking(id, "endMatching (final)");
 
 	m.numMatches = numMatches.intValue();
 	if (m.numMatches != 0)
@@ -282,9 +309,12 @@ public class LogMonitor implements LogListenerEx {
 	else
 	    m.success = Boolean.FALSE;
 
+	finish(id, m);
+    }
+
+    private void finish(Long id, Matchmaking m) {
 	// print(m);
 	threads.remove(id);
-
 	gui.notify(m);
     }
 

@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor;
 
@@ -30,11 +30,18 @@ public class LogMonitor implements LogListener {
 
     public void log(int logLevel, String module, String pkg, String cls,
 	    String method, Object[] msgPart, Throwable t) {
-	
+
 	if (msgPart == null)
 	    msgPart = new Object[0];
-	
-	for (int i = 0; i < listeners.length; i++)
-	    listeners[i].log(logLevel, module, pkg, cls, method, msgPart, t);
+
+	for (int i = 0; i < listeners.length; i++) {
+	    try {
+		listeners[i]
+			.log(logLevel, module, pkg, cls, method, msgPart, t);
+	    } catch (Exception e) {
+		System.out.println("Error found in LogMonitor: ");
+		e.printStackTrace();
+	    }
+	}
     }
 }
