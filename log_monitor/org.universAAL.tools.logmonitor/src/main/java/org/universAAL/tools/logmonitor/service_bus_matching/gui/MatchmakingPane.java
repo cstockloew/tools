@@ -544,12 +544,22 @@ public class MatchmakingPane extends JTextPane {
 
 		    switch (single.reason) {
 		    case SingleMatching.REASON_INPUT:
-			String prop = single.restrictedProperty;
-			if (prop == null)
-			    s.append("   input: number of input parameters do not match");
-			else
-			    s.append("   input: input parameters do not match for property "
-				    + getURIHTML(prop));
+			if (single.isOffer) {
+			    s.append("   input: ");
+			    s.append(single.code);
+			    s.append(" - ");
+			    s.append(single.shortReason);
+			    s.append("<br>\n<i>Details:</i> ");
+			    s.append(single.detailedReason);
+			    s.append("<br>\n");
+			} else {
+			    String prop = single.restrictedProperty;
+			    if (prop == null)
+				s.append("   input: number of input parameters do not match");
+			    else
+				s.append("   input: input parameters do not match for property "
+					+ getURIHTML(prop));
+			}
 			break;
 		    case SingleMatching.REASON_OUTPUT:
 			s.append("   output: ");

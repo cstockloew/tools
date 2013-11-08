@@ -1,15 +1,15 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor.service_bus_matching;
 
-import java.io.IOException;
-import java.io.StringWriter;
+//import java.io.IOException;
+//import java.io.StringWriter;
+//import org.universAAL.middleware.rdf.TypeMapper;
 
 import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.rdf.TypeMapper;
 import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.owls.process.OutputBinding;
 import org.universAAL.middleware.service.owls.process.ProcessEffect;

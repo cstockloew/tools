@@ -5,25 +5,15 @@
 package org.universAAL.tools.logmonitor.service_bus_matching;
 
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-
 import javax.swing.JPanel;
 
 import org.universAAL.middleware.container.LogListener;
-import org.universAAL.middleware.owl.MergedRestriction;
-import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceBus;
 import org.universAAL.middleware.service.ServiceRequest;
-import org.universAAL.middleware.service.owl.Service;
-import org.universAAL.middleware.service.owls.process.OutputBinding;
-import org.universAAL.middleware.service.owls.process.ProcessEffect;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.LogListenerEx;
@@ -94,11 +84,12 @@ public class LogMonitor implements LogListenerEx {
      * 1011: ProcessResult "requested effect not offered" (none available)
      * 1012: ProcessResult "number of effects do not match"
      * 1013: ProcessResult "requested effect not offered"
-     * 1010: ServiceStrategy "No service available."
      * 1020: ServiceRealization "no subset relationship for restricted property"
      * 1021: ServiceRealization "no subset relationship for restricted property"
      * 1022: ServiceRealization "no subset relationship for restricted property"
      * 1023: ServiceRealization "input in request not defined in offer"
+     * 1030: ServiceStrategy "No service available."
+     * 1031: ServiceStrategy "input in profile not given in request"
      */
     public void log(int logLevel, String module, String pkg, String cls,
 	    String method, Object[] msgPart, Throwable t) {
@@ -129,12 +120,7 @@ public class LogMonitor implements LogListenerEx {
     private void handleProcessResultMessage(Long id, Object[] msgPart,
 	    String method) {
 	if (ServiceBus.LOG_MATCHING_MISMATCH.equals(msgPart[0])) {
-	    Matchmaking m = (Matchmaking) threads.get(id);
-	    if (m == null) {
-		System.out
-			.println("ERROR in matching log tool: handleProcessResultMessage, id not available.");
-		return;
-	    }
+	    Matchmaking m = getMatchmaking(id, "handleProcessResultMessage");
 
 	    if ("checkEffects".equals(method)) {
 		SingleMatching single = (SingleMatching) m.matchings.getLast();
@@ -158,12 +144,8 @@ public class LogMonitor implements LogListenerEx {
 
     private void handleServiceRealizationMessage(Long id, Object[] msgPart) {
 	if (ServiceBus.LOG_MATCHING_MISMATCH.equals(msgPart[0])) {
-	    Matchmaking m = (Matchmaking) threads.get(id);
-	    if (m == null) {
-		System.out
-			.println("ERROR in matching log tool: handleServiceRealizationMessage, but id not available.");
-		return;
-	    }
+	    Matchmaking m = getMatchmaking(id,
+		    "handleServiceRealizationMessage");
 	    SingleMatching single = (SingleMatching) m.matchings.getLast();
 	    single.processStandardMessage(msgPart);
 	    single.reason = SingleMatching.REASON_INPUT;
@@ -197,6 +179,18 @@ public class LogMonitor implements LogListenerEx {
 	    // the matching with each single profile is done, next step is the
 	    // filtering
 	    endProfileMatching(id, (Integer) msgPart[2]);
+	} else if (ServiceBus.LOG_MATCHING_MISMATCH.equals(msgPart[0])) {
+	    Matchmaking m = getMatchmaking(id, "handleServiceStrategyMessage");
+	    String profileURI = (String) msgPart[3];
+	    for (SingleMatching single : m.matchings) {
+		if (single.profileURI.equals(profileURI)) {
+		    single.processStandardMessage(msgPart);
+		    single.reason = SingleMatching.REASON_INPUT;
+		    single.isOffer = true;
+		    single.success = Boolean.FALSE;
+		    break;
+		}
+	    }
 	} else if (ServiceBus.LOG_MATCHING_PROVIDER_END.equals(msgPart[0])) {
 	    endProviderMatching(id, msgPart);
 	} else if (ServiceBus.LOG_MATCHING_END.equals(msgPart[0])) {
@@ -320,233 +314,6 @@ public class LogMonitor implements LogListenerEx {
 
     public ProfileInfo getProfile(String uri) {
 	return (ProfileInfo) profiles.get(uri);
-    }
-
-    private Resource findInGraph(Resource root, String uri, HashMap visited) {
-	System.out.println("findInGraph: " + root + "  " + uri);
-	if (uri == null || root == null)
-	    return null;
-	if (uri.equals(root.getURI()))
-	    return root;
-	if (visited == null)
-	    visited = new HashMap();
-
-	Resource el = (Resource) visited.get(root.getURI());
-	if (el != null)
-	    return null;
-	visited.put(root.getURI(), root);
-
-	Enumeration e = root.getPropertyURIs();
-	while (e.hasMoreElements()) {
-	    String key = (String) e.nextElement();
-	    Object val = root.getProperty(key);
-
-	    if (val instanceof Resource) {
-		Resource retval = findInGraph((Resource) val, uri, visited);
-		if (retval != null)
-		    return retval;
-	    } else if (val instanceof List) {
-		Iterator iter = ((List) val).iterator();
-		while (iter.hasNext()) {
-		    Object o = iter.next();
-		    if (o instanceof Resource) {
-			Resource retval = findInGraph((Resource) o, uri,
-				visited);
-			if (retval != null)
-			    return retval;
-		    }
-		}
-	    }
-	}
-
-	return null;
-    }
-
-    // -------------------------------------
-    private void print(Matchmaking m) {
-	System.out.println("Matchmaking for service " + m.serviceURI + ": "
-		+ m.success);
-	LinkedList l = m.matchings;
-	for (Iterator it = l.iterator(); it.hasNext();) {
-	    SingleMatching s = (SingleMatching) it.next();
-	    System.out.println("   matching with offer " + s.profileURI);
-	    System.out.print("      matching ");
-	    if (s.success.booleanValue())
-		System.out.println("successful");
-	    else {
-		System.out.println("NOT successful");
-
-		switch (s.reason) {
-		case SingleMatching.REASON_INPUT:
-		    System.out
-			    .println("      reason (input): input parameters do not match for property "
-				    + s.restrictedProperty);
-		    break;
-		case SingleMatching.REASON_OUTPUT:
-		    System.out.println("      reason (output): "
-			    + getMessage(s.msgPart));
-		    break;
-		case SingleMatching.REASON_EFFECT:
-		    System.out.println("      reason (effect): "
-			    + getMessage(s.msgPart));
-		    break;
-		default:
-		    System.out.println("      reason: unknown");
-		}
-	    }
-	}
-    }
-
-    public static String getMessage(Object[] msgPart) {
-	StringBuffer sb = new StringBuffer(256);
-	if (msgPart != null)
-	    for (int i = 0; i < msgPart.length - 1; i++)
-		sb.append(msgPart[i]);
-	return sb.toString();
-    }
-
-    // -------------------------------------
-
-    // get service and instance level restrictions
-    private String getServiceString(Service srv, boolean shortForm) {
-	String s = "";
-
-	s += URI.get(srv.getType(), shortForm) + "\n";
-	if (srv != null) {
-	    String[] props = srv.getRestrictedPropsOnInstanceLevel();
-	    if (props.length != 0) {
-		s += "  instance level restrictions:\n";
-		for (int i = 0; i < props.length; i++) {
-		    MergedRestriction instRestr = srv
-			    .getInstanceLevelRestrictionOnProp(props[i]);
-		    s += CEStringUtil.toString("    ", instRestr, shortForm);
-		}
-	    }
-	}
-
-	return s;
-    }
-
-    private String getEffectsString(Resource[] effects, boolean shortForm) {
-	String s = "";
-
-	if (effects.length != 0) {
-	    s += "  effect:\n";
-	    for (int i = 0; i < effects.length; i++) {
-		Resource r = effects[i];
-		PropertyPath path = (PropertyPath) r
-			.getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY);
-		Object o = r
-			.getProperty(ProcessEffect.PROP_PROCESS_PROPERTY_VALUE);
-
-		if (ProcessEffect.TYPE_PROCESS_CHANGE_EFFECT
-			.equals(r.getType())) {
-		    s += "    change effect:\n";
-		    s += "      on path: " + getPP(path, shortForm) + "\n";
-		    s += "      for value: " + o.toString() + "\n";
-		} else if (ProcessEffect.TYPE_PROCESS_ADD_EFFECT.equals(r
-			.getType())) {
-		    s += "    add effect:\n";
-		    s += "      on path: " + getPP(path, shortForm) + "\n";
-		    s += "      for value: " + o.toString() + "\n";
-		} else if (ProcessEffect.TYPE_PROCESS_REMOVE_EFFECT.equals(r
-			.getType())) {
-		    s += "    remove effect:\n";
-		    s += "      on path: " + getPP(path, shortForm) + "\n";
-		} else {
-		    s += "    unknown: "
-			    + r.toStringRecursive("    ", false, null);
-		}
-	    }
-	}
-
-	return s;
-    }
-
-    private String getSingleIOString(Resource r, boolean shortForm) {
-	String s = "";
-
-	if (OutputBinding.TYPE_OWLS_OUTPUT_BINDING.equals(r.getType())) {
-	    PropertyPath path = null;
-	    Object o = r
-		    .getProperty(OutputBinding.PROP_OWLS_BINDING_VALUE_FORM);
-	    if (o instanceof PropertyPath)
-		// SimpleBinding
-		path = (PropertyPath) o;
-	    if (path != null) {
-		// the output info comes from
-		// ServiceRequest.addRequiredOutput
-		s += "    property path: " + getPP(path, shortForm) + "\n";
-	    } else {
-		s += "    unknown output binding: " + r.getURI() + "\n";
-	    }
-	} else {
-	    s += "    unknown: " + r.toStringRecursive("    ", false, null);
-	}
-
-	return s;
-    }
-
-    private String getProfileString(ServiceProfile profile, boolean shortForm) {
-	Iterator it;
-	String s = "Service profile ";
-
-	// get service info
-	s += getServiceString(profile.getTheService(), shortForm);
-
-	// get input info
-	it = profile.getInputs();
-	if (it.hasNext()) {
-	    s += "  input:\n";
-	    while (it.hasNext())
-		s += getSingleIOString((Resource) it.next(), shortForm);
-	}
-
-	// get effect info
-	s += getEffectsString(profile.getEffects(), shortForm);
-
-	// get output info
-	it = profile.getOutputs();
-	if (it.hasNext()) {
-	    s += "  output:\n";
-	    while (it.hasNext())
-		s += getSingleIOString((Resource) it.next(), shortForm);
-	}
-
-	return s;
-    }
-
-    private String getRequestString(ServiceRequest request, boolean shortForm) {
-	String s = "Requesting Service ";
-
-	// get service info
-	s += getServiceString(request.getRequestedService(), shortForm);
-
-	// get effect info
-	s += getEffectsString(request.getRequiredEffects(), shortForm);
-
-	// get output info
-	Resource[] output = request.getRequiredOutputs();
-	if (output.length != 0) {
-	    s += "  output:\n";
-	    for (int i = 0; i < output.length; i++)
-		s += getSingleIOString(output[i], shortForm);
-	}
-
-	return s;
-    }
-
-    private String getPP(PropertyPath path, boolean shortForm) {
-	String s = "";
-	if (path == null)
-	    return s;
-	String[] p = path.getThePath();
-	for (int i = 0; i < p.length; i++) {
-	    s += URI.get(p[i], shortForm);
-	    if (i < p.length - 1)
-		s += ", ";
-	}
-	return s;
     }
 
     public JPanel getPanel() {

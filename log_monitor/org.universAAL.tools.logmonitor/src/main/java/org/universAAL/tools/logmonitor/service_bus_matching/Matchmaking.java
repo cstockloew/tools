@@ -44,6 +44,8 @@ public class Matchmaking {
 
 	// detailed information if reason == REASON_INPUT
 	public String restrictedProperty;
+	public boolean isOffer = false; // true, if the problem is on the
+					// 'offer'-side
 
 	// detailed information if reason == REASON_OUTPUT
 	public String outputURI;
