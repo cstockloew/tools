@@ -55,7 +55,7 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext context) throws Exception {
 		Activator.bc = context;
 		moduleConfigHome = new ModuleConfigHome("uCC", "");
-		// client = new UstoreUtil();
+//		 client = new UstoreUtil();
 		ServiceReference ref = bc.getServiceReference(DataAccess.class
 				.getName());
 		dataAccess = (DataAccess) bc.getService(ref);
