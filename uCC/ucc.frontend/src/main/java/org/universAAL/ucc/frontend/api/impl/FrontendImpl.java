@@ -239,17 +239,26 @@ public class FrontendImpl implements IFrontend {
 		System.err.println(uapp.getApp().getAppId());
 		String app_ontology_uri = "";
 		String icon_path = "";
+		String icon_name = "";
 		String menuName = "";
 		if(uapp.getApp().getMenuEntry() != null) {
 			app_ontology_uri = uapp.getApp().getMenuEntry().getServiceUri();
-			icon_path = uapp.getApp().getMenuEntry().getIcon().getName();
+			if(uapp.getApp().getMenuEntry().getIcon().getName() != null 
+					&& !uapp.getApp().getMenuEntry().getIcon().getName().equals("")) {
+				icon_name = uapp.getApp().getMenuEntry().getIcon().getName();
+				aal.setIconPath(icon_name);
+			}
+			if(uapp.getApp().getMenuEntry().getIcon().getPath() != null 
+					&& !uapp.getApp().getMenuEntry().getIcon().getPath().equals("")) {
+				icon_path = uapp.getApp().getMenuEntry().getIcon().getPath();
+				aal.setIconPath(icon_path);
+			}
 			menuName = uapp.getApp().getMenuEntry().getMenuName();
 			System.err.println(icon_path);
 			System.err.println(app_ontology_uri);
 			System.err.println(menuName);
 		}
 		aal.setMenuName(menuName);
-		aal.setIconPath(icon_path);
 		aal.setOntologyUri(app_ontology_uri);
 		List<Part> parts = uapp.getApplicationPart().getPart();
 		
