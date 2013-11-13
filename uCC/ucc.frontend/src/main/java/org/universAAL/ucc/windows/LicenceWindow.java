@@ -73,13 +73,14 @@ public class LicenceWindow extends Window {
 				tree.setChildrenAllowed(f.getName(), false);
 			}
 		}
-		tree.select(licenses.get(0).getAppName());
+		tree.select(licenses.get(0).getLicense().get(0).getName());
 		Panel panel = new Panel();
 		panel.setHeight("400px");
 		VerticalLayout layout = (VerticalLayout) panel.getContent();
 		layout.setSpacing(true);
 		layout.setMargin(true);
 		for (License l : licenses) {
+			if(l.getSlaList().size() > 0) {
 			for (File slaFile : l.getSlaList()) {
 				FileReader fr = new FileReader(slaFile);
 				// SLA makes problems
@@ -87,6 +88,16 @@ public class LicenceWindow extends Window {
 				String line = null;
 				while ((line = reader.readLine()) != null) {
 					panel.addComponent(new Label(line));
+				}
+			}
+			} else if(l.getLicense().size() > 0) {
+				for(File lFile : l.getLicense()) {
+					FileReader fr = new FileReader(lFile);
+					BufferedReader reader = new BufferedReader(fr);
+					String line = null;
+					while((line = reader.readLine()) != null) {
+						panel.addComponent(new Label(line));
+					}
 				}
 			}
 		}
