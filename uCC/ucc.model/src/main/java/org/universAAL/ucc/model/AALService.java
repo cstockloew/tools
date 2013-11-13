@@ -16,6 +16,7 @@ public class AALService {
     private ArrayList<UAPP> uaapList;
     private String ontologyUri;
     private String iconPath;
+    private String menuName;
 
     public AALService() {
 	tags = new ArrayList<String>();
@@ -134,6 +135,14 @@ public class AALService {
 
 	public void setIconPath(String iconPath) {
 		this.iconPath = iconPath;
+	}
+
+	public String getMenuName() {
+		return menuName;
+	}
+
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
     
     
