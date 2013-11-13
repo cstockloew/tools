@@ -1,10 +1,12 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 
 package org.universAAL.tools.logmonitor;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 
 import org.osgi.framework.Bundle;
@@ -83,7 +85,15 @@ public class Activator implements BundleActivator {
 		return "- not possible to get the serializer -";
 	}
 
-	return contentSerializer.serialize(r);
+	try {
+	    return contentSerializer.serialize(r);
+	} catch (Exception e) {
+	    StringWriter sw = new StringWriter();
+	    PrintWriter pw = new PrintWriter(sw);
+	    e.printStackTrace(pw);
+	    return "<error in serialization:>\n" + sw.toString()
+		    + "\n\nfor the Resource:\n" + r.toStringRecursive();
+	}
     }
 
     public static Resource deserialize(String s) {
