@@ -237,13 +237,18 @@ public class FrontendImpl implements IFrontend {
 			System.err.println("Got ParserService");
 		uapp = ps.getUapp(f);
 		System.err.println(uapp.getApp().getAppId());
-		String app_ontology_uri = uapp.getApp().getApplicationOntology();
-		System.err.println(app_ontology_uri);
+		String app_ontology_uri = "";
 		String icon_path = "";
-		if(uapp.getApp().getMenuEntry() != null && uapp.getApp().getMenuEntry() != null) {
-			icon_path = uapp.getApp().getMenuEntry().getIcon().getPath();
+		String menuName = "";
+		if(uapp.getApp().getMenuEntry() != null) {
+			app_ontology_uri = uapp.getApp().getMenuEntry().getServiceUri();
+			icon_path = uapp.getApp().getMenuEntry().getIcon().getName();
+			menuName = uapp.getApp().getMenuEntry().getMenuName();
 			System.err.println(icon_path);
+			System.err.println(app_ontology_uri);
+			System.err.println(menuName);
 		}
+		aal.setMenuName(menuName);
 		aal.setIconPath(icon_path);
 		aal.setOntologyUri(app_ontology_uri);
 		List<Part> parts = uapp.getApplicationPart().getPart();

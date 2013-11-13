@@ -603,7 +603,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				}
 				users.add(uname);
 			}
-			SelectUserWindow suw = new SelectUserWindow(users, aal);
+			SelectUserWindow suw = new SelectUserWindow(users, aal, app);
 			app.getMainWindow().addWindow(suw);
 
 		} else if (res

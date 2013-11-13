@@ -32,10 +32,12 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 	private Button ok;
 	private Button cancel;
 	private AALService aal;
+	private UccUI app;
 	
-	public SelectUserWindow(List<String>users, AALService aal) {
+	public SelectUserWindow(List<String>users, AALService aal, UccUI app) {
 		super("Select User");
 		this.aal = aal;
+		this.app = app;
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSizeFull();
 		vl.setMargin(true);
@@ -79,10 +81,11 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 			System.err.println("AAL-PROVIDER: "+aal.getProvider());
 			System.err.println("ONTOLOGY-URI: "+aal.getOntologyUri());
 			System.err.println("ICON-PATH: "+aal.getIconPath());
-			addEntry((new StringBuilder().append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(list.getValue()).toString()), 
-					aal.getName(), aal.getProvider(), 
+			addEntry((list.getValue()).toString(), 
+					aal.getMenuName(), aal.getProvider(), 
 					aal.getOntologyUri(), aal.getIconPath());
 			close();
+			app.getMainWindow().showNotification("", "The MenuEntry was successfully added", Notification.TYPE_HUMANIZED_MESSAGE);
 			
 		}
 		if(event.getButton() == cancel) {
@@ -94,7 +97,7 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 	//Adds a MenuEntry for new installed AAL service to Endusers view
 	private void addEntry(String userID, String entryName, String vendor, String serviceClass, String iconURL)
     {
-        MenuEntry me = new MenuEntry((new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(/*"nutritonalEntry"*/ entryName).toString());
+        MenuEntry me = new MenuEntry(null/*(new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(entryName).toString()*/);
         me.setVendor(new Resource(vendor));
         me.setServiceClass(new Resource(serviceClass));
         Resource pathElem = new Resource(iconURL);
@@ -110,11 +113,11 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 		MenuProfile.PROP_ENTRY }, me);
         ServiceResponse res = Activator.getSc().call(sr);
         if(res.getCallStatus() == CallStatus.succeeded)
-            LogUtils.logDebug(Activator.getmContext(), Activator.class, "addEntry", new Object[] {
-                "new user ", userID, " added."
+            LogUtils.logDebug(Activator.getmContext(), SelectUserWindow.class, "addEntry", new Object[] {
+                "new menu entry ", entryName, "for user"+ userID+" added."
             }, null);
         else
-            LogUtils.logDebug(Activator.getmContext(), Activator.class, "addEntry", new Object[] {
+            LogUtils.logDebug(Activator.getmContext(), SelectUserWindow.class, "addEntry", new Object[] {
                 "callstatus is not succeeded"
             }, null);
     }
