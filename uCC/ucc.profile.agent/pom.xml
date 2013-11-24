@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>org.universAAL.tools.ucc</groupId>
 		<artifactId>ucc.pom</artifactId>
-		<version>2.0.2-SNAPSHOT</version>
+		<version>2.0.3-SNAPSHOT</version>
 		<relativePath>../ucc.pom/pom.xml</relativePath>
 	</parent>
 	<artifactId>ucc.profile.agent</artifactId>
-	<version>2.0.2-SNAPSHOT</version>
+	<version>2.0.3-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 	<name>Profile Agent</name>
 	<description>This is a profile agent for connecting uCC to CHE/Profiling server.</description>
