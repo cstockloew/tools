@@ -291,7 +291,8 @@ public class ToolController implements Button.ClickListener,
 		if (!DesktopController.getCurrentUser().equals("") && !DesktopController.getCurrentPassword().equals("")) {
 			url = "https://" + DesktopController.getCurrentUser() + ":" + DesktopController.getCurrentPassword()
 					+ "@" + shop;
-		}  else {
+		}  
+		else {
 			url = "http://" + shop;
 		}
 		System.err.println(url);
