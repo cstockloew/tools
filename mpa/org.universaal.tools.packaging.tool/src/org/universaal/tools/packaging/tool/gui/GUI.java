@@ -133,8 +133,12 @@ public class GUI extends WizardMod {
 	}
 
 	public IWizardPage getStartingPage() {
-		String startPage = (mpa.getAAL_UAPP().getCurrentPageTitle() != "") ? mpa.getAAL_UAPP().getCurrentPageTitle() : Page.PAGE_START;
-		return getPage(startPage);
+		if(exitLevel == 0){
+			String startPage = (mpa.getAAL_UAPP().getCurrentPageTitle() != "") ? mpa.getAAL_UAPP().getCurrentPageTitle() : Page.PAGE_START;
+			return getPage(startPage);
+		} else {
+			return getPage(Page.PAGE_ERROR);
+		}
 	}
 	
 	private void checkPersistence(Boolean recovered) {
@@ -248,8 +252,7 @@ public class GUI extends WizardMod {
 	}
 
 	public void addPages(boolean percentage) {
-		if(this.parts != null){
-			
+		if(this.parts != null){	
 			if(!percentage){
 				if(parts.size() > 1)
 					mpa.getAAL_UAPP().getApplication().setMultipart(true);
@@ -257,151 +260,146 @@ public class GUI extends WizardMod {
 					mpa.getAAL_UAPP().getApplication().setMultipart(false);
 	
 				createTempContainer();
-				genEffectivePom(this.parts);
-				if(!recovered) loadDataFromManPOM();
-			
-				p0 = new StartPage(Page.PAGE_START);
-				addPage(p0);
-				p0.setMPA(mpa);
+				if(genEffectivePom(this.parts)){
+					if(!recovered) loadDataFromManPOM();
 				
-				p1 = new Page1(Page.PAGE1);
-				addPage(p1);
-				p1.setMPA(mpa);
-	
-				p2 = new Page2(Page.PAGE2);
-				addPage(p2);
-				p2.setMPA(mpa);
-	
-				pdu = new PageDU(Page.PAGE_DU);
-				addPage(pdu);
-				pdu.setMPA(mpa);
-			
-				par = new PageAppResources(Page.PAGE_APP_RESOURCES);
-				addPage(par);
-				par.setMPA(mpa);
-			
-				pl = new PageLicenses(Page.PAGE_LICENSE);
-				addPage(pl);
-				pl.setMPA(mpa);
-			
-				p3 = new Page3(Page.PAGE3);
-				addPage(p3);
-				p3.setMPA(mpa);
-	
-				p4 = new Page4(Page.PAGE4, 0, null, null);
-				addPage(p4);
-				p4.setMPA(mpa);
-	
-				p5 = new Page5(Page.PAGE5);
-				addPage(p5);
-				p5.setMPA(mpa);
-			
-				for(int i = 0; i < parts.size(); i++){
-	
-					String partName = parts.get(i).getName();
+					p0 = new StartPage(Page.PAGE_START);
+					addPage(p0);
+					p0.setMPA(mpa);
 					
-					ppB = new PagePartBundle(Page.PAGE_PART_BUNDLE+partName, i); //deployment units
-					addPage(ppB);
-					ppB.setMPA(mpa);
-					ppB.setArtifact(parts.get(i));
-	
-					ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
-					addPage(ppDU);
-					ppDU.setMPA(mpa);
-					ppDU.setArtifact(parts.get(i));
-					
-					ppEU = new PagePartEU(Page.PAGE_PART_EU+partName, i); // execution units
-					addPage(ppEU);
-					ppEU.setMPA(mpa);
-					ppEU.setArtifact(parts.get(i));
-	
-					ppPC = new PagePartPC(Page.PAGE_PART_PC+partName, i); // part capabilities
-					addPage(ppPC);
-					ppPC.setMPA(mpa);
-					ppPC.setArtifact(parts.get(i));
-	
-					ppPR = new PagePartPR(Page.PAGE_PART_PR+partName, i, 0, null, null); // part requirements
-					addPage(ppPR);
-					ppPR.setMPA(mpa);
-					ppPR.setArtifact(parts.get(i));
+					p1 = new Page1(Page.PAGE1);
+					addPage(p1);
+					p1.setMPA(mpa);
+		
+					p2 = new Page2(Page.PAGE2);
+					addPage(p2);
+					p2.setMPA(mpa);
+		
+					pdu = new PageDU(Page.PAGE_DU);
+					addPage(pdu);
+					pdu.setMPA(mpa);
+				
+					par = new PageAppResources(Page.PAGE_APP_RESOURCES);
+					addPage(par);
+					par.setMPA(mpa);
+				
+					pl = new PageLicenses(Page.PAGE_LICENSE);
+					addPage(pl);
+					pl.setMPA(mpa);
+				
+					p3 = new Page3(Page.PAGE3);
+					addPage(p3);
+					p3.setMPA(mpa);
+		
+					p4 = new Page4(Page.PAGE4, 0, null, null);
+					addPage(p4);
+					p4.setMPA(mpa);
+		
+					p5 = new Page5(Page.PAGE5);
+					addPage(p5);
+					p5.setMPA(mpa);
+				
+					for(int i = 0; i < parts.size(); i++){
+		
+						String partName = parts.get(i).getName();
+						
+						ppB = new PagePartBundle(Page.PAGE_PART_BUNDLE+partName, i); //deployment units
+						addPage(ppB);
+						ppB.setMPA(mpa);
+						ppB.setArtifact(parts.get(i));
+		
+						ppDU = new PagePartDU(Page.PAGE_PART_DU+partName, i); //deployment units
+						addPage(ppDU);
+						ppDU.setMPA(mpa);
+						ppDU.setArtifact(parts.get(i));
+						
+						ppEU = new PagePartEU(Page.PAGE_PART_EU+partName, i); // execution units
+						addPage(ppEU);
+						ppEU.setMPA(mpa);
+						ppEU.setArtifact(parts.get(i));
+		
+						ppPC = new PagePartPC(Page.PAGE_PART_PC+partName, i); // part capabilities
+						addPage(ppPC);
+						ppPC.setMPA(mpa);
+						ppPC.setArtifact(parts.get(i));
+		
+						ppPR = new PagePartPR(Page.PAGE_PART_PR+partName, i, 0, null, null); // part requirements
+						addPage(ppPR);
+						ppPR.setMPA(mpa);
+						ppPR.setArtifact(parts.get(i));
+					}
+		
+					p_end = new EndPage(Page.PAGE_END);
+					addPage(p_end);
+					p_end.setMPA(mpa);
+					//addingPermanentStorageDecorator();
+				} else {
+					p = new ErrorPage(Page.PAGE_ERROR);
+					addPage(p);
+					p.setMPA(mpa);
 				}
-	
-				p_end = new EndPage(Page.PAGE_END);
-				addPage(p_end);
-				p_end.setMPA(mpa);
-				addingPermanentStorageDecorator();
 			} else {
-				p0.setPercentage((double)getPageNumber(getPage(Page.PAGE_START))/(double)getPageCount());
-				p1.setPercentage((double)getPageNumber(getPage(Page.PAGE1))/(double)getPageCount());
-				p2.setPercentage((double)getPageNumber(getPage(Page.PAGE2))/(double)getPageCount());
-				pdu.setPercentage((double)getPageNumber(getPage(Page.PAGE_DU))/(double)getPageCount());
-				par.setPercentage((double)getPageNumber(getPage(Page.PAGE_APP_RESOURCES))/(double)getPageCount());
-				pl.setPercentage((double)getPageNumber(getPage(Page.PAGE_LICENSE))/(double)getPageCount());
-				p3.setPercentage((double)getPageNumber(getPage(Page.PAGE3))/(double)getPageCount());
-				p4.setPercentage((double)getPageNumber(getPage(Page.PAGE4))/(double)getPageCount());
-				p5.setPercentage((double)getPageNumber(getPage(Page.PAGE5))/(double)getPageCount());
-				
-				for(int i = 0; i < parts.size(); i++){
-	
-					String partName = parts.get(i).getName();
+				if(exitLevel == 0){
+					p0.setPercentage((double)getPageNumber(getPage(Page.PAGE_START))/(double)getPageCount());
+					p1.setPercentage((double)getPageNumber(getPage(Page.PAGE1))/(double)getPageCount());
+					p2.setPercentage((double)getPageNumber(getPage(Page.PAGE2))/(double)getPageCount());
+					pdu.setPercentage((double)getPageNumber(getPage(Page.PAGE_DU))/(double)getPageCount());
+					par.setPercentage((double)getPageNumber(getPage(Page.PAGE_APP_RESOURCES))/(double)getPageCount());
+					pl.setPercentage((double)getPageNumber(getPage(Page.PAGE_LICENSE))/(double)getPageCount());
+					p3.setPercentage((double)getPageNumber(getPage(Page.PAGE3))/(double)getPageCount());
+					p4.setPercentage((double)getPageNumber(getPage(Page.PAGE4))/(double)getPageCount());
+					p5.setPercentage((double)getPageNumber(getPage(Page.PAGE5))/(double)getPageCount());
 					
-					ppB.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_BUNDLE+partName))/(double)getPageCount());
-					ppDU.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_DU+partName))/(double)getPageCount());
-					ppEU.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_EU+partName))/(double)getPageCount());
-					ppPC.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_PC+partName))/(double)getPageCount());
-					ppPR.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_PR+partName))/(double)getPageCount());
+					for(int i = 0; i < parts.size(); i++){
+		
+						String partName = parts.get(i).getName();
+						
+						ppB.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_BUNDLE+partName))/(double)getPageCount());
+						ppDU.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_DU+partName))/(double)getPageCount());
+						ppEU.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_EU+partName))/(double)getPageCount());
+						ppPC.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_PC+partName))/(double)getPageCount());
+						ppPR.setPercentage((double)getPageNumber(getPage(Page.PAGE_PART_PR+partName))/(double)getPageCount());
+					}
+		
+					p_end.setPercentage(1);
 				}
-	
-				p_end.setPercentage(1);
-				
 			}
-			
-		}
-		else{
+		} else{
 			p = new ErrorPage(Page.PAGE_ERROR);
 			addPage(p);
-		}	
+		}
 	}
 	
-	private void addingPermanentStorageDecorator() {/*
-	    if ( ! Configurator.local.isPersistanceEnabled() ) return;
-	    IWizardPage[] phases = getPages();
-	    ArrayList<IWizardPage> decoratedPhases = new ArrayList<IWizardPage>();
-	    for (int i = 0; i < phases.length; i++) {
-		if ( phases[i] instanceof PageImpl ) {
-		   decoratedPhases.add( new PersistencePageDecorator( (PageImpl) phases[i]) );
-		} else {
-		    decoratedPhases.add( phases[i] );
-		}
-	    }
-	    setPages(decoratedPhases);*/
-	}
-
 	@Override
 	public boolean performCancel(){
-		return MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm Exit", "Are you sure you want to Exit?");
+		if(exitLevel == 0)
+			return MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Confirm Exit", "Are you sure you want to Exit?");
+		
+		return false;
 	}
 	
 	@Override
 	public boolean performFinish() {
-		getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_WAIT));
-		
-		ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
-		try {
-			dialog.run(true, false, new ProgressFinish(mpa, parts, tempDir, destination));
+		if(exitLevel == 0){
+			getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_WAIT));
 			
-			callUSTORE(destination);
-
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
+			try {
+				dialog.run(true, false, new ProgressFinish(mpa, parts, tempDir, destination));
+				
+				callUSTORE(destination);
+	
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+			getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_ARROW));
 		}
-
-		getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_ARROW));
-
+	
 		return true;
 	}
 
@@ -515,9 +513,9 @@ public class GUI extends WizardMod {
 		this.destination = destination;
 	}
 	
-	private void genEffectivePom(List<IProject> parts){
+	private boolean genEffectivePom(List<IProject> parts){
 	
-		//System.out.println("Generating Effective POM");
+		System.out.println("Application Packager] - Generating Effective POM");
 		
 		for(int i=0; i<parts.size();i++){
 		
@@ -533,28 +531,36 @@ public class GUI extends WizardMod {
 					dialog.run(true, false, new ProgressEffectivePom(mavenTempDir, part));
 				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
+					exitLevel = -1;
 					e.printStackTrace();
+					return false;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
+					exitLevel = -1;
 					e.printStackTrace();
+					return false;
 				}
 				
 				if(exitLevel == 0){
-					System.out.println("[Application Packager] - Effective pom generated successfully.");
+					System.out.println("[Application Packager] - Part "+partName+": Effective pom generated successfully.");
 					EffectivePOMContainer.addDocument(partName, mavenTempDir+"/"+partName+".epom.xml");
 					EffectivePOMContainer.setDocument(partName);
 				} else {
-					System.out.println("[Application Packager] - WARNING!!! Effective pom not generated because of errors.");
+					System.out.println("[Application Packager] - WARNING!!! Part "+partName+": Effective pom not generated because of errors.");
+					return false;
 				}
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 			
 
 		}
 		
+		return true;
+
 	}
 }
 
@@ -568,11 +574,14 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 		this.mavenTempDir = mavenTempDir;
 		this.partName = part.getName();
 		this.path = part.getFile("pom.xml").getLocation().toString();
+		GUI.getInstance().exitLevel = -1;
 	}
+	
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		monitor.beginTask("Generating Effective POM", IProgressMonitor.UNKNOWN);
 		monitor.subTask("part: "+partName);
 		if(Configurator.local.runMavenEmbedded()){
+			
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);
 			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
@@ -582,6 +591,7 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 			if(pomResource != null && projectFacade != null){
 				
 				MavenExecutionRequest request;
+				System.out.println("*** 1 ***");
 				try {
 					request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
 					
@@ -596,8 +606,6 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 					MavenExecutionResult execution_result = maven.execute(request, null);
 					if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty()){
 						GUI.getInstance().exitLevel = 0;
-					}else {
-						GUI.getInstance().exitLevel = -1;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
