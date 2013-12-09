@@ -11,7 +11,7 @@ import org.universaal.tools.packaging.tool.impl.PageImpl;
 public class ErrorPage extends PageImpl {
 
 	protected ErrorPage(String pageName) {
-		super(pageName, "WARNING!!");
+		super(pageName, "WARNING!! Fatal errors occurred.");
 	}
 
 	public void createControl(Composite parent) {
@@ -26,7 +26,11 @@ public class ErrorPage extends PageImpl {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 
 		Label label1 = new Label(container, SWT.NULL);
-		label1.setText("Fatal Errors occurred. Application Packager Ended.");
+		label1.setText("Fatal errors occurred during the process. Operation aborted.");
+		
+		Label label2 = new Label(container, SWT.NULL);
+		label2.setText("(See the console output for more details)");
+		
 		setPageComplete(true);
 	}
 
