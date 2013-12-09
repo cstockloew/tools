@@ -89,4 +89,3 @@ Import-Package: org.eclipse.core.resources,
 Bundle-ActivationPolicy: lazy
 Export-Package: org.universaal.tools.externalserviceintegrator,
  org.universaal.tools.externalserviceintegrator.actions
- 
