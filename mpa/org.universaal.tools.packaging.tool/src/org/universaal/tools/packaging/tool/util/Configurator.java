@@ -34,6 +34,8 @@ import org.apache.maven.execution.MavenExecutionRequest;
  */
 public class Configurator {
 
+	public Boolean mEmbSet = false;
+	
     public static final Configurator local = new Configurator();
 
     private Configurator() {
@@ -130,8 +132,9 @@ public class Configurator {
     
     public Boolean runMavenEmbedded() {
     	Boolean mEmb = Boolean.valueOf(System.getProperty(ConfigProperties.MAVEN_EMBEDDED_KEY, ConfigProperties.MAVEN_EMBEDDED_DEFAULT));
-    	if(!mEmb){
+    	if(!mEmb && !mEmbSet){
     		try{
+    			mEmbSet = true;
     			ProcessExecutor.runMavenCommand("-v", "/");
     		} catch (Exception e){
     			System.out.println("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.");
