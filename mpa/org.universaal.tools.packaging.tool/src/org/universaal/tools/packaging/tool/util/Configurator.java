@@ -132,7 +132,7 @@ public class Configurator {
     	Boolean mEmb = Boolean.valueOf(System.getProperty(ConfigProperties.MAVEN_EMBEDDED_KEY, ConfigProperties.MAVEN_EMBEDDED_DEFAULT));
     	if(!mEmb){
     		try{
-    			ProcessExecutor.runMavenCommand("", "/");
+    			ProcessExecutor.runMavenCommand("-v", "/");
     		} catch (Exception e){
     			System.out.println("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.");
     			mEmb = !mEmb;

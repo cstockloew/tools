@@ -613,7 +613,7 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 			}
 
 		} else {
-			GUI.getInstance().exitLevel = ProcessExecutor.runMavenCommand("-Doutput="+mavenTempDir+"/"+partName+".epom.xml"+" help:effective-pom", path);
+			GUI.getInstance().exitLevel = ProcessExecutor.runMavenCommand("\"-Doutput="+mavenTempDir+"/"+partName+".epom.xml"+"\" help:effective-pom", path);
 		}
 		monitor.done();
 	}
