@@ -9,7 +9,11 @@ import java.io.InputStreamReader;
 public class ProcessExecutor {
 	
 	public static int runMavenCommand(String options, String workingDir){
-		if(Configurator.local.isOfflineMode()) options = "--offline "+options;
+		if(Configurator.local.isOfflineMode()){
+			System.out.println("*** OFFLINE MODE ENABLED ***");
+			options = "--offline "+options;
+			
+		}
 		return runCommand(Configurator.local.getMavenCommand()+" "+options, workingDir);
 	}
 	

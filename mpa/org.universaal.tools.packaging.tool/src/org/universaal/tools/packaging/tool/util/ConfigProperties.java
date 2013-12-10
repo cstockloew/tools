@@ -61,7 +61,7 @@ public interface ConfigProperties {
     public static final String KARAF_PLUGIN_GOAL_KAR_KEY = "karaf.tool.goal.karfile";
     public static final String KARAF_PLUGIN_GOAL_KAR_DEFAULT = "create-kar";
     
-    public static final String OFFLINE_MODE_KEY = "org.uAAL.packager.offline";
+    public static final String OFFLINE_MODE_KEY = "org.uAAL.packager.offlineMode";
     public static final String OFFLINE_MODE_DEFAULT = "true";
 
     public static final String MAVEN_COMMAND_KEY = "org.uAAL.packager.mavenCommand";

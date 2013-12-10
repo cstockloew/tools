@@ -123,7 +123,7 @@ public class Configurator {
     }
 
     public Boolean isOfflineMode() {
-	return Boolean.valueOf(System.getProperty(ConfigProperties.OFFLINE_MODE_KEY, ConfigProperties.OFFLINE_MODE_KEY));
+    	return Boolean.valueOf(System.getProperty(ConfigProperties.OFFLINE_MODE_KEY, ConfigProperties.OFFLINE_MODE_DEFAULT));
     }
 
     public String getKarafPluginKarGoal() {
