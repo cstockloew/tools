@@ -73,7 +73,9 @@ public class LicenceWindow extends Window {
 				tree.setChildrenAllowed(f.getName(), false);
 			}
 		}
-		tree.select(licenses.get(0).getLicense().get(0).getName());
+		if ( licenses.size() >0 ) {
+			tree.select(licenses.get(0).getLicense().get(0).getName());
+		}
 		Panel panel = new Panel();
 		panel.setHeight("400px");
 		VerticalLayout layout = (VerticalLayout) panel.getContent();
