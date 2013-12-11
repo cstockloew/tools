@@ -23,6 +23,7 @@ package org.universaal.tools.packaging.tool.gui;
 
 import java.awt.image.BufferedImage;
 import java.awt.Image;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,11 +33,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
+
 import java.lang.reflect.InvocationTargetException;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,34 +49,37 @@ import javax.imageio.ImageIO;
 
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
+
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.ProgressMonitorPart;
+
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Event;
+
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
+
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.api.WizardMod;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Application;
-import org.universaal.tools.packaging.tool.parts.ApplicationManagement;
 import org.universaal.tools.packaging.tool.parts.ApplicationManagement.RemoteManagement;
 import org.universaal.tools.packaging.tool.parts.License;
 import org.universaal.tools.packaging.tool.parts.LicenseSet;
@@ -82,7 +88,6 @@ import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.util.ConfigProperties;
 import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
-import org.universaal.tools.packaging.tool.util.KarafFeaturesGenerator;
 import org.universaal.tools.packaging.tool.util.POM_License;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 import org.universaal.tools.packaging.tool.zip.CreateJar;
@@ -92,8 +97,10 @@ import org.universaal.tools.packaging.tool.zip.UAPP;
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+
 public class GUI extends WizardMod {
 
 	public MPA mpa;
@@ -145,33 +152,31 @@ public class GUI extends WizardMod {
 		if ( Configurator.local.isPersistanceEnabled() ) {
 			this.recovered = recovered;
 			
-			//File tmpDir = new File(tempDir);
 			File recovery = new File(tempDir + ConfigProperties.RECOVERY_FILE_NAME_DEFAULT);
 			recoveryStorage = recovery;
 				   
-			//if ( tmpDir.exists() ) {
-				if ( recovery.exists() && recovered) {
-					
-					try {
-						ObjectInputStream ois = new ObjectInputStream( new FileInputStream( recovery ) );
-					    MPA recoveredStatus = (MPA) ois.readObject();
-					    //multipartApplication.setApplication(recoveredStatus.getAAL_UAPP());
-					    if (recoveredStatus != null){
-					    	System.out.println("Loading recovered data from "+recovery.getAbsolutePath());
-						    mpa = recoveredStatus;
-						    destination = mpa.getAAL_UAPP().getDestination();
-						    this.mainPartName = mpa.getAAL_UAPP().getMainPart();
-						} else {
-					    	System.out.println("[WARNING] Unable to load data from recovery file");
-					    	this.recovered = false;
-					    }
-					} catch (Exception e) {		
-					    e.printStackTrace();
-					}
-			    } 
+			if ( recovery.exists() && recovered) {
+				
+				try {
+					ObjectInputStream ois = new ObjectInputStream( new FileInputStream( recovery ) );
+				    MPA recoveredStatus = (MPA) ois.readObject();
+				    
+				    if (recoveredStatus != null){
+				    	System.out.println("Loading recovered data from "+recovery.getAbsolutePath());
+					    mpa = recoveredStatus;
+					    destination = mpa.getAAL_UAPP().getDestination();
+					    this.mainPartName = mpa.getAAL_UAPP().getMainPart();
+					} else {
+				    	System.out.println("[WARNING] Unable to load data from recovery file");
+				    	this.recovered = false;
+				    }
+				} catch (Exception e) {		
+				    e.printStackTrace();
+				}
+		    } 
 
-			//} 
-		} // else System.out.println("Recovering not enabled");
+			
+		} else System.out.println("Recovering not enabled");
 	}
 
 	private void loadDataFromManPOM() {
@@ -386,8 +391,18 @@ public class GUI extends WizardMod {
 			ProgressMonitorDialog dialog = new ProgressMonitorDialog(getShell());
 			try {
 				dialog.run(true, false, new ProgressFinish(mpa, parts, tempDir, destination));
-				
-				callUSTORE(destination);
+				if(exitLevel != 0){
+					MessageDialog.openError(GUI.getInstance().getShell(), "Jar generation failure", "Unable to build Jar file.\n\n" + 
+							"Hints:\n\n" +
+							"Turn maven offline by clicking on\n" +
+							"Window -> Preferences -> Maven -> Offline. \n\n" +
+							"Right click on each project folder you selected\n" +
+							"then select Maven -> Disable Workspace Resolution.\n\n" +
+							"Open each project and right click on the file pom.xml\n" +
+							"then select Run as -> Maven Build... \nand manually launch the goal package");
+				} else {
+					callUSTORE(destination);
+				}
 	
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
@@ -547,6 +562,15 @@ public class GUI extends WizardMod {
 					EffectivePOMContainer.setDocument(partName);
 				} else {
 					System.out.println("[Application Packager] - WARNING!!! Part "+partName+": Effective pom not generated because of errors.");
+					getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_ARROW));
+					MessageDialog.openError(getShell(), "Effective Pom generation failure", "Part "+partName+": unable to generate effective pom.\n\n" +
+							"Hints:\n\n" +
+							"Turn maven offline by clicking on\n" +
+							"Window -> Preferences -> Maven -> Offline. \n\n" +
+							"Right click on the project folder\n" +
+							"then select Maven -> Disable Workspace Resolution.\n\n" +
+							"Open the project, right click on the file pom.xml\n" +
+							"then select Run as -> Maven Build... \nand manually launch the goal help:effective-pom\n");
 					return false;
 				}
 				
@@ -650,103 +674,107 @@ class ProgressFinish implements IRunnableWithProgress {
 			monitor.subTask("Creating Jars...");
 			Thread.sleep(500);
 			CreateJar jar = new CreateJar();
-			for(int i = 0; i < parts.size(); i++)		
-				jar.create(parts.get(i), i+1);
-
-
-			// copy SLA and licenses (if possible)
-			//for(int i = 0; i < mpa.getAAL_UAPP().getApplication().getLicenses().size(); i++){
-
-				if(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme() != null && 
-						mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
-					File sla = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink());
-					copyFile(sla, new File(tempDir+"/license/"+sla.getName()));
+			for(int i = 0; i < parts.size(); i++){		
+				if(!jar.create(parts.get(i), i+1)){
+					GUI.getInstance().exitLevel = -1;
+					break;
 				}
+			}
 
-				for(int j = 0; j < mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().size(); j++){
-
-					if(!mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().toASCIIString().trim().isEmpty() &&
-							mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme() != null && 
-							mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
-						File license = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink());
-						copyFile(license, new File(tempDir+"/license/"+license.getName()));
+			if(GUI.getInstance().exitLevel == 0){
+				// copy SLA and licenses (if possible)
+				//for(int i = 0; i < mpa.getAAL_UAPP().getApplication().getLicenses().size(); i++){
+	
+					if(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme() != null && 
+							mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+						File sla = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getSla().getLink());
+						copyFile(sla, new File(tempDir+"/license/"+sla.getName()));
 					}
+	
+					for(int j = 0; j < mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().size(); j++){
+	
+						if(!mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().toASCIIString().trim().isEmpty() &&
+								mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme() != null && 
+								mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink().getScheme().equalsIgnoreCase("file")){ // copy files
+							File license = new File(mpa.getAAL_UAPP().getApplication().getLicenses().getLicenseList().get(j).getLink());
+							copyFile(license, new File(tempDir+"/license/"+license.getName()));
+						}
+					}
+				//}
+	
+				// copy config files files and folders
+				monitor.subTask("Copying config files files and folders...");
+				Thread.sleep(100);
+				for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
+					//for(int j = 0; j < mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().size(); j++){
+	
+					if(mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit() != null){
+					
+						//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
+						File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getConfigFilesAndFolders();
+						File tmp = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId());
+						tmp.mkdir();
+						copyFilesAndFolders(configFilesAndFolders, tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId()+"/");
+						//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
+					//}
+					
+					} 
 				}
-			//}
-
-			// copy config files files and folders
-			monitor.subTask("Copying config files files and folders...");
-			Thread.sleep(100);
-			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
-				//for(int j = 0; j < mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().size(); j++){
-
-				if(mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit() != null){
 				
+				// copy additional resources
+				monitor.subTask("Copying additional resources...");
+				Thread.sleep(100);
+				if(mpa.getAAL_UAPP().getAppResouces() != null){
+					
 					//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
-					File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getConfigFilesAndFolders();
-					File tmp = new File(tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId());
-					tmp.mkdir();
-					copyFilesAndFolders(configFilesAndFolders, tempDir+"/config/"+mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnit().getArtifactId()+"/");
+					File[] appResources = mpa.getAAL_UAPP().getAppResouces();
+					copyFilesAndFolders(appResources, tempDir+"/resources/");
 					//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
 				//}
 				
-				} 
-			}
-			
-			// copy additional resources
-			monitor.subTask("Copying additional resources...");
-			Thread.sleep(100);
-			if(mpa.getAAL_UAPP().getAppResouces() != null){
+				}
 				
-				//File[] configFilesAndFolders = mpa.getAAL_UAPP().getAppParts().get(i).getExecutionUnits().get(j).configFilesAndFolders();
-				File[] appResources = mpa.getAAL_UAPP().getAppResouces();
-				copyFilesAndFolders(appResources, tempDir+"/resources/");
-				//copyFile(configFile, new File(tempDir+"/config/"+configFile.getName()));
-			//}
-			
+				// copy icon file if set and eventually resize it
+				File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
+				
+				if(iconFile != null && iconFile.exists()){
+						if (mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconScale()){
+						try {
+							BufferedImage img = ImageIO.read(iconFile);
+							Image scaled = img.getScaledInstance(512, 512, Image.SCALE_AREA_AVERAGING);
+							BufferedImage buffered = new BufferedImage(512, 512, img.getType());
+							buffered.getGraphics().drawImage(scaled, 0, 0 , null);
+							File outputFile = new File(tempDir+"/bin/icon/"+iconFile.getName());
+							ImageIO.write(buffered, "png", outputFile);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else copyFile(iconFile, new File(tempDir+"/bin/icon/"+iconFile.getName()));
+				}
+		
+				monitor.subTask("Deleting temporary files...");
+				Thread.sleep(100);
+				File tmpFile = new File(tempDir+"/img.png");
+				if(tmpFile.exists()) tmpFile.delete();
+				
+				tmpFile = new File(tempDir+"/.recovery");
+				if(tmpFile.exists()) tmpFile.delete();
+				
+				tmpFile = new File(tempDir+"/.parts");
+				if(tmpFile.exists()) tmpFile.delete();
+				
+				// remove epom files if exists
+				for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
+					Part part = mpa.getAAL_UAPP().getAppParts().get(i);
+					File toBeRemoved = new File(tempDir+"/"+part.getName()+".epom.xml");
+					if (toBeRemoved.exists()) toBeRemoved.delete();
+				}
+				
+				monitor.subTask("Creating UAAP file...");
+				Thread.sleep(100);
+				UAPP descriptor = new UAPP();
+				descriptor.createUAPPfile(tempDir, destination);
 			}
-			
-			// copy icon file if set and eventually resize it
-			File iconFile = mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconFile();
-			
-			if(iconFile != null && iconFile.exists()){
-					if (mpa.getAAL_UAPP().getApplication().getMenuEntry().getIconScale()){
-					try {
-						BufferedImage img = ImageIO.read(iconFile);
-						Image scaled = img.getScaledInstance(512, 512, Image.SCALE_AREA_AVERAGING);
-						BufferedImage buffered = new BufferedImage(512, 512, img.getType());
-						buffered.getGraphics().drawImage(scaled, 0, 0 , null);
-						File outputFile = new File(tempDir+"/bin/icon/"+iconFile.getName());
-						ImageIO.write(buffered, "png", outputFile);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else copyFile(iconFile, new File(tempDir+"/bin/icon/"+iconFile.getName()));
-			}
-	
-			monitor.subTask("Deleting temporary files...");
-			Thread.sleep(100);
-			File tmpFile = new File(tempDir+"/img.png");
-			if(tmpFile.exists()) tmpFile.delete();
-			
-			tmpFile = new File(tempDir+"/.recovery");
-			if(tmpFile.exists()) tmpFile.delete();
-			
-			tmpFile = new File(tempDir+"/.parts");
-			if(tmpFile.exists()) tmpFile.delete();
-			
-			// remove epom files if exists
-			for(int i = 0; i < mpa.getAAL_UAPP().getAppParts().size(); i++){
-				Part part = mpa.getAAL_UAPP().getAppParts().get(i);
-				File toBeRemoved = new File(tempDir+"/"+part.getName()+".epom.xml");
-				if (toBeRemoved.exists()) toBeRemoved.delete();
-			}
-			
-			monitor.subTask("Creating UAAP file...");
-			Thread.sleep(100);
-			UAPP descriptor = new UAPP();
-			descriptor.createUAPPfile(tempDir, destination);
-	
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -795,12 +823,6 @@ class ProgressFinish implements IRunnableWithProgress {
 		
 		return sorted;
 		
-	}
-	
-	private static <T> T[] concat(T[] first, T[] second) {
-		  T[] result = Arrays.copyOf(first, first.length + second.length);
-		  System.arraycopy(second, 0, result, first.length, second.length);
-		  return result;
 	}
 	
 	private void copyFile(File source, File destination){

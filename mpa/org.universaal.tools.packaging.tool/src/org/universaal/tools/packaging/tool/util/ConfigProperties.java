@@ -26,6 +26,7 @@ package org.universaal.tools.packaging.tool.util;
  * which change the behavior of the plugin 
  *  
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
 public interface ConfigProperties {

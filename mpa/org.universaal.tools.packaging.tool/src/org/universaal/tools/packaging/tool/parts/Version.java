@@ -27,8 +27,10 @@ import java.io.Serializable;
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+
 public class Version implements Serializable {
 
 	private String major, minor, micro, build;

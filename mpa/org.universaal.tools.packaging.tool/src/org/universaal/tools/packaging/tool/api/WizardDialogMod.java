@@ -11,6 +11,7 @@
  *     Eugene Ostroukhov <eugeneo@symbian.org> - Bug 287887 [Wizards] [api] Cancel button has two distinct roles
  *     Paul Adams <padams@ittvis.com> - Bug 202534 - [Dialogs] SWT error in Wizard dialog when help is displayed and "Finish" is pressed
  *******************************************************************************/
+
 package org.universaal.tools.packaging.tool.api;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -36,7 +37,12 @@ import org.eclipse.swt.widgets.Shell;
  * Clients may subclass <code>WizardDialog</code>, although this is rarely
  * required.
  * </p>
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+ 
 public class WizardDialogMod extends WizardDialog {
 
 	public WizardDialogMod(Shell parentShell, IWizard newWizard) {
@@ -47,27 +53,27 @@ public class WizardDialogMod extends WizardDialog {
 	@Override
 	public void buttonPressed(int buttonId) {
 		switch (buttonId) {
-		case IDialogConstants.HELP_ID: {
-			helpPressed();
-			break;
-		}
-		case IDialogConstants.BACK_ID: {
-			WizardPageMod page = (WizardPageMod) getCurrentPage();
-			if(page.backPressed()) // to handle custom events
-				backPressed();
-			break;
-		}
-		case IDialogConstants.NEXT_ID: {
-
-			WizardPageMod page = (WizardPageMod) getCurrentPage();
-			if(page.nextPressed()) // to handle custom events
-				nextPressed();
-			break;
-		}
-		case IDialogConstants.FINISH_ID: {
-			finishPressed();
-			break;
-		}
+			case IDialogConstants.HELP_ID: {
+				helpPressed();
+				break;
+			}
+			case IDialogConstants.BACK_ID: {
+				WizardPageMod page = (WizardPageMod) getCurrentPage();
+				if(page.backPressed()) // to handle custom events
+					backPressed();
+				break;
+			}
+			case IDialogConstants.NEXT_ID: {
+	
+				WizardPageMod page = (WizardPageMod) getCurrentPage();
+				if(page.nextPressed()) // to handle custom events
+					nextPressed();
+				break;
+			}
+			case IDialogConstants.FINISH_ID: {
+				finishPressed();
+				break;
+			}
 		}
 	}
 }

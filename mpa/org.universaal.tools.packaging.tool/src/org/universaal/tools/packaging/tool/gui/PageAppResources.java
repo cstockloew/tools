@@ -1,12 +1,30 @@
+/*
+        Copyright 2007-2014 CNR-ISTI, http://isti.cnr.it
+        Institute of Information Science and Technologies
+        of the Italian National Research Council
+
+        See the NOTICE file distributed with this work for additional
+        information regarding copyright ownership
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+ */
 package org.universaal.tools.packaging.tool.gui;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -16,13 +34,18 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
+
 import org.universaal.tools.packaging.tool.impl.PageImpl;
-import org.universaal.tools.packaging.tool.parts.ExecutionUnit;
 import org.universaal.tools.packaging.tool.util.Dialog;
-import org.universaal.tools.packaging.tool.validators.FileV;
-import org.universaal.tools.packaging.tool.validators.IntegerV;
+
+/**
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
+ */
 
 public class PageAppResources extends PageImpl {
 
@@ -144,12 +167,6 @@ public class PageAppResources extends PageImpl {
 		
 		return sorted;
 		
-	}
-	
-	private static <T> T[] concat(T[] first, T[] second) {
-		  T[] result = Arrays.copyOf(first, first.length + second.length);
-		  System.arraycopy(second, 0, result, first.length, second.length);
-		  return result;
 	}
 	
 	//capability

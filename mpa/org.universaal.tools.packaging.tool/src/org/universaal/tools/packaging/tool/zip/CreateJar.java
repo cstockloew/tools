@@ -1,3 +1,24 @@
+/*
+
+        Copyright 2007-2014 CNR-ISTI, http://isti.cnr.it
+        Institute of Information Science and Technologies
+        of the Italian National Research Council
+
+        See the NOTICE file distributed with this work for additional
+        information regarding copyright ownership
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+ */
 package org.universaal.tools.packaging.tool.zip;
 
 import java.io.File;
@@ -5,12 +26,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
@@ -21,14 +44,23 @@ import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
+
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 
+/**
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
+ */
+
 public class CreateJar {
 
-	public void create(IProject part, int partNumber){
+	public boolean create(IProject part, int partNumber){
 
 		GUI g = GUI.getInstance();
 		String destination_path = g.getTempDir()+"/bin/part"+partNumber+"/";
@@ -65,12 +97,13 @@ public class CreateJar {
 					request.setGoals(goals);
 					request.setUserProperties(props);
 					MavenExecutionResult execution_result = maven.execute(request, null);
-					if(execution_result.getExceptions() != null && !execution_result.getExceptions().isEmpty())
+					if(execution_result.getExceptions() != null && !execution_result.getExceptions().isEmpty()){
 						for(int i = 0; i < execution_result.getExceptions().size(); i++){
 							System.out.println("[Application Packager] - Packaging ended with errors:.");
 							System.out.println("[Application Packager] - ERROR: "+execution_result.getExceptions().get(i).getMessage());
 						}
-					else
+						return false;
+					} else
 						System.out.println("[Application Packager] - Packaging ended successfully.");
 				} else {
 					int exitLevel = 0;
@@ -80,6 +113,7 @@ public class CreateJar {
 						System.out.println("[Application Packager] - Compiling operation ended.");
 						if(exitLevel != 0){
 							System.out.println("[WARNING] - Error occurred during compiling operation.");
+							return false;
 						}
 					}
 					
@@ -90,13 +124,15 @@ public class CreateJar {
 						System.out.println("[Application Packager] - Packaging ended successfully.");
 					} else {
 						System.out.println("[Application Packager] - Packaging ended with errors.");
+						return false;
 					}
 				}
 				copyFile(new File(sourcePath+"/target/"+fileName), new File(destination_path+fileName));
 			}	
-		}
-		catch(Exception ex){
+		} catch(Exception ex) {
 			ex.printStackTrace();
+			return false;
+			
 		}
 
 		try{
@@ -109,7 +145,10 @@ public class CreateJar {
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
+			return false;
 		}
+		
+		return true;
 	}
 
 	//	private void add(File source, JarOutputStream target, String startFrom){

@@ -180,11 +180,11 @@ public class ProcessExecutor {
 	     */
 	    int reading = Math.min(buf.length, l);
 	    try {
-		is.read(buf, 0, reading);
-		System.out.print(new String(buf));
-		l = is.available();
+			is.read(buf, 0, reading);
+			System.out.print(new String(buf));
+			l = is.available();
 	    } catch (IOException ignored) {
-		l = 0;
+			l = 0;
 	    }
 	}
 
@@ -192,18 +192,18 @@ public class ProcessExecutor {
     }
 
     public static void kill() {
-	end  = true;
+    	end  = true;
     }
     
     public static boolean isKilled() {
-	return end;
+    	return end;
     }
 
     public static void setMaxExecutionTime(long ms) {
-	execTime  = ms;
+    	execTime  = ms;
     }
     
     public static long getMaxExecutionTime() {
-	return execTime;
+    	return execTime;
     }
 }

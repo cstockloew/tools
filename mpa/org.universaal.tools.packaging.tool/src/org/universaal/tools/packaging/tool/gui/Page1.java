@@ -20,38 +20,25 @@
  */
 package org.universaal.tools.packaging.tool.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics2D;
+
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import java.net.URI;
-import java.net.URL;
-import java.util.Enumeration;
+
 import java.util.Iterator;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.wizard.ProgressMonitorPart;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -62,38 +49,28 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.universaal.tools.packaging.tool.impl.PageImpl;
 
-import org.universaal.tools.packaging.tool.parts.Capability;
+import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.util.Dialog;
-import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.FileV;
-import org.universaal.tools.packaging.tool.validators.IntegerV;
 import org.universaal.tools.packaging.tool.validators.UriV;
 
 /**
- * Second page of the wizard
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+
 public class Page1 extends PageImpl {
 
 	private TextExt name, id, description, tags, version_major, version_minor, version_micro, version_build, app_profile, menuName, serviceUri, iconFile;

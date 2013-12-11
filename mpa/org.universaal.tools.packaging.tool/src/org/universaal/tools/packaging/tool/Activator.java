@@ -23,13 +23,12 @@ package org.universaal.tools.packaging.tool;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+
 import org.osgi.framework.BundleContext;
-import org.universaal.tools.packaging.tool.util.ConfigProperties;
+
 import org.universaal.tools.packaging.tool.util.Configurator;
 
 /**
@@ -37,6 +36,7 @@ import org.universaal.tools.packaging.tool.util.Configurator;
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
 public class Activator extends AbstractUIPlugin {

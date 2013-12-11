@@ -8,6 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
+
 package org.universaal.tools.packaging.tool.api;
 
 import java.util.ArrayList;
@@ -16,20 +17,25 @@ import java.util.List;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.TrayDialog;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
+
 import org.eclipse.jface.util.Policy;
+
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
+
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.universaal.tools.packaging.tool.parts.MPA;
 
 /**
  * An abstract base implementation of a wizard. A typical client subclasses
@@ -62,7 +68,13 @@ import org.universaal.tools.packaging.tool.parts.MPA;
  * <code>IWizard</code> will work with any correct implementation of
  * <code>IWizardPage</code>.
  * </p>
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+
 public abstract class WizardMod implements IWizard {
 	/**
 	 * Image registry key of the default image for wizard pages (value

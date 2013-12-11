@@ -21,20 +21,12 @@
 package org.universaal.tools.packaging.tool.gui;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.plexus.util.FileUtils;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IProgressMonitor;
+
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -43,24 +35,22 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
 import org.universaal.tools.packaging.tool.impl.PageImpl;
-import org.universaal.tools.packaging.tool.parts.Application;
-import org.universaal.tools.packaging.tool.parts.MPA;
-import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.Dialog;
-import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.FileV;
 
 /**
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+
 public class StartPage extends PageImpl {
 
 	private File destination;
@@ -116,38 +106,6 @@ public class StartPage extends PageImpl {
 			part.setFont(new Font(container.getDisplay(), fD[0]));		
 		}
 
-		/*
-		if(parts.size() == 0){
-			Label label5 = new Label(container, SWT.NULL);
-			label5.setText("No parts have been selected, please select desidered parts and restart the procedure.");
-
-			FontData[] fD = label5.getFont().getFontData();
-			fD[0].setStyle(SWT.BOLD);
-			label5.setFont(new Font(container.getDisplay(), fD[0]));	
-
-			Label label50 = new Label(container, SWT.NULL);
-			label50.setText("");
-
-			setPageComplete(false);
-		}
-		*/
-		
-		/*
-		Label label20 = new Label(container, SWT.NULL);
-		label20.setText("");
-		label20.setLayoutData(gd2);
-		
-		Label lm = new Label(container, SWT.NULL);
-		lm.setText("Select the Main part from witch generic data will be loaded");
-		lm.setLayoutData(gd2);
-		
-		mainPart = new Combo(container, SWT.READ_ONLY);
-		for(int i = 0; i < parts.size(); i++){				
-			mainPart.add(parts.get(i).getName());
-		}
-		mainPart.select(0);
-		mainPart.setLayoutData(gd2);
-		*/
 		Label label60 = new Label(container, SWT.NULL);
 		label60.setText("");
 		label60.setLayoutData(gd2);
@@ -227,38 +185,10 @@ public class StartPage extends PageImpl {
 	@Override
 	public boolean nextPressed() {
 		
-
-		
-		//app.setMainPart(mainPart.getText());
 		if(destination != null){
 			g.setDestination(destination.getAbsolutePath());
 			app.setDestination(destination.getAbsolutePath());
-		/*
-		
-		if ( destination.exists() ) {
-			System.out.println("Recovery enabled");
-		    File parent = destination.getParentFile();
-		    File recovery = new File( parent, ".org.uAAL.tool.packager.recovery");
-		    GUI.getInstance().recoveryStorage = recovery;
-		    if ( recovery.exists() ) {
-				try {
-				    ObjectInputStream ois = new ObjectInputStream( new FileInputStream( recovery ) );
-				    MPA recoveredStatus = (MPA) ois.readObject();
-				    multipartApplication.setApplication(recoveredStatus.getAAL_UAPP());
-				} catch (Exception e) {		
-				    e.printStackTrace();
-				}
-		    } else {
-		    	System.out.println("[WARNING] No recovery data found even if package exists");
-		    }
-		} else try {
-			System.out.println(destination.getCanonicalPath()+" non esiste!!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		*/
+
 			return true;
 		} else return false;
 	}

@@ -21,13 +21,12 @@
 package org.universaal.tools.packaging.tool.parts;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
 public class App implements Serializable {
@@ -111,18 +110,6 @@ public class App implements Serializable {
 	public MenuEntry getMenuEntry(){
 		return menuEntry;
 	}
-	
-	/*
-	public List<LicenseSet> getLicenses() {
-		if(licenses == null)
-			licenses = new ArrayList<LicenseSet>();
-		return licenses;
-	}
-	
-	public void setLicenses(List<LicenseSet> licenses) {
-		this.licenses = licenses;
-	}
-	*/
 	
 	public LicenseSet getLicenses() {
 		if(licenses == null)

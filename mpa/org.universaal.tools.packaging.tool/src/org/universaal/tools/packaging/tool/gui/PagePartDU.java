@@ -1,17 +1,40 @@
+/*
+        Copyright 2007-2014 CNR-ISTI, http://isti.cnr.it
+        Institute of Information Science and Technologies
+        of the Italian National Research Council
+
+        See the NOTICE file distributed with this work for additional
+        information regarding copyright ownership
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+ */
 package org.universaal.tools.packaging.tool.gui;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+
 import java.net.URI;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -24,28 +47,32 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
+
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.Android;
 import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.ContainerUnit;
 import org.universaal.tools.packaging.tool.parts.DeploymentUnit;
 import org.universaal.tools.packaging.tool.parts.Embedding;
-import org.universaal.tools.packaging.tool.parts.OS;
-import org.universaal.tools.packaging.tool.parts.Platform;
+import org.universaal.tools.packaging.tool.util.Configurator;
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.KarafFeaturesGenerator;
-import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.UriV;
+
+/**
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
+ */
 
 public class PagePartDU extends PageImpl {
 
 	private IProject part;
-	//private POMParser p;
 	private int partNumber;
 	private String value;
 
@@ -125,62 +152,24 @@ public class PagePartDU extends PageImpl {
 
 		Label label1 = new Label(container, SWT.NULL);
 		os1 = new Combo(container, SWT.READ_ONLY);
-		//mandatory.add(os1);
 		label1.setText("OS requirement");
-		/*for(int i = 0; i < OS.values().length; i++)
-			os1.add(OS.values()[i].toString());*/
 		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("OS_Requirement").size(); i++)
 			os1.add(RequirementsDefinitions.get().listRequirements("OS_Requirement").get(i));
-		
-		/*
-		if(!DUs.isEmpty() && DUs.get(0).getOsType() != null && !DUs.get(0).getOsType().toString().isEmpty())
-			os1.setText(DUs.get(0).getOsType().toString());			
-		else
-			os1.select(0);
-		*/		
 		os1.setLayoutData(gd);
 
 		Label label2 = new Label(container, SWT.NULL);
 		platform1 = new Combo(container, SWT.READ_ONLY);
-		//mandatory.add(platform1);
 		label2.setText("Platform requirement");
-		/*for(int i = 0; i < Platform.values().length; i++)
-			platform1.add(Platform.values()[i].toString());*/
 		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("Platform_Requirement").size(); i++)
 			platform1.add(RequirementsDefinitions.get().listRequirements("Platform_Requirement").get(i));
-		
-		/*
-		
-		if(!DUs.isEmpty() && DUs.get(0).getPlatformType() != null && !DUs.get(0).getPlatformType().toString().isEmpty())
-			platform1.setText(DUs.get(0).getPlatformType().toString());		
-		else
-			platform1.select(0);
-		*/
-		
 		platform1.setLayoutData(gd);
 
 		Label label3 = new Label(container, SWT.NULL);
 		cu1 = new Combo(container, SWT.READ_ONLY);
-		//mandatory.add(cu1);
 		label3.setText("Container requirement");
-		/*for(int i = 0; i < Container.values().length; i++)
-			cu1.add(Container.values()[i].toString());*/
 		for(int i = 0; i < RequirementsDefinitions.get().listRequirements("Container_Name").size(); i++)
 			cu1.add(RequirementsDefinitions.get().listRequirements("Container_Name").get(i));
-		
-		/*
-		
-		if(!DUs.isEmpty() && DUs.get(0).getCu().getContainer() != null && !DUs.get(0).getCu().getContainer().toString().isEmpty())
-			cu1.setText(DUs.get(0).getCu().getContainer().toString());			
-		else{
-			cu1.select(0);
-			enableControl(ckbKar);
-		}
-		
-		*/
-		
 		cu1.setLayoutData(gd);
-
 		cu1.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -204,70 +193,29 @@ public class PagePartDU extends PageImpl {
 		// embedding only applicable for KARAF value
 		Label l3 = new Label(container, SWT.NULL);
 		emb1 = new Combo(container, SWT.READ_ONLY);
-		//mandatory.add(emb1);
 		l3.setText("Embedding");
 		for(int i = 0; i < Embedding.values().length; i++)
 			emb1.add(Embedding.values()[i].toString());
-		
-		/*
-		
-		if(!DUs.isEmpty() && DUs.get(0).getCu().getEmbedding() != null && !DUs.get(0).getCu().getEmbedding().toString().isEmpty())
-			emb1.setText(DUs.get(0).getCu().getEmbedding().toString());			
-		else
-			emb1.setText(Embedding.ANY_CONTAINER.toString());
-		*/
-		
 		emb1.setLayoutData(gd);
 
 		// ANDROID part
 		Label l4 = new Label(container, SWT.NULL);
 		andN = new Text(container, SWT.BORDER | SWT.SINGLE);
-		//mandatory.add(cu1);
 		l4.setText("Android part name");
-		
-		/*
-		
-		if(!DUs.isEmpty() && DUs.get(0).getCu().getAndroidPart() != null && !DUs.get(0).getCu().getAndroidPart().getName().isEmpty())
-			andN.setText(DUs.get(0).getCu().getAndroidPart().getName());		
-		else
-			andN.setText("");
-		
-		*/
-		
 		andN.addVerifyListener(new AlphabeticV());
 		andN.setLayoutData(gd);
 
 		Label l5 = new Label(container, SWT.NULL);
 		andD = new Text(container, SWT.BORDER | SWT.SINGLE);
-		//mandatory.add(cu1);
 		l5.setText("Android part description");
-		
-		/*
-		if(!DUs.isEmpty() && DUs.get(0).getCu().getAndroidPart() != null && !DUs.get(0).getCu().getAndroidPart().getDescription().isEmpty())
-			andD.setText(DUs.get(0).getCu().getAndroidPart().getDescription());		
-		else
-			andD.setText("");
-		*/
 		andD.addVerifyListener(new AlphabeticV());
 		andD.setLayoutData(gd);
 
 		Label l6 = new Label(container, SWT.NULL);
 		andURI = new Text(container, SWT.BORDER | SWT.SINGLE);
-		//mandatory.add(cu1);
 		l6.setText("Android part URI");
-		
-		/*
-		if(!DUs.isEmpty() && DUs.get(0).getCu().getAndroidPart() != null && !DUs.get(0).getCu().getAndroidPart().getLocation().toString().isEmpty())
-			andURI.setText(DUs.get(0).getCu().getAndroidPart().getLocation().toASCIIString());		
-		else
-			andURI.setText("");	
-		*/
 		andURI.addVerifyListener(new UriV());
 		andURI.setLayoutData(gd);
-
-		//		Label karFile = new Label(container, SWT.NULL);
-		//		karFile.setText("Select this checkbox to create KAR file (valid if using Karaf container)");
-		//		ckbKar = new Button(container, SWT.CHECK);
 
 		Label empty1 = new Label(container, SWT.NULL);
 		empty1.setText("");
@@ -316,9 +264,9 @@ public class PagePartDU extends PageImpl {
 		disableControls(new ArrayList<Control>(Arrays.asList(platform1, cu1, emb1, andN, ckbKar, andD, andURI)));
 	}
 
+	@Override
 	public void setArtifact(IProject part){
 		this.part = part;
-		//p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));
 	}
 
 	@Override
@@ -364,7 +312,15 @@ public class PagePartDU extends PageImpl {
 				} else{
 					//cu = new ContainerUnit(emb1.getText(), "");
 					getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_ARROW));
-					MessageDialog.openError(getShell(), "Kar generation failure", "Unable to build kar file");
+					MessageDialog.openError(getShell(), "Kar generation failure", "Part "+this.part.getName()+": unable to build kar file.\n\n" + 
+							"Hints:\n\n" +
+							"Turn maven offline by clicking on\n" +
+							"Window -> Preferences -> Maven -> Offline. \n\n" +
+							"Right click on the project folder\n" +
+							"then select Maven -> Disable Workspace Resolution.\n\n" +
+							"Open the project, right click on the file pom.xml\n" +
+							"then select Run as -> Maven Build... \nand manually launch the goal " +
+							Configurator.local.getKarafPluginGroupId()+":"+Configurator.local.getKarafPluginArtifactId()+":"+Configurator.local.getKarafPluginVersion()+":"+Configurator.local.getKarafPluginFeatureGoal());
 					return false;
 				}
 
@@ -456,11 +412,6 @@ public class PagePartDU extends PageImpl {
 		}
 	}
 	
-	private void disableControl(Control c){
-		if(c != null)
-			c.setEnabled(false);
-	}
-
 	private void disableControls(List<Control> list){
 		if(list != null && !list.isEmpty())
 			for(int i = 0; i < list.size(); i++)

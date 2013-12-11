@@ -1,3 +1,23 @@
+/*
+        Copyright 2007-2014 CNR-ISTI, http://isti.cnr.it
+        Institute of Information Science and Technologies
+        of the Italian National Research Council
+
+        See the NOTICE file distributed with this work for additional
+        information regarding copyright ownership
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+ */
 package org.universaal.tools.packaging.tool.gui;
 
 import java.util.ArrayList;
@@ -8,12 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -23,7 +38,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.ToolTip;
+
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.LogicalCriteria;
@@ -33,6 +48,14 @@ import org.universaal.tools.packaging.tool.parts.RequirementsGroup;
 import org.universaal.tools.packaging.tool.parts.SingleRequirement;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
+
+/**
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
+ */
 
 public class Page4 extends PageImpl {
 
@@ -61,8 +84,6 @@ public class Page4 extends PageImpl {
 
 	public void createControl(Composite parent) {
 
-		XSDParser XSDtooltip = XSDParser.get(XSD_VERSION);
-		
 		container = new Composite(parent, SWT.NULL);
 		setControl(container);		
 
@@ -140,20 +161,6 @@ public class Page4 extends PageImpl {
 		req1.addVerifyListener(new AlphabeticV());
 		req1.setLayoutData(gd);	
 		req1.addTooltip(Tooltips.REQUIREMENT_TOOLTIP);
-		
-		/*
-		final ToolTip t = Tooltips.getRequirementTooltip();
-		req1.addFocusListener(new FocusListener() {
-
-			public void focusLost(FocusEvent e) {
-				t.setVisible(false);				
-			}
-
-			public void focusGained(FocusEvent e) {
-				t.setVisible(true);				
-			}
-		});
-		*/
 		
 		//LogicalCriteria
 		c1 = new Combo(container, SWT.READ_ONLY);

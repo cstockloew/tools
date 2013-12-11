@@ -23,12 +23,14 @@ package org.universaal.tools.packaging.tool.impl;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.ProgressMonitorPart;
+
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
@@ -36,6 +38,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.api.WizardPageMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
@@ -47,8 +50,10 @@ import org.universaal.tools.packaging.tool.util.Configurator;
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+
 public abstract class PageImpl extends WizardPageMod implements Page {
 
 	protected Composite container;
@@ -177,8 +182,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 			setPageComplete(validate());
 		}}
 	
-	// Added By Federico VOlpini from PersistencePageDecorator
-    protected void serializeMPA(){
+	protected void serializeMPA(){
 		if ( ! Configurator.local.isPersistanceEnabled() ) {
 		    return;
 		}

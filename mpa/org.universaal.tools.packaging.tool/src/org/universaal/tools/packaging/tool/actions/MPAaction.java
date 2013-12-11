@@ -1,3 +1,24 @@
+/*
+
+        Copyright 2007-2014 CNR-ISTI, http://isti.cnr.it
+        Institute of Information Science and Technologies
+        of the Italian National Research Council
+
+        See the NOTICE file distributed with this work for additional
+        information regarding copyright ownership
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+*/
 package org.universaal.tools.packaging.tool.actions;
 
 import java.io.BufferedReader;
@@ -10,48 +31,33 @@ import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import javax.swing.JFileChooser;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import org.apache.maven.execution.MavenExecutionRequest;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.m2e.core.MavenPlugin;
-import org.eclipse.m2e.core.embedder.IMaven;
-import org.eclipse.m2e.core.internal.IMavenConstants;
-import org.eclipse.m2e.core.project.IMavenProjectFacade;
-import org.eclipse.m2e.core.project.IMavenProjectRegistry;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
+
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog;
-import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.universaal.tools.packaging.tool.api.Page;
+
 import org.universaal.tools.packaging.tool.api.WizardDialogMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.util.Configurator;
-import org.universaal.tools.packaging.tool.util.Dialog;
-import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
+
 
 /**
  * Our sample action implements workbench action delegate.
@@ -60,6 +66,11 @@ import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
  * this delegate will be created and execution will be 
  * delegated to it.
  * @see IWorkbenchWindowActionDelegate 
+ * 
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
+ * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
 public class MPAaction extends AbstractHandler {
 
@@ -184,13 +195,7 @@ public class MPAaction extends AbstractHandler {
 			String mainPartName = "";
 			if(!recovered){
 				if(parts.size() > 1){
-					/*
-					FilteredResourcesSelectionDialog dialog = new FilteredResourcesSelectionDialog(w.getShell(), false, ResourcesPlugin.getWorkspace().getRoot(), IResource.PROJECT);
-					dialog.setTitle("Main Part Selection");
-					dialog.setMessage("Please select the universAAL Resource you want to be the \"Main\" Part \nwhere the Wizard can load data from");
-					dialog.setInitialPattern("?");
-					dialog.open();
-					*/
+					
 					ElementListSelectionDialog dialog = new ElementListSelectionDialog(w.getShell(), new LabelProvider());
 	
 					dialog.setTitle("Main Part Selection");

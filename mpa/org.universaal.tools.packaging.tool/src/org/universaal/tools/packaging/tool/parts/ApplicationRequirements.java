@@ -22,7 +22,9 @@
 package org.universaal.tools.packaging.tool.parts;
 
 import java.io.Serializable;
+
 import java.net.URI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +32,10 @@ import java.util.List;
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+
 public class ApplicationRequirements implements Serializable {
 
 	private List<Requirement> requirementsList;

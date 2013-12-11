@@ -30,6 +30,7 @@ import org.apache.maven.execution.MavenExecutionRequest;
  * A singelton for sharing the configuration among all the classes of the plugin
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
 public class Configurator {
@@ -89,33 +90,33 @@ public class Configurator {
     }
 
     public File getLogFolder() {
-	 File folder = getFolder(System.getProperty(ConfigProperties.LOG_DIR_KEY, ConfigProperties.LOG_DIR_DEFAULT));
-	 if ( folder == null || folder.canWrite() == false ) {
-	     return null;
-	 }
-	 return folder;
+    	File folder = getFolder(System.getProperty(ConfigProperties.LOG_DIR_KEY, ConfigProperties.LOG_DIR_DEFAULT));
+		if ( folder == null || folder.canWrite() == false ) {
+			return null;
+		}
+		return folder;
     }
 
     public boolean isConsoleLog() {
-	return Boolean.valueOf(System.getProperty(
-		ConfigProperties.ENABLE_CONSOLE_LOG_KEY,
-		ConfigProperties.ENABLE_CONSOLE_LOG_DEFAULT));
-    }
+		return Boolean.valueOf(System.getProperty(
+			ConfigProperties.ENABLE_CONSOLE_LOG_KEY,
+			ConfigProperties.ENABLE_CONSOLE_LOG_DEFAULT));
+	}
 
     public String getKarafPluginGroupId() {
-	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GROUP_KEY,ConfigProperties.KARAF_PLUGIN_GROUP_DEFAULT);
+    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GROUP_KEY,ConfigProperties.KARAF_PLUGIN_GROUP_DEFAULT);
     }
 
     public String getKarafPluginArtifactId() {
-	return System.getProperty(ConfigProperties.KARAF_PLUGIN_NAME_KEY,ConfigProperties.KARAF_PLUGIN_NAME_DEFAULT);
+    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_NAME_KEY,ConfigProperties.KARAF_PLUGIN_NAME_DEFAULT);
     }
 
     public String getKarafPluginVersion() {
-	return System.getProperty(ConfigProperties.KARAF_PLUGIN_VERSION_KEY,ConfigProperties.KARAF_PLUGIN_VERSION_DEFAULT);
+    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_VERSION_KEY,ConfigProperties.KARAF_PLUGIN_VERSION_DEFAULT);
     }
 
     public String getKarafPluginFeatureGoal() {
-	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_KEY,ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_DEFAULT);	
+    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_KEY,ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_DEFAULT);	
     }
 
     public String getMavenCommand() {
@@ -123,7 +124,9 @@ public class Configurator {
     }
 
     public Boolean isOfflineMode() {
-    	return Boolean.valueOf(System.getProperty(ConfigProperties.OFFLINE_MODE_KEY, ConfigProperties.OFFLINE_MODE_DEFAULT));
+    	return Boolean.valueOf(System.getProperty(
+    		ConfigProperties.OFFLINE_MODE_KEY, 
+    		ConfigProperties.OFFLINE_MODE_DEFAULT));
     }
 
     public String getKarafPluginKarGoal() {
@@ -159,11 +162,11 @@ public class Configurator {
 	    return MavenExecutionRequest.LOGGING_LEVEL_INFO;
 	}
 	System.err.println("Unable to get log level from enviroment using DEBUG level");
-	return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
+		return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
     }
     
     public int getMavenLogLevel() {
-	return getLogLevel(System.getProperty("org.uAAL.packager.loglevel","DEBUG"));
+    	return getLogLevel(System.getProperty("org.uAAL.packager.loglevel","DEBUG"));
     }
     
 }

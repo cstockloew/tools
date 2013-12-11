@@ -22,29 +22,21 @@
 package org.universaal.tools.packaging.tool.parts;
 
 import java.io.File;
-import java.io.InputStream;
+
 import java.io.Serializable;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
-import org.w3c.dom.Document;
 
 /**
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
+ * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
  */
+
 public class ExecutionUnit implements Serializable {
 
-	private Document document;
-	private XPathFactory xpf;
-    private XPath xp;
-    private String tempDir = org.universaal.tools.packaging.tool.Activator.tempDir;
 	private Part part;
 	private String id, configPath;
 	private File[] configFilesAndFolders;
@@ -65,23 +57,6 @@ public class ExecutionUnit implements Serializable {
 	public void setConfigFileAndFolders(File[] configFilesAndFolders) {
 		this.configFilesAndFolders = configFilesAndFolders;
 	}
-	
-	/*
-	public int getSpaceStartLevel() {
-		return spaceStartLevel;
-	}
-	public void setSpaceStartLevel(int spaceStartLevel) {
-		this.spaceStartLevel = spaceStartLevel;
-	}
-	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	*/
 	
 	public String getArtifactId(){
 		return this.artifactId;
@@ -107,15 +82,6 @@ public class ExecutionUnit implements Serializable {
 
 	private void setIdAndConfigPath() {
 		try{
-			/*System.out.println("Readine Epom:"+tempDir+"/"+part.getName()+".epom.xml");
-	    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	    	DocumentBuilder db = dbf.newDocumentBuilder();
-	    	
-	        document = db.parse(tempDir+"/"+part.getName()+".epom.xml");
-	        xpf = XPathFactory.newInstance();
-            xp = xpf.newXPath();
-            */
-			
 			EffectivePOMContainer.setDocument(part.getName());
 
             groupId = EffectivePOMContainer.getGroupId();
@@ -124,16 +90,6 @@ public class ExecutionUnit implements Serializable {
             classifier = EffectivePOMContainer.getClassifier();
             version = EffectivePOMContainer.getVersion();
 
-            /*
-            
-            groupId = xp.evaluate("//project/groupId/text()", document.getDocumentElement());
-            artifactId = xp.evaluate("//project/artifactId/text()", document.getDocumentElement());
-            packaging = xp.evaluate("//project/pakaging/text()", document.getDocumentElement());
-            classifier = xp.evaluate("//project/classifier/text()", document.getDocumentElement());
-            version = xp.evaluate("//project/version/text()", document.getDocumentElement());
-			
-			*/
-            
             id = groupId+":"+artifactId+":"+(packaging != "" ? packaging+":": "")+(classifier != "" ? classifier+":": "")+version;
 			configPath = "config/"+artifactId;
 			
