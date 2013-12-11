@@ -17,7 +17,7 @@
          </menu>
          <action
                label="&amp;Import WSDL description"
-               icon="icons/sample.gif"
+               icon="icons/import-document-16.png"
                class="org.universaal.tools.externalserviceintegrator.actions.ImportWSDL"
                tooltip="Import WSDL descriptions"
                menubarPath="org.universaal.tools.AALStudio.menu/import"
