@@ -44,7 +44,7 @@ import org.universaal.tools.packaging.tool.api.WizardPageMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
-import org.universaal.tools.packaging.tool.util.Configurator;
+import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
 
 /**
  * 
@@ -183,7 +183,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 		}}
 	
 	protected void serializeMPA(){
-		if ( ! Configurator.local.isPersistanceEnabled() ) {
+		if ( ! EclipsePreferencesConfigurator.local.isPersistanceEnabled() ) {
 		    return;
 		}
 		if(GUI.getInstance().recoveryStorage != null){

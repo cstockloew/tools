@@ -46,7 +46,7 @@ import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
 
 import org.universaal.tools.packaging.tool.gui.GUI;
-import org.universaal.tools.packaging.tool.util.Configurator;
+import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
 import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 
@@ -81,7 +81,7 @@ public class CreateJar {
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IWorkspaceDescription description = workspace.getDescription();
 				
-				if(Configurator.local.runMavenEmbedded()){
+				if(EclipsePreferencesConfigurator.local.runMavenEmbedded()){
 					
 					MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
 	

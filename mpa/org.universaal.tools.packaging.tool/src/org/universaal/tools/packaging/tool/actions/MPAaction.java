@@ -56,7 +56,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import org.universaal.tools.packaging.tool.api.WizardDialogMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
-import org.universaal.tools.packaging.tool.util.Configurator;
+import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
 
 
 /**
@@ -81,11 +81,11 @@ public class MPAaction extends AbstractHandler {
 
 		IWorkbenchWindow w = HandlerUtil.getActiveWorkbenchWindow(event);
 		List<IProject> parts = new ArrayList<IProject>();
-		String recFile = org.universaal.tools.packaging.tool.Activator.tempDir + Configurator.local.getRecoveryFileName();
-		String recParts = org.universaal.tools.packaging.tool.Activator.tempDir + Configurator.local.getRecoveryPartsName();
+		String recFile = org.universaal.tools.packaging.tool.Activator.tempDir + EclipsePreferencesConfigurator.local.getRecoveryFileName();
+		String recParts = org.universaal.tools.packaging.tool.Activator.tempDir + EclipsePreferencesConfigurator.local.getRecoveryPartsName();
 		w.getShell().setCursor(new Cursor(w.getShell().getDisplay(),SWT.CURSOR_WAIT));
 		
-		if ( Configurator.local.isPersistanceEnabled()) {
+		if ( EclipsePreferencesConfigurator.local.isPersistanceEnabled()) {
 			//System.out.println("Searching for recovery file "+ recFile);
 			File recovery = new File(recFile);
 			if(recovery.exists()){
@@ -142,7 +142,7 @@ public class MPAaction extends AbstractHandler {
 					partsFileContent = partsFileContent + segments[segments.length-1] + System.getProperty("line.separator");
 				}
 				
-				if(Configurator.local.isPersistanceEnabled()){
+				if(EclipsePreferencesConfigurator.local.isPersistanceEnabled()){
 					try {
 						File f = new File(org.universaal.tools.packaging.tool.Activator.tempDir);
 						if(!f.exists()) f.mkdir();

@@ -86,7 +86,7 @@ import org.universaal.tools.packaging.tool.parts.LicenseSet;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.util.ConfigProperties;
-import org.universaal.tools.packaging.tool.util.Configurator;
+import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.POM_License;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
@@ -149,7 +149,7 @@ public class GUI extends WizardMod {
 	}
 	
 	private void checkPersistence(Boolean recovered) {
-		if ( Configurator.local.isPersistanceEnabled() ) {
+		if ( EclipsePreferencesConfigurator.local.isPersistanceEnabled() ) {
 			this.recovered = recovered;
 			
 			File recovery = new File(tempDir + ConfigProperties.RECOVERY_FILE_NAME_DEFAULT);
@@ -603,7 +603,7 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		monitor.beginTask("Generating Effective POM", IProgressMonitor.UNKNOWN);
 		monitor.subTask("part: "+partName);
-		if(Configurator.local.runMavenEmbedded()){
+		if(EclipsePreferencesConfigurator.local.runMavenEmbedded()){
 			
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = part.getFile(IMavenConstants.POM_FILE_NAME);

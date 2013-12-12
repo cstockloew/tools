@@ -56,7 +56,7 @@ import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.ContainerUnit;
 import org.universaal.tools.packaging.tool.parts.DeploymentUnit;
 import org.universaal.tools.packaging.tool.parts.Embedding;
-import org.universaal.tools.packaging.tool.util.Configurator;
+import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.KarafFeaturesGenerator;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
@@ -320,7 +320,7 @@ public class PagePartDU extends PageImpl {
 							"then select Maven -> Disable Workspace Resolution.\n\n" +
 							"Open the project, right click on the file pom.xml\n" +
 							"then select Run as -> Maven Build... \nand manually launch the goal " +
-							Configurator.local.getKarafPluginGroupId()+":"+Configurator.local.getKarafPluginArtifactId()+":"+Configurator.local.getKarafPluginVersion()+":"+Configurator.local.getKarafPluginFeatureGoal());
+							EclipsePreferencesConfigurator.local.getKarafPluginGroupId()+":"+EclipsePreferencesConfigurator.local.getKarafPluginArtifactId()+":"+EclipsePreferencesConfigurator.local.getKarafPluginVersion()+":"+EclipsePreferencesConfigurator.local.getKarafPluginFeatureGoal());
 					return false;
 				}
 

@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.universaal.tools.packaging.tool.Activator;
 import org.universaal.tools.packaging.tool.util.ConfigProperties;
-import org.universaal.tools.packaging.tool.util.Configurator;
+import org.universaal.tools.packaging.tool.util.SystemPropertiesConfigurator;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	final IPreferenceStore store = Activator.getDefault()
 		.getPreferenceStore();
 
-	final Configurator config = Configurator.local;
+	final SystemPropertiesConfigurator config = SystemPropertiesConfigurator.local;
 
 	setDefaultAndValue(
 		store,

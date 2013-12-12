@@ -113,13 +113,13 @@ public class KarafFeaturesGenerator {
 	private GUI g = GUI.getInstance();
 	private MavenExecutionResult execution_result;
 
-	private final String GROUP_ID = Configurator.local.getKarafPluginGroupId();
-	private final String ARTIFACT_ID = Configurator.local.getKarafPluginArtifactId();
-	private final String VERSION = Configurator.local.getKarafPluginVersion(); 
-	private final String GOAL_FEATURE = Configurator.local.getKarafPluginFeatureGoal();
-	private final String GOAL_KARFILE = Configurator.local.getKarafPluginKarGoal();	
-	private final Boolean OFFLINE_MODE = Configurator.local.isOfflineMode(); 
-	private final int LOG_LEVEL = Configurator.local.getMavenLogLevel();
+	private final String GROUP_ID = EclipsePreferencesConfigurator.local.getKarafPluginGroupId();
+	private final String ARTIFACT_ID = EclipsePreferencesConfigurator.local.getKarafPluginArtifactId();
+	private final String VERSION = EclipsePreferencesConfigurator.local.getKarafPluginVersion(); 
+	private final String GOAL_FEATURE = EclipsePreferencesConfigurator.local.getKarafPluginFeatureGoal();
+	private final String GOAL_KARFILE = EclipsePreferencesConfigurator.local.getKarafPluginKarGoal();	
+	private final Boolean OFFLINE_MODE = EclipsePreferencesConfigurator.local.isOfflineMode(); 
+	private final int LOG_LEVEL = EclipsePreferencesConfigurator.local.getMavenLogLevel();
 
 	private final static String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 	
@@ -236,7 +236,7 @@ public class KarafFeaturesGenerator {
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IWorkspaceDescription description = workspace.getDescription();
 				
-				if(Configurator.local.runMavenEmbedded()){
+				if(EclipsePreferencesConfigurator.local.runMavenEmbedded()){
 					
 					MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
 					
@@ -355,7 +355,7 @@ public class KarafFeaturesGenerator {
 			IMaven maven = MavenPlugin.getMaven();
 			if(pomResource != null && projectFacade != null){
 				
-				if(Configurator.local.runMavenEmbedded()){
+				if(EclipsePreferencesConfigurator.local.runMavenEmbedded()){
 
 					MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
 	

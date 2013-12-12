@@ -113,5 +113,13 @@ public interface ConfigProperties {
      */
     public static final String MAVEN_EMBEDDED_KEY = "org.uAAL.packager.maven.embedded";
     public static final String MAVEN_EMBEDDED_DEFAULT = "false";
+    
+    /**
+     * This is a String property representing the log level used by Maven<br>
+     * <b>NOTE:</b>Acceptable values are info, debug, warn, error, fatal, and disabled<br>
+     * By the default console debug is {@value #MAVEN_LOGLEVEL_DEBUG_DEFAULT}
+     */
+    public static final String MAVEN_LOGLEVEL_KEY = "org.uAAL.packager.loglevel";
+    public static final String MAVEN_LOGLEVEL_DEBUG_DEFAULT = "debug";
 
 }
