@@ -105,14 +105,14 @@ public interface ConfigProperties {
      * By the default console debug is {@value #MAVEN_COMMAND_DEFAULT}
      */
     public static final String MAVEN_COMMAND_KEY = "org.uAAL.packager.maven.cmd";
-    public static final String MAVEN_COMMAND_DEFAULT = "mvn";
+    public static final String MAVEN_COMMAND_DEFAULT = "";
 
     /**
      * This is a boolean property for avoid to use the Eclipse embedded Maven<br>
      * By the default console debug is {@value #MAVEN_EMBEDDED_DEFAULT}
      */
     public static final String MAVEN_EMBEDDED_KEY = "org.uAAL.packager.maven.embedded";
-    public static final String MAVEN_EMBEDDED_DEFAULT = "false";
+    public static final String MAVEN_EMBEDDED_DEFAULT = "true";
     
     /**
      * This is a String property representing the log level used by App Packager (including Maven<br>

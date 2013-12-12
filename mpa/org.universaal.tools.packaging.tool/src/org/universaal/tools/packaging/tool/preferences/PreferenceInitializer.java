@@ -34,14 +34,34 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
     private void setDefaultAndValue(IPreferenceStore store, String key,
 	    String def, String val) {
-	store.setDefault(key, def);
-	store.setValue(key, val);
+	if ( store.contains(key) ) {
+	    /*
+	     * The key was already set so Eclipse will take care of loading old values
+	     */
+	    store.setDefault(key, def);
+	} else {
+	    /*
+	     * The first time initialization
+	     */
+	    store.setDefault(key, def);
+	    store.setValue(key, val);
+	}	
     }
 
     private void setDefaultAndValue(IPreferenceStore store, String key,
 	    boolean def, boolean val) {
-	store.setDefault(key, def);
-	store.setValue(key, val);
+	if ( store.contains(key) ) {
+	    /*
+	     * The key was already set so Eclipse will take care of loading old values
+	     */
+	    store.setDefault(key, def);
+	} else {
+	    /*
+	     * The first time initialization
+	     */
+	    store.setDefault(key, def);
+	    store.setValue(key, val);
+	}	
     }
 
     @Override

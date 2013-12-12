@@ -23,10 +23,15 @@
  */
 package org.universaal.tools.packaging.tool.preferences;
 
+import java.util.Arrays;
+
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.universaal.tools.packaging.tool.Activator;
@@ -39,6 +44,30 @@ import org.universaal.tools.packaging.tool.Activator;
  */
 public class PackagerRootPreferencePage extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
+
+    @Override
+    protected void checkState() {
+	// TODO Auto-generated method stub
+	super.checkState();
+    }
+
+
+    @Override
+    public boolean performOk() {
+	// TODO Auto-generated method stub
+	return super.performOk();
+    }
+
+
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+	
+	FieldEditor source = (FieldEditor) event.getSource();	
+	System.out.println(source.getLabelText());
+	System.out.println(event.getProperty()+":"+event.getOldValue()+" -> "+event.getNewValue());
+	
+	super.propertyChange(event);
+    }
 
     BooleanFieldEditor logToConsole;
     
@@ -56,11 +85,13 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
     StringFieldEditor mavenKarafPluginVersion;
     BooleanFieldEditor offlineMode;
     StringFieldEditor mavenKarafPluginName;
-    StringFieldEditor mavenCommand;
+    FileFieldEditor mavenCommand;
     BooleanFieldEditor mavenEmbedded;
+    private GroupFieldEditor mavenGoals;
+    private GroupFieldEditor karafPlugin;
 
     public PackagerRootPreferencePage() {
-	super(GRID);
+	super(FLAT);
 	setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	setDescription("Here you can customize the behavior of uAAL UAAP Packager");
     }
@@ -72,7 +103,9 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
 
     @Override
     protected void createFieldEditors() {
-
+	
+	mavenGoals = new GroupFieldEditor("Name of Maven Goal for Maven Karaf Plugin", getFieldEditorParent());
+	
 	logToConsole = new BooleanFieldEditor(
 		ConfigProperties.ENABLE_CONSOLE_LOG_KEY,
 		"Enable log on the console", getFieldEditorParent());
@@ -85,48 +118,60 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
 
 	mavenGoalKarafFeature = new StringFieldEditor(
 		ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_KEY,
-		"The Maven goal name to invoke for generating the XML feature file",
-		getFieldEditorParent());
+		"Goal for generating the XML feature file",
+		mavenGoals.getFieldEditorParent());
 
 	mavenGoalKar = new StringFieldEditor(
 		ConfigProperties.KARAF_PLUGIN_GOAL_KAR_KEY,
-		"The Maven goal name to invoke for generating the KAR file",
-		getFieldEditorParent());
+		"Goal for generating the KAR file",
+		mavenGoals.getFieldEditorParent());
+
+	karafPlugin  = new GroupFieldEditor("Karaf Maven Plugin to invoke", getFieldEditorParent());
 
 	mavenKarafPluginGroup = new StringFieldEditor(
 		ConfigProperties.KARAF_PLUGIN_GROUP_KEY,
-		"The groupId of the Karaf Maven plugin to invoke",
-		getFieldEditorParent());
+		"GroupId",
+		karafPlugin.getFieldEditorParent());
 
 	mavenKarafPluginVersion = new StringFieldEditor(
 		ConfigProperties.KARAF_PLUGIN_VERSION_KEY,
-		"The version of the Karaf Maven plugin to invoke",
-		getFieldEditorParent());
+		"Version",
+		karafPlugin.getFieldEditorParent());
 
 	mavenKarafPluginName = new StringFieldEditor(
-		ConfigProperties.KARAF_PLUGIN_GROUP_KEY,
-		"The artifacId of Karaf Maven plugin to invoke",
-		getFieldEditorParent());
-
-	mavenCommand = new StringFieldEditor(
+		ConfigProperties.KARAF_PLUGIN_NAME_KEY,
+		"ArtifacId",
+		karafPlugin.getFieldEditorParent());
+	
+	mavenCommand = new FileFieldEditor(
 		ConfigProperties.MAVEN_COMMAND_KEY,
 		"The command to execute for starting Maven",
 		getFieldEditorParent());
+	
+	mavenCommand.setEmptyStringAllowed(true);	
 
 	mavenEmbedded = new BooleanFieldEditor(
 		ConfigProperties.MAVEN_EMBEDDED_KEY,
 		"Use maven embedded in Eclipse", getFieldEditorParent());
-
+	
+	mavenGoals.setFieldEditors(Arrays.asList(new FieldEditor[]{mavenGoalKar,mavenGoalKarafFeature}));
+	karafPlugin.setFieldEditors(Arrays.asList(new FieldEditor[]{mavenKarafPluginGroup,mavenKarafPluginVersion,mavenKarafPluginName}));
+	
 	addField(logToConsole);
 	addField(logLevel);
 	addField(offlineMode);
-	addField(mavenGoalKar);
-	addField(mavenGoalKarafFeature);
-	addField(mavenKarafPluginGroup);
-	addField(mavenKarafPluginVersion);
-	addField(mavenKarafPluginName);
+	addField(mavenGoals);
+	addField(karafPlugin);
 	addField(mavenEmbedded);
 	addField(mavenCommand);
+	/*
+	addField(mavenKarafPluginGroup);
+	addField(mavenKarafPluginName);
+	addField(mavenKarafPluginVersion);
+	*/
+	
+	
     }
 
+    
 }
