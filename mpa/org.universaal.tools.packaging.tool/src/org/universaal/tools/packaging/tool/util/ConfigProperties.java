@@ -20,11 +20,10 @@
  */
 package org.universaal.tools.packaging.tool.util;
 
-
 /**
  * This class contains all configuration parameters and theirs default values,
- * which change the behavior of the plugin 
- *  
+ * which change the behavior of the plugin
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
  * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
  * @version $LastChangedRevision$ ( $LastChangedDate$ )
@@ -32,43 +31,87 @@ package org.universaal.tools.packaging.tool.util;
 public interface ConfigProperties {
 
     public static final String TMP_DIR_KEY = "org.uAAL.packager.log.dir";
-    public static final String TMP_DIR_DEFAULT = null;  
-    
-    public static final String LOG_DIR_KEY = "org.uAAL.packager.log.dir";    
+    public static final String TMP_DIR_DEFAULT = null;
+
+    public static final String LOG_DIR_KEY = "org.uAAL.packager.log.dir";
     public static final String LOG_DIR_DEFAULT = TMP_DIR_DEFAULT;
-    
-    public static final String RECOVERY_MODE_KEY = "org.uAAL.packager.recovery";    
+
+    public static final String RECOVERY_MODE_KEY = "org.uAAL.packager.recovery";
     public static final String RECOVERY_MODE_KEY_DEFAULT = "true";
-    public static final String RECOVERY_FILE_NAME_KEY = "org.uAAL.packager.recovery.filename";    
-    public static final String RECOVERY_FILE_NAME_DEFAULT = "/.recovery";    
-    public static final String RECOVERY_PARTS_NAME_KEY = "org.uAAL.packager.recovery.partsname"; 
-    public static final String RECOVERY_PARTS_NAME_DEFAULT = "/.parts"; 
-    
+    public static final String RECOVERY_FILE_NAME_KEY = "org.uAAL.packager.recovery.filename";
+    public static final String RECOVERY_FILE_NAME_DEFAULT = "/.recovery";
+    public static final String RECOVERY_PARTS_NAME_KEY = "org.uAAL.packager.recovery.partsname";
+    public static final String RECOVERY_PARTS_NAME_DEFAULT = "/.parts";
+
+    /**
+     * This is a boolean property for enabling/disabling the console output.<br>
+     * By the default console debug is {@value #ENABLE_CONSOLE_LOG_DEFAULT}
+     */
     public static final String ENABLE_CONSOLE_LOG_KEY = "org.uAAL.packager.log.console";
     public static final String ENABLE_CONSOLE_LOG_DEFAULT = "true";
-    
+
+    /**
+     * This is String property representing the group name of the Karaf's Maven
+     * plugin to use<br>
+     * The default value is {@value #KARAF_PLUGIN_GROUP_DEFAULT}
+     */
     public static final String KARAF_PLUGIN_GROUP_KEY = "karaf.tool.groupId";
     public static final String KARAF_PLUGIN_GROUP_DEFAULT = "org.apache.karaf.tooling";
-    
+
+    /**
+     * This is String property representing the name of the Karaf's Maven plugin
+     * to use<br>
+     * The default value is {@value #KARAF_PLUGIN_NAME_DEFAULT}
+     */
     public static final String KARAF_PLUGIN_NAME_KEY = "karaf.tool.artifactId";
     public static final String KARAF_PLUGIN_NAME_DEFAULT = "features-maven-plugin";
-    
+
+    /**
+     * This is String property representing the version of the Karaf's Maven
+     * plugin to use<br>
+     * The default value is {@value #KARAF_PLUGIN_VERSION_DEFAULT}
+     */
     public static final String KARAF_PLUGIN_VERSION_KEY = "karaf.tool.version";
     public static final String KARAF_PLUGIN_VERSION_DEFAULT = "2.3.1";
-    
+
+    /**
+     * This is String property representing the name of the Maven goal to use
+     * for generating the Karaf's feature file.<br>
+     * The default value is {@value #KARAF_PLUGIN_GOAL_FEATURE_DEFAULT}
+     */
     public static final String KARAF_PLUGIN_GOAL_FEATURE_KEY = "karaf.tool.goal.feature";
     public static final String KARAF_PLUGIN_GOAL_FEATURE_DEFAULT = "generate-features-xml";
-    
+
+    /**
+     * This is String property representing the name of the Maven goal to use
+     * for generating the Karaf's KAR file.<br>
+     * The default value is {@value #KARAF_PLUGIN_GOAL_KAR_DEFAULT}
+     */
     public static final String KARAF_PLUGIN_GOAL_KAR_KEY = "karaf.tool.goal.karfile";
     public static final String KARAF_PLUGIN_GOAL_KAR_DEFAULT = "create-kar";
-    
-    public static final String OFFLINE_MODE_KEY = "org.uAAL.packager.offlineMode";
+
+    /**
+     * This is a boolean property for avoid Maven to access to Internet<br>
+     * By the default console debug is {@value #OFFLINE_MODE_DEFAULT}
+     */
+    public static final String OFFLINE_MODE_KEY = "org.uAAL.packager.offline";
     public static final String OFFLINE_MODE_DEFAULT = "true";
 
-    public static final String MAVEN_COMMAND_KEY = "org.uAAL.packager.mavenCommand";
+    /**
+     * This is a String property representing the command (i.e. the absolute
+     * path) to use for running Maven<br>
+     * <b>NOTE:</b>This command will be used only if {@link #MAVEN_EMBEDDED_KEY}
+     * is set to <code>false</code><br>
+     * By the default console debug is {@value #MAVEN_COMMAND_DEFAULT}
+     */
+    public static final String MAVEN_COMMAND_KEY = "org.uAAL.packager.maven.cmd";
     public static final String MAVEN_COMMAND_DEFAULT = "mvn";
-    
-    public static final String MAVEN_EMBEDDED_KEY = "org.uAAL.packager.mavenEmbedded";
+
+    /**
+     * This is a boolean property for avoid to use the Eclipse embedded Maven<br>
+     * By the default console debug is {@value #MAVEN_EMBEDDED_DEFAULT}
+     */
+    public static final String MAVEN_EMBEDDED_KEY = "org.uAAL.packager.maven.embedded";
     public static final String MAVEN_EMBEDDED_DEFAULT = "false";
-    
+
 }
