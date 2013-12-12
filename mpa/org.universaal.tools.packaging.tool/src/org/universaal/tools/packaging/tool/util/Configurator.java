@@ -27,7 +27,7 @@ import java.util.UUID;
 import org.apache.maven.execution.MavenExecutionRequest;
 
 /**
- * A singelton for sharing the configuration among all the classes of the plugin
+ * A singleton for sharing the configuration among all the classes of the plugin
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
  * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>
@@ -35,8 +35,8 @@ import org.apache.maven.execution.MavenExecutionRequest;
  */
 public class Configurator {
 
-	public Boolean mEmbSet = false;
-	
+    public Boolean mEmbSet = false;
+
     public static final Configurator local = new Configurator();
 
     private Configurator() {
@@ -44,107 +44,120 @@ public class Configurator {
     }
 
     public boolean isPersistanceEnabled() {
-		return Boolean.valueOf(System.getProperty(
-			ConfigProperties.RECOVERY_MODE_KEY,
-			ConfigProperties.RECOVERY_MODE_KEY_DEFAULT));
+	return Boolean.valueOf(System.getProperty(
+		ConfigProperties.RECOVERY_MODE_KEY,
+		ConfigProperties.RECOVERY_MODE_KEY_DEFAULT));
     }
 
-	public String getRecoveryFileName(){
-		return System.getProperty(ConfigProperties.RECOVERY_FILE_NAME_KEY, ConfigProperties.RECOVERY_FILE_NAME_DEFAULT);
-	}
-	    
-	public String getRecoveryPartsName(){
-		return System.getProperty(ConfigProperties.RECOVERY_PARTS_NAME_KEY, ConfigProperties.RECOVERY_PARTS_NAME_DEFAULT);
-	}
+    public String getRecoveryFileName() {
+	return System.getProperty(ConfigProperties.RECOVERY_FILE_NAME_KEY,
+		ConfigProperties.RECOVERY_FILE_NAME_DEFAULT);
+    }
 
-	public String getTempFolder() {
-		String paths[] = new String[] {
-			System.getProperty(ConfigProperties.TMP_DIR_KEY, ConfigProperties.TMP_DIR_DEFAULT),
-			System.getenv("tmp") + File.separatorChar + UUID.randomUUID(),
-			System.getenv("temp") + File.separatorChar + UUID.randomUUID(),
-			System.getenv("TMP") + File.separatorChar + UUID.randomUUID(),
-			System.getenv("TEMP") + File.separatorChar + UUID.randomUUID(),
-			"." + File.separatorChar + UUID.randomUUID(), 
-		};
-		for (int i = 0; i < paths.length; i++) {
-		    final String path = paths[i];
-		    File folder = getFolder(path);
-		    if (folder != null && folder.canWrite()) {
-			return path;
-		    }
-		}
+    public String getRecoveryPartsName() {
+	return System.getProperty(ConfigProperties.RECOVERY_PARTS_NAME_KEY,
+		ConfigProperties.RECOVERY_PARTS_NAME_DEFAULT);
+    }
+
+    public String getTempFolder() {
+	String paths[] = new String[] {
+		System.getProperty(ConfigProperties.TMP_DIR_KEY,
+			ConfigProperties.TMP_DIR_DEFAULT),
+		System.getenv("tmp") + File.separatorChar + UUID.randomUUID(),
+		System.getenv("temp") + File.separatorChar + UUID.randomUUID(),
+		System.getenv("TMP") + File.separatorChar + UUID.randomUUID(),
+		System.getenv("TEMP") + File.separatorChar + UUID.randomUUID(),
+		"." + File.separatorChar + UUID.randomUUID(), };
+	for (int i = 0; i < paths.length; i++) {
+	    final String path = paths[i];
+	    File folder = getFolder(path);
+	    if (folder != null && folder.canWrite()) {
+		return path;
+	    }
+	}
 	return null;
     }
 
     private File getFolder(String path) {
-		if ( path == null )
-		    return null;
-		File dir = new File(path);
-		if ( dir == null || ( dir.exists() && !dir.isDirectory() ))
-		    return null;
-		if ( ! dir.exists() ) {
-		    if (dir.mkdirs() == false)
-			return null;
-		}
-		return dir;
+	if (path == null)
+	    return null;
+	File dir = new File(path);
+	if (dir == null || (dir.exists() && !dir.isDirectory()))
+	    return null;
+	if (!dir.exists()) {
+	    if (dir.mkdirs() == false)
+		return null;
+	}
+	return dir;
     }
 
     public File getLogFolder() {
-    	File folder = getFolder(System.getProperty(ConfigProperties.LOG_DIR_KEY, ConfigProperties.LOG_DIR_DEFAULT));
-		if ( folder == null || folder.canWrite() == false ) {
-			return null;
-		}
-		return folder;
+	File folder = getFolder(System.getProperty(
+		ConfigProperties.LOG_DIR_KEY, ConfigProperties.LOG_DIR_DEFAULT));
+	if (folder == null || folder.canWrite() == false) {
+	    return null;
+	}
+	return folder;
     }
 
     public boolean isConsoleLog() {
-		return Boolean.valueOf(System.getProperty(
-			ConfigProperties.ENABLE_CONSOLE_LOG_KEY,
-			ConfigProperties.ENABLE_CONSOLE_LOG_DEFAULT));
-	}
+	return Boolean.valueOf(System.getProperty(
+		ConfigProperties.ENABLE_CONSOLE_LOG_KEY,
+		ConfigProperties.ENABLE_CONSOLE_LOG_DEFAULT));
+    }
 
     public String getKarafPluginGroupId() {
-    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GROUP_KEY,ConfigProperties.KARAF_PLUGIN_GROUP_DEFAULT);
+	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GROUP_KEY,
+		ConfigProperties.KARAF_PLUGIN_GROUP_DEFAULT);
     }
 
     public String getKarafPluginArtifactId() {
-    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_NAME_KEY,ConfigProperties.KARAF_PLUGIN_NAME_DEFAULT);
+	return System.getProperty(ConfigProperties.KARAF_PLUGIN_NAME_KEY,
+		ConfigProperties.KARAF_PLUGIN_NAME_DEFAULT);
     }
 
     public String getKarafPluginVersion() {
-    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_VERSION_KEY,ConfigProperties.KARAF_PLUGIN_VERSION_DEFAULT);
+	return System.getProperty(ConfigProperties.KARAF_PLUGIN_VERSION_KEY,
+		ConfigProperties.KARAF_PLUGIN_VERSION_DEFAULT);
     }
 
     public String getKarafPluginFeatureGoal() {
-    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_KEY,ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_DEFAULT);	
+	return System.getProperty(
+		ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_KEY,
+		ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_DEFAULT);
     }
 
     public String getMavenCommand() {
-    	return System.getProperty(ConfigProperties.MAVEN_COMMAND_KEY,ConfigProperties.MAVEN_COMMAND_DEFAULT);
+	return System.getProperty(ConfigProperties.MAVEN_COMMAND_KEY,
+		ConfigProperties.MAVEN_COMMAND_DEFAULT);
     }
 
     public Boolean isOfflineMode() {
-    	return Boolean.valueOf(System.getProperty(
-    		ConfigProperties.OFFLINE_MODE_KEY, 
-    		ConfigProperties.OFFLINE_MODE_DEFAULT));
+	return Boolean.valueOf(System.getProperty(
+		ConfigProperties.OFFLINE_MODE_KEY,
+		ConfigProperties.OFFLINE_MODE_DEFAULT));
     }
 
     public String getKarafPluginKarGoal() {
-    	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_KAR_KEY,ConfigProperties.KARAF_PLUGIN_GOAL_KAR_DEFAULT);
+	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_KAR_KEY,
+		ConfigProperties.KARAF_PLUGIN_GOAL_KAR_DEFAULT);
     }
-    
+
     public Boolean runMavenEmbedded() {
-    	Boolean mEmb = Boolean.valueOf(System.getProperty(ConfigProperties.MAVEN_EMBEDDED_KEY, ConfigProperties.MAVEN_EMBEDDED_DEFAULT));
-    	if(!mEmb && !mEmbSet){
-    		try{
-    			mEmbSet = true;
-    			ProcessExecutor.runMavenCommand("-v", "/");
-    		} catch (Exception e){
-    			System.out.println("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.");
-    			mEmb = !mEmb;
-    		}
-    	}
-    	return mEmb;
+	Boolean mEmb = Boolean.valueOf(System.getProperty(
+		ConfigProperties.MAVEN_EMBEDDED_KEY,
+		ConfigProperties.MAVEN_EMBEDDED_DEFAULT));
+	if (!mEmb && !mEmbSet) {
+	    try {
+		mEmbSet = true;
+		ProcessExecutor.runMavenCommand("-v", "/");
+	    } catch (Exception e) {
+		System.out
+			.println("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.");
+		mEmb = !mEmb;
+	    }
+	}
+	return mEmb;
     }
 
     private int getLogLevel(final String levelName) {
@@ -161,12 +174,14 @@ public class Configurator {
 	} else if ("INFO".equalsIgnoreCase(levelName)) {
 	    return MavenExecutionRequest.LOGGING_LEVEL_INFO;
 	}
-	System.err.println("Unable to get log level from enviroment using DEBUG level");
-		return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
+	System.err
+		.println("Unable to get log level from enviroment using DEBUG level");
+	return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
     }
-    
+
     public int getMavenLogLevel() {
-    	return getLogLevel(System.getProperty("org.uAAL.packager.loglevel","DEBUG"));
+	return getLogLevel(System.getProperty("org.uAAL.packager.loglevel",
+		"DEBUG"));
     }
-    
+
 }
