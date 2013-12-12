@@ -18,9 +18,74 @@
 		<uaal.parent.version>2.0.4-SNAPSHOT</uaal.parent.version>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.universAAL.ontology</groupId>
+			<artifactId>ont.karaf.feature</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.controller</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.database</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.frontend</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.configuration.model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.configuration.configurator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.configuration.configinstancestorage</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.configuration.configdefinitionregistry</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.vaadin.themes</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.deploymanagerservice</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.tools.ucc</groupId>
+			<artifactId>ucc.deploymanagerservice.impl</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
+		<filters>
+			<filter>./target/artifacts.versions</filter>
+		</filters>
 		<plugins>
+			<plugin>
+				<groupId>org.universAAL.support</groupId>
+				<artifactId>uaal-maven-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
