@@ -31,4 +31,20 @@
       </menuContribution>
    </extension>
 
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.universaal.tools.AALStudio"
+            class="org.universaal.tools.packaging.tool.preferences.PackagerRootPreferencePage"
+            id="org.universaal.tools.packaging"
+            name="UAAP Packager">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.universaal.tools.packaging.tool.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
 </plugin>
