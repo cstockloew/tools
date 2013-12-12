@@ -63,6 +63,7 @@ import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.gui.GUI;
+import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

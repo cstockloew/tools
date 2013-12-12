@@ -29,7 +29,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import org.osgi.framework.BundleContext;
 
-import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
 
 /**
  * The activator class controls the plug-in life cycle

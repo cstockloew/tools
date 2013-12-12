@@ -44,7 +44,7 @@ import org.universaal.tools.packaging.tool.api.WizardPageMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
-import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
 
 /**
  * 

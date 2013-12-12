@@ -56,7 +56,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import org.universaal.tools.packaging.tool.api.WizardDialogMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
-import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
 
 
 /**

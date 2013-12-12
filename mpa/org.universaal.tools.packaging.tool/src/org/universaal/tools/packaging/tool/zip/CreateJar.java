@@ -46,7 +46,7 @@ import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
 
 import org.universaal.tools.packaging.tool.gui.GUI;
-import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
 import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 

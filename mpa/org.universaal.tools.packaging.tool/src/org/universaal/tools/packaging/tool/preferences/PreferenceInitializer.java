@@ -24,8 +24,6 @@ package org.universaal.tools.packaging.tool.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.universaal.tools.packaging.tool.Activator;
-import org.universaal.tools.packaging.tool.util.ConfigProperties;
-import org.universaal.tools.packaging.tool.util.SystemPropertiesConfigurator;
 
 /**
  * 

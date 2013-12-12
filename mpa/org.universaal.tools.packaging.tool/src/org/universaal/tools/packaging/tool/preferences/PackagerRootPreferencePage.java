@@ -29,7 +29,6 @@ import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.universaal.tools.packaging.tool.Activator;
-import org.universaal.tools.packaging.tool.util.ConfigProperties;
 
 /**
  * 

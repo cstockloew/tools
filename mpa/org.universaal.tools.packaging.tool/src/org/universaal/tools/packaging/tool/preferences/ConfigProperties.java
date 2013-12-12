@@ -18,7 +18,7 @@
         See the License for the specific language governing permissions and
         limitations under the License.
  */
-package org.universaal.tools.packaging.tool.util;
+package org.universaal.tools.packaging.tool.preferences;
 
 /**
  * This class contains all configuration parameters and theirs default values,

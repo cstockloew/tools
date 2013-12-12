@@ -29,6 +29,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
+
 /**
  * 
  * @author <a href="mailto:federico.volpini@isti.cnr.it">Federico Volpini</a>

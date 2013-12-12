@@ -56,7 +56,7 @@ import org.universaal.tools.packaging.tool.parts.Container;
 import org.universaal.tools.packaging.tool.parts.ContainerUnit;
 import org.universaal.tools.packaging.tool.parts.DeploymentUnit;
 import org.universaal.tools.packaging.tool.parts.Embedding;
-import org.universaal.tools.packaging.tool.util.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.KarafFeaturesGenerator;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
