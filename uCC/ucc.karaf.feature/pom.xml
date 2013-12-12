@@ -64,6 +64,10 @@
 							</artifacts>
 						</configuration>
 					</execution>
+					<execution>
+						<id>attach-composite</id>
+						<phase>none</phase>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
