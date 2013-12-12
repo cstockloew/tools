@@ -47,14 +47,11 @@
 
 	<dependencyManagement>
 		<dependencies>
-		<!-- This reference should disappear in the future -->
 			<dependency>
-				<groupId>org.apache.felix</groupId>
+				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.core</artifactId>
-				<version>1.0.1</version>
-				<scope>provided</scope>
+				<version>4.2.0</version>
 			</dependency>
-			
 			<dependency>
 				<groupId>org.universAAL.middleware</groupId>
 				<artifactId>mw.pom.osgi</artifactId>
