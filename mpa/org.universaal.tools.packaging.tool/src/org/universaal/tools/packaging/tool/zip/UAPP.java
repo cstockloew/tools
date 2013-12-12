@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
+
 /**
  * 
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -48,11 +50,11 @@ public class UAPP {
 
 			List<File> fileList = new ArrayList<File>();
 			
-			System.out.println("[Application Packager] - Getting references to all files in: " + directoryToZip.getCanonicalPath());
+			DefaultLogger.getInstance().log("[Application Packager] - Getting references to all files in: " + directoryToZip.getCanonicalPath(), 1);
 			getAllFiles(directoryToZip, fileList);
-			System.out.println("[Application Packager] - Creating zip file");
+			DefaultLogger.getInstance().log("[Application Packager] - Creating zip file", 1);
 			writeZipFile(destinationPath, directoryToZip, fileList);
-			System.out.println("[Application Packager] - Done");
+			DefaultLogger.getInstance().log("[Application Packager] - Done", 1);
 			rmDir(directoryToZip);
 		}
 		catch(Exception ex){
@@ -67,10 +69,10 @@ public class UAPP {
 			for (File file : files) {
 				fileList.add(file);
 				if (file.isDirectory()) {
-					System.out.println("[Application Packager] - directory:" + file.getCanonicalPath());
+					DefaultLogger.getInstance().log("[Application Packager] - directory:" + file.getCanonicalPath(), 1);
 					getAllFiles(file, fileList);
 				} else {
-					System.out.println("[Application Packager] -      file:" + file.getCanonicalPath());
+					DefaultLogger.getInstance().log("[Application Packager] -      file:" + file.getCanonicalPath(), 1);
 				}
 			}
 		} catch (IOException e) {
@@ -107,7 +109,7 @@ public class UAPP {
 			// we want the zipEntry's path to be a relative path that is relative
 			// to the directory being zipped, so chop off the rest of the path
 			String zipFilePath = file.getCanonicalPath().substring(directoryToZip.getCanonicalPath().length() + 1, file.getCanonicalPath().length());
-			System.out.println("[Application Packager] - Writing '" + zipFilePath + "' to zip file");
+			DefaultLogger.getInstance().log("[Application Packager] - Writing '" + zipFilePath + "' to zip file", 1);
 			ZipEntry zipEntry = new ZipEntry(zipFilePath);
 			zos.putNextEntry(zipEntry);
 

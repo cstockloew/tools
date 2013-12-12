@@ -45,6 +45,7 @@ import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.parts.Application;
 import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
 
 /**
  * 
@@ -189,7 +190,7 @@ public abstract class PageImpl extends WizardPageMod implements Page {
 		if(GUI.getInstance().recoveryStorage != null){
 			
 			try {
-				// System.out.println("writing recovery file");
+				DefaultLogger.getInstance().log("writing recovery file");
 				FileOutputStream fos = new FileOutputStream( GUI.getInstance().recoveryStorage, false );
 				ObjectOutputStream oos = new ObjectOutputStream( fos );
 				oos.writeObject(this.multipartApplication);

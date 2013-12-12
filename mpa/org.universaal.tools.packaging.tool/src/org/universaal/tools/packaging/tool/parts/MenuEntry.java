@@ -97,7 +97,6 @@ public class MenuEntry implements Serializable {
 	public void setIconPath(URI iconPath) {
 		if(iconPath.toASCIIString().trim().length() > 0){
 			this.iconPath = iconPath;
-			//System.out.println(iconPath);
 		}
 	}
 	

@@ -165,8 +165,6 @@ public class Page5 extends PageImpl {
 	@Override
 	public boolean nextPressed() {
 
-		//System.out.println(app.getAppRequirements().getRequirementsList().size());
-		
 		for(int j = 0; j < artifacts.size(); j++){
 
 			app.getAppManagement().getRemoteManagement().get(j).getProtocols().clear();

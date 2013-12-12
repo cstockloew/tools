@@ -103,7 +103,6 @@ public class PageLicenses extends PageImpl {
 		ls = app.getApplication().getLicenses();
 		
 		if(ls.getLicenseList().size() == 0){
-			//System.out.println("Adding empty license");
 			ls.getLicenseList().add(new License());
 		}
 		

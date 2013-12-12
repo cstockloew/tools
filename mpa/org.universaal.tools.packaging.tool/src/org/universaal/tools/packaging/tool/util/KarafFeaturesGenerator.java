@@ -120,7 +120,7 @@ public class KarafFeaturesGenerator {
 	private final String GOAL_FEATURE = EclipsePreferencesConfigurator.local.getKarafPluginFeatureGoal();
 	private final String GOAL_KARFILE = EclipsePreferencesConfigurator.local.getKarafPluginKarGoal();	
 	private final Boolean OFFLINE_MODE = EclipsePreferencesConfigurator.local.isOfflineMode(); 
-	private final int LOG_LEVEL = EclipsePreferencesConfigurator.local.getMavenLogLevel();
+	private final int LOG_LEVEL = EclipsePreferencesConfigurator.local.getLogLevel();
 
 	private final static String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 	
@@ -137,7 +137,7 @@ public class KarafFeaturesGenerator {
 		if(execution_result != null && execution_result.getExceptions() != null)
 			for(int i = 0; i < execution_result.getExceptions().size(); i++)
 				ret = ret.concat(execution_result.getExceptions().get(i).getMessage()+"\n");
-		System.out.println("[Application Packager] - ERROR! The generation of Karaf features is failed: "+ret);
+		DefaultLogger.getInstance().log("[Application Packager] - FATAL ERROR! The generation of Karaf features is failed: "+ret, 4);
 
 		return "";
 	}
@@ -241,28 +241,28 @@ public class KarafFeaturesGenerator {
 					
 					MavenExecutionRequest request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
 					
-					System.out.println(
+					DefaultLogger.getInstance().log(
 						"Preparing to run maven, the log level was:" + request.getLoggingLevel() + 
 						" but we increased to "+MavenExecutionRequest.LOGGING_LEVEL_DEBUG 
 					);
 					
 					request.setLoggingLevel( LOG_LEVEL );
 					if ( request.isOffline() && OFFLINE_MODE ) {
-					    System.out.println("Maven was configured to work OFFLINE, that is fine");
+					    DefaultLogger.getInstance().log("Maven was configured to work OFFLINE, that is fine");
 					} else if ( OFFLINE_MODE ){
-					    System.out.println("Maven was configured to work ONLINE, " +
+					    DefaultLogger.getInstance().log("Maven was configured to work ONLINE, " +
 					    		"but we are using it OFFLINE for speed it up");
 					    request.setOffline(true);
 					}
 					
 					ExecutionListener listener = request.getExecutionListener();
 					if ( listener != null ) {
-					    System.out.println(
+					    DefaultLogger.getInstance().log(
 						    "The following ExecutionListener was set " + listener 
 						    + " but is going to be replaced"
 						    );
 					} else {
-					    System.out.println("NO ExecutionListener was set, creating one");
+					    DefaultLogger.getInstance().log("NO ExecutionListener was set, creating one");
 					}
 					
 					ConsoleLogger logger = new ConsoleLogger(Logger.LEVEL_DEBUG,"MavenLogger");
@@ -272,17 +272,17 @@ public class KarafFeaturesGenerator {
 					List<String> goals = new ArrayList<String>();
 					Properties props = new Properties();
 					
-					System.out.println("[Application Packager] - Preparing for Karaf features file generation...");
+					DefaultLogger.getInstance().log("[Application Packager] - Preparing for Karaf features file generation...", 1);
 					if (!description.isAutoBuilding()){
-						System.out.println("[Application Packager] - "+projectName+" will be compiled now because autobuilding is off.");
+						DefaultLogger.getInstance().log("[Application Packager] - "+projectName+" will be compiled now because autobuilding is off.", 1);
 						goals.add("compiler:compile"); // compile it if autobuilding is off
 						request.setGoals(goals);
 						request.setUserProperties(props);
 						execution_result = maven.execute(request, null);
-						System.out.println("[Application Packager] - Compiling operation ended.");
+						DefaultLogger.getInstance().log("[Application Packager] - Compiling operation ended.", 1);
 					}
 	
-					System.out.println("[Application Packager] - Generating Karaf features file...");
+					DefaultLogger.getInstance().log("[Application Packager] - Generating Karaf features file...", 1);
 					goals.clear();
 					props = new Properties();
 	
@@ -292,35 +292,35 @@ public class KarafFeaturesGenerator {
 					execution_result = maven.execute(request, null);
 	
 					if(execution_result.getExceptions() == null || execution_result.getExceptions().isEmpty()){
-						System.out.println("[Application Packager] - Karaf features file generated successfully.");
+						DefaultLogger.getInstance().log("[Application Packager] - Karaf features file generated successfully.", 1);
 						return true;
 					} else{
-						System.out.println("[Application Packager] - Karaf features file not generated because of errors:");
+						DefaultLogger.getInstance().log("[Application Packager] - Karaf features file not generated because of errors:", 3);
 						for(int i = 0; i < execution_result.getExceptions().size(); i++)
-							System.out.println("[Application Packager] - "+execution_result.getExceptions().get(i).getMessage());
+							DefaultLogger.getInstance().log("[Application Packager] - "+execution_result.getExceptions().get(i).getMessage(), 1);
 					}
 				
 				} else {
 				
 					int exitLevel = 0;
 					
-					System.out.println("[Application Packager] - Preparing for Karaf features file generation...");
+					DefaultLogger.getInstance().log("[Application Packager] - Preparing for Karaf features file generation...", 1);
 					if (!description.isAutoBuilding()){
-						System.out.println("[Application Packager] - "+projectName+" will be compiled now because autobuilding is off.");
+						DefaultLogger.getInstance().log("[Application Packager] - "+projectName+" will be compiled now because autobuilding is off.", 1);
 						exitLevel = ProcessExecutor.runMavenCommand("compiler:compile", ProjectPath);
-						System.out.println("[Application Packager] - Compiling operation ended.");
+						DefaultLogger.getInstance().log("[Application Packager] - Compiling operation ended.", 1);
 						if(exitLevel != 0){
-							System.out.println("[WARNING] - Error occurred during compiling operation.");
+							DefaultLogger.getInstance().log("[WARNING] - Error occurred during compiling operation.", 3);
 						}
 					}
 					
-					System.out.println("[Application Packager] - Generating Karaf features file...");
+					DefaultLogger.getInstance().log("[Application Packager] - Generating Karaf features file...", 1);
 					exitLevel = ProcessExecutor.runMavenCommand(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_FEATURE,ProjectPath);
 					if(exitLevel == 0){
-						System.out.println("[Application Packager] - Karaf features file generated successfully.");
+						DefaultLogger.getInstance().log("[Application Packager] - Karaf features file generated successfully.", 1);
 						return true;
 					} else {
-						System.out.println("[Application Packager] - WARNING!!! Karaf features file not generated because of errors");
+						DefaultLogger.getInstance().log("[Application Packager] - FATAL ERROR!!! Karaf features file not generated because of errors", 4);
 					}
 					
 				}
@@ -336,9 +336,9 @@ public class KarafFeaturesGenerator {
 	private void generateKarFile(IProject part){
 
 		try{
-			System.out.println("Generate kar for "+part.getName());
+			DefaultLogger.getInstance().log("Generate kar for "+part.getName());
 			String path = part.getLocation().toString(); //ResourcesPlugin.getWorkspace().getRoot().getLocation().makeAbsolute()+"/"+part.getDescription().getName();
-			System.out.println("location:"+path);
+			DefaultLogger.getInstance().log("location:"+path);
 			File target, feature;
 			target = new File(path+"/target");
 			feature = new File(path+"/target/feature");
@@ -374,10 +374,10 @@ public class KarafFeaturesGenerator {
 					
 					int exitLevel = ProcessExecutor.runMavenCommand(GROUP_ID + ":" + ARTIFACT_ID + ":" + VERSION + ":" + GOAL_KARFILE, path);
 					if(exitLevel == 0){
-						System.out.println("[Application Packager] - Kar file generated successfully.");
+						DefaultLogger.getInstance().log("[Application Packager] - Kar file generated successfully.", 1);
 					}
 					else{
-						System.out.println("[Application Packager] - WARNING!!! Kar file not generated because of errors.");
+						DefaultLogger.getInstance().log("[Application Packager] - FATAL ERROR!!! Kar file not generated because of errors.", 4);
 					}
 					
 				}

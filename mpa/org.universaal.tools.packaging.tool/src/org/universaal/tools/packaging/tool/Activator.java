@@ -30,6 +30,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -69,11 +70,11 @@ public class Activator extends AbstractUIPlugin {
 					
 			File outputDir = EclipsePreferencesConfigurator.local.getLogFolder();
 			if ( outputDir != null ) {
-				System.out.println("*** [Application Packager] - The log file is available at "+outputDir+" ***");
+				DefaultLogger.getInstance().log("*** [Application Packager] - The log file is available at "+outputDir+" ***", 1);
 				System.setOut(new PrintStream(new File(outputDir+"/log.txt")));
 				System.setErr(new PrintStream(new File(outputDir+"/errlog.txt")));
 			} else if ( EclipsePreferencesConfigurator.local.isConsoleLog() == false ) {
-				System.out.println("*** [Application Packager] - The log file is available at "+tempDir+" ***");
+				DefaultLogger.getInstance().log("*** [Application Packager] - The log file is available at "+tempDir+" ***", 1);
 				System.setOut(new PrintStream(new File(tempDir+"/log.txt")));
 				System.setErr(new PrintStream(new File(tempDir+"/errlog.txt")));
 			}

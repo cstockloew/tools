@@ -390,7 +390,6 @@ public class Page4 extends PageImpl {
 	@Override
 	public void setVisible(boolean visible){
 		super.setVisible(visible);
-		//System.out.println("Page 4 - reqs size: "+app.getAppRequirements().getRequirementsList().size());
 		if(visible && app.getAppRequirements().getRequirementsList().size() == 0){
 			clearForm();
 		} 
@@ -400,10 +399,8 @@ public class Page4 extends PageImpl {
 	public boolean nextPressed() {
 
 		//debugPrint("b handleOldReqs");
+		
 		handleOldReqs();
-		//System.out.println(req1.getText());
-		//System.out.println(val1.getText());
-		//System.out.println(c12.getText());
 		
 		if(offset == 0){
 			// first page of requirements
@@ -558,9 +555,7 @@ public class Page4 extends PageImpl {
 
 		if(!alreadyIn(rr))
 			app.getAppRequirements().getRequirementsList().add(rr);
-		else  {
-			//System.out.println("Req already found!");
-		}
+		
 	}
 
 	private boolean alreadyIn(Requirement r){

@@ -75,7 +75,6 @@ public class EffectivePOMContainer{
     private static String getValue(String key){
     	
     	if(getDocument(currentDocument) == null){
-    		//System.out.println("CurrentDocument is null");
     		return "";
     	}
     	
@@ -145,7 +144,6 @@ public class EffectivePOMContainer{
 		NodeList nodes = getValues("/projects/project[1]/licenses/license|/project/licenses/license");
 		
 		if (nodes != null){
-			//System.out.println("Num Nodes Licenses: "+nodes.getLength());
 			
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Element el =  (Element) nodes.item(i);
@@ -169,7 +167,6 @@ public class EffectivePOMContainer{
 		List<POM_Dependency> returnList = new ArrayList<POM_Dependency>(); 
 		NodeList nodes = getValues("//project/dependencies/dependency");
 		if (nodes != null){
-			//System.out.println("Num Dependencies: "+nodes.getLength());
 			
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Element el =  (Element) nodes.item(i);

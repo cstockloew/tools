@@ -87,6 +87,7 @@ import org.universaal.tools.packaging.tool.parts.MPA;
 import org.universaal.tools.packaging.tool.parts.Part;
 import org.universaal.tools.packaging.tool.preferences.ConfigProperties;
 import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
 import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.POM_License;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
@@ -162,12 +163,12 @@ public class GUI extends WizardMod {
 				    MPA recoveredStatus = (MPA) ois.readObject();
 				    
 				    if (recoveredStatus != null){
-				    	System.out.println("Loading recovered data from "+recovery.getAbsolutePath());
+				    	//DefaultLogger.getInstance().log("Loading recovered data from "+recovery.getAbsolutePath());
 					    mpa = recoveredStatus;
 					    destination = mpa.getAAL_UAPP().getDestination();
 					    this.mainPartName = mpa.getAAL_UAPP().getMainPart();
 					} else {
-				    	System.out.println("[WARNING] Unable to load data from recovery file");
+				    	//DefaultLogger.getInstance().log("[WARNING] Unable to load data from recovery file");
 				    	this.recovered = false;
 				    }
 				} catch (Exception e) {		
@@ -176,7 +177,7 @@ public class GUI extends WizardMod {
 		    } 
 
 			
-		} else System.out.println("Recovering not enabled");
+		} // else DefaultLogger.getInstance().log("Recovering not enabled");
 	}
 
 	private void loadDataFromManPOM() {
@@ -210,7 +211,7 @@ public class GUI extends WizardMod {
 			if(Licenses != null){
 				List<License> licenseList = new ArrayList<License>();
 				for(int i = 0; i < Licenses.size(); i++){
-					//System.out.println("Getting linense "+i+" of "+Licenses.size());
+					//DefaultLogger.getInstance().log("Getting linense "+i+" of "+Licenses.size());
 					
 					License aLicense = new License();
 					aLicense.setName(Licenses.get(i).name);
@@ -530,7 +531,7 @@ public class GUI extends WizardMod {
 	
 	private boolean genEffectivePom(List<IProject> parts){
 	
-		System.out.println("Application Packager] - Generating Effective POM");
+		DefaultLogger.getInstance().log("Application Packager] - Generating Effective POM", 1);
 		
 		for(int i=0; i<parts.size();i++){
 		
@@ -556,11 +557,11 @@ public class GUI extends WizardMod {
 				}
 				
 				if(exitLevel == 0){
-					System.out.println("[Application Packager] - Part "+partName+": Effective pom generated successfully.");
+					DefaultLogger.getInstance().log("[Application Packager] - Part "+partName+": Effective pom generated successfully.", 1);
 					EffectivePOMContainer.addDocument(partName, mavenTempDir+"/"+partName+".epom.xml");
 					EffectivePOMContainer.setDocument(partName);
 				} else {
-					System.out.println("[Application Packager] - WARNING!!! Part "+partName+": Effective pom not generated because of errors.");
+					DefaultLogger.getInstance().log("[Application Packager] - FATAL ERROR!!! Part "+partName+": Effective pom not generated because of errors.", 4);
 					getShell().setCursor(new Cursor(getShell().getDisplay(), SWT.CURSOR_ARROW));
 					MessageDialog.openError(getShell(), "Effective Pom generation failure", "Part "+partName+": unable to generate effective pom.\n\n" +
 							"Hints:\n\n" +
@@ -785,7 +786,7 @@ class ProgressFinish implements IRunnableWithProgress {
 	private void copyFilesAndFolders(File[] list, String before){
 		list = sortList(list);
 		for(int i=0; i<list.length; i++){
-			//System.out.println(list[i].getAbsolutePath()+" -> "+ before+list[i].getName());
+			//DefaultLogger.getInstance().log(list[i].getAbsolutePath()+" -> "+ before+list[i].getName());
 			
 			if(list[i].isDirectory()){ 
 				File[] tmp = list[i].listFiles();

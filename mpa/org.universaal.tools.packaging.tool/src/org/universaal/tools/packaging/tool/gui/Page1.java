@@ -57,7 +57,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import org.universaal.tools.packaging.tool.impl.PageImpl;
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
 import org.universaal.tools.packaging.tool.util.Dialog;
+import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.FileV;
@@ -245,9 +247,6 @@ public class Page1 extends PageImpl {
 						ImageReader reader = readers.next();
 						try {
 							formatName = reader.getFormatName();
-							/* DEBUG
-							System.out.printf("formatName: %s%n", formatName);
-							*/
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
@@ -262,11 +261,9 @@ public class Page1 extends PageImpl {
 						double height = image.getHeight();
 						double aspect_ratio = width/height;
 						
-						/* DEBUG
-						System.out.println("Height : "+ height);
-						System.out.println("Width : "+ width);
-						System.out.println("A/R : "+ aspect_ratio);
-						*/
+						DefaultLogger.getInstance().log("Height : "+ height);
+						DefaultLogger.getInstance().log("Width : "+ width);
+						DefaultLogger.getInstance().log("A/R : "+ aspect_ratio);
 						
 						if (width != 512 || height != 512){
 							app.getApplication().getMenuEntry().setIconScale(true);
@@ -438,15 +435,14 @@ public class Page1 extends PageImpl {
 	private void loadDefaultValues() {
 		
 		if ( app.getApplication() != null ) {
-			/*
-			System.out.println("App not null: name = "+app.getApplication().getName() );
-			System.out.println("App version:"+EffectivePOMContainer.getVersion());
-			System.out.println("App reg version:"+app.getApplication().getVersion().getVersion());
-			System.out.println("App Major version:"+app.getApplication().getVersion().getMajor());
-			System.out.println("App Minor version:"+app.getApplication().getVersion().getMinor());
-			System.out.println("App Micro version:"+app.getApplication().getVersion().getMicro());
-			System.out.println("App Build version:"+app.getApplication().getVersion().getBuild());
-			*/
+			DefaultLogger.getInstance().log("App not null: name = "+app.getApplication().getName() );
+			DefaultLogger.getInstance().log("App version: "+EffectivePOMContainer.getVersion());
+			DefaultLogger.getInstance().log("App reg version:"+app.getApplication().getVersion().getVersion());
+			DefaultLogger.getInstance().log("App Major version:"+app.getApplication().getVersion().getMajor());
+			DefaultLogger.getInstance().log("App Minor version:"+app.getApplication().getVersion().getMinor());
+			DefaultLogger.getInstance().log("App Micro version:"+app.getApplication().getVersion().getMicro());
+			DefaultLogger.getInstance().log("App Build version:"+app.getApplication().getVersion().getBuild());
+			
 			name.setText( app.getApplication().getName() );
 		    id.setText( app.getApplication().getAppID() );
 		    description.setText( app.getApplication().getDescription() );

@@ -21,7 +21,7 @@
 package org.universaal.tools.packaging.tool.preferences;
 
 /**
- * This class contains all configuration parameters and theirs default values,
+ * This class contains all configuration parameters and their default values,
  * which change the behavior of the plugin
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano Lenzi</a>
@@ -115,11 +115,11 @@ public interface ConfigProperties {
     public static final String MAVEN_EMBEDDED_DEFAULT = "false";
     
     /**
-     * This is a String property representing the log level used by Maven<br>
+     * This is a String property representing the log level used by App Packager (including Maven<br>
      * <b>NOTE:</b>Acceptable values are info, debug, warn, error, fatal, and disabled<br>
-     * By the default console debug is {@value #MAVEN_LOGLEVEL_DEBUG_DEFAULT}
+     * By the default console debug is {@value #LOG_LEVEL_DEFAULT}
      */
-    public static final String MAVEN_LOGLEVEL_KEY = "org.uAAL.packager.loglevel";
-    public static final String MAVEN_LOGLEVEL_DEBUG_DEFAULT = "debug";
+    public static final String LOG_LEVEL_KEY = "org.uAAL.packager.loglevel";
+    public static final String LOG_LEVEL_DEFAULT = "debug";
 
 }

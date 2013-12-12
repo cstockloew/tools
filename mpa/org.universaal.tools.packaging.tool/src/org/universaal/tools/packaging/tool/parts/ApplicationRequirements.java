@@ -56,8 +56,6 @@ public class ApplicationRequirements implements Serializable {
 		for(int i = 0; i < requirementsList.size(); i++)
 			if(requirementsList.get(i) != null){
 				ret.add(requirementsList.get(i));
-			} else {
-				//System.out.println("null value found for index "+i);
 			}
 
 		requirementsList.clear();

@@ -62,7 +62,6 @@ public class TextExt extends org.eclipse.swt.widgets.Text {
 			public void focusGained(FocusEvent e) {
 				Text actionWidget = (Text) e.widget;
 				Point loc = actionWidget.getParent().toDisplay(actionWidget.getLocation());
-                //System.out.println("Widget: loc.x = "+loc.x+" | loc.y = "+loc.y);
                 t.setLocation(loc.x+((int)actionWidget.getSize().x/4), loc.y+actionWidget.getSize().y-(int)actionWidget.getSize().y/4);
                 t.setVisible(true);				
 			}

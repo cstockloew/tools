@@ -40,6 +40,7 @@ import org.eclipse.swt.widgets.Label;
 
 import org.universaal.tools.packaging.tool.impl.PageImpl;
 import org.universaal.tools.packaging.tool.parts.OtherChannel;
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
 import org.universaal.tools.packaging.tool.util.XSDParser;
 import org.universaal.tools.packaging.tool.validators.AlphabeticV;
 import org.universaal.tools.packaging.tool.validators.PhoneV;
@@ -392,24 +393,25 @@ public class Page2 extends PageImpl {
 
 	private void loadDefaultValues() {
 		if ( app.getApplication() != null ) {
-			//System.out.println("Othere channels size:"+app.getApplication().getApplicationProvider().getOtherChannels().size());
 			
 			if(app.getApplication().getApplicationProvider().getOtherChannels().size() > 0){
 					OtherChannel och = app.getApplication().getApplicationProvider().getOtherChannels().get(0);
 					othChNm1.setText(och.getChannelName());
 					othChnDtl1.setText(och.getChannelDetails());
-			/*		System.out.println(och.toString());
-					System.out.println(och.getChannelName());
-					System.out.println(och.getChannelDetails());*/
+					
+					DefaultLogger.getInstance().log(och.toString());
+					DefaultLogger.getInstance().log(och.getChannelName());
+					DefaultLogger.getInstance().log(och.getChannelDetails());
 			}
 			
 			if(app.getApplication().getApplicationProvider().getOtherChannels().size() > 1){
 				OtherChannel och = app.getApplication().getApplicationProvider().getOtherChannels().get(1);
 				othChNm2.setText(och.getChannelName());
 				othChnDtl2.setText(och.getChannelDetails());
-			/*	System.out.println(och.toString());
-				System.out.println(och.getChannelName());
-				System.out.println(och.getChannelDetails());*/
+				
+				DefaultLogger.getInstance().log(och.toString());
+				DefaultLogger.getInstance().log(och.getChannelName());
+				DefaultLogger.getInstance().log(och.getChannelDetails());
 			}
 		} 
 	} 

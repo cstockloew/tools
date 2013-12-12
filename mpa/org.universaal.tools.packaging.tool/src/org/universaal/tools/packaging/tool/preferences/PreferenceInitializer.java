@@ -52,10 +52,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	final SystemPropertiesConfigurator config = SystemPropertiesConfigurator.local;
 
 	setDefaultAndValue(
-		store,
-		ConfigProperties.ENABLE_CONSOLE_LOG_KEY,
-		Boolean.parseBoolean(ConfigProperties.ENABLE_CONSOLE_LOG_DEFAULT),
-		config.isConsoleLog());
+			store,
+			ConfigProperties.ENABLE_CONSOLE_LOG_KEY,
+			Boolean.parseBoolean(ConfigProperties.ENABLE_CONSOLE_LOG_DEFAULT),
+			config.isConsoleLog());
 
 	setDefaultAndValue(store,
 		ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_KEY,

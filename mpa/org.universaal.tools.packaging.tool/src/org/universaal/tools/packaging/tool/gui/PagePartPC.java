@@ -158,12 +158,10 @@ public class PagePartPC extends PageImpl {
 	@Override
 	public IWizardPage getNextPage(){
 		if (ckbMoreReqs.getSelection()){
-			//System.out.println(app.getAppRequirements().getRequirementsList().size());
 			return super.getNextPage();
 		}
 		else{
 			app.getAppRequirements().clear();
-			//System.out.println(app.getAppRequirements().getRequirementsList().size());
 			return super.getNextPage().getNextPage();
 		}
 	}

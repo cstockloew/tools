@@ -163,12 +163,10 @@ public class Page3 extends PageImpl {
 	@Override
 	public IWizardPage getNextPage(){
 		if (ckbMoreReqs.getSelection()){
-			//System.out.println(app.getAppRequirements().getRequirementsList().size());
 			return super.getWizard().getPage(Page.PAGE4);
 		}
 		else{
 			app.getAppRequirements().clear();
-			//System.out.println(app.getAppRequirements().getRequirementsList().size());
 			return super.getWizard().getPage(Page.PAGE5);
 		}
 	}

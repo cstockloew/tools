@@ -24,6 +24,7 @@
 package org.universaal.tools.packaging.tool.preferences;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
@@ -40,6 +41,15 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
 
     BooleanFieldEditor logToConsole;
+    
+    ComboFieldEditor logLevel;
+    String[][] allowedLogLevels = new String[][] { 
+    		{"debug", 			"DEBUG"}, 
+    		{"info", 			"INFO"},
+    		{"warnings", 		"WARN"},
+    		{"errors",			"ERROR"},
+    		{"fatal errors",	"FATAL"}};
+    
     StringFieldEditor mavenGoalKarafFeature;
     StringFieldEditor mavenGoalKar;
     StringFieldEditor mavenKarafPluginGroup;
@@ -67,6 +77,9 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
 		ConfigProperties.ENABLE_CONSOLE_LOG_KEY,
 		"Enable log on the console", getFieldEditorParent());
 
+	logLevel = new ComboFieldEditor(ConfigProperties.LOG_LEVEL_KEY, 
+			"Log level", allowedLogLevels, getFieldEditorParent());
+	
 	offlineMode = new BooleanFieldEditor(ConfigProperties.OFFLINE_MODE_KEY,
 		"Offline Mode", getFieldEditorParent());
 
@@ -105,6 +118,7 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
 		"Use maven embedded in Eclipse", getFieldEditorParent());
 
 	addField(logToConsole);
+	addField(logLevel);
 	addField(offlineMode);
 	addField(mavenGoalKar);
 	addField(mavenGoalKarafFeature);

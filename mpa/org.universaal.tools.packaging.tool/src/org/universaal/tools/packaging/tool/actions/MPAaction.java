@@ -57,6 +57,8 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.universaal.tools.packaging.tool.api.WizardDialogMod;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
+import org.universaal.tools.packaging.tool.util.XSDParser;
 
 
 /**
@@ -86,14 +88,14 @@ public class MPAaction extends AbstractHandler {
 		w.getShell().setCursor(new Cursor(w.getShell().getDisplay(),SWT.CURSOR_WAIT));
 		
 		if ( EclipsePreferencesConfigurator.local.isPersistanceEnabled()) {
-			//System.out.println("Searching for recovery file "+ recFile);
+			DefaultLogger.getInstance().log("Searching for recovery file "+ recFile);
 			File recovery = new File(recFile);
 			if(recovery.exists()){
-				//System.out.println("Found It");
-				//System.out.println("Searching for recovery parts file "+ recParts);
+				DefaultLogger.getInstance().log("Found It");
+				DefaultLogger.getInstance().log("Searching for recovery parts file "+ recParts);
 				File recoveryParts = new File(recParts);
 				if(recoveryParts.exists()){
-					//System.out.println("Found It");
+					DefaultLogger.getInstance().log("Found It");
 					Boolean tryRecover = MessageDialog.openConfirm(w.getShell(),
 							"Recovery", "A previous operation has been cancelled.\n\nWould you like to recover it ?");
 					if(tryRecover){
@@ -106,7 +108,7 @@ public class MPAaction extends AbstractHandler {
 				            
 				            while(line != null){
 				                if(!line.trim().isEmpty()){
-									//System.out.println("Importing part "+line);
+									DefaultLogger.getInstance().log("Importing part "+line);
 									IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(line);
 									parts.add(container.getProject());
 								}
@@ -136,7 +138,7 @@ public class MPAaction extends AbstractHandler {
 			if(dialog.getResult() != null){
 				for(int i = 0; i < dialog.getResult().length; i++){
 					String[] segments = dialog.getResult()[i].toString().split("/");
-					//System.out.println(segments[segments.length-1]);
+					DefaultLogger.getInstance().log(segments[segments.length-1]);
 					IContainer container = ResourcesPlugin.getWorkspace().getRoot().getProject(segments[segments.length-1]);
 					parts.add(container.getProject());
 					partsFileContent = partsFileContent + segments[segments.length-1] + System.getProperty("line.separator");
@@ -173,16 +175,16 @@ public class MPAaction extends AbstractHandler {
 								for(int j=0; j< ref.length; j++){
 									if(ref[j].isOpen())
 									{	
-										//System.out.println("--> Closing referenced project "+ref[j].getName());
+										DefaultLogger.getInstance().log("--> Closing referenced project "+ref[j].getName());
 										ref[j].close(null);
 										alreadyClosed.add(ref[j]);
 									}
 								}
 							}
 							
-							//System.out.println("Closing project "+parts.get(i).getName());
+							DefaultLogger.getInstance().log("Closing project "+parts.get(i).getName());
 						parts.get(i).close(null);
-						//System.out.println("DONE!");
+						DefaultLogger.getInstance().log("DONE!");
 						
 					}
 				

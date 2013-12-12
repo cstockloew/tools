@@ -60,17 +60,14 @@ public class XSDParser{
             DocumentBuilder db = dbf.newDocumentBuilder();
             if(Page.XSD_REPOSITORY.contains("http")){
             	if(checkOnline(XSD)){
-            		//System.out.println("WEB");
             		document = db.parse(Page.XSD_REPOSITORY+"v"+XSD+"/AAL-UAPP.xsd");
             	}
             	else {
-            		//System.out.println("RESOURCE");
             		InputStream is = getClass().getResourceAsStream("/org/universaal/tools/packaging/tool/schemas/"+XSD+"/AAL-UAPP.xsd");
 		            document = db.parse(is);
             	}
             } else {
-            	//System.out.println("Reading XSD from Resource");
-                InputStream is = getClass().getResourceAsStream(Page.XSD_REPOSITORY+XSD+"/AAL-UAPP.xsd");
+            	InputStream is = getClass().getResourceAsStream(Page.XSD_REPOSITORY+XSD+"/AAL-UAPP.xsd");
 	            document = db.parse(is);
             }
             xpf = XPathFactory.newInstance();
@@ -122,8 +119,6 @@ public class XSDParser{
 		    	model = model + "|//simpleType[@name='"+segments[0]+"']//element[@name='"+segments[1]+"']//annotation/documentation/text()";
 			}
 	    	
-	    	//System.out.println("Looking for " + prefix);
-	       
 	    	try {
 				String text = xp.evaluate(model, document.getDocumentElement());
 				return text;

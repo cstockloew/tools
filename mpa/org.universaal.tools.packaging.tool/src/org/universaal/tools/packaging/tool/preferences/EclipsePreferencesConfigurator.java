@@ -30,6 +30,7 @@ import java.util.UUID;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.universaal.tools.packaging.tool.Activator;
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 
 /**
@@ -183,25 +184,46 @@ public class EclipsePreferencesConfigurator {
 		mEmbSet = true;
 		ProcessExecutor.runMavenCommand("-v", "/");
 	    } catch (Exception e) {
-		System.out
-			.println("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.");
+		DefaultLogger.getInstance().log("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.", 2);
 		mEmb = !mEmb;
 	    }
 	}
 	return mEmb;
     }    
     
-    public int getMavenLogLevel() {
+    public int getMavenLogLevel(String message) {
+
 	Map<String, Integer> enumeration = new HashMap<String, Integer>();
-	enumeration.put("info", MavenExecutionRequest.LOGGING_LEVEL_INFO);
-	enumeration.put("disabled", MavenExecutionRequest.LOGGING_LEVEL_DISABLED);
-	enumeration.put("debug", MavenExecutionRequest.LOGGING_LEVEL_DEBUG);
-	enumeration.put("fatal", MavenExecutionRequest.LOGGING_LEVEL_FATAL);
-	enumeration.put("error", MavenExecutionRequest.LOGGING_LEVEL_ERROR);
+	enumeration.put("DEBUG", MavenExecutionRequest.LOGGING_LEVEL_DEBUG);
+	enumeration.put("INFO", MavenExecutionRequest.LOGGING_LEVEL_INFO);
 	enumeration.put("WARN", MavenExecutionRequest.LOGGING_LEVEL_WARN);
+	enumeration.put("ERROR", MavenExecutionRequest.LOGGING_LEVEL_ERROR);
+	enumeration.put("FATAL", MavenExecutionRequest.LOGGING_LEVEL_FATAL);
+	enumeration.put("DISABLED", MavenExecutionRequest.LOGGING_LEVEL_DISABLED);
 	
-	return getEnum(ConfigProperties.MAVEN_LOGLEVEL_KEY, MavenExecutionRequest.LOGGING_LEVEL_DEBUG, 
-		enumeration);
+	for ( String key : enumeration.keySet() ) {
+	    if(message.contains(key))
+	    	return enumeration.get(key);
+	}
+	return 4;
     }
 
+    public int getLogLevel(){
+    	String levelName = getString(ConfigProperties.LOG_LEVEL_KEY, ConfigProperties.LOG_LEVEL_DEFAULT);
+		if ("DEBUG".equalsIgnoreCase(levelName)) {
+		    return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
+		} else if ("WARN".equalsIgnoreCase(levelName)) {
+		    return MavenExecutionRequest.LOGGING_LEVEL_WARN;
+		} else if ("ERROR".equalsIgnoreCase(levelName)) {
+		    return MavenExecutionRequest.LOGGING_LEVEL_ERROR;
+		} else if ("FATAL".equalsIgnoreCase(levelName)) {
+		    return MavenExecutionRequest.LOGGING_LEVEL_FATAL;
+		} else if ("DISABLED".equalsIgnoreCase(levelName)) {
+		    return MavenExecutionRequest.LOGGING_LEVEL_DISABLED;
+		} else if ("INFO".equalsIgnoreCase(levelName)) {
+		    return MavenExecutionRequest.LOGGING_LEVEL_INFO;
+		}
+		System.err.println("Unable to get log level from enviroment using DEBUG level");
+		return MavenExecutionRequest.LOGGING_LEVEL_DEBUG;
+    }
 }

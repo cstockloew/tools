@@ -49,7 +49,7 @@ public class ProcessExecutor {
 
     public static int runMavenCommand(String options, String workingDir) {
 	if (EclipsePreferencesConfigurator.local.isOfflineMode()) {
-	    // System.out.println("*** OFFLINE MODE ENABLED ***");
+	    // DefaultLogger.getInstance().log("*** OFFLINE MODE ENABLED ***");
 	    options = "--offline " + options;
 
 	}
@@ -61,24 +61,24 @@ public class ProcessExecutor {
 	// TODO Auto-generated method stub
 	File workingDir = new File(workingPath);	
 	if ( workingDir.exists() == false ) {
-	    System.out.println("[ERROR] The working directory path:" +workingPath + " does not exist. " +
-	    		"Working directory is going to be ignored and we are going to use current directory"
+	    DefaultLogger.getInstance().log("[ERROR] The working directory path:" +workingPath + " does not exist. " +
+	    		"Working directory is going to be ignored and we are going to use current directory", 3
 		    );
 	    workingDir = new File(".");	    
-	    System.out.println("[WARNING] Using working directory:" +workingDir.getAbsolutePath() );
+	    DefaultLogger.getInstance().log("[WARNING] Using working directory:" +workingDir.getAbsolutePath(), 1 );
 	}
 	
 	if ( workingDir.isDirectory() == false ) {
-	    System.out.println("[WARNING] The working directory path:" +workingPath + " is pointing to a file. We are going to use the dirname as working directory");
+	    DefaultLogger.getInstance().log("[WARNING] The working directory path:" +workingPath + " is pointing to a file. We are going to use the dirname as working directory", 2);
 	    workingDir = workingDir.getParentFile();
-	    System.out.println("[WARNING] Using working directory:" +workingDir.getAbsolutePath() );
+	    DefaultLogger.getInstance().log("[WARNING] Using working directory:" +workingDir.getAbsolutePath(), 2);
 	}
 	
 	if ( workingDir.canWrite() == false || workingDir.canRead() == false ) {
-	    System.out.println("[ERROR] Missing R/W permission to working directory:" +workingDir.getAbsolutePath()+ "" +
-	    		"We are going to use the user's temp folder");
+	    DefaultLogger.getInstance().log("[ERROR] Missing R/W permission to working directory:" +workingDir.getAbsolutePath()+ "" +
+	    		"We are going to use the user's temp folder", 3);
 	    workingDir = new File(System.getProperty("java.io.tmpdir"));
-	    System.out.println("[WARNING] Using working directory:" +workingDir.getAbsolutePath() );
+	    DefaultLogger.getInstance().log("[WARNING] Using working directory:" +workingDir.getAbsolutePath(), 2);
 	}
 	
 	//TODO You should use already a String[] or List<String> to avoid issue with space. 
@@ -100,17 +100,19 @@ public class ProcessExecutor {
 	    t.printStackTrace();
 	    return -1;
 	}
-
+	
+	String status = String.format("\n---------\nrunning %s\n---------\n\n", commandLine);
+	DefaultLogger.getInstance().log(status);	    
+	
 	try{
 	    // Read out dir output
 	    InputStream is = process.getInputStream();
 	    InputStreamReader isr = new InputStreamReader(is);
 	    BufferedReader br = new BufferedReader(isr);
 	    String line;
-	    System.out.printf("\n---------\nrunning %s\n---------\n\n",
-		    commandLine);
-	    while ((line = br.readLine()) != null) {
-		System.out.println(line);
+	   while ((line = br.readLine()) != null) {
+		int mavenLogLevel = EclipsePreferencesConfigurator.local.getMavenLogLevel(line);
+		DefaultLogger.getInstance().log(line, mavenLogLevel);
 	    }
 	}catch(IOException ignored){
 	}
@@ -118,7 +120,7 @@ public class ProcessExecutor {
 	try {
 	    //TODO To avoid looking on the UI we should use process.exitValue() please look at method betterRun() 
 	    int exitValue = process.waitFor();
-	    System.out.println("\nExit Value is " + exitValue + "\n---------\n");
+	    DefaultLogger.getInstance().log("\nExit Value is " + exitValue + "\n---------\n");
 	    return exitValue;
 	} catch (InterruptedException e) {
 	    // TODO Auto-generated catch block

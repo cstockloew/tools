@@ -25,6 +25,7 @@ import java.io.File;
 import java.util.UUID;
 
 import org.apache.maven.execution.MavenExecutionRequest;
+import org.universaal.tools.packaging.tool.util.DefaultLogger;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 
 /**
@@ -153,8 +154,7 @@ public class SystemPropertiesConfigurator {
 		mEmbSet = true;
 		ProcessExecutor.runMavenCommand("-v", "/");
 	    } catch (Exception e) {
-		System.out
-			.println("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.");
+		DefaultLogger.getInstance().log("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.", 1);
 		mEmb = !mEmb;
 	    }
 	}
