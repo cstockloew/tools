@@ -614,7 +614,7 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 			if(pomResource != null && projectFacade != null){
 				
 				MavenExecutionRequest request;
-				System.out.println("*** 1 ***");
+				
 				try {
 					request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
 					

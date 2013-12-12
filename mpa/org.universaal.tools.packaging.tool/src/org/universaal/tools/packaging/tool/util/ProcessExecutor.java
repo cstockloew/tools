@@ -49,7 +49,7 @@ public class ProcessExecutor {
 
     public static int runMavenCommand(String options, String workingDir) {
 	if (EclipsePreferencesConfigurator.local.isOfflineMode()) {
-	    System.out.println("*** OFFLINE MODE ENABLED ***");
+	    // System.out.println("*** OFFLINE MODE ENABLED ***");
 	    options = "--offline " + options;
 
 	}
