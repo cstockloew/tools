@@ -548,7 +548,6 @@ public class GUI extends WizardMod {
 					// TODO Auto-generated catch block
 					exitLevel = -1;
 					e.printStackTrace();
-					return false;
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					exitLevel = -1;
