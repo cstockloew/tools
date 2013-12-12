@@ -94,6 +94,12 @@ public class ProcessExecutor {
 	Process process = null;
 	try {
 	    process = probuilder.start();
+	} catch (Throwable t) {
+	    t.printStackTrace();
+	    return -1;
+	}
+
+	try{
 	    // Read out dir output
 	    InputStream is = process.getInputStream();
 	    InputStreamReader isr = new InputStreamReader(is);
@@ -104,12 +110,8 @@ public class ProcessExecutor {
 	    while ((line = br.readLine()) != null) {
 		System.out.println(line);
 	    }
-
-	} catch (IOException e1) {
-	    // TODO Auto-generated catch block
-	    e1.printStackTrace();
+	}catch(IOException ignored){
 	}
-
 	// Wait to get exit value
 	try {
 	    //TODO To avoid looking on the UI we should use process.exitValue() please look at method betterRun() 
