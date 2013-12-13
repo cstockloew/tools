@@ -45,12 +45,6 @@ public class SystemPropertiesConfigurator {
 
     }
 
-    public boolean isPersistanceEnabled() {
-	return Boolean.valueOf(System.getProperty(
-		ConfigProperties.RECOVERY_MODE_KEY,
-		ConfigProperties.RECOVERY_MODE_KEY_DEFAULT));
-    }
-
     public String getRecoveryFileName() {
 	return System.getProperty(ConfigProperties.RECOVERY_FILE_NAME_KEY,
 		ConfigProperties.RECOVERY_FILE_NAME_DEFAULT);
@@ -140,6 +134,12 @@ public class SystemPropertiesConfigurator {
 		ConfigProperties.OFFLINE_MODE_DEFAULT));
     }
 
+    public boolean isPersistanceEnabled() {
+	return Boolean.valueOf(System.getProperty(
+		ConfigProperties.RECOVERY_MODE_KEY,
+		ConfigProperties.RECOVERY_MODE_KEY_DEFAULT));
+    }
+    
     public String getKarafPluginKarGoal() {
 	return System.getProperty(ConfigProperties.KARAF_PLUGIN_GOAL_KAR_KEY,
 		ConfigProperties.KARAF_PLUGIN_GOAL_KAR_DEFAULT);
@@ -152,7 +152,10 @@ public class SystemPropertiesConfigurator {
 	if (!mEmb && !mEmbSet) {
 	    try {
 		mEmbSet = true;
-		ProcessExecutor.runMavenCommand("-v", "/");
+		if(ProcessExecutor.runMavenCommand("-v", "/") == -1){
+			DefaultLogger.getInstance().log("[Application Packager] - WARNING! Maven command empty - Maven embedded used instead.", 2);
+			mEmb = !mEmb;	
+		}
 	    } catch (Exception e) {
 		DefaultLogger.getInstance().log("[Application Packager] - WARNING! Maven command not found - Maven embedded used instead.", 1);
 		mEmb = !mEmb;

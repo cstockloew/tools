@@ -340,6 +340,7 @@ public class GUI extends WizardMod {
 					p_end.setMPA(mpa);
 					//addingPermanentStorageDecorator();
 				} else {
+					EclipsePreferencesConfigurator.local.mEmbSet = false;
 					p = new ErrorPage(Page.PAGE_ERROR);
 					addPage(p);
 					p.setMPA(mpa);

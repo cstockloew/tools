@@ -99,8 +99,12 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		config.getKarafPluginVersion());
 
 	setDefaultAndValue(store, ConfigProperties.OFFLINE_MODE_KEY,
-		Boolean.parseBoolean(ConfigProperties.OFFLINE_MODE_DEFAULT),
-		config.isOfflineMode());
+			Boolean.parseBoolean(ConfigProperties.OFFLINE_MODE_DEFAULT),
+			config.isOfflineMode());
+
+	setDefaultAndValue(store, ConfigProperties.RECOVERY_MODE_KEY,
+			Boolean.parseBoolean(ConfigProperties.RECOVERY_MODE_KEY_DEFAULT),
+			config.isPersistanceEnabled());
 
 	setDefaultAndValue(store, ConfigProperties.MAVEN_COMMAND_KEY,
 		ConfigProperties.MAVEN_COMMAND_DEFAULT,

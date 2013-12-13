@@ -36,13 +36,18 @@ public interface ConfigProperties {
     public static final String LOG_DIR_KEY = "org.uAAL.packager.log.dir";
     public static final String LOG_DIR_DEFAULT = TMP_DIR_DEFAULT;
 
-    public static final String RECOVERY_MODE_KEY = "org.uAAL.packager.recovery";
-    public static final String RECOVERY_MODE_KEY_DEFAULT = "true";
-    public static final String RECOVERY_FILE_NAME_KEY = "org.uAAL.packager.recovery.filename";
-    public static final String RECOVERY_FILE_NAME_DEFAULT = "/.recovery";
     public static final String RECOVERY_PARTS_NAME_KEY = "org.uAAL.packager.recovery.partsname";
     public static final String RECOVERY_PARTS_NAME_DEFAULT = "/.parts";
-
+    public static final String RECOVERY_FILE_NAME_KEY = "org.uAAL.packager.recovery.filename";
+    public static final String RECOVERY_FILE_NAME_DEFAULT = "/.recovery";
+    
+    /**
+     * This is a boolean property for enabling/disabling the data persistence.<br>
+     * By the default data persistence is {@value #RECOVERY_MODE_KEY_DEFAULT}
+     */
+    public static final String RECOVERY_MODE_KEY = "org.uAAL.packager.recovery";
+    public static final String RECOVERY_MODE_KEY_DEFAULT = "true";
+    
     /**
      * This is a boolean property for enabling/disabling the console output.<br>
      * By the default console debug is {@value #ENABLE_CONSOLE_LOG_DEFAULT}

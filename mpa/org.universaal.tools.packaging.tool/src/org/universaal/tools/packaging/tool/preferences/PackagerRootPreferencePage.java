@@ -84,6 +84,7 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
     StringFieldEditor mavenKarafPluginGroup;
     StringFieldEditor mavenKarafPluginVersion;
     BooleanFieldEditor offlineMode;
+    BooleanFieldEditor persistence;
     StringFieldEditor mavenKarafPluginName;
     FileFieldEditor mavenCommand;
     BooleanFieldEditor mavenEmbedded;
@@ -114,7 +115,10 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
 			"Log level", allowedLogLevels, getFieldEditorParent());
 	
 	offlineMode = new BooleanFieldEditor(ConfigProperties.OFFLINE_MODE_KEY,
-		"Offline Mode", getFieldEditorParent());
+			"Offline Mode", getFieldEditorParent());
+
+	persistence = new BooleanFieldEditor(ConfigProperties.RECOVERY_MODE_KEY,
+			"Data Persistence", getFieldEditorParent());
 
 	mavenGoalKarafFeature = new StringFieldEditor(
 		ConfigProperties.KARAF_PLUGIN_GOAL_FEATURE_KEY,
@@ -160,6 +164,7 @@ public class PackagerRootPreferencePage extends FieldEditorPreferencePage
 	addField(logToConsole);
 	addField(logLevel);
 	addField(offlineMode);
+	addField(persistence);
 	addField(mavenGoals);
 	addField(karafPlugin);
 	addField(mavenEmbedded);

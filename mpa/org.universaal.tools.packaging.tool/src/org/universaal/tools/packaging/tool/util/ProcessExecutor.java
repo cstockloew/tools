@@ -53,6 +53,9 @@ public class ProcessExecutor {
 	    options = "--offline " + options;
 
 	}
+	
+	if(EclipsePreferencesConfigurator.local.getMavenCommand().isEmpty()) return -1;	
+
 	return runCommand(EclipsePreferencesConfigurator.local.getMavenCommand() + " " + options,
 		workingDir);
     }

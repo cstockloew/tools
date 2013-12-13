@@ -87,6 +87,8 @@ public class MPAaction extends AbstractHandler {
 		String recParts = org.universaal.tools.packaging.tool.Activator.tempDir + EclipsePreferencesConfigurator.local.getRecoveryPartsName();
 		w.getShell().setCursor(new Cursor(w.getShell().getDisplay(),SWT.CURSOR_WAIT));
 		
+		EclipsePreferencesConfigurator.local.mEmbSet = false;
+		
 		if ( EclipsePreferencesConfigurator.local.isPersistanceEnabled()) {
 			DefaultLogger.getInstance().log("Searching for recovery file "+ recFile);
 			File recovery = new File(recFile);
