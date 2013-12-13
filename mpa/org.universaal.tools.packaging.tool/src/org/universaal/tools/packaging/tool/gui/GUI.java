@@ -619,6 +619,7 @@ class ProgressEffectivePom implements IRunnableWithProgress {
 				
 				try {
 					request = projectManager.createExecutionRequest(pomResource, projectFacade.getResolverConfiguration(), null);
+					request.setLoggingLevel(EclipsePreferencesConfigurator.local.getLogLevel());
 					
 					List<String> goals = new ArrayList<String>();
 					Properties props = new Properties();
