@@ -186,6 +186,14 @@
 
 	<developers>
 		<developer>
+		<id>nirpsi</id>
+		<email>merkle@fzi.de</email>
+		<name>Nicole Merkle</name>
+		<roles>
+			<role>developer</role>
+		</roles>
+		<timezone>CEST/CET</timezone>
+		<developer>
 			<id>alex</id>
 			<email>alexander.marinc@igd.fraunhofer.de</email>
 			<name>Alexander Marinc</name>
