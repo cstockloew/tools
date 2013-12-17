@@ -125,6 +125,7 @@ public class ProfileAgentImpl implements ProfileAgent {
 		  	System.out.println("Profile Agent: getAllUsers");
 			ServiceRequest req=new ServiceRequest(new ProfilingService(),null);
 			req.addRequiredOutput(OUTPUT_GETUSERS, new String[]{ProfilingService.PROP_CONTROLS});
+			req.addTypeFilter(Path.at(ProfilingService.PROP_CONTROLS).path, User.MY_URI);
 			ServiceResponse resp=caller.call(req);
 			if (resp.getCallStatus() == CallStatus.succeeded) {
 			    Object out=getReturnValue(resp.getOutputs(),OUTPUT_GETUSERS);
