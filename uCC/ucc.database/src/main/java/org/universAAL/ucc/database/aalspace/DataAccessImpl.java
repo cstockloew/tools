@@ -136,6 +136,10 @@ public class DataAccessImpl implements DataAccess{
 					roles.add((String)ur.getProperty(Activator.USER_SPACE+"userRole"));
 			}
 			for(User u : users) {
+			    Object prop=u.getProperty(Activator.USER_SPACE+"username");
+			    if(prop==null){
+				break;//HACK to prevent analyzing correct users :(
+			    }
 				String filter = ((String)u.getProperty(Activator.USER_SPACE+"username")).replace("_", " ");
 				System.err.println(filter);
 				OntologyInstance ont = new OntologyInstance();
