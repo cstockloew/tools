@@ -186,7 +186,7 @@ public class ToolController implements Button.ClickListener,
 		if(event.getButton() == toolWin.getPersonButton()) {
 			AddNewPersonWindow apw = null;
 			try {
-				apw = new AddNewPersonWindow(null, app);
+				apw = new AddNewPersonWindow(null, null, app);
 			} catch (JAXBException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

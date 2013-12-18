@@ -32,6 +32,7 @@ import org.universAAL.ucc.startup.model.Role;
 import org.universAAL.ucc.startup.model.UserAccountInfo;
 import org.universAAL.ucc.windows.AddNewPersonWindow;
 import org.universAAL.ucc.windows.HumansWindow;
+import org.universAAL.ucc.windows.SelectUserWindow;
 import org.universAAL.ucc.windows.TabForm;
 import org.universAAL.ucc.windows.UccUI;
 
@@ -74,8 +75,9 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 	private String device;
 	private Setup setup;
 	private ModuleConfigHome mc;
+	private SelectUserWindow selWin;
 
-	public AddNewPersonController(AddNewPersonWindow window, HumansWindow hWin,
+	public AddNewPersonController(AddNewPersonWindow window, HumansWindow hWin, SelectUserWindow sel,
 			UccUI app) throws JAXBException,
 			IOException, ParseException {
 		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
@@ -83,6 +85,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 		device = mc.getAbsolutePath();
 		ontoProfile = device+"/EmptyUser.xml";
 		this.app = app;
+		selWin = sel;
 		this.saved = false;
 		this.win = window;
 		this.win.addListener(this);
@@ -541,6 +544,7 @@ public class AddNewPersonController implements Button.ClickListener, Window.Clos
 			app.getMainWindow().showNotification(
 					tab.getHeader() + " was saved",
 					Notification.POSITION_CENTERED);
+			selWin.addUserToList();
 			
 		}
 

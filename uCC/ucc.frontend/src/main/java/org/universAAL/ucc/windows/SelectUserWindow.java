@@ -1,7 +1,12 @@
 package org.universAAL.ucc.windows;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.bind.JAXBException;
 
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.rdf.Resource;
@@ -15,8 +20,15 @@ import org.universAAL.ontology.profile.User;
 import org.universAAL.ontology.profile.service.ProfilingService;
 import org.universAAL.ontology.profile.ui.mainmenu.MenuEntry;
 import org.universAAL.ontology.profile.ui.mainmenu.MenuProfile;
+import org.universAAL.ucc.database.aalspace.DataAccess;
 import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.model.jaxb.EnumObject;
+import org.universAAL.ucc.model.jaxb.OntologyInstance;
+import org.universAAL.ucc.model.jaxb.SimpleObject;
+import org.universAAL.ucc.model.jaxb.StringValue;
+import org.universAAL.ucc.model.jaxb.Subprofile;
 import org.universAAL.ucc.service.manager.Activator;
+import org.universAAL.ucc.startup.model.Role;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -31,14 +43,16 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 	private ListSelect list;
 	private Button ok;
 	private Button cancel;
+	private Button addUser;
 	private AALService aal;
 	private UccUI app;
+	private VerticalLayout vl;
 	
 	public SelectUserWindow(List<String>users, AALService aal, UccUI app) {
 		super("Select User");
 		this.aal = aal;
 		this.app = app;
-		VerticalLayout vl = new VerticalLayout();
+		vl = new VerticalLayout();
 		vl.setSizeFull();
 		vl.setMargin(true);
 		vl.setSpacing(true);
@@ -57,11 +71,14 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 		vl.addComponent(list);
 		vl.setComponentAlignment(list, Alignment.TOP_CENTER);
 		
+		addUser = new Button("Add User");
+		addUser.addListener(this);
 		ok = new Button("OK");
 		ok.addListener(this);
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
 		hl.setMargin(true);
+		hl.addComponent(addUser);
 		hl.addComponent(ok);
 		cancel = new Button("Cancel");
 		cancel.addListener(this);
@@ -76,6 +93,22 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 	}
 
 	public void buttonClick(ClickEvent event) {
+		if(event.getButton() == addUser) {
+			AddNewPersonWindow anpw = null;
+			try {
+				anpw = new AddNewPersonWindow(null, this, app);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			app.getMainWindow().addWindow(anpw);
+		}
 		if(event.getButton() == ok) {
 			System.err.println("AAL-NAME: "+aal.getName());
 			System.err.println("AAL-PROVIDER: "+aal.getProvider());
@@ -121,6 +154,92 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
                 "callstatus is not succeeded"
             }, null);
     }
+
+	public ListSelect getList() {
+		return list;
+	}
+
+	public void setList(ListSelect list) {
+		this.list = list;
+	}
+
+	public VerticalLayout getVl() {
+		return vl;
+	}
+
+	public void setVl(VerticalLayout vl) {
+		this.vl = vl;
+	}
+	
+	public void addUserToList() {
+		removeComponent(vl);
+		List<String> users = new ArrayList<String>();
+		DataAccess da = Activator.getDataAccess();
+		ArrayList<OntologyInstance> ontList = da
+				.getEmptyCHEFormFields("User");
+		String uname = "";
+		String role = "";
+		for (OntologyInstance o : ontList) {
+			System.err.println("Getting all users!");
+			for (Subprofile s : o.getSubprofiles()) {
+				for (SimpleObject sim : s.getSimpleObjects()) {
+					StringValue st = (StringValue) sim;
+					if (st.getName().equals("username")) {
+						uname = st.getValue();
+					}
+				}
+				System.err.println(s.getEnums().size());
+				for (EnumObject en : s.getEnums()) {
+					System.err.println(en.getType());
+					if (en.equals("userRole")) {
+						role = en.getSelectedValue();
+						System.err.println(role);
+					}
+				}
+				if (role.equals(Role.ASSISTEDPERSON.name())
+						|| role.equals(Role.ENDUSER.name())) {
+					System.err.println(role);
+					users.add(uname);
+				}
+
+			}
+			users.add(uname);
+		}
+		
+		vl = new VerticalLayout();
+		vl.setSizeFull();
+		vl.setMargin(true);
+		vl.setSpacing(true);
+		setContent(vl);
+		Label l = new Label("For which user do you want to install the AAL service?");
+		list = new ListSelect("List of users in AAL space");
+		list.setImmediate(true);
+		list.setMultiSelect(false);
+		list.setWidth("200px");
+		list.setNullSelectionAllowed(false);
+//		list.setNewItemsAllowed(false);
+		for(String u : users) {
+			list.addItem(u);
+		}
+		vl.addComponent(l);
+		vl.addComponent(list);
+		vl.setComponentAlignment(list, Alignment.TOP_CENTER);
+		
+		addUser = new Button("Add User");
+		addUser.addListener(this);
+		ok = new Button("OK");
+		ok.addListener(this);
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.setSpacing(true);
+		hl.setMargin(true);
+		hl.addComponent(addUser);
+		hl.addComponent(ok);
+		cancel = new Button("Cancel");
+		cancel.addListener(this);
+		hl.addComponent(cancel);
+		vl.addComponent(hl);
+		vl.setComponentAlignment(hl, Alignment.BOTTOM_CENTER);
+	}
 
 
 }

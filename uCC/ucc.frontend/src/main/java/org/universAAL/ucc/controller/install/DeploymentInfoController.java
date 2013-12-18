@@ -164,15 +164,15 @@ public class DeploymentInfoController implements Button.ClickListener,
 					.entrySet()) {
 
 				// Selected part in tree
-				if (uapp.getValue().getPart().getPartId().equals(selected)) {
+				if (uapp.getValue().getPart().getPartId().equals(selected.substring(0, selected.indexOf(":")))) {
 
 					// Default Deployment Strategy
-					if (dsvMap.get(selected).getOptions().getValue().toString()
+					if (dsvMap.get(selected.substring(0, selected.indexOf(":"))).getOptions().getValue().toString()
 							.equals(bundle.getString("opt.available.nodes"))) {
 						config = buildDefaultInstallationLayout(uapp.getValue());
 					}
 					// User selection strategy
-					else if (dsvMap.get(selected).getOptions().getValue()
+					else if (dsvMap.get(selected.substring(0, selected.indexOf(":"))).getOptions().getValue()
 							.toString()
 							.equals(bundle.getString("opt.selected.nodes"))) {
 						System.err.println("User Installation for part: "
@@ -193,8 +193,8 @@ public class DeploymentInfoController implements Button.ClickListener,
 			win.getTree().addListener(this);
 			System.err.println("Selected and removed node is: " + selected);
 			System.err.println("Tree node was removed");
-			dsvMap.remove(selected);
-			dcvMap.remove(selected);
+			dsvMap.remove(selected.substring(0, selected.indexOf(":")));
+			dcvMap.remove(selected.substring(0, selected.indexOf(":")));
 
 			// All parts are processed, now we can deploy
 			if (dsvMap.isEmpty() && dcvMap.isEmpty()) {
