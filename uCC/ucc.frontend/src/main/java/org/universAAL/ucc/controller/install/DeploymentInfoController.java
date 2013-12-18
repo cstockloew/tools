@@ -96,12 +96,11 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.err.println(applicationPart.getValue().getPart()
 						.getPartId()
 						+ " " + aal.getUaapList().size());
+				String labelName = applicationPart.getValue().getPart().getPartId()+":"+applicationPart.getValue().getPart().getBundleId();
 				win.getTree().addItem(
-						applicationPart.getValue().getPart().getPartId());
+						labelName);
 				win.getTree()
-						.setChildrenAllowed(
-								applicationPart.getValue().getPart()
-										.getPartId(), false);
+						.setChildrenAllowed(labelName , false);
 				DeployStrategyView dsv = new DeployStrategyView(aal.getName(),
 						aal.getServiceId(), applicationPart.getValue()
 								.getUappLocation());
@@ -256,8 +255,15 @@ public class DeploymentInfoController implements Button.ClickListener,
 
 			}
 			// }
-			selected = (String) win.getTree().getItemIds().iterator().next();
-			win.getTree().select(selected);
+			if (win.getTree()!=null){
+				if (win.getTree().getItemIds()!=null){
+					if(win.getTree().getItemIds().iterator().hasNext()){
+						selected = (String) win.getTree().getItemIds().iterator().next();
+						win.getTree().select(selected);						
+					}
+				}
+			}
+				
 		}
 
 		// }
@@ -295,8 +301,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		for (UAPP up : aal.getUaapList()) {
 			for (Map.Entry<String, UAPPPart> ua : up.getParts().entrySet()) {
 				System.err.println(aal.getUaapList().size());
-				if (ua.getValue().getPart().getPartId()
-						.equals(event.getProperty().toString())) {
+				if (event.getProperty().toString().startsWith(ua.getValue().getPart().getPartId())) {
 					selected = event.getProperty().toString();
 					DeployStrategyView dsv = dsvMap.get(ua.getValue().getPart()
 							.getPartId());
