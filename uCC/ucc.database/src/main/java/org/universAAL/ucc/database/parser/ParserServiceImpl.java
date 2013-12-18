@@ -16,7 +16,8 @@ public class ParserServiceImpl implements ParserService {
 		Unmarshaller um = null;
 		AalUapp uapp = null;
 		try {
-			jc = JAXBContext.newInstance("org.universAAL.middleware.deploymanager.uapp.model", AalUapp.class.getClassLoader());
+//			jc = JAXBContext.newInstance("org.universAAL.middleware.deploymanager.uapp.model", AalUapp.class.getClassLoader());
+		    jc = JAXBContext.newInstance(org.universAAL.middleware.deploymanager.uapp.model.ObjectFactory.class);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -39,7 +40,8 @@ public class ParserServiceImpl implements ParserService {
 		Unmarshaller um = null;
 		AalUsrv usrv = null;
 		try {
-			jc = JAXBContext.newInstance("org.universAAL.ucc.model.usrv", AalUsrv.class.getClassLoader());
+//			jc = JAXBContext.newInstance("org.universAAL.ucc.model.usrv", AalUsrv.class.getClassLoader());
+			jc = JAXBContext.newInstance(org.universAAL.ucc.model.usrv.ObjectFactory.class);
 		} catch(JAXBException e) {
 			e.printStackTrace();
 		}

@@ -137,9 +137,8 @@ public class DataAccessImpl implements DataAccess{
 			}
 			for(User u : users) {
 			    Object prop=u.getProperty(Activator.USER_SPACE+"username");
-			    if(prop==null){
-				break;//HACK to prevent analyzing correct users :(
-			    }
+			    if(prop!=null){//HACK to prevent analyzing correct users :(
+
 				String filter = ((String)u.getProperty(Activator.USER_SPACE+"username")).replace("_", " ");
 				System.err.println(filter);
 				OntologyInstance ont = new OntologyInstance();
@@ -175,7 +174,7 @@ public class DataAccessImpl implements DataAccess{
 				
 				ont.getSubprofiles().add(sub);
 				ontologies.add(ont);
-				
+			    }
 			}
 	
 		}
