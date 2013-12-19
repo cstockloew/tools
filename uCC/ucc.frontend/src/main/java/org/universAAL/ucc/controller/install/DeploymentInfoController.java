@@ -86,6 +86,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 		dcvMap = new HashMap<String, DeployConfigView>();
 		mapLayout = new HashMap<Part, List<PeerCard>>();
 		int i = 0;
+		String labelName = "";
 		for (UAPP ua : aal.getUaapList()) {
 			for (Map.Entry<String, UAPPPart> applicationPart : ua.getParts()
 					.entrySet()) {
@@ -96,7 +97,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				System.err.println(applicationPart.getValue().getPart()
 						.getPartId()
 						+ " " + aal.getUaapList().size());
-				String labelName = applicationPart.getValue().getPart().getPartId()+":"+applicationPart.getValue().getPart().getBundleId();
+				labelName = applicationPart.getValue().getPart().getPartId()+":"+applicationPart.getValue().getPart().getBundleId();
 				win.getTree().addItem(
 						labelName);
 				win.getTree()
@@ -135,7 +136,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 				dcvMap.put(applicationPart.getValue().getPart().getPartId(),
 						dcv);
 			}
-			win.getTree().select(selected);
+			win.getTree().select(/*selected*/ labelName);
 			for (Map.Entry<String, UAPPPart> u : ua.getParts().entrySet()) {
 				if (u.getValue().getPart().getPartId().equals(selected)) {
 					DeployStrategyView dsv = dsvMap.get(u.getValue().getPart()
@@ -145,6 +146,7 @@ public class DeploymentInfoController implements Button.ClickListener,
 					actVL = win.createSecondComponent(dsv, dcv);
 				}
 			}
+			selected = labelName;
 		}
 		win.getTree().addListener(this);
 		win.getOk().addListener((Button.ClickListener) this);
