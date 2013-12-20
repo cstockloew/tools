@@ -166,11 +166,11 @@ public class ToolController implements Button.ClickListener,
 					Node n = srvChilds.item(j);
 					if(n.getNodeName().equals("application")) {
 						Element e = (Element)n;
-						srv.setAppId(e.getAttribute("appId"));
+						srv.getAppId().add(e.getAttribute("appId"));
 					}
 					if(n.getNodeName().equals("bundle")) {
 						Element b = (Element)n;
-						srv.setBundleId(b.getAttribute("id"));
+						srv.getBundleId().add(b.getAttribute("id"));
 						srv.setBundleVersion(b.getAttribute("version"));
 					}
 				}

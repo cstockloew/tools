@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.frontend.api.impl.FrontendImpl;
+import org.universAAL.ucc.model.AppItem;
 import org.universAAL.ucc.model.RegisteredService;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.DeinstallWindow;
@@ -33,8 +34,9 @@ public class DeinstallController implements Button.ClickListener {
 	public void buttonClick(ClickEvent event) {
 		if(win.getDel() == event.getButton()) {
 			if(win.getList().getValue() != null) {
-				RegisteredService srv = (RegisteredService) win.getList().getValue();
-				front.uninstallService(Activator.getSessionKey(),srv.getServiceId());
+//				RegisteredService srv = (RegisteredService) win.getList().getValue();
+				AppItem part = (AppItem)win.getList().getValue();
+				front.uninstallService(Activator.getSessionKey(),part.getServiceId());
 			} else {
 				app.getMainWindow().showNotification("", bundle.getString("select.usrv"), Notification.TYPE_HUMANIZED_MESSAGE);
 			}

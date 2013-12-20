@@ -1,26 +1,35 @@
 package org.universAAL.ucc.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RegisteredService {
 	private String serviceId;
-	private String bundleId;
-	private String appId;
+	private List<String> bundleId;
+	private List<String> appId;
 	private String bundleVersion;
+	
+	public RegisteredService() {
+		bundleId = new ArrayList<String>();
+		appId = new ArrayList<String>();
+	}
+	
 	public String getServiceId() {
 		return serviceId;
 	}
 	public void setServiceId(String serviceId) {
 		this.serviceId = serviceId;
 	}
-	public String getBundleId() {
+	public List<String> getBundleId() {
 		return bundleId;
 	}
-	public void setBundleId(String bundleId) {
+	public void setBundleId(List<String> bundleId) {
 		this.bundleId = bundleId;
 	}
-	public String getAppId() {
+	public List<String> getAppId() {
 		return appId;
 	}
-	public void setAppId(String appId) {
+	public void setAppId(List<String> appId) {
 		this.appId = appId;
 	}
 	public String getBundleVersion() {

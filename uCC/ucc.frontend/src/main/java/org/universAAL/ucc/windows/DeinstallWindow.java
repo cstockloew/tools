@@ -3,6 +3,7 @@ package org.universAAL.ucc.windows;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.universAAL.ucc.model.AppItem;
 import org.universAAL.ucc.model.RegisteredService;
 
 import com.vaadin.data.Container;
@@ -35,20 +36,28 @@ public class DeinstallWindow extends Window {
 		list.setWidth("100%");
 		list.addContainerProperty("serviceId", String.class, null);
 		list.addContainerProperty("appId", String.class, null);
-		list.addContainerProperty("bundleId", String.class, null);
-		list.addContainerProperty("version", String.class, null);
-		list.setVisibleColumns(new String[] {"serviceId", "appId", "bundleId", "version"});
+//		list.addContainerProperty("bundleId", String.class, null);
+//		list.addContainerProperty("version", String.class, null);
+		list.setVisibleColumns(new String[] {"serviceId", "appId"/*, "bundleId", "version"*/});
 		list.setColumnHeader("serviceId", "Service-ID");
 		list.setColumnHeader("appId", "App-ID");
-		list.setColumnHeader("bundleId", "Bundle-ID");
-		list.setColumnHeader("version", "Bundle-Version");
-		
+//		list.setColumnHeader("bundleId", "Bundle-ID");
+//		list.setColumnHeader("version", "Bundle-Version");
+		list.setSortDisabled(true);
 		list.setMultiSelect(false);
 	
-		Container beanContainer = new BeanItemContainer<RegisteredService>(RegisteredService.class);
+		Container beanContainer = new BeanItemContainer<AppItem>(AppItem.class);
 	
 		for(RegisteredService item : srv) {
-			beanContainer.addItem(item);
+//			for(String app: item.getAppId()) {
+				AppItem ai = new AppItem();
+				ai.setServiceId(item.getServiceId());
+//				ai.setAppId(app);
+//				for(String bId : item.getBundleId()) {
+//					ai.setBundleId(bId);
+//				}
+				beanContainer.addItem(ai);
+//			}
 		}
 		list.setContainerDataSource(beanContainer);
 		

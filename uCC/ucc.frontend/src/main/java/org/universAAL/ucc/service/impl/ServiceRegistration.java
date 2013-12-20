@@ -129,17 +129,17 @@ public class ServiceRegistration implements IServiceRegistration {
 	 * return success; }
 	 */
 
-	private boolean addBundleToXML(String serviceId, String bundleId,
+	private boolean addBundleToXML(String appId, String bundleId,
 			String bundleVersion) {
 		boolean success = true;
 		try {
 			Document doc = Model.getSrvDocument();
 
-			Element element = ServiceManagment.getService(serviceId, doc);
+			Element element = ServiceManagment.getService(appId, doc);
 			if (element == null) {
-				element = doc.createElement("service");
+				element = doc.createElement("application");
 				doc.getDocumentElement().appendChild(element);
-				element.setAttribute("serviceId", serviceId);
+				element.setAttribute("appId", appId);
 			}
 			Element bundleRoot = doc.createElement("bundle");
 			element.appendChild(bundleRoot);

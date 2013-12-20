@@ -519,21 +519,21 @@ public class DeploymentInfoController implements Button.ClickListener,
 
 	private void showInstallationResultToUser(InstallationResultsDetails res) {
 		System.err.println("The GLOBAL RESULT: " + res.getGlobalResult());
-		// System.err.println("Service ID: "+aal.getServiceId()+
-		// " App ID: "+uapp.getValue().getAppId()+" Bundle ID: "+uapp.getValue().getBundleId()+
-		// "Bundle Version: "+uapp.getValue().getBundleId());
+		
 		if (res.getGlobalResult().toString()
 				.equals(InstallationResults.SUCCESS.name())) {
-			srvRegistration.registerApp(aal.getServiceId(),
-			// Maybe has to be changed to appID!
-					installingApp.getAppID());
-			// get bundles for each part in the appId;
-			// for each bundle:
-			// Has to be fixed
-			// srvRegistration.registerBundle(aal.getServiceId(),
-			// uapp.getValue().getBundleId(),
-			// uapp.getValue().getBundleVersion());
-
+			//Register installed apps
+			System.err.println(aal.getUaapList().size());
+			for(UAPP uapp : aal.getUaapList()){
+				for(Map.Entry<String, UAPPPart> entry : uapp.getParts().entrySet()) {
+					srvRegistration.registerApp(aal.getServiceId(),
+					/*installingApp*/entry.getValue()./*getAppId()*/getPart().getPartId());
+//					 srvRegistration.registerBundle(entry.getValue().getPart().getPartId(),
+//					 entry.getValue().getPart().getBundleId(),
+//					 entry.getValue().getPart().getBundleVersion());
+				}
+			}
+			
 			// TODO: Configurator has to be tested
 			// uapp has to be installed and running to configure it
 			// (configuration has to be done for every configurable application
