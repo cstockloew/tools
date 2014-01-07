@@ -2,7 +2,7 @@ package org.universAAL.ucc.model;
 
 public class AppItem {
 	private String serviceId;
-//	private String appId;
+	private String appId;
 	
 	public String getServiceId() {
 		return serviceId;
@@ -11,12 +11,12 @@ public class AppItem {
 		this.serviceId = serviceId;
 	}
 
-//	public String getAppId() {
-//		return appId;
-//	}
-//	public void setAppId(String appId) {
-//		this.appId = appId;
-//	}
+	public String getAppId() {
+		return appId;
+	}
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
 	
 	
 }

@@ -49,15 +49,15 @@ public class DeinstallWindow extends Window {
 		Container beanContainer = new BeanItemContainer<AppItem>(AppItem.class);
 	
 		for(RegisteredService item : srv) {
-//			for(String app: item.getAppId()) {
+			for(String app: item.getAppId()) {
 				AppItem ai = new AppItem();
 				ai.setServiceId(item.getServiceId());
-//				ai.setAppId(app);
+				ai.setAppId(app);
 //				for(String bId : item.getBundleId()) {
 //					ai.setBundleId(bId);
 //				}
 				beanContainer.addItem(ai);
-//			}
+			}
 		}
 		list.setContainerDataSource(beanContainer);
 		

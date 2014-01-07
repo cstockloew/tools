@@ -524,15 +524,15 @@ public class DeploymentInfoController implements Button.ClickListener,
 				.equals(InstallationResults.SUCCESS.name())) {
 			//Register installed apps
 			System.err.println(aal.getUaapList().size());
-			for(UAPP uapp : aal.getUaapList()){
-				for(Map.Entry<String, UAPPPart> entry : uapp.getParts().entrySet()) {
+//			for(UAPP uapp : aal.getUaapList()){
+//				for(Map.Entry<String, UAPPPart> entry : uapp.getParts().entrySet()) {
 					srvRegistration.registerApp(aal.getServiceId(),
-					/*installingApp*/entry.getValue()./*getAppId()*/getPart().getPartId());
+					installingApp.getAppID() /*entry.getValue().getAppId()*/);
 //					 srvRegistration.registerBundle(entry.getValue().getPart().getPartId(),
 //					 entry.getValue().getPart().getBundleId(),
 //					 entry.getValue().getPart().getBundleVersion());
-				}
-			}
+//				}
+//			}
 			
 			// TODO: Configurator has to be tested
 			// uapp has to be installed and running to configure it
