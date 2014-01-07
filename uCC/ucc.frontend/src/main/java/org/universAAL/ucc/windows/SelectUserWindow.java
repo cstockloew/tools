@@ -115,7 +115,7 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 			System.err.println("ONTOLOGY-URI: "+aal.getOntologyUri());
 			System.err.println("ICON-PATH: "+aal.getIconPath());
 			addEntry((list.getValue()).toString(), 
-					aal.getMenuName(), aal.getProvider(), 
+					aal.getMenuName(), aal.getUaapList().get(0).getProvider().getWebsite()/*getProvider()*/, 
 					aal.getOntologyUri(), aal.getIconPath());
 			close();
 			app.getMainWindow().showNotification("", "The MenuEntry was successfully added", Notification.TYPE_HUMANIZED_MESSAGE);
@@ -130,14 +130,52 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 	//Adds a MenuEntry for new installed AAL service to Endusers view
 	private void addEntry(String userID, String entryName, String vendor, String serviceClass, String iconURL)
     {
-        MenuEntry me = new MenuEntry(null/*(new StringBuilder()).append(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX).append(entryName).toString()*/);
+		System.err.println("User-ID: "+userID);
+		System.err.println("Menu-Entry Name: "+entryName);
+		System.err.println("Vendor: "+vendor);
+		System.err.println("Service-Class: "+serviceClass);
+		System.err.println("Icon-URL: "+iconURL);
+		String[] pathElems = null;
+		if(iconURL.contains("/")) {
+			pathElems = iconURL.split("/");
+		} else if(iconURL.contains("\\")) {
+			pathElems = iconURL.split("\\");
+		}
+		Resource r = null;
+		Resource icon = null;
+		String category = ""; 
+		if(pathElems != null) {
+		for(int i = 0; i < pathElems.length; i++) {
+			if(i == (pathElems.length - 1)) {
+				icon = new Resource(pathElems[i]);
+				icon.setResourceLabel(entryName);
+			} else {
+				category += pathElems[i]+"/";
+			}
+		}
+		r = new Resource();
+		r.setResourceLabel(category);
+		} else {
+			icon = new Resource(iconURL);
+			icon.setResourceLabel(entryName);
+		}
+		
+        MenuEntry me = new MenuEntry(null);
         me.setVendor(new Resource(vendor));
         me.setServiceClass(new Resource(serviceClass));
-        Resource pathElem = new Resource(iconURL);
-        pathElem.setResourceLabel(entryName);
-        me.setPath(new Resource[] {
-            pathElem
+//        Resource pathElem = new Resource(iconURL);
+//        pathElem.setResourceLabel(entryName);
+        if(!category.equals(""))
+        	me.setPath(new Resource[] {
+        		r,
+            /*pathElem*/ icon
         });
+        else
+        	me.setPath(new Resource[]{
+        			icon
+        	});
+        System.err.println("The ICON: "+icon);
+        System.err.println("The Category-Path: "+category);
         ServiceRequest sr = new ServiceRequest(new ProfilingService(), null);
 	sr.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS },
 		new User(userID));
