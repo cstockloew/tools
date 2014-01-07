@@ -40,6 +40,7 @@ import org.universAAL.middleware.managers.api.InstallationResultsDetails;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
+import org.universAAL.ucc.model.AppItem;
 import org.universAAL.ucc.model.Provider;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.UAPPPart;
@@ -54,6 +55,8 @@ import org.universAAL.ucc.windows.NoConfigurationWindow;
 import org.universAAL.ucc.windows.NotificationWindow;
 import org.universAAL.ucc.windows.UccUI;
 import org.xml.sax.SAXException;
+
+import com.vaadin.ui.Window;
 
 /**
  * Implements the install and de-install processes. Is interface for the
@@ -655,6 +658,8 @@ public class FrontendImpl implements IFrontend {
 				if (result.getGlobalResult().toString()
 						.equals(InstallationResults.SUCCESS)) {
 					Activator.getReg().unregisterService(serviceId);
+					
+					
 				} else if (result.getGlobalResult().toString()
 						.equals(InstallationResults.MISSING_PEER)) {
 					NoConfigurationWindow nw = new NoConfigurationWindow(
@@ -780,4 +785,5 @@ public class FrontendImpl implements IFrontend {
 			}
 		}
 	}
+
 }

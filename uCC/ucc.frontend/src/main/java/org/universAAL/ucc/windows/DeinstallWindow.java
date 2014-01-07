@@ -15,7 +15,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class DeinstallWindow extends Window {
+public class DeinstallWindow extends Window implements Window.CloseListener {
 	private Table list;
 	private Button del;
 	private Button cancel;
@@ -99,6 +99,11 @@ public class DeinstallWindow extends Window {
 
 	public void setCancel(Button cancel) {
 		this.cancel = cancel;
+	}
+
+	public void windowClose(CloseEvent e) {
+		close();
+		
 	}
 	
 	

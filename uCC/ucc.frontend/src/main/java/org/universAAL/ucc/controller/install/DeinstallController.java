@@ -36,7 +36,9 @@ public class DeinstallController implements Button.ClickListener {
 			if(win.getList().getValue() != null) {
 //				RegisteredService srv = (RegisteredService) win.getList().getValue();
 				AppItem part = (AppItem)win.getList().getValue();
+				app.getMainWindow().removeWindow(win);
 				front.uninstallService(Activator.getSessionKey(),part.getServiceId());
+				
 			} else {
 				app.getMainWindow().showNotification("", bundle.getString("select.usrv"), Notification.TYPE_HUMANIZED_MESSAGE);
 			}
