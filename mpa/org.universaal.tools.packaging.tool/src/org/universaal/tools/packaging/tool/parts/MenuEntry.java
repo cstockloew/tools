@@ -135,7 +135,7 @@ public class MenuEntry implements Serializable {
 			if(!isCustomIcon){ 
 				r = r.concat("<icon><path>"+iconPath.toASCIIString().trim()+"</path></icon>");
 			} else {
-				r = r.concat("<icon><name>"+iconPath.toASCIIString().trim()+"</name></icon>");
+				r = r.concat("<icon><name>"+iconPath.toASCIIString().trim().replace("icons.","").replace('.','/').replace("/png", ".png")+"</name></icon>");
 			}
 		}
 		return r;
