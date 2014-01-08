@@ -654,14 +654,12 @@ public class FrontendImpl implements IFrontend {
 				System.err.println("Apps to delete: " + del);
 				InstallationResultsDetails result = Activator.getDeinstaller()
 						.requestToUninstall(serviceId, del);
-				System.err.println("Uninstall Result: " + result);
-				if (result.getGlobalResult().toString()
-						.equals(InstallationResults.SUCCESS)) {
+				System.err.println("Uninstall Result: " + result.getGlobalResult().toString());
+				if (result.getGlobalResult() == InstallationResults.SUCCESS) {
 					Activator.getReg().unregisterService(serviceId);
 					
 					
-				} else if (result.getGlobalResult().toString()
-						.equals(InstallationResults.MISSING_PEER)) {
+				} else if (result.getGlobalResult() == InstallationResults.MISSING_PEER) {
 					NoConfigurationWindow nw = new NoConfigurationWindow(
 							bundle.getString("uninstall.failure")
 									+ "<br>Error: Missing peer");
