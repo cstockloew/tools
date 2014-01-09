@@ -75,7 +75,7 @@ import org.universaal.tools.packaging.tool.validators.UriV;
 
 public class Page1 extends PageImpl {
 
-	private TextExt name, id, description, tags, version_major, version_minor, version_micro, version_build, app_profile, menuName, serviceUri, iconFile;
+	private TextExt name, id, description, tags, version_major, version_minor, version_micro, version_build, app_profile, menuName, serviceUri, iconFile, web;
 	private Combo customIcon;
 	private File sourcePNG;
 	private Button b1;
@@ -204,6 +204,16 @@ public class Page1 extends PageImpl {
 		serviceUri.setLayoutData(gd);
 		serviceUri.addVerifyListener(new UriV());
 		serviceUri.addTooltip(XSDtooltip.find("menuEntry.serviceUri"));
+		
+		
+		Label l7 = new Label(container, SWT.NULL);
+		l7.setText("* Vendor");
+
+		web = new TextExt(container, SWT.BORDER | SWT.SINGLE);
+		web.setText(app.getApplication().getApplicationProvider().getWebAddress().toString());			
+		web.setLayoutData(gd);
+		web.addVerifyListener(new UriV());
+		web.addTooltip(XSDtooltip.find("contactType.webAddress"));
 		
 		Label label13 = new Label(container, SWT.NULL);
 		label13.setText("Menu Entry Icon (PNG 512x512 px A/R 1:1)");
@@ -360,6 +370,7 @@ public class Page1 extends PageImpl {
 			}
 		});	
 		serviceUri.addKeyListener(new FullListener());
+		web.addKeyListener(new FullListener());
 			
 		loadDefaultValues();
 		
@@ -406,13 +417,21 @@ public class Page1 extends PageImpl {
 			
 			customIcon.deselectAll();
 			customIcon.setEnabled(false);
+			createDefaultThumb();
 			
 			if(mandatory.contains(serviceUri)){
 				mandatory.remove(serviceUri);
-				createDefaultThumb();
 			}
+			
+			if(mandatory.contains(web)){
+				mandatory.remove(web);
+			}
+			
 			serviceUri.setText("");
 			serviceUri.setEnabled(false);
+			
+			web.setText("");
+			web.setEnabled(false);
 					
 		} else {
 			
@@ -423,9 +442,11 @@ public class Page1 extends PageImpl {
 			customIcon.setEnabled(true);
 			
 			serviceUri.setEnabled(true);
+			web.setEnabled(true);
+			
 			if(!mandatory.contains(serviceUri)) mandatory.add(serviceUri);
-			
-			
+			if(!mandatory.contains(web)) mandatory.add(web);
+						
 		}
 		
 		setPageComplete(validate());		
@@ -478,7 +499,9 @@ public class Page1 extends PageImpl {
 					
 			}	
 			
-
+			if(web.getText() != null && !web.getText().isEmpty())
+				app.getApplication().getApplicationProvider().setWebAddress(URI.create(removeBlanks(web.getText())));
+			
 	        //serializeMPA();
 			
 		} catch(Exception ex){

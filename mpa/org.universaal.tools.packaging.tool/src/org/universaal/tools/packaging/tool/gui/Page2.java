@@ -56,7 +56,7 @@ import org.universaal.tools.packaging.tool.validators.UriV;
 
 public class Page2 extends PageImpl {
 
-	private TextExt certificate, person, email, organization, phone, address, web, othChNm1, othChnDtl1, othChNm2, othChnDtl2;
+	private TextExt certificate, person, email, organization, phone, address, /* web, */ othChNm1, othChnDtl1, othChNm2, othChnDtl2;
 
 	private static final String EMAIL_PATTERN = 
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -160,6 +160,7 @@ public class Page2 extends PageImpl {
 		address.setLayoutData(gd);
 		address.addTooltip(XSDtooltip.find("contactType.streetAddress"));
 		
+		/*
 		Label l7 = new Label(container, SWT.NULL);
 		web = new TextExt(container, SWT.BORDER | SWT.SINGLE);
 		//mandatory.add(web);
@@ -168,6 +169,8 @@ public class Page2 extends PageImpl {
 		web.addVerifyListener(new UriV());
 		web.setLayoutData(gd);
 		web.addTooltip(XSDtooltip.find("contactType.webAddress"));
+		*/
+		
 		
 		Label l8 = new Label(container, SWT.NULL);
 		othChNm1 = new TextExt(container, SWT.BORDER | SWT.SINGLE);
@@ -271,6 +274,7 @@ public class Page2 extends PageImpl {
 				app.getApplication().getApplicationProvider().setStreetAddress(address.getText());				
 			}
 		});
+		/*
 		web.addKeyListener(new QL() {
 
 			@Override
@@ -283,6 +287,7 @@ public class Page2 extends PageImpl {
 				//				}				
 			}
 		});
+		*/
 		othChNm1.addKeyListener(new QL() {
 
 			@Override
@@ -450,9 +455,11 @@ public class Page2 extends PageImpl {
 			if(!certificate.getText().isEmpty()){
 				app.getApplication().getApplicationProvider().setCertificate(URI.create(removeBlanks(certificate.getText())));
 			}
-
+			
+			/*
 			if(web.getText() != null && !web.getText().isEmpty())
 				app.getApplication().getApplicationProvider().setWebAddress(URI.create(removeBlanks(web.getText())));
+			*/
 			
 			//serializeMPA();
 		}
