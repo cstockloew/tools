@@ -36,11 +36,17 @@ public class DeinstallWindow extends Window implements Window.CloseListener {
 		list.setWidth("100%");
 		list.addContainerProperty("serviceId", String.class, null);
 		list.addContainerProperty("appId", String.class, null);
+		list.addContainerProperty("menuName", String.class, null);
+		list.addContainerProperty("userID", String.class, null);
+		list.addContainerProperty("provider", String.class, null);
 //		list.addContainerProperty("bundleId", String.class, null);
 //		list.addContainerProperty("version", String.class, null);
 		list.setVisibleColumns(new String[] {"serviceId", "appId"/*, "bundleId", "version"*/});
 		list.setColumnHeader("serviceId", "Service-ID");
 		list.setColumnHeader("appId", "App-ID");
+		list.setColumnHeader("menuName", "Menu Name");
+		list.setColumnHeader("userID", "User ID");
+		list.setColumnHeader("provider", "Provider-Website");
 //		list.setColumnHeader("bundleId", "Bundle-ID");
 //		list.setColumnHeader("version", "Bundle-Version");
 		list.setSortDisabled(true);
@@ -53,9 +59,9 @@ public class DeinstallWindow extends Window implements Window.CloseListener {
 				AppItem ai = new AppItem();
 				ai.setServiceId(item.getServiceId());
 				ai.setAppId(app);
-//				for(String bId : item.getBundleId()) {
-//					ai.setBundleId(bId);
-//				}
+				ai.setMenuName(item.getMenuName());
+				ai.setUserID(item.getUserID());
+				ai.setProvider(item.getProvider());
 				beanContainer.addItem(ai);
 			}
 		}

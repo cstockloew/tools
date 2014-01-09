@@ -117,5 +117,22 @@ public class ServiceManagment implements IServiceManagement {
 			return new ArrayList<String>();
 		}
 	}
+	
+	/**
+	 * set userID value for the MenuEntry
+	 */
+	public void addUserIDToMenuEntry(String serviceId, String userID) {
+		if(new File(Model.SERVICEFILENAME).exists()) {
+			Document doc = Model.getSrvDocument();
+			Element el = getService(serviceId, doc);
+			NodeList nodeList = el.getElementsByTagName("menuEntry");
+			for(int i = 0; i < nodeList.getLength(); i++) {
+				Element entry = (Element) nodeList.item(i);
+				entry.setAttribute("userID", userID);
+				
+			}
+		}
+		
+	}
 
 }

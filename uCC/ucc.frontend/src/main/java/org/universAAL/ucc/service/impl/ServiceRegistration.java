@@ -33,8 +33,9 @@ public class ServiceRegistration implements IServiceRegistration {
 	 * TODO: register the installed bundles? Can use Map<bundleId,
 	 * bundleVersion> as the second parameter Can call this (registerService)
 	 */
-	public boolean registerApp(String serviceId, String appId) {
-		return addAppToXML(serviceId, appId);
+	public boolean registerApp(String serviceId, String appId, String entryName, String vendorURL, String serviceClass, String iconURL) {
+		return addAppToXML(serviceId, appId, entryName, vendorURL, serviceClass, 
+				iconURL);
 	}
 
 	public boolean registerBundle(String serviceId, String bundleId,
@@ -81,7 +82,8 @@ public class ServiceRegistration implements IServiceRegistration {
 	 * success; }
 	 */
 
-	private boolean addAppToXML(String serviceId, String appId) {
+	private boolean addAppToXML(String serviceId, String appId, String entryName, String vendorURL, String serviceClass, 
+			String iconURL) {
 		boolean success = true;
 		try {
 			Document doc = Model.getSrvDocument();
@@ -96,6 +98,15 @@ public class ServiceRegistration implements IServiceRegistration {
 			element.appendChild(appRoot);
 
 			appRoot.setAttribute("appId", appId);
+			
+			//Nicole changes for MenuEntry information
+			Element menuEntry = doc.createElement("menuEntry");
+			element.appendChild(menuEntry);
+			menuEntry.setAttribute("entryName", entryName);
+			menuEntry.setAttribute("userID", "");
+			menuEntry.setAttribute("vendor", vendorURL);
+			menuEntry.setAttribute("serviceClass", serviceClass);
+			menuEntry.setAttribute("iconURL", iconURL);
 
 			TransformerFactory
 					.newInstance()

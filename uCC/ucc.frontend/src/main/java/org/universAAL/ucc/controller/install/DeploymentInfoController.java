@@ -527,7 +527,8 @@ public class DeploymentInfoController implements Button.ClickListener,
 //			for(UAPP uapp : aal.getUaapList()){
 //				for(Map.Entry<String, UAPPPart> entry : uapp.getParts().entrySet()) {
 					srvRegistration.registerApp(aal.getServiceId(),
-					installingApp.getAppID() /*entry.getValue().getAppId()*/);
+					installingApp.getAppID(), aal.getMenuName(), aal.getUaapList().get(0).getProvider().getWebsite(),
+					aal.getOntologyUri(), aal.getIconPath()/*entry.getValue().getAppId()*/);
 //					 srvRegistration.registerBundle(entry.getValue().getPart().getPartId(),
 //					 entry.getValue().getPart().getBundleId(),
 //					 entry.getValue().getPart().getBundleVersion());

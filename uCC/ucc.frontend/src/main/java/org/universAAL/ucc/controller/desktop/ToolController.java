@@ -173,6 +173,14 @@ public class ToolController implements Button.ClickListener,
 						srv.getBundleId().add(b.getAttribute("id"));
 						srv.setBundleVersion(b.getAttribute("version"));
 					}
+					if(n.getNodeName().equals("menuEntry")) {
+						Element e = (Element)n;
+						srv.setMenuName(e.getAttribute("entryName"));
+						srv.setIconURL(e.getAttribute("iconURL"));
+						srv.setProvider(e.getAttribute("vendor"));
+						srv.setServiceClass(e.getAttribute("serviceClass"));
+						srv.setUserID(e.getAttribute("userID"));
+					}
 				}
 				ids.add(srv);
 			}

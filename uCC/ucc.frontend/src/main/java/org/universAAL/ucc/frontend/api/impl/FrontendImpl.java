@@ -25,6 +25,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.deploymanager.uapp.model.AalUapp;
 import org.universAAL.middleware.deploymanager.uapp.model.Bundle;
 import org.universAAL.middleware.deploymanager.uapp.model.DeploymentUnit;
@@ -36,24 +37,41 @@ import org.universAAL.ucc.model.usrv.ApplicationType;
 import org.universAAL.middleware.deploymanager.uapp.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
 import org.universAAL.middleware.managers.api.InstallationResultsDetails;
+import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.service.CallStatus;
+import org.universAAL.middleware.service.ServiceRequest;
+import org.universAAL.middleware.service.ServiceResponse;
+import org.universAAL.middleware.util.Constants;
+import org.universAAL.ontology.profile.Profilable;
+import org.universAAL.ontology.profile.Profile;
+import org.universAAL.ontology.profile.User;
+import org.universAAL.ontology.profile.service.ProfilingService;
+import org.universAAL.ontology.profile.ui.mainmenu.MenuEntry;
+import org.universAAL.ontology.profile.ui.mainmenu.MenuProfile;
 //import org.universAAL.middleware.interfaces.mpa.model.Part;
 import org.universAAL.ucc.controller.install.UsrvInfoController;
 import org.universAAL.ucc.frontend.api.IFrontend;
 import org.universAAL.ucc.model.AALService;
 import org.universAAL.ucc.model.AppItem;
 import org.universAAL.ucc.model.Provider;
+import org.universAAL.ucc.model.RegisteredService;
 import org.universAAL.ucc.model.UAPP;
 import org.universAAL.ucc.model.UAPPPart;
 import org.universAAL.ucc.model.UAPPReqAtom;
 import org.universAAL.ucc.model.install.License;
 import org.universAAL.ucc.database.parser.ParserService;
 import org.universAAL.ucc.service.api.IServiceManagement;
+import org.universAAL.ucc.service.impl.Model;
 import org.universAAL.ucc.service.manager.Activator;
 import org.universAAL.ucc.windows.DeinstallWindow;
 import org.universAAL.ucc.windows.LicenceWindow;
 import org.universAAL.ucc.windows.NoConfigurationWindow;
 import org.universAAL.ucc.windows.NotificationWindow;
 import org.universAAL.ucc.windows.UccUI;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.vaadin.ui.Window;
@@ -656,9 +674,47 @@ public class FrontendImpl implements IFrontend {
 						.requestToUninstall(serviceId, del);
 				System.err.println("Uninstall Result: " + result.getGlobalResult().toString());
 				if (result.getGlobalResult() == InstallationResults.SUCCESS) {
+					//My changes
+					String entryName = "";
+					String userID = "";
+					String serviceClass = "";
+					String icon = "";
+					String vendor = "";
+//					List<RegisteredService> ids = new ArrayList<RegisteredService>();
+					Document doc = Model.getSrvDocument();
+					NodeList nodeList = doc.getElementsByTagName("service");
+					for (int i = 0; i < nodeList.getLength(); i++) {
+						Element usrv = (Element)nodeList.item(i);
+						if(usrv.getAttribute("serviceId").equals(serviceId)) {
+							RegisteredService srv = new RegisteredService();
+							Element element = (Element) nodeList.item(i);
+							System.err.println(element.getAttribute("serviceId"));
+							srv.setServiceId(element.getAttribute("serviceId"));
+							NodeList srvChilds = element.getChildNodes();
+							for(int j = 0; j < srvChilds.getLength(); j++) {
+								Node n = srvChilds.item(j);
+//								if(n.getNodeName().equals("application")) {
+//									Element e = (Element)n;
+//									srv.getAppId().add(e.getAttribute("appId"));
+//								}
+								
+								if(n.getNodeName().equals("menuEntry")) {
+									Element e = (Element)n;
+									entryName = e.getAttribute("entryName");
+									icon = e.getAttribute("iconURL");
+									vendor = e.getAttribute("vendor");
+									serviceClass = e.getAttribute("serviceClass");
+									userID = e.getAttribute("userID");
+								}
+						}
+//						ids.add(srv);
+					}
+				}
+					removeEntry(userID, entryName, vendor, serviceClass, icon);
+						//My changes
 					Activator.getReg().unregisterService(serviceId);
-					
-					
+					NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("success.uninstall.msg"));
+					UccUI.getInstance().getMainWindow().addWindow(nw);
 				} else if (result.getGlobalResult() == InstallationResults.MISSING_PEER) {
 					NoConfigurationWindow nw = new NoConfigurationWindow(
 							bundle.getString("uninstall.failure")
@@ -783,5 +839,39 @@ public class FrontendImpl implements IFrontend {
 			}
 		}
 	}
+	
+	private void removeEntry(String userID, String entryName, String vendor,
+		    String serviceClass, String iconURL) {
+		if ("".equals(iconURL))
+		    iconURL = null;
+
+		MenuEntry me = new MenuEntry(null);
+		me.setVendor(new Resource(vendor));
+		me.setServiceClass(new Resource(serviceClass));
+		Resource pathElem = new Resource(iconURL);
+		pathElem.setResourceLabel(entryName);
+		me.setPath(new Resource[] { pathElem });
+
+		ServiceRequest sr = new ServiceRequest(new ProfilingService(), null);
+		sr.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS },
+			new User(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID));
+		sr.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS,
+			Profilable.PROP_HAS_PROFILE, Profile.PROP_HAS_SUB_PROFILE,
+			MenuProfile.PROP_ENTRY }, me);
+		sr.addRemoveEffect(new String[] { ProfilingService.PROP_CONTROLS,
+			Profilable.PROP_HAS_PROFILE, Profile.PROP_HAS_SUB_PROFILE,
+			MenuProfile.PROP_ENTRY });
+
+		ServiceResponse res = Activator.getSc().call(sr);
+		if (res.getCallStatus() == CallStatus.succeeded) {
+		    LogUtils.logDebug(Activator.getmContext(), FrontendImpl.class, "removeEntry",
+			    new Object[] {
+				    "existing menu entry " + entryName + " for user ",
+				    Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID, " added." }, null);
+		} else {
+		    LogUtils.logDebug(Activator.getmContext(), FrontendImpl.class, "removeEntry",
+			    new Object[] { "callstatus is not succeeded" }, null);
+		}
+	    }
 
 }
