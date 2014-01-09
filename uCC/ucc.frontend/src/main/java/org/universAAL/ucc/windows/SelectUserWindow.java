@@ -127,71 +127,102 @@ public class SelectUserWindow extends Window implements Button.ClickListener {
 	}
 	
 	//Adds a MenuEntry for new installed AAL service to Endusers view
-	private void addEntry(String userID, String entryName, String vendor, String serviceClass, String iconURL)
-    {
-		System.err.println("User-ID: "+Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID);
-		System.err.println("Menu-Entry Name: "+entryName);
-		System.err.println("Vendor: "+vendor);
-		System.err.println("Service-Class: "+serviceClass);
-		System.err.println("Icon-URL: "+iconURL);
-		String[] pathElems = null;
-		Activator.getMgmt().addUserIDToMenuEntry(aal.getServiceId(), userID);
-		if(iconURL.contains("/")) {
-			pathElems = iconURL.split("/");
-		} else if(iconURL.contains("\\")) {
-			pathElems = iconURL.split("\\");
-		}
-		Resource r = null;
-		Resource icon = null;
-		String category = ""; 
-		if(pathElems != null) {
-		for(int i = 0; i < pathElems.length; i++) {
-			if(i == (pathElems.length - 1)) {
-				icon = new Resource(pathElems[i]);
-				icon.setResourceLabel(entryName);
+//	private void addEntry(String userID, String entryName, String vendor, String serviceClass, String iconURL)
+//    {
+//		System.err.println("User-ID: "+Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID);
+//		System.err.println("Menu-Entry Name: "+entryName);
+//		System.err.println("Vendor: "+vendor);
+//		System.err.println("Service-Class: "+serviceClass);
+//		System.err.println("Icon-URL: "+iconURL);
+//		String[] pathElems = null;
+//		Activator.getMgmt().addUserIDToMenuEntry(aal.getServiceId(), userID);
+//		if(iconURL.contains("/")) {
+//			pathElems = iconURL.split("/");
+//		} else if(iconURL.contains("\\")) {
+//			pathElems = iconURL.split("\\");
+//		}
+//		Resource r = null;
+//		Resource icon = null;
+//		String category = ""; 
+//		if(pathElems != null) {
+//		for(int i = 0; i < pathElems.length; i++) {
+//			if(i == (pathElems.length - 1)) {
+//				icon = new Resource(pathElems[i]);
+//				icon.setResourceLabel(entryName);
+//			} else {
+//				category += pathElems[i]+"/";
+//			}
+//		}
+//		r = new Resource();
+//		r.setResourceLabel(category);
+//		} else {
+//			icon = new Resource(iconURL);
+//			icon.setResourceLabel(entryName);
+//		}
+//		
+//        MenuEntry me = new MenuEntry(null);
+//        me.setVendor(new Resource(vendor));
+//        me.setServiceClass(new Resource(serviceClass));
+////        Resource pathElem = new Resource(iconURL);
+////        pathElem.setResourceLabel(entryName);
+//        if(!category.equals(""))
+//        	me.setPath(new Resource[] {
+//        		r,
+//            /*pathElem*/ icon
+//        });
+//        else
+//        	me.setPath(new Resource[]{
+//        			icon
+//        	});
+//        System.err.println("The ICON: "+icon);
+//        System.err.println("The Category-Path: "+category);
+//        ServiceRequest sr = new ServiceRequest(new ProfilingService(), null);
+//	sr.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS },
+//		new User(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID));
+//	sr.addAddEffect(new String[] { ProfilingService.PROP_CONTROLS,
+//		Profilable.PROP_HAS_PROFILE, Profile.PROP_HAS_SUB_PROFILE,
+//		MenuProfile.PROP_ENTRY }, me);
+//        ServiceResponse res = Activator.getSc().call(sr);
+//        if(res.getCallStatus() == CallStatus.succeeded)
+//            LogUtils.logDebug(Activator.getmContext(), SelectUserWindow.class, "addEntry", new Object[] {
+//                "new menu entry ", entryName, "for user"+ Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID+" added."
+//            }, null);
+//        else
+//            LogUtils.logDebug(Activator.getmContext(), SelectUserWindow.class, "addEntry", new Object[] {
+//                "callstatus is not succeeded"
+//            }, null);
+//    }
+	
+	 public void addEntry(String userID, String entryName, String vendor,
+			    String serviceClass, String iconURL) {
+			if ("".equals(iconURL))
+			    iconURL = null;
+			Activator.getMgmt().addUserIDToMenuEntry(aal.getServiceId(), userID);
+			MenuEntry me = new MenuEntry(null);
+			me.setVendor(new Resource(vendor));
+			me.setServiceClass(new Resource(serviceClass));
+			Resource pathElem = new Resource(iconURL);
+			pathElem.setResourceLabel(entryName);
+			me.setPath(new Resource[] { pathElem });
+
+			ServiceRequest sr = new ServiceRequest(new ProfilingService(), null);
+			sr.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS },
+				new User(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID));
+			sr.addAddEffect(new String[] { ProfilingService.PROP_CONTROLS,
+				Profilable.PROP_HAS_PROFILE, Profile.PROP_HAS_SUB_PROFILE,
+				MenuProfile.PROP_ENTRY }, me);
+
+			ServiceResponse res = Activator.getSc().call(sr);
+			if (res.getCallStatus() == CallStatus.succeeded) {
+			    LogUtils.logDebug(Activator.getmContext(), SelectUserWindow.class, "addEntry",
+				    new Object[] {
+					    "new menu entry " + entryName + " for user ",
+					    Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID, " added." }, null);
 			} else {
-				category += pathElems[i]+"/";
+			    LogUtils.logDebug(Activator.getmContext(), SelectUserWindow.class, "addEntry",
+				    new Object[] { "callstatus is not succeeded" }, null);
 			}
-		}
-		r = new Resource();
-		r.setResourceLabel(category);
-		} else {
-			icon = new Resource(iconURL);
-			icon.setResourceLabel(entryName);
-		}
-		
-        MenuEntry me = new MenuEntry(null);
-        me.setVendor(new Resource(vendor));
-        me.setServiceClass(new Resource(serviceClass));
-//        Resource pathElem = new Resource(iconURL);
-//        pathElem.setResourceLabel(entryName);
-        if(!category.equals(""))
-        	me.setPath(new Resource[] {
-        		r,
-            /*pathElem*/ icon
-        });
-        else
-        	me.setPath(new Resource[]{
-        			icon
-        	});
-        System.err.println("The ICON: "+icon);
-        System.err.println("The Category-Path: "+category);
-        ServiceRequest sr = new ServiceRequest(new ProfilingService(), null);
-	sr.addValueFilter(new String[] { ProfilingService.PROP_CONTROLS },
-		new User(Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID));
-	sr.addAddEffect(new String[] { ProfilingService.PROP_CONTROLS,
-		Profilable.PROP_HAS_PROFILE, Profile.PROP_HAS_SUB_PROFILE,
-		MenuProfile.PROP_ENTRY }, me);
-        ServiceResponse res = Activator.getSc().call(sr);
-        if(res.getCallStatus() == CallStatus.succeeded)
-            LogUtils.logDebug(Activator.getmContext(), SelectUserWindow.class, "addEntry", new Object[] {
-                "new menu entry ", entryName, "for user"+ Constants.uAAL_MIDDLEWARE_LOCAL_ID_PREFIX+userID+" added."
-            }, null);
-        else
-            LogUtils.logDebug(Activator.getmContext(), SelectUserWindow.class, "addEntry", new Object[] {
-                "callstatus is not succeeded"
-            }, null);
-    }
+		    }
 
 	public ListSelect getList() {
 		return list;
