@@ -4,6 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.universAAL.ucc.service.api.IServiceManagement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -125,12 +132,34 @@ public class ServiceManagment implements IServiceManagement {
 		if(new File(Model.SERVICEFILENAME).exists()) {
 			Document doc = Model.getSrvDocument();
 			Element el = getService(serviceId, doc);
-			NodeList nodeList = el.getElementsByTagName("menuEntry");
+			NodeList nodeList = el.getChildNodes();
 			for(int i = 0; i < nodeList.getLength(); i++) {
 				Element entry = (Element) nodeList.item(i);
-				entry.setAttribute("userID", userID);
+				if(entry.getNodeName().equals("menuEntry")) {
+					if(entry.getAttribute("userID").equals("") || entry.getAttribute("userID") == null)
+						entry.setAttribute("userID", userID);
+					
 				
+				}
 			}
+			try {
+				TransformerFactory
+				.newInstance()
+				.newTransformer()
+				.transform(new DOMSource(doc),
+						new StreamResult(Model.SERVICEFILENAME));
+			} catch (TransformerConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransformerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransformerFactoryConfigurationError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
 		}
 		
 	}
