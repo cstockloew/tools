@@ -33,6 +33,7 @@ import org.universAAL.middleware.deploymanager.uapp.model.Feature;
 import org.universAAL.middleware.deploymanager.uapp.model.Part.PartRequirements;
 import org.universAAL.middleware.deploymanager.uapp.model.ReqType;
 import org.universAAL.ucc.model.usrv.AalUsrv;
+import org.universAAL.ucc.model.usrv.AalUsrv.Srv;
 import org.universAAL.ucc.model.usrv.ApplicationType;
 import org.universAAL.middleware.deploymanager.uapp.model.Part;
 import org.universAAL.middleware.managers.api.InstallationResults;
@@ -534,6 +535,7 @@ public class FrontendImpl implements IFrontend {
 		System.err.println("Size of APP-List "+appsList.size());
 		aal.setUaapList(appsList);
 		parseConfiguration(serviceId + "_temp", appsList, licenseList, aal);
+		
 		return appsList;
 
 	}
@@ -623,6 +625,10 @@ public class FrontendImpl implements IFrontend {
 			}
 
 			System.err.println("SET LicenseWindow");
+			
+			boolean isAlreadyInstalled = Activator.getMgmt().isServiceId(aal.getServiceId());
+			
+			if(!isAlreadyInstalled) {
 			LicenceWindow lw = null;
 			for(UAPP installingApp : aal.getUaapList()) {
 			try {
@@ -631,6 +637,11 @@ public class FrontendImpl implements IFrontend {
 				e.printStackTrace();
 			}
 			new UsrvInfoController(aal, lw, UccUI.getInstance());
+			}
+		} else {
+			NoConfigurationWindow ncw = new NoConfigurationWindow(bundle.getString("srv.already.exists"));
+			UccUI.getInstance().getMainWindow().addWindow(ncw);
+			return null;
 		}
 		}
 		return aal;

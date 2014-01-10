@@ -101,6 +101,15 @@ public class ServiceManagment implements IServiceManagement {
 						+ serviceId);
 		return null;
 	}
+	
+	public boolean isServiceId(String serviceId) {
+		if(new File(Model.SERVICEFILENAME).exists()) {
+			Document doc = Model.getSrvDocument();
+			Element ser = getService(serviceId, doc);
+			if(ser != null)
+				return true;
+		} return false;
+	}
 
 	/**
 	 * get the list of appIds that are installed for a service
@@ -113,10 +122,12 @@ public class ServiceManagment implements IServiceManagement {
 			List<String> list = new ArrayList<String>();
 			Document doc = Model.getSrvDocument();
 			Element serviceEl = getService(serviceId, doc);
+			if(serviceEl != null) {
 			NodeList nodeList = serviceEl.getElementsByTagName("application");
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Element element = (Element) nodeList.item(i);
 				list.add(element.getAttribute("appId"));
+			}
 			}
 
 			return list;
@@ -124,6 +135,8 @@ public class ServiceManagment implements IServiceManagement {
 			return new ArrayList<String>();
 		}
 	}
+	
+	
 	
 	/**
 	 * set userID value for the MenuEntry

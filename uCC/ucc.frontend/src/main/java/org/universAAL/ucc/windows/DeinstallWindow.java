@@ -55,14 +55,16 @@ public class DeinstallWindow extends Window implements Window.CloseListener {
 		Container beanContainer = new BeanItemContainer<AppItem>(AppItem.class);
 	
 		for(RegisteredService item : srv) {
-			for(String app: item.getAppId()) {
-				AppItem ai = new AppItem();
-				ai.setServiceId(item.getServiceId());
-				ai.setAppId(app);
-				ai.setMenuName(item.getMenuName());
-				ai.setUserID(item.getUserID());
-				ai.setProvider(item.getProvider());
-				beanContainer.addItem(ai);
+			if(!item.getServiceId().equals("")) {
+				for(String app: item.getAppId()) {
+					AppItem ai = new AppItem();
+					ai.setServiceId(item.getServiceId());
+					ai.setAppId(app);
+					ai.setMenuName(item.getMenuName());
+					ai.setUserID(item.getUserID());
+					ai.setProvider(item.getProvider());
+					beanContainer.addItem(ai);
+				}
 			}
 		}
 		list.setContainerDataSource(beanContainer);

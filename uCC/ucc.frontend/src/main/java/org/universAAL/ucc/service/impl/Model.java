@@ -55,6 +55,15 @@ public class Model implements IServiceModel {
 							.newDocumentBuilder().newDocument();
 					Element appRoot = doc.createElement("services");
 					doc.appendChild(appRoot);
+					//My changes
+					Element serv = doc.createElement("service");
+					serv.setAttribute("serviceId", "");
+					appRoot.appendChild(serv);
+					Element app = doc.createElement("application");
+					serv.appendChild(app);
+					Element menu = doc.createElement("menuEntry");
+					serv.appendChild(menu);
+					//My changes
 					try {
 						TransformerFactory
 								.newInstance()
