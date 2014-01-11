@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -483,13 +484,23 @@ public class FrontendImpl implements IFrontend {
 							license.getSlaList().add(file);
 							} else if(link.contains("http://")) {
 								link = "http"+link.substring(link.indexOf(":"));
+								try {
 								String filePath = downloadFile(link,serviceId+"_temp/license"+link.substring(link.lastIndexOf("/")));
 								System.err.println("SLA-PATH: "+filePath);
 								File sl = new File(filePath);
 								license.getSlaList().add(sl);
+								} catch(UnknownHostException io) {
+									NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("unknown.host.exception"));
+									UccUI.getInstance().getMainWindow().addWindow(nw);
+									io.printStackTrace();
+									return null;
+								}
 							}
 						} catch (Throwable t) {
+							NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("no.license"));
+							UccUI.getInstance().getMainWindow().addWindow(nw);
 							t.printStackTrace();
+							return null;
 						}
 					}
 
@@ -513,13 +524,23 @@ public class FrontendImpl implements IFrontend {
 								list.add(l);
 							} else if(txt.contains("http://")) {
 								txt = "http"+txt.substring(txt.indexOf(":"));
-								String filePath = downloadFile(txt, serviceId+"_temp/license"+txt.substring(txt.lastIndexOf("/")));
-								System.err.println("FILE-PATH from license: "+filePath);
-								File lic = new File(filePath);
-								list.add(lic);
+								try {
+									String filePath = downloadFile(txt, serviceId+"_temp/license"+txt.substring(txt.lastIndexOf("/")));
+									System.err.println("FILE-PATH from license: "+filePath);
+									File lic = new File(filePath);
+									list.add(lic);
+								} catch(UnknownHostException uhe) {
+										NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("unknown.host.exception"));
+										UccUI.getInstance().getMainWindow().addWindow(nw);
+										uhe.printStackTrace();
+										return null;
+								}
 							}
 							} catch (Throwable t) {
+								NoConfigurationWindow nw = new NoConfigurationWindow(bundle.getString("no.license"));
+								UccUI.getInstance().getMainWindow().addWindow(nw);
 								t.printStackTrace();
+								return null;
 							}
 						}
 
