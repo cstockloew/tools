@@ -33,7 +33,10 @@ import org.universAAL.ucc.startup.model.UserAccountInfo;
 public class Activator implements BundleActivator {
 
 	private static BundleContext context;
-	private ServiceRegistration reg;
+	private ServiceRegistration reg1;
+	private ServiceRegistration reg2;
+	private ServiceRegistration reg3;
+	private ServiceRegistration reg4;
 	private static ProfileAgent pAgent;
 	private static ServiceReference pRef;
 	public static final String USER_SPACE = "urn:org.universAAL.aal_space:user_env#";
@@ -73,13 +76,13 @@ public class Activator implements BundleActivator {
 					+ "/users.xml");
 		}
 
-		reg = context.registerService(Setup.class.getName(), new SetupImpl(),
+		reg1 = context.registerService(Setup.class.getName(), new SetupImpl(),
 				null);
-		reg = context.registerService(DataAccess.class.getName(),
+		reg2 = context.registerService(DataAccess.class.getName(),
 				new DataAccessImpl(), null);
-		reg = context.registerService(OntologySupplierService.class.getName(),
+		reg3 = context.registerService(OntologySupplierService.class.getName(),
 				new OntologySupplierServiceImpl(), null);
-		reg = context.registerService(ParserService.class.getName(),
+		reg4 = context.registerService(ParserService.class.getName(),
 				new ParserServiceImpl(), null);
 
 		// connection to profile agent and setting an empty user from xml
@@ -227,7 +230,10 @@ public class Activator implements BundleActivator {
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
 		Activator.context = null;
-		reg.unregister();
+		reg1.unregister();
+		reg2.unregister();
+		reg3.unregister();
+		reg4.unregister();
 		// registry.unregister();
 	}
 

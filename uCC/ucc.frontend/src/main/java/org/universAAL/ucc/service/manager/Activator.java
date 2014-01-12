@@ -190,7 +190,7 @@ public class Activator implements BundleActivator {
 		// Dedication to Gema :D
 		System.err.println(" ");
 		System.err
-				.println("-------------------------------------------------------------------");
+				.println("\033[36m--------------------------------------------------------------------------");
 		System.err.println(" ");
 		System.err
 				.println("This programm is dedicated to a mad and unique person, whose name starts with G.:P");
@@ -200,8 +200,10 @@ public class Activator implements BundleActivator {
 		System.err.println("Greetings from Germany to Spain :D @>->-");
 		System.err.println(" ");
 		System.err
-				.println("---------------------------------------------------------------------");
+				.println("----------------------------------------------------------------------------------");
 		System.err.println(" ");
+				
+		
 	}
 
 	public static String getSessionKey() {
@@ -247,8 +249,7 @@ public class Activator implements BundleActivator {
 	}
 
 	public void stop(BundleContext context) throws Exception {
-		context.ungetService(ref);
-		context.ungetService(dRef);
+		Activator.bc = null;
 		regis.unregister();
 		File file = new File(moduleConfigHome.getAbsolutePath()
 				+ "/tempUsrvFiles/");
