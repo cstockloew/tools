@@ -141,13 +141,13 @@ public class ToolController implements Button.ClickListener,
 		if (event.getButton() == toolWin.getLogoutButton()) {
 			DesktopController.setCurrentPassword("");
 			DesktopController.setCurrentUser("");
-			if(!DesktopController.web.getSocket().isClosed()) {
-				try {
-					DesktopController.web.getSocket().close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+//			if(!DesktopController.web.getSocket().isClosed()) {
+//				try {
+//					DesktopController.web.getSocket().close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
 			app.close();
 		}
 		

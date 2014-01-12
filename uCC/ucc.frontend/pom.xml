@@ -125,7 +125,7 @@
 						<Private-Package>
 							org.universAAL.ucc.client.util,
 							org.universAAL.ucc.subscriber,
-							org.universAAL.ucc.webconnection,
+							<!-- org.universAAL.ucc.webconnection,-->
 							org.universAAL.ucc.windows,
 							org.universAAL.ucc.controller.desktop, 
 							org.universAAL.ucc.controller.install, 

@@ -15,7 +15,7 @@ import org.universAAL.middleware.container.osgi.uAALBundleContainer;
 import org.universAAL.middleware.container.utils.ModuleConfigHome;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.service.ServiceCaller;
-import org.universAAL.middleware.service.ServiceResponse;
+//import org.universAAL.middleware.service.ServiceResponse;
 import org.universAAL.ucc.api.IDeinstaller;
 import org.universAAL.ucc.api.IInstaller;
 import org.universAAL.ucc.client.util.UstoreUtil;
@@ -31,8 +31,8 @@ import org.universAAL.ucc.service.api.IServiceManagement;
 import org.universAAL.ucc.service.api.IServiceModel;
 import org.universAAL.ucc.service.api.IServiceRegistration;
 import org.universAAL.ucc.service.impl.Model;
-import org.universAAL.ucc.webconnection.WebConnector;
-import org.universAAL.ucc.subscriber.SensorEventSubscriber;
+//import org.universAAL.ucc.webconnection.WebConnector;
+//import org.universAAL.ucc.subscriber.SensorEventSubscriber;
 
 public class Activator implements BundleActivator {
 	private static IInstaller installer;
@@ -201,6 +201,7 @@ public class Activator implements BundleActivator {
 		System.err.println(" ");
 		System.err
 				.println("----------------------------------------------------------------------------------");
+		System.err.println("\033[37m ");
 		System.err.println(" ");
 				
 		
@@ -254,7 +255,7 @@ public class Activator implements BundleActivator {
 		File file = new File(moduleConfigHome.getAbsolutePath()
 				+ "/tempUsrvFiles/");
 		deleteFiles(file);
-		WebConnector.getInstance().stopListening();
+//		WebConnector.getInstance().stopListening();
 	}
 
 	private void deleteFiles(File path) {
