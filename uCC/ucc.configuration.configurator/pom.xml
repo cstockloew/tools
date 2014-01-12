@@ -58,11 +58,11 @@
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-Activator>org.universAAL.ucc.configuration.internal.Activator</Bundle-Activator>
-						<Import-Package>org.universAAL.middleware.container.osgi,org.universAAL.middleware.container,com.vaadin, com.vaadin.terminal,
+						<Import-Package>org.universAAL.middleware.container.osgi,org.universAAL.middleware.container,com.vaadin,
+							com.vaadin.terminal,
 							org.universAAL.ucc.configuration.model,
 							org.universAAL.ucc.configuration.model.configurationdefinition,
-							org.universAAL.ucc.configuration.model.con
-							figurationinstances,
+							org.universAAL.ucc.configuration.model.configurationinstances,
 							org.universAAL.ucc.configuration.model.exceptions,
 							org.universAAL.ucc.configuration.model.interfaces,
 							org.universAAL.ucc.configur
