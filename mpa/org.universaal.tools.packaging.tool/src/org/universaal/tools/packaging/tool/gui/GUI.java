@@ -72,8 +72,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Event;
 
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.handlers.IHandlerService;
 
 import org.universaal.tools.packaging.tool.api.Page;
@@ -678,6 +680,7 @@ class ProgressFinish implements IRunnableWithProgress {
 			CreateJar jar = new CreateJar();
 			for(int i = 0; i < parts.size(); i++){		
 				if(!jar.create(parts.get(i), i+1)){
+					DefaultLogger.getInstance().log("[Application Packager] - ERROR: Kar and Jar copy encountered problem", 3);
 					GUI.getInstance().exitLevel = -1;
 					break;
 				}
@@ -776,10 +779,13 @@ class ProgressFinish implements IRunnableWithProgress {
 				Thread.sleep(100);
 				UAPP descriptor = new UAPP();
 				descriptor.createUAPPfile(tempDir, destination);
+			} else {
+				GUI.getInstance().exitLevel = -1;
 			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
+			GUI.getInstance().exitLevel = -1;
 		}
 
 		monitor.done();

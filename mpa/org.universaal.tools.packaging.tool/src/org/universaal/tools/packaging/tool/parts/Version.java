@@ -76,7 +76,7 @@ public class Version implements Serializable {
 
 	public String getVersion(){
 		if(!major.isEmpty() && !minor.isEmpty() && !micro.isEmpty() && !build.isEmpty())
-			return major+"."+minor+"."+micro+"."+build;
+			return major+"."+minor+"."+micro+"-"+build;
 
 		return Application.defaultVersion;
 	}

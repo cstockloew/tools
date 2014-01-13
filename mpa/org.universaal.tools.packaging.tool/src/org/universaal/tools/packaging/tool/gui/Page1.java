@@ -210,7 +210,7 @@ public class Page1 extends PageImpl {
 		l7.setText("* Vendor");
 
 		web = new TextExt(container, SWT.BORDER | SWT.SINGLE);
-		web.setText(app.getApplication().getApplicationProvider().getWebAddress().toString());			
+		//web.setText(app.getApplication().getApplicationProvider().getWebAddress().toString());			
 		web.setLayoutData(gd);
 		web.addVerifyListener(new UriV());
 		web.addTooltip(XSDtooltip.find("contactType.webAddress"));
@@ -472,6 +472,9 @@ public class Page1 extends PageImpl {
 		    version_micro.setText( app.getApplication().getVersion().getMicro() );
 		    version_build.setText( app.getApplication().getVersion().getBuild() );
 		    app_profile.setText( app.getApplication().getApplicationProfile() );
+		    
+		    web.setText(app.getApplication().getApplicationProvider().getWebAddress().toString());			
+			
 		}	    
 	}
 

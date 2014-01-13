@@ -46,8 +46,10 @@ import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
 
 import org.universaal.tools.packaging.tool.gui.GUI;
+import org.universaal.tools.packaging.tool.parts.Artifact;
 import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
 import org.universaal.tools.packaging.tool.util.DefaultLogger;
+import org.universaal.tools.packaging.tool.util.EffectivePOMContainer;
 import org.universaal.tools.packaging.tool.util.POMParser;
 import org.universaal.tools.packaging.tool.util.ProcessExecutor;
 
@@ -68,9 +70,11 @@ public class CreateJar {
 		POMParser p = new POMParser(new File(part.getFile("pom.xml").getLocation()+""));			
 
 		String sourcePath = part.getLocation().toString();
+		
+		EffectivePOMContainer.setDocument(part.getName());
+		
 		try{							
-			String fileName = p.getArtifactId()+"-"+p.getVersion()+".jar";
-
+			String fileName = EffectivePOMContainer.getArtifactId()+"-"+EffectivePOMContainer.getVersion()+".jar";
 			IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
 			IFile pomResource = g.getPart(part.getName()).getFile(IMavenConstants.POM_FILE_NAME);
 			IMavenProjectFacade projectFacade = projectManager.create(pomResource, true, null);
@@ -129,21 +133,23 @@ public class CreateJar {
 						return false;
 					}
 				}
+				DefaultLogger.getInstance().log("[Application Packager] - Copying: "+sourcePath+"/target/"+fileName+" -> " + destination_path+fileName, 1);
 				copyFile(new File(sourcePath+"/target/"+fileName), new File(destination_path+fileName));
 			}	
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			return false;
-			
 		}
 
 		try{
 			//if file KAR is present, add it to partX folder
 
-			String fileName = p.getArtifactId()+"-"+p.getVersion()+".kar";
+			String fileName = EffectivePOMContainer.getArtifactId()+"-"+EffectivePOMContainer.getVersion()+".kar";
 			File kar = new File(sourcePath+"/target/"+fileName);
-			if(kar.exists())
+			if(kar.exists()){
+				DefaultLogger.getInstance().log("[Application Packager] - Copying: "+sourcePath+"/target/"+fileName+" -> " + destination_path+fileName, 1);
 				copyFile(kar, new File(destination_path+fileName));
+			}
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -205,22 +211,18 @@ public class CreateJar {
 	//		}
 	//	}
 
-	private void copyFile(File source, File destination){
+	private void copyFile(File source, File destination) throws Exception{
 
-		try{
-			InputStream in = new FileInputStream(source);
-			OutputStream out = new FileOutputStream(destination);
+		InputStream in = new FileInputStream(source);
+		OutputStream out = new FileOutputStream(destination);
 
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0){
-				out.write(buf, 0, len);
-			}
-			in.close();
-			out.close();
+		byte[] buf = new byte[1024];
+		int len;
+		while ((len = in.read(buf)) > 0){
+			out.write(buf, 0, len);
 		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
+		in.close();
+		out.close();
+		
 	}
 }
