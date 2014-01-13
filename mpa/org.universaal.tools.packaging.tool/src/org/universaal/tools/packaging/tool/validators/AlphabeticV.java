@@ -35,7 +35,7 @@ public class AlphabeticV implements VerifyListener {
 
 	public void verifyText(VerifyEvent e) {
 
-		e.doit = e.character == '\b' || e.text == "" || e.text.matches("[A-Za-z0-9.,:\b -]{1,}");
+		e.doit = e.character == '\b' || e.text == "" || e.text.matches("[A-Za-z0-9.,:\b -_]{1,}");
 		/*
 		 e.doit = true;
 				(Character.isLetter(e.character) || 
