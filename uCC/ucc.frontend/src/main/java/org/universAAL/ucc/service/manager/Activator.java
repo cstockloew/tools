@@ -121,24 +121,19 @@ public class Activator implements BundleActivator {
 		ont.getSubprofiles().add(sub);
 		dataAccess.saveUserDataInCHE(ont);
 
-		System.err.println("1 Level");
-
 		File file = new File(moduleConfigHome.getAbsolutePath()
 				+ "/tempUsrvFiles/");
 		if (!file.exists()) {
 			file.mkdir();
 		}
 
-		System.err.println("2 Level");
 		ref = context.getServiceReference(IInstaller.class.getName());
 		installer = (IInstaller) context.getService(ref);
 
-		System.err.println("Level 3");
 		//
 		dRef = context.getServiceReference(IDeinstaller.class.getName());
 		deinstaller = (IDeinstaller) context.getService(dRef);
 
-		System.err.println("Level 4");
 		try {
 			regis = bc.registerService(IFrontend.class.getName(),
 					new FrontendImpl(), null);
@@ -146,7 +141,6 @@ public class Activator implements BundleActivator {
 			ex.printStackTrace();
 		}
 
-		System.err.println("Level 5");
 		model = new Model();
 		context.registerService(new String[] { IServiceModel.class.getName() },
 				model, null);
@@ -154,14 +148,8 @@ public class Activator implements BundleActivator {
 
 		reg = model.getServiceRegistration();
 
-		System.err.println("Level 6");
-
 		mContext = uAALBundleContainer.THE_CONTAINER
 				.registerModule(new Object[] { context });
-
-		System.err.println("Level 7");
-		// SensorEventSubscriber ses =
-		// SensorEventSubscriber.getInstance(mContext, context);
 
 		// Get SessionKey from uStore
 		if (client != null && client.getSessionKey() != null) {
@@ -175,17 +163,12 @@ public class Activator implements BundleActivator {
 			}
 		}
 
-		System.err.println("Level 8");
 		ServiceReference sr = context.getServiceReference(ParserService.class
 				.getName());
 		parserService = (ParserService) context.getService(sr);
 
-		System.err.println("Level 9");
-
 		// ServiceCaller init
 		sc = new DefaultServiceCaller(mContext);
-
-		System.err.println("Level 10");
 
 		// Dedication to Gema :D
 		System.err.println(" ");

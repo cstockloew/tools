@@ -27,7 +27,6 @@ public class Model implements IServiceModel {
 		srvReg = (IServiceRegistration) (new ServiceRegistration());
 		srvMan = (IServiceManagement) (new ServiceManagment());
 		mc = new ModuleConfigHome(" ", "");
-		System.err.println("Services.xml: "+mc.getAbsolutePath());
 		String temp = mc.getAbsolutePath().trim();
 		SERVICEFILENAME = temp +"/services.xml";
 	}
