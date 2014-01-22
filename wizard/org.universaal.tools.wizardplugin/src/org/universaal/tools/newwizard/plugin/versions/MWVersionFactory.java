@@ -45,8 +45,10 @@ public class MWVersionFactory {
 	    return new MWVersion130();
 	case IMWVersion.VER_200:
 	    return new MWVersion200();
+	case IMWVersion.VER_300:
+	    return new MWVersion300();
 	default:
-	    return new MWVersion200();
+	    return new MWVersion300();
 	}
     }
     
@@ -71,8 +73,10 @@ public class MWVersionFactory {
 	    return "1.3.0";
 	case IMWVersion.VER_200:
 	    return "2.0.0";
+	case IMWVersion.VER_300:
+	    return "3.0.0";
 	default:
-	    return "2.0.0";
+	    return "3.0.0";
 	}
     }
 
@@ -90,6 +94,7 @@ public class MWVersionFactory {
 		getVERname(IMWVersion.VER_120), 
 		getVERname(IMWVersion.VER_130),
 		getVERname(IMWVersion.VER_200),
+		getVERname(IMWVersion.VER_300),
 		};
     }
 
