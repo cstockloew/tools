@@ -20,8 +20,10 @@ public class OntologyProjectGeneratorFactory {
 	    return new OntologyProjectGeneratorMW130();
 	case IOntologyProjectGenerator.VER_200:
 	    return new OntologyProjectGeneratorMW200();
+	case IOntologyProjectGenerator.VER_300:
+	    return new OntologyProjectGeneratorMW300();
 	default:
-	    return new OntologyProjectGeneratorMW200();
+	    return new OntologyProjectGeneratorMW300();
 	}
     }
     
@@ -42,8 +44,10 @@ public class OntologyProjectGeneratorFactory {
 	    return "1.3.0";
 	case IOntologyProjectGenerator.VER_200:
 	    return "2.0.0";
+	case IOntologyProjectGenerator.VER_300:
+	    return "3.0.0";
 	default:
-	    return "2.0.0";
+	    return "3.0.0";
 	}
     }
 
@@ -59,6 +63,7 @@ public class OntologyProjectGeneratorFactory {
 		getVersonName(IOntologyProjectGenerator.VER_120), 
 		getVersonName(IOntologyProjectGenerator.VER_130),
 		getVersonName(IOntologyProjectGenerator.VER_200),
+		getVersonName(IOntologyProjectGenerator.VER_300),
 		};
     }
 

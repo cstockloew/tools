@@ -27,7 +27,7 @@ public class OntologyProjectModel  {
 	String mavenGroupId;
 	String mavenName;
 	
-	int mwVersion = IOntologyProjectGenerator.VER_200; 
+	int mwVersion = IOntologyProjectGenerator.VER_300; 
 
 	public int getMwVersion() {
 		return mwVersion;

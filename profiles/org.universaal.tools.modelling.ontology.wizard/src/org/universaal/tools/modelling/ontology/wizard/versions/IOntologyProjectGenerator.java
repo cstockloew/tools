@@ -24,7 +24,12 @@ public interface IOntologyProjectGenerator {
      * Identifies MW version 2.0.0.
      */
     public static final int VER_200=3;
-    
+
+    /**
+     * Identifies MW version 2.0.0.
+     */
+    public static final int VER_300=4;
+
     /**
      * Get the MW version identifier.
      * 

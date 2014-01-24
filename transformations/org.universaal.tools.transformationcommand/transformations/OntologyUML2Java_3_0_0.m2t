@@ -5,12 +5,93 @@
  * description: 
  */
 
-import "OntologyUML2Java_1_3_0.m2t"
+import "OntologyUML2Java_2_0_0.m2t"
 
-texttransformation OntologyUML2Java_2_0_0 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") extends OntologyUML2Java_1_3_0 {
+
+// This script extends 1_3_0 instead of 2_0_0 because of a bug in the handling of extends in MOFScript when 
+// the dept of extension gets too deep
+
+texttransformation OntologyUML2Java_3_0_0 (in uml:"http://www.eclipse.org/uml2/3.0.0/UML") extends OntologyUML2Java_1_3_0 {
+
+
+  uml.Model::generateTest() {
+    file( testBasePath + "/org/universAAL/ontology/test/ArtifactIT.java" )
+"package org.universAAL.ontology.test;
+
+import org.universAAL.itests.IntegrationTest;
+
+/**
+ * Here developer's of this artifact should code their integration tests.
+ * 
+ */
+public class ArtifactIT extends IntegrationTest {
+
+    public void testComposite() {
+	logAllBundles();
+    }
+
+}
+"    
+  }
+
+  // generate Factory 
+  uml.Package::generateFactory(ontologyClassList:Hashtable) {
+          
+    var pName:String = self.getFullPackageName()
+    
+	file( javaBasePath + "/" + pName.substring(0, pName.lastIndexOf(".")).replace("\\.", "/") + '/' + ontologyName.firstToUpper() + "Factory.java" )
+    
+'
+package ' pName.substring(0, pName.lastIndexOf(".")) ';
+
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.universAAL.middleware.rdf.Resource;
+import org.universAAL.middleware.rdf.ResourceFactory;
+
+'
+
+
+//The factory is now in another package than the classes. Must import the classes.
+//At the time this rule is invoked, all the relevant classes are in ontologyClassList and the enums in ontologyEnumList
+
+ontologyClassList->forEach(c : uml.Class) {
+	'
+import ' + c.getFullPackageName() + ';'
+}
+
+
+'
+
+public class ' ontologyName.firstToUpper() 'Factory implements ResourceFactory {
+
+
+  public Resource createInstance(String classURI, String instanceURI, int factoryIndex) {
+
+	switch (factoryIndex) {
+'
+	var classIndex:Integer = 0
+	ontologyClassList.values()->forEach(component:uml.Class) {
+	  // Generate factory entry only for concrete classes
+	  if (component.isAbstract == false) {
+		'     case ' classIndex ':\n'
+		'       return new 'component.name'(instanceURI);\n'
+		classIndex = classIndex + 1
+	  }
+	}
+'
+	}
+	return null;
+  }
+}
+'
+  }
+
+	// The following methods are copied from the 2.0.0 version script because of the bug in extends
+
 
 	uml.Model::generateActivator(ontNameList:Hashtable) {
-	  	StdOut.println("Generating activator for MW 2.0.0 and above")
+	  	StdOut.println("Generating activator for MW 3.0.0 and above")
 	  
 		// First, find package name for activator
 		var mainPacakageName:String = " "
@@ -135,7 +216,6 @@ public class ' ontologyName.firstToUpper() 'OWLCreator {
 
 '
   } 
-
 
 }
 

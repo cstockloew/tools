@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.profilefeature"
       label="AAL Studio Modelling Support"
-      version="1.1.0"
+      version="1.2.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
