@@ -300,20 +300,20 @@ public class CreateClientProject {
 
 		addDependency(buffer, "org.apache.felix", "org.osgi.core", "1.0.1");
 		addDependency(buffer, "org.universAAL.middleware",
-				"mw.data.representation.osgi", "2.0.0");
+				"mw.data.representation.osgi", "3.0.0");
 		addDependency(buffer, "org.universAAL.middleware", "mw.bus.model.osgi",
-				"2.0.0");
+				"3.0.0");
 		addDependency(buffer, "org.universAAL.middleware",
-				"mw.container.xfaces.osgi", "2.0.0");
+				"mw.container.xfaces.osgi", "3.0.0");
 		addDependency(buffer, "org.universAAL.middleware", "mw.container.osgi",
-				"2.0.0");
+				"3.0.0");
 		addDependency(buffer, "org.universAAL.middleware",
-				"mw.bus.service.osgi", "2.0.0");
+				"mw.bus.service.osgi", "3.0.0");
 		addDependency(buffer, "org.universAAL.middleware",
-				"mw.bus.context.osgi", "2.0.0");
-		addDependency(buffer, "org.universAAL.ontology", "ont.phWorld", "2.0.0");
+				"mw.bus.context.osgi", "3.0.0");
+		addDependency(buffer, "org.universAAL.ontology", "ont.phWorld", "3.0.0");
 		addDependency(buffer, "org.universAAL.remote", "ri.internetgateway",
-				"2.0.0");
+				"3.0.0");
 		addDependency(buffer, "org.apache.axis2", "org.apache.axis2.osgi",
 				"1.5.2");
 		addDependency(buffer, "xerces", "xercesImpl", "2.10.0");
