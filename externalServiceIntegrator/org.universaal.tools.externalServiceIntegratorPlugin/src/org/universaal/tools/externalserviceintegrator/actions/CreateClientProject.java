@@ -298,7 +298,7 @@ public class CreateClientProject {
 
 		buffer.append("  <dependencies>\n");
 
-		addDependency(buffer, "org.apache.felix", "org.osgi.core", "1.0.1");
+		addDependency(buffer, "org.osgi", "org.osgi.core", "4.1.0");
 		addDependency(buffer, "org.universAAL.middleware",
 				"mw.data.representation.osgi", "3.0.0");
 		addDependency(buffer, "org.universAAL.middleware", "mw.bus.model.osgi",
