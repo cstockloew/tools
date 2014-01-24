@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ExternalServiceIntegrator
 Bundle-SymbolicName: org.universaal.tools.externalServiceIntegrator;singleton:=true
-Bundle-Version: 1.1.2
+Bundle-Version: 1.2.0
 Bundle-ClassPath: swing2swt.jar,
  lib/ri.internetgateway-1.2.2-SNAPSHOT.jar,
  lib/axis1_4/axis.jar,

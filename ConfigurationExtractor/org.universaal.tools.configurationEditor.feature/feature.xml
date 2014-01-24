@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.tools.configurationExtractor.feature"
       label="AAL Studio Configuration Editor"
-      version="1.1.0"
+      version="1.2.0"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
