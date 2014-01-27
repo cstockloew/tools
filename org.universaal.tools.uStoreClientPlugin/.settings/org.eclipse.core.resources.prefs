@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//src/org/universaal/commerce/ustore/tools/AALApplicationManager.java=UTF-8
+encoding//src/org/universaal/commerce/ustore/tools/AALApplicationManagerPortBindingStub.java=UTF-8
+encoding//src/org/universaal/commerce/ustore/tools/AALApplicationManagerService.java=UTF-8
+encoding//src/org/universaal/commerce/ustore/tools/AALApplicationManagerServiceLocator.java=UTF-8
+encoding//src/org/universaal/commerce/ustore/tools/CatalogManager.java=UTF-8
+encoding//src/org/universaal/commerce/ustore/tools/CatalogManagerPortBindingStub.java=UTF-8
+encoding//src/org/universaal/commerce/ustore/tools/CatalogManagerService.java=UTF-8
+encoding//src/org/universaal/commerce/ustore/tools/CatalogManagerServiceLocator.java=UTF-8
+encoding//src/org/universaal/commerce/ustore/tools/UAALException.java=UTF-8
