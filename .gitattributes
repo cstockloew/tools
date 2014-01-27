@@ -712,6 +712,9 @@ org.universaal.tools.transformationcommand/transformations/ontUML2Java.m2t -text
 org.universaal.tools.transformationcommand/transformations/serviceModelEMF2Java.m2t -text
 org.universaal.tools.transformationcommand/transformations/serviceModelUML2Java.m2t -text
 org.universaal.tools.transformationcommand/transformations/validateOntUML.m2t -text
+org.universaal.tools.transformationfeature/.project -text svneol=unset#text/plain
+org.universaal.tools.transformationfeature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.transformationfeature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.uStoreClientFeature/.project -text
 org.universaal.tools.uStoreClientFeature/build.properties -text
 org.universaal.tools.uStoreClientFeature/feature.xml -text
