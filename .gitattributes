@@ -1071,6 +1071,14 @@ org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/Fields
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/SourcePage.java -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/editors/XmlEditor.java -text svneol=unset#text/plain
 org.universaal.tools.xmlEditor/src/org/universaal/tools/xmleditor/model/ProjectModel.java -text svneol=unset#text/plain
+pax-runner-eclipse-ui-feature/.classpath -text
+pax-runner-eclipse-ui-feature/.project -text
+pax-runner-eclipse-ui-feature/.settings/org.eclipse.core.resources.prefs -text
+pax-runner-eclipse-ui-feature/.settings/org.eclipse.jdt.core.prefs -text
+pax-runner-eclipse-ui-feature/.settings/org.eclipse.m2e.core.prefs -text
+pax-runner-eclipse-ui-feature/build.properties -text
+pax-runner-eclipse-ui-feature/feature.xml -text
+pax-runner-eclipse-ui-feature/pom.xml -text
 pax-runner-uaal-ui/.classpath -text
 pax-runner-uaal-ui/.project -text
 pax-runner-uaal-ui/.settings/org.eclipse.core.resources.prefs -text
