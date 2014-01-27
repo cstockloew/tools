@@ -1,0 +1,87 @@
+a img {
+	border:0px;
+}
+.contentheading{
+	font-size:1.3em;
+	font-weight: bold;
+}
+.contentpaneopen{
+	font-size:0.85em;
+}
+.createdate{
+	font-size: 0.85em;
+}
+.modifydate{
+	font-size: 0.85em;
+}
+
+.hasTip img {
+	margin: 10px 5px 0 0;
+	border: none;
+}
+p.tips {
+	padding-left: 25px;
+	color: #EE9600;
+	background: url(../images/icon-tips.gif) no-repeat top left;
+}
+
+.sectiontableheader{
+	padding:10px 5px 5px;
+	background: #08445c;
+	color: #d5edf7;
+}
+.sectiontableheader a{
+	color: #d5edf7;
+}
+
+/* Tooltips */
+.tool-tip {
+	float: left;
+	border: 1px solid #D4D5AA;
+	padding: 5px;
+	background: #FFFFCC;
+	max-width: 200px;
+}
+
+.tool-title {
+	padding: 0;
+	margin: 0;
+	margin-top: -15px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	background: url(../../system/images/selector-arrow.png) no-repeat;
+	font-size: 0.65em;
+	font-weight: bold;
+}
+
+.tool-text {
+	margin: 0;
+	font-size: 0.65em;
+}
+
+
+#system-message    { margin-bottom: 10px; padding: 0px; font-size:0.85em;}
+#system-message dt { font-weight: bold; }
+#system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
+#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
+
+/* System Standard Messages */
+#system-message dt.message { display: none; }
+#system-message dd.message {  }
+
+/* System Error Messages */
+#system-message dt.error { display: none; }
+#system-message dd.error ul { color: #c00; background-color: #E6C0C0; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+/* System Notice Messages */
+#system-message dt.notice { display: none; }
+#system-message dd.notice ul { color: #c00; background: #EFE7B8; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
+
+/* System Standard Messages */
+#system-message dd.message ul { background: #C3D2E5 url(image/notice-info.png) 4px center no-repeat;}
+
+/* System Error Messages */
+#system-message dd.error ul { color: #c00; background: #E6C0C0 url(image/notice-alert.png) 4px top no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+/* System Notice Messages */
+#system-message dd.notice ul { color: #c00; background: #EFE7B8 url(image/notice-note.png) 4px top no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}

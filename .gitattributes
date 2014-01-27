@@ -292,6 +292,41 @@ org.universaal.tools.dashboard/swing2swt.jar -text
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.developerdepot/.buildpath -text
+org.universaal.tools.developerdepot/.project -text
+org.universaal.tools.developerdepot/www/Documents/D1.3-E[!!-~]-[!!-~]Reference[!!-~]Architecture[!!-~]-[!!-~]Release[!!-~]1.0[!!-~]-[!!-~]Part[!!-~]II.pdf -text
+org.universaal.tools.developerdepot/www/Documents/D1.3-E[!!-~]-[!!-~]Reference[!!-~]Architecture[!!-~]-[!!-~]Release[!!-~]1.0[!!-~]-[!!-~]Part[!!-~]III.pdf -text
+org.universaal.tools.developerdepot/www/Documents/The[!!-~]universAAL[!!-~]Primer[!!-~]-[!!-~]Advanced.pdf -text
+org.universaal.tools.developerdepot/www/Documents/The[!!-~]universAAL[!!-~]Primer[!!-~]-[!!-~]Basic.pdf -text
+org.universaal.tools.developerdepot/www/about.html -text svneol=unset#text/plain
+org.universaal.tools.developerdepot/www/css/content.css -text
+org.universaal.tools.developerdepot/www/css/css960.css -text
+org.universaal.tools.developerdepot/www/css/image/bg-body.png -text
+org.universaal.tools.developerdepot/www/css/image/bg-border-orange.png -text
+org.universaal.tools.developerdepot/www/css/image/bg-content.png -text
+org.universaal.tools.developerdepot/www/css/image/bg-degradado-1.png -text
+org.universaal.tools.developerdepot/www/css/image/bg-degradado-2.png -text
+org.universaal.tools.developerdepot/www/css/image/bg-footer.png -text
+org.universaal.tools.developerdepot/www/css/image/bg-home-7.png -text
+org.universaal.tools.developerdepot/www/css/image/bg-square.png -text
+org.universaal.tools.developerdepot/www/css/image/universaal-logo.png -text
+org.universaal.tools.developerdepot/www/css/image/universaal-text.png -text
+org.universaal.tools.developerdepot/www/css/style.css -text
+org.universaal.tools.developerdepot/www/icon/applications-60.png -text
+org.universaal.tools.developerdepot/www/icon/build-60.png -text
+org.universaal.tools.developerdepot/www/icon/conform-60.png -text
+org.universaal.tools.developerdepot/www/icon/debug-60.png -text
+org.universaal.tools.developerdepot/www/icon/document-60.png -text
+org.universaal.tools.developerdepot/www/icon/ic-uaal.png -text
+org.universaal.tools.developerdepot/www/icon/publish-to-store-60.png -text
+org.universaal.tools.developerdepot/www/icon/question-60.png -text
+org.universaal.tools.developerdepot/www/icon/register-60.png -text
+org.universaal.tools.developerdepot/www/icon/upload-60.png -text
+org.universaal.tools.developerdepot/www/index.html -text svneol=unset#text/plain
+org.universaal.tools.developerdepot/www/projectrequest/index.php -text
+org.universaal.tools.developerdepot/www/projectrequest/official.xml -text svneol=unset#text/plain
+org.universaal.tools.developerdepot/www/projectrequest/projects.xml -text
+org.universaal.tools.developerdepot/www/ustore.html -text svneol=unset#text/plain
 org.universaal.tools.externalServiceIntegratorFeature/.project -text
 org.universaal.tools.externalServiceIntegratorFeature/build.properties -text
 org.universaal.tools.externalServiceIntegratorFeature/feature.xml -text
