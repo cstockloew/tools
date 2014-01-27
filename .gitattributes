@@ -321,6 +321,36 @@ org.universaal.tools.perspective.feature/feature.xml -text svneol=unset#text/pla
 org.universaal.tools.profilefeature/.project -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.profilefeature/feature.xml -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.classpath -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.project -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/build.properties -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/icons/test.png -text
+org.universaal.tools.transformationcommand/icons/transform-16.png -text
+org.universaal.tools.transformationcommand/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/activator/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/TransformOntJava2OWL.java -text
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/TransformOntUML2Java.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/TransformServiceModelEMF2Java.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/TransformServiceModelUML2Java.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/TransformationHandler.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/handlers/ValidateOntUML.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/preferences/PreferenceConstants.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/preferences/TransformationsPreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/src/org/universaal/tools/transformationcommand/preferences/Uml2JavaPreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.transformationcommand/transformations/OntologyUML2Java_1_1_0.m2t -text
+org.universaal.tools.transformationcommand/transformations/OntologyUML2Java_1_2_0.m2t -text
+org.universaal.tools.transformationcommand/transformations/OntologyUML2Java_1_3_0.m2t -text
+org.universaal.tools.transformationcommand/transformations/OntologyUML2Java_2_0_0.m2t -text
+org.universaal.tools.transformationcommand/transformations/OntologyUML2Java_3_0_0.m2t -text
+org.universaal.tools.transformationcommand/transformations/ontUML2Java.m2t -text
+org.universaal.tools.transformationcommand/transformations/serviceModelEMF2Java.m2t -text
+org.universaal.tools.transformationcommand/transformations/serviceModelUML2Java.m2t -text
+org.universaal.tools.transformationcommand/transformations/validateOntUML.m2t -text
 org.universaal.tools.uStoreClientFeature/.project -text
 org.universaal.tools.uStoreClientFeature/build.properties -text
 org.universaal.tools.uStoreClientFeature/feature.xml -text
