@@ -234,6 +234,9 @@ org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/
 org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/RunPlugin.java -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/Utilities.java -text
 org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/windows/MainFrame.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard.feature/.project -text svneol=unset#text/plain
+org.universaal.tools.dashboard.feature/build.properties -text svneol=unset#text/plain
+org.universaal.tools.dashboard.feature/feature.xml -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.classpath -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.project -text svneol=unset#text/plain
 org.universaal.tools.dashboard/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
