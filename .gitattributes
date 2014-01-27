@@ -199,6 +199,22 @@ org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importexte
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceConstants.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferenceInitializer.java -text svneol=unset#text/plain
 org.universaal.tools.importthirdpartyproject/src/org/universaal/tools/importthirdparty/preferences/PreferencePage.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/.classpath -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/.project -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/build.properties -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/icons/full/obj16/ServiceModelModelFile.gif -text
+org.universaal.tools.modelling.service.editor/icons/full/wizban/NewServiceModel.gif -text
+org.universaal.tools.modelling.service.editor/plugin.properties -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/PropertyPathDialog.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/PropertyPathDialog2.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModelActionBarContributor.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModelEditor.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModelModelWizard.java -text svneol=unset#text/plain
+org.universaal.tools.modelling.service.editor/src/org/universaal/tools/modelling/servicemodel/presentation/ServiceModel_EMFEditorEditorPlugin.java -text svneol=unset#text/plain
 org.universaal.tools.packaging.tool.feature/.project -text
 org.universaal.tools.packaging.tool.feature/build.properties -text
 org.universaal.tools.packaging.tool.feature/feature.xml -text
