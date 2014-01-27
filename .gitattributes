@@ -1,4 +1,39 @@
 * text=auto !eol
+org.universAAL.tools.logmonitor/ASL2.0.txt -text
+org.universAAL.tools.logmonitor/NOTICE.txt -text
+org.universAAL.tools.logmonitor/pom.xml -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/Activator.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/LogListenerEx.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/LogMonitor.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/MainGui.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/Utils.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/all_log/LogEntry.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/all_log/LogMonitor.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/all_log/gui/AllLogPanel.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/all_log/gui/MessagePanel.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/rdfvis/Edge.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/rdfvis/LogMonitor.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/rdfvis/Node.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/rdfvis/ResourceInterpreter.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/rdfvis/gui/GraphPanel.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/rdfvis/gui/RDFVis.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/CEStringUtil.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/LogMonitor.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/LogMonitor_Util.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/Matchmaking.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/Sparul.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/URI.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/gui/ClipboardHandling.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/gui/Gui.java -text
+org.universAAL.tools.logmonitor/src/main/java/org/universAAL/tools/logmonitor/service_bus_matching/gui/MatchmakingPane.java -text
+org.universAAL.tools.logmonitor/src/main/resources/img/ERROR_16.png -text
+org.universAAL.tools.logmonitor/src/main/resources/img/ERROR_24.png -text
+org.universAAL.tools.logmonitor/src/main/resources/img/ERROR_32.png -text
+org.universAAL.tools.logmonitor/src/main/resources/img/ERROR_48.png -text
+org.universAAL.tools.logmonitor/src/main/resources/img/OK_16.png -text
+org.universAAL.tools.logmonitor/src/main/resources/img/OK_24.png -text
+org.universAAL.tools.logmonitor/src/main/resources/img/OK_32.png -text
+org.universAAL.tools.logmonitor/src/main/resources/img/OK_48.png -text
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
