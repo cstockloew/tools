@@ -90,6 +90,61 @@ org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/
 org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/RunPlugin.java -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/utils/Utilities.java -text
 org.universaal.tools.conformanceTools/src/org/universaal/tools/conformanceTools/windows/MainFrame.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/.classpath -text svneol=unset#text/plain
+org.universaal.tools.dashboard/.project -text svneol=unset#text/plain
+org.universaal.tools.dashboard/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain
+org.universaal.tools.dashboard/ASL2.0.txt -text svneol=unset#text/plain
+org.universaal.tools.dashboard/META-INF/MANIFEST.MF -text svneol=unset#text/plain
+org.universaal.tools.dashboard/NOTICE.txt -text svneol=unset#text/plain
+org.universaal.tools.dashboard/build.properties -text svneol=unset#text/plain
+org.universaal.tools.dashboard/icons/arrow_curve_left_down_s.png -text
+org.universaal.tools.dashboard/icons/arrow_curve_left_s.png -text
+org.universaal.tools.dashboard/icons/arrow_down_s.png -text
+org.universaal.tools.dashboard/icons/arrows.png -text
+org.universaal.tools.dashboard/icons/control_panel.png -text
+org.universaal.tools.dashboard/icons/go-down.png -text
+org.universaal.tools.dashboard/icons/go-next.png -text
+org.universaal.tools.dashboard/icons/go-previous.png -text
+org.universaal.tools.dashboard/icons/go-up.png -text
+org.universaal.tools.dashboard/icons/next.png -text
+org.universaal.tools.dashboard/icons/pil2.png -text
+org.universaal.tools.dashboard/icons/pilned.png -text
+org.universaal.tools.dashboard/icons/pilopp.png -text
+org.universaal.tools.dashboard/icons/sample.gif -text
+org.universaal.tools.dashboard/icons/universaals.jpg -text
+org.universaal.tools.dashboard/icons/up_arrow.png -text
+org.universaal.tools.dashboard/plugin.xml -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/eclipse/wb/swt/ResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/eclipse/wb/swt/SWTResourceManager.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/Activator.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/CommandCallingListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/TemporaryListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/TemporaryMouseListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/BuildProjectListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/CreateNewItemListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/CreateNewProjectListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/CreateOntologyProjectListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/DebugProjectListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/ExtractConfigurationListener.java -text
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/GenerateXmlListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/ImportExampleListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/ImportThirdPartyListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/PublishProjectListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/RunProjectListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/TransformListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/UploadOpenSourceListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/buttonlisteners/old/UploadProjectListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/handlers/OpenDashboardHandler.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/listeners/ProjectElementSelectionListener.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/views/ApplicationView.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/views/DashboardView.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/views/OntologyView.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/views/old/ApplicationDashboardView.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/views/old/OldApplicationView.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/views/old/OldDashboardView.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/views/old/OldOntologyView.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/src/org/universaal/tools/dashboard/views/old/OntologyDashboardView.java -text svneol=unset#text/plain
+org.universaal.tools.dashboard/swing2swt.jar -text
 org.universaal.tools.depotclient.feature/.project -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/build.properties -text svneol=unset#text/plain
 org.universaal.tools.depotclient.feature/feature.xml -text svneol=unset#text/plain
