@@ -34,6 +34,9 @@ org.universAAL.tools.logmonitor/src/main/resources/img/OK_16.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_24.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_32.png -text
 org.universAAL.tools.logmonitor/src/main/resources/img/OK_48.png -text
+org.universaal.tools.buildFeature/.project -text
+org.universaal.tools.buildFeature/build.properties -text
+org.universaal.tools.buildFeature/feature.xml -text
 org.universaal.tools.conformanceTools/.classpath -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools/.classpath.html -text svneol=unset#text/plain
 org.universaal.tools.conformanceTools/.project -text svneol=unset#text/plain
