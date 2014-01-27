@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            name="Import Example Project"
+            id="org.universaal.importexternalproject.commands.importexample">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.universaal.importexternalproject.commands.importexample"
+            class="org.universaal.tools.importexternalproject.handlers.ImportHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.universaal.tools.AALStudio.menu?endof=import">
+         <command
+               commandId="org.universaal.importexternalproject.commands.importexample"
+               icon="icons/import-document-16.png"
+               id="org.universaal.importexternalproject.menus.importthirdparty">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            category="org.universaal.importexternalproject.import"
+            class="org.universaal.tools.importexternalproject.wizards.ImportExternalWizard"
+            id="org.universaal.importexternalproject.wizard1"
+            name="Import Example Application">
+      </wizard>
+      <category
+            id="org.universaal.importexternalproject.import"
+            name="AAL Studio">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.universaal.tools.AALStudio"
+            class="org.universaal.tools.importthirdparty.preferences.PreferencePage"
+            id="org.universaal.tools.importthirdpartyproject.preferences"
+            name="Import Example">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.universaal.tools.importthirdparty.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
