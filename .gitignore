@@ -8,5 +8,7 @@ org.universaal.tools.wizardplugin/bin
 pax-runner-eclipse-core-feature/target
 pax-runner-eclipse-core/target
 pax-runner-eclipse-ui-feature/target
+pax-runner-uaal-ui-feature/.classpath
+pax-runner-uaal-ui-feature/.project
 pax-runner-uaal-ui/.classpath
 pax-runner-uaal-ui/.project
