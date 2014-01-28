@@ -6,6 +6,10 @@ ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/conf
 ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/interfaces/ConfigurationDefinitionRegistry.java -text
 ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/interfaces/ConfigurationDefinitionRegistryChanged.java -text
 ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/internal/Activator.java -text
+ucc.deploymanagerservice/ASL2.0.txt -text
+ucc.deploymanagerservice/NOTICE.txt -text
+ucc.deploymanagerservice/pom.xml -text
+ucc.deploymanagerservice/src/main/java/org/universAAL/ucc/deploymanagerservice/DeployManagerService.java -text
 ucc.karaf.feature/ASL2.0.txt -text
 ucc.karaf.feature/META-INF/MANIFEST.MF -text
 ucc.karaf.feature/NOTICE.txt -text
