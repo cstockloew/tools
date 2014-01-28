@@ -10,3 +10,7 @@ ucc.karaf.feature/.classpath
 ucc.karaf.feature/.project
 ucc.karaf.feature/.settings
 ucc.karaf.feature/target
+ucc.profile.agent/.classpath
+ucc.profile.agent/.project
+ucc.profile.agent/.settings
+ucc.profile.agent/target

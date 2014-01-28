@@ -15,3 +15,9 @@ ucc.karaf.feature/META-INF/MANIFEST.MF -text
 ucc.karaf.feature/NOTICE.txt -text
 ucc.karaf.feature/pom.xml -text
 ucc.karaf.feature/src/main/features/uCC.xml -text
+ucc.profile.agent/ASL2.0.txt -text
+ucc.profile.agent/NOTICE.txt -text
+ucc.profile.agent/pom.xml -text
+ucc.profile.agent/src/main/java/org/universAAL/ucc/profile/agent/ProfileAgent.java -text
+ucc.profile.agent/src/main/java/org/universAAL/ucc/profile/agent/impl/ProfileAgentImpl.java -text
+ucc.profile.agent/src/main/java/org/universAAL/ucc/profile/agent/osgi/Activator.java -text
