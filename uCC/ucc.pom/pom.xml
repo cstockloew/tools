@@ -5,13 +5,13 @@
 
 	<parent>
 		<groupId>org.universAAL</groupId>
-		<version>2.0.2-SNAPSHOT</version>
+		<version>3.0.0</version>
 		<artifactId>uAAL.pom</artifactId>
 	</parent>
 
 	<groupId>org.universAAL.tools.ucc</groupId>
 	<artifactId>ucc.pom</artifactId>
-	<version>2.0.3-SNAPSHOT</version>
+	<version>3.0.0</version>
 	<packaging>pom</packaging>
 	<name>universAAL Control Center</name>
 	<description>A tool to install, manage and configure applications for universAAL at a local machine.</description>
@@ -26,7 +26,7 @@
 		<groupIdMatchString>^org\.universAAL\.tools\.ucc</groupIdMatchString>
 		<artifactIdMatchString>^ucc\..*</artifactIdMatchString>
 		<nameMatchString>^universAAL uCC .*</nameMatchString>
-		<uaal.version>2.0.4-SNAPSHOT</uaal.version>
+		<uaal.version>3.0.0</uaal.version>
 	</properties>
 
 	<modules>
