@@ -211,6 +211,9 @@ ucc.model/src/main/java/org/universAAL/ucc/model/usrv/SpaceType.java -text
 ucc.model/src/main/java/org/universAAL/ucc/model/usrv/ToBeDefined.java -text
 ucc.model/src/main/java/org/universAAL/ucc/model/usrv/VersionType.java -text
 ucc.model/src/main/java/org/universAAL/ucc/model/usrv/package-info.java -text
+ucc.pom/ASL2.0.txt -text
+ucc.pom/NOTICE.txt -text
+ucc.pom/pom.xml -text
 ucc.profile.agent/ASL2.0.txt -text
 ucc.profile.agent/NOTICE.txt -text
 ucc.profile.agent/pom.xml -text

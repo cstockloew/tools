@@ -38,6 +38,10 @@ ucc.model/.project
 ucc.model/.settings
 ucc.model/build.properties
 ucc.model/target
+ucc.pom/.classpath
+ucc.pom/.project
+ucc.pom/.settings
+ucc.pom/target
 ucc.profile.agent/.classpath
 ucc.profile.agent/.project
 ucc.profile.agent/.settings
