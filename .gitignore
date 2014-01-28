@@ -1,3 +1,7 @@
+ucc.configuration.configdefinitionregistry/.classpath
+ucc.configuration.configdefinitionregistry/.project
+ucc.configuration.configdefinitionregistry/.settings
+ucc.configuration.configdefinitionregistry/target
 ucc.karaf.feature/.classpath
 ucc.karaf.feature/.project
 ucc.karaf.feature/.settings

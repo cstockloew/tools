@@ -1,4 +1,11 @@
 * text=auto !eol
+ucc.configuration.configdefinitionregistry/ASL2.0.txt -text
+ucc.configuration.configdefinitionregistry/NOTICE.txt -text
+ucc.configuration.configdefinitionregistry/pom.xml -text
+ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/ConfigurationDefinitionRegistryImpl.java -text
+ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/interfaces/ConfigurationDefinitionRegistry.java -text
+ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/interfaces/ConfigurationDefinitionRegistryChanged.java -text
+ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/internal/Activator.java -text
 ucc.karaf.feature/ASL2.0.txt -text
 ucc.karaf.feature/META-INF/MANIFEST.MF -text
 ucc.karaf.feature/NOTICE.txt -text
