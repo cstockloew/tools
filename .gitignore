@@ -10,6 +10,10 @@ ucc.configuration.configurator/.classpath
 ucc.configuration.configurator/.project
 ucc.configuration.configurator/.settings
 ucc.configuration.configurator/target
+ucc.configuration.model/.classpath
+ucc.configuration.model/.project
+ucc.configuration.model/.settings
+ucc.configuration.model/target
 ucc.controller/.classpath
 ucc.controller/.project
 ucc.controller/.settings
