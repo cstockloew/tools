@@ -1,1 +1,6 @@
 * text=auto !eol
+ucc.karaf.feature/ASL2.0.txt -text
+ucc.karaf.feature/META-INF/MANIFEST.MF -text
+ucc.karaf.feature/NOTICE.txt -text
+ucc.karaf.feature/pom.xml -text
+ucc.karaf.feature/src/main/features/uCC.xml -text
