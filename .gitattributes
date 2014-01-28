@@ -1,5 +1,6 @@
 * text=auto !eol
 /Readme.txt -text
+service-xml/sample.xml -text
 ucc.configuration.configdefinitionregistry/ASL2.0.txt -text
 ucc.configuration.configdefinitionregistry/NOTICE.txt -text
 ucc.configuration.configdefinitionregistry/pom.xml -text
