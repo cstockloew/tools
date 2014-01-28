@@ -7,6 +7,11 @@ ucc.controller/.project
 ucc.controller/.settings
 ucc.controller/build.properties
 ucc.controller/target
+ucc.database/.classpath
+ucc.database/.project
+ucc.database/.settings
+ucc.database/build.properties
+ucc.database/target
 ucc.deploymanagerservice/.classpath
 ucc.deploymanagerservice/.project
 ucc.deploymanagerservice/.settings
