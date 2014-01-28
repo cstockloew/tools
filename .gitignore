@@ -28,6 +28,11 @@ ucc.karaf.feature/.classpath
 ucc.karaf.feature/.project
 ucc.karaf.feature/.settings
 ucc.karaf.feature/target
+ucc.model/.classpath
+ucc.model/.project
+ucc.model/.settings
+ucc.model/build.properties
+ucc.model/target
 ucc.profile.agent/.classpath
 ucc.profile.agent/.project
 ucc.profile.agent/.settings
