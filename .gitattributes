@@ -53,6 +53,11 @@ ucc.database/src/main/java/org/universAAL/ucc/startup/model/Role.java -text
 ucc.database/src/main/java/org/universAAL/ucc/startup/model/UccUsers.java -text
 ucc.database/src/main/java/org/universAAL/ucc/startup/model/User.java -text
 ucc.database/src/main/java/org/universAAL/ucc/startup/model/UserAccountInfo.java -text
+ucc.deploymanagerservice.impl/ASL2.0.txt -text
+ucc.deploymanagerservice.impl/NOTICE.txt -text
+ucc.deploymanagerservice.impl/pom.xml -text
+ucc.deploymanagerservice.impl/src/main/java/org/universAAL/ucc/deploymanagerservice/impl/Activator.java -text
+ucc.deploymanagerservice.impl/src/main/java/org/universAAL/ucc/deploymanagerservice/impl/DeployManagerServiceImpl.java -text
 ucc.deploymanagerservice/ASL2.0.txt -text
 ucc.deploymanagerservice/NOTICE.txt -text
 ucc.deploymanagerservice/pom.xml -text

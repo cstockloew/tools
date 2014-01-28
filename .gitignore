@@ -16,6 +16,10 @@ ucc.database/.project
 ucc.database/.settings
 ucc.database/build.properties
 ucc.database/target
+ucc.deploymanagerservice.impl/.classpath
+ucc.deploymanagerservice.impl/.project
+ucc.deploymanagerservice.impl/.settings
+ucc.deploymanagerservice.impl/target
 ucc.deploymanagerservice/.classpath
 ucc.deploymanagerservice/.project
 ucc.deploymanagerservice/.settings
