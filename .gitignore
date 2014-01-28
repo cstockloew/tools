@@ -2,6 +2,11 @@ ucc.configuration.configdefinitionregistry/.classpath
 ucc.configuration.configdefinitionregistry/.project
 ucc.configuration.configdefinitionregistry/.settings
 ucc.configuration.configdefinitionregistry/target
+ucc.controller/.classpath
+ucc.controller/.project
+ucc.controller/.settings
+ucc.controller/build.properties
+ucc.controller/target
 ucc.deploymanagerservice/.classpath
 ucc.deploymanagerservice/.project
 ucc.deploymanagerservice/.settings

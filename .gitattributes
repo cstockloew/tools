@@ -6,6 +6,14 @@ ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/conf
 ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/interfaces/ConfigurationDefinitionRegistry.java -text
 ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/interfaces/ConfigurationDefinitionRegistryChanged.java -text
 ucc.configuration.configdefinitionregistry/src/main/java/org/universAAL/ucc/configuration/configdefinitionregistry/internal/Activator.java -text
+ucc.controller/ASL2.0.txt -text
+ucc.controller/NOTICE.txt -text
+ucc.controller/pom.xml -text
+ucc.controller/src/main/java/org/universAAL/ucc/api/IDeinstaller.java -text
+ucc.controller/src/main/java/org/universAAL/ucc/api/IInstaller.java -text
+ucc.controller/src/main/java/org/universAAL/ucc/api/impl/Deinstaller.java -text
+ucc.controller/src/main/java/org/universAAL/ucc/api/impl/Installer.java -text
+ucc.controller/src/main/java/org/universAAL/ucc/controller/Activator.java -text
 ucc.deploymanagerservice/ASL2.0.txt -text
 ucc.deploymanagerservice/NOTICE.txt -text
 ucc.deploymanagerservice/pom.xml -text
