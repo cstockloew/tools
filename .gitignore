@@ -24,6 +24,11 @@ ucc.deploymanagerservice/.classpath
 ucc.deploymanagerservice/.project
 ucc.deploymanagerservice/.settings
 ucc.deploymanagerservice/target
+ucc.frontend/.classpath
+ucc.frontend/.project
+ucc.frontend/.settings
+ucc.frontend/build.properties
+ucc.frontend/target
 ucc.karaf.feature/.classpath
 ucc.karaf.feature/.project
 ucc.karaf.feature/.settings
