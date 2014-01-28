@@ -220,3 +220,9 @@ ucc.profile.agent/pom.xml -text
 ucc.profile.agent/src/main/java/org/universAAL/ucc/profile/agent/ProfileAgent.java -text
 ucc.profile.agent/src/main/java/org/universAAL/ucc/profile/agent/impl/ProfileAgentImpl.java -text
 ucc.profile.agent/src/main/java/org/universAAL/ucc/profile/agent/osgi/Activator.java -text
+uccDB/EmptyHardware.xml -text
+uccDB/EmptyRoom.xml -text
+uccDB/EmptyUser.xml -text
+uccDB/Hardware.xml -text
+uccDB/Rooms.xml -text
+uccDB/Users.xml -text
