@@ -2,6 +2,10 @@ ucc.configuration.configdefinitionregistry/.classpath
 ucc.configuration.configdefinitionregistry/.project
 ucc.configuration.configdefinitionregistry/.settings
 ucc.configuration.configdefinitionregistry/target
+ucc.configuration.configinstancestorage/.classpath
+ucc.configuration.configinstancestorage/.project
+ucc.configuration.configinstancestorage/.settings
+ucc.configuration.configinstancestorage/target
 ucc.configuration.configurator/.classpath
 ucc.configuration.configurator/.project
 ucc.configuration.configurator/.settings
