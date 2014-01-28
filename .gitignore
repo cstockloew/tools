@@ -50,3 +50,8 @@ ucc.profile.agent/.classpath
 ucc.profile.agent/.project
 ucc.profile.agent/.settings
 ucc.profile.agent/target
+ucc.vaadin.themes/.classpath
+ucc.vaadin.themes/.project
+ucc.vaadin.themes/.settings
+ucc.vaadin.themes/build.properties
+ucc.vaadin.themes/target
