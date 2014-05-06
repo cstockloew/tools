@@ -2,7 +2,7 @@
 <feature
       id="org.universaal.igd.uaal.runner.ui.feature"
       label="AAL Studio Pax Runner UI"
-      version="1.3.1"
+      version="1.3.2"
       provider-name="universAAL"
       plugin="org.universaal.tools.aalstudio.core">
 
@@ -242,7 +242,7 @@
          id="org.universaal.igd.uaal.runner.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.3.2"
          fragment="true"
          unpack="false"/>
 
