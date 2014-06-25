@@ -280,7 +280,7 @@ public class MWVersion030 implements IMWVersion{
 	    + "		<repository>\n"
 	    + "			<id>apache-snapshots</id>\n"
 	    + "			<name>Apache Snapshots</name>\n"
-	    + "			<url>http://people.apache.org/repo/m2-snapshot-repository</url>\n"
+	    + "			<url>http://repository.apache.org/snapshots</url>\n"
 	    + "			<releases>\n"
 	    + "				<enabled>false</enabled>\n"
 	    + "			</releases>\n"
