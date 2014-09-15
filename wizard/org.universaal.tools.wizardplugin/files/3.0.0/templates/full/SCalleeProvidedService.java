@@ -70,7 +70,7 @@ public class SCalleeProvidedService extends DeviceService {
 		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
 				DeviceService.PROP_CONTROLS, new SwitchController(
 						CPublisher.DEVICE_OWN_URI));
-		profiles[0].getTheService().addInstanceLevelRestriction(r,
+		getOnOffActuatorStatus.addInstanceLevelRestriction(r,
 				new String[] { DeviceService.PROP_CONTROLS });
 		profiles[0] = getOnOffActuatorStatus.getProfile();
 
@@ -84,7 +84,7 @@ public class SCalleeProvidedService extends DeviceService {
 				TypeMapper.getDatatypeURI(Boolean.class), 1, 1, new String[] {
 						DeviceService.PROP_CONTROLS,
 						SwitchController.PROP_HAS_VALUE });
-		profiles[1].getTheService().addInstanceLevelRestriction(r,
+		setOnOffActuatorStatus.addInstanceLevelRestriction(r,
 			new String[] { DeviceService.PROP_CONTROLS });
 		profiles[1] = setOnOffActuatorStatus.getProfile();
 
@@ -98,5 +98,9 @@ public class SCalleeProvidedService extends DeviceService {
 	protected SCalleeProvidedService(String uri) {
 		super(uri);
 	}
+	
+        public String getClassURI() {
+    		return MY_URI;
+        }
 
 }
