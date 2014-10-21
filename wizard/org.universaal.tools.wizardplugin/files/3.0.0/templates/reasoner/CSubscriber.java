@@ -52,7 +52,7 @@ public class CSubscriber extends ContextSubscriber {
 			 * -Example- Do something with the received events. Since this is a
 			 * Reasoner, a new event should be the outcome of a received event.
 			 * In this case the same received event is sent again but with
-			 * battery level, if it didn´t have it.
+			 * battery level, if it didnt have it.
 			 */
 			// TODO: Customize reasoning.
 			SwitchController theDevice = (SwitchController) event.getRDFSubject();

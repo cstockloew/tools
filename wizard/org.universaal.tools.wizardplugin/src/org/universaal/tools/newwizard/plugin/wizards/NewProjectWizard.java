@@ -146,7 +146,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	final boolean template=page2.getCheckTemp().getSelection();
 	final int templateIndex=page2.getDropTemp().getSelectionIndex();
 	
-	// I use deprecated methods because I haven´t found the new way to
+	// I use deprecated methods because I havent found the new way to
 	// create a new project
 	// TODO: Use the latest methods -> Latest version of Maven plugin keeps
 	// using them!

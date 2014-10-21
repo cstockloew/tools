@@ -222,7 +222,7 @@ public interface IMWVersion {
      *            Name of the file to be created.
      * @param monitor
      *            Eclipse monitor.
-     * @return True if there was no problem. False if the file couldn´t be
+     * @return True if there was no problem. False if the file couldnt be
      *         created (usually because it already exists).
      * @throws CoreException
      *             If there is a problem with Eclipse.

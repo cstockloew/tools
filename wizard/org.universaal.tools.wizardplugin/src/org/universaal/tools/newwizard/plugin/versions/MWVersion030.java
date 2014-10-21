@@ -112,7 +112,7 @@ public class MWVersion030 implements IMWVersion{
 		    IFile f = src.getFile(filenames[i]+".java");
 		    f.create(customizePackAndName(pack, getMainFolder() + filenames[i]), true, monitor);
 		}
-		// If it´s SCallee, also create Provided Serv
+		// If its SCallee, also create Provided Serv
 		if (i == 0) {
 		    IFile faux = src.getFile("SCalleeProvidedService.java");
 		    faux.create(customizePackAndName(pack, getMainFolder() + "SCalleeProvidedService"), true, monitor);

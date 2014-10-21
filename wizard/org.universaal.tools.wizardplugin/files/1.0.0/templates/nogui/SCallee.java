@@ -51,7 +51,7 @@ public class SCallee extends ServiceCallee {
 
 	/*
 	 * -Example- This returns the status of the requested OnOffActuator. it
-	 * doesn´t need to check the input because the Service restriction of
+	 * doesnt need to check the input because the Service restriction of
 	 * this server specifies that it only handles its single virtual
 	 * OnOffActuator. If the request got here, it means it addressed this
 	 * virtual OnOffActuator
@@ -74,7 +74,7 @@ public class SCallee extends ServiceCallee {
 
 	/*
 	 * -Example- This changes the status of the requested OnOffActuator,
-	 * according to the additonal input. it doesn´t need to check the input
+	 * according to the additonal input. it doesnt need to check the input
 	 * because the Service restriction of this server specifies that it only
 	 * handles its single virtual OnOffActuator. If the request got here, it
 	 * means it addressed this virtual OnOffActuator

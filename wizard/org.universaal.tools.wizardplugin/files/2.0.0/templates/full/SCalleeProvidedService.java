@@ -65,7 +65,7 @@ public class SCalleeProvidedService extends DeviceService {
 						DeviceService.PROP_CONTROLS,
 						SwitchController.PROP_HAS_VALUE });
 		// This is for saying that this only controls this specific
-		// SwitchController and no other. We do it this way because we don´t use
+		// SwitchController and no other. We do it this way because we dont use
 		// an Ontology class here to define instance restrictions.
 		MergedRestriction r = MergedRestriction.getFixedValueRestriction(
 				DeviceService.PROP_CONTROLS, new SwitchController(

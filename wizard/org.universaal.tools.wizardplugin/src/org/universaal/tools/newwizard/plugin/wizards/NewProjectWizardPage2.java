@@ -241,7 +241,7 @@ public class NewProjectWizardPage2 extends WizardPage {
 
     /**
      * Ensures that package field is set and compliant with Java, and MW version is selected. Uses
-     * deprecated validatePackageName method. Didn´t find the new alternative.
+     * deprecated validatePackageName method. Didnt find the new alternative.
      */
     private void validateInput() {
 	String packageName = textPackage.getText();

@@ -162,7 +162,7 @@ public class NewItemWizard extends Wizard implements INewWizard {
 	    }
 	});
 
-	// Because we don´t need to monitor changes in workspace,
+	// Because we dont need to monitor changes in workspace,
 	// we directly perform the job
 	job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 	job.schedule();
