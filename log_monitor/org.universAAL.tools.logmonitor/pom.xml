@@ -16,14 +16,14 @@
 	<url />
 
 	<dependencies>
-    <dependency>
-       <groupId>org.osgi</groupId>
-       <artifactId>org.osgi.core</artifactId>
-     </dependency>
-     <dependency>
-       <groupId>org.osgi</groupId>
-       <artifactId>org.osgi.compendium</artifactId>
-     </dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.data.representation.osgi</artifactId>
@@ -32,13 +32,23 @@
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.bus.service.osgi</artifactId>
 		</dependency>
-				<dependency>
+		<dependency>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.bus.model.osgi</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.universAAL.middleware</groupId>
 			<artifactId>mw.container.xfaces.osgi</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<groupId>org.universAAL.middleware</groupId>
+			<artifactId>mw.bus.junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.universAAL.ontology</groupId>
+			<artifactId>ont.lighting</artifactId>
+			<version>3.2.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

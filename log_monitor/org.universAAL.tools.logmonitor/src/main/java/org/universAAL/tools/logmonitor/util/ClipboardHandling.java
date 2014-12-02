@@ -2,7 +2,7 @@
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
 	Fraunhofer-Gesellschaft - Institut f�r Graphische Datenverarbeitung
  */
-package org.universAAL.tools.logmonitor.service_bus_matching.gui;
+package org.universAAL.tools.logmonitor.util;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;

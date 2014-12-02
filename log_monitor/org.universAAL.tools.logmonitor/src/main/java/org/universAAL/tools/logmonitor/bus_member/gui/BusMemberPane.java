@@ -2,7 +2,7 @@
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
 	Fraunhofer-Gesellschaft - Institut f�r Graphische Datenverarbeitung
  */
-package org.universAAL.tools.logmonitor.service_bus_matching.gui;
+package org.universAAL.tools.logmonitor.bus_member.gui;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -41,7 +41,7 @@ import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileIn
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
 import org.universAAL.tools.logmonitor.util.ClipboardHandling;
 
-public class MatchmakingPane extends JTextPane {
+public class BusMemberPane extends JTextPane {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,7 +79,7 @@ public class MatchmakingPane extends JTextPane {
 	}
     }
 
-    public MatchmakingPane() {
+    public BusMemberPane() {
 	setEditable(false);
 	setContentType("text/html");
 	addHyperlinkListener(new HTMLListener());
@@ -87,7 +87,7 @@ public class MatchmakingPane extends JTextPane {
 	((DefaultCaret) getCaret()).setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 
 	// overwrite ctrl-c
-	final MatchmakingPane pane = this;
+	final BusMemberPane pane = this;
 	getInputMap()
 		.put(KeyStroke.getKeyStroke(KeyEvent.VK_C,
 			InputEvent.CTRL_DOWN_MASK), "uaal_copy");

@@ -16,13 +16,14 @@ import org.universAAL.middleware.container.LogListener;
  */
 public class LogMonitor implements LogListener {
 
-    LogListenerEx listeners[] = new LogListenerEx[3];
+    LogListenerEx listeners[] = new LogListenerEx[4];
     MainGui gui = new MainGui();
 
     LogMonitor() {
 	listeners[0] = new org.universAAL.tools.logmonitor.all_log.LogMonitor();
 	listeners[1] = new org.universAAL.tools.logmonitor.rdfvis.LogMonitor();
 	listeners[2] = new org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor();
+	listeners[3] = new org.universAAL.tools.logmonitor.bus_member.LogMonitor();
 
 	for (int i = 0; i < listeners.length; i++)
 	    gui.addPanel(listeners[i].getTitle(), listeners[i].getPanel());

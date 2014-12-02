@@ -30,6 +30,7 @@ public class Activator implements BundleActivator {
     public static ModuleContext mc;
     public static BundleContext bc;
     public static MessageContentSerializer contentSerializer = null;
+    public LogMonitor lm;
 
     /**
      * Start this bundle. This is not done in a separate thread so that we can
@@ -40,10 +41,15 @@ public class Activator implements BundleActivator {
 	mc = uAALBundleContainer.THE_CONTAINER
 		.registerModule(new Object[] { context });
 
-	LogMonitor lm = new LogMonitor();
-
-	context.registerService(new String[] { LogListener.class.getName() },
-		lm, null);
+	start();
+//	context.registerService(new String[] { LogListener.class.getName() },
+//		lm, null);
+    }
+    
+    public void start() {
+	lm = new LogMonitor();
+	mc.getContainer().shareObject(mc, lm,
+		new Object[] { LogListener.class.getName() });
     }
 
     public void stop(BundleContext arg0) throws Exception {
