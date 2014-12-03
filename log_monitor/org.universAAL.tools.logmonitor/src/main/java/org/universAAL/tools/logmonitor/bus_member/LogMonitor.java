@@ -70,7 +70,8 @@ public class LogMonitor implements LogListenerEx, IBusMemberRegistryListener {
     }
 
     public void busMemberRemoved(BusMember member, BusType type) {
-	// TODO
+	MemberData data = new MemberData(member.getURI(), type);
+	gui.remove(data);
     }
 
     public void regParamsAdded(String busMemberID, Resource[] params) {
