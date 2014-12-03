@@ -95,13 +95,26 @@ public class BusMemberPane extends JTextPane {
 		"uaal_copy",
 		new ClipboardHandling(urlReplacement, getTransferHandler(),
 			pane));
+
+	// workaround until implemented
+	StringBuilder s = new StringBuilder(
+		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"><html><body>\n");
+	s.append("Future version will show the selected profiles/patterns here.\n");
+	s.append("\n</body></html>");
+	setText(s.toString());
     }
 
     public void show(Matchmaking m) {
 	currentMatch = m;
 	all = false;
 	visible.clear();
-	setText(createHTML(m));
+	//setText(createHTML(m));
+	
+	StringBuilder s = new StringBuilder(
+		"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"><html><body>\n");
+	s.append("Future version will show the selected profiles/patterns here.\n");
+	s.append("\n</body></html>");
+	setText(s.toString());
     }
 
     private boolean isVisible(String uri) {

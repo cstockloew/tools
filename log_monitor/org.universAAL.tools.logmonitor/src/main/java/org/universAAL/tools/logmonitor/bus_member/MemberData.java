@@ -2,6 +2,7 @@ package org.universAAL.tools.logmonitor.bus_member;
 
 import org.universAAL.middleware.bus.member.BusMemberType;
 import org.universAAL.middleware.bus.model.AbstractBus;
+import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 
 public class MemberData {
     public String id;
@@ -9,9 +10,13 @@ public class MemberData {
     public String peer;
     public String module;
     public String type;
+    public BusType busType;
+    public int number;
 
-    public MemberData(String id) {
+    public MemberData(String id, BusType busType) {
 	this.id = id;
+	this.busType = busType;
+
 	String s = id;
 	int idx = id.lastIndexOf('#');
 	s = id.substring(0, idx);
@@ -26,10 +31,14 @@ public class MemberData {
 	module = s.substring(idx2 + 1);
 
 	s = s.substring(1, idx2);
-	System.out.println("--s: " + s);
+	//System.out.println("--s: " + s);
 	for (BusMemberType t : BusMemberType.values()) {
-	    if (s.endsWith(t.name()))
+	    if (s.endsWith(t.name())) {
 		type = t.name();
+		s = s.substring(0, s.length()-type.length());
+		number = Integer.parseInt(s);
+		break;
+	    }
 	}
     }
 
@@ -40,5 +49,7 @@ public class MemberData {
 	System.out.println("  peer:   " + peer);
 	System.out.println("  module: " + module);
 	System.out.println("  type:   " + type);
+	System.out.println("  bus:    " + busType);
+	System.out.println("  number: " + number);
     }
 }

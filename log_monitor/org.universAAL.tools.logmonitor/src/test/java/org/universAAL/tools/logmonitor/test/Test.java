@@ -2,9 +2,13 @@ package org.universAAL.tools.logmonitor.test;
 
 import org.universAAL.middleware.bus.junit.BusTestCase;
 import org.universAAL.middleware.bus.permission.AccessControl;
+import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
+import org.universAAL.middleware.context.ContextPublisher;
+import org.universAAL.middleware.context.DefaultContextPublisher;
 import org.universAAL.middleware.owl.OntologyManagement;
 import org.universAAL.middleware.service.DefaultServiceCaller;
+import org.universAAL.middleware.tracker.IBusMemberRegistry;
 import org.universAAL.ontology.lighting.LightingOntology;
 import org.universAAL.ontology.location.LocationOntology;
 import org.universAAL.ontology.phThing.PhThingOntology;
@@ -20,14 +24,15 @@ public class Test extends BusTestCase {
 
     public void tearDown() {
 	// don't do anything here so we don't have to set up again
-//	while (true) {
-//	    try {
-//		Thread.sleep(100);
-//	    } catch (InterruptedException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	    }
-//	}
+	while (true) {
+	    try {
+		Thread.sleep(1000);
+		new DefaultServiceCaller(mc);
+	    } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	}
     }
 
     public void setUp() throws Exception {
@@ -46,17 +51,26 @@ public class Test extends BusTestCase {
 	mc.setAttribute(AccessControl.PROP_MODE_UPDATE, "always");
 
 	Activator.mc = mc;
-
 	((JUnitModuleContext) mc).setLogLevel(LogLevel.DEBUG);
 
+	// init bus tracker
+	org.universAAL.middleware.tracker.impl.Activator.fetchParams = new Object[] { IBusMemberRegistry.class
+		.getName() };
+	ModuleContext mcTracker = new JUnitModuleContext();
+	org.universAAL.middleware.tracker.impl.Activator actTracker = new org.universAAL.middleware.tracker.impl.Activator();
+	actTracker.start(mcTracker);
+
+	// start log monitor
 	Activator a = new Activator();
 	a.start();
-	((JUnitContainer)mc.getContainer()).registerLogListeners(a.lm);
+	((JUnitContainer) mc.getContainer()).registerLogListeners(a.lm);
     }
 
     public void testAddScript() {
 	LogUtils.logDebug(mc, this.getClass(), "method", "msg");
 	caller = new DefaultServiceCaller(mc);
+	ContextPublisher cp = new DefaultContextPublisher(mc, null);
 	caller.close();
+	cp.close();
     }
 }
