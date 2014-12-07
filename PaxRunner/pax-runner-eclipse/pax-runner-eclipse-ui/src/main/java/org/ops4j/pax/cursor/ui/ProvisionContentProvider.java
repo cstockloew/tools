@@ -17,15 +17,9 @@
  */
 package org.ops4j.pax.cursor.ui;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.pde.internal.ui.elements.DefaultContentProvider;
 
 /**
  * Content provider for provisioning table.<br/>

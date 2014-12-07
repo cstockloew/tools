@@ -18,8 +18,6 @@
 package org.ops4j.pax.cursor.ui;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,10 +32,7 @@ import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
-import org.eclipse.jface.viewers.CheckboxCellEditor;
-
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -48,7 +43,6 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
@@ -68,7 +62,6 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
@@ -76,7 +69,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
@@ -84,15 +76,10 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TableItem;
-
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 import org.ops4j.pax.cursor.shared.Attribute;
-
-import org.osgi.framework.AllServiceListener;
 
 /**
  * Provisioning Composite of Pax Runner Eclipse Plugin (bottom group).
@@ -1131,7 +1118,7 @@ public class ProvisionBlock extends CursorTabBlock {
 				final ProvisionURL provisionURL1 = (ProvisionURL) items[i]
 						.getData();
 				if (provisionURL1.getUrl().startsWith("Level ")
-						&& provisionURL1.getUrl().endsWith(level)) {
+						&& provisionURL1.getUrl().endsWith(" " + level)) {
 					return true;
 				}
 			}
@@ -1163,7 +1150,7 @@ public class ProvisionBlock extends CursorTabBlock {
 				}
 				provisionURLs.add(provisionURL1);
 				if (provisionURL1.getUrl().startsWith("Level ")
-						&& provisionURL1.getUrl().endsWith(level)) {
+						&& provisionURL1.getUrl().endsWith(" " + level)) {
 					// provisionURL1.add(provisionURL);
 					if (provisionURL1.getChildren() != null) {
 						ProvisionURL[] tmp = new ProvisionURL[provisionURL1
@@ -1230,7 +1217,7 @@ public class ProvisionBlock extends CursorTabBlock {
 				}
 				provisionURLs.add(provisionURL1);
 				if (provisionURL1.getUrl().startsWith("Level ")
-						&& provisionURL1.getUrl().endsWith(level)) {
+						&& provisionURL1.getUrl().endsWith(" " + level)) {
 					// provisionURL1.add(provisionURL);
 					if (provisionURL1.getChildren() != null) {
 						ProvisionURL[] tmp = new ProvisionURL[provisionURL1
