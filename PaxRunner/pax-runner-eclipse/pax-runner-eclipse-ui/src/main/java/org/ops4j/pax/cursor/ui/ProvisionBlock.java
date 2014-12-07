@@ -64,8 +64,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -78,7 +76,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.PlatformUI;
 import org.ops4j.pax.cursor.shared.Attribute;
 
 /**
@@ -94,6 +91,7 @@ public class ProvisionBlock extends CursorTabBlock {
 	private final Button m_deleteButton;
 	private List expandedNodes = new ArrayList();
 	private File m_lastUsedDir;
+	private List<ProvisionURL> lst;
 
 	/**
 	 * @see Composite#Composite(Composite, int)
@@ -171,7 +169,6 @@ public class ProvisionBlock extends CursorTabBlock {
 						}
 					}
 				} else {
-
 					provisionURL.setSelected(event.getChecked());
 					if (provisionURL.getChildren() != null) {
 						for (int i = 0; i < provisionURL.getChildren().length; i++) {
@@ -209,7 +206,6 @@ public class ProvisionBlock extends CursorTabBlock {
 						onEditButtonSelected();
 						updateStartImages();
 					}
-
 				}
 			}
 		});
@@ -262,7 +258,6 @@ public class ProvisionBlock extends CursorTabBlock {
 					return collator.compare(name1, name2);
 				}
 			}
-
 		});
 
 		final Tree tree = m_treeViewer.getTree();
@@ -273,22 +268,28 @@ public class ProvisionBlock extends CursorTabBlock {
 		ds.setTransfer(new Transfer[] { TextTransfer.getInstance() });
 		ds.addDragListener(new DragSourceAdapter() {
 			public void dragSetData(DragSourceEvent event) {
-				if (tree.getSelection()[0].getItemCount() == 0
-						&& !tree.getSelection()[0].getText().contains("Level")) {
-					// url+parent+isupdate+isstart+isselected
-					event.data = tree.getSelection()[0].getText()
-							+ "@"
-							+ tree.getSelection()[0].getParentItem().getText()
-									.split(" ")[1]
-							+ "@"
-							+ ((ProvisionURL) tree.getSelection()[0].getData())
-									.isUpdate()
-							+ "@"
-							+ ((ProvisionURL) tree.getSelection()[0].getData())
-									.isStart()
-							+ "@"
-							+ ((ProvisionURL) tree.getSelection()[0].getData())
-									.isSelected();
+				lst = new ArrayList<ProvisionURL>();
+				TreeItem[] sel = tree.getSelection();
+
+				// System.out.println("");
+				add(lst, sel);
+				// event.data = lst;
+				// System.out.println(" - dragging " + lst.size() +
+				// " elements");
+				// just a fake, without the line below, the drop-method is
+				// never called (data needs to be a String, why?)
+				event.data = "fakeString";
+			}
+
+			private void add(List<ProvisionURL> lst, TreeItem[] sel) {
+				for (TreeItem item : sel) {
+					if (item.getText().startsWith("Level ")) {
+						add(lst, item.getItems());
+					} else {
+						lst.add((ProvisionURL) item.getData());
+						// System.out.println(" -- add: " + ((ProvisionURL)
+						// item.getData()).getUrl());
+					}
 				}
 			}
 		});
@@ -298,55 +299,29 @@ public class ProvisionBlock extends CursorTabBlock {
 		dt.setTransfer(new Transfer[] { TextTransfer.getInstance() });
 		dt.addDropListener(new DropTargetAdapter() {
 			public void drop(DropTargetEvent event) {
-				if (event.item != null
-						&& !tree.getSelection()[0].getText().contains("Level")) {
-					String provisionUrl = ((String) event.data).split("@")[0];
-					String level = ((String) event.data).split("@")[1];
-					boolean isupdate = Boolean
-							.parseBoolean(((String) event.data).split("@")[2]);
-					boolean isstart = Boolean
-							.parseBoolean(((String) event.data).split("@")[3]);
-					boolean isselected = Boolean
-							.parseBoolean(((String) event.data).split("@")[4]);
+				//System.out.println(" -- drop:_" + event.item);
+				if (event.item != null) {
+					// &&
+					// !tree.getSelection()[0].getText().startsWith("Level ")) {
 
-					Point pt = PlatformUI.getWorkbench().getDisplay()
-							.map(null, tree, event.x, event.y);
+					// List<ProvisionURL> lst = (List<ProvisionURL>) event.data;
 					TreeItem item = (TreeItem) event.item;
-					Rectangle bounds = item.getBounds();
 					TreeItem parent = item.getParentItem();
-
-					if (parent != null
-							&& !((ProvisionURL) parent.getData()).getUrl()
-									.split(" ")[1].equals(level)) {
-						addURL(provisionUrl, ((ProvisionURL) parent.getData())
-								.getUrl().split(" ")[1], isstart, isupdate,
-								isselected);
-						// delete draged node
-						ProvisionURL prov = new ProvisionURL(provisionUrl,
-								isselected, isstart, Integer.parseInt(level),
-								isupdate);
-
+					if (parent == null)
+						parent = item;
+					String newLevel = parent.getText().split(" ")[1];
+					//System.out.println(" - drop to level " + newLevel);
+					for (ProvisionURL prov : lst) {
+						//System.out.println(" --- processing " + prov.getUrl());
 						findAndDeleteProvisionUrl(prov);
-
-					} else if (parent == null
-							&& ((ProvisionURL) item.getData()).getUrl()
-									.startsWith("Level")) {
-						addURL(provisionUrl, ((ProvisionURL) item.getData())
-								.getUrl().split(" ")[1], isstart, isupdate,
-								isselected);
-						// delete draged node
-						ProvisionURL prov = new ProvisionURL(provisionUrl,
-								isselected, isstart, Integer.parseInt(level),
-								isupdate);
-
-						findAndDeleteProvisionUrl(prov);
+						addURL(prov.getUrl(), newLevel, prov.isStart(),
+								prov.isUpdate(), prov.isSelected());
 					}
 				}
 			}
 		});
 
 		tree.addMouseListener(new MouseListener() {
-
 			public void mouseDown(MouseEvent e) {
 				for (TreeItem item : tree.getSelection()) {
 					if (item.getImage() != null) {
@@ -439,13 +414,9 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 
 			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			public void mouseUp(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 
@@ -625,9 +596,7 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 		});
 		m_deleteButton.setText("Delete");
-
 		m_treeViewer.expandAll();
-
 	}
 
 	private void getExpandedNodes() {
@@ -675,20 +644,16 @@ public class ProvisionBlock extends CursorTabBlock {
 				}
 				provisionURLs.add(provisionURL1);
 				if (provisionURL1.getUrl().startsWith("Level ")) {
-
 					if (provisionURL1.getChildren() != null) {
 						ProvisionURL[] tmp = new ProvisionURL[provisionURL1
 								.getChildren().length + 1];
 						for (int j = 0; j < provisionURL1.getChildren().length; j++) {
 							tmp[j] = provisionURL1.getChildren()[j];
-
 							if (tmp[j].isSelected()) {
 								selectedURLs.add(tmp[j]);
 							}
 						}
-
 					} else {
-
 					}
 				} else {
 					if (provisionURL1.getChildren() != null) {
@@ -703,15 +668,11 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 		}
 		m_treeViewer.setInput(provisionURLs);
-
 		// m_treeViewer.update(provisionURL, null);
 		// m_treeViewer.expandAll();
-
 		updateStartImages();
 		// m_treeViewer.add( provisionURL );
-
 		m_treeViewer.setCheckedElements(selectedURLs.toArray());
-
 		notifyUpdate();
 	}
 
@@ -756,7 +717,6 @@ public class ProvisionBlock extends CursorTabBlock {
 								.getActiveShell(), "Error", "", status);
 					}
 				}
-
 			} else {
 				Status status = new Status(IStatus.ERROR,
 						"org.universaal.tools.uAALRunner", 0,
@@ -764,7 +724,6 @@ public class ProvisionBlock extends CursorTabBlock {
 				ErrorDialog.openError(Display.getCurrent().getActiveShell(),
 						"Error", "", status);
 			}
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			Status status = new Status(IStatus.ERROR,
@@ -779,26 +738,34 @@ public class ProvisionBlock extends CursorTabBlock {
 	 */
 
 	protected void onAddButtonSelected() {
+		// get default value for 'level'
+		String lvl = "10";
+		try {
+			TreeItem[] items = m_treeViewer.getTree().getSelection();
+			if (items != null && items.length == 1) {
+				if (!items[0].getText().startsWith("Level "))
+					items[0] = items[0].getParentItem();
 
-		InputDialog dialog = new InputDialog(getShell(), "Add bundle from URL",
-				"Bundle URL (e.g. OBR):", null, null);
-		if (dialog.open() != Window.OK) {
-			return;
+				lvl = items[0].getText().split(" ")[1];
+			}
+		} catch (Exception e) {
 		}
-
-		InputDialog levelDialog = new InputDialog(getShell(),
-				"Enter OSGi level number", "Level number (e.g. 2):", null, null);
-		if (levelDialog.open() != Window.OK) {
+		
+		// show dialog
+		AddEditUrlDialog d = new AddEditUrlDialog(getShell(), lvl);
+		if (d.open() != Window.OK)
 			return;
-		}
-		String levelValue = levelDialog.getValue().trim();
+		String url = d.getURL();
+		String levelValue = d.getLevel();
+		
+		// add url
 		try {
 			// check for integer value
 			if (Integer.parseInt(levelValue) >= 0) {
 				if (!levelExists(levelValue)) {
 					addLevel(levelValue);
 				}
-				addURL(dialog.getValue().trim(), levelValue);
+				addURL(url, levelValue);
 			} else {
 				Status status = new Status(IStatus.ERROR,
 						"org.universaal.tools.uAALRunner", 0,
@@ -847,8 +814,8 @@ public class ProvisionBlock extends CursorTabBlock {
 						}
 						addURL(scanner
 								+ ":"
-								+ selectedFile.getCanonicalFile().toURL()
-										.toExternalForm(),
+								+ selectedFile.getCanonicalFile().toURI()
+										.toURL().toExternalForm(),
 								levelDialog.getValue());
 					} else {
 						Status status = new Status(IStatus.ERROR,
@@ -857,7 +824,6 @@ public class ProvisionBlock extends CursorTabBlock {
 						ErrorDialog.openError(Display.getCurrent()
 								.getActiveShell(), "Error", "", status);
 					}
-
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					Status status = new Status(IStatus.ERROR,
@@ -900,8 +866,8 @@ public class ProvisionBlock extends CursorTabBlock {
 							addLevel(levelValue);
 						}
 						addURL("scan-dir:"
-								+ selectedFile.getCanonicalFile().toURL()
-										.toExternalForm(),
+								+ selectedFile.getCanonicalFile().toURI()
+										.toURL().toExternalForm(),
 								levelDialog.getValue());
 					} else {
 						Status status = new Status(IStatus.ERROR,
@@ -930,7 +896,6 @@ public class ProvisionBlock extends CursorTabBlock {
 						getShell(),
 						"Information",
 						"Not yet implemented, but will allow selection of a Maven artifact from local or remote repository");
-
 	}
 
 	/**
@@ -939,7 +904,6 @@ public class ProvisionBlock extends CursorTabBlock {
 	protected void onEditButtonSelected() {
 		final IStructuredSelection sel = (IStructuredSelection) m_treeViewer
 				.getSelection();
-
 		if (sel == null || sel.isEmpty()) {
 			return;
 		}
@@ -971,6 +935,7 @@ public class ProvisionBlock extends CursorTabBlock {
 	}
 
 	private void findAndDeleteProvisionUrl(ProvisionURL provisionURL) {
+		getExpandedNodes();
 		List provisionURLs = new ArrayList();
 		List selectedURLs = new ArrayList();
 		final TreeItem[] items = m_treeViewer.getTree().getItems();
@@ -1013,7 +978,6 @@ public class ProvisionBlock extends CursorTabBlock {
 									selectedURLs.add(provisionURL2);
 								}
 							} else {
-
 								ProvisionURL[] provisionChildren = new ProvisionURL[provisionURL1
 										.getChildren().length - 1];
 								int kk = 0;
@@ -1038,13 +1002,13 @@ public class ProvisionBlock extends CursorTabBlock {
 			}
 			m_treeViewer.setInput(provisionURLs);
 			m_treeViewer.expandAll();
+			updateExpandedNodes();
 			updateStartImages();
 			if (selectedURLs.size() > 0) {
 				m_treeViewer.setCheckedElements(selectedURLs.toArray());
 			}
 			notifyUpdate();
 		}
-
 	}
 
 	/**
@@ -1237,7 +1201,6 @@ public class ProvisionBlock extends CursorTabBlock {
 						provisionURL.setParent(provisionURL1);
 						provisionURL1.setSelected(true);
 						selectedURLs.add(provisionURL1);
-
 					}
 					selectedURLs.add(provisionURL);
 				} else {
@@ -1280,21 +1243,16 @@ public class ProvisionBlock extends CursorTabBlock {
 	}
 
 	private boolean checkIfLevelExists(List provisionURLs, String level) {
-
 		for (int i = 0; i < provisionURLs.size(); i++) {
 			if (provisionURLs.get(i) != null
-
 					&& ((ProvisionURL) provisionURLs.get(i)).getUrl()
 							.startsWith("Level")
-					&&
-
-					((ProvisionURL) provisionURLs.get(i)).getUrl().split(" ")[1]
-							.equals(level)) {
+					&& ((ProvisionURL) provisionURLs.get(i)).getUrl()
+							.split(" ")[1].equals(level)) {
 				return true;
 			}
 		}
 		return false;
-
 	}
 
 	/**
@@ -1435,7 +1393,6 @@ public class ProvisionBlock extends CursorTabBlock {
 								// m_treeViewer.setChecked(provisionURL, true);
 							}
 						}
-
 					}
 				}
 
@@ -1516,7 +1473,6 @@ public class ProvisionBlock extends CursorTabBlock {
 					allChildrenStarted = false;
 					allChildrenUpdated = false;
 					it2.setImage(nn);
-
 				}
 			}
 			if (allChildrenStarted && allChildrenUpdated) {
@@ -1607,5 +1563,4 @@ public class ProvisionBlock extends CursorTabBlock {
 		configuration.setAttribute(Attribute.PROVISION_ITEMS, toSave);
 		configuration.setAttribute(Attribute.RUN_ARGUMENTS, arguments);
 	}
-
 }
