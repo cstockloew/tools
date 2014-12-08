@@ -86,7 +86,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 			configuration
 					.setAttribute(
 							"org.eclipse.jdt.launching.VM_ARGUMENTS",
-							"-Dosgi.noShutdown=true -Dfelix.log.level=4 -Dorg.universAAL.middleware.peer.is_coordinator=true -Dorg.universAAL.middleware.peer.member_of=urn:org.universAAL.aal_space:test_env -Dbundles.configuration.location=${workspace_loc}/rundir/confadmin");
+							"-Dosgi.noShutdown=true -Dfelix.log.level=4 -Dorg.universAAL.middleware.peer.is_coordinator=true -Dorg.universAAL.middleware.peer.member_of=urn:org.universAAL.aal_space:test_env -Dbundles.configuration.location=${workspace_loc}/rundir/confadmin -Djava.net.preferIPv4Stack=true");
 			configuration.setAttribute("org.eclipse.jdt.launching.WORKING_DIRECTORY",
 					"${workspace_loc}/rundir/demo.config");
 			configuration.setAttribute("org.ops4j.pax.cursor.hotDeployment", false);
@@ -103,9 +103,9 @@ public class NewRunConfigHandler extends AbstractHandler {
 				configuration.setAttribute("org.ops4j.pax.cursor.profiles", classpath);
 			}
 			
-			configuration.setAttribute("osgi_framework_id", "--platform=felix --version=2.0.1");
+			configuration.setAttribute("osgi_framework_id", "--platform=felix --version=4.4.1");
 			configuration.setAttribute("pde.version", "3.3");
-			configuration.setAttribute("show_selected_only", false);
+			configuration.setAttribute("show_selected_only", true);
 			configuration.setAttribute("tracing", false);
 			configuration.setAttribute("useCustomFeatures", false);
 			configuration.setAttribute("useDefaultConfigArea", false);
