@@ -91,6 +91,7 @@ public class ProvisionBlock extends CursorTabBlock {
 	private final Button m_deleteButton;
 	private List expandedNodes = new ArrayList();
 	private File m_lastUsedDir;
+	// list used for drag&drop
 	private List<ProvisionURL> lst;
 
 	/**
@@ -211,7 +212,6 @@ public class ProvisionBlock extends CursorTabBlock {
 		});
 
 		m_treeViewer.setSorter(new ViewerSorter() {
-
 			@Override
 			public int compare(Viewer viewer, Object e1, Object e2) {
 				int cat1 = category(e1);
@@ -313,9 +313,10 @@ public class ProvisionBlock extends CursorTabBlock {
 					//System.out.println(" - drop to level " + newLevel);
 					for (ProvisionURL prov : lst) {
 						//System.out.println(" --- processing " + prov.getUrl());
+						boolean isSelected = prov.isSelected();
 						findAndDeleteProvisionUrl(prov);
 						addURL(prov.getUrl(), newLevel, prov.isStart(),
-								prov.isUpdate(), prov.isSelected());
+								prov.isUpdate(), isSelected);
 					}
 				}
 			}
