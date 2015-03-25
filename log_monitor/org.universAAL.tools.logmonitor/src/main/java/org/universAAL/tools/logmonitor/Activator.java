@@ -30,7 +30,7 @@ public class Activator implements BundleActivator {
     public static ModuleContext mc;
     public static BundleContext bc;
     public static MessageContentSerializer contentSerializer = null;
-    public LogMonitor lm;
+    public static LogMonitor lm;
 
     /**
      * Start this bundle. This is not done in a separate thread so that we can

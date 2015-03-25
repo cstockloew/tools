@@ -19,7 +19,7 @@ public class LogMonitor implements LogListener {
     LogListenerEx listeners[] = new LogListenerEx[4];
     MainGui gui = new MainGui();
 
-    LogMonitor() {
+    public LogMonitor() {
 	listeners[0] = new org.universAAL.tools.logmonitor.all_log.LogMonitor();
 	listeners[1] = new org.universAAL.tools.logmonitor.rdfvis.LogMonitor();
 	listeners[2] = new org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor();
