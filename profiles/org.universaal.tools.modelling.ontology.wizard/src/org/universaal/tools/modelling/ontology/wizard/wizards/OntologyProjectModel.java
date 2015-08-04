@@ -70,7 +70,7 @@ public class OntologyProjectModel  {
 				String fullPkgName = parentPackageName + "." + ontologyName.toLowerCase();
 				setProjectName(fullPkgName);
 				setPackageName(fullPkgName);
-				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + getOntologyName());
+				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + getOntologyName() + ".owl");
 				setMavenName(ontologyName);
 			}
 		}
@@ -86,7 +86,7 @@ public class OntologyProjectModel  {
 				String fullPkgName = parentPackageName + "." + ontologyName.toLowerCase();
 				setProjectName(fullPkgName);
 				setPackageName(fullPkgName);
-				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + ontologyName);
+				setOntologyNamespace("http://"+revertDomainName(parentPackageName) + "/" + ontologyName + ".owl");
 				setMavenGroupId(parentPackageName);
 			}
 		}
