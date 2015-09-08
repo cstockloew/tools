@@ -18,42 +18,23 @@ import org.universAAL.tools.logmonitor.bus_member.gui.BusMemberGui;
 public class LogMonitor implements LogListenerEx, IBusMemberRegistryListener {
 
     private BusMemberGui gui = new BusMemberGui();
+    private SpaceListener spaceListener = null;
 
     public LogMonitor() {
+	// register this BusMemberRegistryListener
 	IBusMemberRegistry registry = (IBusMemberRegistry) Activator.mc
 		.getContainer().fetchSharedObject(Activator.mc,
 			IBusMemberRegistry.busRegistryShareParams);
 	registry.addListener(this, true);
+
+	// start space listener
+	spaceListener = new SpaceListener(gui);
+	spaceListener.start();
     }
 
-    /*-
-     * @see org.universAAL.middleware.container.LogListener#log(int,
-     * java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-     * java.lang.Object[], java.lang.Throwable)
-     */
+    // dummy method for integration in main gui, not used
     public void log(int logLevel, String module, String pkg, String cls,
 	    String method, Object[] msgPart, Throwable t) {
-	// if (logLevel == LogListener.LOG_LEVEL_DEBUG) {
-	// System.out.println(module);
-	// // if (!"mw.bus.service.osgi".equals(module))
-	// // return;
-	// String pkg2 = AbstractBus.class.getPackage().getName();
-	// String cls2 = AbstractBus.class.getName().substring(
-	// pkg.length() + 1);
-	// if (!cls2.equals(cls))
-	// return;
-	// if (!pkg2.equals(pkg))
-	// return;
-	//
-	// if (msgPart != null && msgPart.length == 2
-	// && msgPart[1] instanceof String) {
-	// String id = (String) msgPart[1];
-	// if ("register".equals(method))
-	// handleRegister(id);
-	// if ("unregister".equals(method))
-	// handleUnregister(id);
-	// }
-	// }
     }
 
     public JPanel getPanel() {
@@ -75,8 +56,19 @@ public class LogMonitor implements LogListenerEx, IBusMemberRegistryListener {
     }
 
     public void regParamsAdded(String busMemberID, Resource[] params) {
+	// TODO
     }
 
     public void regParamsRemoved(String busMemberID, Resource[] params) {
+	// TODO
+    }
+
+    public void stop() {
+	// TODO: call this method
+	spaceListener.stop();
+	IBusMemberRegistry registry = (IBusMemberRegistry) Activator.mc
+		.getContainer().fetchSharedObject(Activator.mc,
+			IBusMemberRegistry.busRegistryShareParams);
+	registry.removeListener(this);
     }
 }

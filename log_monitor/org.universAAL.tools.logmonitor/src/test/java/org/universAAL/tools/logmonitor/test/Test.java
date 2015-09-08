@@ -84,6 +84,14 @@ public class Test extends BusTestCase {
 	LogUtils.logDebug(mc, this.getClass(), "method", "msg");
 	caller = new DefaultServiceCaller(mc);
 	//ContextPublisher cp = new DefaultContextPublisher(mc, null);
+	
+	// try {
+	// Thread.sleep(20000);
+	// } catch (InterruptedException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	
 	caller.close();
 	//cp.close();
     }

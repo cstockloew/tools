@@ -28,6 +28,11 @@ public class LogMonitor implements LogListener {
 	for (int i = 0; i < listeners.length; i++)
 	    gui.addPanel(listeners[i].getTitle(), listeners[i].getPanel());
     }
+    
+    public void stop() {
+	for (int i = 0; i < listeners.length; i++)
+	    listeners[i].stop();
+    }
 
     public void log(int logLevel, String module, String pkg, String cls,
 	    String method, Object[] msgPart, Throwable t) {

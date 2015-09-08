@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor.rdfvis;
 
@@ -52,5 +52,9 @@ public class LogMonitor implements LogListenerEx {
 
     public String getTitle() {
 	return "RDF graph";
+    }
+
+    @Override
+    public void stop() {
     }
 }

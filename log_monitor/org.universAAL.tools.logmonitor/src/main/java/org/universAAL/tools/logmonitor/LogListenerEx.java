@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor;
 
@@ -13,4 +13,6 @@ public interface LogListenerEx extends LogListener {
     public JPanel getPanel();
 
     public String getTitle();
+    
+    public void stop();
 }

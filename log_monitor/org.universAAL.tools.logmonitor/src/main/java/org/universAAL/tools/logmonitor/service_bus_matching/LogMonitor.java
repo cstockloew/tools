@@ -323,4 +323,8 @@ public class LogMonitor implements LogListenerEx {
     public String getTitle() {
 	return "Service Matchmaking";
     }
+
+    @Override
+    public void stop() {
+    }
 }

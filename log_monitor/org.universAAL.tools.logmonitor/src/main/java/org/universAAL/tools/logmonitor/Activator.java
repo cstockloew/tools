@@ -42,10 +42,10 @@ public class Activator implements BundleActivator {
 		.registerModule(new Object[] { context });
 
 	start();
-//	context.registerService(new String[] { LogListener.class.getName() },
-//		lm, null);
+	// context.registerService(new String[] { LogListener.class.getName() },
+	// lm, null);
     }
-    
+
     public void start() {
 	lm = new LogMonitor();
 	mc.getContainer().shareObject(mc, lm,
@@ -53,12 +53,15 @@ public class Activator implements BundleActivator {
     }
 
     public void stop(BundleContext arg0) throws Exception {
+	mc.getContainer().removeSharedObject(mc, lm,
+		new Object[] { LogListener.class.getName() });
+	lm.stop();
     }
 
-    public static void main(String[] args) {
-	LogMonitor lm = new LogMonitor();
-	lm.log(0, "module", "pkg", "cls", "method", new Object[] { "" }, null);
-    }
+    // public static void main(String[] args) {
+    // LogMonitor lm = new LogMonitor();
+    // lm.log(0, "module", "pkg", "cls", "method", new Object[] { "" }, null);
+    // }
 
     /**
      * Get resource

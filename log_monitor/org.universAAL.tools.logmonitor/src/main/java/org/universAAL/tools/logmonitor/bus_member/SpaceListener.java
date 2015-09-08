@@ -7,13 +7,16 @@ import org.universAAL.middleware.interfaces.aalspace.AALSpaceStatus;
 import org.universAAL.middleware.managers.api.AALSpaceListener;
 import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.tools.logmonitor.Activator;
+import org.universAAL.tools.logmonitor.bus_member.gui.BusMemberGui;
 
 public class SpaceListener implements AALSpaceListener, Runnable,
 	SharedObjectListener {
 
     private AALSpaceManager theAALSpaceManager = null;
+    private BusMemberGui gui = null;
 
-    public SpaceListener() {
+    public SpaceListener(BusMemberGui gui) {
+	this.gui = gui;
     }
 
     public void start() {
@@ -36,30 +39,27 @@ public class SpaceListener implements AALSpaceListener, Runnable,
 
     @Override
     public void aalSpaceJoined(AALSpaceDescriptor spaceDescriptor) {
-	// TODO Auto-generated method stub
-
+	gui.setSpace(spaceDescriptor);
     }
 
     @Override
     public void aalSpaceLost(AALSpaceDescriptor spaceDescriptor) {
-	// TODO Auto-generated method stub
-
+	gui.setSpace(spaceDescriptor);
     }
 
     @Override
     public void newPeerJoined(PeerCard peer) {
-	// TODO Auto-generated method stub
-
+	gui.add(peer);
     }
 
     @Override
     public void peerLost(PeerCard peer) {
-	// TODO Auto-generated method stub
-
+	gui.remove(peer);
     }
 
     @Override
     public void aalSpaceStatusChanged(AALSpaceStatus status) {
+	// not needed
     }
 
     @Override

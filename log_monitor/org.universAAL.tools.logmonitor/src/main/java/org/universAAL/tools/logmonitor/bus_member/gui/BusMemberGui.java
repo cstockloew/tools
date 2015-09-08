@@ -20,6 +20,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import org.universAAL.middleware.interfaces.PeerCard;
+import org.universAAL.middleware.interfaces.aalspace.AALSpaceDescriptor;
 import org.universAAL.tools.logmonitor.bus_member.MemberData;
 
 /**
@@ -45,6 +47,10 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
     private Map<String, DefaultMutableTreeNode> modules = new Hashtable<String, DefaultMutableTreeNode>();
     private Map<String, DefaultMutableTreeNode> members = new Hashtable<String, DefaultMutableTreeNode>();
 
+    private Hashtable<String, PeerCard> peerCards = new Hashtable<String, PeerCard>();
+    private Hashtable<String, MemberData> memberData = new Hashtable<String, MemberData>();
+    private AALSpaceDescriptor space = null;
+
     /**
      * Create the main frame.
      */
@@ -67,6 +73,39 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 	add(splitPane, BorderLayout.CENTER);
     }
 
+    public void add(final PeerCard peer) {
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		if (peerCards.put(peer.getPeerID(), peer) != null)
+		    // this peer was known already
+		    return;
+		// add a tree node
+		addPeerNode(peer.getPeerID());
+	    }
+	});
+    }
+
+    public void remove(final PeerCard peer) {
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		peerCards.remove(peer.getPeerID());
+	    }
+	});
+    }
+
+    private DefaultMutableTreeNode addPeerNode(String id) {
+	DefaultMutableTreeNode peerNode = peers.get(id);
+	if (peerNode == null) {
+	    // peer not yet available
+	    peerNode = new DefaultMutableTreeNode("Peer: " + id);
+	    root.add(peerNode);
+	    treeModel.reload(root);
+	    // add(peerNode, root);
+	    peers.put(id, peerNode);
+	}
+	return peerNode;
+    }
+
     /**
      * Add a new entry.
      * 
@@ -76,6 +115,7 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
     public void add(final MemberData m) {
 	SwingUtilities.invokeLater(new Runnable() {
 	    public void run() {
+		memberData.put(m.id, m);
 		boolean first = false;
 		// handle root = Space ID
 		if (!tree.isRootVisible()) {
@@ -86,15 +126,7 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 		}
 
 		// handle peers
-		DefaultMutableTreeNode peerNode = peers.get(m.peer);
-		if (peerNode == null) {
-		    // peer not yet available
-		    peerNode = new DefaultMutableTreeNode("Peer: " + m.peer);
-		    root.add(peerNode);
-		    treeModel.reload(root);
-		    // add(peerNode, root);
-		    peers.put(m.peer, peerNode);
-		}
+		DefaultMutableTreeNode peerNode = addPeerNode(m.peer);
 
 		// handle module
 		DefaultMutableTreeNode moduleNode = modules.get(m.peer + "#"
@@ -132,6 +164,7 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
     public void remove(final MemberData m) {
 	SwingUtilities.invokeLater(new Runnable() {
 	    public void run() {
+		memberData.remove(m.id);
 		// get module (= parent of this member)
 		final DefaultMutableTreeNode moduleNode = modules.get(m.peer
 			+ "#" + m.module);
@@ -166,10 +199,6 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 			new Object[] { memberNode });
 		// }
 		// });
-
-		// TODO: if this is the last member for a module, should we
-		// remove
-		// the module as well?
 	    }
 	});
     }
@@ -178,6 +207,10 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 	TreeNode[] path = node.getPath();
 	TreePath treePath = new TreePath(path);
 	tree.expandPath(treePath);
+    }
+
+    public void setSpace(AALSpaceDescriptor space) {
+	this.space = space;
     }
 
     @Override

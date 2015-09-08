@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor.all_log;
 
@@ -50,5 +50,9 @@ public class LogMonitor implements LogListenerEx {
 
     public LogEntry getLogEntry(int index) {
 	return entries.get(Integer.valueOf(index));
+    }
+
+    @Override
+    public void stop() {
     }
 }
