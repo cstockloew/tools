@@ -6,7 +6,6 @@ package org.universAAL.tools.logmonitor.service_bus_matching.gui;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,7 +16,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -40,8 +38,9 @@ import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileInfo;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
 import org.universAAL.tools.logmonitor.util.ClipboardHandling;
+import org.universAAL.tools.logmonitor.util.HTMLPaneBase;
 
-public class MatchmakingPane extends JTextPane {
+public class MatchmakingPane extends HTMLPaneBase {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,8 +51,6 @@ public class MatchmakingPane extends JTextPane {
      * grouped according to the service provider, 1 means no grouping
      */
     public int overviewMethod = 0;
-
-    private HashMap<String, String> urlReplacement = new HashMap<String, String>();
 
     // Storage visible objects; objects that are not visible, are not
     // contained in this table. The value is ignored, only the key is used.
@@ -133,30 +130,6 @@ public class MatchmakingPane extends JTextPane {
 	    makeVisible(uri);
     }
 
-    private URL getURL(String filename) {
-	return Activator.getResource(filename);
-    }
-
-    private String getImageHTML(String name) {
-	String filename = "/img/" + name;
-	URL url = getURL(filename);
-
-	urlReplacement.put(url.toString(),
-		"http://depot.universaal.org/images/LogMonitor/" + name);
-
-	return "<img src=\"" + url.toString() + "\">";
-    }
-
-    private String getURIHTML(String uri) {
-	int idx = uri.lastIndexOf('#');
-	if (idx == -1)
-	    return uri;
-
-	String start = uri.substring(0, idx + 1);
-	String end = uri.substring(idx + 1);
-	return start + "<b>" + end + "</b>";
-    }
-
     private String getOutputHTML(Resource output) {
 	StringBuilder s = new StringBuilder("");
 
@@ -224,64 +197,6 @@ public class MatchmakingPane extends JTextPane {
 	    s.append(getTableEndHTML());
 	}
 	return s.toString();
-    }
-
-    private String getTableStartHTML() {
-	return getTableStartHTML(0);
-    }
-
-    private String getTableStartHTML(int border) {
-	return "<table border=\"0\"><tr><td width=\"20\"></td><td>"
-		+ "<table valign=\"top\" border=\"" + border + "\">\n";
-    }
-
-    private String getTableRowHTML(String val1) {
-	return "<tr><td>" + val1 + "</td></tr>\n";
-    }
-
-    private String getTableRowHTML(String val1, int colspan) {
-	return "<tr><td colspan=\"" + colspan + "\" bgcolor=\"#EEEEEE\">"
-		+ val1 + "</td></tr>\n";
-    }
-
-    private String getTableRowHTML(String val1, String val2) {
-	return "<tr><td>" + val1 + "</td><td>" + val2 + "</td></tr>\n";
-    }
-
-    private String getTableRowHTML(String val1, String val2, String val3) {
-	return "<tr>\n  <td>" + val1 + "</td>\n  <td>" + val2 + "</td>\n  <td>"
-		+ val3 + "</td>\n</tr>\n";
-    }
-
-    private String getTableRowTitleHTML(String val1, String val2, String val3) {
-	return "<tr>\n  <td  bgcolor=\"#DDDDDD\">" + val1
-		+ "</td>\n  <td  bgcolor=\"#DDDDDD\">" + val2
-		+ "</td>\n  <td bgcolor=\"#DDDDDD\">" + val3 + "</td>\n</tr>\n";
-    }
-
-    private String getTableEndHTML() {
-	return "</table></td></tr></table>\n";
-    }
-
-    private String getPropPathHTML(PropertyPath path, boolean shortForm) {
-	String s = "";
-	if (path == null)
-	    return s;
-	String[] p = path.getThePath();
-	for (int i = 0; i < p.length; i++) {
-	    s += getURIHTML(URI.get(p[i], shortForm));
-	    if (i < p.length - 1)
-		s += "<br>";
-	}
-	return s;
-    }
-
-    private String getLinkHTML(String link, String text) {
-	return "<a href=\"" + link + "\">" + text + "</a>\n";
-    }
-
-    private String turtle2HTML(String serialized) {
-	return serialized.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     }
 
     private void getRestrictionsHTML(StringBuilder s, List<?> res) {

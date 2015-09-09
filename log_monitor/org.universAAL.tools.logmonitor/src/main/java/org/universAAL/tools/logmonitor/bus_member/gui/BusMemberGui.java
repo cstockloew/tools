@@ -51,6 +51,8 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
     private Hashtable<String, MemberData> memberData = new Hashtable<String, MemberData>();
     private AALSpaceDescriptor space = null;
 
+    private String PREFIX_PEER = "Peer: ";
+
     /**
      * Create the main frame.
      */
@@ -97,7 +99,7 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 	DefaultMutableTreeNode peerNode = peers.get(id);
 	if (peerNode == null) {
 	    // peer not yet available
-	    peerNode = new DefaultMutableTreeNode("Peer: " + id);
+	    peerNode = new DefaultMutableTreeNode(PREFIX_PEER + id);
 	    root.add(peerNode);
 	    treeModel.reload(root);
 	    // add(peerNode, root);
@@ -223,9 +225,18 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 		// String selectedNodeName = selectedNode.toString();
 
 		if (members.containsValue(node)) {
+		    String memberID = node.getUserObject().toString();
+		    MemberData m = memberData.get(memberID);
+		    pane.show(m);
 		} else if (modules.containsValue(node)) {
+		    pane.show();
 		} else if (peers.containsValue(node)) {
+		    String peerID = node.getUserObject().toString()
+			    .substring(PREFIX_PEER.length());
+		    PeerCard pc = peerCards.get(peerID);
+		    pane.show(pc);
 		} else if (node == root) {
+		    pane.show(space);
 		}
 	    }
 	});

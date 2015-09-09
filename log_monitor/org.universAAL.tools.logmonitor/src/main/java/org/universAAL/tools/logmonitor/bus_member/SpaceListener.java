@@ -1,5 +1,7 @@
 package org.universAAL.tools.logmonitor.bus_member;
 
+import java.util.Map;
+
 import org.universAAL.middleware.container.SharedObjectListener;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.aalspace.AALSpaceDescriptor;
@@ -73,6 +75,15 @@ public class SpaceListener implements AALSpaceListener, Runnable,
 	    synchronized (this) {
 		theAALSpaceManager = (AALSpaceManager) sharedObj;
 		theAALSpaceManager.addAALSpaceListener(this);
+		gui.setSpace(theAALSpaceManager.getAALSpaceDescriptor());
+
+		Map<String, PeerCard> peers = theAALSpaceManager.getPeers();
+		if (peers != null) {
+		    for (PeerCard pc : peers.values()) {
+			gui.add(pc);
+		    }
+		}
+		gui.add(theAALSpaceManager.getMyPeerCard());
 	    }
 	}
     }
