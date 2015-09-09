@@ -5,6 +5,7 @@
 package org.universAAL.tools.logmonitor.bus_member.gui;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -90,7 +91,36 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
     public void remove(final PeerCard peer) {
 	SwingUtilities.invokeLater(new Runnable() {
 	    public void run() {
-		peerCards.remove(peer.getPeerID());
+		String peerID = peer.getPeerID();
+		if (peerID == null)
+		    return;
+
+		// remove from gui
+		DefaultMutableTreeNode node = peers.get(peerID);
+		treeModel.removeNodeFromParent(node);
+
+		// remove peer
+		peerCards.remove(peerID);
+		peers.remove(peerID);
+
+		// remove all member and modules from this peer
+		// in gui and in data structures
+		// iterate through the Memberdata and remove from all
+		ArrayList<String> l = new ArrayList<String>();
+		for (String key : memberData.keySet()) {
+		    MemberData m = memberData.get(key);
+		    if (peerID.equals(m.peer)) {
+			l.add(key);
+			// remove modules
+			modules.remove(m.peer + "#" + m.module);
+			// remove members
+			members.remove(m.id);
+		    }
+		}
+		// now remove from memberData
+		for (String key : l) {
+		    memberData.remove(key);
+		}
 	    }
 	});
     }
