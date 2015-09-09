@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 
 package org.universAAL.tools.logmonitor.rdfvis.gui;
@@ -26,8 +26,7 @@ import org.universAAL.tools.logmonitor.rdfvis.Node;
 /**
  * The graphical panel showing the node graph.
  * 
- * @author cstockloew
- * 
+ * @author Carsten Stockloew
  */
 public class GraphPanel extends JPanel {
 

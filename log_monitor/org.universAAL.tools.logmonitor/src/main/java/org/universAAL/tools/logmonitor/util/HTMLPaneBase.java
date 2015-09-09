@@ -13,6 +13,11 @@ import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class HTMLPaneBase extends JTextPane {
     private static final long serialVersionUID = 1L;
 

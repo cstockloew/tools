@@ -20,6 +20,11 @@ import org.universAAL.tools.logmonitor.LogListenerEx;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
 import org.universAAL.tools.logmonitor.service_bus_matching.gui.Gui;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class LogMonitor implements LogListenerEx {
 
     private Gui gui = new Gui();

@@ -40,6 +40,11 @@ import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMa
 import org.universAAL.tools.logmonitor.util.ClipboardHandling;
 import org.universAAL.tools.logmonitor.util.HTMLPaneBase;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class MatchmakingPane extends HTMLPaneBase {
 
     private static final long serialVersionUID = 1L;

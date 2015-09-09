@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 
 import org.universAAL.middleware.container.LogListener;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ */
 public interface LogListenerEx extends LogListener {
 
     public JPanel getPanel();

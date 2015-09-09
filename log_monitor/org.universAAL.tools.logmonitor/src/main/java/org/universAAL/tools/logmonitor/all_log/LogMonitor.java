@@ -15,7 +15,7 @@ import org.universAAL.tools.logmonitor.all_log.gui.AllLogPanel;
  * interface to be called from
  * {@link org.universAAL.middleware.container.utils.LogUtils}
  * 
- * @author cstockloew
+ * @author Carsten Stockloew
  * 
  */
 public class LogMonitor implements LogListenerEx {

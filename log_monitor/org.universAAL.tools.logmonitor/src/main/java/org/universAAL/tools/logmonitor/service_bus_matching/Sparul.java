@@ -17,6 +17,11 @@ import org.universAAL.middleware.service.owls.process.ProcessEffect;
 
 // just testing....
 // Possible improvements: SPARQLAS, TERP
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class Sparul {
 
     private int ppcnt = 0;

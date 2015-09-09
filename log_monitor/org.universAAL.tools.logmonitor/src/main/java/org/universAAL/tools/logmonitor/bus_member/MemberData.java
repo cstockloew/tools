@@ -4,6 +4,11 @@ import org.universAAL.middleware.bus.member.BusMemberType;
 import org.universAAL.middleware.bus.model.AbstractBus;
 import org.universAAL.middleware.tracker.IBusMemberRegistry.BusType;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class MemberData {
     public String id;
     public String space;

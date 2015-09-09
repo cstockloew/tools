@@ -18,6 +18,11 @@ import org.universAAL.tools.logmonitor.bus_member.MemberData;
 import org.universAAL.tools.logmonitor.util.ClipboardHandling;
 import org.universAAL.tools.logmonitor.util.HTMLPaneBase;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class BusMemberPane extends HTMLPaneBase {
 
     private static final long serialVersionUID = 1L;

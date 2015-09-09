@@ -11,6 +11,11 @@ import org.universAAL.middleware.managers.api.AALSpaceManager;
 import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.bus_member.gui.BusMemberGui;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class SpaceListener implements AALSpaceListener, Runnable,
 	SharedObjectListener {
 

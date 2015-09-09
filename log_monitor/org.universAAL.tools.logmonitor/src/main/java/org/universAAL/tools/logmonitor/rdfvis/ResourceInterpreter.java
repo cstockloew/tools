@@ -13,8 +13,7 @@ import org.universAAL.middleware.service.owls.profile.ServiceProfile;
  * This class gets a {@link org.universAAL.middleware.rdf.Resource} and tries to
  * interpret the content to give a short description.
  * 
- * @author cstockloew
- * 
+ * @author Carsten Stockloew
  */
 public class ResourceInterpreter {
 

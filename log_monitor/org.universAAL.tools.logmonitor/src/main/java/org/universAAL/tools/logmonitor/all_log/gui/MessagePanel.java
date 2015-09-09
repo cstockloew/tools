@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor.all_log.gui;
 
@@ -10,6 +10,10 @@ import javax.swing.text.DefaultCaret;
 import org.universAAL.tools.logmonitor.Utils;
 import org.universAAL.tools.logmonitor.all_log.LogEntry;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ */
 public class MessagePanel extends JTextPane {
 
     private static final long serialVersionUID = 1L;

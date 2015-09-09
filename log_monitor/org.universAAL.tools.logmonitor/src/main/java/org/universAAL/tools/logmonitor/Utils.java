@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 package org.universAAL.tools.logmonitor;
 
@@ -10,6 +10,10 @@ import java.util.GregorianCalendar;
 
 import org.universAAL.middleware.container.LogListener;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ */
 public class Utils {
 
     /**

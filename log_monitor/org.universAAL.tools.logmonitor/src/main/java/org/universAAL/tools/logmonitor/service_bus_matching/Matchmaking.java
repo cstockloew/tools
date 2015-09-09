@@ -12,6 +12,11 @@ import java.util.LinkedList;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceRequest;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class Matchmaking {
 
     // a single matching contains information about the matchmaking between a

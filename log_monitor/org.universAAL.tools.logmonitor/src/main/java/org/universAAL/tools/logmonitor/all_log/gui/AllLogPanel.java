@@ -1,6 +1,6 @@
 /*
 	Copyright 2007-2014 Fraunhofer IGD, http://www.igd.fraunhofer.de
-	Fraunhofer-Gesellschaft - Institut für Graphische Datenverarbeitung
+	Fraunhofer-Gesellschaft - Institut fï¿½r Graphische Datenverarbeitung
  */
 
 package org.universAAL.tools.logmonitor.all_log.gui;
@@ -23,7 +23,7 @@ import org.universAAL.tools.logmonitor.all_log.LogMonitor;
  * The main frame containing the list of all messages/log entry and the panel
  * for graphical drawing of the graph.
  * 
- * @author cstockloew
+ * @author Carsten Stockloew
  * 
  */
 public class AllLogPanel extends JPanel implements ListSelectionListener {

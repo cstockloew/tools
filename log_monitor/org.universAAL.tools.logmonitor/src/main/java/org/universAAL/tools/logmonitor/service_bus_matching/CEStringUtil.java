@@ -11,6 +11,11 @@ import org.universAAL.middleware.service.owls.process.ProcessInput;
 import org.universAAL.middleware.service.owls.process.ProcessParameter;
 
 // util for strings from classexpressions
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class CEStringUtil {
 
     public static String toString(String indent, Object o, boolean shortForm) {
@@ -71,7 +76,7 @@ public class CEStringUtil {
 	    boolean shortForm) {
 	String s = indent + "MergedRestriction on property "
 		+ URI.get(restr.getOnProperty(), shortForm) + "\n";
-	List l = restr.getRestrictions();
+	List<?> l = restr.getRestrictions();
 	for (int i = 0; i < l.size(); i++)
 	    s += toString(indent + "  ", (PropertyRestriction) l.get(i),
 		    shortForm);

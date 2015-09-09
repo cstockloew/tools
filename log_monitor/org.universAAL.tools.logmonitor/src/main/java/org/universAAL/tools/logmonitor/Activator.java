@@ -22,7 +22,7 @@ import org.universAAL.middleware.serialization.MessageContentSerializer;
  * The bundle activator to create the log monitor and register this OSGi
  * service.
  * 
- * @author cstockloew
+ * @author Carsten Stockloew
  * 
  */
 public class Activator implements BundleActivator {

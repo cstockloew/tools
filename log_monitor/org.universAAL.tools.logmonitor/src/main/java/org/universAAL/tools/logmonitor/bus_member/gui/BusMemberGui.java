@@ -17,6 +17,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -27,8 +28,7 @@ import org.universAAL.tools.logmonitor.bus_member.MemberData;
 /**
  * The main frame.
  * 
- * @author cstockloew
- * 
+ * @author Carsten Stockloew
  */
 public class BusMemberGui extends JPanel implements TreeSelectionListener {
 
@@ -166,41 +166,29 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
     public void remove(final MemberData m) {
 	SwingUtilities.invokeLater(new Runnable() {
 	    public void run() {
-		memberData.remove(m.id);
-		// get module (= parent of this member)
-		final DefaultMutableTreeNode moduleNode = modules.get(m.peer
-			+ "#" + m.module);
-		if (moduleNode == null) {
-		    System.out
-			    .println("ERROR: module node not found while removing");
-		    return;
-		}
-
 		// get member
-		final DefaultMutableTreeNode memberNode = members.get(m.id);
+		final MutableTreeNode memberNode = members.get(m.id);
 		if (memberNode == null) {
 		    System.out
 			    .println("ERROR: member node not found while removing");
 		    return;
 		}
 
+		final MutableTreeNode moduleNode = (MutableTreeNode) memberNode
+			.getParent();
+
 		// remove node (from node and from internal map)
-		final int idx = moduleNode.getIndex(memberNode);
-		if (idx == -1) {
-		    System.out
-			    .println("ERROR: member node not indexed while removing");
-		    return;
-		}
-		moduleNode.remove(idx);
+		treeModel.removeNodeFromParent(memberNode);
+		memberData.remove(m.id);
 		members.remove(m.id);
 
-		// update view
-		// SwingUtilities.invokeLater(new Runnable() {
-		// public void run() {
-		treeModel.nodesWereRemoved(moduleNode, new int[] { idx },
-			new Object[] { memberNode });
-		// }
-		// });
+		// remove module if there are no members left
+		if (moduleNode.getChildCount() == 0) {
+		    treeModel.removeNodeFromParent(moduleNode);
+		    if (modules.remove(m.peer + "#" + m.module) == null)
+			System.out
+				.println("ERROR: module does not exist while removing");
+		}
 	    }
 	});
     }
@@ -223,6 +211,10 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 			.getLastSelectedPathComponent();
 		// String selectedNodeName = selectedNode.toString();
+		if (node == null) {
+		    pane.show();
+		    return;
+		}
 
 		if (members.containsValue(node)) {
 		    String memberID = node.getUserObject().toString();

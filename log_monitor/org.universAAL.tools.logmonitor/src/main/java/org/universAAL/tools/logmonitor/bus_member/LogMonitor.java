@@ -15,6 +15,11 @@ import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.LogListenerEx;
 import org.universAAL.tools.logmonitor.bus_member.gui.BusMemberGui;
 
+/**
+ * 
+ * @author Carsten Stockloew
+ *
+ */
 public class LogMonitor implements LogListenerEx, IBusMemberRegistryListener {
 
     private BusMemberGui gui = new BusMemberGui();
@@ -46,11 +51,13 @@ public class LogMonitor implements LogListenerEx, IBusMemberRegistryListener {
     }
 
     public void busMemberAdded(BusMember member, BusType type) {
+	System.out.println("  --  ADD: " + member.getURI());
 	MemberData data = new MemberData(member.getURI(), type);
 	gui.add(data);
     }
 
     public void busMemberRemoved(BusMember member, BusType type) {
+	System.out.println("  --  REM: " + member.getURI());
 	MemberData data = new MemberData(member.getURI(), type);
 	gui.remove(data);
     }
