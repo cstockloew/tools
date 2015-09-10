@@ -14,7 +14,7 @@ import org.universAAL.tools.logmonitor.bus_member.gui.BusMemberGui;
 /**
  * 
  * @author Carsten Stockloew
- *
+ * 
  */
 public class SpaceListener implements AALSpaceListener, Runnable,
 	SharedObjectListener {
@@ -29,7 +29,7 @@ public class SpaceListener implements AALSpaceListener, Runnable,
     public void start() {
 	// get AAL Space Manager to register this listener
 	Object o = Activator.mc.getContainer().fetchSharedObject(Activator.mc,
-		new Object[] { AALSpaceManager.class.getName() });
+		new Object[] { AALSpaceManager.class.getName() }, this);
 	if (o instanceof AALSpaceManager) {
 	    sharedObjectAdded(o, null);
 	}
@@ -42,6 +42,15 @@ public class SpaceListener implements AALSpaceListener, Runnable,
 		theAALSpaceManager.removeAALSpaceListener(this);
 	    }
 	}
+    }
+
+    public PeerCard getMyPeerCard() {
+	synchronized (this) {
+	    if (theAALSpaceManager != null) {
+		return theAALSpaceManager.getMyPeerCard();
+	    }
+	}
+	return null;
     }
 
     @Override

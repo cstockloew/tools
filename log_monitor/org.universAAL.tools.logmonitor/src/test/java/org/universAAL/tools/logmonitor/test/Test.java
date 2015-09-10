@@ -1,15 +1,13 @@
 package org.universAAL.tools.logmonitor.test;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.universAAL.middleware.bus.junit.BusTestCase;
-import org.universAAL.middleware.bus.member.BusMember;
 import org.universAAL.middleware.bus.permission.AccessControl;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
-import org.universAAL.middleware.context.ContextPublisher;
-import org.universAAL.middleware.context.DefaultContextPublisher;
+import org.universAAL.middleware.managers.api.DistributedMWEventHandler;
+import org.universAAL.middleware.managers.distributedmw.api.DistributedBusMemberListenerManager;
+import org.universAAL.middleware.managers.distributedmw.api.DistributedLogListenerManager;
+import org.universAAL.middleware.managers.distributedmw.impl.DistributedMWManagerImpl;
 import org.universAAL.middleware.owl.OntologyManagement;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
@@ -28,25 +26,25 @@ public class Test extends BusTestCase {
 
     public void tearDown() {
 	// don't do anything here so we don't have to set up again
-//	List<BusMember> l = new LinkedList<BusMember>();
-//	int i = 0;
-//	while (true) {
-//	    try {
-//		Thread.sleep(20);
-//		l.add(new DefaultServiceCaller(mc));
-//		i++;
-//		if (i % 3 == 0) {
-//		    // remove one
-//		    //BusMember m = l.remove((int) (Math.random() * l.size()));
-//		    BusMember m = l.remove(l.size()-1);
-//		    System.out.println(" -- removing member: " + m.getURI());
-//		    m.close();
-//		}
-//	    } catch (InterruptedException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	    }
-//	}
+	// List<BusMember> l = new LinkedList<BusMember>();
+	// int i = 0;
+	// while (true) {
+	// try {
+	// Thread.sleep(20);
+	// l.add(new DefaultServiceCaller(mc));
+	// i++;
+	// if (i % 3 == 0) {
+	// // remove one
+	// //BusMember m = l.remove((int) (Math.random() * l.size()));
+	// BusMember m = l.remove(l.size()-1);
+	// System.out.println(" -- removing member: " + m.getURI());
+	// m.close();
+	// }
+	// } catch (InterruptedException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
     }
 
     public void setUp() throws Exception {
@@ -74,6 +72,16 @@ public class Test extends BusTestCase {
 	org.universAAL.middleware.tracker.impl.Activator actTracker = new org.universAAL.middleware.tracker.impl.Activator();
 	actTracker.start(mcTracker);
 
+	// init distributed MW
+	Object[] parBMLMgmt = new Object[] { DistributedBusMemberListenerManager.class
+		.getName() };
+	Object[] parLLMgmt = new Object[] { DistributedLogListenerManager.class
+		.getName() };
+	Object[] parEvtH = new Object[] { DistributedMWEventHandler.class
+		.getName() };
+	DistributedMWManagerImpl mm = new DistributedMWManagerImpl(mc,
+		parBMLMgmt, parBMLMgmt, parLLMgmt, parLLMgmt, parEvtH, parEvtH);
+
 	// start log monitor
 	Activator a = new Activator();
 	a.start();
@@ -83,16 +91,16 @@ public class Test extends BusTestCase {
     public void testAddScript() {
 	LogUtils.logDebug(mc, this.getClass(), "method", "msg");
 	caller = new DefaultServiceCaller(mc);
-	//ContextPublisher cp = new DefaultContextPublisher(mc, null);
-	
+	// ContextPublisher cp = new DefaultContextPublisher(mc, null);
+
 	// try {
 	// Thread.sleep(20000);
 	// } catch (InterruptedException e) {
 	// // TODO Auto-generated catch block
 	// e.printStackTrace();
 	// }
-	
+
 	caller.close();
-	//cp.close();
+	// cp.close();
     }
 }

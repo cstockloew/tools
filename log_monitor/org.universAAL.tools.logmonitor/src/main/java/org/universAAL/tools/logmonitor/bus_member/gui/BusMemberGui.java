@@ -178,7 +178,7 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 		    // member not yet available (this should always be the
 		    // case?)
 		    memberNode = new DefaultMutableTreeNode("Member: "
-			    + m.busType.name() + "-" + m.type + " - "
+			    + m.busNameReadable + "-" + m.type + " - "
 			    + m.number);
 		    moduleNode.add(memberNode);
 		    // treeModel.reload(moduleNode);
@@ -193,9 +193,17 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 	});
     }
 
-    public void remove(final MemberData m) {
+    public void remove(final String busMemberID) {
 	SwingUtilities.invokeLater(new Runnable() {
 	    public void run() {
+		// get member data
+		MemberData m = memberData.get(busMemberID);
+		if (m == null) {
+		    System.out
+			    .println("ERROR: member data not found while removing");
+		    return;
+		}
+
 		// get member
 		final MutableTreeNode memberNode = members.get(m.id);
 		if (memberNode == null) {
