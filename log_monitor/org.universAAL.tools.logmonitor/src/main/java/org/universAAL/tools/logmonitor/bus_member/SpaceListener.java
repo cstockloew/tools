@@ -28,10 +28,15 @@ public class SpaceListener implements AALSpaceListener, Runnable,
 
     public void start() {
 	// get AAL Space Manager to register this listener
-	Object o = Activator.mc.getContainer().fetchSharedObject(Activator.mc,
-		new Object[] { AALSpaceManager.class.getName() }, this);
-	if (o instanceof AALSpaceManager) {
-	    sharedObjectAdded(o, null);
+	Object[] o = Activator.mc.getContainer().fetchSharedObject(
+		Activator.mc, new Object[] { AALSpaceManager.class.getName() },
+		this);
+	if (o != null) {
+	    if (o.length != 0) {
+		if (o[0] instanceof AALSpaceManager) {
+		    sharedObjectAdded(o[0], null);
+		}
+	    }
 	}
     }
 
