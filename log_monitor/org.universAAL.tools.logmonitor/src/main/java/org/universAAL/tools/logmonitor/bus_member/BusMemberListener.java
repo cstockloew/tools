@@ -4,9 +4,6 @@
  */
 package org.universAAL.tools.logmonitor.bus_member;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.universAAL.middleware.bus.member.BusMemberType;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.managers.distributedmw.api.DistributedBusMemberListener;
@@ -27,7 +24,7 @@ public class BusMemberListener implements DistributedBusMemberListener {
 	this.gui = gui;
     }
 
-    public void start(PeerCard me) {
+    public void start() {
 	// register this BusMemberRegistryListener
 	DistributedBusMemberListenerManager registry = (DistributedBusMemberListenerManager) Activator.mc
 		.getContainer()
@@ -35,12 +32,7 @@ public class BusMemberListener implements DistributedBusMemberListener {
 			Activator.mc,
 			new Object[] { DistributedBusMemberListenerManager.class
 				.getName() });
-	// subscribe only to local
-	// just a workaround until distributed MW Manager is fully implemented
-	List<PeerCard> lst = new ArrayList<PeerCard>();
-	if (me != null)
-	    lst.add(me);
-	registry.addListener(this, lst);
+	registry.addListener(this, null);
     }
 
     public void stop() {

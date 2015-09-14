@@ -27,7 +27,7 @@ public class LogMonitor implements LogListenerEx {
 
 	// start bus member listener
 	busMemberListener = new BusMemberListener(gui);
-	busMemberListener.start(spaceListener.getMyPeerCard());
+	busMemberListener.start();
     }
 
     // dummy method for integration in main gui, not used
