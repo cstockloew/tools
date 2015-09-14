@@ -7,7 +7,7 @@ package org.universAAL.tools.logmonitor.bus_member;
 import org.universAAL.middleware.bus.member.BusMemberType;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.managers.distributedmw.api.DistributedBusMemberListener;
-import org.universAAL.middleware.managers.distributedmw.api.DistributedBusMemberListenerManager;
+import org.universAAL.middleware.managers.distributedmw.api.DistributedBusMemberManager;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.bus_member.gui.BusMemberGui;
@@ -26,21 +26,21 @@ public class BusMemberListener implements DistributedBusMemberListener {
 
     public void start() {
 	// register this BusMemberRegistryListener
-	DistributedBusMemberListenerManager registry = (DistributedBusMemberListenerManager) Activator.mc
+	DistributedBusMemberManager registry = (DistributedBusMemberManager) Activator.mc
 		.getContainer()
 		.fetchSharedObject(
 			Activator.mc,
-			new Object[] { DistributedBusMemberListenerManager.class
+			new Object[] { DistributedBusMemberManager.class
 				.getName() });
 	registry.addListener(this, null);
     }
 
     public void stop() {
-	DistributedBusMemberListenerManager registry = (DistributedBusMemberListenerManager) Activator.mc
+	DistributedBusMemberManager registry = (DistributedBusMemberManager) Activator.mc
 		.getContainer()
 		.fetchSharedObject(
 			Activator.mc,
-			new Object[] { DistributedBusMemberListenerManager.class
+			new Object[] { DistributedBusMemberManager.class
 				.getName() });
 	registry.removeListener(this, null);
     }

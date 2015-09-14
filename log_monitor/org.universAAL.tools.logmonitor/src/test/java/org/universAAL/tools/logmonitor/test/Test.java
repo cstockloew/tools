@@ -5,8 +5,8 @@ import org.universAAL.middleware.bus.permission.AccessControl;
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.container.utils.LogUtils;
 import org.universAAL.middleware.managers.api.DistributedMWEventHandler;
-import org.universAAL.middleware.managers.distributedmw.api.DistributedBusMemberListenerManager;
-import org.universAAL.middleware.managers.distributedmw.api.DistributedLogListenerManager;
+import org.universAAL.middleware.managers.distributedmw.api.DistributedBusMemberManager;
+import org.universAAL.middleware.managers.distributedmw.api.DistributedLogManager;
 import org.universAAL.middleware.managers.distributedmw.impl.DistributedMWManagerImpl;
 import org.universAAL.middleware.owl.OntologyManagement;
 import org.universAAL.middleware.service.DefaultServiceCaller;
@@ -73,9 +73,9 @@ public class Test extends BusTestCase {
 	actTracker.start(mcTracker);
 
 	// init distributed MW
-	Object[] parBMLMgmt = new Object[] { DistributedBusMemberListenerManager.class
+	Object[] parBMLMgmt = new Object[] { DistributedBusMemberManager.class
 		.getName() };
-	Object[] parLLMgmt = new Object[] { DistributedLogListenerManager.class
+	Object[] parLLMgmt = new Object[] { DistributedLogManager.class
 		.getName() };
 	Object[] parEvtH = new Object[] { DistributedMWEventHandler.class
 		.getName() };
