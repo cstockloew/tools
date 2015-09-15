@@ -4,22 +4,14 @@
  */
 package org.universAAL.tools.logmonitor.service_bus_matching.gui;
 
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.KeyStroke;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.text.DefaultCaret;
 
 import org.universAAL.middleware.owl.OntClassInfo;
 import org.universAAL.middleware.owl.OntologyManagement;
@@ -37,19 +29,15 @@ import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileInfo;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
-import org.universAAL.tools.logmonitor.util.ClipboardHandling;
-import org.universAAL.tools.logmonitor.util.HTMLPaneBase;
+import org.universAAL.tools.logmonitor.util.HTMLVisibilityPane;
 
 /**
  * 
  * @author Carsten Stockloew
- *
+ * 
  */
-public class MatchmakingPane extends HTMLPaneBase {
-
+public class MatchmakingPane extends HTMLVisibilityPane {
     private static final long serialVersionUID = 1L;
-
-    private boolean all = false;
 
     /**
      * Defines how the overview will look like: 0 means that the results are
@@ -57,82 +45,22 @@ public class MatchmakingPane extends HTMLPaneBase {
      */
     public int overviewMethod = 0;
 
-    // Storage visible objects; objects that are not visible, are not
-    // contained in this table. The value is ignored, only the key is used.
-    private Hashtable<String, String> visible = new Hashtable<String, String>();
     private Matchmaking currentMatch = null;
 
     // private Sparul sparul = new Sparul();
 
-    private class HTMLListener implements HyperlinkListener {
-	public void hyperlinkUpdate(HyperlinkEvent e) {
-	    if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-		String link = e.getDescription();
-		togglevisibility(link);
-
-		// test: print content of system clipboard
-		// Clipboard systemClipboard;
-		// systemClipboard = Toolkit.getDefaultToolkit()
-		// .getSystemClipboard();
-		// printClipboardContent(systemClipboard);
-
-		setText(createHTML(currentMatch));
-	    }
-	}
-    }
-
     public MatchmakingPane() {
-	setEditable(false);
-	setContentType("text/html");
-	addHyperlinkListener(new HTMLListener());
-	setCaret(new DefaultCaret());
-	((DefaultCaret) getCaret()).setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
-
-	// overwrite ctrl-c
-	final MatchmakingPane pane = this;
-	getInputMap()
-		.put(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-			InputEvent.CTRL_DOWN_MASK), "uaal_copy");
-	getActionMap().put(
-		"uaal_copy",
-		new ClipboardHandling(urlReplacement, getTransferHandler(),
-			pane));
     }
 
     public void show(Matchmaking m) {
 	currentMatch = m;
-	all = false;
-	visible.clear();
+	super.clear();
 	setText(createHTML(m));
     }
 
-    private boolean isVisible(String uri) {
-	if (all)
-	    return true;
-	Object o = visible.get(uri);
-	if (o == null)
-	    return false;
-	else
-	    return true;
-    }
-
-    private void makeVisible(String uri) {
-	visible.put(uri, uri);
-    }
-
-    private void makeInvisible(String uri) {
-	visible.remove(uri);
-    }
-
-    private void togglevisibility(String uri) {
-	if ("all".equals(uri)) {
-	    if (all)
-		visible.clear();
-	    all = !all;
-	} else if (visible.get(uri) != null)
-	    makeInvisible(uri);
-	else
-	    makeVisible(uri);
+    @Override
+    protected void updateAfterHyperlink() {
+	setText(createHTML(currentMatch));
     }
 
     private String getOutputHTML(Resource output) {

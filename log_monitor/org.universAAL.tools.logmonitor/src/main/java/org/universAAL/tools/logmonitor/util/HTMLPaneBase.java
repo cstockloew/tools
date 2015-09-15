@@ -4,10 +4,14 @@
  */
 package org.universAAL.tools.logmonitor.util;
 
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.HashMap;
 
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
+import javax.swing.text.DefaultCaret;
 
 import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.tools.logmonitor.Activator;
@@ -16,12 +20,28 @@ import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 /**
  * 
  * @author Carsten Stockloew
- *
+ * 
  */
 public class HTMLPaneBase extends JTextPane {
     private static final long serialVersionUID = 1L;
 
     protected HashMap<String, String> urlReplacement = new HashMap<String, String>();
+
+    public HTMLPaneBase() {
+	setEditable(false);
+	setContentType("text/html");
+	setCaret(new DefaultCaret());
+	((DefaultCaret) getCaret()).setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
+
+	// overwrite ctrl-c
+	getInputMap()
+		.put(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+			InputEvent.CTRL_DOWN_MASK), "uaal_copy");
+	getActionMap().put(
+		"uaal_copy",
+		new ClipboardHandling(urlReplacement, getTransferHandler(),
+			this));
+    }
 
     protected URL getURL(String filename) {
 	return Activator.getResource(filename);
