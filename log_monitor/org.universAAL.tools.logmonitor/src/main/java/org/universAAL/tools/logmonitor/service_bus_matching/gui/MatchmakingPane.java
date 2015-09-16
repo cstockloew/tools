@@ -209,7 +209,7 @@ public class MatchmakingPane extends HTMLBusOperationsPane {
 			s.append(single.detailedReason);
 			s.append("<br>\n");
 			if (single.output != null)
-			    s.append(getOutputHTML(single.output));
+			    s.append(getServiceOutputHTML(single.output));
 			else
 			    System.out.println("ERROR: no output found");
 			break;
@@ -223,7 +223,7 @@ public class MatchmakingPane extends HTMLBusOperationsPane {
 			s.append("<br>\n");
 			s.append("<br>\n");
 			if (single.effect != null)
-			    s.append(getEffectHTML(single.effect));
+			    s.append(getServiceEffectHTML(single.effect));
 			break;
 		    default:
 			s.append("reason unknown");

@@ -32,7 +32,7 @@ import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileIn
 public class HTMLBusOperationsPane extends HTMLVisibilityPane {
     private static final long serialVersionUID = 1L;
 
-    protected String getOutputHTML(Resource output) {
+    protected String getServiceOutputHTML(Resource output) {
 	StringBuilder s = new StringBuilder("");
 
 	Object form = output
@@ -55,7 +55,7 @@ public class HTMLBusOperationsPane extends HTMLVisibilityPane {
 	return s.toString();
     }
 
-    protected String getEffectHTML(Resource effect) {
+    protected String getServiceEffectHTML(Resource effect) {
 	StringBuilder s = new StringBuilder("");
 
 	String type = effect.getType();
@@ -130,7 +130,7 @@ public class HTMLBusOperationsPane extends HTMLVisibilityPane {
      * Get common parts (effects and outputs) of service profile and service
      * request as HTML.
      */
-    private void getProfileRequestCommonHTML(StringBuilder s,
+    private void getServiceCommonHTML(StringBuilder s,
 	    Resource[] effects, Resource[] outputs) {
 	int i;
 	s.append("<b>Effects:</b>");
@@ -139,7 +139,7 @@ public class HTMLBusOperationsPane extends HTMLVisibilityPane {
 	} else {
 	    s.append("<br>\n");
 	    for (i = 0; i < effects.length; i++)
-		s.append(getEffectHTML(effects[i]));
+		s.append(getServiceEffectHTML(effects[i]));
 	    s.append("<br>\n");
 	}
 
@@ -149,7 +149,7 @@ public class HTMLBusOperationsPane extends HTMLVisibilityPane {
 	} else {
 	    s.append("<br>\n");
 	    for (i = 0; i < outputs.length; i++)
-		s.append(getOutputHTML(outputs[i]));
+		s.append(getServiceOutputHTML(outputs[i]));
 	    s.append("<br>\n");
 	}
     }
@@ -197,7 +197,7 @@ public class HTMLBusOperationsPane extends HTMLVisibilityPane {
 
 	Resource[] effects = prof.getEffects();
 	Resource[] outputs = prof.getOutputBindings();
-	getProfileRequestCommonHTML(s, effects, outputs);
+	getServiceCommonHTML(s, effects, outputs);
     }
 
     protected void getServiceRequestHTML(StringBuilder s, ServiceRequest req,
@@ -216,7 +216,7 @@ public class HTMLBusOperationsPane extends HTMLVisibilityPane {
 
 	Resource effects[] = req.getRequiredEffects();
 	Resource outputs[] = req.getRequiredOutputs();
-	getProfileRequestCommonHTML(s, effects, outputs);
+	getServiceCommonHTML(s, effects, outputs);
     }
 
     /**
