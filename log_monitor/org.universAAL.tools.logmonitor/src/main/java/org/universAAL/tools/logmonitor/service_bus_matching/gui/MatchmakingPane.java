@@ -8,35 +8,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.universAAL.middleware.owl.OntClassInfo;
-import org.universAAL.middleware.owl.OntologyManagement;
-import org.universAAL.middleware.rdf.PropertyPath;
-import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.middleware.service.ServiceRequest;
-import org.universAAL.middleware.service.owl.Service;
-import org.universAAL.middleware.service.owls.process.OutputBinding;
-import org.universAAL.middleware.service.owls.process.ProcessEffect;
-import org.universAAL.middleware.service.owls.process.ProcessInput;
-import org.universAAL.middleware.service.owls.profile.ServiceProfile;
-import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileInfo;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
-import org.universAAL.tools.logmonitor.util.HTMLVisibilityPane;
+import org.universAAL.tools.logmonitor.util.HTMLBusOperationsPane;
 
 /**
  * 
  * @author Carsten Stockloew
  * 
  */
-public class MatchmakingPane extends HTMLVisibilityPane {
+public class MatchmakingPane extends HTMLBusOperationsPane {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -61,189 +49,6 @@ public class MatchmakingPane extends HTMLVisibilityPane {
     @Override
     protected void updateAfterHyperlink() {
 	setText(createHTML(currentMatch));
-    }
-
-    private String getOutputHTML(Resource output) {
-	StringBuilder s = new StringBuilder("");
-
-	Object form = output
-		.getProperty(OutputBinding.PROP_OWLS_BINDING_VALUE_FORM);
-
-	s.append("output:");
-	s.append(getTableStartHTML());
-	s.append(getTableRowHTML("parameter binding:",
-		getURIHTML(((Resource) output
-			.getProperty(OutputBinding.PROP_OWLS_BINDING_TO_PARAM))
-			.getURI())));
-	if (form == null)
-	    s.append(getTableRowHTML("--",
-		    "- unknown value, perhaps a unit conversion? -"));
-	else
-	    s.append(getTableRowHTML("at the property path:",
-		    getPropPathHTML((PropertyPath) form, false)));
-	s.append(getTableEndHTML());
-
-	return s.toString();
-    }
-
-    private String getEffectHTML(Resource effect) {
-	StringBuilder s = new StringBuilder("");
-
-	String type = effect.getType();
-	if (ProcessEffect.TYPE_PROCESS_ADD_EFFECT.equals(type)) {
-	    s.append("Add effect:");
-	    s.append(getTableStartHTML());
-	    s.append(getTableRowHTML(
-		    "add the value:",
-		    effect.getProperty(
-			    ProcessEffect.PROP_PROCESS_PROPERTY_VALUE)
-			    .toString()));
-	    s.append(getTableRowHTML(
-		    "to the property path:",
-		    getPropPathHTML(
-			    (PropertyPath) effect
-				    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
-			    false)));
-	    s.append(getTableEndHTML());
-	} else if (ProcessEffect.TYPE_PROCESS_CHANGE_EFFECT.equals(type)) {
-	    s.append("Change effect:");
-	    s.append(getTableStartHTML());
-	    s.append(getTableRowHTML("change the value to:", effect
-		    .getProperty(ProcessEffect.PROP_PROCESS_PROPERTY_VALUE)
-		    .toString()));
-	    s.append(getTableRowHTML(
-		    "at property path:",
-		    getPropPathHTML(
-			    (PropertyPath) effect
-				    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
-			    false)));
-	    s.append(getTableEndHTML());
-	} else if (ProcessEffect.TYPE_PROCESS_REMOVE_EFFECT.equals(type)) {
-	    s.append("Remove effect:");
-	    s.append(getTableStartHTML());
-	    s.append(getTableRowHTML(
-		    "at property path:",
-		    getPropPathHTML(
-			    (PropertyPath) effect
-				    .getProperty(ProcessEffect.PROP_PROCESS_AFFECTED_PROPERTY),
-			    false)));
-	    s.append(getTableEndHTML());
-	}
-	return s.toString();
-    }
-
-    private void getRestrictionsHTML(StringBuilder s, List<?> res) {
-	s.append("<br>\n- TODO ;-) but there are restrictions..<br>\n");
-    }
-
-    private HashSet<String> getNamedSuperClasses(Resource r) {
-	HashSet<String> classes = new HashSet<String>();
-
-	String types[] = r.getTypes();
-	for (int i = 0; i < types.length; i++) {
-	    String type = types[i];
-	    classes.add(type);
-
-	    OntClassInfo info = OntologyManagement.getInstance()
-		    .getOntClassInfo(type);
-	    if (info != null) {
-		String superTypes[] = info.getNamedSuperClasses(true, false);
-		for (int j = 0; j < superTypes.length; j++)
-		    classes.add(superTypes[j]);
-	    }
-	}
-
-	return classes;
-    }
-
-    private void getProfileRequestCommonHTML(StringBuilder s,
-	    Resource[] effects, Resource[] outputs) {
-	// get common parts of service profile and service request as HTML
-	int i;
-
-	s.append("<b>Effects:</b>");
-	if (effects.length == 0) {
-	    s.append(" <i>no effects defined</i><br>\n");
-	} else {
-	    s.append("<br>\n");
-	    for (i = 0; i < effects.length; i++)
-		s.append(getEffectHTML(effects[i]));
-	    s.append("<br>\n");
-	}
-
-	s.append("<b>Outputs:</b>");
-	if (outputs.length == 0) {
-	    s.append(" <i>no outputs defined</i><br>\n");
-	} else {
-	    s.append("<br>\n");
-	    for (i = 0; i < outputs.length; i++)
-		s.append(getOutputHTML(outputs[i]));
-	    s.append("<br>\n");
-	}
-    }
-
-    private void getServiceProfileHTML(StringBuilder s, ServiceProfile prof) {
-	// get service profile in an abstract view
-	s.append("<b>Service profile:</b> ");
-	s.append(getURIHTML(prof.getTheService().getURI()));
-
-	s.append("<br><b>Service ontology class hierarchy:</b> ");
-	s.append(getTableStartHTML());
-	HashSet<String> types = getNamedSuperClasses(prof.getTheService());
-	for (Iterator<String> i = types.iterator(); i.hasNext();)
-	    s.append(getTableRowHTML(i.next()));
-	s.append(getTableEndHTML());
-	s.append("<br>\n");
-
-	s.append("<b>Inputs:</b>");
-	Iterator<?> it = prof.getInputs();
-	if (!it.hasNext()) {
-	    s.append(" <i>no inputs defined</i><br>\n");
-	} else {
-	    s.append("<br>\n");
-	    while (it.hasNext()) {
-		ProcessInput in = (ProcessInput) it.next();
-		s.append("input:");
-		s.append(getTableStartHTML());
-		s.append(getTableRowHTML("URI:", in.getURI()));
-		String type = in.getParameterType();
-		s.append(getTableRowHTML("type:", type));
-		int minCard = in.getMinCardinality();
-		int maxCard = in.getMaxCardinality();
-		if (minCard == maxCard)
-		    s.append(getTableRowHTML("exact cardinality:", "" + maxCard));
-		else {
-		    s.append(getTableRowHTML("min cardinality:", "" + minCard));
-		    s.append(getTableRowHTML("max cardinality:", "" + maxCard));
-		}
-		s.append(getTableEndHTML());
-	    }
-	    s.append("<br>\n");
-	}
-
-	Resource[] effects = prof.getEffects();
-	Resource[] outputs = prof.getOutputBindings();
-	getProfileRequestCommonHTML(s, effects, outputs);
-    }
-
-    private void getServiceRequestHTML(StringBuilder s, Matchmaking m) {
-	// get service request in an abstract view
-	ServiceRequest req = m.request;
-
-	s.append("<b>Requested service:</b> ");
-	s.append(getURIHTML(m.serviceURI));
-
-	s.append("<br><b>Filtering input:</b>");
-	Object o = req.getRequestedService().getProperty(
-		Service.PROP_INSTANCE_LEVEL_RESTRICTIONS);
-	if (o instanceof List<?>) {
-	    getRestrictionsHTML(s, (List<?>) o);
-	} else
-	    s.append(" <i>no filtering input defined</i><br>\n");
-
-	Resource effects[] = req.getRequiredEffects();
-	Resource outputs[] = req.getRequiredOutputs();
-	getProfileRequestCommonHTML(s, effects, outputs);
     }
 
     private void getOverviewHTML(StringBuilder s, List<SingleMatching> group) {
@@ -350,23 +155,8 @@ public class MatchmakingPane extends HTMLVisibilityPane {
 	// ///////////////////////////////////////
 	// details for request
 	s.append("Request: ");
-
-	// details for request: serialized
-	if (isVisible("requestSerialized")) {
-	    s.append(getLinkHTML("requestSerialized", "hide serialized"));
-	    s.append("<pre>\n" + turtle2HTML(m.serializedRequest)
-		    + "\n</pre>\n");
-	} else {
-	    s.append(getLinkHTML("requestSerialized", "show serialized"));
-	}
-
-	// details for request: abstract
-	if (isVisible("requestAbstract")) {
-	    s.append(getLinkHTML("requestAbstract", "hide abstract<br><br>\n"));
-	    getServiceRequestHTML(s, m);
-	} else {
-	    s.append(getLinkHTML("requestAbstract", "show abstract"));
-	}
+	getAllServiceRequestHTML(s, m.request, m.serviceURI,
+		m.serializedRequest);
 
 	// details for request: query
 	// if (isVisible("requestQuery")) {
@@ -447,31 +237,7 @@ public class MatchmakingPane extends HTMLVisibilityPane {
 		if (info == null || info.profile == null)
 		    s.append("- unknown -<br>\n");
 		else {
-		    ServiceProfile profile = info.profile;
-		    String link = "ServiceProfile_" + single.profileURI;
-		    String link_abstract = link + "_abstract";
-		    String link_serialized = link + "_serialized";
-
-		    // ServiceProfile serialized
-		    if (isVisible(link_serialized)) {
-			s.append(getLinkHTML(link_serialized, "hide serialized"));
-
-			if (info.serialized == null) // create on first use
-			    info.serialized = Activator.serialize(profile);
-			s.append("<pre>\n" + turtle2HTML(info.serialized)
-				+ "\n</pre>\n");
-		    } else {
-			s.append(getLinkHTML(link_serialized, "show serialized"));
-		    }
-
-		    // ServiceProfile abstract
-		    if (isVisible(link_abstract)) {
-			s.append(getLinkHTML(link_abstract,
-				"hide abstract<br><br>\n"));
-			getServiceProfileHTML(s, profile);
-		    } else {
-			s.append(getLinkHTML(link_abstract, "show abstract"));
-		    }
+		    getAllServiceProfileHTML(s, info, single.profileURI);
 		}
 	    }
 

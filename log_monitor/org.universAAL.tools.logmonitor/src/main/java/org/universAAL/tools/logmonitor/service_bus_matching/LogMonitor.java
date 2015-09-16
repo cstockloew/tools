@@ -51,7 +51,8 @@ public class LogMonitor implements LogListenerEx {
 	}
     }
 
-    // maps URI of profile of service to ServiceProfile
+    // maps URI of service of profile to ServiceProfile
+    // key+"Process" = process URI
     private Hashtable<String, ProfileInfo> profiles = new Hashtable<String, ProfileInfo>();
 
     public LogMonitor() {

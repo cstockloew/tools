@@ -18,6 +18,8 @@ import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 
 /**
+ * HTML-based Pane with basic functionality, e.g. creating tables, links, and
+ * images.
  * 
  * @author Carsten Stockloew
  * 
