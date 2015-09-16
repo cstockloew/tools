@@ -27,8 +27,7 @@ public class BusMemberListener implements DistributedBusMemberListener {
     public void start() {
 	// register this BusMemberRegistryListener
 	DistributedBusMemberManager registry = (DistributedBusMemberManager) Activator.mc
-		.getContainer()
-		.fetchSharedObject(
+		.getContainer().fetchSharedObject(
 			Activator.mc,
 			new Object[] { DistributedBusMemberManager.class
 				.getName() });
@@ -37,8 +36,7 @@ public class BusMemberListener implements DistributedBusMemberListener {
 
     public void stop() {
 	DistributedBusMemberManager registry = (DistributedBusMemberManager) Activator.mc
-		.getContainer()
-		.fetchSharedObject(
+		.getContainer().fetchSharedObject(
 			Activator.mc,
 			new Object[] { DistributedBusMemberManager.class
 				.getName() });
@@ -49,7 +47,7 @@ public class BusMemberListener implements DistributedBusMemberListener {
     public void busMemberAdded(PeerCard origin, String busMemberID,
 	    String busName, BusMemberType memberType, String label,
 	    String comment) {
-	System.out.println("  --  ADD: " + busMemberID);
+	//System.out.println("  --  ADD: " + busMemberID);
 	MemberData data = new MemberData(origin, busMemberID, busName,
 		memberType, label, comment);
 	gui.add(data);
@@ -57,19 +55,20 @@ public class BusMemberListener implements DistributedBusMemberListener {
 
     @Override
     public void busMemberRemoved(PeerCard origin, String busMemberID) {
-	System.out.println("  --  REM: " + busMemberID);
+	//System.out.println("  --  REM: " + busMemberID);
 	gui.remove(busMemberID);
     }
 
     @Override
     public void regParamsAdded(PeerCard origin, String busMemberID,
 	    Resource[] params) {
-	// TODO Auto-generated method stub
+	//System.out.println("  --  ADD-PARAM: " + busMemberID + "   " + params);
+	gui.regParamsAdded(busMemberID, params);
     }
 
     @Override
     public void regParamsRemoved(PeerCard origin, String busMemberID,
 	    Resource[] params) {
-	// TODO Auto-generated method stub
+	gui.regParamsRemoved(busMemberID, params);
     }
 }

@@ -15,9 +15,9 @@ import java.util.List;
 import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
-import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileInfo;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
 import org.universAAL.tools.logmonitor.util.HTMLBusOperationsPane;
+import org.universAAL.tools.logmonitor.util.ProfileInfo;
 
 /**
  * 
@@ -66,7 +66,7 @@ public class MatchmakingPane extends HTMLBusOperationsPane {
 		val2 = "<i>effect</i>";
 		break;
 	    }
-	    String val3 = getURIHTML(single.profileURI);
+	    String val3 = getURIHTML(single.serviceURI);
 	    if (single.success.booleanValue())
 		s.append(getTableRowHTML(getImageHTML("OK_16.png"), val2, val3));
 	    else
@@ -101,10 +101,10 @@ public class MatchmakingPane extends HTMLBusOperationsPane {
 
 		// create the grouping
 		for (SingleMatching single : l) {
-		    info = LogMonitor.instance.getProfile(single.profileURI);
+		    info = LogMonitor.instance.getProfile(single.serviceURI);
 		    String providerURI = "<unknown>";
-		    if (!(info == null) && !(info.profileProviderURI == null))
-			providerURI = info.profileProviderURI;
+		    if (!(info == null) && !(info.providerURI == null))
+			providerURI = info.providerURI;
 
 		    ArrayList<SingleMatching> group = groups.get(providerURI);
 		    if (group == null) {
@@ -128,7 +128,7 @@ public class MatchmakingPane extends HTMLBusOperationsPane {
 		    ArrayList<SingleMatching> group = groups.get(providerURI);
 		    Collections.sort(group, new Comparator<SingleMatching>() {
 			public int compare(SingleMatching o1, SingleMatching o2) {
-			    return o1.profileURI.compareTo(o2.profileURI);
+			    return o1.serviceURI.compareTo(o2.serviceURI);
 			}
 		    });
 
@@ -172,7 +172,7 @@ public class MatchmakingPane extends HTMLBusOperationsPane {
 	    for (Iterator<SingleMatching> it = l.iterator(); it.hasNext();) {
 		SingleMatching single = it.next();
 		s.append("<hr><h2>Details for "
-			+ URI.get(single.profileURI, true) + "</h2>\n\n");
+			+ URI.get(single.serviceURI, true) + "</h2>\n\n");
 
 		if (single.success.booleanValue()) {
 		    s.append(getImageHTML("OK_16.png") + "&#160;&#160;");
@@ -233,11 +233,12 @@ public class MatchmakingPane extends HTMLBusOperationsPane {
 		s.append("<br>\n");
 
 		s.append("ServiceProfile: ");
-		info = LogMonitor.instance.getProfile(single.profileURI);
+		info = LogMonitor.instance.getProfile(single.serviceURI);
 		if (info == null || info.profile == null)
 		    s.append("- unknown -<br>\n");
 		else {
-		    getAllServiceProfileHTML(s, info, single.profileURI);
+		    info.serviceURI = single.serviceURI;
+		    getAllServiceProfileHTML(s, info);
 		}
 	    }
 
@@ -261,7 +262,7 @@ public class MatchmakingPane extends HTMLBusOperationsPane {
 	    s.append(getTableStartHTML(0));
 	    for (SingleMatching single : l) {
 		if (single.success.booleanValue()) {
-		    String profileURI = single.profileURI;
+		    String profileURI = single.serviceURI;
 		    String res = m.matchingsProvFilt.contains(profileURI) ? "OK_16.png"
 			    : "ERROR_16.png";
 		    s.append(getTableRowHTML(getImageHTML(res),

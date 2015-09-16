@@ -73,7 +73,7 @@ public class LogMonitor_Util {
 	LinkedList l = m.matchings;
 	for (Iterator it = l.iterator(); it.hasNext();) {
 	    SingleMatching s = (SingleMatching) it.next();
-	    System.out.println("   matching with offer " + s.profileURI);
+	    System.out.println("   matching with offer " + s.serviceURI);
 	    System.out.print("      matching ");
 	    if (s.success.booleanValue())
 		System.out.println("successful");

@@ -15,15 +15,18 @@ import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.aalspace.AALSpaceCard;
 import org.universAAL.middleware.interfaces.aalspace.AALSpaceDescriptor;
 import org.universAAL.tools.logmonitor.bus_member.MemberData;
+import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 import org.universAAL.tools.logmonitor.util.ClipboardHandling;
-import org.universAAL.tools.logmonitor.util.HTMLPaneBase;
+import org.universAAL.tools.logmonitor.util.HTMLBusOperationsPane;
+import org.universAAL.tools.logmonitor.util.PatternInfo;
+import org.universAAL.tools.logmonitor.util.ProfileInfo;
 
 /**
  * 
  * @author Carsten Stockloew
- *
+ * 
  */
-public class BusMemberPane extends HTMLPaneBase {
+public class BusMemberPane extends HTMLBusOperationsPane {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,6 +54,10 @@ public class BusMemberPane extends HTMLPaneBase {
 		"uaal_copy",
 		new ClipboardHandling(new HashMap<String, String>(),
 			getTransferHandler(), pane));
+    }
+
+    protected void updateAfterHyperlink() {
+	showHTML();
     }
 
     public void show() {
@@ -100,11 +107,54 @@ public class BusMemberPane extends HTMLPaneBase {
 	    createSpaceHTML(s, space);
 	    break;
 	case MEMBER:
-	    s.append("Future version will show member information here.");
+	    // s.append("Future version will show member information here.");
+	    createMemberHTML(s, member);
 	    break;
 	}
 	s.append("\n</body></html>");
 	setText(s.toString());
+    }
+
+    private void createMemberHTML(StringBuilder s, MemberData m) {
+	s.append("<h1>Bus Member</h1>\n");
+	if (m == null) {
+	    s.append("no member data available<br>\n");
+	    return;
+	}
+
+	// ///////////////////
+	// overview of member
+	s.append(getTableStartHTML());
+	s.append(getVTableRowWithTitleHTML("Member ID", m.id));
+	s.append(getVTableRowWithTitleHTML("Label", m.label));
+	s.append(getVTableRowWithTitleHTML("Comment", m.comment));
+	s.append(getVTableRowWithTitleHTML("Space", m.space));
+	s.append(getVTableRowWithTitleHTML("Peer ID", m.peer));
+	s.append(getVTableRowWithTitleHTML("Module", m.module));
+	s.append(getVTableRowWithTitleHTML("Type", m.type));
+	s.append(getVTableRowWithTitleHTML("Bus ID", m.busName));
+	s.append(getVTableRowWithTitleHTML("Bus name", m.busNameReadable));
+	s.append(getVTableRowWithTitleHTML("Member Number",
+		String.valueOf(m.number)));
+	s.append(getVTableRowWithTitleHTML("Param Number",
+		String.valueOf(m.getNumberOfRegParams())));
+	s.append(getTableEndHTML());
+
+	// ///////////////////
+	// details of parameters
+	if (m.hasProfiles()) {
+	    for (ProfileInfo info : m.profiles) {
+		s.append("<hr><h2>Details for "
+			+ URI.get(info.serviceURI, true) + "</h2>\n\n");
+		getAllServiceProfileHTML(s, info);
+	    }
+	}
+	if (m.hasPatterns()) {
+	    for (PatternInfo info : m.patterns) {
+		s.append("<hr><h2>Details for ContextEventPattern</h2>\n\n");
+		getAllContextEventPatternHTML(s, info);
+	    }
+	}
     }
 
     private void createPeerHTML(StringBuilder s, PeerCard pc) {

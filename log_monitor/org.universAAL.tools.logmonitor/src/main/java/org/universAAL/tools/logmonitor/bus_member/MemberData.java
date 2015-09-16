@@ -1,15 +1,23 @@
 package org.universAAL.tools.logmonitor.bus_member;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.universAAL.middleware.bus.member.BusMemberType;
 import org.universAAL.middleware.bus.model.AbstractBus;
 import org.universAAL.middleware.context.ContextBusFacade;
+import org.universAAL.middleware.context.ContextEventPattern;
 import org.universAAL.middleware.interfaces.PeerCard;
+import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceBusFacade;
+import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.middleware.ui.UIBusFacade;
 import org.universAAL.tools.logmonitor.Activator;
+import org.universAAL.tools.logmonitor.util.PatternInfo;
+import org.universAAL.tools.logmonitor.util.ProfileInfo;
 
 /**
  * 
@@ -28,6 +36,8 @@ public class MemberData {
     public String busName;
     public String label;
     public String comment;
+    public List<ProfileInfo> profiles = new ArrayList<ProfileInfo>();
+    public List<PatternInfo> patterns = new ArrayList<PatternInfo>();
 
     private static Map<String, String> busNames = new HashMap<String, String>();
 
@@ -50,6 +60,69 @@ public class MemberData {
 	this.comment = comment;
 	busNameReadable = busNames.get(busName);
 	extractInfoFromID(busMemberID);
+    }
+
+    public boolean hasProfiles() {
+	return profiles.size() != 0;
+    }
+
+    public boolean hasPatterns() {
+	return patterns.size() != 0;
+    }
+
+    public int getNumberOfRegParams() {
+	return profiles.size() + patterns.size();
+    }
+
+    public void regParamsAdded(String busMemberID, Resource[] params) {
+	if (params == null || params.length == 0)
+	    return;
+
+	for (Resource par : params) {
+	    if (par instanceof ServiceProfile) {
+		ServiceProfile sp = (ServiceProfile) par;
+		ProfileInfo info = new ProfileInfo(sp, busMemberID);
+		info.serviceURI = sp.getTheService().getURI();
+		profiles.add(info);
+	    } else if (par instanceof ContextEventPattern) {
+		patterns.add(new PatternInfo((ContextEventPattern) par));
+	    }
+	}
+    }
+
+    public void regParamsRemoved(Resource[] params) {
+	if (params == null || params.length == 0)
+	    return;
+
+	if (params[0] instanceof ServiceProfile) {
+	    for (Resource rRem : params) {
+		Iterator<ProfileInfo> it = profiles.iterator();
+		while (it.hasNext()) {
+		    ProfileInfo info = it.next();
+		    ServiceProfile spRem = (ServiceProfile) rRem;
+		    ServiceProfile spExi = info.profile;
+
+		    if (spRem.getProcessURI().equals(spExi.getProcessURI())) {
+			// remove
+			it.remove();
+		    }
+		}
+	    }
+	} else if (params[0] instanceof ContextEventPattern) {
+	    for (Resource rRem : params) {
+		Iterator<PatternInfo> it = patterns.iterator();
+		while (it.hasNext()) {
+		    PatternInfo info = it.next();
+		    ContextEventPattern cepRem = (ContextEventPattern) rRem;
+		    ContextEventPattern cepExi = info.pattern;
+
+		    if (cepRem.matches(cepExi)) {
+			// remove
+			it.remove();
+		    }
+		}
+	    }
+	}
     }
 
     private void extractInfoFromID(String id) {

@@ -18,7 +18,7 @@ public class LogMonitor implements LogListenerEx {
 
     private BusMemberGui gui = new BusMemberGui();
     private SpaceListener spaceListener = null;
-    private BusMemberListener busMemberListener = null;
+    public static BusMemberListener busMemberListener = null;
 
     public LogMonitor() {
 	// start space listener

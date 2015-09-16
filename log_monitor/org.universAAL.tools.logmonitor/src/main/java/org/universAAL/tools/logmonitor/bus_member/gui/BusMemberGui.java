@@ -24,6 +24,7 @@ import javax.swing.tree.TreePath;
 
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.aalspace.AALSpaceDescriptor;
+import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.tools.logmonitor.bus_member.MemberData;
 
 /**
@@ -74,6 +75,27 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 		scrollPaneLeft, scrollPaneRight);
 	splitPane.setDividerLocation(0.4);
 	add(splitPane, BorderLayout.CENTER);
+    }
+
+    public void regParamsAdded(final String busMemberID, final Resource[] params) {
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		MemberData data = memberData.get(busMemberID);
+		if (data != null)
+		    data.regParamsAdded(busMemberID, params);
+	    }
+	});
+    }
+
+    public void regParamsRemoved(final String busMemberID,
+	    final Resource[] params) {
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		MemberData data = memberData.get(busMemberID);
+		if (data != null)
+		    data.regParamsRemoved(params);
+	    }
+	});
     }
 
     public void add(final PeerCard peer) {
@@ -255,9 +277,20 @@ public class BusMemberGui extends JPanel implements TreeSelectionListener {
 		}
 
 		if (members.containsValue(node)) {
-		    String memberID = node.getUserObject().toString();
-		    MemberData m = memberData.get(memberID);
-		    pane.show(m);
+		    // get the member ID from the node
+		    // this could be done more efficient
+		    String memberID = null;
+		    for (String id : members.keySet()) {
+			DefaultMutableTreeNode tmp = members.get(id);
+			if (node == tmp) {
+			    memberID = id;
+			}
+		    }
+		    // get member data and show it
+		    if (memberID != null) {
+			MemberData m = memberData.get(memberID);
+			pane.show(m);
+		    }
 		} else if (modules.containsValue(node)) {
 		    pane.show();
 		} else if (peers.containsValue(node)) {

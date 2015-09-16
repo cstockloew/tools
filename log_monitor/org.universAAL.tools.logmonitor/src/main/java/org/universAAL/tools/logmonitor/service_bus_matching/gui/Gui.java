@@ -109,7 +109,7 @@ public class Gui extends JPanel implements ListSelectionListener {
 			    .hasNext();) {
 			SingleMatching s = (SingleMatching) it.next();
 			if (s.success.booleanValue()) {
-			    result = URI.get(s.profileURI, true);
+			    result = URI.get(s.serviceURI, true);
 			    break;
 			}
 		    }

@@ -4,12 +4,18 @@
  */
 package org.universAAL.tools.logmonitor.util;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import org.universAAL.middleware.context.ContextEvent;
+import org.universAAL.middleware.context.ContextEventPattern;
+import org.universAAL.middleware.owl.Intersection;
 import org.universAAL.middleware.owl.OntClassInfo;
 import org.universAAL.middleware.owl.OntologyManagement;
+import org.universAAL.middleware.owl.PropertyRestriction;
+import org.universAAL.middleware.owl.TypeExpression;
 import org.universAAL.middleware.rdf.PropertyPath;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.service.ServiceRequest;
@@ -20,7 +26,6 @@ import org.universAAL.middleware.service.owls.process.ProcessInput;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
-import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileInfo;
 
 /**
  * HTML-based Pane that handles bus operations, i.e. service profiles/requests
@@ -31,6 +36,103 @@ import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor.ProfileIn
  */
 public class HTMLBusOperationsPane extends HTMLVisibilityPane {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Get the html-code for all representations (serialized, abstract..) of a
+     * context event pattern.
+     * 
+     * @param s
+     * @param info
+     * @param profileURI
+     */
+    protected void getAllContextEventPatternHTML(StringBuilder s,
+	    PatternInfo info) {
+	ContextEventPattern cep = info.pattern;
+	String link = "ContextEventPattern" + cep.getURI();
+	String link_abstract = link + "_abstract";
+	String link_serialized = link + "_serialized";
+
+	// ServiceProfile serialized
+	if (isVisible(link_serialized)) {
+	    s.append(getLinkHTML(link_serialized, "hide serialized"));
+
+	    if (info.serialized == null) // create on first use
+		info.serialized = Activator.serialize(cep);
+	    s.append("<pre>\n" + turtle2HTML(info.serialized) + "\n</pre>\n");
+	} else {
+	    s.append(getLinkHTML(link_serialized, "show serialized"));
+	}
+
+	// ServiceProfile abstract
+	if (isVisible(link_abstract)) {
+	    s.append(getLinkHTML(link_abstract, "hide abstract<br><br>\n"));
+	    getContextEventPatternHTML(s, info);
+	} else {
+	    s.append(getLinkHTML(link_abstract, "show abstract"));
+	}
+    }
+
+    private List<PropertyRestriction> getRestrictions(ContextEventPattern cep,
+	    String onProperty) {
+	List<PropertyRestriction> lst = new ArrayList<PropertyRestriction>();
+	Object o = cep.getProperty(TypeExpression.PROP_RDFS_SUB_CLASS_OF);
+	if (o == null)
+	    return lst;
+	if (!(o instanceof List))
+	    return lst;
+	for (Object el : (List<?>) o) {
+	    if (el instanceof PropertyRestriction) {
+		PropertyRestriction pr = (PropertyRestriction) el;
+		if (onProperty.equals(pr.getOnProperty())) {
+		    lst.add(pr);
+		}
+	    }
+	}
+	return lst;
+    }
+
+    private String getCEPSerialization(ContextEventPattern cep, String prop) {
+	String ret = "";
+	List<PropertyRestriction> lst = getRestrictions(cep, prop);
+	if (lst == null)
+	    return "-";
+	if (lst.size() == 0) {
+	    return "-";
+	} else if (lst.size() == 1) {
+	    ret = Activator.serialize(lst.get(0));
+	} else {
+	    Intersection i = new Intersection();
+	    for (PropertyRestriction p : lst)
+		i.addType(p);
+	    ret = Activator.serialize(i);
+	}
+	return "<pre>\n" + turtle2HTML(ret) + "\n</pre>\n";
+    }
+
+    protected void getContextEventPatternHTML(StringBuilder s, PatternInfo info) {
+	// get context event pattern in an abstract view
+	s.append("<b>Context Event Pattern</b><br>");
+
+	// create on first use
+	ContextEventPattern cep = info.pattern;
+	if (info.serializedSubject == null)
+	    info.serializedSubject = getCEPSerialization(cep,
+		    ContextEvent.PROP_RDF_SUBJECT);
+	if (info.serializedPredicate == null)
+	    info.serializedPredicate = getCEPSerialization(cep,
+		    ContextEvent.PROP_RDF_PREDICATE);
+	if (info.serializedObject == null)
+	    info.serializedObject = getCEPSerialization(cep,
+		    ContextEvent.PROP_RDF_OBJECT);
+
+	s.append(getTableStartHTML());
+	s.append(getVTableRowWithTitleHTML("subject", info.serializedSubject));
+	s.append(getVTableRowWithTitleHTML("predicate",
+		info.serializedPredicate));
+	s.append(getVTableRowWithTitleHTML("object", info.serializedObject));
+	s.append(getTableEndHTML());
+	s.append("<br>\n");
+    }
 
     protected String getServiceOutputHTML(Resource output) {
 	StringBuilder s = new StringBuilder("");
@@ -130,8 +232,8 @@ public class HTMLBusOperationsPane extends HTMLVisibilityPane {
      * Get common parts (effects and outputs) of service profile and service
      * request as HTML.
      */
-    private void getServiceCommonHTML(StringBuilder s,
-	    Resource[] effects, Resource[] outputs) {
+    private void getServiceCommonHTML(StringBuilder s, Resource[] effects,
+	    Resource[] outputs) {
 	int i;
 	s.append("<b>Effects:</b>");
 	if (effects.length == 0) {
@@ -250,10 +352,9 @@ public class HTMLBusOperationsPane extends HTMLVisibilityPane {
      * @param info
      * @param profileURI
      */
-    protected void getAllServiceProfileHTML(StringBuilder s, ProfileInfo info,
-	    String profileURI) {
+    protected void getAllServiceProfileHTML(StringBuilder s, ProfileInfo info) {
 	ServiceProfile profile = info.profile;
-	String link = "ServiceProfile_" + profileURI;
+	String link = "ServiceProfile_" + info.serviceURI;
 	String link_abstract = link + "_abstract";
 	String link_serialized = link + "_serialized";
 

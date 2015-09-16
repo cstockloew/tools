@@ -19,6 +19,7 @@ import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.LogListenerEx;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
 import org.universAAL.tools.logmonitor.service_bus_matching.gui.Gui;
+import org.universAAL.tools.logmonitor.util.ProfileInfo;
 
 /**
  * 
@@ -39,17 +40,6 @@ public class LogMonitor implements LogListenerEx {
 
     // maps ID of the thread (Long) to Matchmaking
     private Hashtable<Long, Matchmaking> threads = new Hashtable<Long, Matchmaking>();
-
-    public class ProfileInfo {
-	public ServiceProfile profile;
-	public String serialized;
-	public String profileProviderURI;
-
-	public ProfileInfo(ServiceProfile profile, String profileProviderURI) {
-	    this.profile = profile;
-	    this.profileProviderURI = profileProviderURI;
-	}
-    }
 
     // maps URI of service of profile to ServiceProfile
     // key+"Process" = process URI
@@ -187,9 +177,9 @@ public class LogMonitor implements LogListenerEx {
 	    endProfileMatching(id, (Integer) msgPart[2]);
 	} else if (ServiceBus.LOG_MATCHING_MISMATCH.equals(msgPart[0])) {
 	    Matchmaking m = getMatchmaking(id, "handleServiceStrategyMessage");
-	    String profileURI = (String) msgPart[3];
+	    String serviceURI = (String) msgPart[3];
 	    for (SingleMatching single : m.matchings) {
-		if (single.profileURI.equals(profileURI)) {
+		if (single.serviceURI.equals(serviceURI)) {
 		    single.processStandardMessage(msgPart);
 		    single.reason = SingleMatching.REASON_INPUT;
 		    single.isOffer = true;
@@ -268,7 +258,7 @@ public class LogMonitor implements LogListenerEx {
 
 	// add this matching to the list of matchings for a request
 	SingleMatching single = m.new SingleMatching();
-	single.profileURI = profileServiceURI;
+	single.serviceURI = profileServiceURI;
 	m.matchings.add(single);
     }
 

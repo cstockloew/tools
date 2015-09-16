@@ -15,7 +15,7 @@ import org.universAAL.middleware.service.ServiceRequest;
 /**
  * 
  * @author Carsten Stockloew
- *
+ * 
  */
 public class Matchmaking {
 
@@ -29,8 +29,8 @@ public class Matchmaking {
 	// true, iff this service matches the request
 	public Boolean success = null;
 
-	// URI of the service profile for this single matching
-	public String profileURI = "";
+	// URI of the service of the profile for this single matching
+	public String serviceURI = "";
 
 	// the reason, one of REASON_INPUT, REASON_OUTPUT, REASON_EFFECT
 	public int reason = -1;
