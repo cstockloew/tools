@@ -22,14 +22,14 @@ import org.universAAL.middleware.owl.OntologyManagement;
 import org.universAAL.middleware.owl.TypeURI;
 import org.universAAL.middleware.service.DefaultServiceCaller;
 import org.universAAL.middleware.tracker.IBusMemberRegistry;
-import org.universAAL.ontology.lighting.ElectricLight;
-import org.universAAL.ontology.lighting.LightSource;
-import org.universAAL.ontology.lighting.Lighting;
-import org.universAAL.ontology.lighting.LightingOntology;
-import org.universAAL.ontology.location.LocationOntology;
-import org.universAAL.ontology.location.indoor.Room;
-import org.universAAL.ontology.phThing.PhThingOntology;
-import org.universAAL.ontology.shape.ShapeOntology;
+//import org.universAAL.ontology.lighting.ElectricLight;
+//import org.universAAL.ontology.lighting.LightSource;
+//import org.universAAL.ontology.lighting.Lighting;
+//import org.universAAL.ontology.lighting.LightingOntology;
+//import org.universAAL.ontology.location.LocationOntology;
+//import org.universAAL.ontology.location.indoor.Room;
+//import org.universAAL.ontology.phThing.PhThingOntology;
+//import org.universAAL.ontology.shape.ShapeOntology;
 import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.bus_member.BusMemberListener;
 import org.universAAL.container.JUnit.JUnitContainer;
@@ -70,10 +70,10 @@ public class Test extends BusTestCase {
 	super.setUp();
 	isSetUp = true;
 
-	OntologyManagement.getInstance().register(mc, new LocationOntology());
-	OntologyManagement.getInstance().register(mc, new ShapeOntology());
-	OntologyManagement.getInstance().register(mc, new PhThingOntology());
-	OntologyManagement.getInstance().register(mc, new LightingOntology());
+//	OntologyManagement.getInstance().register(mc, new LocationOntology());
+//	OntologyManagement.getInstance().register(mc, new ShapeOntology());
+//	OntologyManagement.getInstance().register(mc, new PhThingOntology());
+//	OntologyManagement.getInstance().register(mc, new LightingOntology());
 
 	mc.setAttribute(AccessControl.PROP_MODE, "none");
 	mc.setAttribute(AccessControl.PROP_MODE_UPDATE, "always");
@@ -104,67 +104,67 @@ public class Test extends BusTestCase {
 	((JUnitContainer) mc.getContainer()).registerLogListeners(a.lm);
     }
 
-    public static ContextEventPattern[] providedEvents(Lighting theServer) {
-	MergedRestriction predicateRestriction = MergedRestriction
-		.getFixedValueRestriction(ContextEvent.PROP_RDF_PREDICATE,
-			LightSource.PROP_SOURCE_BRIGHTNESS);
-	MergedRestriction objectRestriction = MergedRestriction
-		.getAllValuesRestrictionWithCardinality(
-			ContextEvent.PROP_RDF_OBJECT, new Enumeration(
-				new Integer[] { new Integer(0),
-					new Integer(100) }), 1, 1);
-	LightSource[] myLights = new LightSource[] {
-		new LightSource("lamp1", ElectricLight.lightBulb, new Room(
-			"room1")),
-		new LightSource("lamp2", ElectricLight.ledLamp, new Room(
-			"room2")) };
-
-	MergedRestriction subjectRestriction = MergedRestriction
-		.getAllValuesRestrictionWithCardinality(
-			ContextEvent.PROP_RDF_SUBJECT,
-			new Enumeration(myLights), 1, 1);
-	ContextEventPattern cep1 = new ContextEventPattern();
-	cep1.addRestriction(subjectRestriction);
-	cep1.addRestriction(predicateRestriction);
-	cep1.addRestriction(objectRestriction);
-	Intersection xsection = new Intersection();
-	xsection.addType(new TypeURI(LightSource.MY_URI, false));
-	xsection.addType(MergedRestriction.getFixedValueRestriction(
-		LightSource.PROP_HAS_TYPE, ElectricLight.lightBulb));
-	xsection.addType(MergedRestriction
-		.getAllValuesRestrictionWithCardinality(
-			LightSource.PROP_PHYSICAL_LOCATION, Room.MY_URI, 1, 1));
-	subjectRestriction = MergedRestriction
-		.getAllValuesRestrictionWithCardinality(
-			ContextEvent.PROP_RDF_SUBJECT, xsection, 1, 1);
-	ContextEventPattern cep2 = new ContextEventPattern();
-	cep2.addRestriction(subjectRestriction);
-	cep2.addRestriction(predicateRestriction);
-	cep2.addRestriction(objectRestriction);
-
-	return new ContextEventPattern[] { cep1, cep2 };
-    }
+//    public static ContextEventPattern[] providedEvents(Lighting theServer) {
+//	MergedRestriction predicateRestriction = MergedRestriction
+//		.getFixedValueRestriction(ContextEvent.PROP_RDF_PREDICATE,
+//			LightSource.PROP_SOURCE_BRIGHTNESS);
+//	MergedRestriction objectRestriction = MergedRestriction
+//		.getAllValuesRestrictionWithCardinality(
+//			ContextEvent.PROP_RDF_OBJECT, new Enumeration(
+//				new Integer[] { new Integer(0),
+//					new Integer(100) }), 1, 1);
+//	LightSource[] myLights = new LightSource[] {
+//		new LightSource("lamp1", ElectricLight.lightBulb, new Room(
+//			"room1")),
+//		new LightSource("lamp2", ElectricLight.ledLamp, new Room(
+//			"room2")) };
+//
+//	MergedRestriction subjectRestriction = MergedRestriction
+//		.getAllValuesRestrictionWithCardinality(
+//			ContextEvent.PROP_RDF_SUBJECT,
+//			new Enumeration(myLights), 1, 1);
+//	ContextEventPattern cep1 = new ContextEventPattern();
+//	cep1.addRestriction(subjectRestriction);
+//	cep1.addRestriction(predicateRestriction);
+//	cep1.addRestriction(objectRestriction);
+//	Intersection xsection = new Intersection();
+//	xsection.addType(new TypeURI(LightSource.MY_URI, false));
+//	xsection.addType(MergedRestriction.getFixedValueRestriction(
+//		LightSource.PROP_HAS_TYPE, ElectricLight.lightBulb));
+//	xsection.addType(MergedRestriction
+//		.getAllValuesRestrictionWithCardinality(
+//			LightSource.PROP_PHYSICAL_LOCATION, Room.MY_URI, 1, 1));
+//	subjectRestriction = MergedRestriction
+//		.getAllValuesRestrictionWithCardinality(
+//			ContextEvent.PROP_RDF_SUBJECT, xsection, 1, 1);
+//	ContextEventPattern cep2 = new ContextEventPattern();
+//	cep2.addRestriction(subjectRestriction);
+//	cep2.addRestriction(predicateRestriction);
+//	cep2.addRestriction(objectRestriction);
+//
+//	return new ContextEventPattern[] { cep1, cep2 };
+//    }
 
     public void testAddScript() {
 	LogUtils.logDebug(mc, this.getClass(), "method", "msg");
 	caller = new DefaultServiceCaller(mc);
 
-	Lighting theServer = new Lighting();
-	ContextEventPattern[] cep = providedEvents(theServer);
-	ContextProvider info = new ContextProvider("TestContextProvider");
-	info.setType(ContextProviderType.controller);
-	info.setProvidedEvents(cep);
-	ContextPublisher cp = new DefaultContextPublisher(mc, info);
-	
-	ContextSubscriber cs = new ContextSubscriber(mc, cep) {
-	    @Override
-	    public void handleContextEvent(ContextEvent event) {
-	    }
-	    
-	    @Override
-	    public void communicationChannelBroken() {
-	    }
-	};
+//	Lighting theServer = new Lighting();
+//	ContextEventPattern[] cep = providedEvents(theServer);
+//	ContextProvider info = new ContextProvider("TestContextProvider");
+//	info.setType(ContextProviderType.controller);
+//	info.setProvidedEvents(cep);
+//	ContextPublisher cp = new DefaultContextPublisher(mc, info);
+//	
+//	ContextSubscriber cs = new ContextSubscriber(mc, cep) {
+//	    @Override
+//	    public void handleContextEvent(ContextEvent event) {
+//	    }
+//	    
+//	    @Override
+//	    public void communicationChannelBroken() {
+//	    }
+//	};
 
 	// BusMemberListener l =
 	// org.universAAL.tools.logmonitor.bus_member.LogMonitor.busMemberListener;
