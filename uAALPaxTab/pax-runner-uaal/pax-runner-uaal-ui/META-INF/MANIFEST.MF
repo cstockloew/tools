@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: universAAL Pax Runner UI
 Bundle-SymbolicName: org.universaal.igd.uaal.runner.ui;singleton:=true
-Bundle-Version: 1.3.6
+Bundle-Version: 1.3.7
 Bundle-Vendor: universAAL
 Fragment-Host: org.eclipse.pde.ui
 Require-Bundle: org.eclipse.ui,
