@@ -9,6 +9,9 @@
    <feature url="features/org.ops4j.pax.runner.eclipse.ui.feature_1.8.6.v20141209.jar" id="org.ops4j.pax.runner.eclipse.ui.feature" version="1.8.6.v20141209">
       <category name="universaal_prereq"/>
    </feature>
+   <feature url="features/org.universaal.tools.aalstudio.feature_3.0.0.jar" id="org.universaal.tools.aalstudio.feature" version="3.0.0">
+      <category name="universaal_tools"/>
+   </feature>
    <category-def name="universaal_tools" label="AAL Studio tools">
       <description>
          Tools for development of AAL applications using the universAAL platform
