@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <category-def name="universaal_tools" label="AAL Studio tools">
+      <description>
+         Tools for development of AAL applications using the universAAL platform
+      </description>
+   </category-def>
+   <category-def name="universaal_prereq" label="AAL Studio prerequisites">
+      <description>
+         3rd party tools needed by the AAL Studio
+      </description>
+   </category-def>
+</site>
