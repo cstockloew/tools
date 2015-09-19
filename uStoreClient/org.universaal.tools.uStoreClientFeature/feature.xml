@@ -232,7 +232,7 @@ It provides a user interface for uploading applications to uStore.
    </license>
 
    <url>
-      <update url="http://depot.universaal.org/eclipse-update/"/>
+      <update url="http://depot.universaal.org/eclipse4-update/"/>
    </url>
 
    <requires>

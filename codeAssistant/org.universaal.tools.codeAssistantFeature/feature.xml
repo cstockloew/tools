@@ -250,7 +250,7 @@ limitations under the License.
    </license>
 
    <url>
-      <update url="http://depot.universaal.org/eclipse-update/"/>
+      <update url="http://depot.universaal.org/eclipse4-update/"/>
    </url>
 
    <plugin
