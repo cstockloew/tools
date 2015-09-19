@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.papyrus.extensionpoints.uml2.UMLProfile">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
        <profile
             name="ODM_SoaML"
             path="pathmap://UAAL/ODM_SoaML.profile.uml">
@@ -58,7 +58,7 @@
     	location="pathmap://TwoUse_Profiles/SWRL.profile.uml#_5"/>
   </extension>
   <extension
-        point="org.eclipse.papyrus.diagram.common.paletteDefinition">
+        point="org.eclipse.papyrus.uml.diagram.common.paletteDefinition">
      <paletteDefinition
            ID="org.universaal.tools.profileplugin.ontologyPalette"
            class="org.eclipse.papyrus.diagram.common.service.PluginPaletteProvider"
@@ -75,7 +75,7 @@
      </paletteDefinition>
   </extension>
   <extension
-        point="org.eclipse.papyrus.diagram.common.paletteDefinition">
+        point="org.eclipse.papyrus.uml.diagram.common.paletteDefinition">
      <paletteDefinition
            ID="org.universaal.tools.profileplugin.serviceModelPalette"
            class="org.eclipse.papyrus.diagram.common.service.PluginPaletteProvider"

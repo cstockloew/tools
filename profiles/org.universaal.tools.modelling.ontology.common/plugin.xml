@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
       <library
             iconpath="icons/uaal-16.png"
             name="universAAL Primitive Types"
@@ -18,7 +18,7 @@
       </mapping>
    </extension>
    <extension
-         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
       <library
             iconpath="icons/uaal-16.png"
             name="universAAL Middleware Ontology"
@@ -27,7 +27,7 @@
       </library>
    </extension>
    <extension
-         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
       <library
             iconpath="icons/uaal-16.png"
             name="universAAL Service Ontology"
@@ -36,7 +36,7 @@
       </library>
    </extension>
    <extension
-         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
       <library
             iconpath="icons/uaal-16.png"
             name="universAAL Physical World Ontology"
@@ -45,7 +45,7 @@
       </library>
    </extension>
    <extension
-         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
       <library
             iconpath="icons/uaal-16.png"
             name="universAAL Device Ontology"
@@ -54,7 +54,7 @@
       </library>
    </extension>
    <extension
-         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
       <library
             iconpath="icons/uaal-16.png"
             name="universAAL Unit Ontology"
@@ -63,7 +63,7 @@
       </library>
    </extension>
    <extension
-         point="org.eclipse.papyrus.extensionpoints.uml2.UMLLibrary">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
       <library
             iconpath="icons/uaal-16.png"
             name="universAAL Measurement Ontology"

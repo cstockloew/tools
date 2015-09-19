@@ -38,7 +38,7 @@ import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.ProjectImportConfiguration;		
 import org.eclipse.m2e.core.ui.internal.actions.OpenMavenConsoleAction;
-import org.eclipse.papyrus.resource.ModelSet;
+import org.eclipse.papyrus.infra.core.resource.ModelSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
