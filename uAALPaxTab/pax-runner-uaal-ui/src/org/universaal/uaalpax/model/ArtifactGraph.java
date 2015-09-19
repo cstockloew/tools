@@ -26,15 +26,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.sonatype.aether.artifact.Artifact;
-import org.sonatype.aether.collection.DependencyCollectionException;
-import org.sonatype.aether.graph.Dependency;
-import org.sonatype.aether.graph.DependencyNode;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.collection.DependencyCollectionException;
+import org.eclipse.aether.graph.Dependency;
+import org.eclipse.aether.graph.DependencyNode;
 import org.universaal.uaalpax.maven.MavenDependencyResolver;
 
 public class ArtifactGraph {
@@ -134,7 +133,6 @@ public class ArtifactGraph {
 				
 				insertDependencyNode(dNode, null);
 			} catch (DependencyCollectionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

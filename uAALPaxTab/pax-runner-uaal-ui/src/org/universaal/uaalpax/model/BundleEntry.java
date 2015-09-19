@@ -20,8 +20,8 @@
 
 package org.universaal.uaalpax.model;
 
-import org.sonatype.aether.artifact.Artifact;
-import org.sonatype.aether.util.artifact.DefaultArtifact;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.artifact.DefaultArtifact;
 import org.universaal.uaalpax.maven.MavenDependencyResolver;
 
 public class BundleEntry {

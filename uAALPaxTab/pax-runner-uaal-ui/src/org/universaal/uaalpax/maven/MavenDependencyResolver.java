@@ -38,25 +38,25 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Composite;
-import org.sonatype.aether.RepositorySystem;
-import org.sonatype.aether.RepositorySystemSession;
-import org.sonatype.aether.artifact.Artifact;
-import org.sonatype.aether.collection.CollectRequest;
-import org.sonatype.aether.collection.DependencyCollectionException;
-import org.sonatype.aether.graph.Dependency;
-import org.sonatype.aether.graph.DependencyNode;
-import org.sonatype.aether.repository.RemoteRepository;
-import org.sonatype.aether.resolution.ArtifactDescriptorException;
-import org.sonatype.aether.resolution.ArtifactDescriptorRequest;
-import org.sonatype.aether.resolution.ArtifactDescriptorResult;
-import org.sonatype.aether.resolution.ArtifactRequest;
-import org.sonatype.aether.resolution.ArtifactResolutionException;
-import org.sonatype.aether.resolution.ArtifactResult;
-import org.sonatype.aether.util.artifact.JavaScopes;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.collection.CollectRequest;
+import org.eclipse.aether.collection.DependencyCollectionException;
+import org.eclipse.aether.examples.util.Booter;
+import org.eclipse.aether.graph.Dependency;
+import org.eclipse.aether.graph.DependencyNode;
+import org.eclipse.aether.repository.RemoteRepository;
+import org.eclipse.aether.resolution.ArtifactDescriptorException;
+import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
+import org.eclipse.aether.resolution.ArtifactDescriptorResult;
+import org.eclipse.aether.resolution.ArtifactRequest;
+import org.eclipse.aether.resolution.ArtifactResolutionException;
+import org.eclipse.aether.resolution.ArtifactResult;
+import org.eclipse.aether.util.artifact.JavaScopes;
 import org.universaal.uaalpax.model.ArtifactURL;
 import org.universaal.uaalpax.model.BundleEntry;
 
-import aether.demo.util.Booter;
 
 public class MavenDependencyResolver {
 	private static MavenDependencyResolver theResolver;
@@ -192,6 +192,11 @@ public class MavenDependencyResolver {
 			
 			wrap = Boolean.valueOf(manifest == null || bundleManifestVersion == null);
 			wrapCache.put(BundleEntry.artifactUrlFromArtifact(artifact).url, wrap);
+			try {
+				jio.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return wrap.booleanValue();

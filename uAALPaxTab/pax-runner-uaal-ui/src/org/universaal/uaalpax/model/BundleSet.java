@@ -58,8 +58,7 @@ public class BundleSet implements Iterable<BundleEntry> {
 	public void updateBundles(ILaunchConfiguration configuration) {
 		bundles = new HashMap<Object, BundleEntry>();
 		try {
-			@SuppressWarnings("unchecked")
-			Map<String, String> launch = configuration.getAttribute(Attribute.PROVISION_ITEMS, new HashMap<Object, Object>());
+			Map<String, String> launch = configuration.getAttribute(Attribute.PROVISION_ITEMS, new HashMap<String, String>());
 			
 			for (Map.Entry<String, String> e : launch.entrySet()) {
 				BundleEntry be = new BundleEntry(new LaunchURL(e.getKey()), e.getValue());

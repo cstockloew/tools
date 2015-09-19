@@ -87,24 +87,18 @@ public class XMLVersionProvider implements UAALVersionProvider {
 						try {
 							loadVersion(v, FileLocator.find(bundle, new Path("versions/" + v + ".xml"), null));
 						} catch (SAXException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (ParserConfigurationException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (ClassCastException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (DOMException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
 				}
 			}
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -23,12 +23,13 @@ package org.universaal.uaalpax.ui;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.pde.internal.ui.elements.DefaultContentProvider;
+import org.eclipse.jface.viewers.Viewer;
 import org.universaal.uaalpax.model.BundleEntry;
 
 
-public class ProjectContentProvider extends DefaultContentProvider implements IStructuredContentProvider {
+public class ProjectContentProvider implements IStructuredContentProvider, IContentProvider {
 	
 	/**
 	 * Returns an array of ProvisionURL's.
@@ -42,5 +43,11 @@ public class ProjectContentProvider extends DefaultContentProvider implements IS
 			return ((Set<?>) inputElement).toArray();
 		
 		throw new IllegalArgumentException("Input element must be List of " + BundleEntry.class.getName());
+	}
+
+	public void dispose() {
+	}
+
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 }

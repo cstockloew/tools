@@ -60,7 +60,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 			return;
 		
 		try {
-			
+			System.out.println(" -- NewRunConfigHandler.createNewLaunchConfiguration");
 			ILaunchConfigurationWorkingCopy configuration = type.newInstance(d.getContainer(), d.getName());
 			configuration.setAttribute("append.args", true);
 			configuration.setAttribute("automaticAdd", true);
@@ -98,7 +98,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 			configuration.setAttribute("default", true);
 			
 			if (!configuration.hasAttribute("org.ops4j.pax.cursor.profiles")) {
-				ArrayList<Object> classpath = new ArrayList<Object>();
+				ArrayList<String> classpath = new ArrayList<String>();
 				classpath.add("obr");
 				configuration.setAttribute("org.ops4j.pax.cursor.profiles", classpath);
 			}
@@ -112,8 +112,8 @@ public class NewRunConfigHandler extends AbstractHandler {
 			
 			configuration.removeAttribute("target_bundles");
 			
-			Map<Object, Object> toSave = new HashMap<Object, Object>();
-			List<Object> arguments = new LinkedList<Object>();
+			Map<String, String> toSave = new HashMap<String, String>();
+			List<String> arguments = new LinkedList<String>();
 			arguments.add("--overwrite=true");
 			arguments.add("--overwriteUserBundles=true");
 			arguments.add("--overwriteSystemBundles=true");

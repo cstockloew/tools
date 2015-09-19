@@ -46,19 +46,17 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.jdt.internal.junit.runner.FirstRunExecutionListener;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.sonatype.aether.artifact.Artifact;
-import org.sonatype.aether.collection.DependencyCollectionException;
-import org.sonatype.aether.graph.Dependency;
-import org.sonatype.aether.graph.DependencyNode;
-import org.sonatype.aether.util.artifact.DefaultArtifact;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.collection.DependencyCollectionException;
+import org.eclipse.aether.examples.util.ConsoleDependencyGraphDumper;
+import org.eclipse.aether.graph.Dependency;
+import org.eclipse.aether.graph.DependencyNode;
 import org.universaal.uaalpax.maven.MavenDependencyResolver;
 import org.universaal.uaalpax.shared.Attribute;
 import org.universaal.uaalpax.versionprovider.UAALVersionProvider;
-
-import aether.demo.util.ConsoleDependencyGraphDumper;
 
 public class BundleModel {
 	/** Threshold for assuming that a particular version is used */
@@ -615,6 +613,7 @@ public class BundleModel {
 				if (!url.isEmpty())
 					arts.addAll(getCompositeEntries(new LaunchURL(url)));
 			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			return arts;
 		} catch (IOException e) {
@@ -627,12 +626,12 @@ public class BundleModel {
 	
 	public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
 		// finally, save arguments list
-		List<Object> arguments = new LinkedList<Object>();
+		List<String> arguments = new LinkedList<String>();
 		
 		try {
-			List<Object> prev = configuration.getAttribute(Attribute.RUN_ARGUMENTS, (List) null);
+			List<String> prev = configuration.getAttribute(Attribute.RUN_ARGUMENTS, (List<String>) null);
 			if (prev != null) {
-				for (Object o : prev) {
+				for (String o : prev) {
 					if ((o instanceof String && ((String) o).startsWith("-")))
 						arguments.add(o);
 				}
@@ -646,7 +645,7 @@ public class BundleModel {
 		} catch (CoreException e1) {
 		}
 		
-		Map<Object, Object> toSave = new HashMap<Object, Object>();
+		Map<String, String> toSave = new HashMap<String, String>();
 		for (BundleEntry be : currentBundles) {
 			StringBuffer options = new StringBuffer().append(be.isSelected()).append("@").append(be.isStart()).append("@")
 					.append(be.getLevel()).append("@").append(be.isUpdate());
@@ -713,7 +712,7 @@ public class BundleModel {
 			trySetAttribute(configuration, "default", true);
 			
 			if (!configuration.hasAttribute("org.ops4j.pax.cursor.profiles")) {
-				ArrayList<Object> classpath = new ArrayList<Object>();
+				ArrayList<String> classpath = new ArrayList<String>();
 				classpath.add("obr");
 				configuration.setAttribute("org.ops4j.pax.cursor.profiles", classpath);
 			}

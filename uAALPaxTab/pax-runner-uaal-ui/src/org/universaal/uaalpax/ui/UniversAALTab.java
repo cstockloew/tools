@@ -38,7 +38,6 @@ import org.universaal.uaalpax.model.BundleChangeListener;
 import org.universaal.uaalpax.model.BundleEntry;
 import org.universaal.uaalpax.model.BundleModel;
 import org.universaal.uaalpax.model.ModelDialogProvider;
-import org.universaal.uaalpax.versionprovider.HardcodedConfigProvider;
 import org.universaal.uaalpax.versionprovider.UAALVersionProvider;
 import org.universaal.uaalpax.versionprovider.XMLVersionProvider;
 
@@ -47,7 +46,6 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 	private AllBundlesBlock additionalLibsBlock;
 	private VersionBlock versionBlock;
 	private FeaturesBlock featuresBlock;
-	private ILaunchConfiguration launchConfig;
 	private UAALVersionProvider versionProvider;
 	
 	boolean deactivated = true;
@@ -106,7 +104,6 @@ public class UniversAALTab extends AbstractLauncherTab implements BundleChangeLi
 		boolean deactivated = this.deactivated;
 		m_initializing = true;
 		try {
-			launchConfig = configuration;
 			model.updateModel(configuration);
 		} finally {
 			m_initializing = false;

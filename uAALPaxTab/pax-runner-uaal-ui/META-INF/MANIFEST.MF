@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: UAALPaxTab
 Bundle-SymbolicName: org.universaal.igd.uaal.runner.ui;singleton:=true
 Bundle-Version: 2.0.0
-Bundle-Activator: uaalpaxtab.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.m2e.maven.runtime,
  org.eclipse.equinox.registry,
