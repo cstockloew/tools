@@ -118,7 +118,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <requires>
-      <import feature="org.eclipse.papyrus" version="0.7.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.papyrus.sdk.feature" version="0.7.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
