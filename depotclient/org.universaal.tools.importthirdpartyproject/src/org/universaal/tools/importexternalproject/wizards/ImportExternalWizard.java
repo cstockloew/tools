@@ -52,6 +52,7 @@ import org.eclipse.m2e.core.project.ProjectImportConfiguration;
 import org.eclipse.m2e.core.project.ResolverConfiguration;
 import org.eclipse.team.svn.core.connector.ISVNConnector;
 import org.eclipse.team.svn.core.connector.SVNConnectorException;
+import org.eclipse.team.svn.core.connector.SVNDepth;
 import org.eclipse.team.svn.core.connector.SVNRevision;
 import org.eclipse.team.svn.core.operation.CompositeOperation;
 import org.eclipse.team.svn.core.operation.local.management.DisconnectOperation;
@@ -294,7 +295,7 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 				IPath dir = workspace.getRoot().getLocation();
 				String directory = dir.toString();
 
-				CheckoutAsOperation check = new CheckoutAsOperation(fold.getName(), fold, false, directory,ISVNConnector.Depth.INFINITY, false);
+				CheckoutAsOperation check = new CheckoutAsOperation(fold.getName(), fold, false, directory,SVNDepth.INFINITY, false);
 				CompositeOperation op2 = new CompositeOperation(check.getId(), check.getMessagesClass());
 
 				IProject project[] = new IProject[1];
@@ -345,7 +346,7 @@ public class ImportExternalWizard extends Wizard implements IImportWizard {
 					for(int i=0; i<children.length;i++){
 						tempResource[i] = new CheckoutAsOperation(
 								children[i].getName(), children[i], false,dir.toString(),
-								ISVNConnector.Depth.INFINITY, false) ;
+								SVNDepth.INFINITY, false) ;
 						projects[i] = tempResource[i].getProject();
 						if(i==0){
 							comOp2 = new CompositeOperation(
