@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.papyrus.uml.extensionpoints.UMLLibrary">
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLProfile">
        <profile
             name="ODM_SoaML"
             path="pathmap://UAAL/ODM_SoaML.profile.uml">
