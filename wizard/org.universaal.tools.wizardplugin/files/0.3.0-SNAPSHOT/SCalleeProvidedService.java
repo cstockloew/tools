@@ -1,7 +1,7 @@
 /*TAG:PACKAGE*/
 
 /* More on how to use this class at: 
- * http://forge.universaal.org/wiki/support:Developer_Handbook_5#Ontologies_in_universAAL */
+ * https://github.com/universAAL/platform/wiki/RD-Using-Services#Service_Callees_and_Service_Profiles */
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import java.util.Hashtable;
 

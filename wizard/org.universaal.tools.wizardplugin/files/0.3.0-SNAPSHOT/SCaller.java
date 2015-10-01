@@ -1,7 +1,7 @@
 /*TAG:PACKAGE*/
 
 /* More on how to use this class at: 
- * http://forge.universaal.org/wiki/support:Developer_Handbook_7 */
+ * https://github.com/universAAL/platform/wiki/RD-Using-Services#Service_Callers_and_Service_Requests */
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.service.ServiceCaller;
 import org.universAAL.middleware.service.ServiceResponse;

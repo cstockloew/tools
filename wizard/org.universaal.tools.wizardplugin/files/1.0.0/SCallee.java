@@ -1,7 +1,7 @@
 /*TAG:PACKAGE*/
 
 /* More on how to use this class at: 
- * http://forge.universaal.org/wiki/support:Developer_Handbook_6#Providing_services_on_the_bus */
+ * https://github.com/universAAL/platform/wiki/RD-Using-Services#Service_Callees_and_Service_Profiles */
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.service.ServiceCall;
 import org.universAAL.middleware.service.ServiceCallee;

@@ -1,7 +1,7 @@
 /*TAG:PACKAGE*/
 
 /* More on how to use this class at: 
- * http://forge.universaal.org/wiki/support:Developer_Handbook_6#Publishing_context_events */
+ * https://github.com/universAAL/platform/wiki/RD-Managing-Context-Information#Context_Publishers_and_Context_Events */
 import org.osgi.framework.BundleContext;
 import org.universAAL.middleware.context.ContextPublisher;
 import org.universAAL.middleware.context.owl.ContextProvider;

@@ -1,7 +1,7 @@
 /*TAG:PACKAGE*/
 
 /* More on how to use this class at: 
- * http://forge.universaal.org/wiki/support:Developer_Handbook_8 */
+ * https://github.com/universAAL/platform/wiki/RD-Handling-User-Interaction */
 import org.universAAL.middleware.container.ModuleContext;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.middleware.ui.UICaller;
