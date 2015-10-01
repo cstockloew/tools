@@ -46,7 +46,7 @@ public class TransformOntUML2Java extends TransformationHandler {
 			if (window != null) {
 				ElementListSelectionDialog dialog = 
 						  new ElementListSelectionDialog(window.getShell(), new LabelProvider());
-						dialog.setElements(new String[] { "1_1_0", "1_2_0", "1_3_0" , "2_0_0", "3_0_0" });
+						dialog.setElements(new String[] { "1_1_0", "1_2_0", "1_3_0" , "2_0_0", "3_0_0", "3_1_0", "3_2_0", "3_3_0", "3_4_0" });
 						dialog.setTitle("Please select middleware version to transform to:");
 						// User pressed cancel
 						if (dialog.open() != Window.OK) {
@@ -54,6 +54,8 @@ public class TransformOntUML2Java extends TransformationHandler {
 						}
 						Object[] result = dialog.getResult();
 						if (result.length == 1) {
+							if (((String)result[0]).startsWith("3_"))
+								result[0] = "3_0_0";
 							setFileAndBundleName(TRANSFORMATION_FILENAME + "_" + (String)result[0] + ".m2t", THIS_BUNDLE_NAME);
 							super.doTransform(inputFile, event);
 						}
