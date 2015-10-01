@@ -3,11 +3,17 @@ package org.universaal.tools.modelling.ontology.wizard.versions;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Repository;
 
-public class OntologyProjectGeneratorMW300 extends OntologyProjectGeneratorMW200 {
+public class OntologyProjectGeneratorMW3x0 extends OntologyProjectGeneratorMW200 {
 
+	private int ver;
+	
+	OntologyProjectGeneratorMW3x0(int ver) {
+		this.ver = ver;
+	}
+	
 	@Override
 	public int getMWVersionNumber() {
-		return IOntologyProjectGenerator.VER_300;
+		return ver;
 	}
 
 	static Dependency[] dependencies = new Dependency[] {
@@ -21,8 +27,8 @@ public class OntologyProjectGeneratorMW300 extends OntologyProjectGeneratorMW200
 		dep("org.universAAL.ontology", "ont.device"),
 		dep("org.universAAL.ontology", "ont.unit"),
 		dep("org.universAAL.ontology", "ont.measurement"),
-		dep("org.coode.owlapi", "owlapi", "3.3")		
-	};	
+		dep("org.coode.owlapi", "owlapi", "3.3")
+	};
 
 	
 	static Repository[] repositories = new Repository[] {
@@ -31,7 +37,7 @@ public class OntologyProjectGeneratorMW300 extends OntologyProjectGeneratorMW200
 		rep("uaal", "universAAL Repositories", "http://depot.universaal.org/maven-repo/releases/", true, false, null ),
 		rep("uaal-snapshots", "universAAL Snapshot Repositories", "http://depot.universaal.org/maven-repo/snapshots/", false, true, null),
 		rep("uaal-thirdparty", "universAAL Third Party Repositories", "http://depot.universaal.org/maven-repo/thirdparty/", true, false, null)
-	};	
+	};
 	
 	@Override
 	public Dependency[] getDependencies() {
@@ -41,6 +47,5 @@ public class OntologyProjectGeneratorMW300 extends OntologyProjectGeneratorMW200
 	@Override
 	public Repository[] getRepositories() {
 		return repositories;
-	}		
-	
+	}
 }

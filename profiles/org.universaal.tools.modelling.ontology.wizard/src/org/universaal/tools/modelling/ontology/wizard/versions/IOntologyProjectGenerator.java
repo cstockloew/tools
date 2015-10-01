@@ -8,27 +8,36 @@ import org.eclipse.m2e.core.project.ProjectImportConfiguration;
 import org.universaal.tools.modelling.ontology.wizard.wizards.OntologyProjectModel;
 
 public interface IOntologyProjectGenerator {
-    /**
-     * Identifies MW version 1.1.0.
-     */
-    public static final int VER_110=0;
-    /**
-     * Identifies MW version 1.2.0.
-     */
-    public static final int VER_120=1;
-    /**
-     * Identifies MW version 1.3.0.
-     */
-    public static final int VER_130=2;
-    /**
-     * Identifies MW version 2.0.0.
-     */
-    public static final int VER_200=3;
+	
+	/** Identifies MW version 1.1.0. */
+	public static final int VER_110 = 0;
+	
+	/** Identifies MW version 1.2.0. */
+	public static final int VER_120 = 1;
+	
+	/** Identifies MW version 1.3.0. */
+	public static final int VER_130 = 2;
+	
+	/** Identifies MW version 2.0.0. */
+	public static final int VER_200 = 3;
+	
+	/** Identifies MW version 3.0.0. */
+	public static final int VER_300 = 4;
 
-    /**
-     * Identifies MW version 2.0.0.
-     */
-    public static final int VER_300=4;
+	/** Identifies MW version 3.1.0. */
+	public static final int VER_310 = 5;
+	
+	/** Identifies MW version 3.2.0. */
+	public static final int VER_320 = 6;
+	
+	/** Identifies MW version 3.3.0. */
+	public static final int VER_330 = 7;
+	
+	/** Identifies MW version 3.4.0. */
+	public static final int VER_340 = 8;
+
+	/** Identifies the latest MW version. */
+	public static final int VER_LATEST = VER_340;
 
     /**
      * Get the MW version identifier.

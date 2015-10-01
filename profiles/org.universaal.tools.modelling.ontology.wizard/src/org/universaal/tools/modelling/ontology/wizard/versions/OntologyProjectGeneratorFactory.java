@@ -21,9 +21,17 @@ public class OntologyProjectGeneratorFactory {
 	case IOntologyProjectGenerator.VER_200:
 	    return new OntologyProjectGeneratorMW200();
 	case IOntologyProjectGenerator.VER_300:
-	    return new OntologyProjectGeneratorMW300();
+	    return new OntologyProjectGeneratorMW3x0(IOntologyProjectGenerator.VER_300);
+	case IOntologyProjectGenerator.VER_310:
+	    return new OntologyProjectGeneratorMW3x0(IOntologyProjectGenerator.VER_310);
+	case IOntologyProjectGenerator.VER_320:
+	    return new OntologyProjectGeneratorMW3x0(IOntologyProjectGenerator.VER_320);
+	case IOntologyProjectGenerator.VER_330:
+	    return new OntologyProjectGeneratorMW3x0(IOntologyProjectGenerator.VER_330);
+	case IOntologyProjectGenerator.VER_340:
+	    return new OntologyProjectGeneratorMW3x0(IOntologyProjectGenerator.VER_340);
 	default:
-	    return new OntologyProjectGeneratorMW300();
+	    return new OntologyProjectGeneratorMW3x0(IOntologyProjectGenerator.VER_340);
 	}
     }
     
@@ -46,8 +54,16 @@ public class OntologyProjectGeneratorFactory {
 	    return "2.0.0";
 	case IOntologyProjectGenerator.VER_300:
 	    return "3.0.0";
+	case IOntologyProjectGenerator.VER_310:
+	    return "3.1.0";
+	case IOntologyProjectGenerator.VER_320:
+	    return "3.2.0";
+	case IOntologyProjectGenerator.VER_330:
+	    return "3.3.0";
+	case IOntologyProjectGenerator.VER_340:
+	    return "3.4.0";
 	default:
-	    return "3.0.0";
+	    return "3.4.0";
 	}
     }
 
@@ -64,7 +80,10 @@ public class OntologyProjectGeneratorFactory {
 		getVersonName(IOntologyProjectGenerator.VER_130),
 		getVersonName(IOntologyProjectGenerator.VER_200),
 		getVersonName(IOntologyProjectGenerator.VER_300),
+		getVersonName(IOntologyProjectGenerator.VER_310),
+		getVersonName(IOntologyProjectGenerator.VER_320),
+		getVersonName(IOntologyProjectGenerator.VER_330),
+		getVersonName(IOntologyProjectGenerator.VER_340),
 		};
     }
-
 }
