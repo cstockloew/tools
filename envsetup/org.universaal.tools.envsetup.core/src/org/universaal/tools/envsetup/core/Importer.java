@@ -33,7 +33,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
+//import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
 import org.eclipse.jdt.internal.ui.workingsets.WorkingSetModel;
 import org.eclipse.m2e.core.MavenPlugin;
@@ -60,7 +60,7 @@ public class Importer {
 	// the working set names: artifact ID -> working set name
 	private static Map<String, String> workingSets = new HashMap<String, String>();
 	
-	//private List<IProject> projectsToClose;
+	private List<IProject> projectsToClose;
 
 	static {
 		workingSets.put("mw.pom", "universAAL Middleware");
@@ -88,7 +88,7 @@ public class Importer {
 	}
 
 	public void perform(Repo r, String branch, String dirBase, final IProgressMonitor monitor) {
-		//projectsToClose = new ArrayList<IProject>();
+		projectsToClose = new ArrayList<IProject>();
 		
 		// download
 		// ---------
@@ -131,15 +131,17 @@ public class Importer {
 							final IProject proj = root.getProject(artifactID);
 							if (proj != null) {
 								if (proj.isOpen()) {
-									PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-										public void run() {
-											try {
-												proj.close(new NullProgressMonitor());
-											} catch (CoreException e) {
-												e.printStackTrace();
-											}
-										}
-									});
+									projectsToClose.add(proj);
+									// PlatformUI.getWorkbench().getDisplay().syncExec(new
+									// Runnable() {
+									// public void run() {
+									// try {
+									// proj.close(new NullProgressMonitor());
+									// } catch (CoreException e) {
+									// e.printStackTrace();
+									// }
+									// }
+									// });
 								}
 							}
 						}
@@ -158,6 +160,10 @@ public class Importer {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public List<IProject> getProjectsToClose() {
+		return projectsToClose;
 	}
 
 	private void manageWorkingSets(final Map<String, List<String>> sets) {
@@ -211,7 +217,7 @@ public class Importer {
 								// setName);
 								set = manager.createWorkingSet(setName, new IAdaptable[0]);
 								set.setLabel(setName);
-								//manager.addWorkingSet(set);
+								manager.addWorkingSet(set);
 
 								allsets = wsm.getAllWorkingSets();
 								boolean isSortingEnabled = wsm.isSortingEnabled();

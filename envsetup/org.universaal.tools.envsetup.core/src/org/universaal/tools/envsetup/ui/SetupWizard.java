@@ -22,13 +22,17 @@ package org.universaal.tools.envsetup.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.WorkspaceJob;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -45,7 +49,8 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
  * 
  * @author Carsten Stockloew
  *
- */public class SetupWizard extends Wizard {
+ */
+public class SetupWizard extends Wizard {
 	private final String title = "Development Environment Setup";
 
 	/**
@@ -84,6 +89,8 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 	 */
 	@Override
 	public boolean performFinish() {
+		final List<IProject> projectsToClose = new ArrayList<IProject>();
+
 		// get info from the wizard
 		final boolean doAdMaven = page.btnAdMaven.getSelection();
 		final boolean doAdEclipse = page.btnAdEclipse.getSelection();
@@ -124,7 +131,9 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 						for (Repo r : repos) {
 							if (monitor.isCanceled())
 								return Status.CANCEL_STATUS;
-							new Importer().perform(r, branch, dir, monitor);
+							Importer imp = new Importer();
+							imp.perform(r, branch, dir, monitor);
+							projectsToClose.addAll(imp.getProjectsToClose());
 						}
 					}
 
@@ -151,23 +160,59 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 		};
 
 		// Listener in case job fails
-		job.addJobChangeListener(new JobChangeAdapter() {
+		IJobChangeListener jobChangeListener = new JobChangeAdapter() {
 			public void done(IJobChangeEvent event) {
 				final IStatus result = event.getResult();
 				if (!result.isOK()) {
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
-							MessageDialog.openError(getShell(), "An error occurred", result // $NON-NLS-1$
-									.getMessage());
+							MessageDialog.openError(getShell(), "An error occurred",
+									result.getMessage() + " " + result.getException());
 						}
 					});
 				}
 			}
-		});
+		};
+		job.addJobChangeListener(jobChangeListener);
 
 		// Because we don't need to monitor changes in workspace,
 		// we directly perform the job
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		job.schedule();
+
+		// ----------------------
+		// add an another job for cleanup - this will close all projects that
+		// need to be closed. The Job.DECORATE priority should ensure that it
+		// will be executed after all important other jobs, i.e. after egit
+		// auto-share job (which would otherwise give an error if the project is
+		// closed already).
+		job = new WorkspaceJob(SetupPage.title) {
+			public IStatus runInWorkspace(IProgressMonitor monitor) {
+				try {
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							for (IProject proj : projectsToClose) {
+								try {
+									if (proj.isOpen()) {
+										System.out.println("Closing project " + proj.getName());
+										proj.close(new NullProgressMonitor());
+									}
+								} catch (CoreException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new OperationCanceledException(e.getMessage());
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.addJobChangeListener(jobChangeListener);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		job.setPriority(Job.DECORATE);
 		job.schedule();
 		return true;
 	}

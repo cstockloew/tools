@@ -194,9 +194,9 @@ public class EclipseAdapter {
 			else
 				lines.add("-vm");
 			if (i + 1 < lines.size())
-				lines.add(i + 1, jdk);
+				lines.add(i + 1, f.toString());
 			else
-				lines.add(jdk);
+				lines.add(f.toString());
 			return true;
 		}
 		return false;
