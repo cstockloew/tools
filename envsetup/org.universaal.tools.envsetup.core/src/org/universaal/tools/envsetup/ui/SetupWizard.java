@@ -22,13 +22,14 @@ package org.universaal.tools.envsetup.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
@@ -57,6 +58,21 @@ public class SetupWizard extends Wizard {
 	 * The only page of the wizard
 	 */
 	private SetupPage page;
+
+	// Listener in case job fails
+	private IJobChangeListener jobChangeListener = new JobChangeAdapter() {
+		public void done(IJobChangeEvent event) {
+			final IStatus result = event.getResult();
+			if (!result.isOK()) {
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						MessageDialog.openError(getShell(), "An error occurred",
+								result.getMessage() + " " + result.getException());
+					}
+				});
+			}
+		}
+	};
 
 	/**
 	 * Default Constructor.
@@ -90,6 +106,7 @@ public class SetupWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		final List<IProject> projectsToClose = new ArrayList<IProject>();
+		final List<IProject> allProjects = new ArrayList<IProject>();
 
 		// get info from the wizard
 		final boolean doAdMaven = page.btnAdMaven.getSelection();
@@ -134,6 +151,7 @@ public class SetupWizard extends Wizard {
 							Importer imp = new Importer();
 							imp.perform(r, branch, dir, monitor);
 							projectsToClose.addAll(imp.getProjectsToClose());
+							allProjects.addAll(imp.getAllProjects());
 						}
 					}
 
@@ -155,39 +173,30 @@ public class SetupWizard extends Wizard {
 					e.printStackTrace();
 					throw new OperationCanceledException(e.getMessage());
 				}
+				
+				// now that this job is finished, we add our other jobs
+				addCleanupJob(projectsToClose);
+				addRefreshJob(allProjects);
 				return Status.OK_STATUS;
 			}
 		};
-
-		// Listener in case job fails
-		IJobChangeListener jobChangeListener = new JobChangeAdapter() {
-			public void done(IJobChangeEvent event) {
-				final IStatus result = event.getResult();
-				if (!result.isOK()) {
-					Display.getDefault().asyncExec(new Runnable() {
-						public void run() {
-							MessageDialog.openError(getShell(), "An error occurred",
-									result.getMessage() + " " + result.getException());
-						}
-					});
-				}
-			}
-		};
 		job.addJobChangeListener(jobChangeListener);
-
-		// Because we don't need to monitor changes in workspace,
-		// we directly perform the job
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
+		return true;
+	}
 
+	private void addCleanupJob(final List<IProject> projectsToClose) {
 		// ----------------------
+		// Cleanup:
 		// add an another job for cleanup - this will close all projects that
 		// need to be closed. The Job.DECORATE priority should ensure that it
 		// will be executed after all important other jobs, i.e. after egit
 		// auto-share job (which would otherwise give an error if the project is
 		// closed already).
-		job = new WorkspaceJob(SetupPage.title) {
-			public IStatus runInWorkspace(IProgressMonitor monitor) {
+		Job job = new WorkspaceJob(SetupPage.title) {
+			@Override
+			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				try {
 					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 						public void run() {
@@ -195,11 +204,13 @@ public class SetupWizard extends Wizard {
 								try {
 									if (proj.isOpen()) {
 										System.out.println("Closing project " + proj.getName());
-										proj.close(new NullProgressMonitor());
+										proj.close(monitor);
 									}
 								} catch (CoreException e) {
 									e.printStackTrace();
 								}
+								if (monitor.isCanceled())
+									break;
 							}
 						}
 					});
@@ -214,6 +225,49 @@ public class SetupWizard extends Wizard {
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.setPriority(Job.DECORATE);
 		job.schedule();
-		return true;
+	}
+
+	private void addRefreshJob(final List<IProject> allProjects) {
+		// ----------------------
+		// Refresh:
+		// add an another job for refresh - this will refresh all projects that
+		// have an error. This typically can happen when many projects are
+		// imported at once, a simple refresh often fixes the problems.
+		Job job = new WorkspaceJob(SetupPage.title) {
+			@Override
+			public IStatus runInWorkspace(final IProgressMonitor monitor) {
+				try {
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							// MessageDialog.openInformation(getShell(),
+							// "Refresh", "..doing it now..");
+							for (IProject proj : allProjects) {
+								try {
+									if (proj.isOpen()) {
+										if (proj.findMaxProblemSeverity(IMarker.PROBLEM, true,
+												IResource.DEPTH_INFINITE) == IMarker.SEVERITY_ERROR) {
+											System.out.println("Refreshing project " + proj.getName());
+											proj.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+										}
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								if (monitor.isCanceled())
+									break;
+							}
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new OperationCanceledException(e.getMessage());
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.addJobChangeListener(jobChangeListener);
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		job.setPriority(Job.DECORATE);
+		job.schedule();
 	}
 }

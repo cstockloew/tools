@@ -21,6 +21,7 @@ package org.universaal.tools.envsetup.core;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +36,11 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 //import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
+import org.eclipse.jdt.internal.ui.workingsets.WorkingSetComparator;
 import org.eclipse.jdt.internal.ui.workingsets.WorkingSetModel;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.embedder.IMaven;
+import org.eclipse.m2e.core.project.IMavenProjectImportResult;
 //import org.eclipse.m2e.core.project.IMavenProjectImportResult;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
 import org.eclipse.m2e.core.project.MavenProjectInfo;
@@ -59,8 +62,12 @@ public class Importer {
 
 	// the working set names: artifact ID -> working set name
 	private static Map<String, String> workingSets = new HashMap<String, String>();
-	
+
+	// the projects that should be closed afterwards (i.e. karaf.feature)
 	private List<IProject> projectsToClose;
+
+	// all imported projects
+	private List<IProject> allProjects;
 
 	static {
 		workingSets.put("mw.pom", "universAAL Middleware");
@@ -89,7 +96,8 @@ public class Importer {
 
 	public void perform(Repo r, String branch, String dirBase, final IProgressMonitor monitor) {
 		projectsToClose = new ArrayList<IProject>();
-		
+		allProjects = new ArrayList<IProject>();
+
 		// download
 		// ---------
 		String fileName = r.url.substring(r.url.lastIndexOf('/') + 1, r.url.length());
@@ -121,8 +129,16 @@ public class Importer {
 			IProjectConfigurationManager cm = MavenPlugin.getProjectConfigurationManager();
 			ProjectImportConfiguration conf = new ProjectImportConfiguration();
 			try {
-				// List<IMavenProjectImportResult> res =
-				cm.importProjects(projects, conf, monitor);
+				List<IMavenProjectImportResult> reslst = cm.importProjects(projects, conf, monitor);
+				for (IMavenProjectImportResult res : reslst) {
+					IProject proj = res.getProject();
+					if (proj != null) {
+						allProjects.add(proj);
+					} else {
+						//System.out.println("Importer ERROR: project in IMavenProjectImportResult is null.");
+					}
+				}
+
 				// close the project for karaf feature
 				for (List<String> set : sets.values()) {
 					for (String artifactID : set) {
@@ -161,9 +177,13 @@ public class Importer {
 			}
 		}
 	}
-	
+
 	public List<IProject> getProjectsToClose() {
 		return projectsToClose;
+	}
+
+	public List<IProject> getAllProjects() {
+		return allProjects;
 	}
 
 	private void manageWorkingSets(final Map<String, List<String>> sets) {
@@ -231,12 +251,24 @@ public class Importer {
 									wsm.setWorkingSets(new_allsets, isSortingEnabled, new_activesets);
 								} catch (IllegalArgumentException e) {
 									e.printStackTrace();
-									System.out.println(" ---------\nAdding working set: " + set.getName());
+									System.out.println(" ---------\nAdding working set: " + set.getName() + " sorting: "
+											+ isSortingEnabled);
 									out("previous all sets:", allsets);
 									out("previous active sets", activesets);
 									out("new all sets:", new_allsets);
 									out("new active sets", new_activesets);
-									throw e;
+
+									// something went wrong .. again
+									// sort the working sets and try again
+									try {
+										System.out.println("Trying to add a sorted array..");
+										Arrays.sort(new_allsets, new WorkingSetComparator(true));
+										Arrays.sort(new_activesets, new WorkingSetComparator(true));
+										wsm.setWorkingSets(new_allsets, isSortingEnabled, new_activesets);
+									} catch (IllegalArgumentException ex) {
+										// giving up..
+										throw ex;
+									}
 								}
 							}
 
@@ -328,7 +360,7 @@ public class Importer {
 	private void readPom(File dir, String parentGroupID, String parentWorkingSet, Map<String, List<String>> sets,
 			List<MavenProjectInfo> projects) {
 		// sets: working set -> List of artifactID (= project name)
-		//System.out.println(" -- read pom: " + dir.toString());
+		// System.out.println(" -- read pom: " + dir.toString());
 
 		// load file
 		final IMaven maven = MavenPlugin.getMaven();
