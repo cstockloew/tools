@@ -24,8 +24,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.IStartup;
@@ -61,39 +59,60 @@ public class Startup implements IStartup {
 	}
 
 	private void createRundir() {
-
-		URL url = Startup.class.getResource("files/");
-		if (url == null) {
-			// error - missing folder
-		} else {
-			File dir;
-			try {
-				dir = new File(url.toURI());
-				for (File nextFile : dir.listFiles()) {
-					System.out.println(" -- file: " + nextFile.toString());
-				}
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
-		}
-
-		if (true)
-			return;
+		// System.out.println("createRundir");
 		String workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
-		File keyDir = new File(workspacePath + File.separator + "rundir" + File.separator + "confadmin" + File.separator
-				+ "mw.bus.model.osgi");
-		keyDir.mkdirs();
-		File keyFile = new File(keyDir + File.separator + "sodapop.key");
-		if (!keyFile.exists()) {
+		File baseDir = new File(new File(workspacePath, "rundir"), "confadmin");
+		writeFile(baseDir, "mw.bus.model.osgi", "sodapop.key");
+		writeFile(baseDir, "mw.managers.aalspace.osgi", "Home.space");
+		writeFile(baseDir, "mw.managers.aalspace.osgi", "aalspace.xsd");
+		writeFile(baseDir, "services", "mw.connectors.communication.jgroups.core.properties");
+		writeFile(baseDir, "services", "mw.connectors.discovery.slp.core.properties");
+		writeFile(baseDir, "services", "mw.managers.aalspace.core.properties");
+		writeFile(baseDir, "services", "mw.managers.deploy.core.properties");
+		writeFile(baseDir, "services", "mw.modules.aalspace.core.properties");
+		writeFile(baseDir, "services", "org.ops4j.pax.logging.properties");
+		writeFile(baseDir, "services", "org.universAAL.mw.data.representation.properties");
+
+		// URL url = Activator.getDefault().getBundle().getEntry("files/"); //
+		// Startup.class.getResource("files/");
+		// if (url == null) {
+		// // error - missing folder
+		// System.out.println("ERROR: url == null");
+		// } else {
+		// System.out.println(" -- " + url.toString());
+		// System.out.println(" -- " + url.getProtocol());
+		//
+		// File dir;
+		// dir = new File(url.toString());
+		//
+		// try {
+		// // dir = new File(FileLocator.resolve(url).toURI());
+		// dir = new File(FileLocator.toFileURL(url).toURI());
+		// System.out.println(" -- " + dir.toString());
+		// } catch (URISyntaxException | IOException e) {
+		// e.printStackTrace();
+		// }
+		//
+		// for (File nextFile : dir.listFiles()) {
+		// System.out.println(" -- file: " + nextFile.toString());
+		// }
+		// }
+	}
+
+	private void writeFile(File baseDir, String subDir, String filename) {
+		File dir = new File(baseDir, subDir);
+		dir.mkdirs();
+		File file = new File(dir, filename);
+		if (!file.exists()) {
 			try {
-				InputStream inputStream = getClass().getResourceAsStream("/files/sodapop.key");
-				OutputStream out = new FileOutputStream(keyFile);
+				InputStream in = getClass().getResourceAsStream("/files/" + subDir + "/" + filename);
+				OutputStream out = new FileOutputStream(file);
 				byte buf[] = new byte[1024];
 				int len;
-				while ((len = inputStream.read(buf)) > 0)
+				while ((len = in.read(buf)) > 0)
 					out.write(buf, 0, len);
 				out.close();
-				inputStream.close();
+				in.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
