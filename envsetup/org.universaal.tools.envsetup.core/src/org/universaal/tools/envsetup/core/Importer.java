@@ -135,7 +135,8 @@ public class Importer {
 					if (proj != null) {
 						allProjects.add(proj);
 					} else {
-						//System.out.println("Importer ERROR: project in IMavenProjectImportResult is null.");
+						// System.out.println("Importer ERROR: project in
+						// IMavenProjectImportResult is null.");
 					}
 				}
 
@@ -427,17 +428,19 @@ public class Importer {
 		MavenProjectInfo info = new MavenProjectInfo("label", file, model, null);
 		projects.add(info);
 
-		// process modules
-		List<String> modules = null;
-		try {
-			modules = (List<String>) model.getClass().getMethod("getModules").invoke(model);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (modules != null) {
-			for (String m : modules) {
-				// System.out.println(" -- module: " + m);
-				readPom(new File(dir, m), groupID, workingSet, sets, projects);
+		// process modules (only if not super pom)
+		if (!"uAAL.pom".equals(artifactID)) {
+			List<String> modules = null;
+			try {
+				modules = (List<String>) model.getClass().getMethod("getModules").invoke(model);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (modules != null) {
+				for (String m : modules) {
+					// System.out.println(" -- module: " + m);
+					readPom(new File(dir, m), groupID, workingSet, sets, projects);
+				}
 			}
 		}
 	}
