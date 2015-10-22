@@ -60,39 +60,11 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 @SuppressWarnings("restriction")
 public class Importer {
 
-	// the working set names: artifact ID -> working set name
-	private static Map<String, String> workingSets = new HashMap<String, String>();
-
 	// the projects that should be closed afterwards (i.e. karaf.feature)
 	private List<IProject> projectsToClose;
 
 	// all imported projects
 	private List<IProject> allProjects;
-
-	static {
-		workingSets.put("mw.pom", "universAAL Middleware");
-		workingSets.put("mw.pom.core", "universAAL Middleware Core");
-		workingSets.put("mw.pom.osgi", "universAAL Middleware OSGi");
-		workingSets.put("mw.pom.config", "universAAL Middleware Config");
-		workingSets.put("ont.pom", "universAAL Ontology");
-		workingSets.put("security.pom", "universAAL Security");
-		workingSets.put("ri.pom", "universAAL Remote Interoperability");
-		workingSets.put("ctxt.pom", "universAAL Context");
-		workingSets.put("ui.pom", "universAAL User Interaction");
-		workingSets.put("srvc.pom", "universAAL Service");
-		workingSets.put("samples.pom", "universAAL Samples");
-		workingSets.put("utilities.pom", "universAAL Utility Libraries");
-		workingSets.put("maven.pom", "universAAL Maven");
-		workingSets.put("itests.pom", "universAAL Integration Tests");
-		workingSets.put("lddi.pom", "universAAL LDDI");
-		workingSets.put("lddi.pom.bluetooth", "universAAL LDDI Bluetooth");
-		workingSets.put("lddi.pom.common", "universAAL LDDI Common Components");
-		workingSets.put("lddi.pom.config", "universAAL LDDI Config");
-		workingSets.put("lddi.pom.fs20", "universAAL LDDI FS20");
-		workingSets.put("lddi.pom.knx", "universAAL LDDI KNX");
-		workingSets.put("lddi.pom.zigbee", "universAAL LDDI ZigBee");
-		workingSets.put("lddi.pom.zwave", "universAAL LDDI ZWave");
-	}
 
 	public void perform(Repo r, String branch, String dirBase, final IProgressMonitor monitor) {
 		projectsToClose = new ArrayList<IProject>();
@@ -100,8 +72,7 @@ public class Importer {
 
 		// download
 		// ---------
-		String fileName = r.url.substring(r.url.lastIndexOf('/') + 1, r.url.length());
-		String folder = fileName.substring(0, fileName.lastIndexOf('.'));
+		String folder = r.getFolder();
 		File dir = new File(dirBase, folder);
 		if (dir.exists()) {
 			log("Folder '" + dir + "' already exists - skip downloading repository " + r.name);
@@ -114,7 +85,7 @@ public class Importer {
 
 			// download via git
 			log("Downloading universAAL source from " + r.url + " to " + dir.toString());
-			Downloader.download(r.url, branch, dir, monitor);
+			Downloader.downloadRepo(r.url, branch, dir, monitor);
 		}
 
 		if (r.pom != null) {
@@ -400,7 +371,7 @@ public class Importer {
 		// available, and is not in the old releases. However, the method is
 		// implemented and works, so we could switch in the future.
 		// String workingSet = getWorkingSet(model);
-		String workingSet = workingSets.get(artifactID);
+		String workingSet = RepoMgmt.getWorkingSet(artifactID);
 		if (workingSet == null)
 			workingSet = parentWorkingSet;
 		log("Found artifact " + groupID + ":" + artifactID + " for working set "

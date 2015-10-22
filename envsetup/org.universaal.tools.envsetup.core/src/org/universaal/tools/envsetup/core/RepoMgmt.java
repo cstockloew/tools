@@ -31,6 +31,11 @@ import java.util.Map;
  *
  */
 public class RepoMgmt {
+	// assumption: the submodule folder has (ends with) the same name as the
+	// main project,
+	// e.g. "middleware" is "platform/middleware"
+	// e.g. "samples" is "platform/xtras/samples"
+
 	public static class Repo {
 
 		/** Human-readable name of the repo */
@@ -47,15 +52,50 @@ public class RepoMgmt {
 			this.url = url;
 			this.pom = pom;
 		}
+
+		/**
+		 * Returns true, if this repo is part of the 'platform' aggregator
+		 * project, either the platform repo itself (uAAL.pom) or one of its
+		 * submodules. Currently, only the distro-repos will return false.
+		 */
+		public boolean isPlatformRepo() {
+			return pom != null;
+		}
+
+		/**
+		 * Returns true, if this repo is a submodule of the platform aggregator
+		 * project.
+		 */
+		public boolean isSubmodule() {
+			if (isPlatformRepo())
+				if (!superpom.equals(pom))
+					return true;
+			return false;
+		}
+
+		/**
+		 * Get the folder name of the repo from the url, e.g. for
+		 * "https://github.com/universAAL/middleware.git", it returns
+		 * "middleware"
+		 */
+		public String getFolder() {
+			String fileName = url.substring(url.lastIndexOf('/') + 1, url.length());
+			String folder = fileName.substring(0, fileName.lastIndexOf('.'));
+			return folder;
+		}
 	}
 
 	public static final String samples = "Samples";
+	public static final String superpom = "uAAL.pom";
 
 	// name of group -> list of repos
 	public static Map<String, List<Repo>> groups = new LinkedHashMap<String, List<Repo>>();
 
 	// name of repo -> Repo
 	public static Map<String, Repo> repos = new HashMap<String, Repo>();
+
+	// the working set names: artifact ID -> working set name
+	private static Map<String, String> workingSets = new HashMap<String, String>();
 
 	private static void add(String group, List<Repo> lst) {
 		groups.put(group, lst);
@@ -68,6 +108,9 @@ public class RepoMgmt {
 		List<Repo> repos;
 
 		repos = new ArrayList<Repo>();
+		// we assume, that the super pom is the first one in the list (used for
+		// downloading of the platform repo)
+		repos.add(new Repo("uAAL Super POM", "https://github.com/universAAL/platform.git", superpom));
 		repos.add(new Repo("Middleware", "https://github.com/universAAL/middleware.git", "pom"));
 		repos.add(new Repo("Ontology", "https://github.com/universAAL/ontology.git", "ont.pom"));
 		repos.add(new Repo("Security and Privacy-Awareness", "https://github.com/universAAL/security.git",
@@ -78,7 +121,6 @@ public class RepoMgmt {
 		repos.add(new Repo("Service", "https://github.com/universAAL/service.git", "srvc.pom"));
 		repos.add(new Repo("Local Device Discovery and Integration (lddi)", "https://github.com/universAAL/lddi.git",
 				"lddi.pom"));
-		repos.add(new Repo("uAAL Super POM", "https://github.com/universAAL/platform.git", "uAAL.pom"));
 		add("Platform", repos);
 
 		repos = new ArrayList<Repo>();
@@ -92,5 +134,32 @@ public class RepoMgmt {
 		repos.add(new Repo("Apache Karaf Distribution", "https://github.com/universAAL/distro.karaf.git", null));
 		repos.add(new Repo("Pax Runner Distribution", "https://github.com/universAAL/distro.pax.git", null));
 		add("Distributions", repos);
+
+		workingSets.put("mw.pom", "universAAL Middleware");
+		workingSets.put("mw.pom.core", "universAAL Middleware Core");
+		workingSets.put("mw.pom.osgi", "universAAL Middleware OSGi");
+		workingSets.put("mw.pom.config", "universAAL Middleware Config");
+		workingSets.put("ont.pom", "universAAL Ontology");
+		workingSets.put("security.pom", "universAAL Security");
+		workingSets.put("ri.pom", "universAAL Remote Interoperability");
+		workingSets.put("ctxt.pom", "universAAL Context");
+		workingSets.put("ui.pom", "universAAL User Interaction");
+		workingSets.put("srvc.pom", "universAAL Service");
+		workingSets.put("samples.pom", "universAAL Samples");
+		workingSets.put("utilities.pom", "universAAL Utility Libraries");
+		workingSets.put("maven.pom", "universAAL Maven");
+		workingSets.put("itests.pom", "universAAL Integration Tests");
+		workingSets.put("lddi.pom", "universAAL LDDI");
+		workingSets.put("lddi.pom.bluetooth", "universAAL LDDI Bluetooth");
+		workingSets.put("lddi.pom.common", "universAAL LDDI Common Components");
+		workingSets.put("lddi.pom.config", "universAAL LDDI Config");
+		workingSets.put("lddi.pom.fs20", "universAAL LDDI FS20");
+		workingSets.put("lddi.pom.knx", "universAAL LDDI KNX");
+		workingSets.put("lddi.pom.zigbee", "universAAL LDDI ZigBee");
+		workingSets.put("lddi.pom.zwave", "universAAL LDDI ZWave");
+	}
+
+	public static String getWorkingSet(String artifactID) {
+		return workingSets.get(artifactID);
 	}
 }

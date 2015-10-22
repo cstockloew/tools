@@ -20,11 +20,16 @@
 package org.universaal.tools.envsetup.core;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.submodule.SubmoduleStatus;
+import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 
 /**
  * 
@@ -33,47 +38,52 @@ import org.eclipse.jgit.lib.ProgressMonitor;
  */
 public class Downloader {
 
-	public static void download(String url, String branch, File localPath, final IProgressMonitor mon) {
+	private static class ProgMon implements ProgressMonitor {
+		private IProgressMonitor mon;
+
+		ProgMon(IProgressMonitor mon) {
+			this.mon = mon;
+		}
+
+		@Override
+		public void beginTask(String title, int totalWork) {
+			// System.out.println(" - beginTask: " + title + " " +
+			// totalWork);
+			mon.beginTask(title, totalWork);
+		}
+
+		@Override
+		public void endTask() {
+			// System.out.println(" - endTask: ");
+			mon.done();
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return mon.isCanceled();
+		}
+
+		@Override
+		public void start(int totalTasks) {
+			// System.out.println(" - start: " + totalTasks);
+		}
+
+		@Override
+		public void update(int completed) {
+			// System.out.println(" - update: " + completed);
+			mon.worked(completed);
+		}
+	};
+
+	/**
+	 * Download a complete repo -> clone
+	 */
+	public static void downloadRepo(String url, String branch, File localPath, final IProgressMonitor mon) {
 		// File localPath = new File("D:\\temp\\Git");
 		// localPath.delete();
 		// System.out.println("Cloning from " + url + " to " + localPath);
-
-		class ProgMon implements ProgressMonitor {
-			@Override
-			public void beginTask(String title, int totalWork) {
-				// System.out.println(" - beginTask: " + title + " " +
-				// totalWork);
-				mon.beginTask(title, totalWork);
-			}
-
-			@Override
-			public void endTask() {
-				// System.out.println(" - endTask: ");
-				mon.done();
-			}
-
-			@Override
-			public boolean isCancelled() {
-				return mon.isCanceled();
-			}
-
-			@Override
-			public void start(int totalTasks) {
-				// System.out.println(" - start: " + totalTasks);
-			}
-
-			@Override
-			public void update(int completed) {
-				// System.out.println(" - update: " + completed);
-				mon.worked(completed);
-			}
-		}
-		;
-
-		ProgMon monitor = new ProgMon();
-
 		try {
-			Git result = Git.cloneRepository().setURI(url).setDirectory(localPath).setProgressMonitor(monitor)
+			Git result = Git.cloneRepository().setURI(url).setDirectory(localPath).setProgressMonitor(new ProgMon(mon))
 					.setBranch(branch).call();
 					// Note: the call() returns an opened repository already
 					// which needs to be closed to avoid file handle leaks!
@@ -88,4 +98,81 @@ public class Downloader {
 		}
 	}
 
+	/**
+	 * Donwload a submodule of the platform aggregator project.
+	 * 
+	 * @param r
+	 *            the repo
+	 * @param branch
+	 *            the branch name
+	 * @param localPath
+	 *            the local path to the platform repo, e.g.
+	 *            "C:\\universAAL\\ws\\platform"
+	 * @param mon
+	 *            a progress monitor
+	 * @return the relative path of the submodule, e.g. for "samples", it
+	 *         returns "xtras\samples"
+	 */
+	public static String downloadSubmodule(Repo r, String branch, File localPath, final IProgressMonitor mon) {
+		String ret = null;
+		Git git = null;
+		try {
+			git = Git.open(localPath);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			return ret;
+		}
+
+		// Submodules
+		Map<String, SubmoduleStatus> submodules = getSubmodules(git);
+
+		// init, update, pull
+		File workDir = git.getRepository().getWorkTree();
+		// System.out.println(" -- workDir: " + workDir);
+		for (SubmoduleStatus mod : submodules.values()) {
+			try {
+				// System.out.println(" -- init " + mod.getPath());
+				if (mod.getPath().endsWith(r.getFolder())) {
+					git.submoduleInit().addPath(mod.getPath()).call();
+					git.submoduleUpdate().addPath(mod.getPath()).call();
+
+					Git libModule = Git.open(new File(workDir, ".git/modules/" + mod.getPath()));
+					libModule.checkout().setName(branch).call();
+					libModule.pull().call();
+					libModule.close();
+					ret = mod.getPath();
+					break;
+				}
+			} catch (GitAPIException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		git.getRepository().close();
+		return ret;
+	}
+
+	private static Map<String, SubmoduleStatus> getSubmodules(Git git) {
+		Map<String, SubmoduleStatus> submodules = null;
+		try {
+			submodules = git.submoduleStatus().call();
+			// for (String s : submodules.keySet()) {
+			// SubmoduleStatus status = submodules.get(s);
+			// System.out.println("submodule " + s);
+			// System.out.println(" Path: " + status.getPath());
+			// System.out.println(" HeadId: " + status.getHeadId());
+			// System.out.println(" IndexId: " + status.getIndexId());
+			// System.out.println(" Type: " + status.getType());
+			// }
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+
+		if (submodules == null)
+			submodules = new HashMap<String, SubmoduleStatus>();
+		return submodules;
+	}
 }
