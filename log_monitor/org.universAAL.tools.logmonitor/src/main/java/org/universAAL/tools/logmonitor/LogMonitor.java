@@ -16,7 +16,7 @@ import org.universAAL.middleware.container.LogListener;
  */
 public class LogMonitor implements LogListener {
 
-    LogListenerEx listeners[] = new LogListenerEx[4];
+    LogListenerEx listeners[] = new LogListenerEx[5];
     MainGui gui = new MainGui();
 
     public LogMonitor() {
@@ -24,6 +24,7 @@ public class LogMonitor implements LogListener {
 	listeners[1] = new org.universAAL.tools.logmonitor.rdfvis.LogMonitor();
 	listeners[2] = new org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor();
 	listeners[3] = new org.universAAL.tools.logmonitor.bus_member.LogMonitor();
+	listeners[4] = new org.universAAL.tools.logmonitor.ontology.LogMonitor();
 
 	for (int i = 0; i < listeners.length; i++)
 	    gui.addPanel(listeners[i].getTitle(), listeners[i].getPanel());

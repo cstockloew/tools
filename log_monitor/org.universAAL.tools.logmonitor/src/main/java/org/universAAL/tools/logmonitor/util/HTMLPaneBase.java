@@ -29,6 +29,8 @@ public class HTMLPaneBase extends JTextPane {
 
     protected HashMap<String, String> urlReplacement = new HashMap<String, String>();
 
+    private boolean showFullURI = true;
+
     public HTMLPaneBase() {
 	setEditable(false);
 	setContentType("text/html");
@@ -43,6 +45,10 @@ public class HTMLPaneBase extends JTextPane {
 		"uaal_copy",
 		new ClipboardHandling(urlReplacement, getTransferHandler(),
 			this));
+    }
+    
+    protected void setShowFullURI(boolean show) {
+	showFullURI = show;
     }
 
     protected URL getURL(String filename) {
@@ -66,7 +72,11 @@ public class HTMLPaneBase extends JTextPane {
 
 	String start = uri.substring(0, idx + 1);
 	String end = uri.substring(idx + 1);
-	return start + "<b>" + end + "</b>";
+
+	if (showFullURI)
+	    return start + "<b>" + end + "</b>";
+	else
+	    return end;
     }
 
     protected String getTableStartHTML() {
