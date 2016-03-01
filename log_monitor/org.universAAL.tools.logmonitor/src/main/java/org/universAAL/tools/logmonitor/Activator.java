@@ -7,6 +7,7 @@ package org.universAAL.tools.logmonitor;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.osgi.framework.Bundle;
@@ -78,6 +79,13 @@ public class Activator implements BundleActivator {
 	    if (b.getEntry(name) != null) {
 		String path = b.getEntry(name).getPath();
 		r = b.getResource(path);
+	    }
+	} else {
+	    try {
+		r = new URL("http://depot.universaal.org/images/LogMonitor/"
+			+ name.substring(5));
+	    } catch (MalformedURLException e) {
+		e.printStackTrace();
 	    }
 	}
 	return r;

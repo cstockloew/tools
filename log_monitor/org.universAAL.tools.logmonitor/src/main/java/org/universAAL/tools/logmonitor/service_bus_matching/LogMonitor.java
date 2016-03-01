@@ -31,6 +31,7 @@ public class LogMonitor implements LogListenerEx {
     private Gui gui = new Gui();
 
     public static LogMonitor instance;
+    public static boolean checkModule = true;
 
     // a service caller is needed to retrieve service profiles
     DefaultServiceCaller caller = new DefaultServiceCaller(Activator.mc);
@@ -93,7 +94,7 @@ public class LogMonitor implements LogListenerEx {
 	    // System.out.println("--TRACE: " + module + " " + pkg + " " + cls
 	    // + " " + method + " " + msgPart);
 
-	    if (!"mw.bus.service.osgi".equals(module))
+	    if (checkModule && !"mw.bus.service.osgi".equals(module))
 		return;
 
 	    Long id = null;
