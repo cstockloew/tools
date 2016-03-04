@@ -6,7 +6,7 @@ package org.universAAL.tools.logmonitor.all_log;
 
 import java.util.Hashtable;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 import org.universAAL.tools.logmonitor.LogListenerEx;
 import org.universAAL.tools.logmonitor.all_log.gui.AllLogPanel;
 
@@ -40,7 +40,7 @@ public class LogMonitor implements LogListenerEx {
 	panel.addMessage(le);
     }
 
-    public JPanel getPanel() {
+    public JComponent getComponent() {
 	return panel;
     }
 

@@ -6,12 +6,11 @@
 package org.universAAL.tools.logmonitor.service_bus_matching.gui;
 
 import java.awt.BorderLayout;
-import java.util.Iterator;
-import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 import org.universAAL.tools.logmonitor.service_bus_matching.LogMonitor;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
-import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
 
 /**
  * The main frame.
@@ -87,6 +85,11 @@ public class Gui extends JPanel implements ListSelectionListener {
 	    }
 	}
     }
+    
+    public void setSelection(int idx) {
+	ListSelectionModel selectionModel = table.getSelectionModel();
+	selectionModel.setSelectionInterval(idx, idx);
+    }
 
     /**
      * Add a new entry.
@@ -94,32 +97,13 @@ public class Gui extends JPanel implements ListSelectionListener {
      * @param m
      *            The matchmaking.
      */
-    public void notify(Matchmaking m) {
+    public int notify(Matchmaking m) {
 	// add entry to table
 	DefaultTableModel model = (DefaultTableModel) table.getModel();
-	String result = "<unknown>";
-	if (m.success != null) {
-	    if (m.success.booleanValue()) {
-		if (m.numMatches == 1) {
-		    // if we have only one match, print the URI of that match
-		    result = "1 match";
-
-		    LinkedList<SingleMatching> l = m.matchings;
-		    for (Iterator<SingleMatching> it = l.iterator(); it
-			    .hasNext();) {
-			SingleMatching s = (SingleMatching) it.next();
-			if (s.success.booleanValue()) {
-			    result = URI.get(s.serviceURI, true);
-			    break;
-			}
-		    }
-		} else
-		    result = m.numMatches + " matches";
-	    } else
-		result = "- no_match -";
-	}
+	String result = m.getResult();
 	model.addRow(new Object[] { m.getDateString(),
 		URI.get(m.serviceURI, true), "" + m.numMatches, result });
+	return model.getRowCount() - 1;
 
 	// if this is the first entry: show in panel
 	// if (model.getRowCount() == 1) {

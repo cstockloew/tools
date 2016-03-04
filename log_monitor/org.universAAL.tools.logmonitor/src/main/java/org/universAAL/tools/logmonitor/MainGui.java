@@ -5,9 +5,11 @@
 package org.universAAL.tools.logmonitor;
 
 import java.awt.BorderLayout;
+
+import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 /**
  * 
@@ -17,7 +19,7 @@ public class MainGui extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    private JTabbedPane tabbedPane;
+    public static JTabbedPane tabbedPane;
 
     /**
      * Create the main frame.
@@ -33,8 +35,12 @@ public class MainGui extends JFrame {
 	setVisible(true);
     }
 
-    public void addPanel(String title, JPanel panel) {
+    public void addComponent(final String title, final JComponent comp) {
 	// System.out.println("Logmonitor: Adding Panel " + title);
-	tabbedPane.addTab(title, panel);
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		tabbedPane.addTab(title, comp);
+	    }
+	});
     }
 }

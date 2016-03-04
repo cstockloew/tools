@@ -7,7 +7,8 @@ package org.universAAL.tools.logmonitor.service_bus_matching;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedList;
-import javax.swing.JPanel;
+
+import javax.swing.JComponent;
 
 import org.universAAL.middleware.container.LogListener;
 import org.universAAL.middleware.rdf.Resource;
@@ -17,6 +18,7 @@ import org.universAAL.middleware.service.ServiceRequest;
 import org.universAAL.middleware.service.owls.profile.ServiceProfile;
 import org.universAAL.tools.logmonitor.Activator;
 import org.universAAL.tools.logmonitor.LogListenerEx;
+import org.universAAL.tools.logmonitor.msgflow.gui.MsgFlowPanel;
 import org.universAAL.tools.logmonitor.service_bus_matching.Matchmaking.SingleMatching;
 import org.universAAL.tools.logmonitor.service_bus_matching.gui.Gui;
 import org.universAAL.tools.logmonitor.util.ProfileInfo;
@@ -24,11 +26,11 @@ import org.universAAL.tools.logmonitor.util.ProfileInfo;
 /**
  * 
  * @author Carsten Stockloew
- *
+ * 
  */
 public class LogMonitor implements LogListenerEx {
 
-    private Gui gui = new Gui();
+    public Gui gui = new Gui();
 
     public static LogMonitor instance;
     public static boolean checkModule = true;
@@ -48,6 +50,8 @@ public class LogMonitor implements LogListenerEx {
 
     public LogMonitor() {
 	instance = this;
+	caller.setLabel("Log Monitor Dummy Service Caller");
+	caller.setComment("The Log Monitor requires a service caller to retrieve service profiles from the bus. It is not used to call services.");
     }
 
     public Matchmaking getMatchmaking(int index) {
@@ -306,14 +310,15 @@ public class LogMonitor implements LogListenerEx {
     private void finish(Long id, Matchmaking m) {
 	// print(m);
 	threads.remove(id);
-	gui.notify(m);
+	int ref = gui.notify(m);
+	MsgFlowPanel.instance.addMatching(m, ref);
     }
 
     public ProfileInfo getProfile(String uri) {
 	return (ProfileInfo) profiles.get(uri);
     }
 
-    public JPanel getPanel() {
+    public JComponent getComponent() {
 	return gui;
     }
 

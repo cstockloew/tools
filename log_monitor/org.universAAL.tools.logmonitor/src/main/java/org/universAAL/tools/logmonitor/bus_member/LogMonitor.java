@@ -4,7 +4,7 @@
  */
 package org.universAAL.tools.logmonitor.bus_member;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 import org.universAAL.tools.logmonitor.LogListenerEx;
 import org.universAAL.tools.logmonitor.bus_member.gui.BusMemberGui;
@@ -18,16 +18,11 @@ public class LogMonitor implements LogListenerEx {
 
     private BusMemberGui gui = new BusMemberGui();
     private SpaceListener spaceListener = null;
-    public static BusMemberListener busMemberListener = null;
 
     public LogMonitor() {
 	// start space listener
 	spaceListener = new SpaceListener(gui);
 	spaceListener.start();
-
-	// start bus member listener
-	busMemberListener = new BusMemberListener(gui);
-	busMemberListener.start();
     }
 
     // dummy method for integration in main gui, not used
@@ -35,7 +30,7 @@ public class LogMonitor implements LogListenerEx {
 	    String method, Object[] msgPart, Throwable t) {
     }
 
-    public JPanel getPanel() {
+    public JComponent getComponent() {
 	return gui;
     }
 
@@ -45,6 +40,5 @@ public class LogMonitor implements LogListenerEx {
 
     public void stop() {
 	spaceListener.stop();
-	busMemberListener.stop();
     }
 }

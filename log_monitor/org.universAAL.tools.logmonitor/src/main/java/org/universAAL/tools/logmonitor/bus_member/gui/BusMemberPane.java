@@ -14,7 +14,7 @@ import javax.swing.text.DefaultCaret;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.aalspace.AALSpaceCard;
 import org.universAAL.middleware.interfaces.aalspace.AALSpaceDescriptor;
-import org.universAAL.tools.logmonitor.bus_member.MemberData;
+import org.universAAL.tools.logmonitor.MemberData;
 import org.universAAL.tools.logmonitor.service_bus_matching.URI;
 import org.universAAL.tools.logmonitor.util.ClipboardHandling;
 import org.universAAL.tools.logmonitor.util.HTMLBusOperationsPane;

@@ -4,7 +4,7 @@
  */
 package org.universAAL.tools.logmonitor;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 import org.universAAL.middleware.container.LogListener;
 
@@ -14,7 +14,7 @@ import org.universAAL.middleware.container.LogListener;
  */
 public interface LogListenerEx extends LogListener {
 
-    public JPanel getPanel();
+    public JComponent getComponent();
 
     public String getTitle();
     

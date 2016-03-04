@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -71,8 +72,8 @@ public class AllLogPanel extends JPanel implements ListSelectionListener {
 	// getContentPane().add(table, BorderLayout.WEST);
 	JScrollPane scrollpaneTable = new JScrollPane(table);
 	table.getColumnModel().getColumn(0).setPreferredWidth(150);
-//	table.getColumnModel().getColumn(1).setPreferredWidth(80);
-//	table.getColumnModel().getColumn(2).setPreferredWidth(100);
+	// table.getColumnModel().getColumn(1).setPreferredWidth(80);
+	// table.getColumnModel().getColumn(2).setPreferredWidth(100);
 	table.getColumnModel().getColumn(0).setMaxWidth(150);
 	table.getColumnModel().getColumn(1).setMaxWidth(65);
 	table.getSelectionModel().addListSelectionListener(this);
@@ -90,11 +91,15 @@ public class AllLogPanel extends JPanel implements ListSelectionListener {
      * @param le
      *            The log entry.
      */
-    public void addMessage(LogEntry le) {
-	DefaultTableModel model = (DefaultTableModel) table.getModel();
-	model.addRow(new Object[] { Utils.getDateString(le.date),
-		Utils.getLevel(le.logLevel), le.module, le.pkg, le.cls,
-		le.method, Utils.buildMessage(le.msgPart) });
+    public void addMessage(final LogEntry le) {
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.addRow(new Object[] { Utils.getDateString(le.date),
+			Utils.getLevel(le.logLevel), le.module, le.pkg, le.cls,
+			le.method, Utils.buildMessage(le.msgPart) });
+	    }
+	});
     }
 
     /**

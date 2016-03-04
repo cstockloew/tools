@@ -6,7 +6,7 @@ package org.universAAL.tools.logmonitor.ontology;
 
 import java.util.Arrays;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 import org.universAAL.middleware.owl.OntologyManagement;
 import org.universAAL.middleware.util.OntologyListener;
@@ -40,7 +40,7 @@ public class LogMonitor implements LogListenerEx, OntologyListener {
 	    String method, Object[] msgPart, Throwable t) {
     }
 
-    public JPanel getPanel() {
+    public JComponent getComponent() {
 	return gui;
     }
 

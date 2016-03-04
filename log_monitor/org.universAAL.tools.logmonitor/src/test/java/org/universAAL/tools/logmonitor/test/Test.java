@@ -31,7 +31,7 @@ import org.universAAL.middleware.tracker.IBusMemberRegistry;
 //import org.universAAL.ontology.phThing.PhThingOntology;
 //import org.universAAL.ontology.shape.ShapeOntology;
 import org.universAAL.tools.logmonitor.Activator;
-import org.universAAL.tools.logmonitor.bus_member.BusMemberListener;
+import org.universAAL.tools.logmonitor.BusMemberMonitor;
 import org.universAAL.container.JUnit.JUnitContainer;
 import org.universAAL.container.JUnit.JUnitModuleContext;
 import org.universAAL.container.JUnit.JUnitModuleContext.LogLevel;

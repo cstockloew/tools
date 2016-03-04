@@ -5,7 +5,8 @@
 package org.universAAL.tools.logmonitor.rdfvis;
 
 import java.util.LinkedList;
-import javax.swing.JPanel;
+
+import javax.swing.JComponent;
 import org.universAAL.middleware.rdf.Resource;
 import org.universAAL.tools.logmonitor.LogListenerEx;
 import org.universAAL.tools.logmonitor.rdfvis.gui.RDFVis;
@@ -45,7 +46,7 @@ public class LogMonitor implements LogListenerEx {
 		    .getShortDescription(r));
     }
 
-    public JPanel getPanel() {
+    public JComponent getComponent() {
 	return vis;
     }
 

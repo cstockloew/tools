@@ -25,14 +25,16 @@ import javax.swing.tree.TreePath;
 import org.universAAL.middleware.interfaces.PeerCard;
 import org.universAAL.middleware.interfaces.aalspace.AALSpaceDescriptor;
 import org.universAAL.middleware.rdf.Resource;
-import org.universAAL.tools.logmonitor.bus_member.MemberData;
+import org.universAAL.tools.logmonitor.BusMemberListener;
+import org.universAAL.tools.logmonitor.MemberData;
 
 /**
  * The main frame.
  * 
  * @author Carsten Stockloew
  */
-public class BusMemberGui extends JPanel implements TreeSelectionListener {
+public class BusMemberGui extends JPanel implements TreeSelectionListener,
+	BusMemberListener {
 
     private static final long serialVersionUID = 1L;
 

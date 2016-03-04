@@ -7,6 +7,7 @@ package org.universAAL.tools.logmonitor.service_bus_matching;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.universAAL.middleware.rdf.Resource;
@@ -135,5 +136,43 @@ public class Matchmaking {
 	dateString += c.get(Calendar.SECOND) + ".";
 	dateString += c.get(Calendar.MILLISECOND);
 	return dateString;
+    }
+
+    /**
+     * Determines whether the request has exactly one matching profile.
+     * 
+     * @return
+     */
+    public boolean hasOneResult() {
+	if (success != null)
+	    if (success.booleanValue())
+		if (numMatches == 1)
+		    return true;
+	return false;
+    }
+
+    public String getResult() {
+	String result = "<unknown>";
+	if (success != null) {
+	    if (success.booleanValue()) {
+		if (numMatches == 1) {
+		    // if we have only one match, print the URI of that match
+		    result = "1 match";
+
+		    LinkedList<SingleMatching> l = matchings;
+		    for (Iterator<SingleMatching> it = l.iterator(); it
+			    .hasNext();) {
+			SingleMatching s = (SingleMatching) it.next();
+			if (s.success.booleanValue()) {
+			    result = URI.get(s.serviceURI, true);
+			    break;
+			}
+		    }
+		} else
+		    result = numMatches + " matches";
+	    } else
+		result = "- no_match -";
+	}
+	return result;
     }
 }
