@@ -45,12 +45,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.maven.cli.ExecutionEventLogger;
+import org.apache.maven.cli.event.ExecutionEventLogger;
 import org.apache.maven.execution.ExecutionListener;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
-import org.codehaus.plexus.logging.Logger;
-import org.codehaus.plexus.logging.console.ConsoleLogger;
+//import org.codehaus.plexus.logging.Logger;
+//import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
@@ -61,6 +61,8 @@ import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.universaal.tools.packaging.tool.api.Page;
 import org.universaal.tools.packaging.tool.gui.GUI;
 import org.universaal.tools.packaging.tool.preferences.EclipsePreferencesConfigurator;
@@ -266,7 +268,8 @@ public class KarafFeaturesGenerator {
 					    DefaultLogger.getInstance().log("NO ExecutionListener was set, creating one");
 					}
 					
-					ConsoleLogger logger = new ConsoleLogger(Logger.LEVEL_DEBUG,"MavenLogger");
+					Logger logger = LoggerFactory.getLogger( KarafFeaturesGenerator.class );
+					//ConsoleLogger logger = new ConsoleLogger(Logger.LEVEL_DEBUG,"MavenLogger");
 					ExecutionEventLogger execLogger = new ExecutionEventLogger(logger);
 					request.setExecutionListener(execLogger);
 	
