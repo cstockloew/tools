@@ -65,6 +65,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.m2e.core.MavenPlugin;
+import org.eclipse.m2e.core.embedder.IMaven;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IPageLayout;
@@ -91,11 +93,11 @@ import org.universaal.tools.buildserviceapplication.Activator;
  */
 public class BuildAction implements IWorkbenchWindowActionDelegate {
 	public static IWorkbenchWindow window;
-	public static MavenExecutionRequestPopulator populator;
+	//public static MavenExecutionRequestPopulator populator;
 	public static DefaultPlexusContainer container;
-	public static Maven maven;
+	public static IMaven maven;
 	static public List<MavenProject> buildedProjects = new ArrayList<MavenProject>();
-	static public SettingsBuilder settingsBuilder;
+	//static public SettingsBuilder settingsBuilder;
 	static public Map<MavenProject, Collection<ArtifactMetadata>> artifactMetadata = new HashMap<MavenProject, Collection<ArtifactMetadata>>();
 
 	private MavenExecutionResult installResult = null;
@@ -432,9 +434,9 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 	protected void setUpMavenBuild() {
 		try {
 			container = new DefaultPlexusContainer();
-			maven = container.lookup(Maven.class);
-			populator = container.lookup(MavenExecutionRequestPopulator.class);
-			settingsBuilder = container.lookup(SettingsBuilder.class);
+			maven = MavenPlugin.getMaven();//container.lookup(Maven.class);
+			//populator = container.lookup(MavenExecutionRequestPopulator.class);
+			//settingsBuilder = container.lookup(SettingsBuilder.class);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -453,8 +455,8 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 		request.setUserSettingsFile(settingsRequest.getUserSettingsFile());
 		request.setGlobalSettingsFile(settingsRequest.getGlobalSettingsFile());
 		request.setSystemProperties(System.getProperties());
-		populator.populateFromSettings(request,
-				settingsBuilder.build(settingsRequest).getEffectiveSettings());
+//		populator.populateFromSettings(request,
+//				settingsBuilder.build(settingsRequest).getEffectiveSettings());
 		return request;
 	}
 
@@ -468,8 +470,8 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 		request.setPom(new File(basedir, "pom.xml"));
 		request.setGoals(Arrays.asList("clean"));
 		request.setGoals(Arrays.asList("install"));
-		populator.populateDefaults(request);
-		MavenExecutionResult result = maven.execute(request);
+		//populator.populateDefaults(request);
+		MavenExecutionResult result = maven.execute(request, null);
 		return result;
 
 	}
@@ -503,19 +505,19 @@ public class BuildAction implements IWorkbenchWindowActionDelegate {
 		this.window = window;
 	}
 
-	static public MavenExecutionRequestPopulator getMavenPopulator() {
-		return populator;
-	}
+//	static public MavenExecutionRequestPopulator getMavenPopulator() {
+//		return populator;
+//	}
 
 	static public DefaultPlexusContainer getMavenPlexusContainer() {
 		return container;
 	}
 
-	static public Maven getMaven() {
+	static public IMaven getMaven() {
 		return maven;
 	}
 
-	static public SettingsBuilder getSettingsBuilder() {
-		return settingsBuilder;
-	}
+//	static public SettingsBuilder getSettingsBuilder() {
+//		return settingsBuilder;
+//	}
 }
