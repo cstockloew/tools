@@ -22,12 +22,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2e.maven.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.maven.execution,
- org.apache.maven.model,
- org.apache.maven.model.io.xpp3,
- org.apache.maven.project,
- org.codehaus.plexus,
- org.codehaus.plexus.util,
- org.codehaus.plexus.util.xml,
- org.eclipse.m2e.core.ui.internal.actions,
+Import-Package: org.eclipse.m2e.core.ui.internal.actions,
  org.eclipse.ui.console

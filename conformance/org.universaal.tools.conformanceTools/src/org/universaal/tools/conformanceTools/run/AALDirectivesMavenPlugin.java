@@ -39,12 +39,25 @@ public class AALDirectivesMavenPlugin {
 
 	private final String UAAL_PLUGIN_GROUP_ID = "org.universAAL.support";
 	private final String UAAL_PLUGIN_ARTIFACT_ID = "uaalDirectives-maven-plugin";
-	private final String UAAL_PLUGIN_VERSION = "1.3.1-SNAPSHOT";
+	private final String UAAL_PLUGIN_VERSION = "3.4.0";
 
 	// it seems to be not working without adding this dependency
 	private final String DOXIA_PLUGIN_GROUP_ID = "org.apache.maven.doxia";
 	private final String DOXIA_PLUGIN_ARTIFACT_ID = "doxia-sink-api";
 	private final String DOXIA_PLUGIN_VERSION = "1.3";
+
+	/*
+	 * <parent>
+		<groupId>org.universAAL.support</groupId>
+		<artifactId>support.pom</artifactId>
+		<version>1.3.1-SNAPSHOT</version>
+		<relativePath>../pom/</relativePath>
+	</parent>
+	 */
+
+	private final String PARENT_POM_GID = "org.universAAL.support";
+	private final String PARENT_POM_AID = "support.pom";
+	private final String PARENT_POM_VERSION = "3.4.0";
 
 	private List<String> goals;
 
@@ -85,19 +98,6 @@ public class AALDirectivesMavenPlugin {
 
 		return output;
 	}
-
-	/*
-	 * <parent>
-		<groupId>org.universAAL.support</groupId>
-		<artifactId>support.pom</artifactId>
-		<version>1.3.1-SNAPSHOT</version>
-		<relativePath>../pom/</relativePath>
-	</parent>
-	 */
-
-	private final String PARENT_POM_GID = "org.universAAL.support";
-	private final String PARENT_POM_AID = "support.pom";
-	private final String PARENT_POM_VERSION = "1.3.1-SNAPSHOT";
 
 	private boolean verifyAALDMPinPOMfile(){
 
