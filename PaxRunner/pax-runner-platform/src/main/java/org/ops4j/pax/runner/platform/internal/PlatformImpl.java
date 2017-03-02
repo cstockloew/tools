@@ -87,7 +87,8 @@ public class PlatformImpl
     public void start( final List<SystemFileReference> systemFiles,
                        final List<BundleReference> bundles,
                        final Properties properties,
-                       final Dictionary config,
+                       @SuppressWarnings("rawtypes") 
+    				   final Dictionary config,
                        final JavaRunner javaRunner )
         throws PlatformException
     {
@@ -202,61 +203,23 @@ public class PlatformImpl
         final String javaHome = configuration.getJavaHome();
 
         LOGGER.debug( "Using " + runner.getClass() + " [" + mainClassName + "]" );
-        LOGGER.debug( "VM options:       [" + Arrays.toString( vmOptions.toArray() ) + "]" );
-        LOGGER.debug( "Classpath:        [" + Arrays.toString( classpath ) + "]" );
-        LOGGER.debug( "Platform options: [" + Arrays.toString( programOptions.toArray() ) + "]" );
-        LOGGER.debug( "Java home:        [" + javaHome + "]" );
-        LOGGER.debug( "Working dir:      [" + workDir + "]" );
-
+        LOGGER.debug( "VM options:          [" + Arrays.toString( vmOptions.toArray() ) + "]" );
+        LOGGER.debug( "Classpath:           [" + Arrays.toString( classpath ) + "]" );
+        LOGGER.debug( "Platform options:    [" + Arrays.toString( programOptions.toArray() ) + "]" );
+        LOGGER.debug( "Java home:           [" + javaHome + "]" );
+        LOGGER.debug( "Working dir:         [" + workDir + "]" );
+        LOGGER.debug( "Environment options: [" + Arrays.toString( configuration.getEnvOptions() ) + "]" );
         runner.exec(
             vmOptions.toArray(),
             classpath,
             mainClassName,
             programOptions.toArray(),
             javaHome,
-            workDir
+            workDir,
+            configuration.getEnvOptions()
         );
     }
 
-    private List<SystemFileReference> getUrlHandlers()
-        throws PlatformException
-    {
-        final List<SystemFileReference> urlHandlers = new ArrayList<SystemFileReference>();
-        try
-        {
-            urlHandlers.add(
-                new SystemFileReferenceBean(
-                    "Pax URL assembly: protocol", new URL( "mvn:org.ops4j.pax.url/pax-url-assembly/1.3.2" )
-                )
-            );
-            urlHandlers.add(
-                new SystemFileReferenceBean(
-                    "Pax URL cache: protocol", new URL( "mvn:org.ops4j.pax.url/pax-url-cache/1.3.2" )
-                )
-            );
-            urlHandlers.add(
-                new SystemFileReferenceBean(
-                    "Pax URL mvn: protocol", new URL( "mvn:org.ops4j.pax.url/pax-url-mvn/1.3.2" ) )
-            );
-            urlHandlers.add(
-                new SystemFileReferenceBean(
-                    "Pax URL link: protocol", new URL( "mvn:org.ops4j.pax.url/pax-url-link/1.3.2" ) )
-            );
-            urlHandlers.add(
-                new SystemFileReferenceBean(
-                    "Pax URL war: protocol", new URL( "mvn:org.ops4j.pax.url/pax-url-war/1.3.2" ) )
-            );
-            urlHandlers.add(
-                new SystemFileReferenceBean(
-                    "Pax URL wrap: protocol", new URL( "mvn:org.ops4j.pax.url/pax-url-wrap/1.3.2" ) )
-            );
-        }
-        catch ( MalformedURLException e )
-        {
-            throw new PlatformException( "Cannot download url handlers", e );
-        }
-        return urlHandlers;
-    }
 
     /**
      * Builds the classpath java startup option out of specified system files (prepended/appended), framework jar and
@@ -357,6 +320,8 @@ public class PlatformImpl
                                                    final boolean skipInvalidBundles )
         throws PlatformException
     {
+        // TODO Is there an intelligent but easy way to avoid hardcoding "wrap:"
+        // and "reference:" for special case handling?
         final List<BundleReference> localBundles = new ArrayList<BundleReference>();
         if ( bundles != null )
         {
@@ -382,7 +347,8 @@ public class PlatformImpl
                         LOGGER.warn( "Could not auto wrap url [" + url + "] due to: " + e.getMessage() );
                     }
                 }
-                if ( keepOriginalUrls )
+                // "reference:" bundles shall not be downloaded, they are provisioned in place.
+                if ( keepOriginalUrls || url.getProtocol().equals( "reference" ) )
                 {
                     localBundles.add( reference );
                 }

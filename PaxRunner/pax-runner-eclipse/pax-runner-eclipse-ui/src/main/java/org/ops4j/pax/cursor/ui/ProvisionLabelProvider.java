@@ -23,7 +23,7 @@ import java.util.Map;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-
+//import org.eclipse.core.commands.common.EventManager;
 
 
 /**

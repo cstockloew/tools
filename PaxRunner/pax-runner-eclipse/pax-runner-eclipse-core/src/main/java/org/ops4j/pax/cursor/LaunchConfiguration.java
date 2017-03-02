@@ -38,9 +38,9 @@ import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
-import org.eclipse.pde.internal.ui.launcher.BundleLauncherHelper;
-import org.eclipse.pde.internal.ui.launcher.LauncherUtils;
-import org.eclipse.pde.internal.ui.launcher.VMHelper;
+import org.eclipse.pde.internal.launching.launcher.BundleLauncherHelper;
+import org.eclipse.pde.internal.launching.launcher.LauncherUtils;
+import org.eclipse.pde.internal.launching.launcher.VMHelper;
 import org.eclipse.pde.internal.ui.PDEUIMessages;
 //import org.eclipse.pde.internal.ui.launcher.BundleLauncherHelper;
 //import org.eclipse.pde.internal.ui.launcher.LauncherUtils;
@@ -262,6 +262,10 @@ public class LaunchConfiguration extends AbstractPDELaunchConfiguration
                             if (environmentVariables != null)
                             	paxConfig.setEnvironment(environmentVariables);
 
+                            System.out.println("vmOptions" + vmOptions);
+                            for (String s : vmOptions)
+                            	System.out.println("  " +s);
+                            
                             try
                             {
                                 eclipseRunner.run( paxConfig, launch, monitor );

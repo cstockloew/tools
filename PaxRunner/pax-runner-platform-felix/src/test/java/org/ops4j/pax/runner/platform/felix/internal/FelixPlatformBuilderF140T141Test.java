@@ -17,19 +17,26 @@
  */
 package org.ops4j.pax.runner.platform.felix.internal;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import static org.easymock.EasyMock.*;
+
 import org.junit.After;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.osgi.framework.BundleContext;
 import org.ops4j.io.FileUtils;
 import org.ops4j.pax.runner.platform.BundleReference;
 import org.ops4j.pax.runner.platform.Configuration;
@@ -37,6 +44,7 @@ import org.ops4j.pax.runner.platform.PlatformContext;
 import org.ops4j.pax.runner.platform.PlatformException;
 import org.ops4j.pax.runner.platform.internal.PlatformContextImpl;
 import org.ops4j.pax.runner.platform.internal.RelativeFilePathStrategy;
+import org.osgi.framework.BundleContext;
 
 public class FelixPlatformBuilderF140T141Test
 {
@@ -96,6 +104,7 @@ public class FelixPlatformBuilderF140T141Test
     @Test
     public void getRequiredProfilesWithoutConsole()
     {
+        expect( m_configuration.getFrameworkProfile() ).andReturn( null );
         expect( m_configuration.startConsole() ).andReturn( null );
 
         replay( m_bundleContext, m_configuration );
@@ -109,6 +118,7 @@ public class FelixPlatformBuilderF140T141Test
     @Test
     public void getRequiredProfilesWithConsole()
     {
+        expect( m_configuration.getFrameworkProfile() ).andReturn( null );
         expect( m_configuration.startConsole() ).andReturn( true );
 
         replay( m_bundleContext, m_configuration );
@@ -148,19 +158,25 @@ public class FelixPlatformBuilderF140T141Test
     {
         final Properties props = new Properties();
         props.setProperty( "p1", "v1" );
-        props.setProperty( "p2", "v2" );
+        props.setProperty( "p2", "v 2" );
+        props.setProperty( "p3", "\"v3\"" );
         m_platformContext.setProperties( props );
 
         replay( m_bundleContext );
+        String[] expected = new String[]{
+            "-Dfelix.config.properties="
+            + m_platformContext.getFilePathStrategy().normalizeAsUrl( new File( m_workDir, "/felix/config.ini" ) ),
+            "-Dp1=v1",
+            "-Dp2=\"v 2\"",
+            "-Dp3=\"\\\"v3\\\"\"",
+        };
+        Arrays.sort( expected );
+        String[] actual = new FelixPlatformBuilderF140T141( m_bundleContext, "version" ).getVMOptions( m_platformContext );
+        Arrays.sort( actual );
         assertArrayEquals(
             "System options",
-            new String[]{
-                "-Dfelix.config.properties="
-                + m_platformContext.getFilePathStrategy().normalizeAsUrl( new File( m_workDir, "/felix/config.ini" ) ),
-                "-Dp2=v2",
-                "-Dp1=v1"
-            },
-            new FelixPlatformBuilderF140T141( m_bundleContext, "version" ).getVMOptions( m_platformContext )
+            expected,
+            actual
         );
         verify( m_bundleContext );
     }
