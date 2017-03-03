@@ -56,7 +56,7 @@ public class OptionsBlock
     private final Button m_obrProfileButton;
     private final Button m_webProfileButton;
     private final Button m_warProfileButton;
-    private final Button m_springProfileButton;    
+    //private final Button m_springProfileButton;    
     private final Button m_dsProfileButton;    
 
     /**
@@ -140,9 +140,9 @@ public class OptionsBlock
         m_warProfileButton.addSelectionListener( updateNotifier );
         m_warProfileButton.setText( "war" );
 
-        m_springProfileButton = new Button(profilesGroup, SWT.CHECK);
-        m_springProfileButton.addSelectionListener( updateNotifier );
-        m_springProfileButton.setText("spring");
+//        m_springProfileButton = new Button(profilesGroup, SWT.CHECK);
+//        m_springProfileButton.addSelectionListener( updateNotifier );
+//        m_springProfileButton.setText("spring");
 
         m_configProfileButton = new Button( profilesGroup, SWT.CHECK );
         m_configProfileButton.addSelectionListener( updateNotifier );
@@ -186,10 +186,10 @@ public class OptionsBlock
             {
                 m_configProfileButton.setSelection( profiles.contains( "config" ) );
                 m_logProfileButton.setSelection( profiles.contains( "log" ) );
-                m_obrProfileButton.setSelection( profiles.contains( "obr" ) );
+                m_obrProfileButton.setSelection( profiles.contains( "felix.obr" ) );
                 m_webProfileButton.setSelection( profiles.contains( "web" ) );
                 m_warProfileButton.setSelection( profiles.contains( "war" ) );
-                m_springProfileButton.setSelection( profiles.contains( "spring-dm" ) );                
+//                m_springProfileButton.setSelection( profiles.contains( "spring-dm" ) );                
                 m_dsProfileButton.setSelection( profiles.contains( "ds" ) );                
             }
         }
@@ -228,8 +228,8 @@ public class OptionsBlock
         }
         if( m_obrProfileButton.getSelection() )
         {
-            profiles.add( "obr" );
-            profilesArg.append( "obr," );
+            profiles.add( "felix.obr" );
+            profilesArg.append( "felix.obr," );
         }
         if( m_webProfileButton.getSelection() )
         {
@@ -241,11 +241,11 @@ public class OptionsBlock
             profiles.add( "war" );
             profilesArg.append( "war," );
         }
-        if( m_springProfileButton.getSelection() )
-        {
-            profiles.add( "spring-dm" );
-            profilesArg.append( "spring-dm," );
-        }
+//        if( m_springProfileButton.getSelection() )
+//        {
+//            profiles.add( "spring-dm" );
+//            profilesArg.append( "spring-dm," );
+//        }
         if( m_dsProfileButton.getSelection() )
         {
             profiles.add( "ds" );

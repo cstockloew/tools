@@ -9,4 +9,7 @@ pax-runner/runner
 *.releaseBackup
 release.properties
 .idea
-
+!/pax-runner-eclipse/*.project
+!/pax-runner-eclipse/*/*.project
+!/pax-runner-eclipse/*.classpath
+!/pax-runner-eclipse/*/*.classpath
