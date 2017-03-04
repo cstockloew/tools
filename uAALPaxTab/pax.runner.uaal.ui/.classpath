@@ -5,5 +5,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/aether-transport-file-1.0.2.v20150114.jar"/>
 	<classpathentry kind="lib" path="lib/aether-transport-http-1.0.2.v20150114.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.2.6.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
