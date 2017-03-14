@@ -19,6 +19,11 @@
  */
 package org.universaal.tools.envsetup.ui;
 
+import java.awt.Desktop;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +58,9 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
  * 
  * @author Carsten Stockloew
  *
- */public class SetupPage extends WizardPage {
+ */
+public class SetupPage extends WizardPage {
+
 	public final static String title = "Development Environment Setup";
 
 	public final static String msg = "Select which parts of the development environment should be configured.";
@@ -65,7 +72,8 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 	Button btnBrowseJDK;
 	Button btnSelAll;
 	Button btnSelNone;
-	Button btnSelSamples;
+	Button btnSelRecom;
+	Button btnUseAgg;
 	Combo cbBranch;
 	Text txtDir;
 	Text txtJDK;
@@ -121,7 +129,7 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 				if (txtJDK.getText().length() > 0) {
 					if (!EclipseAdapter.isValidJDKDir(txtJDK.getText())) {
 						setErrorMessage(
-								"Please select a valid JDK directory, e.g. 'C:\\Program Files\\Java\\jdk1.7.0_79', or leave this field empty.");
+								"Please select a valid JDK directory, e.g. 'C:\\Program Files\\Java\\jdk1.8.0_112', or leave this field empty.");
 					} else {
 						setMessage(msg);
 						setErrorMessage(null);
@@ -164,8 +172,8 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 		label.setText("Branch:");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		cbBranch = new Combo(comImport, SWT.DROP_DOWN | SWT.READ_ONLY);
-		cbBranch.add("3.4.0");
-		cbBranch.add("master");
+		for (String branch : RepoMgmt.branches)
+			cbBranch.add(branch);
 		cbBranch.select(1);
 		span(cbBranch, 2);
 		// import dir
@@ -207,6 +215,7 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 				add(r.name, false);
 			}
 		}
+		selectRecom();
 		// import repos select buttons
 		Composite comSel = new Composite(comImport, SWT.NULL);
 		GridLayout laySel = new GridLayout();
@@ -229,22 +238,37 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 				selectNone();
 			}
 		});
-		btnSelSamples = new Button(comSel, SWT.PUSH);
-		btnSelSamples.setText("Select Samples");
-		btnSelSamples.addSelectionListener(new SelectionAdapter() {
+		btnSelRecom = new Button(comSel, SWT.PUSH);
+		btnSelRecom.setText("Select Recommended");
+		btnSelRecom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				selectSamples();
+				selectRecom();
 			}
 		});
 		// import repos note
 		new Label(comImport, SWT.NONE).setText("");
 		label = new Label(comImport, SWT.WRAP);
-		label.setText("Note: none of the repositories is needed for application development"
+		// label.setText("Note: none of the repositories is needed for
+		// application development"
+		// /*
+		// * + System.getProperty("line.separator")
+		// */ + " (project 'samples' is recommended).");
+		label.setText("Note: for application development only one of the distribution repositories is required"
 				/*
 				 * + System.getProperty("line.separator")
 				 */ + " (project 'samples' is recommended).");
 		span(label, 2);
+
+		new Label(comImport, SWT.NONE).setText("");
+		Composite comTemp = new Composite(comImport, SWT.NULL);
+		GridLayout layTemp = new GridLayout();
+		layTemp.numColumns = 3;
+		comTemp.setLayout(layTemp);
+		comTemp.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+		btnUseAgg = new Button(comTemp, SWT.CHECK);
+		btnUseAgg.setSelection(true);
+		new Label(comTemp, SWT.NONE).setText("Use platform aggregator directory structure.");
 
 		setControl(com);
 	}
@@ -255,8 +279,8 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 		Button button = new Button(tblRepos, title ? SWT.NONE : SWT.CHECK);
 		button.setText(name);
 		button.pack();
-		if (name.equals(RepoMgmt.samples))
-			button.setSelection(true);
+//		if (name.equals(RepoMgmt.samples))
+//			button.setSelection(true);
 		editor.minimumWidth = button.getSize().x;
 		editor.horizontalAlignment = SWT.LEFT;
 		editor.setEditor(button, t, 0);
@@ -275,9 +299,10 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 		}
 	}
 
-	private void selectSamples() {
+	private void selectRecom() {
 		for (String name : repoItems.keySet()) {
-			if (RepoMgmt.samples.equals(name))
+			//if (RepoMgmt.samples.equals(name))
+			if (RepoMgmt.isRecom(name))
 				repoItems.get(name).setSelection(true);
 		}
 	}
@@ -289,7 +314,7 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 		tblRepos.setEnabled(enabled);
 		btnSelAll.setEnabled(enabled);
 		btnSelNone.setEnabled(enabled);
-		btnSelSamples.setEnabled(enabled);
+		btnSelRecom.setEnabled(enabled);
 	}
 
 	void span(Control ctrl, int cols) {
@@ -308,6 +333,27 @@ import org.universaal.tools.envsetup.core.RepoMgmt.Repo;
 		System.out.println(dir);
 		if (dir != null) {
 			txt.setText(dir);
+		}
+	}
+
+	@Override
+	public void performHelp() {
+		// open github page in default browser
+		try {
+			// TODO: change to the right URL
+			URI uri = new URL("http://github.com/universAAL/tools/wiki").toURI();
+			Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+			if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+				try {
+					desktop.browse(uri);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
 		}
 	}
 }

@@ -70,24 +70,44 @@ public class Importer {
 		projectsToClose = new ArrayList<IProject>();
 		allProjects = new ArrayList<IProject>();
 
+		File dir = perform_Download(r, branch, dirBase, monitor);
+		if (dir == null)
+			return;
+		perform_Import(r, dir, monitor);
+	}
+	
+	private File perform_Download(Repo r, String branch, String dirBase, final IProgressMonitor monitor) {
 		// download
 		// ---------
-		String folder = r.getFolder();
-		File dir = new File(dirBase, folder);
-		if (dir.exists()) {
-			log("Folder '" + dir + "' already exists - skip downloading repository " + r.name);
+		if (r.isPlatformRepo() && r != RepoMgmt.platformRepo) {
+			// make sure that the platform aggregator project already exists
+			File dir = new File(dirBase, RepoMgmt.platformRepo.getFolder());
+			if (!dir.exists())
+				perform_Download(RepoMgmt.platformRepo, branch, dirBase, monitor);
+
+			String subdir = Downloader.downloadSubmodule(r, r.getBranch(branch), dir, monitor);
+			return new File(dir, subdir);
 		} else {
-			// create folder and download from git
-			if (!dir.mkdirs()) {
-				log("Folder '" + dir + "' could not be created - skip repository " + r.name);
-				return;
+			String folder = r.getFolder();
+			File dir = new File(dirBase, folder);
+			if (dir.exists()) {
+				err("Folder '" + dir + "' already exists - skip downloading repository " + r.name);
+			} else {
+				// create folder and download from git
+				if (!dir.mkdirs()) {
+					err("Folder '" + dir + "' could not be created - skip repository " + r.name);
+					return null;
+				}
+
+				// download via git
+				out("Downloading universAAL source from " + r.url + " to " + dir.toString());
+				Downloader.downloadRepo(r.url, r.getBranch(branch), dir, monitor);
 			}
-
-			// download via git
-			log("Downloading universAAL source from " + r.url + " to " + dir.toString());
-			Downloader.downloadRepo(r.url, branch, dir, monitor);
+			return dir;
 		}
+	}
 
+	private void perform_Import(Repo r, File dir, final IProgressMonitor monitor) {
 		if (r.pom != null) {
 			// import projects in eclipse
 			// ---------------------------
@@ -111,30 +131,31 @@ public class Importer {
 					}
 				}
 
-				// close the project for karaf feature
-				for (List<String> set : sets.values()) {
-					for (String artifactID : set) {
-						if (artifactID.endsWith(".karaf.feature")) {
-							IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-							final IProject proj = root.getProject(artifactID);
-							if (proj != null) {
-								if (proj.isOpen()) {
-									projectsToClose.add(proj);
-									// PlatformUI.getWorkbench().getDisplay().syncExec(new
-									// Runnable() {
-									// public void run() {
-									// try {
-									// proj.close(new NullProgressMonitor());
-									// } catch (CoreException e) {
-									// e.printStackTrace();
-									// }
-									// }
-									// });
-								}
-							}
-						}
-					}
-				}
+				// // close the project for karaf feature
+				// for (List<String> set : sets.values()) {
+				// for (String artifactID : set) {
+				// if (artifactID.endsWith(".karaf.feature")) {
+				// IWorkspaceRoot root =
+				// ResourcesPlugin.getWorkspace().getRoot();
+				// final IProject proj = root.getProject(artifactID);
+				// if (proj != null) {
+				// if (proj.isOpen()) {
+				// projectsToClose.add(proj);
+				// // PlatformUI.getWorkbench().getDisplay().syncExec(new
+				// // Runnable() {
+				// // public void run() {
+				// // try {
+				// // proj.close(new NullProgressMonitor());
+				// // } catch (CoreException e) {
+				// // e.printStackTrace();
+				// // }
+				// // }
+				// // });
+				// }
+				// }
+				// }
+				// }
+				// }
 			} catch (CoreException e) {
 				e.printStackTrace();
 				return;
@@ -324,9 +345,13 @@ public class Importer {
 	// importFile(dir, null, null);
 	// }
 
-	private void log(String msg) {
+	private void out(String msg) {
 		System.out.println(msg);
 		// Activator.log(msg);
+	}
+
+	private void err(String msg) {
+		System.err.println(msg);
 	}
 
 	private void readPom(File dir, String parentGroupID, String parentWorkingSet, Map<String, List<String>> sets,
@@ -374,7 +399,7 @@ public class Importer {
 		String workingSet = RepoMgmt.getWorkingSet(artifactID);
 		if (workingSet == null)
 			workingSet = parentWorkingSet;
-		log("Found artifact " + groupID + ":" + artifactID + " for working set "
+		out("Found artifact " + groupID + ":" + artifactID + " for working set "
 				+ (workingSet == null ? "Other Projects" : workingSet));
 
 		// store project info for later importing: working sets
@@ -400,7 +425,7 @@ public class Importer {
 		projects.add(info);
 
 		// process modules (only if not super pom)
-		if (!"uAAL.pom".equals(artifactID)) {
+		if (!RepoMgmt.superpom.equals(artifactID)) {
 			List<String> modules = null;
 			try {
 				modules = (List<String>) model.getClass().getMethod("getModules").invoke(model);

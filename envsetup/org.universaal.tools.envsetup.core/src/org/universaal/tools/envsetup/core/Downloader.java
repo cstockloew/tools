@@ -137,7 +137,10 @@ public class Downloader {
 					git.submoduleUpdate().addPath(mod.getPath()).call();
 
 					Git libModule = Git.open(new File(workDir, ".git/modules/" + mod.getPath()));
+					if (branch == null)
+						branch = "master";
 					libModule.checkout().setName(branch).call();
+					//libModule.checkout().call();
 					libModule.pull().call();
 					libModule.close();
 					ret = mod.getPath();

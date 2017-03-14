@@ -120,6 +120,7 @@ public class SetupWizard extends Wizard {
 				repos.add(RepoMgmt.repos.get(name));
 		}
 		final String jdk = page.txtJDK.getText();
+		RepoMgmt.useAgg = page.btnUseAgg.getSelection();
 
 		// System.out.println("doAdMaven: " + doAdMaven);
 		// System.out.println("doAdEclipse: " + doAdEclipse);

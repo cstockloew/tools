@@ -38,7 +38,7 @@ public class RepoMgmt {
 
 	public static class Repo {
 
-		/** Human-readable name of the repo */
+		/** Human-readable name of the repo, to be shown in the plugin ui */
 		public String name;
 
 		/** URL in git */
@@ -46,6 +46,9 @@ public class RepoMgmt {
 
 		/** The relative folder in which the pom file file is */
 		public String pom;
+
+		private String branch = null;
+		private String folder = null;
 
 		Repo(String name, String url, String pom) {
 			this.name = name;
@@ -59,6 +62,8 @@ public class RepoMgmt {
 		 * submodules. Currently, only the distro-repos will return false.
 		 */
 		public boolean isPlatformRepo() {
+			if (!useAgg)
+				return false;
 			return pom != null;
 		}
 
@@ -73,19 +78,40 @@ public class RepoMgmt {
 			return false;
 		}
 
+		public Repo setFolder(String folder) {
+			this.folder = folder;
+			return this;
+		}
+
 		/**
 		 * Get the folder name of the repo from the url, e.g. for
 		 * "https://github.com/universAAL/middleware.git", it returns
-		 * "middleware"
+		 * "middleware". Exception: if a folder was set with
+		 * {@link #setFolder(String)}, then that folder is returned.
 		 */
 		public String getFolder() {
+			if (folder != null)
+				return this.folder;
 			String fileName = url.substring(url.lastIndexOf('/') + 1, url.length());
 			String folder = fileName.substring(0, fileName.lastIndexOf('.'));
 			return folder;
 		}
+
+		public Repo setBranch(String branch) {
+			this.branch = branch;
+			return this;
+		}
+
+		public String getBranch(String branch) {
+			if (master.equals(branch))
+				return this.branch;
+			return branch;
+		}
 	}
 
-	public static final String samples = "Samples";
+	private static final String samples = "Samples";
+	private static final String karaf = "Apache Karaf Distribution";
+	private static final String pax = "Pax Runner Distribution (rundir)";
 	public static final String superpom = "uAAL.pom";
 
 	// name of group -> list of repos
@@ -97,11 +123,27 @@ public class RepoMgmt {
 	// the working set names: artifact ID -> working set name
 	private static Map<String, String> workingSets = new HashMap<String, String>();
 
+	// whether to use the platform aggregator repository structure with
+	// submodules
+	public static boolean useAgg = false;
+
+	public static String master = "master";
+
+	public static String[] branches = new String[] { "3.4.0", master };
+
+	public static Repo platformRepo;
+
 	private static void add(String group, List<Repo> lst) {
 		groups.put(group, lst);
 		for (Repo r : lst) {
 			repos.put(r.name, r);
 		}
+	}
+
+	public static boolean isRecom(String name) {
+		if (samples.equals(name) || karaf.equals(name) || pax.equals(name))
+			return true;
+		return false;
 	}
 
 	static {
@@ -110,7 +152,8 @@ public class RepoMgmt {
 		repos = new ArrayList<Repo>();
 		// we assume, that the super pom is the first one in the list (used for
 		// downloading of the platform repo)
-		repos.add(new Repo("uAAL Super POM", "https://github.com/universAAL/platform.git", superpom));
+		platformRepo = new Repo("uAAL Super POM", "https://github.com/universAAL/platform.git", superpom);
+		repos.add(platformRepo);
 		repos.add(new Repo("Middleware", "https://github.com/universAAL/middleware.git", "pom"));
 		repos.add(new Repo("Ontology", "https://github.com/universAAL/ontology.git", "ont.pom"));
 		repos.add(new Repo("Security and Privacy-Awareness", "https://github.com/universAAL/security.git",
@@ -131,8 +174,9 @@ public class RepoMgmt {
 		add("Extras", repos);
 
 		repos = new ArrayList<Repo>();
-		repos.add(new Repo("Apache Karaf Distribution", "https://github.com/universAAL/distro.karaf.git", null));
-		repos.add(new Repo("Pax Runner Distribution", "https://github.com/universAAL/distro.pax.git", null));
+		repos.add(new Repo(karaf, "https://github.com/universAAL/distro.karaf.git", null));
+		repos.add(new Repo(pax, "https://github.com/universAAL/distro.pax.git", null).setBranch("rundir")
+				.setFolder("rundir"));
 		add("Distributions", repos);
 
 		workingSets.put("mw.pom", "universAAL Middleware");
