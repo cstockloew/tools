@@ -59,7 +59,7 @@ public class Booter
 
         // uncomment to generate dirty trees
 		// dirty tree: every child node contains all dependencies; not dirty: every dependency is contained at most once
-//        session.setDependencyGraphTransformer( null );
+        session.setDependencyGraphTransformer( null );
 
         return session;
     }
