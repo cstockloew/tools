@@ -75,7 +75,7 @@ public class Importer {
 			return;
 		perform_Import(r, dir, monitor);
 	}
-	
+
 	private File perform_Download(Repo r, String branch, String dirBase, final IProgressMonitor monitor) {
 		// download
 		// ---------
@@ -85,23 +85,34 @@ public class Importer {
 			if (!dir.exists())
 				perform_Download(RepoMgmt.platformRepo, branch, dirBase, monitor);
 
+			// now download the submodule
 			String subdir = Downloader.downloadSubmodule(r, r.getBranch(branch), dir, monitor);
 			return new File(dir, subdir);
 		} else {
 			String folder = r.getFolder();
 			File dir = new File(dirBase, folder);
 			if (dir.exists()) {
-				err("Folder '" + dir + "' already exists - skip downloading repository " + r.name);
-			} else {
-				// create folder and download from git
-				if (!dir.mkdirs()) {
+				if (!renameRundir(dirBase, folder)) {
+					err("Folder '" + dir + "' already exists - skip downloading repository " + r.name);
+					return dir;
+				}
+			}
+
+			// create folder and download from git
+			if (!dir.mkdirs()) {
+				if (!dir.exists()) {
 					err("Folder '" + dir + "' could not be created - skip repository " + r.name);
 					return null;
 				}
+			}
 
-				// download via git
-				out("Downloading universAAL source from " + r.url + " to " + dir.toString());
+			// download via git
+			out("Downloading universAAL source from " + r.url + " to " + dir.toString());
+			try {
 				Downloader.downloadRepo(r.url, r.getBranch(branch), dir, monitor);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
 			}
 			return dir;
 		}
@@ -169,6 +180,67 @@ public class Importer {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Special case for rundir: if the folder is the pax rundir (which might
+	 * have been created by another tool), but not a git repo, then rename the
+	 * folder.
+	 * 
+	 * @param dirBase
+	 *            the base dir
+	 * @param folder
+	 *            the folder (e.g. 'rundir'), must exist
+	 * @return true, if the folder is the rundir and was renamed
+	 */
+	private boolean renameRundir(String dirBase, String folder) {
+		if (!"rundir".equals(folder))
+			return false;
+		if (isRepo(new File(dirBase, folder)))
+			return false;
+
+		// rename
+		File dir;
+		int i = 0;
+		String name;
+		do {
+			name = folder + ".old" + i;
+			dir = new File(dirBase, name);
+			if (!dir.exists())
+				break;
+			i++;
+		} while (true);
+
+		boolean res = false;
+
+		for (i = 1; i < 11; i++) {
+			res = new File(dirBase, folder).renameTo(dir);
+			if (res)
+				break;
+
+			err("Renaming folder 'rundir' (as backup) to '" + name + "' failed. Retry " + i + "/" + 10);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (!res) {
+			err("The folder 'rundir' exists but is not a git repo. Renaming it (as backup) to '" + name + "' failed. "
+					+ "Please rename the folder manually and try again.");
+		}
+
+		return true;
+	}
+
+	private boolean isRepo(File dir) {
+		// the dir must exist
+		if (!dir.exists())
+			return false;
+		// there must be a file or subdir in that dir named ".git"
+		dir = new File(dir, ".git");
+		return dir.exists();
 	}
 
 	public List<IProject> getProjectsToClose() {
@@ -374,7 +446,7 @@ public class Importer {
 			return;
 		}
 
-		// get basic infos (artifactID, groupID, workinSet)
+		// get basic infos (artifactID, groupID, workingSet)
 		// FIXME: without using reflection I get a
 		// java.lang.LinkageError
 		// previously initiated loading for a different type with
