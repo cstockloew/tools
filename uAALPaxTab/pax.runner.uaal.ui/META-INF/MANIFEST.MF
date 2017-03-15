@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: UAALPaxTab
-Bundle-SymbolicName: org.universaal.igd.uaal.runner.ui;singleton:=true
+Bundle-SymbolicName: org.universaal.tools.uaal.runner.ui;singleton:=true
 Bundle-Version: 2.0.0
 Require-Bundle: org.eclipse.ui,
  org.eclipse.m2e.maven.runtime,

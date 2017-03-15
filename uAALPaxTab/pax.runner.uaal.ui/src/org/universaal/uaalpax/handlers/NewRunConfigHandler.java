@@ -69,7 +69,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 			configuration.setAttribute("checked", "");
 			configuration.setAttribute("default_start_level", 60);
 			configuration.setAttribute("clearConfig", false);
-			configuration.setAttribute("configLocation", "${workspace_loc}/rundir/smp.lighting");
+			configuration.setAttribute("configLocation", "${workspace_loc}/rundir/demo.config");
 			configuration.setAttribute("default", true);
 			configuration.setAttribute("default_auto_start", true);
 			configuration.setAttribute("includeOptional", true);
@@ -99,7 +99,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 			
 			if (!configuration.hasAttribute("org.ops4j.pax.cursor.profiles")) {
 				ArrayList<String> classpath = new ArrayList<String>();
-				classpath.add("obr");
+				classpath.add("felix.obr");
 				configuration.setAttribute("org.ops4j.pax.cursor.profiles", classpath);
 			}
 			
@@ -118,7 +118,7 @@ public class NewRunConfigHandler extends AbstractHandler {
 			arguments.add("--overwriteUserBundles=true");
 			arguments.add("--overwriteSystemBundles=true");
 			arguments.add("--log=DEBUG");
-			arguments.add("--profiles=obr");
+			arguments.add("--profiles=felix.obr");
 			configuration.setAttribute(Attribute.PROVISION_ITEMS, toSave);
 			configuration.setAttribute(Attribute.RUN_ARGUMENTS, arguments);
 			

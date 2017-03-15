@@ -71,7 +71,7 @@ public class XMLVersionProvider implements UAALVersionProvider {
 	private Map<String, Set<ArtifactURL>> ignoreSet = new HashMap<String, Set<ArtifactURL>>();
 	
 	public XMLVersionProvider() {
-		Bundle bundle = Platform.getBundle("org.universaal.igd.uaal.runner.ui");
+		Bundle bundle = Platform.getBundle("org.universaal.tools.uaal.runner.ui");
 		URL fileURL = FileLocator.find(bundle, new Path("versions/versions.properties"), null);
 		try {
 			Properties props = new Properties();

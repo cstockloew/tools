@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.universaal.igd.uaal.runner.ui.feature"
+      id="org.universaal.tools.uaal.runner.ui.feature"
       label="AAL Studio Pax Runner UI"
       version="2.0.0"
       provider-name="universAAL"
@@ -239,7 +239,7 @@
    </requires>
 
    <plugin
-         id="org.universaal.igd.uaal.runner.ui"
+         id="org.universaal.tools.uaal.runner.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

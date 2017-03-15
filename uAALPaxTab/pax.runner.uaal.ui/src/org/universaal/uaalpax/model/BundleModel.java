@@ -640,7 +640,7 @@ public class BundleModel {
 				arguments.add("--overwriteUserBundles=true");
 				arguments.add("--overwriteSystemBundles=true");
 				arguments.add("--log=DEBUG");
-				arguments.add("--profiles=obr");
+				arguments.add("--profiles=felix.obr");
 			}
 		} catch (CoreException e1) {
 		}
@@ -671,7 +671,7 @@ public class BundleModel {
 		
 		try {
 			if (!configuration.hasAttribute("osgi_framework_id"))
-				configuration.setAttribute("osgi_framework_id", "--platform=felix --version=2.0.1");
+				configuration.setAttribute("osgi_framework_id", "--platform=felix --version=4.4.1");
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -685,7 +685,7 @@ public class BundleModel {
 			trySetAttribute(configuration, "checked", "");
 			trySetAttribute(configuration, "default_start_level", 40);
 			trySetAttribute(configuration, "clearConfig", false);
-			trySetAttribute(configuration, "configLocation", "${workspace_loc}/rundir/smp.lighting");
+			trySetAttribute(configuration, "configLocation", "${workspace_loc}/rundir/demo.config");
 			trySetAttribute(configuration, "default", true);
 			trySetAttribute(configuration, "default_auto_start", true);
 			trySetAttribute(configuration, "includeOptional", true);
@@ -713,7 +713,7 @@ public class BundleModel {
 			
 			if (!configuration.hasAttribute("org.ops4j.pax.cursor.profiles")) {
 				ArrayList<String> classpath = new ArrayList<String>();
-				classpath.add("obr");
+				classpath.add("felix.obr");
 				configuration.setAttribute("org.ops4j.pax.cursor.profiles", classpath);
 			}
 			

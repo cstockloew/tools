@@ -41,8 +41,11 @@
 			<bundle level="7">mvn:org.universAAL.middleware/mw.managers.aalspace.osgi/3.4.1-SNAPSHOT</bundle>
 
 			<bundle level="8">mvn:org.universAAL.middleware/mw.managers.tenant.osgi/3.4.1-SNAPSHOT</bundle>
+			<bundle level="8">mvn:org.universAAL.middleware/mw.managers.configuration.osgi/3.4.1-SNAPSHOT</bundle>
+			<bundle level="8">mvn:org.universAAL.middleware/mw.managers.deploy.osgi/3.4.1-SNAPSHOT</bundle>
 			<bundle level="8">mvn:org.universAAL.middleware/mw.bus.model.osgi/3.4.1-SNAPSHOT</bundle>
 
+			<bundle level="9">mvn:org.universAAL.middleware/mw.managers.distributedmw.osgi/3.4.1-SNAPSHOT</bundle>
 			<bundle level="9">mvn:org.universAAL.middleware/mw.bus.context.osgi/3.4.1-SNAPSHOT</bundle>
 			<bundle level="9">mvn:org.universAAL.middleware/mw.bus.service.osgi/3.4.1-SNAPSHOT</bundle>
 
