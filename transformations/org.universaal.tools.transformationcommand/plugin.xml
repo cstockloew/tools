@@ -13,7 +13,7 @@
             id="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             name="Transform UML ontology to Java">
       </command>
-      <command
+<!--      <command
             categoryId="org.universaal.tools.transformation.category"
             id="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java"
             name="Transform service model to Java">
@@ -22,7 +22,7 @@
             categoryId="org.universaal.tools.transformation.category"
             id="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
             name="Transform UML service model to Java">
-      </command>
+      </command>-->
       <command
             categoryId="org.universaal.tools.transformation.category"
             id="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
@@ -40,14 +40,14 @@
             commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
             class="org.universaal.tools.transformationcommand.handlers.TransformOntUML2Java">
       </handler>
-      <handler
+<!--      <handler
             class="org.universaal.tools.transformationcommand.handlers.TransformServiceModelEMF2Java"
             commandId="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java">
       </handler>
       <handler
             class="org.universaal.tools.transformationcommand.handlers.TransformServiceModelUML2Java"
             commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java">
-      </handler>
+      </handler>-->
       <handler
             commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
             class="org.universaal.tools.transformationcommand.handlers.TransformOntJava2OWL">
@@ -67,7 +67,7 @@
                id="org.universaal.tools.transformationcommand.menu.ontUML2Java"
                style="push">
          </command>
-         <command
+<!--         <command
                commandId="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java"
                icon="icons/transform-16.png"
                id="org.universaal.tools.transformationcommand.menu.serviceModelEMF2Java"
@@ -78,7 +78,7 @@
                icon="icons/transform-16.png"
                id="org.universaal.tools.transformationcommand.menu.serviceModelUML2Java"
                style="push">
-         </command>
+         </command>-->
          <command
                commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
                icon="icons/transform-16.png"
@@ -108,14 +108,14 @@
                   commandId="org.universaal.tools.transformationcommand.commands.ontUML2Java"
                   style="push">
             </command>
-            <command
+<!--            <command
                   commandId="org.universaal.tools.transformationcommand.commands.serviceModelEMF2Java"
                   style="push">
             </command>
             <command
                   commandId="org.universaal.tools.transformationcommand.commands.serviceModelUML2Java"
                   style="push">
-            </command>
+            </command>-->
             <command
                   commandId="org.universaal.tools.transformationcommand.commands.ontJava2OWL"
                   style="push">
