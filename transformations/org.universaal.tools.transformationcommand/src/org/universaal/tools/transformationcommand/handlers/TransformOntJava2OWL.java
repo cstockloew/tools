@@ -111,9 +111,9 @@ public class TransformOntJava2OWL extends AbstractHandler {
 		
 		// get name of the creator class
 		IFile creatorClass = null;
-		IFolder creatorFolder = project.getFolder("/src/main/java/org/universaal/ontology/creator/");
+		IFolder creatorFolder = project.getFolder("/src/main/java/org/universAAL/ontology/creator/");
 		if (!creatorFolder.exists()) {
-			creatorFolder = project.getFolder("/src/main/java/org/universaal/ontology/" + projectName.toLowerCase() + "/creator/");
+			creatorFolder = project.getFolder("/src/main/java/org/universAAL/ontology/" + projectName.toLowerCase() + "/creator/");
 			if (!creatorFolder.exists()) {
 				MessageDialog.openInformation(
 						window.getShell(),
