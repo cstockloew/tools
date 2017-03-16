@@ -65,8 +65,14 @@ licence description.
       <import plugin="org.eclipse.help"/>
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.eclipse.emf"/>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
+      <!--<import plugin="org.eclipse.core.runtime.compatibility"/>-->
    </requires>
+
+   <plugin
+         id="org.eclipse.core.runtime.compatibility"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.mofscript.editor"
