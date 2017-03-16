@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.2"?>
-<fragment>
+<?eclipse version="3.4"?>
+<plugin>
   <extension
       point="org.eclipse.pde.ui.osgiFrameworks">
     <framework
@@ -717,4 +717,4 @@
         name="Concierge 1.0.0 via Pax Runner">
     </framework>
   </extension>
-</fragment>
+</plugin>

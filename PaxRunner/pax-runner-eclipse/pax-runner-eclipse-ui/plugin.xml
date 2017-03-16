@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.2"?>
-<fragment>
+<?eclipse version="3.4"?>
+<plugin>
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTabs">
       <tab
@@ -10,4 +10,4 @@
             name="Pax Runner Eclipse Plugin Tab">
       </tab>
    </extension>
-</fragment>
+</plugin>
