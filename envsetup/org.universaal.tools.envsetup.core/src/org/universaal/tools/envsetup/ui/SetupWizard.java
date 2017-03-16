@@ -110,7 +110,8 @@ public class SetupWizard extends Wizard {
 
 		// get info from the wizard
 		final boolean doAdMaven = page.btnAdMaven.getSelection();
-		final boolean doAdEclipse = page.btnAdEclipse.getSelection();
+//		final boolean doAdEclipse = false;//page.btnAdEclipse.getSelection();
+//		final String jdk = page.txtJDK.getText();
 		final boolean doImport = page.btnImport.getSelection();
 		final String branch = page.cbBranch.getText();
 		final String dir = page.txtDir.getText();
@@ -119,7 +120,6 @@ public class SetupWizard extends Wizard {
 			if (page.repoItems.get(name).getSelection())
 				repos.add(RepoMgmt.repos.get(name));
 		}
-		final String jdk = page.txtJDK.getText();
 		RepoMgmt.useAgg = page.btnUseAgg.getSelection();
 
 		// System.out.println("doAdMaven: " + doAdMaven);
@@ -141,9 +141,9 @@ public class SetupWizard extends Wizard {
 						new MavenAdapter().perform();
 					}
 
-					if (doAdEclipse) {
-						changed = new EclipseAdapter().perform(jdk);
-					}
+//					if (doAdEclipse) {
+//						changed = new EclipseAdapter().perform(jdk);
+//					}
 
 					if (doImport) {
 						for (Repo r : repos) {

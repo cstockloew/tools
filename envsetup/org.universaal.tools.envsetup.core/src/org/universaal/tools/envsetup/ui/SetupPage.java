@@ -92,6 +92,7 @@ public class SetupPage extends WizardPage {
 	public void createControl(Composite parent) {
 		shell = PlatformUI.getWorkbench().getDisplay().getActiveShell();
 		initializeDialogUnits(parent);
+		Label label;
 
 		Composite com = new Composite(parent, SWT.NULL);
 		GridLayout layCom = new GridLayout();
@@ -104,47 +105,47 @@ public class SetupPage extends WizardPage {
 		btnAdMaven.setSelection(true);
 		new Label(com, SWT.NONE).setText("Adapt Maven settings to include universAAL repositories");
 
-		// adapt eclipse
-		btnAdEclipse = new Button(com, SWT.CHECK);
-		btnAdEclipse.setSelection(true);
-		new Label(com, SWT.NONE).setText("Adapt eclipse.ini");
-
-		new Label(com, SWT.NONE).setText(""); // just a dummy to skip a cell
-		// jdk composite
-		Composite comAdEcl = new Composite(com, SWT.NULL);
-		GridLayout layAdEcl = new GridLayout();
-		layAdEcl.numColumns = 3;
-		comAdEcl.setLayout(layAdEcl);
-		comAdEcl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		// jdk select
-		Label label = new Label(comAdEcl, SWT.NONE);
-		label.setText("JDK:");
-		// label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
-		txtJDK = new Text(comAdEcl, SWT.BORDER | SWT.SINGLE);
-		txtJDK.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		txtJDK.setText(EclipseAdapter.getJDK());
-		txtJDK.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				if (txtJDK.getText().length() > 0) {
-					if (!EclipseAdapter.isValidJDKDir(txtJDK.getText())) {
-						setErrorMessage(
-								"Please select a valid JDK directory, e.g. 'C:\\Program Files\\Java\\jdk1.8.0_112', or leave this field empty.");
-					} else {
-						setMessage(msg);
-						setErrorMessage(null);
-					}
-				}
-			}
-		});
-		btnBrowseJDK = new Button(comAdEcl, SWT.PUSH);
-		btnBrowseJDK.setText("Browse..");
-		btnBrowseJDK.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				handleBrowse(txtJDK);
-			}
-		});
+//		// adapt eclipse
+//		btnAdEclipse = new Button(com, SWT.CHECK);
+//		btnAdEclipse.setSelection(true);
+//		new Label(com, SWT.NONE).setText("Adapt eclipse.ini");
+//
+//		new Label(com, SWT.NONE).setText(""); // just a dummy to skip a cell
+//		// jdk composite
+//		Composite comAdEcl = new Composite(com, SWT.NULL);
+//		GridLayout layAdEcl = new GridLayout();
+//		layAdEcl.numColumns = 3;
+//		comAdEcl.setLayout(layAdEcl);
+//		comAdEcl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+//		// jdk select
+//		label = new Label(comAdEcl, SWT.NONE);
+//		label.setText("JDK:");
+//		// label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+//		txtJDK = new Text(comAdEcl, SWT.BORDER | SWT.SINGLE);
+//		txtJDK.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+//		txtJDK.setText(EclipseAdapter.getJDK());
+//		txtJDK.addModifyListener(new ModifyListener() {
+//			@Override
+//			public void modifyText(ModifyEvent e) {
+//				if (txtJDK.getText().length() > 0) {
+//					if (!EclipseAdapter.isValidJDKDir(txtJDK.getText())) {
+//						setErrorMessage(
+//								"Please select a valid JDK directory, e.g. 'C:\\Program Files\\Java\\jdk1.8.0_112', or leave this field empty.");
+//					} else {
+//						setMessage(msg);
+//						setErrorMessage(null);
+//					}
+//				}
+//			}
+//		});
+//		btnBrowseJDK = new Button(comAdEcl, SWT.PUSH);
+//		btnBrowseJDK.setText("Browse..");
+//		btnBrowseJDK.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				handleBrowse(txtJDK);
+//			}
+//		});
 
 		// import
 		btnImport = new Button(com, SWT.CHECK);
