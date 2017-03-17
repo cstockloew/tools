@@ -56,21 +56,6 @@
 	</middleware>
 
 	<features>
-		<bundleset name="UI bus">
-			<bundle>mvn:org.universAAL.ui/ui.dm/3.4.1-SNAPSHOT</bundle>
-			<bundle>mvn:org.universAAL.ontology/ont.profile.ui.mainmenu/3.4.1-SNAPSHOT</bundle>
-			<bundle>mvn:org.universAAL.ontology/ont.profile.userid/3.4.1-SNAPSHOT</bundle>
-			<bundle>mvn:org.universAAL.ontology/ont.impairment/3.4.1-SNAPSHOT</bundle>
-			<bundle>mvn:org.universAAL.ontology/ont.profile.ui.preferences/3.4.1-SNAPSHOT</bundle>
-		</bundleset>
-		<bundleset name="Swing UI Handler">
-			<bundle>mvn:org.universAAL.ui/ui.dm/3.4.1-SNAPSHOT</bundle>
-			<bundle>mvn:org.universAAL.ontology/ont.profile.ui.mainmenu/3.4.1-SNAPSHOT</bundle>
-			<bundle>mvn:org.universAAL.ontology/ont.impairment/3.4.1-SNAPSHOT</bundle>
-			<bundle>mvn:org.universAAL.ui/ui.handler.gui.swing/3.4.1-SNAPSHOT</bundle>
-			<!-- <bundle>mvn:org.universAAL.ui/ui.handler.gui.swing.classicLAF/3.4.1-SNAPSHOT</bundle> -->
-			<bundle>mvn:org.universAAL.ui/ui.handler.gui.swing.bluesteelLAF/3.4.1-SNAPSHOT</bundle>
-		</bundleset>
 		<bundleset name="CHE">
 			<bundle>mvn:org.openrdf.sesame/sesame-runtime-osgi/2.6.0</bundle>
 			<bundle>mvn:org.universAAL.context/ctxt.che/3.4.1-SNAPSHOT</bundle>
